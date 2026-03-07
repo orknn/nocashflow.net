@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>No Cash Flow — Finansal Bülten & Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Source+Serif+4:wght@300;400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --cream: #f8f5f0;
+            --ink: #1a1a1a;
+            --accent: #c8392b;
+            --muted: #6b6b6b;
+            --border: #e0dcd5;
+        }
+        
+        body {
+            font-family: 'Source Serif 4', Georgia, serif;
+            background: var(--cream);
+            color: var(--ink);
+            line-height: 1.6;
+        }
+        
+        /* Ticker Bar */
+        .ticker-bar {
+            background: var(--ink);
+            color: var(--cream);
+            padding: 8px 0;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            overflow: hidden;
+        }
+        
+        .ticker-content {
+            display: flex;
+            gap: 40px;
+            animation: ticker 30s linear infinite;
+            white-space: nowrap;
+        }
+        
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        .ticker-item { display: flex; gap: 8px; align-items: center; }
+        .ticker-item .symbol { font-weight: 600; }
+        .ticker-item .up { color: #22c55e; }
+        .ticker-item .down { color: #ef4444; }
+        
+        /* Header */
+        header {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: -1px;
+        }
+        
+        .logo span { font-style: italic; color: var(--accent); }
+        
+        .header-meta {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+        
+        .lang-toggle {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .lang-btn {
+            padding: 4px 10px;
+            border: 1px solid var(--border);
+            background: transparent;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .lang-btn.active {
+            background: var(--ink);
+            color: var(--cream);
+            border-color: var(--ink);
+        }
+        
+        nav {
+            display: flex;
+            gap: 30px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        nav a {
+            color: var(--ink);
+            text-decoration: none;
+            padding-bottom: 4px;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.2s;
+        }
+        
+        nav a:hover { border-color: var(--accent); }
+        
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        /* Hero */
+        .hero {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .hero-main h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+        
+        .hero-main .excerpt {
+            font-size: 18px;
+            color: var(--muted);
+            margin-bottom: 20px;
+        }
+        
+        .hero-main .meta {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            color: var(--muted);
+        }
+        
+        .hero-sidebar {
+            border-left: 1px solid var(--border);
+            padding-left: 30px;
+        }
+        
+        .sidebar-item {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .sidebar-item:first-child { padding-top: 0; }
+        
+        .sidebar-item h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+        
+        .sidebar-item .meta {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            color: var(--muted);
+        }
+        
+        /* Dashboard CTA */
+        .dashboard-cta {
+            background: var(--ink);
+            color: var(--cream);
+            padding: 50px;
+            margin-bottom: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .cta-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
+        
+        .cta-content p {
+            color: #a0a0a0;
+            font-size: 16px;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .cta-btn {
+            padding: 12px 28px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            border: 1px solid var(--cream);
+            color: var(--cream);
+            transition: all 0.2s;
+        }
+        
+        .cta-btn:hover {
+            background: var(--cream);
+            color: var(--ink);
+        }
+        
+        .cta-btn.primary {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+        
+        .cta-btn.primary:hover {
+            background: #a82d22;
+            border-color: #a82d22;
+        }
+        
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-left: 15px;
+        }
+        
+        .live-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        
+        /* Articles Grid */
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .article-card {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+        }
+        
+        .article-card .category {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+        
+        .article-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 400;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .article-card .excerpt {
+            font-size: 15px;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+        
+        .article-card .meta {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            color: var(--muted);
+        }
+        
+        /* Newsletter */
+        .newsletter {
+            background: #f0ebe3;
+            padding: 50px;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .newsletter h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
+        
+        .newsletter p {
+            color: var(--muted);
+            margin-bottom: 25px;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            gap: 10px;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 14px 18px;
+            border: 1px solid var(--border);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            background: var(--cream);
+        }
+        
+        .newsletter-form button {
+            padding: 14px 28px;
+            background: var(--ink);
+            color: var(--cream);
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .newsletter-form button:hover {
+            background: var(--accent);
+        }
+        
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 25px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+        }
+        
+        .footer-links a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover { color: var(--ink); }
+        
+        .footer-copy {
+            font-size: 13px;
+            color: var(--muted);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero { grid-template-columns: 1fr; }
+            .hero-sidebar { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 30px; }
+            .articles-grid { grid-template-columns: 1fr; }
+            .dashboard-cta { flex-direction: column; text-align: center; gap: 25px; }
+            nav { flex-wrap: wrap; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Ticker Bar -->
+    <div class="ticker-bar">
+        <div class="ticker-content" id="ticker">
+            <div class="ticker-item"><span class="symbol">BTC</span> $67,313 <span class="down">▼ -1.28%</span></div>
+            <div class="ticker-item"><span class="symbol">ETH</span> $1,963 <span class="down">▼ -1.18%</span></div>
+            <div class="ticker-item"><span class="symbol">S&P 500</span> 5,738 <span class="up">▲ +0.55%</span></div>
+            <div class="ticker-item"><span class="symbol">NASDAQ</span> 18,124 <span class="up">▲ +0.70%</span></div>
+            <div class="ticker-item"><span class="symbol">Gold</span> $3,133 <span class="down">▼ -0.06%</span></div>
+            <div class="ticker-item"><span class="symbol">EUR/USD</span> 1.0856 <span class="up">▲ +0.12%</span></div>
+            <!-- Duplicate for seamless loop -->
+            <div class="ticker-item"><span class="symbol">BTC</span> $67,313 <span class="down">▼ -1.28%</span></div>
+            <div class="ticker-item"><span class="symbol">ETH</span> $1,963 <span class="down">▼ -1.18%</span></div>
+            <div class="ticker-item"><span class="symbol">S&P 500</span> 5,738 <span class="up">▲ +0.55%</span></div>
+            <div class="ticker-item"><span class="symbol">NASDAQ</span> 18,124 <span class="up">▲ +0.70%</span></div>
+            <div class="ticker-item"><span class="symbol">Gold</span> $3,133 <span class="down">▼ -0.06%</span></div>
+            <div class="ticker-item"><span class="symbol">EUR/USD</span> 1.0856 <span class="up">▲ +0.12%</span></div>
+        </div>
+    </div>
+    
+    <!-- Header -->
+    <header>
+        <div class="header-top">
+            <div class="logo">No Cash <span>Flow</span></div>
+            <div class="header-meta">
+                <span id="currentDate"></span>
+                <div class="lang-toggle">
+                    <button class="lang-btn active" onclick="setLang('tr')">TR</button>
+                    <button class="lang-btn" onclick="setLang('en')">EN</button>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <a href="macro.html" data-tr="Macro Dashboard" data-en="Macro Dashboard">Macro Dashboard</a>
+            <a href="dashboard.html" data-tr="Watchlist" data-en="Watchlist">Watchlist</a>
+            <a href="daily_bulletin.html" data-tr="Günlük Bülten" data-en="Daily Bulletin">Günlük Bülten</a>
+            <a href="yazilar.html" data-tr="Yazılar" data-en="Articles">Yazılar</a>
+            <a href="sozluk.html" data-tr="Sözlük" data-en="Glossary">Sözlük</a>
+            <a href="hakkinda.html" data-tr="Hakkında" data-en="About">Hakkında</a>
+        </nav>
+    </header>
+    
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-main">
+                <h1 data-tr="Piyasalar risk-off modunda: VIX yükseliyor, altın rekor kırıyor" data-en="Markets in risk-off mode: VIX rising, gold hits record">Piyasalar risk-off modunda: VIX yükseliyor, altın rekor kırıyor</h1>
+                <p class="excerpt" data-tr="ABD-İran gerginliği ve Fed'in faiz kararı öncesi yatırımcılar güvenli limanlara yöneliyor. Magnificent 7 hisselerinde satış baskısı devam ediyor." data-en="Investors flock to safe havens amid US-Iran tensions and ahead of Fed rate decision. Selling pressure continues on Magnificent 7 stocks.">ABD-İran gerginliği ve Fed'in faiz kararı öncesi yatırımcılar güvenli limanlara yöneliyor. Magnificent 7 hisselerinde satış baskısı devam ediyor.</p>
+                <p class="meta">7 Mart 2026 · Orkun Biçen</p>
+            </div>
+            <div class="hero-sidebar">
+                <div class="sidebar-item">
+                    <h3 data-tr="ECB faiz kararı: Piyasa beklentileri" data-en="ECB rate decision: Market expectations">ECB faiz kararı: Piyasa beklentileri</h3>
+                    <p class="meta" data-tr="Makro Analiz" data-en="Macro Analysis">Makro Analiz</p>
+                </div>
+                <div class="sidebar-item">
+                    <h3 data-tr="Bitcoin ETF girişleri yavaşlıyor" data-en="Bitcoin ETF inflows slowing down">Bitcoin ETF girişleri yavaşlıyor</h3>
+                    <p class="meta" data-tr="Kripto" data-en="Crypto">Kripto</p>
+                </div>
+                <div class="sidebar-item">
+                    <h3 data-tr="NVIDIA Q4 sonuçları ne anlama geliyor?" data-en="What do NVIDIA Q4 results mean?">NVIDIA Q4 sonuçları ne anlama geliyor?</h3>
+                    <p class="meta" data-tr="Hisse Analizi" data-en="Stock Analysis">Hisse Analizi</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Dashboard CTA -->
+        <section class="dashboard-cta">
+            <div class="cta-content">
+                <h2 data-tr="Canlı Piyasa Verileri" data-en="Live Market Data">Canlı Piyasa Verileri <span class="live-badge">LIVE</span></h2>
+                <p data-tr="VIX, DXY, Fear & Greed, emtia fiyatları ve daha fazlası — tek bir dashboard'da." data-en="VIX, DXY, Fear & Greed, commodity prices and more — in one dashboard.">VIX, DXY, Fear & Greed, emtia fiyatları ve daha fazlası — tek bir dashboard'da.</p>
+            </div>
+            <div class="cta-buttons">
+                <a href="macro.html" class="cta-btn" data-tr="Macro Dashboard" data-en="Macro Dashboard">Macro Dashboard</a>
+                <a href="dashboard.html" class="cta-btn primary" data-tr="Watchlist Aç" data-en="Open Watchlist">Watchlist Aç</a>
+            </div>
+        </section>
+        
+        <!-- Articles -->
+        <h2 class="section-title" data-tr="Son Yazılar" data-en="Latest Articles">Son Yazılar</h2>
+        <section class="articles-grid">
+            <article class="article-card">
+                <p class="category" data-tr="Kripto" data-en="Crypto">Kripto</p>
+                <h3 data-tr="Coinbase Premium Index nedir ve nasıl yorumlanır?" data-en="What is Coinbase Premium Index and how to interpret it?">Coinbase Premium Index nedir ve nasıl yorumlanır?</h3>
+                <p class="excerpt" data-tr="ABD yatırımcı talebini ölçen bu gösterge, kurumsal ilgiyi anlamak için kritik..." data-en="This indicator measuring US investor demand is critical for understanding institutional interest...">ABD yatırımcı talebini ölçen bu gösterge, kurumsal ilgiyi anlamak için kritik...</p>
+                <p class="meta">5 Mart 2026</p>
+            </article>
+            <article class="article-card">
+                <p class="category" data-tr="Makro" data-en="Macro">Makro</p>
+                <h3 data-tr="Yield Curve Inversion: Resesyon mu geliyor?" data-en="Yield Curve Inversion: Is recession coming?">Yield Curve Inversion: Resesyon mu geliyor?</h3>
+                <p class="excerpt" data-tr="2Y-10Y spread tekrar negatife döndü. Tarihsel olarak bu ne anlama geliyor?" data-en="2Y-10Y spread turned negative again. What does this mean historically?">2Y-10Y spread tekrar negatife döndü. Tarihsel olarak bu ne anlama geliyor?</p>
+                <p class="meta">3 Mart 2026</p>
+            </article>
+            <article class="article-card">
+                <p class="category" data-tr="Hisse" data-en="Stock">Hisse</p>
+                <h3 data-tr="Magnificent 7: Değerleme analizi" data-en="Magnificent 7: Valuation analysis">Magnificent 7: Değerleme analizi</h3>
+                <p class="excerpt" data-tr="Tech devlerinin P/E oranları ve büyüme beklentileri karşılaştırması..." data-en="P/E ratios and growth expectations comparison of tech giants...">Tech devlerinin P/E oranları ve büyüme beklentileri karşılaştırması...</p>
+                <p class="meta">1 Mart 2026</p>
+            </article>
+            <article class="article-card">
+                <p class="category" data-tr="Sözlük" data-en="Glossary">Sözlük</p>
+                <h3 data-tr="Cash Flow nedir?" data-en="What is Cash Flow?">Cash Flow nedir?</h3>
+                <p class="excerpt" data-tr="Nakit akışının temelleri, türleri ve neden önemli olduğu..." data-en="Fundamentals of cash flow, its types and why it matters...">Nakit akışının temelleri, türleri ve neden önemli olduğu...</p>
+                <p class="meta">28 Şubat 2026</p>
+            </article>
+            <article class="article-card">
+                <p class="category" data-tr="Kripto" data-en="Crypto">Kripto</p>
+                <h3 data-tr="Hyperliquid: Yeni nesil DEX" data-en="Hyperliquid: Next-gen DEX">Hyperliquid: Yeni nesil DEX</h3>
+                <p class="excerpt" data-tr="Merkeziyetsiz türev borsasının arkasındaki teknoloji ve fırsatlar..." data-en="The technology and opportunities behind the decentralized derivatives exchange...">Merkeziyetsiz türev borsasının arkasındaki teknoloji ve fırsatlar...</p>
+                <p class="meta">25 Şubat 2026</p>
+            </article>
+            <article class="article-card">
+                <p class="category" data-tr="Makro" data-en="Macro">Makro</p>
+                <h3 data-tr="Fed Balance Sheet: Neden önemli?" data-en="Fed Balance Sheet: Why does it matter?">Fed Balance Sheet: Neden önemli?</h3>
+                <p class="excerpt" data-tr="Merkez bankası bilançosu ve piyasalar üzerindeki etkisi..." data-en="Central bank balance sheet and its impact on markets...">Merkez bankası bilançosu ve piyasalar üzerindeki etkisi...</p>
+                <p class="meta">22 Şubat 2026</p>
+            </article>
+        </section>
+        
+        <!-- Newsletter -->
+        <section class="newsletter">
+            <h2 data-tr="Günlük Bülten" data-en="Daily Bulletin">Günlük Bülten</h2>
+            <p data-tr="Her sabah piyasa açılmadan önce günün önemli gelişmeleri e-posta kutunuzda." data-en="Important market developments in your inbox every morning before markets open.">Her sabah piyasa açılmadan önce günün önemli gelişmeleri e-posta kutunuzda.</p>
+            <form class="newsletter-form" onsubmit="return false;">
+                <input type="email" placeholder="E-posta adresiniz" required>
+                <button type="submit" data-tr="Abone Ol" data-en="Subscribe">Abone Ol</button>
+            </form>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="hakkinda.html" data-tr="Hakkında" data-en="About">Hakkında</a>
+                <a href="mailto:orkun@nocashflow.net" data-tr="İletişim" data-en="Contact">İletişim</a>
+                <a href="https://twitter.com/nocashflow" target="_blank">Twitter</a>
+                <a href="https://linkedin.com/in/orkunbicen" target="_blank">LinkedIn</a>
+            </div>
+            <p class="footer-copy">© 2026 No Cash Flow · Orkun Biçen</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Set current date
+        const today = new Date();
+        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        document.getElementById('currentDate').textContent = today.toLocaleDateString('tr-TR', options);
+        
+        // Language toggle
+        let currentLang = 'tr';
+        
+        function setLang(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.lang-btn:${lang === 'tr' ? 'first-child' : 'last-child'}`).classList.add('active');
+            
+            document.querySelectorAll('[data-tr][data-en]').forEach(el => {
+                el.textContent = el.getAttribute(`data-${lang}`);
+            });
+            
+            // Update date format
+            const dateEl = document.getElementById('currentDate');
+            dateEl.textContent = today.toLocaleDateString(lang === 'tr' ? 'tr-TR' : 'en-US', options);
+        }
+    </script>
+</body>
+</html>

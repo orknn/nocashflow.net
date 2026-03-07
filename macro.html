@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macro Dashboard — No Cash Flow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --bg-dark: #0f1419;
+            --bg-card: #1a1f2e;
+            --bg-card-hover: #232a3b;
+            --text-primary: #e8eaed;
+            --text-secondary: #8b949e;
+            --accent: #818cf8;
+            --green: #22c55e;
+            --red: #ef4444;
+            --yellow: #eab308;
+            --border: #2d3748;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        
+        /* Header */
+        .header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 13px;
+            padding: 6px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        
+        .back-btn:hover {
+            color: var(--text-primary);
+            border-color: var(--accent);
+        }
+        
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent), #6366f1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .nav-tab {
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .nav-tab:hover {
+            color: var(--text-primary);
+            background: var(--bg-card-hover);
+        }
+        
+        .nav-tab.active {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        
+        .demo-badge {
+            background: var(--yellow);
+            color: #000;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        /* Main Content */
+        .main {
+            padding: 24px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        /* KPI Row */
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .kpi-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            position: relative;
+        }
+        
+        .kpi-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .kpi-change {
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .kpi-change.up { color: var(--green); }
+        .kpi-change.down { color: var(--red); }
+        .kpi-change.neutral { color: var(--yellow); }
+        
+        .kpi-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+        
+        .kpi-sparkline {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            width: 60px;
+            height: 24px;
+        }
+        
+        /* Grid Layout */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .card-badge {
+            font-size: 11px;
+            padding: 4px 10px;
+            background: var(--bg-card-hover);
+            border-radius: 20px;
+            color: var(--text-secondary);
+        }
+        
+        /* Fear & Greed */
+        .fear-greed {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+        
+        .fg-gauge {
+            position: relative;
+            width: 180px;
+            height: 100px;
+        }
+        
+        .fg-value {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+        
+        .fg-number {
+            font-size: 48px;
+            font-weight: 700;
+        }
+        
+        .fg-label {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .fg-label.fear { color: var(--red); }
+        .fg-label.greed { color: var(--green); }
+        .fg-label.neutral { color: var(--yellow); }
+        
+        .fg-info {
+            flex: 1;
+        }
+        
+        .fg-description {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .fg-history {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .fg-history-item {
+            background: var(--bg-card-hover);
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .fg-history-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        
+        .fg-history-value {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .fg-scale {
+            display: flex;
+            margin-top: 16px;
+            border-radius: 4px;
+            overflow: hidden;
+            height: 8px;
+        }
+        
+        .fg-scale-segment {
+            flex: 1;
+        }
+        
+        /* Liquidity Table */
+        .liq-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .liq-row:last-child { border-bottom: none; }
+        
+        .liq-name {
+            font-size: 14px;
+        }
+        
+        .liq-bar {
+            width: 120px;
+            height: 6px;
+            background: var(--bg-card-hover);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 0 16px;
+        }
+        
+        .liq-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+        }
+        
+        .liq-value {
+            font-size: 14px;
+            font-weight: 600;
+            min-width: 80px;
+            text-align: right;
+        }
+        
+        /* Commodity Table */
+        .commodity-row {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .commodity-row:last-child { border-bottom: none; }
+        
+        .commodity-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 12px;
+        }
+        
+        .commodity-name {
+            flex: 1;
+        }
+        
+        .commodity-name span {
+            display: block;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+        
+        .commodity-price {
+            font-weight: 600;
+            margin-right: 16px;
+            min-width: 90px;
+            text-align: right;
+        }
+        
+        .commodity-change {
+            font-size: 13px;
+            font-weight: 500;
+            min-width: 70px;
+            text-align: right;
+            margin-right: 12px;
+        }
+        
+        .commodity-bar {
+            width: 80px;
+            height: 4px;
+            background: var(--bg-card-hover);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .commodity-bar-fill {
+            height: 100%;
+            border-radius: 2px;
+        }
+        
+        /* Global Markets */
+        .markets-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+        
+        .market-card {
+            background: var(--bg-card-hover);
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .market-flag {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .market-name {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        
+        .market-value {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .market-change {
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        /* Calendar */
+        .calendar-row {
+            display: grid;
+            grid-template-columns: 100px 80px 1fr 80px 80px;
+            gap: 16px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+        }
+        
+        .calendar-row:last-child { border-bottom: none; }
+        
+        .calendar-header {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        
+        .calendar-importance {
+            color: var(--yellow);
+        }
+        
+        /* Loading */
+        .loading {
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+        
+        .loading::after {
+            content: '...';
+            animation: pulse 1.5s infinite;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .kpi-row { grid-template-columns: repeat(3, 1fr); }
+            .markets-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .kpi-row { grid-template-columns: repeat(2, 1fr); }
+            .header { flex-wrap: wrap; gap: 12px; }
+            .fear-greed { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <a href="index.html" class="back-btn">← Ana Sayfa</a>
+            <div class="logo">
+                <div class="logo-icon">NCF</div>
+                <span>Markets</span>
+            </div>
+            <nav class="nav-tabs">
+                <a href="macro.html" class="nav-tab active">📊 Macro</a>
+                <a href="dashboard.html" class="nav-tab">📈 Watchlist</a>
+                <a href="daily_bulletin.html" class="nav-tab">📰 Bülten</a>
+            </nav>
+        </div>
+        <div class="header-right">
+            <span id="clock"></span>
+            <span class="demo-badge">DEMO</span>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="main">
+        <!-- KPI Row -->
+        <div class="kpi-row">
+            <div class="kpi-card">
+                <div class="kpi-value" id="vix-value">--</div>
+                <div class="kpi-change" id="vix-change">--</div>
+                <div class="kpi-label">VIX · Volatilite</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value" id="dxy-value">--</div>
+                <div class="kpi-change" id="dxy-change">--</div>
+                <div class="kpi-label">DXY · Dolar Endeksi</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value" id="yield-value">--</div>
+                <div class="kpi-change" id="yield-change">--</div>
+                <div class="kpi-label">10Y Getiri</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value" id="fed-value">4.50%</div>
+                <div class="kpi-change neutral">— Sabit</div>
+                <div class="kpi-label">Fed Funds Rate</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value" id="fg-value">--</div>
+                <div class="kpi-change" id="fg-label">--</div>
+                <div class="kpi-label">Fear & Greed</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value" id="eurusd-value">--</div>
+                <div class="kpi-change" id="eurusd-change">--</div>
+                <div class="kpi-label">EUR/USD</div>
+            </div>
+        </div>
+        
+        <!-- Grid -->
+        <div class="grid-2">
+            <!-- Fear & Greed -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Fear & Greed Index</h2>
+                    <span class="card-badge">Alternative.me · Canlı</span>
+                </div>
+                <div class="fear-greed">
+                    <div class="fg-gauge">
+                        <svg viewBox="0 0 180 100" style="width:100%;height:100%">
+                            <defs>
+                                <linearGradient id="fgGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:#ef4444"/>
+                                    <stop offset="25%" style="stop-color:#f97316"/>
+                                    <stop offset="50%" style="stop-color:#eab308"/>
+                                    <stop offset="75%" style="stop-color:#84cc16"/>
+                                    <stop offset="100%" style="stop-color:#22c55e"/>
+                                </linearGradient>
+                            </defs>
+                            <path d="M 10 90 A 80 80 0 0 1 170 90" fill="none" stroke="#2d3748" stroke-width="16" stroke-linecap="round"/>
+                            <path d="M 10 90 A 80 80 0 0 1 170 90" fill="none" stroke="url(#fgGradient)" stroke-width="16" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="0"/>
+                            <line id="fg-needle" x1="90" y1="90" x2="90" y2="20" stroke="white" stroke-width="3" stroke-linecap="round" transform="rotate(-90, 90, 90)"/>
+                        </svg>
+                        <div class="fg-value">
+                            <div class="fg-number" id="fg-gauge-value">--</div>
+                            <div class="fg-label fear" id="fg-gauge-label">--</div>
+                        </div>
+                    </div>
+                    <div class="fg-info">
+                        <p class="fg-description" id="fg-description">Piyasa duyarlılığı hesaplanıyor...</p>
+                        <div class="fg-history">
+                            <div class="fg-history-item">
+                                <div class="fg-history-label">DÜNKÜ</div>
+                                <div class="fg-history-value" id="fg-yesterday">--</div>
+                            </div>
+                            <div class="fg-history-item">
+                                <div class="fg-history-label">GEÇEN HFT</div>
+                                <div class="fg-history-value" id="fg-week">--</div>
+                            </div>
+                            <div class="fg-history-item">
+                                <div class="fg-history-label">GEÇEN AY</div>
+                                <div class="fg-history-value" id="fg-month">--</div>
+                            </div>
+                        </div>
+                        <div class="fg-scale">
+                            <div class="fg-scale-segment" style="background:#ef4444"></div>
+                            <div class="fg-scale-segment" style="background:#f97316"></div>
+                            <div class="fg-scale-segment" style="background:#eab308"></div>
+                            <div class="fg-scale-segment" style="background:#84cc16"></div>
+                            <div class="fg-scale-segment" style="background:#22c55e"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Liquidity -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Likidite & Risk Göstergeleri</h2>
+                    <span class="card-badge">FRED / Makro</span>
+                </div>
+                <div class="liq-row">
+                    <span class="liq-name">Fed Bilanço Büyüklüğü</span>
+                    <div class="liq-bar"><div class="liq-bar-fill" style="width:68%;background:var(--red)"></div></div>
+                    <span class="liq-value" style="color:var(--red)">$6.8T ▼</span>
+                </div>
+                <div class="liq-row">
+                    <span class="liq-name">Ters Repo (RRP)</span>
+                    <div class="liq-bar"><div class="liq-bar-fill" style="width:13%;background:var(--text-secondary)"></div></div>
+                    <span class="liq-value">$132B</span>
+                </div>
+                <div class="liq-row">
+                    <span class="liq-name">Global M2 Büyümesi (YoY)</span>
+                    <div class="liq-bar"><div class="liq-bar-fill" style="width:54%;background:var(--green)"></div></div>
+                    <span class="liq-value" style="color:var(--green)">+3.8% ▲</span>
+                </div>
+                <div class="liq-row">
+                    <span class="liq-name">10Y - 2Y Getiri Farkı</span>
+                    <div class="liq-bar"><div class="liq-bar-fill" style="width:52%;background:var(--green)"></div></div>
+                    <span class="liq-value" style="color:var(--green)">+0.18%</span>
+                </div>
+                <div class="liq-row">
+                    <span class="liq-name">Breakeven Enflasyon (10Y)</span>
+                    <div class="liq-bar"><div class="liq-bar-fill" style="width:46%;background:var(--yellow)"></div></div>
+                    <span class="liq-value">2.31%</span>
+                </div>
+                <div class="liq-row">
+                    <span class="liq-name">IG Kredi Spreadleri (OAS)</span>
+                    <div class="liq-bar"><div class="liq-bar-fill" style="width:56%;background:var(--green)"></div></div>
+                    <span class="liq-value" style="color:var(--green)">+1.12%</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="grid-2">
+            <!-- Commodities -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Emtia</h2>
+                    <span class="card-badge">Spot Fiyatlar</span>
+                </div>
+                <div id="commodities-list">
+                    <div class="loading">Fiyatlar yükleniyor</div>
+                </div>
+            </div>
+            
+            <!-- Global Markets -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Küresel Piyasalar</h2>
+                    <span class="card-badge" id="market-status">Yükleniyor</span>
+                </div>
+                <div class="markets-grid" id="markets-grid">
+                    <div class="loading">Piyasalar yükleniyor</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Economic Calendar -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Ekonomik Takvim — Bu Hafta</h2>
+                <span class="card-badge">Önemli Veriler</span>
+            </div>
+            <div class="calendar-row calendar-header">
+                <span>TARİH</span>
+                <span>SAAT (CET)</span>
+                <span>VERİ</span>
+                <span>ÖNCEKİ</span>
+                <span>BEKLENTİ</span>
+            </div>
+            <div class="calendar-row">
+                <span>Pazartesi</span>
+                <span>16:00</span>
+                <span>🇺🇸 ISM Services PMI <span class="calendar-importance">⭐⭐⭐</span></span>
+                <span>52.8</span>
+                <span>53.0</span>
+            </div>
+            <div class="calendar-row">
+                <span>Salı</span>
+                <span>16:00</span>
+                <span>🇺🇸 JOLTS Job Openings <span class="calendar-importance">⭐⭐⭐</span></span>
+                <span>7.74M</span>
+                <span>7.65M</span>
+            </div>
+            <div class="calendar-row">
+                <span>Çarşamba</span>
+                <span>14:15</span>
+                <span>🇺🇸 ADP Employment <span class="calendar-importance">⭐⭐⭐</span></span>
+                <span>183K</span>
+                <span>150K</span>
+            </div>
+            <div class="calendar-row">
+                <span>Perşembe</span>
+                <span>14:15</span>
+                <span>🇪🇺 ECB Faiz Kararı <span class="calendar-importance">⭐⭐⭐</span></span>
+                <span>2.75%</span>
+                <span>2.50%</span>
+            </div>
+            <div class="calendar-row">
+                <span>Cuma</span>
+                <span>14:30</span>
+                <span>🇺🇸 Non-Farm Payrolls <span class="calendar-importance">⭐⭐⭐</span></span>
+                <span>143K</span>
+                <span>160K</span>
+            </div>
+            <div class="calendar-row">
+                <span>Cuma</span>
+                <span>14:30</span>
+                <span>🇺🇸 İşsizlik Oranı <span class="calendar-importance">⭐⭐⭐</span></span>
+                <span>4.0%</span>
+                <span>4.0%</span>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        // Clock
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').textContent = now.toLocaleTimeString('tr-TR', { 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit',
+                timeZoneName: 'short'
+            });
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+        
+        // Commodities data
+        const commodities = [
+            { name: 'Gold', symbol: 'XAU/USD', color: '#eab308' },
+            { name: 'Silver', symbol: 'XAG/USD', color: '#94a3b8' },
+            { name: 'Brent Oil', symbol: 'BZ=F', color: '#f97316' },
+            { name: 'Nat Gas', symbol: 'NG=F', color: '#3b82f6' },
+            { name: 'Copper', symbol: 'HG=F', color: '#f59e0b' },
+            { name: 'Cocoa', symbol: 'CC=F', color: '#92400e' },
+            { name: 'Coffee', symbol: 'KC=F', color: '#78350f' }
+        ];
+        
+        // Global markets
+        const markets = [
+            { name: 'S&P 500', symbol: '^GSPC', flag: '🇺🇸' },
+            { name: 'NASDAQ', symbol: '^IXIC', flag: '🇺🇸' },
+            { name: 'DAX', symbol: '^GDAXI', flag: '🇩🇪' },
+            { name: 'FTSE 100', symbol: '^FTSE', flag: '🇬🇧' },
+            { name: 'NIKKEI', symbol: '^N225', flag: '🇯🇵' },
+            { name: 'SHANGHAI', symbol: '000001.SS', flag: '🇨🇳' },
+            { name: 'KOSPI', symbol: '^KS11', flag: '🇰🇷' },
+            { name: 'BOVESPA', symbol: '^BVSP', flag: '🇧🇷' }
+        ];
+        
+        // Fetch Fear & Greed
+        async function fetchFearGreed() {
+            try {
+                const res = await fetch('https://api.alternative.me/fng/?limit=31');
+                const data = await res.json();
+                if (data.data && data.data.length > 0) {
+                    const today = data.data[0];
+                    const yesterday = data.data[1];
+                    const week = data.data[7];
+                    const month = data.data[30];
+                    
+                    const value = parseInt(today.value);
+                    const label = today.value_classification;
+                    
+                    document.getElementById('fg-value').textContent = '%' + value;
+                    document.getElementById('fg-label').textContent = label;
+                    document.getElementById('fg-label').className = 'kpi-change ' + (value < 25 ? 'down' : value > 75 ? 'up' : 'neutral');
+                    
+                    document.getElementById('fg-gauge-value').textContent = value;
+                    const gaugeLabel = document.getElementById('fg-gauge-label');
+                    gaugeLabel.textContent = value < 25 ? 'AŞIRI KORKU' : value < 45 ? 'KORKU' : value < 55 ? 'NÖTR' : value < 75 ? 'AÇGÖZLÜLÜK' : 'AŞIRI AÇGÖZLÜLÜK';
+                    gaugeLabel.className = 'fg-label ' + (value < 45 ? 'fear' : value > 55 ? 'greed' : 'neutral');
+                    
+                    // Needle rotation: 0 = -90deg, 100 = 90deg
+                    const rotation = (value / 100) * 180 - 90;
+                    document.getElementById('fg-needle').setAttribute('transform', `rotate(${rotation}, 90, 90)`);
+                    
+                    document.getElementById('fg-description').textContent = value < 25 
+                        ? 'Piyasa aşırı korku içinde. Tarihsel olarak bu seviyeler potansiyel alım fırsatı olarak değerlendirilir.'
+                        : value < 45
+                        ? 'Piyasada korku hakim. Yatırımcılar temkinli davranıyor.'
+                        : value < 55
+                        ? 'Piyasa nötr bölgede. Net bir yön belirsiz.'
+                        : value < 75
+                        ? 'Piyasada açgözlülük hakim. Risk iştahı yüksek.'
+                        : 'Piyasa aşırı açgözlülük içinde. Tarihsel olarak bu seviyeler potansiyel satış sinyali olarak değerlendirilir.';
+                    
+                    document.getElementById('fg-yesterday').textContent = yesterday ? yesterday.value : '--';
+                    document.getElementById('fg-week').textContent = week ? week.value : '--';
+                    document.getElementById('fg-month').textContent = month ? month.value : '--';
+                }
+            } catch (e) {
+                console.error('Fear & Greed fetch error:', e);
+            }
+        }
+        
+        // Fetch Yahoo Finance data via proxy
+        async function fetchYahooData(symbols) {
+            const symbolStr = symbols.join(',');
+            const proxy = 'https://api.allorigins.win/raw?url=';
+            const url = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${encodeURIComponent(symbolStr)}`;
+            
+            try {
+                const res = await fetch(proxy + encodeURIComponent(url));
+                const data = await res.json();
+                return data.quoteResponse?.result || [];
+            } catch (e) {
+                console.error('Yahoo fetch error:', e);
+                return [];
+            }
+        }
+        
+        // Render commodities
+        async function renderCommodities() {
+            const symbols = ['GC=F', 'SI=F', 'BZ=F', 'NG=F', 'HG=F', 'CC=F', 'KC=F'];
+            const data = await fetchYahooData(symbols);
+            
+            const container = document.getElementById('commodities-list');
+            container.innerHTML = '';
+            
+            const symbolMap = {
+                'GC=F': { name: 'Gold', sub: 'XAU/USD', color: '#eab308' },
+                'SI=F': { name: 'Silver', sub: 'XAG/USD', color: '#94a3b8' },
+                'BZ=F': { name: 'Brent Oil', sub: 'XBR/USD', color: '#f97316' },
+                'NG=F': { name: 'Nat Gas', sub: 'NGAS/USD', color: '#3b82f6' },
+                'HG=F': { name: 'Copper', sub: 'XCU/USD', color: '#f59e0b' },
+                'CC=F': { name: 'Cocoa', sub: 'XCC/USD', color: '#92400e' },
+                'KC=F': { name: 'Coffee', sub: 'XKC/USD', color: '#78350f' }
+            };
+            
+            symbols.forEach(sym => {
+                const quote = data.find(d => d.symbol === sym);
+                const info = symbolMap[sym];
+                
+                const price = quote?.regularMarketPrice || quote?.regularMarketPreviousClose || '--';
+                const change = quote?.regularMarketChangePercent || 0;
+                const changeStr = change !== 0 ? (change > 0 ? '▲' : '▼') + ' ' + Math.abs(change).toFixed(2) + '%' : '--';
+                const changeColor = change > 0 ? 'var(--green)' : change < 0 ? 'var(--red)' : 'var(--text-secondary)';
+                const barWidth = Math.min(Math.abs(change) * 10, 100);
+                
+                container.innerHTML += `
+                    <div class="commodity-row">
+                        <div class="commodity-dot" style="background:${info.color}"></div>
+                        <div class="commodity-name">
+                            ${info.name}
+                            <span>${info.sub}</span>
+                        </div>
+                        <div class="commodity-price">$${typeof price === 'number' ? price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : price}</div>
+                        <div class="commodity-change" style="color:${changeColor}">${changeStr}</div>
+                        <div class="commodity-bar">
+                            <div class="commodity-bar-fill" style="width:${barWidth}%;background:${changeColor}"></div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        
+        // Render markets
+        async function renderMarkets() {
+            const symbols = ['^GSPC', '^IXIC', '^GDAXI', '^FTSE', '^N225', '000001.SS', '^KS11', '^BVSP'];
+            const data = await fetchYahooData(symbols);
+            
+            const container = document.getElementById('markets-grid');
+            container.innerHTML = '';
+            
+            const marketInfo = {
+                '^GSPC': { name: 'S&P 500', flag: '🇺🇸' },
+                '^IXIC': { name: 'NASDAQ', flag: '🇺🇸' },
+                '^GDAXI': { name: 'DAX', flag: '🇩🇪' },
+                '^FTSE': { name: 'FTSE 100', flag: '🇬🇧' },
+                '^N225': { name: 'NIKKEI', flag: '🇯🇵' },
+                '000001.SS': { name: 'SHANGHAI', flag: '🇨🇳' },
+                '^KS11': { name: 'KOSPI', flag: '🇰🇷' },
+                '^BVSP': { name: 'BOVESPA', flag: '🇧🇷' }
+            };
+            
+            symbols.forEach(sym => {
+                const quote = data.find(d => d.symbol === sym);
+                const info = marketInfo[sym];
+                
+                const price = quote?.regularMarketPrice || quote?.regularMarketPreviousClose || '--';
+                const change = quote?.regularMarketChangePercent || 0;
+                const changeStr = change !== 0 ? (change > 0 ? '▲' : '▼') + ' ' + Math.abs(change).toFixed(2) + '%' : '--';
+                const changeColor = change > 0 ? 'var(--green)' : change < 0 ? 'var(--red)' : 'var(--text-secondary)';
+                
+                container.innerHTML += `
+                    <div class="market-card">
+                        <div class="market-flag">${info.flag}</div>
+                        <div class="market-name">${info.name}</div>
+                        <div class="market-value">${typeof price === 'number' ? price.toLocaleString('en-US', {maximumFractionDigits: 0}) : price}</div>
+                        <div class="market-change" style="color:${changeColor}">${changeStr}</div>
+                    </div>
+                `;
+            });
+            
+            // Update market status
+            const now = new Date();
+            const hour = now.getUTCHours();
+            const isUSOpen = hour >= 14 && hour < 21; // 9:30-16:00 ET roughly
+            document.getElementById('market-status').textContent = isUSOpen ? '● Açık' : '○ Kapalı';
+        }
+        
+        // Fetch KPI data
+        async function fetchKPIs() {
+            const data = await fetchYahooData(['^VIX', 'DX-Y.NYB', '^TNX', 'EURUSD=X']);
+            
+            data.forEach(quote => {
+                const price = quote.regularMarketPrice || quote.regularMarketPreviousClose;
+                const change = quote.regularMarketChangePercent || 0;
+                const changeStr = change !== 0 ? (change > 0 ? '▲ +' : '▼ ') + Math.abs(change).toFixed(2) + '%' : '--';
+                const changeClass = change > 0 ? 'up' : change < 0 ? 'down' : 'neutral';
+                
+                if (quote.symbol === '^VIX') {
+                    document.getElementById('vix-value').textContent = price ? price.toFixed(2) : '--';
+                    document.getElementById('vix-change').textContent = changeStr;
+                    document.getElementById('vix-change').className = 'kpi-change ' + changeClass;
+                } else if (quote.symbol === 'DX-Y.NYB') {
+                    document.getElementById('dxy-value').textContent = price ? price.toFixed(2) : '--';
+                    document.getElementById('dxy-change').textContent = changeStr;
+                    document.getElementById('dxy-change').className = 'kpi-change ' + changeClass;
+                } else if (quote.symbol === '^TNX') {
+                    document.getElementById('yield-value').textContent = price ? price.toFixed(2) + '%' : '--';
+                    document.getElementById('yield-change').textContent = changeStr;
+                    document.getElementById('yield-change').className = 'kpi-change ' + changeClass;
+                } else if (quote.symbol === 'EURUSD=X') {
+                    document.getElementById('eurusd-value').textContent = price ? price.toFixed(4) : '--';
+                    document.getElementById('eurusd-change').textContent = changeStr;
+                    document.getElementById('eurusd-change').className = 'kpi-change ' + changeClass;
+                }
+            });
+        }
+        
+        // Init
+        fetchFearGreed();
+        fetchKPIs();
+        renderCommodities();
+        renderMarkets();
+        
+        // Refresh every 60 seconds
+        setInterval(() => {
+            fetchFearGreed();
+            fetchKPIs();
+            renderCommodities();
+            renderMarkets();
+        }, 60000);
+    </script>
+</body>
+</html>

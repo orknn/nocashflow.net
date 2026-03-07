@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finansal Sözlük — No Cash Flow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Source+Serif+4:wght@300;400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --cream: #f8f5f0;
+            --ink: #1a1a1a;
+            --accent: #c8392b;
+            --muted: #6b6b6b;
+            --border: #e0dcd5;
+        }
+        
+        body {
+            font-family: 'Source Serif 4', Georgia, serif;
+            background: var(--cream);
+            color: var(--ink);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Header */
+        header {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            width: 100%;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .back-link {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: var(--muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+        
+        .back-link:hover { color: var(--ink); }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 600;
+            text-decoration: none;
+            color: var(--ink);
+        }
+        
+        .logo span { font-style: italic; color: var(--accent); }
+        
+        /* Main */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        
+        .coming-soon {
+            max-width: 500px;
+        }
+        
+        .icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            font-weight: 400;
+            margin-bottom: 16px;
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            color: var(--muted);
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+        
+        .preview-terms {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+        
+        .term-card {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: left;
+        }
+        
+        .term-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .term-card p {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+        
+        .term-card .category {
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            max-width: 400px;
+            margin: 0 auto;
+            gap: 10px;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 14px 18px;
+            border: 1px solid var(--border);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            background: white;
+            border-radius: 4px;
+        }
+        
+        .newsletter-form button {
+            padding: 14px 24px;
+            background: var(--ink);
+            color: var(--cream);
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        
+        .newsletter-form button:hover { background: var(--accent); }
+        
+        .notify-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 12px;
+        }
+        
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 20px;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            color: var(--muted);
+        }
+        
+        footer a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+        
+        footer a:hover { color: var(--ink); }
+        
+        @media (max-width: 768px) {
+            .preview-terms { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="back-link">← Ana Sayfa</a>
+            <a href="index.html" class="logo">No Cash <span>Flow</span></a>
+            <div style="width: 100px;"></div>
+        </div>
+    </header>
+    
+    <main>
+        <div class="coming-soon">
+            <div class="icon">📚</div>
+            <h1>Finansal Sözlük</h1>
+            <p class="subtitle">
+                Finansal terimlerin açıklamaları, örnekler ve pratik kullanım rehberleri... 
+                Yakında burada!
+            </p>
+            
+            <div class="preview-terms">
+                <div class="term-card">
+                    <div class="category">Muhasebe</div>
+                    <h3>Cash Flow</h3>
+                    <p>Bir şirketin belirli bir dönemde nakit giriş ve çıkışları...</p>
+                </div>
+                <div class="term-card">
+                    <div class="category">Makro</div>
+                    <h3>Yield Curve</h3>
+                    <p>Farklı vadelerdeki tahvil getirilerinin grafiksel gösterimi...</p>
+                </div>
+                <div class="term-card">
+                    <div class="category">Kripto</div>
+                    <h3>DeFi</h3>
+                    <p>Merkezi olmayan finans protokolleri ve uygulamaları...</p>
+                </div>
+            </div>
+            
+            <form class="newsletter-form" onsubmit="return false;">
+                <input type="email" placeholder="E-posta adresiniz" required>
+                <button type="submit">Haber Ver</button>
+            </form>
+            <p class="notify-text">Sözlük yayınlandığında size haber verelim.</p>
+        </div>
+    </main>
+    
+    <footer>
+        <p>© 2026 No Cash Flow · <a href="hakkinda.html">Orkun Biçen</a></p>
+    </footer>
+</body>
+</html>

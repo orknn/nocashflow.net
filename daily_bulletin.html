@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Günlük Bülten — No Cash Flow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Source+Serif+4:wght@300;400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --cream: #f8f5f0;
+            --ink: #1a1a1a;
+            --accent: #c8392b;
+            --muted: #6b6b6b;
+            --border: #e0dcd5;
+        }
+        
+        body {
+            font-family: 'Source Serif 4', Georgia, serif;
+            background: var(--cream);
+            color: var(--ink);
+            line-height: 1.7;
+        }
+        
+        /* Header */
+        header {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .back-link {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: var(--muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+        
+        .back-link:hover { color: var(--ink); }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 600;
+            text-decoration: none;
+            color: var(--ink);
+        }
+        
+        .logo span { font-style: italic; color: var(--accent); }
+        
+        /* Main */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            font-weight: 400;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: var(--muted);
+            margin-bottom: 40px;
+        }
+        
+        /* Latest Bulletin */
+        .latest-bulletin {
+            background: var(--ink);
+            color: var(--cream);
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+        
+        .bulletin-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+        
+        .bulletin-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 400;
+            margin-bottom: 16px;
+        }
+        
+        .bulletin-excerpt {
+            font-size: 16px;
+            color: #a0a0a0;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+        
+        .bulletin-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .bulletin-date {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            color: #888;
+        }
+        
+        .read-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+        
+        .read-btn:hover { background: #a82d22; }
+        
+        /* Archive */
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .archive-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+        
+        .archive-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--ink);
+            transition: border-color 0.2s;
+        }
+        
+        .archive-item:hover { border-color: var(--accent); }
+        
+        .archive-info h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .archive-info p {
+            font-size: 14px;
+            color: var(--muted);
+        }
+        
+        .archive-date {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            color: var(--muted);
+        }
+        
+        /* Newsletter */
+        .newsletter {
+            background: #f0ebe3;
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .newsletter h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 12px;
+        }
+        
+        .newsletter p {
+            color: var(--muted);
+            margin-bottom: 24px;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            max-width: 400px;
+            margin: 0 auto;
+            gap: 10px;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 14px 18px;
+            border: 1px solid var(--border);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            background: white;
+            border-radius: 4px;
+        }
+        
+        .newsletter-form button {
+            padding: 14px 24px;
+            background: var(--ink);
+            color: var(--cream);
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 30px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            color: var(--muted);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="back-link">← Ana Sayfa</a>
+            <a href="index.html" class="logo">No Cash <span>Flow</span></a>
+            <div style="width: 100px;"></div>
+        </div>
+    </header>
+    
+    <main>
+        <h1>Günlük Bülten</h1>
+        <p class="subtitle">Her sabah piyasa açılmadan önce günün önemli gelişmeleri.</p>
+        
+        <!-- Latest -->
+        <section class="latest-bulletin">
+            <div class="bulletin-label">📰 Son Bülten</div>
+            <h2 class="bulletin-title">7 Mart 2026 — Piyasa risk-off modunda</h2>
+            <p class="bulletin-excerpt">
+                VIX 23.57'ye yükseldi. Altın $3,133 ile yeni rekor. Fed toplantısı öncesi yatırımcılar 
+                temkinli. NVIDIA kazançlarına rağmen Mag7'de satış baskısı devam ediyor.
+            </p>
+            <div class="bulletin-meta">
+                <span class="bulletin-date">7 Mart 2026 · 08:00 CET</span>
+                <a href="macro.html" class="read-btn">Dashboard'da Gör →</a>
+            </div>
+        </section>
+        
+        <!-- Archive -->
+        <h2 class="section-title">Arşiv</h2>
+        <div class="archive-list">
+            <a href="#" class="archive-item">
+                <div class="archive-info">
+                    <h3>6 Mart 2026</h3>
+                    <p>ECB faiz kararı beklentisi, EUR/USD yükselişte</p>
+                </div>
+                <span class="archive-date">Perşembe</span>
+            </a>
+            <a href="#" class="archive-item">
+                <div class="archive-info">
+                    <h3>5 Mart 2026</h3>
+                    <p>ADP istihdam verisi beklentilerin üzerinde</p>
+                </div>
+                <span class="archive-date">Çarşamba</span>
+            </a>
+            <a href="#" class="archive-item">
+                <div class="archive-info">
+                    <h3>4 Mart 2026</h3>
+                    <p>ISM Services PMI zayıf, resesyon endişeleri artıyor</p>
+                </div>
+                <span class="archive-date">Salı</span>
+            </a>
+        </div>
+        
+        <!-- Newsletter -->
+        <section class="newsletter">
+            <h2>Bültene Abone Ol</h2>
+            <p>Her sabah 08:00'de e-posta kutunuzda.</p>
+            <form class="newsletter-form" onsubmit="return false;">
+                <input type="email" placeholder="E-posta adresiniz" required>
+                <button type="submit">Abone Ol</button>
+            </form>
+        </section>
+    </main>
+    
+    <footer>
+        <p>© 2026 No Cash Flow · <a href="hakkinda.html" style="color:inherit">Orkun Biçen</a></p>
+    </footer>
+</body>
+</html>

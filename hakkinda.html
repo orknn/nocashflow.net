@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hakkında — No Cash Flow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Source+Serif+4:wght@300;400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --cream: #f8f5f0;
+            --ink: #1a1a1a;
+            --accent: #c8392b;
+            --muted: #6b6b6b;
+            --border: #e0dcd5;
+        }
+        
+        body {
+            font-family: 'Source Serif 4', Georgia, serif;
+            background: var(--cream);
+            color: var(--ink);
+            line-height: 1.7;
+        }
+        
+        /* Header */
+        header {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .back-link {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: var(--muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+        
+        .back-link:hover { color: var(--ink); }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 600;
+            text-decoration: none;
+            color: var(--ink);
+        }
+        
+        .logo span { font-style: italic; color: var(--accent); }
+        
+        /* Main */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+        
+        /* Hero */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 60px;
+            margin-bottom: 60px;
+            align-items: start;
+        }
+        
+        .avatar {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, var(--ink), #333);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 64px;
+            font-weight: 600;
+            color: var(--cream);
+        }
+        
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+        
+        .hero-content .title {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 24px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        
+        .stat-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
+        
+        .hero-content p {
+            font-size: 17px;
+            color: var(--muted);
+        }
+        
+        /* Quote Section */
+        .quote-section {
+            background: var(--ink);
+            color: var(--cream);
+            padding: 50px;
+            margin: -20px -20px 60px;
+            position: relative;
+        }
+        
+        .quote-section::before {
+            content: '"';
+            font-family: 'Playfair Display', serif;
+            font-size: 120px;
+            position: absolute;
+            top: 10px;
+            left: 30px;
+            opacity: 0.2;
+            line-height: 1;
+        }
+        
+        .quote-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+        
+        .quote-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-style: italic;
+            line-height: 1.5;
+            max-width: 700px;
+        }
+        
+        /* Content Sections */
+        .section {
+            margin-bottom: 50px;
+        }
+        
+        .section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 400;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: var(--border);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -34px;
+            top: 8px;
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+        
+        .timeline-date {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 4px;
+        }
+        
+        .timeline-title {
+            font-weight: 500;
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+        
+        .timeline-company {
+            color: var(--accent);
+            font-size: 15px;
+        }
+        
+        .timeline-desc {
+            font-size: 15px;
+            color: var(--muted);
+            margin-top: 8px;
+        }
+        
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .skill-card {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 24px;
+            border-radius: 8px;
+        }
+        
+        .skill-icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+        
+        .skill-card h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .skill-card p {
+            font-size: 14px;
+            color: var(--muted);
+        }
+        
+        /* Contact */
+        .contact-links {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 24px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        
+        .contact-btn.primary {
+            background: var(--ink);
+            color: var(--cream);
+        }
+        
+        .contact-btn.primary:hover { background: var(--accent); }
+        
+        .contact-btn.secondary {
+            background: white;
+            color: var(--ink);
+            border: 1px solid var(--border);
+        }
+        
+        .contact-btn.secondary:hover { border-color: var(--ink); }
+        
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 30px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            color: var(--muted);
+        }
+        
+        @media (max-width: 768px) {
+            .hero { grid-template-columns: 1fr; text-align: center; }
+            .avatar { margin: 0 auto; }
+            .stats { justify-content: center; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .contact-links { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="back-link">← Ana Sayfa</a>
+            <a href="index.html" class="logo">No Cash <span>Flow</span></a>
+            <div style="width: 100px;"></div>
+        </div>
+    </header>
+    
+    <main>
+        <!-- Hero -->
+        <section class="hero">
+            <div class="avatar">OB</div>
+            <div class="hero-content">
+                <h1>Orkun Biçen</h1>
+                <p class="title">Supply Chain & Operations · Barcelona</p>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-value">10+</div>
+                        <div class="stat-label">Yıl Deneyim</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">Global Şirket</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">MBA</div>
+                        <div class="stat-label">ESADE</div>
+                    </div>
+                </div>
+                <p>
+                    Nestlé, Schneider Electric ve ENKA'da tedarik zinciri ve operasyon yönetimi alanında 
+                    10 yılı aşkın deneyim. Finansal piyasalara olan tutkumu No Cash Flow ile paylaşıyorum.
+                </p>
+            </div>
+        </section>
+        
+        <!-- Quote -->
+        <section class="quote-section">
+            <div class="quote-title">Neden No Cash Flow?</div>
+            <p class="quote-text">
+                Piyasalar hakkında bilgiyi herkes ücretsiz bulabilir. Ama o bilgiyi filtreleyip, 
+                anlamlı bir şekilde sunmak zaman alır. No Cash Flow, benim her sabah yaptığım 
+                piyasa araştırmasını seninle paylaşmak için kuruldu. Para akmıyor belki, 
+                ama bilgi akıyor.
+            </p>
+        </section>
+        
+        <!-- Experience -->
+        <section class="section">
+            <h2>Deneyim</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2023 — Günümüz</div>
+                    <div class="timeline-title">Supply Chain Manager</div>
+                    <div class="timeline-company">Nestlé · Barcelona</div>
+                    <p class="timeline-desc">Avrupa genelinde tedarik zinciri optimizasyonu ve dijital dönüşüm projeleri.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2019 — 2023</div>
+                    <div class="timeline-title">Operations Manager</div>
+                    <div class="timeline-company">Schneider Electric · Madrid</div>
+                    <p class="timeline-desc">Üretim planlama, envanter yönetimi ve süreç iyileştirme.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2015 — 2019</div>
+                    <div class="timeline-title">Project Engineer</div>
+                    <div class="timeline-company">ENKA · İstanbul</div>
+                    <p class="timeline-desc">Büyük ölçekli inşaat projelerinde planlama ve koordinasyon.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Education -->
+        <section class="section">
+            <h2>Eğitim</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2021 — 2023</div>
+                    <div class="timeline-title">MBA</div>
+                    <div class="timeline-company">ESADE Business School · Barcelona</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2010 — 2015</div>
+                    <div class="timeline-title">Endüstri Mühendisliği (Çift Diploma)</div>
+                    <div class="timeline-company">Sakarya Üniversitesi & Universidad de Jaén</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Skills -->
+        <section class="section">
+            <h2>Uzmanlık Alanları</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-icon">📊</div>
+                    <h3>Makro Ekonomi</h3>
+                    <p>Merkez bankası politikaları, faiz oranları, enflasyon dinamikleri</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">📈</div>
+                    <h3>Teknik Analiz</h3>
+                    <p>Grafik okuma, indikatörler, piyasa yapısı analizi</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">🪙</div>
+                    <h3>Kripto Paralar</h3>
+                    <p>Bitcoin, DeFi protokolleri, on-chain metrikler</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">🏭</div>
+                    <h3>Tedarik Zinciri</h3>
+                    <p>Operasyon yönetimi, lojistik, süreç optimizasyonu</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">💻</div>
+                    <h3>Veri Analizi</h3>
+                    <p>Python, SQL, dashboard geliştirme, otomasyon</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">🌍</div>
+                    <h3>Diller</h3>
+                    <p>Türkçe (ana dil), İngilizce (C1), İspanyolca (B2)</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact -->
+        <section class="section">
+            <h2>İletişim</h2>
+            <div class="contact-links">
+                <a href="mailto:orkun@nocashflow.net" class="contact-btn primary">
+                    ✉️ E-posta Gönder
+                </a>
+                <a href="https://linkedin.com/in/orkunbicen" target="_blank" class="contact-btn secondary">
+                    LinkedIn
+                </a>
+                <a href="https://twitter.com/nocashflow" target="_blank" class="contact-btn secondary">
+                    Twitter / X
+                </a>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>© 2026 No Cash Flow · Orkun Biçen</p>
+    </footer>
+</body>
+</html>
