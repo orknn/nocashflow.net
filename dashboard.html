@@ -539,6 +539,16 @@
         
         .preset-btn:hover { border-color: var(--accent); color: var(--text-primary); }
         
+        /* Loading animation */
+        .loading-pulse {
+            animation: pulse 1.5s infinite;
+            opacity: 0.5;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             .main { flex-direction: column; }
@@ -777,67 +787,126 @@
                         };
                     }
                 });
+                
+                // Save to cache
+                saveCache('prices', prices);
+                console.log('✅ Crypto prices fetched');
             } catch (e) {
                 console.error('CoinGecko error:', e);
             }
         }
         
-        // Fetch stock/commodity prices from Yahoo via proxy (with retry)
+        // Cache functions
+        function saveCache(key, data) {
+            const cache = { data, timestamp: Date.now() };
+            localStorage.setItem('ncf_cache_' + key, JSON.stringify(cache));
+        }
+        
+        function loadCache(key, maxAge = 300000) { // 5 min default
+            try {
+                const cached = localStorage.getItem('ncf_cache_' + key);
+                if (cached) {
+                    const { data, timestamp } = JSON.parse(cached);
+                    if (Date.now() - timestamp < maxAge) {
+                        return data;
+                    }
+                }
+            } catch (e) {}
+            return null;
+        }
+        
+        // Load cached prices immediately on start
+        function loadCachedPrices() {
+            const cached = loadCache('prices', 600000); // 10 min cache
+            if (cached) {
+                Object.assign(prices, cached);
+                console.log('📦 Cache loaded');
+                renderAssetList();
+            }
+        }
+        
+        // Fetch stock/commodity prices from Yahoo via proxy (with retry + cache)
         async function fetchYahooPrices() {
             const yahooAssets = watchlist.filter(a => a.yahoo && a.category !== 'crypto');
             if (yahooAssets.length === 0) return;
             
-            // Split into batches of 10 to avoid timeout
-            const batchSize = 10;
-            const batches = [];
-            for (let i = 0; i < yahooAssets.length; i += batchSize) {
-                batches.push(yahooAssets.slice(i, i + batchSize));
-            }
+            const symbols = yahooAssets.map(a => a.yahoo).join(',');
+            const yahooUrl = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${encodeURIComponent(symbols)}`;
             
+            // Try multiple proxies
             const proxies = [
-                'https://api.allorigins.win/raw?url=',
-                'https://corsproxy.io/?'
+                { name: 'corsproxy', url: 'https://corsproxy.io/?' + encodeURIComponent(yahooUrl) },
+                { name: 'allorigins', url: 'https://api.allorigins.win/raw?url=' + encodeURIComponent(yahooUrl) },
+                { name: 'jsonp', url: 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(yahooUrl) }
             ];
             
-            for (const batch of batches) {
-                const symbols = batch.map(a => a.yahoo).join(',');
-                const url = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${encodeURIComponent(symbols)}`;
-                
-                let success = false;
-                
-                for (const proxy of proxies) {
-                    if (success) break;
+            for (const proxy of proxies) {
+                try {
+                    console.log(`🔄 Trying ${proxy.name}...`);
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 6000);
                     
-                    try {
-                        const res = await fetch(proxy + encodeURIComponent(url), {
-                            signal: AbortSignal.timeout(8000) // 8 second timeout
+                    const res = await fetch(proxy.url, { signal: controller.signal });
+                    clearTimeout(timeoutId);
+                    
+                    const data = await res.json();
+                    
+                    if (data.quoteResponse?.result && data.quoteResponse.result.length > 0) {
+                        data.quoteResponse.result.forEach(quote => {
+                            const asset = yahooAssets.find(a => a.yahoo === quote.symbol);
+                            if (asset) {
+                                prices[asset.symbol] = {
+                                    price: quote.regularMarketPrice || quote.regularMarketPreviousClose,
+                                    change: quote.regularMarketChangePercent || 0,
+                                    change7d: null,
+                                    marketState: quote.marketState
+                                };
+                            }
                         });
-                        const data = await res.json();
-                        
-                        if (data.quoteResponse?.result) {
-                            data.quoteResponse.result.forEach(quote => {
-                                const asset = batch.find(a => a.yahoo === quote.symbol);
-                                if (asset) {
-                                    prices[asset.symbol] = {
-                                        price: quote.regularMarketPrice || quote.regularMarketPreviousClose,
-                                        change: quote.regularMarketChangePercent || 0,
-                                        change7d: null,
-                                        marketState: quote.marketState
-                                    };
-                                }
-                            });
-                            success = true;
-                            console.log(`✅ Yahoo batch fetched via ${proxy.includes('allorigins') ? 'allorigins' : 'corsproxy'}`);
-                        }
-                    } catch (e) {
-                        console.warn(`⚠️ Yahoo proxy failed: ${proxy}`, e.message);
+                        saveCache('prices', prices);
+                        console.log(`✅ Yahoo success via ${proxy.name}`);
+                        return; // Success, exit
                     }
+                } catch (e) {
+                    console.warn(`⚠️ ${proxy.name} failed:`, e.message);
                 }
-                
-                // Small delay between batches to avoid rate limiting
-                if (batches.indexOf(batch) < batches.length - 1) {
-                    await new Promise(r => setTimeout(r, 300));
+            }
+            
+            // All proxies failed - try Twelve Data as backup
+            console.log('🔄 Trying Twelve Data backup...');
+            await fetchTwelveDataBackup(yahooAssets);
+        }
+        
+        // Twelve Data backup for when Yahoo fails
+        async function fetchTwelveDataBackup(assets) {
+            const apiKey = 'e4ac7f98e0d64751985bac86bab429e2';
+            
+            // Twelve Data has rate limits, fetch only first 8
+            const stockAssets = assets.filter(a => a.category === 'stock').slice(0, 8);
+            
+            for (const asset of stockAssets) {
+                try {
+                    const res = await fetch(`https://api.twelvedata.com/price?symbol=${asset.yahoo}&apikey=${apiKey}`);
+                    const data = await res.json();
+                    
+                    if (data.price) {
+                        prices[asset.symbol] = {
+                            price: parseFloat(data.price),
+                            change: 0, // Twelve Data free doesn't give change
+                            change7d: null
+                        };
+                    }
+                    
+                    // Small delay to avoid rate limit
+                    await new Promise(r => setTimeout(r, 150));
+                } catch (e) {
+                    console.warn(`⚠️ Twelve Data failed for ${asset.symbol}`);
                 }
+            }
+            
+            if (Object.keys(prices).length > 0) {
+                saveCache('prices', prices);
+                console.log('✅ Twelve Data backup success');
             }
         }
         
@@ -924,9 +993,10 @@
         
         function renderAssetItem(asset) {
             const p = prices[asset.symbol] || {};
-            const priceStr = p.price ? (asset.category === 'crypto' || asset.symbol === 'Gold' || asset.symbol === 'Silver' 
+            const hasPrice = p.price !== undefined && p.price !== null;
+            const priceStr = hasPrice ? (asset.category === 'crypto' || asset.symbol === 'Gold' || asset.symbol === 'Silver' 
                 ? '$' + p.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})
-                : '$' + p.price.toFixed(2)) : '—';
+                : '$' + p.price.toFixed(2)) : '<span class="loading-pulse">—</span>';
             const changeStr = p.change !== undefined ? (p.change >= 0 ? '▲' : '▼') + ' ' + Math.abs(p.change).toFixed(2) + '%' : '—';
             const changeColor = p.change > 0 ? 'var(--green)' : p.change < 0 ? 'var(--red)' : 'var(--text-secondary)';
             const isActive = currentAsset && currentAsset.symbol === asset.symbol;
@@ -1218,7 +1288,11 @@
         
         // Init
         async function init() {
-            await refreshAll();
+            // Load cached prices FIRST for instant display
+            loadCachedPrices();
+            
+            // Then fetch fresh data in background
+            refreshAll();
             fetchFearGreed();
             fetchBTCDominance();
             fetchEURUSD();
