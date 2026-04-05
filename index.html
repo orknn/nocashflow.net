@@ -176,7 +176,10 @@ img{max-width:100%;display:block}
       <li><a href="daily_bulletin.html">Bülten</a></li>
       <li><a href="hakkinda.html">Hakkında</a></li>
     </ul>
-    <a href="daily_bulletin.html" class="nav-cta">Bültene Abone Ol</a>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button id="lang-toggle" onclick="toggleLang()" style="font-family:var(--font-label);font-size:10px;font-weight:700;letter-spacing:1px;background:transparent;border:0.5px solid var(--border);color:var(--secondary);padding:6px 12px;border-radius:2px;cursor:pointer;transition:all 0.2s">TR</button>
+      <a href="daily_bulletin.html" class="nav-cta">Subscribe to Bulletin</a>
+    </div>
   </div>
 </nav>
 
@@ -202,8 +205,8 @@ img{max-width:100%;display:block}
 
 <!-- HERO -->
 <section class="hero">
-  <span class="hero-tag">Sunday Morning Series</span>
-  <h1 class="hero-title">Pazar sabahlarımı <em>makro verilerle</em> geçiriyorum. Artık sizinle paylaşıyorum.</h1>
+  <span class="hero-tag" id="hero-tag-el">Sunday Morning Series</span>
+  <h1 class="hero-title">I spend Sunday mornings <em>with macro data.</em> Now I share it with you.</h1>
   <p class="hero-sub">Petrol şokları, smart money, nükleer enerji, Fed politikası — her pazar, veriye dayalı bir analiz.</p>
   <div class="hero-meta">
     <div class="hero-author">
@@ -319,32 +322,92 @@ img{max-width:100%;display:block}
         </div>
       </div>
 
-      <!-- Fear & Greed -->
+      <!-- Fear & Greed Gauge -->
       <div class="sentiment-card">
-        <div class="sentiment-label">Crypto Fear & Greed Index</div>
-        <div class="sentiment-value" id="fg-value">—</div>
-        <div class="sentiment-status" id="fg-status">Yükleniyor...</div>
-        <p class="sentiment-quote">"Extreme Fear bölgesi — kurumsal akışlar negatife döndü, retail satıyor."</p>
+        <div class="sentiment-label">Crypto Fear & Greed</div>
+        <div style="display:flex;align-items:flex-end;gap:10px;margin-bottom:8px">
+          <div class="sentiment-value" id="fg-value">—</div>
+          <div class="sentiment-status" id="fg-status" style="margin-bottom:6px">—</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.1);border-radius:2px;height:4px;margin-bottom:12px;overflow:hidden">
+          <div id="fg-bar" style="height:100%;border-radius:2px;background:var(--accent);width:12%;transition:width 0.8s ease"></div>
+        </div>
+        <p class="sentiment-quote" id="fg-quote">"Extreme Fear — institutional flows turned negative, retail is selling."</p>
       </div>
 
-      <!-- Ekonomik Takvim -->
+      <!-- Kritik Makro Veriler -->
+      <div class="ledger-card" style="border-left-color:var(--accent)">
+        <div class="ledger-title" style="font-size:15px">Key Data</div>
+        <div class="ledger-subtitle">Last Releases</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px">
+          <div style="background:var(--bg);border-radius:4px;padding:10px 12px">
+            <div style="font-family:var(--font-label);font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--secondary);margin-bottom:4px">Fed Rate</div>
+            <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--primary)">3.75%</div>
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--secondary)">Mar 18 · Hold</div>
+          </div>
+          <div style="background:var(--bg);border-radius:4px;padding:10px 12px">
+            <div style="font-family:var(--font-label);font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--secondary);margin-bottom:4px">CPI (Feb)</div>
+            <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--primary)">2.4%</div>
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--secondary)">YoY · Pre-war</div>
+          </div>
+          <div style="background:var(--bg);border-radius:4px;padding:10px 12px">
+            <div style="font-family:var(--font-label);font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--secondary);margin-bottom:4px">PPI (Feb)</div>
+            <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--accent)">3.4%</div>
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--accent)">2× expectations</div>
+          </div>
+          <div style="background:var(--bg);border-radius:4px;padding:10px 12px">
+            <div style="font-family:var(--font-label);font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--secondary);margin-bottom:4px">VIX</div>
+            <div style="font-family:var(--font-display);font-size:20px;font-weight:700" id="sidebar-vix">26.8</div>
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--accent)">Elevated fear</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Haftalık Takvim -->
       <div class="ledger-card">
-        <div class="ledger-title">Bu Hafta</div>
-        <div class="ledger-subtitle">Kritik Veriler</div>
-        <div class="ledger-item">
-          <div class="ledger-time">Salı — Flash PMI Mart</div>
-          <div class="ledger-item-title">İlk kez savaş dönemini yansıtacak</div>
-          <p class="ledger-item-desc">Manufacturing & Services. Piyasa için kritik veri.</p>
-        </div>
-        <div class="ledger-item">
-          <div class="ledger-time">Perşembe — Jobless Claims</div>
-          <div class="ledger-item-title">Haftalık işsizlik başvuruları</div>
-          <p class="ledger-item-desc">Fed'in ne kadar oda olduğunu gösterecek.</p>
-        </div>
-        <div class="ledger-item">
-          <div class="ledger-time">Cuma — Eurozone HICP</div>
-          <div class="ledger-item-title">ECB Lagarde konuşması</div>
-          <p class="ledger-item-desc">Avrupa enflasyonu + ECB yol haritası.</p>
+        <div class="ledger-title" style="font-size:15px">This Week</div>
+        <div class="ledger-subtitle">Economic Calendar</div>
+        <div style="display:flex;flex-direction:column;gap:0">
+          <div style="display:flex;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);align-items:flex-start">
+            <div style="flex-shrink:0;text-align:center;min-width:36px">
+              <div style="font-family:var(--font-mono);font-size:9px;color:var(--secondary)">TUE</div>
+              <div style="font-family:var(--font-mono);font-size:16px;font-weight:600;color:var(--primary)">07</div>
+            </div>
+            <div>
+              <div style="font-family:var(--font-label);font-size:10px;font-weight:700;color:var(--primary);margin-bottom:2px">Flash PMI (Mar) 🔴</div>
+              <div style="font-size:11px;color:var(--secondary)">First war-era reading. Manufacturing & Services.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);align-items:flex-start">
+            <div style="flex-shrink:0;text-align:center;min-width:36px">
+              <div style="font-family:var(--font-mono);font-size:9px;color:var(--secondary)">THU</div>
+              <div style="font-family:var(--font-mono);font-size:16px;font-weight:600;color:var(--primary)">09</div>
+            </div>
+            <div>
+              <div style="font-family:var(--font-label);font-size:10px;font-weight:700;color:var(--primary);margin-bottom:2px">Jobless Claims + ECB Lagarde</div>
+              <div style="font-size:11px;color:var(--secondary)">Weekly labor + ECB rate path signals.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);align-items:flex-start">
+            <div style="flex-shrink:0;text-align:center;min-width:36px">
+              <div style="font-family:var(--font-mono);font-size:9px;color:var(--secondary)">FRI</div>
+              <div style="font-family:var(--font-mono);font-size:16px;font-weight:600;color:var(--primary)">11</div>
+            </div>
+            <div>
+              <div style="font-family:var(--font-label);font-size:10px;font-weight:700;color:var(--primary);margin-bottom:2px">Eurozone HICP</div>
+              <div style="font-size:11px;color:var(--secondary)">European inflation. War impact starting to show.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;padding:10px 0;align-items:flex-start">
+            <div style="flex-shrink:0;text-align:center;min-width:36px">
+              <div style="font-family:var(--font-mono);font-size:9px;color:var(--accent)">MON</div>
+              <div style="font-family:var(--font-mono);font-size:16px;font-weight:600;color:var(--accent)">14</div>
+            </div>
+            <div>
+              <div style="font-family:var(--font-label);font-size:10px;font-weight:700;color:var(--accent);margin-bottom:2px">⭐ US CPI + PPI (Mar)</div>
+              <div style="font-size:11px;color:var(--secondary)">Most critical. First full oil shock data.</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -446,75 +509,135 @@ img{max-width:100%;display:block}
 
 <script>
 // Ticker — CoinGecko + Alternative.me
+// ── i18n ──────────────────────────────────────────────
+const LANG = { current: localStorage.getItem('ncf-lang') || 'en' };
+const T = {
+  en: {
+    nav: ['Home','Articles','Macro','Dashboard','Bulletin','About'],
+    cta: 'Subscribe to Bulletin',
+    hero_tag: 'Sunday Morning Series',
+    hero_title: 'I spend Sunday mornings <em>with macro data.</em> Now I share it with you.',
+    hero_sub: 'Oil shocks, smart money, nuclear energy, Fed policy — every Sunday, data-driven analysis.',
+    live: 'Live',
+    fg_quote: '"Extreme Fear — institutional flows turned negative, retail is selling."',
+    sidebar_title: 'Market Brief',
+    sidebar_sub: 'Latest Updates',
+    week_title: 'This Week',
+    week_sub: 'Critical Data',
+  },
+  tr: {
+    nav: ['Ana Sayfa','Yazılar','Macro','Dashboard','Bülten','Hakkında'],
+    cta: 'Bültene Abone Ol',
+    hero_tag: 'Sunday Morning Series',
+    hero_title: 'Pazar sabahlarımı <em>makro verilerle</em> geçiriyorum. Artık sizinle paylaşıyorum.',
+    hero_sub: 'Petrol şokları, smart money, nükleer enerji, Fed politikası — her pazar, veriye dayalı bir analiz.',
+    live: 'Canlı',
+    fg_quote: '"Extreme Fear bölgesi — kurumsal akışlar negatife döndü, retail satıyor."',
+    sidebar_title: 'Piyasa Özeti',
+    sidebar_sub: 'Son Güncellemeler',
+    week_title: 'Bu Hafta',
+    week_sub: 'Kritik Veriler',
+  }
+};
+
+function applyLang() {
+  const t = T[LANG.current];
+  // Nav links
+  const navLinks = document.querySelectorAll('.nav-links a');
+  t.nav.forEach((txt,i) => { if(navLinks[i]) navLinks[i].textContent = txt; });
+  const ctaEl = document.querySelector('.nav-cta');
+  if(ctaEl) ctaEl.textContent = t.cta;
+  // Hero
+  const heroTag = document.querySelector('.hero-tag');
+  if(heroTag) heroTag.textContent = t.hero_tag;
+  const heroTitle = document.querySelector('.hero-title');
+  if(heroTitle) heroTitle.innerHTML = t.hero_title;
+  const heroSub = document.querySelector('.hero-sub');
+  if(heroSub) heroSub.textContent = t.hero_sub;
+  // Live dot label
+  const liveLabel = document.querySelector('.live-label');
+  if(liveLabel) liveLabel.textContent = t.live;
+  // Sentiment quote
+  const fgQ = document.querySelector('.sentiment-quote');
+  if(fgQ) fgQ.textContent = t.fg_quote;
+  // Lang toggle button
+  const btn = document.getElementById('lang-toggle');
+  if(btn) btn.textContent = LANG.current === 'en' ? 'TR' : 'EN';
+}
+
+function toggleLang() {
+  LANG.current = LANG.current === 'en' ? 'tr' : 'en';
+  localStorage.setItem('ncf-lang', LANG.current);
+  applyLang();
+}
+
+// ── Ticker & Data ──────────────────────────────────────
 async function loadTicker() {
+  // Crypto — CoinGecko
   try {
-    // Crypto prices
     const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true');
     const d = await res.json();
-
-    const fmt = (n) => n >= 1000 ? '$' + n.toLocaleString('en-US', {maximumFractionDigits:0}) : '$' + n.toFixed(2);
-    const chg = (n, el) => {
-      const v = n?.toFixed(2);
-      el.textContent = (n >= 0 ? '+' : '') + v + '%';
-      el.className = 'ticker-chg ' + (n >= 0 ? 'up' : 'down');
+    const fmt = (n) => n >= 1000 ? '$' + n.toLocaleString('en-US',{maximumFractionDigits:0}) : '$' + n.toFixed(2);
+    const setChg = (n, el) => {
+      if(!el || n == null) return;
+      el.textContent = (n>=0?'+':'') + n.toFixed(2) + '%';
+      el.className = 'ticker-chg ' + (n>=0?'up':'down');
     };
-
-    if(d.bitcoin) {
-      document.getElementById('tk-btc').textContent = fmt(d.bitcoin.usd);
-      chg(d.bitcoin.usd_24h_change, document.getElementById('tk-btc-chg'));
-    }
-    if(d.ethereum) {
-      document.getElementById('tk-eth').textContent = fmt(d.ethereum.usd);
-      chg(d.ethereum.usd_24h_change, document.getElementById('tk-eth-chg'));
-    }
-  } catch(e) { console.log('Crypto ticker error:', e); }
+    if(d.bitcoin) { document.getElementById('tk-btc').textContent = fmt(d.bitcoin.usd); setChg(d.bitcoin.usd_24h_change, document.getElementById('tk-btc-chg')); }
+    if(d.ethereum) { document.getElementById('tk-eth').textContent = fmt(d.ethereum.usd); setChg(d.ethereum.usd_24h_change, document.getElementById('tk-eth-chg')); }
+  } catch(e) {}
 
   // Fear & Greed
   try {
     const fg = await fetch('https://api.alternative.me/fng/?limit=1');
     const fd = await fg.json();
-    if(fd.data && fd.data[0]) {
-      const val = fd.data[0].value;
+    if(fd.data?.[0]) {
+      const val = parseInt(fd.data[0].value);
       const cls = fd.data[0].value_classification;
       document.getElementById('tk-fg').textContent = val;
       const fgEl = document.getElementById('tk-fg-cls');
       fgEl.textContent = cls.toUpperCase();
-      fgEl.className = 'ticker-chg ' + (val > 50 ? 'up' : 'down');
+      fgEl.className = 'ticker-chg ' + (val>50?'up':'down');
+      // Sidebar gauge
       document.getElementById('fg-value').textContent = val;
       document.getElementById('fg-status').textContent = cls.toUpperCase();
+      document.getElementById('fg-bar').style.width = val + '%';
+      document.getElementById('fg-bar').style.background = val>50?'var(--green)':val>25?'#f0a500':'var(--accent)';
     }
-  } catch(e) { console.log('FG error:', e); }
+  } catch(e) {}
 
-  // Yahoo Finance proxy — Gold & Brent & DXY
-  const pairs = [
-    {sym:'GC=F', el:'tk-gold', chgEl:'tk-gold-chg', prefix:'$'},
-    {sym:'BZ=F', el:'tk-brent', chgEl:'tk-brent-chg', prefix:'$'},
-    {sym:'DX-Y.NYB', el:'tk-dxy', chgEl:'tk-dxy-chg', prefix:''}
+  // Yahoo Finance via allorigins — filter NaN
+  const yfPairs = [
+    {sym:'GC=F',  el:'tk-gold',  chgEl:'tk-gold-chg',  pre:'$', dec:2},
+    {sym:'BZ=F',  el:'tk-brent', chgEl:'tk-brent-chg', pre:'$', dec:2},
+    {sym:'DX-Y.NYB', el:'tk-dxy', chgEl:'tk-dxy-chg', pre:'',  dec:2},
   ];
-  for(const p of pairs) {
+  for(const p of yfPairs) {
     try {
-      const url = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://query1.finance.yahoo.com/v8/finance/chart/${p.sym}?interval=1d&range=2d`)}`;
+      const url = 'https://api.allorigins.win/get?url=' + encodeURIComponent(
+        'https://query1.finance.yahoo.com/v8/finance/chart/' + p.sym + '?interval=1d&range=5d'
+      );
       const r = await fetch(url);
       const j = await r.json();
-      const data = JSON.parse(j.contents);
-      const chart = data?.chart?.result?.[0];
-      if(chart) {
-        const closes = chart.indicators.quote[0].close;
-        const last = closes[closes.length-1];
-        const prev = closes[closes.length-2];
-        const pct = ((last - prev) / prev * 100);
-        const el = document.getElementById(p.el);
-        const chgEl = document.getElementById(p.chgEl);
-        if(el) el.textContent = p.prefix + last.toFixed(2);
-        if(chgEl) {
-          chgEl.textContent = (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%';
-          chgEl.className = 'ticker-chg ' + (pct >= 0 ? 'up' : 'down');
-        }
-      }
+      const chart = JSON.parse(j.contents)?.chart?.result?.[0];
+      if(!chart) continue;
+      const closes = chart.indicators.quote[0].close.filter(x => x != null && !isNaN(x));
+      if(closes.length < 2) continue;
+      const last = closes[closes.length-1];
+      const prev = closes[closes.length-2];
+      const pct = (last - prev) / prev * 100;
+      if(isNaN(pct)) continue;
+      const el = document.getElementById(p.el);
+      const ce = document.getElementById(p.chgEl);
+      if(el) el.textContent = p.pre + last.toFixed(p.dec);
+      if(ce) { ce.textContent = (pct>=0?'+':'') + pct.toFixed(2) + '%'; ce.className = 'ticker-chg '+(pct>=0?'up':'down'); }
     } catch(e) {}
   }
 }
+
 loadTicker();
+setInterval(loadTicker, 5*60*1000);
+applyLang();
 </script>
 </body>
 </html>
