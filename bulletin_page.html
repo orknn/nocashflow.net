@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Daily Bulletin — NoCashFlow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..800;1,6..72,300..800&family=Manrope:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#faf8ff;--primary:#000e24;--secondary:#505f76;--accent:#f85149;--border:rgba(0,14,36,0.08);--font-display:'Newsreader',serif;--font-body:'Manrope',sans-serif;--font-label:'Inter',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-body);background:var(--bg);color:var(--primary)}
+a{text-decoration:none;color:inherit}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,248,255,0.92);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--border)}
+.nav-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:60px}
+.logo{font-family:var(--font-display);font-size:19px;font-weight:800;letter-spacing:-0.5px}
+.logo span{color:var(--accent)}
+.nav-links{display:flex;align-items:center;gap:28px;list-style:none}
+.nav-links a{font-family:var(--font-label);font-size:10.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--secondary);transition:color 0.2s}
+.nav-links a:hover,.nav-links a.active{color:var(--accent)}
+.nav-cta{font-family:var(--font-label);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:var(--primary);color:white;padding:8px 16px;border-radius:2px}
+
+/* PAGE HEADER */
+.page-header{max-width:1280px;margin:0 auto;padding:80px 24px 24px}
+.page-header-inner{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-bottom:20px;border-bottom:0.5px solid var(--border)}
+.page-tag{font-family:var(--font-label);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:8px}
+.page-title{font-family:var(--font-display);font-size:32px;font-weight:700;letter-spacing:-0.5px}
+.bulletin-meta{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.meta-item{font-family:var(--font-label);font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--secondary)}
+.live-badge{display:flex;align-items:center;gap:6px;font-family:var(--font-label);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent)}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* IFRAME WRAP */
+.bulletin-wrap{max-width:780px;margin:0 auto;padding:24px 24px 80px}
+.bulletin-frame{width:100%;border:none;border-radius:4px;overflow:hidden;display:block;min-height:600px}
+
+/* SUBSCRIBE BAR */
+.subscribe-bar{background:var(--primary);padding:20px 24px;margin-bottom:0}
+.subscribe-bar-inner{max-width:780px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.subscribe-text h3{font-family:var(--font-display);font-size:18px;font-weight:700;color:white;margin-bottom:4px}
+.subscribe-text p{font-size:12px;color:rgba(255,255,255,0.5)}
+.subscribe-form{display:flex;gap:8px}
+.subscribe-input{background:rgba(255,255,255,0.08);border:0.5px solid rgba(255,255,255,0.15);border-radius:2px;padding:10px 16px;font-family:var(--font-body);font-size:13px;color:white;outline:none;width:240px}
+.subscribe-input::placeholder{color:rgba(255,255,255,0.3)}
+.subscribe-btn{background:var(--accent);color:white;border:none;border-radius:2px;padding:10px 18px;font-family:var(--font-label);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;white-space:nowrap}
+
+/* FOOTER */
+.footer{background:var(--primary);color:white;padding:40px 24px 28px;border-top:0.5px solid rgba(255,255,255,0.08)}
+.footer-inner{max-width:1280px;margin:0 auto}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;padding-bottom:32px;border-bottom:0.5px solid rgba(255,255,255,0.08);margin-bottom:20px}
+.footer-logo{font-family:var(--font-display);font-size:18px;font-weight:800;margin-bottom:10px}
+.footer-logo span{color:var(--accent)}
+.footer-desc{font-size:12px;color:rgba(255,255,255,0.4);line-height:1.7;max-width:220px}
+.footer-col h5{font-family:var(--font-label);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:14px}
+.footer-col ul{list-style:none}
+.footer-col ul li{margin-bottom:9px}
+.footer-col ul li a{font-size:13px;color:rgba(255,255,255,0.55);transition:color 0.2s}
+.footer-col ul li a:hover{color:white}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.footer-bottom p{font-family:var(--font-label);font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.2)}
+
+@media(max-width:768px){.nav-links{display:none}.bulletin-wrap{padding:16px 12px 60px}.footer-grid{grid-template-columns:1fr 1fr}.subscribe-form{flex-direction:column}.subscribe-input{width:100%}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">NO<span>CASH</span>FLOW</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="yazilar.html">Articles</a></li>
+      <li><a href="macro.html">Macro</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="bulletin_page.html" class="active">Bulletin</a></li>
+      <li><a href="hakkinda.html">About</a></li>
+    </ul>
+    <a href="bulletin_page.html" class="nav-cta">Subscribe</a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-inner">
+    <div>
+      <span class="page-tag">Daily Financial Bulletin</span>
+      <h1 class="page-title">Today's Market Intelligence</h1>
+    </div>
+    <div class="bulletin-meta">
+      <div class="live-badge">
+        <div class="live-dot"></div>
+        <span id="bulletin-date">Loading...</span>
+      </div>
+      <span class="meta-item">By Orkun Biçen</span>
+      <span class="meta-item">nocashflow.net</span>
+    </div>
+  </div>
+</div>
+
+<!-- SUBSCRIBE BAR -->
+<div class="subscribe-bar">
+  <div class="subscribe-bar-inner">
+    <div class="subscribe-text">
+      <h3>Get it in your inbox every morning.</h3>
+      <p>Daily macro data, crypto signals and market analysis. No spam.</p>
+    </div>
+    <form class="subscribe-form" onsubmit="handleSubscribe(event)">
+      <input class="subscribe-input" type="email" id="sub-email" placeholder="your@email.com"/>
+      <button class="subscribe-btn" type="submit">Subscribe</button>
+    </form>
+  </div>
+</div>
+
+<!-- BULLETIN IFRAME -->
+<div class="bulletin-wrap">
+  <iframe
+    id="bulletin-frame"
+    class="bulletin-frame"
+    src="daily_bulletin.html"
+    scrolling="no"
+    onload="resizeFrame(this)"
+  ></iframe>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">NO<span>CASH</span>FLOW</div>
+        <p class="footer-desc">Macro economics, crypto and market analysis. Every Sunday morning, with data.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Pages</h5>
+        <ul><li><a href="index.html">Home</a></li><li><a href="yazilar.html">Articles</a></li><li><a href="macro.html">Macro</a></li><li><a href="dashboard.html">Dashboard</a></li></ul>
+      </div>
+      <div class="footer-col">
+        <h5>Content</h5>
+        <ul><li><a href="bulletin_page.html">Daily Bulletin</a></li><li><a href="hakkinda.html">About</a></li><li><a href="sozluk.html">Glossary</a></li></ul>
+      </div>
+      <div class="footer-col">
+        <h5>Social</h5>
+        <ul><li><a href="https://twitter.com/No_CashFlow" target="_blank">Twitter / X</a></li><li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank">LinkedIn</a></li><li><a href="mailto:orkun@nocashflow.net">Email</a></li></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 NoCashFlow.net · Orkun Biçen · Barcelona</p>
+      <p>This site does not provide investment advice.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Tarih göster
+const now = new Date();
+document.getElementById('bulletin-date').textContent = now.toLocaleDateString('en-US', {
+  weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
+});
+
+// iframe yüksekliğini içeriğe göre ayarla
+function resizeFrame(frame) {
+  try {
+    const height = frame.contentDocument.documentElement.scrollHeight;
+    frame.style.height = height + 'px';
+  } catch(e) {
+    // Same-origin policy — fallback
+    frame.style.height = '4000px';
+  }
+}
+
+// Periyodik resize (içerik yüklendikten sonra)
+setTimeout(() => {
+  const frame = document.getElementById('bulletin-frame');
+  if(frame) resizeFrame(frame);
+}, 2000);
+
+// Subscribe form
+function handleSubscribe(e) {
+  e.preventDefault();
+  const email = document.getElementById('sub-email').value;
+  if(!email) return;
+  // Basit feedback — backend entegrasyonu sonra eklenecek
+  const btn = e.target.querySelector('button');
+  btn.textContent = '✓ Subscribed!';
+  btn.style.background = '#009e6d';
+  btn.disabled = true;
+  document.getElementById('sub-email').value = '';
+}
+</script>
+</body>
+</html>
