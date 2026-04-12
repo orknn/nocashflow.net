@@ -167,7 +167,23 @@ img{max-width:100%;display:block}
 <!-- NAV -->
 <nav class="nav">
   <div class="nav-inner">
-    <a href="index.html" class="logo">NO<span>CASH</span>FLOW</a>
+    <a href="index.html" class="logo" style="text-decoration:none;display:flex;align-items:center;gap:10px;">
+      <div id="ncf-logo-wrap" style="position:relative;width:46px;height:46px;border-radius:8px;overflow:hidden;background:#020A02;flex-shrink:0;">
+        <canvas id="ncf-rain" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+        <svg id="ncf-svg" style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <path id="ncf-at" d="M 14,50 A 38,38 0 0,1 86,50"/>
+            <path id="ncf-ab" d="M 18,62 A 34,34 0 0,0 82,62"/>
+            <filter id="ncf-tg"><feGaussianBlur in="SourceGraphic" stdDeviation="1.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            <filter id="ncf-dg"><feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <text id="ncf-tt" font-size="9" font-weight="400" fill="#CCFF00" filter="url(#ncf-tg)" letter-spacing="2"><textPath href="#ncf-at" startOffset="50%" text-anchor="middle">NO CASH</textPath></text>
+          <text id="ncf-bt" font-size="9" font-weight="400" fill="#CCFF00" filter="url(#ncf-tg)" letter-spacing="3.5"><textPath href="#ncf-ab" startOffset="50%" text-anchor="middle">FLOW</textPath></text>
+          <text id="ncf-ds" x="51" y="57" text-anchor="middle" dominant-baseline="middle" font-size="40" font-weight="400" fill="#88BB00" opacity="0.2">$</text>
+          <text id="ncf-dm" x="50" y="56" text-anchor="middle" dominant-baseline="middle" font-size="40" font-weight="400" fill="#CCFF00" filter="url(#ncf-dg)">$</text>
+        </svg>
+      </div>
+    </a>
     <ul class="nav-links">
       <li><a href="index.html" class="active">Home</a></li>
       <li><a href="yazilar.html">Articles</a></li>
@@ -638,6 +654,71 @@ async function loadTicker() {
 loadTicker();
 setInterval(loadTicker, 5*60*1000);
 applyLang();
+</script>
+<script>
+(function(){
+  const canvas=document.getElementById('ncf-rain');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  const CHARS='アイウエオカキクケコ0123456789$#ΨΩ∆';
+  const GLITCH='アイウエカキΨΩ∑∆#$%01ノハ';
+  let drops=[],speeds=[],frame=0,gf=0;
+  function init(){
+    const S=46;
+    canvas.width=S*2;canvas.height=S*2;
+    canvas.style.width=S+'px';canvas.style.height=S+'px';
+    ctx.scale(2,2);
+    const n=Math.floor(S/8);
+    drops=Array(n).fill(0).map(()=>Math.random()*-30);
+    speeds=Array(n).fill(0).map(()=>0.3+Math.random()*1.2);
+  }
+  function draw(){
+    frame++;
+    if(frame%2!==0){requestAnimationFrame(draw);return;}
+    ctx.fillStyle='rgba(2,10,2,0.07)';ctx.fillRect(0,0,46,46);
+    ctx.font="7px 'Courier New',monospace";
+    for(let i=0;i<drops.length;i++){
+      const x=(i/drops.length)*46,y=drops[i]*8;
+      if(Math.random()>0.92){ctx.fillStyle='#FFFFFF';ctx.shadowColor='#CCFF00';ctx.shadowBlur=4;}
+      else{ctx.fillStyle='#00CC3355';ctx.shadowBlur=0;}
+      ctx.fillText(CHARS[Math.floor(Math.random()*CHARS.length)],x,y);
+      ctx.shadowBlur=0;
+      if(y>46&&Math.random()>0.97)drops[i]=0;
+      drops[i]+=speeds[i];
+    }
+    requestAnimationFrame(draw);
+  }
+  function runGlitch(){
+    gf++;
+    const p=gf%40<3?0.65:0.08;
+    const g=s=>s.split('').map(c=>c===' '?c:Math.random()<p?GLITCH[Math.floor(Math.random()*GLITCH.length)]:c).join('');
+    const tp=document.querySelector('#ncf-tt textPath');
+    const bp=document.querySelector('#ncf-bt textPath');
+    if(tp)tp.textContent=g('NO CASH');
+    if(bp)bp.textContent=g('FLOW');
+    const te=document.getElementById('ncf-tt');
+    const be=document.getElementById('ncf-bt');
+    if(te)te.setAttribute('opacity',0.88+Math.random()*0.12);
+    if(be)be.setAttribute('opacity',0.88+Math.random()*0.12);
+    const flt=document.querySelector('#ncf-tg feGaussianBlur');
+    if(flt)flt.setAttribute('stdDeviation',(1.2+Math.sin(gf*0.1)*0.6).toFixed(1));
+    const dm=document.getElementById('ncf-dm');
+    if(dm){
+      const sc=1+Math.sin(gf*0.05)*0.012;
+      dm.setAttribute('transform',`scale(${sc.toFixed(3)}) translate(${(50*(1-sc)).toFixed(1)} ${(56*(1-sc)).toFixed(1)})`);
+    }
+  }
+  setInterval(runGlitch,85);
+  const font=new FontFace('Orbitron','url(https://cdn.jsdelivr.net/npm/@fontsource/orbitron@5/files/orbitron-latin-400-normal.woff2)',{weight:'400'});
+  font.load().then(f=>{
+    document.fonts.add(f);
+    ['ncf-tt','ncf-bt','ncf-dm','ncf-ds'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el)el.setAttribute('font-family',"'Orbitron','Courier New',monospace");
+    });
+  }).catch(()=>{});
+  init();draw();
+})();
 </script>
 </body>
 </html>
