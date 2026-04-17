@@ -1,724 +1,323 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>NoCashFlow — Makro & Piyasa Analizi | Orkun Biçen</title>
-<meta name="description" content="Her pazar sabahı makro analiz, kripto ve piyasa verileri. Orkun Biçen tarafından."/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..800;1,6..72,300..800&family=Manrope:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-<style>
-:root {
-  --bg: #faf8ff;
-  --surface: #ffffff;
-  --surface-low: #f2f3ff;
-  --primary: #000e24;
-  --secondary: #505f76;
-  --accent: #f85149;
-  --green: #009e6d;
-  --border: rgba(0,14,36,0.08);
-  --font-display: 'Newsreader', serif;
-  --font-body: 'Manrope', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-  --font-label: 'Inter', sans-serif;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font-body);background:var(--bg);color:var(--primary);line-height:1.6}
-a{text-decoration:none;color:inherit}
-img{max-width:100%;display:block}
-
-/* NAV */
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,248,255,0.9);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--border)}
-.nav-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:60px}
-.logo{font-family:var(--font-display);font-size:19px;font-weight:800;letter-spacing:-0.5px;color:var(--primary)}
-.logo span{color:var(--accent)}
-.nav-links{display:flex;align-items:center;gap:28px;list-style:none}
-.nav-links a{font-family:var(--font-label);font-size:10.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--secondary);transition:color 0.2s}
-.nav-links a:hover,.nav-links a.active{color:var(--accent)}
-.nav-cta{font-family:var(--font-label);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:var(--primary);color:white;padding:8px 16px;border-radius:2px;transition:opacity 0.2s}
-.nav-cta:hover{opacity:0.85}
-
-/* TICKER */
-.ticker{background:var(--surface-low);border-bottom:0.5px solid var(--border);margin-top:60px}
-.ticker-inner{max-width:1280px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;gap:24px;overflow-x:auto;scrollbar-width:none;white-space:nowrap}
-.ticker-inner::-webkit-scrollbar{display:none}
-.live-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
-.live-label{font-family:var(--font-label);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);flex-shrink:0}
-.ticker-div{width:1px;height:14px;background:var(--border);flex-shrink:0}
-.ticker-item{display:flex;align-items:center;gap:6px;flex-shrink:0}
-.ticker-label{font-family:var(--font-label);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--secondary)}
-.ticker-price{font-family:var(--font-display);font-size:13px;font-style:italic;color:var(--primary)}
-.ticker-chg{font-family:var(--font-label);font-size:10px;font-weight:700}
-.up{color:var(--green)}.down{color:var(--accent)}
-
-/* HERO */
-.hero{max-width:1280px;margin:0 auto;padding:64px 24px 48px}
-.hero-tag{font-family:var(--font-label);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:block}
-.hero-title{font-family:var(--font-display);font-size:clamp(28px,3.5vw,48px);font-weight:700;line-height:1.1;letter-spacing:-1px;color:var(--primary);max-width:760px;margin-bottom:24px}
-.hero-title em{font-style:italic;font-weight:400}
-.hero-sub{font-size:16px;color:var(--secondary);max-width:560px;line-height:1.7;margin-bottom:36px}
-.hero-meta{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
-.hero-author{display:flex;align-items:center;gap:10px}
-.author-avatar{width:36px;height:36px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:14px;font-weight:700;color:white;flex-shrink:0}
-.author-name{font-family:var(--font-label);font-size:11px;font-weight:600;color:var(--primary)}
-.author-title{font-family:var(--font-label);font-size:10px;color:var(--secondary)}
-.hero-date{font-family:var(--font-label);font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--secondary);padding-left:20px;border-left:1px solid var(--border)}
-
-/* MAIN GRID */
-.content{max-width:1280px;margin:0 auto;padding:0 24px 80px}
-.main-grid{display:grid;grid-template-columns:1fr 380px;gap:64px}
-
-/* FEATURED ARTICLE */
-.featured-img{aspect-ratio:21/9;background:var(--surface-low);border-radius:4px;overflow:hidden;margin-bottom:28px;position:relative}
-.featured-img img{width:100%;height:100%;object-fit:cover;filter:grayscale(30%);transition:filter 0.5s,transform 0.7s}
-.featured-img:hover img{filter:grayscale(0);transform:scale(1.02)}
-.featured-tag{font-family:var(--font-label);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:12px;display:block}
-.featured-title{font-family:var(--font-display);font-size:32px;font-weight:700;line-height:1.15;letter-spacing:-0.5px;margin-bottom:14px}
-.featured-title a:hover{color:var(--accent)}
-.featured-excerpt{font-size:14px;color:var(--secondary);line-height:1.75;margin-bottom:20px}
-.read-more{font-family:var(--font-label);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--primary);border-bottom:1.5px solid var(--primary);padding-bottom:2px;display:inline-block;transition:color 0.2s,border-color 0.2s}
-.read-more:hover{color:var(--accent);border-color:var(--accent)}
-
-/* SECTION DIVIDER */
-.section-div{display:flex;align-items:center;gap:12px;margin:48px 0 32px}
-.section-div h3{font-family:var(--font-label);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--secondary);white-space:nowrap}
-.section-div-line{flex:1;height:1px;background:var(--border)}
-
-/* BENTO GRID */
-.bento{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:48px}
-.bento-card{background:var(--surface-low);border-radius:4px;padding:24px;transition:background 0.2s}
-.bento-card:hover{background:#e8eaff}
-.bento-tag{font-family:var(--font-label);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px;display:block}
-.bento-title{font-family:var(--font-display);font-size:20px;font-weight:700;line-height:1.25;margin-bottom:10px}
-.bento-title a:hover{color:var(--accent)}
-.bento-excerpt{font-size:12px;color:var(--secondary);line-height:1.65}
-.bento-arrow{display:flex;align-items:center;gap:6px;margin-top:16px;font-family:var(--font-label);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--primary)}
-.bento-arrow::after{content:'→'}
-
-/* SIDEBAR */
-.sidebar{position:sticky;top:76px;height:fit-content}
-.ledger-card{background:var(--surface-low);border-radius:4px;border-left:3px solid var(--primary);padding:24px;margin-bottom:24px}
-.ledger-title{font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:-0.3px;margin-bottom:4px}
-.ledger-subtitle{font-family:var(--font-label);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--secondary);margin-bottom:24px;padding-bottom:16px;border-bottom:0.5px solid var(--border)}
-.ledger-item{padding:16px 0;border-bottom:0.5px solid var(--border)}
-.ledger-item:last-child{border-bottom:none}
-.ledger-time{font-family:var(--font-label);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--secondary);margin-bottom:6px}
-.ledger-item-title{font-family:var(--font-display);font-size:15px;font-weight:700;line-height:1.3;margin-bottom:6px}
-.ledger-item-title a:hover{color:var(--accent)}
-.ledger-item-desc{font-size:11px;color:var(--secondary);line-height:1.6}
-
-/* SENTIMENT CARD */
-.sentiment-card{background:var(--primary);color:white;border-radius:4px;padding:24px;margin-bottom:24px}
-.sentiment-label{font-family:var(--font-label);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:12px}
-.sentiment-value{font-family:var(--font-display);font-size:56px;font-weight:700;line-height:1;margin-bottom:4px}
-.sentiment-status{font-family:var(--font-label);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:16px}
-.sentiment-quote{font-size:12px;color:rgba(255,255,255,0.6);line-height:1.65;font-style:italic}
-
-/* SUNDAY SERIES */
-.sunday-section{background:var(--surface-low);padding:64px 0;margin:0 0 0}
-.sunday-inner{max-width:1280px;margin:0 auto;padding:0 24px}
-.sunday-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:40px;flex-wrap:wrap;gap:16px}
-.sunday-header h2{font-family:var(--font-display);font-size:36px;font-weight:700;letter-spacing:-0.5px}
-.sunday-header a{font-family:var(--font-label);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--secondary);border-bottom:1px solid var(--border);padding-bottom:2px;transition:color 0.2s}
-.sunday-header a:hover{color:var(--accent)}
-.sunday-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.sunday-card{background:var(--surface);border-radius:4px;border:0.5px solid var(--border);padding:20px;transition:box-shadow 0.2s,border-color 0.2s}
-.sunday-card:hover{box-shadow:0 4px 24px rgba(0,14,36,0.08);border-color:rgba(0,14,36,0.15)}
-.sunday-num{font-family:var(--font-mono);font-size:11px;color:var(--accent);font-weight:500;margin-bottom:10px}
-.sunday-card-title{font-family:var(--font-display);font-size:17px;font-weight:700;line-height:1.3;margin-bottom:10px}
-.sunday-card-title a:hover{color:var(--accent)}
-.sunday-card-excerpt{font-size:12px;color:var(--secondary);line-height:1.65;margin-bottom:16px}
-.sunday-card-tag{font-family:var(--font-label);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--secondary)}
-
-/* NEWSLETTER CTA */
-.newsletter-cta{background:var(--primary);padding:80px 24px;text-align:center}
-.newsletter-cta-inner{max-width:600px;margin:0 auto}
-.newsletter-cta h3{font-family:var(--font-display);font-size:36px;font-weight:700;font-style:italic;color:white;margin-bottom:14px;letter-spacing:-0.5px}
-.newsletter-cta p{font-size:14px;color:rgba(255,255,255,0.55);margin-bottom:32px;line-height:1.7}
-.newsletter-form{display:flex;gap:8px;max-width:420px;margin:0 auto}
-.newsletter-input{flex:1;background:rgba(255,255,255,0.08);border:0.5px solid rgba(255,255,255,0.15);border-radius:2px;padding:12px 16px;font-family:var(--font-body);font-size:13px;color:white;outline:none;transition:border-color 0.2s}
-.newsletter-input::placeholder{color:rgba(255,255,255,0.3)}
-.newsletter-input:focus{border-color:rgba(255,255,255,0.4)}
-.newsletter-btn{background:var(--accent);color:white;border:none;border-radius:2px;padding:12px 20px;font-family:var(--font-label);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:opacity 0.2s;white-space:nowrap}
-.newsletter-btn:hover{opacity:0.88}
-
-/* FOOTER */
-.footer{background:var(--primary);color:white;padding:56px 24px 32px}
-.footer-inner{max-width:1280px;margin:0 auto}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;padding-bottom:40px;border-bottom:0.5px solid rgba(255,255,255,0.08);margin-bottom:28px}
-.footer-logo{font-family:var(--font-display);font-size:20px;font-weight:800;margin-bottom:12px}
-.footer-logo span{color:var(--accent)}
-.footer-desc{font-size:12px;color:rgba(255,255,255,0.4);line-height:1.75;max-width:240px}
-.footer-col h5{font-family:var(--font-label);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:16px}
-.footer-col ul{list-style:none}
-.footer-col ul li{margin-bottom:10px}
-.footer-col ul li a{font-size:13px;color:rgba(255,255,255,0.55);transition:color 0.2s}
-.footer-col ul li a:hover{color:white}
-.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
-.footer-bottom p{font-family:var(--font-label);font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.2)}
-
-@media(max-width:1024px){.main-grid{grid-template-columns:1fr}.sidebar{position:static}.sunday-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:640px){.nav-links{display:none}.bento{grid-template-columns:1fr}.sunday-grid{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr 1fr}.newsletter-form{flex-direction:column}}
-</style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NoCashFlow — Macro, Markets & the Signal in the Noise</title>
+<meta name="description" content="Sunday morning macro analysis, daily market bulletin, and the data institutional investors actually watch. By Orkun Biçen, from Barcelona." />
+<meta property="og:title" content="NoCashFlow — Macro, Markets & the Signal in the Noise" />
+<meta property="og:description" content="Sunday morning macro analysis, daily market bulletin, and the data institutional investors actually watch. By Orkun Biçen, from Barcelona." />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="NoCashFlow" />
+<meta property="og:image" content="https://nocashflow.net/assets/og.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@No_CashFlow" />
+<meta name="theme-color" content="#0b0b0d" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/site.css" />
 </head>
 <body>
+<div class="ticker" data-ticker-live>
+  <div class="ticker-label"><span class="dot"></span> LIVE</div>
+  <div class="ticker-track">
+    <div class="tick" data-sym="BTC"><span class="sym">BTC</span><span class="px">$67,420</span><span class="chg dn">-1.82%</span></div>
+    <div class="tick" data-sym="ETH"><span class="sym">ETH</span><span class="px">$3,284</span><span class="chg dn">-2.41%</span></div>
+    <div class="tick"><span class="sym">GOLD</span><span class="px">$2,614</span><span class="chg up">+0.74%</span></div>
+    <div class="tick"><span class="sym">BRENT</span><span class="px">$106.12</span><span class="chg up">+3.12%</span></div>
+    <div class="tick"><span class="sym">DXY</span><span class="px">104.28</span><span class="chg up">+0.46%</span></div>
+    <div class="tick"><span class="sym">US10Y</span><span class="px">4.38%</span><span class="chg up">+4bp</span></div>
+    <div class="tick"><span class="sym">VIX</span><span class="px">26.8</span><span class="chg up">+2.1%</span></div>
+    <div class="tick"><span class="sym">F&amp;G</span><span class="px">18</span><span class="chg dn">EXTREME FEAR</span></div>
+    <div class="tick"><span class="sym">COPPER</span><span class="px">$4.28</span><span class="chg up">+0.38%</span></div>
+    <div class="tick"><span class="sym">SPX</span><span class="px">5,684</span><span class="chg dn">-0.62%</span></div>
+    <div class="tick"><span class="sym">EUR/USD</span><span class="px">1.0684</span><span class="chg dn">-0.21%</span></div>
+    <div class="tick"><span class="sym">USD/TRY</span><span class="px">34.82</span><span class="chg up">+0.11%</span></div>
+    <div class="tick" data-sym="BTC"><span class="sym">BTC</span><span class="px">$67,420</span><span class="chg dn">-1.82%</span></div>
+    <div class="tick" data-sym="ETH"><span class="sym">ETH</span><span class="px">$3,284</span><span class="chg dn">-2.41%</span></div>
+    <div class="tick"><span class="sym">GOLD</span><span class="px">$2,614</span><span class="chg up">+0.74%</span></div>
+    <div class="tick"><span class="sym">BRENT</span><span class="px">$106.12</span><span class="chg up">+3.12%</span></div>
+    <div class="tick"><span class="sym">DXY</span><span class="px">104.28</span><span class="chg up">+0.46%</span></div>
+    <div class="tick"><span class="sym">US10Y</span><span class="px">4.38%</span><span class="chg up">+4bp</span></div>
+    <div class="tick"><span class="sym">VIX</span><span class="px">26.8</span><span class="chg up">+2.1%</span></div>
+    <div class="tick"><span class="sym">F&amp;G</span><span class="px">18</span><span class="chg dn">EXTREME FEAR</span></div>
+    <div class="tick"><span class="sym">COPPER</span><span class="px">$4.28</span><span class="chg up">+0.38%</span></div>
+    <div class="tick"><span class="sym">SPX</span><span class="px">5,684</span><span class="chg dn">-0.62%</span></div>
+    <div class="tick"><span class="sym">EUR/USD</span><span class="px">1.0684</span><span class="chg dn">-0.21%</span></div>
+    <div class="tick"><span class="sym">USD/TRY</span><span class="px">34.82</span><span class="chg up">+0.11%</span></div>
+  </div>
+</div>
 
-<!-- NAV -->
 <nav class="nav">
   <div class="nav-inner">
-    <a href="index.html" class="logo" style="text-decoration:none;display:flex;align-items:center;gap:10px;">
-      <div id="ncf-logo-wrap" style="position:relative;width:46px;height:46px;border-radius:8px;overflow:hidden;background:#020A02;flex-shrink:0;">
-        <canvas id="ncf-rain" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
-        <svg id="ncf-svg" style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <path id="ncf-at" d="M 14,50 A 38,38 0 0,1 86,50"/>
-            <path id="ncf-ab" d="M 18,62 A 34,34 0 0,0 82,62"/>
-            <filter id="ncf-tg"><feGaussianBlur in="SourceGraphic" stdDeviation="1.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            <filter id="ncf-dg"><feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-          </defs>
-          <text id="ncf-tt" font-size="9" font-weight="400" fill="#CCFF00" filter="url(#ncf-tg)" letter-spacing="2"><textPath href="#ncf-at" startOffset="50%" text-anchor="middle">NO CASH</textPath></text>
-          <text id="ncf-bt" font-size="9" font-weight="400" fill="#CCFF00" filter="url(#ncf-tg)" letter-spacing="3.5"><textPath href="#ncf-ab" startOffset="50%" text-anchor="middle">FLOW</textPath></text>
-          <text id="ncf-ds" x="51" y="57" text-anchor="middle" dominant-baseline="middle" font-size="40" font-weight="400" fill="#88BB00" opacity="0.2">$</text>
-          <text id="ncf-dm" x="50" y="56" text-anchor="middle" dominant-baseline="middle" font-size="40" font-weight="400" fill="#CCFF00" filter="url(#ncf-dg)">$</text>
-        </svg>
-      </div>
-    </a>
-    <ul class="nav-links">
-      <li><a href="index.html" class="active">Home</a></li>
-      <li><a href="yazilar.html">Articles</a></li>
-      <li><a href="macro.html">Macro</a></li>
-      <li><a href="dashboard.html">Dashboard</a></li>
-      <li><a href="bulletin_page.html">Bülten</a></li>
-      <li><a href="hakkinda.html">About</a></li>
-    </ul>
-    <div style="display:flex;align-items:center;gap:10px">
-      <button id="lang-toggle" onclick="toggleLang()" style="font-family:var(--font-label);font-size:10px;font-weight:700;letter-spacing:1px;background:transparent;border:0.5px solid var(--border);color:var(--secondary);padding:6px 12px;border-radius:2px;cursor:pointer;transition:all 0.2s">TR</button>
-      <a href="bulletin_page.html" class="nav-cta">Subscribe to Bulletin</a>
+    <a href="index.html" class="logo">NO<span class="slash">/</span>CASHFLOW<span class="tag">MACRO &times; MARKETS</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="yazilar.html">Sunday</a>
+      <a href="bulletin.html">Bulletin</a>
+      <a href="macro.html">Macro</a>
+      <a href="crypto.html">Crypto</a>
+      <a href="dashboard.html">Dashboard</a>
+    </div>
+    <div class="nav-right">
+      <button class="nav-btn menu-toggle" aria-label="Menu">&#9776;</button>
+      <button class="nav-btn" aria-label="Language" onclick="alert('TR version coming')">TR</button>
+      <a href="#newsletter" class="subscribe">Subscribe</a>
     </div>
   </div>
 </nav>
 
-<!-- TICKER -->
-<div class="ticker">
-  <div class="ticker-inner" id="ticker-bar">
-    <div class="live-dot"></div>
-    <span class="live-label">Canlı</span>
-    <div class="ticker-div"></div>
-    <div class="ticker-item"><span class="ticker-label">BTC</span><span class="ticker-price" id="tk-btc">—</span><span class="ticker-chg" id="tk-btc-chg">—</span></div>
-    <div class="ticker-div"></div>
-    <div class="ticker-item"><span class="ticker-label">ETH</span><span class="ticker-price" id="tk-eth">—</span><span class="ticker-chg" id="tk-eth-chg">—</span></div>
-    <div class="ticker-div"></div>
-    <div class="ticker-item"><span class="ticker-label">Gold</span><span class="ticker-price" id="tk-gold">—</span><span class="ticker-chg" id="tk-gold-chg">—</span></div>
-    <div class="ticker-div"></div>
-    <div class="ticker-item"><span class="ticker-label">Brent</span><span class="ticker-price" id="tk-brent">—</span><span class="ticker-chg" id="tk-brent-chg">—</span></div>
-    <div class="ticker-div"></div>
-    <div class="ticker-item"><span class="ticker-label">DXY</span><span class="ticker-price" id="tk-dxy">—</span><span class="ticker-chg" id="tk-dxy-chg">—</span></div>
-    <div class="ticker-div"></div>
-    <div class="ticker-item"><span class="ticker-label">F&G</span><span class="ticker-price" id="tk-fg">—</span><span class="ticker-chg" id="tk-fg-cls">—</span></div>
+<section class="container" style="padding:56px var(--pad) 40px;">
+  <div class="page-eyebrow">
+    <span>ISSUE &#8470;47</span>
+    <span class="divider"></span>
+    <span>Sunday, April 14, 2026</span>
+    <span class="divider"></span>
+    <span class="muted">Week 16 &middot; Barcelona</span>
   </div>
-</div>
-
-<!-- HERO -->
-<section class="hero">
-  <span class="hero-tag" id="hero-tag-el">Sunday Morning Series</span>
-  <h1 class="hero-title">I spend Sunday mornings <em>with macro data.</em> Now I share it with you.</h1>
-  <p class="hero-sub">Oil shocks, smart money, nuclear energy, Fed policy — every Sunday, data-driven analysis.</p>
-  <div class="hero-meta">
-    <div class="hero-author">
-      <div class="author-avatar">OB</div>
-      <div>
-        <div class="author-name">Orkun Biçen</div>
-        <div class="author-title">Zone EUR MCS Controller · Nestlé Barcelona</div>
+  <div style="display:grid;grid-template-columns:1fr 380px;gap:56px;align-items:start;">
+    <div>
+      <div class="page-eyebrow"><span class="tag filled">LEAD STORY</span><span>Smart Money &middot; Sunday Series #4</span><span class="muted">7 MIN READ</span></div>
+      <h1 style="font-family:var(--serif);font-weight:350;font-size:clamp(42px,6vw,88px);line-height:0.96;letter-spacing:-0.025em;margin-bottom:28px;">Smart money didn&#8217;t <em style="font-style:italic;color:var(--amber);">lead</em>.<br/>It <em style="font-style:italic;color:var(--amber);">retreated</em>.</h1>
+      <p style="font-family:var(--serif);font-weight:300;font-size:22px;line-height:1.4;color:var(--text-dim);max-width:720px;margin-bottom:36px;font-style:italic;">JPMorgan called Q1 2026 the year institutions would dominate crypto flows. The data tells a different story: Iran war, VIX at 26, Fear &amp; Greed at 12. The Coinbase Premium Index shows exactly where the real money went &mdash; and it wasn&#8217;t in.</p>
+      <div style="display:flex;align-items:center;gap:16px;padding:18px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:28px;">
+        <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--amber) 0%,#b87f1f 100%);display:grid;place-items:center;color:#0b0b0d;font-weight:700;font-family:var(--mono);font-size:14px;">OB</div>
+        <div style="flex:1;">
+          <div style="font-size:13px;color:var(--text);font-weight:500;">Orkun Bi&ccedil;en</div>
+          <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.1em;color:var(--text-mute);text-transform:uppercase;margin-top:2px;">Zone EUR MCS Controller &middot; Nestl&eacute; Barcelona</div>
+        </div>
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-mute);">APR 14 &middot; 2,847 reads</div>
       </div>
+      <a href="yazilar.html#smart-money" class="btn">Read the full analysis <span class="arrow">&rarr;</span></a>
     </div>
-    <div class="hero-date">Apr 6, 2026</div>
-  </div>
-</section>
-
-<!-- MAIN CONTENT -->
-<div class="content">
-  <div class="main-grid">
-
-    <!-- LEFT: Articles -->
-    <main>
-      <!-- Featured Article -->
-      <article>
-        <div class="featured-img">
-          <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&q=80" alt="Smart Money"/>
-        </div>
-        <span class="featured-tag">Smart Money · #4</span>
-        <h2 class="featured-title"><a href="yazilar.html#smart-money">Smart Money Nedir ve Nereye Gidiyor?</a></h2>
-        <p class="featured-excerpt">JPMorgan Ocak'ta kurumsal yatırımcıların 2026'da kripto akışlarını domine edeceğini söyledi. Ama Q1 rakamları tam tersi çıktı. İran savaşı, VIX 26, Fear & Greed 12 — smart money retreat etti. Coinbase Premium Index bunu tam olarak gösteriyor.</p>
-        <a href="yazilar.html#smart-money" class="read-more">Devamını Oku</a>
-      </article>
-
-      <!-- Section Divider -->
-      <div class="section-div">
-        <h3>Previous Articles</h3>
-        <div class="section-div-line"></div>
+    <aside class="card" style="position:sticky;top:80px;">
+      <div style="aspect-ratio:4/5;background:radial-gradient(ellipse at 30% 20%,rgba(245,165,36,0.18) 0%,transparent 55%),radial-gradient(ellipse at 80% 80%,rgba(239,68,68,0.10) 0%,transparent 55%),linear-gradient(180deg,#1a1a1f 0%,#0d0d10 100%);border-bottom:1px solid var(--border);overflow:hidden;">
+        <svg viewBox="0 0 400 500" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+          <defs><linearGradient id="fr" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#ef4444" stop-opacity="0"/><stop offset="1" stop-color="#ef4444" stop-opacity="0.28"/></linearGradient></defs>
+          <g stroke="#26262b" stroke-width="0.5" opacity="0.7"><line x1="0" y1="100" x2="400" y2="100"/><line x1="0" y1="200" x2="400" y2="200"/><line x1="0" y1="300" x2="400" y2="300"/><line x1="0" y1="400" x2="400" y2="400"/></g>
+          <path d="M0,150 L30,130 L60,160 L90,140 L120,200 L150,180 L180,240 L210,220 L240,280 L270,260 L300,320 L330,300 L360,360 L400,340 L400,500 L0,500 Z" fill="url(#fr)"/>
+          <g>
+            <rect x="16" y="120" width="10" height="20" fill="#22c55e"/><line x1="21" y1="105" x2="21" y2="150" stroke="#22c55e"/>
+            <rect x="46" y="135" width="10" height="18" fill="#22c55e"/><line x1="51" y1="120" x2="51" y2="160" stroke="#22c55e"/>
+            <rect x="76" y="145" width="10" height="16" fill="#ef4444"/><line x1="81" y1="130" x2="81" y2="170" stroke="#ef4444"/>
+            <rect x="106" y="158" width="10" height="30" fill="#ef4444"/><line x1="111" y1="145" x2="111" y2="200" stroke="#ef4444"/>
+            <rect x="136" y="175" width="10" height="22" fill="#ef4444"/><line x1="141" y1="160" x2="141" y2="210" stroke="#ef4444"/>
+            <rect x="166" y="190" width="10" height="18" fill="#22c55e"/><line x1="171" y1="178" x2="171" y2="220" stroke="#22c55e"/>
+            <rect x="196" y="210" width="10" height="30" fill="#ef4444"/><line x1="201" y1="195" x2="201" y2="250" stroke="#ef4444"/>
+            <rect x="226" y="235" width="10" height="22" fill="#ef4444"/><line x1="231" y1="220" x2="231" y2="270" stroke="#ef4444"/>
+            <rect x="256" y="255" width="10" height="32" fill="#ef4444"/><line x1="261" y1="240" x2="261" y2="295" stroke="#ef4444"/>
+            <rect x="286" y="280" width="10" height="24" fill="#ef4444"/><line x1="291" y1="265" x2="291" y2="315" stroke="#ef4444"/>
+            <rect x="316" y="300" width="10" height="38" fill="#ef4444"/><line x1="321" y1="285" x2="321" y2="350" stroke="#ef4444"/>
+            <rect x="346" y="325" width="10" height="26" fill="#ef4444"/><line x1="351" y1="310" x2="351" y2="365" stroke="#ef4444"/>
+            <rect x="376" y="345" width="10" height="28" fill="#f5a524"/><line x1="381" y1="330" x2="381" y2="385" stroke="#f5a524"/>
+          </g>
+          <circle cx="381" cy="359" r="4" fill="#f5a524"/><circle cx="381" cy="359" r="8" fill="#f5a524" opacity="0.3"/>
+        </svg>
       </div>
-
-      <!-- Bento -->
-      <div class="bento">
-        <div class="bento-card">
-          <span class="bento-tag">Energy · #3</span>
-          <h3 class="bento-title"><a href="yazilar.html#nukleer">AI Needs Electricity — The Answer is Nuclear</a></h3>
-          <p class="bento-excerpt">IEA: Data centers will consume 945 TWh by 2030 — equal to Japan's entire annual electricity use. Microsoft $16B, Amazon $20B+, Google 500MW... This is not an energy story, it's a capital allocation story.</p>
-          <div class="bento-arrow"><a href="yazilar.html#nukleer">Oku</a></div>
-        </div>
-        <div class="bento-card">
-          <span class="bento-tag">Commodities · #2</span>
-          <h3 class="bento-title"><a href="yazilar.html#bakir">Dr. Copper — Wrong Diagnosis?</a></h3>
-          <p class="bento-excerpt">Copper has historically been the economy's thermometer. But now AI data centers, EVs and renewable energy all demand it simultaneously. S&P Global projects a 10M tonne deficit by 2040.</p>
-          <div class="bento-arrow"><a href="yazilar.html#bakir">Oku</a></div>
-        </div>
-        <div class="bento-card">
-          <span class="bento-tag">Macro · #1</span>
-          <h3 class="bento-title"><a href="yazilar.html#petrol">Why the 1970s Comparison is Misleading</a></h3>
-          <p class="bento-excerpt">Brent up 40%, Hormuz closed. Everyone is drawing 1970s analogies. But in 1973 it took 1 barrel per $1,000 GDP. Today: 0.43. PPI came in double expectations. Powell said "we don't know" 17 times.</p>
-          <div class="bento-arrow"><a href="yazilar.html#petrol">Oku</a></div>
-        </div>
-        <div class="bento-card">
-          <span class="bento-tag">Fed · Coming Soon</span>
-          <h3 class="bento-title"><a href="yazilar.html#powell">"Too Late Powell" — or Was He Actually Right?</a></h3>
-          <p class="bento-excerpt">Trump called him "Too Late Powell." But by not cutting rates, he may have protected the economy from shocks. Coming after March CPI — all scenarios on the table.</p>
-          <div class="bento-arrow"><a href="yazilar.html#powell">Yakında →</a></div>
-        </div>
+      <div style="padding:14px 18px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;"><span style="color:var(--text-mute);">COINBASE PREMIUM &middot; 8H</span><span style="color:var(--amber);">&darr; BEARISH</span></div>
+      <div style="padding:18px;display:grid;grid-template-columns:1fr 1fr;gap:16px 20px;border-top:1px solid var(--border);">
+        <div><div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-mute);margin-bottom:4px;">Premium</div><div style="font-family:var(--mono);font-size:18px;font-weight:500;color:var(--red);">&minus;0.18</div></div>
+        <div><div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-mute);margin-bottom:4px;">30D &Delta;</div><div style="font-family:var(--mono);font-size:18px;font-weight:500;color:var(--red);">&minus;142%</div></div>
+        <div><div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-mute);margin-bottom:4px;">JPM Est.</div><div style="font-family:var(--mono);font-size:18px;font-weight:500;">$33B</div></div>
+        <div><div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-mute);margin-bottom:4px;">Q1 Actual</div><div style="font-family:var(--mono);font-size:18px;font-weight:500;color:var(--red);">$11B</div></div>
       </div>
-
-      <!-- Section Divider 2 -->
-      <div class="section-div">
-        <h3>Coming Next</h3>
-        <div class="section-div-line"></div>
-      </div>
-
-      <div class="bento">
-        <div class="bento-card" style="opacity:0.65">
-          <span class="bento-tag">Blockchain · In Progress</span>
-          <h3 class="bento-title">Smart Contracts & Renewable Energy</h3>
-          <p class="bento-excerpt">Peer-to-peer energy trading for Europe's energy independence. Can blockchain connect producers and consumers directly?</p>
-          <div class="bento-arrow" style="color:var(--secondary)">Hazırlanıyor</div>
-        </div>
-        <div class="bento-card" style="opacity:0.65">
-          <span class="bento-tag">Crypto · In Progress</span>
-          <h3 class="bento-title">Bitcoin vs Gold — Asymmetry Analysis</h3>
-          <p class="bento-excerpt">Gold has millennia of trust, Bitcoin is a technology layer. Why are the risk/return profiles of these two assets so different?</p>
-          <div class="bento-arrow" style="color:var(--secondary)">Hazırlanıyor</div>
-        </div>
-      </div>
-    </main>
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar" style="padding-top:0">
-
-      <!-- Latest Briefs -->
-      <div class="ledger-card">
-        <div class="ledger-title">Market Brief</div>
-        <div class="ledger-subtitle">Latest Updates</div>
-        <div class="ledger-item">
-          <div class="ledger-time">This Week</div>
-          <div class="ledger-item-title"><a href="#">JPMorgan: Q1 crypto flows $11B — one-third of expectations</a></div>
-          <p class="ledger-item-desc">Institutional flows turned negative. Smart money retreated.</p>
-        </div>
-        <div class="ledger-item">
-          <div class="ledger-time">Mar 18, 2026</div>
-          <div class="ledger-item-title"><a href="#">Powell "we just don't know" — 17 times</a></div>
-          <p class="ledger-item-desc">Fed held at 3.5-3.75%. Dot plot shows 1 cut in 2026.</p>
-        </div>
-        <div class="ledger-item">
-          <div class="ledger-time">Mar 18, 2026</div>
-          <div class="ledger-item-title"><a href="#">Feb PPI: 0.7% — exactly double expectations</a></div>
-          <p class="ledger-item-desc">Pre-war data. March reading will be much hotter.</p>
-        </div>
-        <div class="ledger-item">
-          <div class="ledger-time">Ongoing</div>
-          <div class="ledger-item-title"><a href="#">Brent crude $106 — up 40%+ since Iran war</a></div>
-          <p class="ledger-item-desc">Strait of Hormuz effectively closed. IEA announced largest-ever SPR release.</p>
-        </div>
-      </div>
-
-      <!-- Fear & Greed Gauge -->
-      <div class="sentiment-card">
-        <div class="sentiment-label">Crypto Fear & Greed</div>
-        <div style="display:flex;align-items:flex-end;gap:10px;margin-bottom:8px">
-          <div class="sentiment-value" id="fg-value">—</div>
-          <div class="sentiment-status" id="fg-status" style="margin-bottom:6px">—</div>
-        </div>
-        <div style="background:rgba(255,255,255,0.1);border-radius:2px;height:4px;margin-bottom:12px;overflow:hidden">
-          <div id="fg-bar" style="height:100%;border-radius:2px;background:var(--accent);width:12%;transition:width 0.8s ease"></div>
-        </div>
-        <p class="sentiment-quote" id="fg-quote">"Extreme Fear — institutional flows turned negative, retail is selling."</p>
-      </div>
-
-      <!-- Kritik Makro Veriler -->
-      <div class="ledger-card" style="border-left-color:var(--accent)">
-        <div class="ledger-title" style="font-size:15px">Key Data</div>
-        <div class="ledger-subtitle">Last Releases</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px">
-          <div style="background:var(--bg);border-radius:4px;padding:10px 12px">
-            <div style="font-family:var(--font-label);font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--secondary);margin-bottom:4px">Fed Rate</div>
-            <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--primary)">3.75%</div>
-            <div style="font-family:var(--font-mono);font-size:10px;color:var(--secondary)">Mar 18 · Hold</div>
-          </div>
-          <div style="background:var(--bg);border-radius:4px;padding:10px 12px">
-            <div style="font-family:var(--font-label);font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--secondary);margin-bottom:4px">CPI (Feb)</div>
-            <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--primary)">2.4%</div>
-            <div style="font-family:var(--font-mono);font-size:10px;color:var(--secondary)">YoY · Pre-war</div>
-          </div>
-          <div style="background:var(--bg);border-radius:4px;padding:10px 12px">
-            <div style="font-family:var(--font-label);font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--secondary);margin-bottom:4px">PPI (Feb)</div>
-            <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--accent)">3.4%</div>
-            <div style="font-family:var(--font-mono);font-size:10px;color:var(--accent)">2× expectations</div>
-          </div>
-          <div style="background:var(--bg);border-radius:4px;padding:10px 12px">
-            <div style="font-family:var(--font-label);font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--secondary);margin-bottom:4px">VIX</div>
-            <div style="font-family:var(--font-display);font-size:20px;font-weight:700" id="sidebar-vix">26.8</div>
-            <div style="font-family:var(--font-mono);font-size:10px;color:var(--accent)">Elevated fear</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Haftalık Takvim -->
-      <div class="ledger-card">
-        <div class="ledger-title" style="font-size:15px">This Week</div>
-        <div class="ledger-subtitle">Economic Calendar</div>
-        <div style="display:flex;flex-direction:column;gap:0">
-          <div style="display:flex;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);align-items:flex-start">
-            <div style="flex-shrink:0;text-align:center;min-width:36px">
-              <div style="font-family:var(--font-mono);font-size:9px;color:var(--secondary)">TUE</div>
-              <div style="font-family:var(--font-mono);font-size:16px;font-weight:600;color:var(--primary)">07</div>
-            </div>
-            <div>
-              <div style="font-family:var(--font-label);font-size:10px;font-weight:700;color:var(--primary);margin-bottom:2px">Flash PMI (Mar) 🔴</div>
-              <div style="font-size:11px;color:var(--secondary)">First war-era reading. Manufacturing & Services.</div>
-            </div>
-          </div>
-          <div style="display:flex;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);align-items:flex-start">
-            <div style="flex-shrink:0;text-align:center;min-width:36px">
-              <div style="font-family:var(--font-mono);font-size:9px;color:var(--secondary)">THU</div>
-              <div style="font-family:var(--font-mono);font-size:16px;font-weight:600;color:var(--primary)">09</div>
-            </div>
-            <div>
-              <div style="font-family:var(--font-label);font-size:10px;font-weight:700;color:var(--primary);margin-bottom:2px">Jobless Claims + ECB Lagarde</div>
-              <div style="font-size:11px;color:var(--secondary)">Weekly labor + ECB rate path signals.</div>
-            </div>
-          </div>
-          <div style="display:flex;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);align-items:flex-start">
-            <div style="flex-shrink:0;text-align:center;min-width:36px">
-              <div style="font-family:var(--font-mono);font-size:9px;color:var(--secondary)">FRI</div>
-              <div style="font-family:var(--font-mono);font-size:16px;font-weight:600;color:var(--primary)">11</div>
-            </div>
-            <div>
-              <div style="font-family:var(--font-label);font-size:10px;font-weight:700;color:var(--primary);margin-bottom:2px">Eurozone HICP</div>
-              <div style="font-size:11px;color:var(--secondary)">European inflation. War impact starting to show.</div>
-            </div>
-          </div>
-          <div style="display:flex;gap:12px;padding:10px 0;align-items:flex-start">
-            <div style="flex-shrink:0;text-align:center;min-width:36px">
-              <div style="font-family:var(--font-mono);font-size:9px;color:var(--accent)">MON</div>
-              <div style="font-family:var(--font-mono);font-size:16px;font-weight:600;color:var(--accent)">14</div>
-            </div>
-            <div>
-              <div style="font-family:var(--font-label);font-size:10px;font-weight:700;color:var(--accent);margin-bottom:2px">⭐ US CPI + PPI (Mar)</div>
-              <div style="font-size:11px;color:var(--secondary)">Most critical. First full oil shock data.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </aside>
   </div>
-</div>
+</section>
 
-<!-- SUNDAY SERIES -->
-<section class="sunday-section">
-  <div class="sunday-inner">
-    <div class="sunday-header">
-      <div>
-        <span style="font-family:var(--font-label);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:10px">Every Sunday</span>
-        <h2>Sunday Morning Series</h2>
-      </div>
-      <a href="yazilar.html">All Articles →</a>
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title"><span class="num">&sect; 01</span> Market Pulse</h2>
+    <div class="section-meta"><span class="live">&#9679; LIVE</span> &middot; UPDATED 14:32 CET</div>
+  </div>
+  <div class="stat-grid" style="grid-template-columns:repeat(5,1fr);">
+    <div class="stat">
+      <div class="stat-k">Crypto Fear &amp; Greed</div>
+      <div><div class="stat-v" style="color:var(--red);">18</div><div class="stat-chg dn">EXTREME FEAR</div></div>
+      <svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line dn" points="0,6 20,10 40,14 60,18 80,22 100,25"/></svg>
     </div>
-    <div class="sunday-grid">
-      <div class="sunday-card">
-        <div class="sunday-num">#01</div>
-        <h4 class="sunday-card-title"><a href="yazilar.html#petrol">Why the 1970s Comparison is Misleading</a></h4>
-        <p class="sunday-card-excerpt">Petrol şoku, enflasyon sarmalı ve Powell'ın köşeye sıkışması. PPI beklentinin iki katı geldi.</p>
-        <span class="sunday-card-tag">Makro · Mar 23, 2026</span>
-      </div>
-      <div class="sunday-card">
-        <div class="sunday-num">#02</div>
-        <h4 class="sunday-card-title"><a href="yazilar.html#bakir">Dr. Copper — Yanlış Teşhis mi?</a></h4>
-        <p class="sunday-card-excerpt">Bloomberg: 2026'da bakır 22 yılın en büyük arz açığına giriyor. AI ve EV talebi yapısal dönüşüm yaratıyor.</p>
-        <span class="sunday-card-tag">Emtia · Mar 30, 2026</span>
-      </div>
-      <div class="sunday-card">
-        <div class="sunday-num">#03</div>
-        <h4 class="sunday-card-title"><a href="yazilar.html#nukleer">AI Elektrik İstiyor — Cevap Nükleerde</a></h4>
-        <p class="sunday-card-excerpt">Microsoft, Google, Amazon, Meta nükleer santrallere milyarlarca dolar yatırıyor. Bu bir enerji haberi değil.</p>
-        <span class="sunday-card-tag">Enerji · Apr 6, 2026</span>
-      </div>
-      <div class="sunday-card">
-        <div class="sunday-num">#04</div>
-        <h4 class="sunday-card-title"><a href="yazilar.html#smart-money">Smart Money Nerede?</a></h4>
-        <p class="sunday-card-excerpt">JPMorgan Ocak beklentisi vs Q1 gerçeği. Smart money didn't lead. It retreated.</p>
-        <span class="sunday-card-tag">Kripto · Apr 6, 2026</span>
-      </div>
+    <div class="stat">
+      <div class="stat-k">Fed Funds Rate</div>
+      <div><div class="stat-v">3.75<small>%</small></div><div class="stat-chg">HOLD &middot; 1 CUT 2026</div></div>
+      <svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line amber" points="0,20 20,22 40,25 60,10 80,10 100,10"/></svg>
+    </div>
+    <div class="stat">
+      <div class="stat-k">CPI YoY</div>
+      <div><div class="stat-v">2.4<small>%</small></div><div class="stat-chg dn">PRE-WAR &middot; MAR HOTTER</div></div>
+      <svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line dn" points="0,5 20,10 40,8 60,12 80,15 100,10"/></svg>
+    </div>
+    <div class="stat">
+      <div class="stat-k">PPI YoY</div>
+      <div><div class="stat-v">3.4<small>%</small></div><div class="stat-chg dn">&uarr; 2&times; EXPECTATIONS</div></div>
+      <svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line dn" points="0,22 20,20 40,18 60,12 80,8 100,4"/></svg>
+    </div>
+    <div class="stat">
+      <div class="stat-k">VIX</div>
+      <div><div class="stat-v">26.8</div><div class="stat-chg dn">ELEVATED FEAR</div></div>
+      <svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line dn" points="0,25 15,22 30,18 45,12 60,14 75,6 100,8"/></svg>
     </div>
   </div>
 </section>
 
-<!-- NEWSLETTER CTA -->
-<section class="newsletter-cta">
-  <div class="newsletter-cta-inner">
-    <h3>Straight to Your Inbox Every Morning.</h3>
-    <p>Daily macro bulletin, market data and Sunday morning analyses. No ads, no spam.</p>
-    <form class="newsletter-form" onsubmit="return false;">
-      <input class="newsletter-input" type="email" placeholder="Your email address"/>
-      <button class="newsletter-btn">Subscribe</button>
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title"><span class="num">&sect; 02</span> Daily Bulletin</h2>
+    <div class="section-meta"><a href="bulletin.html">FULL BULLETIN &rarr;</a></div>
+  </div>
+  <div style="border-top:1px solid var(--border);">
+    <article style="display:grid;grid-template-columns:90px 1fr auto;gap:28px;padding:22px 0;border-bottom:1px solid var(--border);align-items:baseline;cursor:pointer;" onmouseover="this.style.paddingLeft='14px'" onmouseout="this.style.paddingLeft='0'">
+      <div style="font-family:var(--mono);font-size:11px;letter-spacing:0.12em;color:var(--text-mute);"><span style="color:var(--amber);display:block;font-size:14px;font-weight:600;">09:12</span>CET</div>
+      <div>
+        <span class="tag hot" style="margin-bottom:8px;display:inline-block;">BREAKING</span>
+        <h3 style="font-family:var(--serif);font-weight:400;font-size:20px;line-height:1.3;margin-bottom:6px;">JPMorgan revises 2026 crypto flow estimate: Q1 came in at $11B &mdash; one-third of forecast</h3>
+        <p style="font-size:14px;color:var(--text-dim);line-height:1.55;max-width:620px;">Institutional flows turned net-negative for the first time since Q3 2023. Dimon memo circulated to private clients this morning. Bitcoin ETF outflows 8 consecutive days.</p>
+      </div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.16em;color:var(--text-mute);text-transform:uppercase;">3 MIN</div>
+    </article>
+    <article style="display:grid;grid-template-columns:90px 1fr auto;gap:28px;padding:22px 0;border-bottom:1px solid var(--border);align-items:baseline;cursor:pointer;" onmouseover="this.style.paddingLeft='14px'" onmouseout="this.style.paddingLeft='0'">
+      <div style="font-family:var(--mono);font-size:11px;letter-spacing:0.12em;color:var(--text-mute);"><span style="color:var(--amber);display:block;font-size:14px;font-weight:600;">08:45</span>CET</div>
+      <div>
+        <span class="tag alert" style="margin-bottom:8px;display:inline-block;">FED</span>
+        <h3 style="font-family:var(--serif);font-weight:400;font-size:20px;line-height:1.3;margin-bottom:6px;">Powell presser: &ldquo;we just don&#8217;t know&rdquo; said 17 times</h3>
+        <p style="font-size:14px;color:var(--text-dim);line-height:1.55;max-width:620px;">Dot plot shows 1 cut in 2026, down from 3. Fed holds at 3.50&ndash;3.75%. 2Y Treasury +12bp intraday.</p>
+      </div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.16em;color:var(--text-mute);text-transform:uppercase;">4 MIN</div>
+    </article>
+    <article style="display:grid;grid-template-columns:90px 1fr auto;gap:28px;padding:22px 0;border-bottom:1px solid var(--border);align-items:baseline;cursor:pointer;" onmouseover="this.style.paddingLeft='14px'" onmouseout="this.style.paddingLeft='0'">
+      <div style="font-family:var(--mono);font-size:11px;letter-spacing:0.12em;color:var(--text-mute);"><span style="color:var(--amber);display:block;font-size:14px;font-weight:600;">07:30</span>CET</div>
+      <div>
+        <span class="tag " style="margin-bottom:8px;display:inline-block;">MACRO</span>
+        <h3 style="font-family:var(--serif);font-weight:400;font-size:20px;line-height:1.3;margin-bottom:6px;">Feb PPI prints 0.7% &mdash; exactly double consensus (0.35%)</h3>
+        <p style="font-size:14px;color:var(--text-dim);line-height:1.55;max-width:620px;">Wholesale prices pre-war. March reading (April 11) will be the first full oil-shock data.</p>
+      </div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.16em;color:var(--text-mute);text-transform:uppercase;">3 MIN</div>
+    </article>
+    <article style="display:grid;grid-template-columns:90px 1fr auto;gap:28px;padding:22px 0;border-bottom:1px solid var(--border);align-items:baseline;cursor:pointer;" onmouseover="this.style.paddingLeft='14px'" onmouseout="this.style.paddingLeft='0'">
+      <div style="font-family:var(--mono);font-size:11px;letter-spacing:0.12em;color:var(--text-mute);"><span style="color:var(--amber);display:block;font-size:14px;font-weight:600;">06:58</span>CET</div>
+      <div>
+        <span class="tag hot" style="margin-bottom:8px;display:inline-block;">ENERGY</span>
+        <h3 style="font-family:var(--serif);font-weight:400;font-size:20px;line-height:1.3;margin-bottom:6px;">Brent above $106 &mdash; up 41% since Hormuz closure</h3>
+        <p style="font-size:14px;color:var(--text-dim);line-height:1.55;max-width:620px;">IEA announces largest-ever coordinated SPR release: 180M barrels over 60 days.</p>
+      </div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.16em;color:var(--text-mute);text-transform:uppercase;">5 MIN</div>
+    </article>
+    <article style="display:grid;grid-template-columns:90px 1fr auto;gap:28px;padding:22px 0;border-bottom:1px solid var(--border);align-items:baseline;cursor:pointer;" onmouseover="this.style.paddingLeft='14px'" onmouseout="this.style.paddingLeft='0'">
+      <div style="font-family:var(--mono);font-size:11px;letter-spacing:0.12em;color:var(--text-mute);"><span style="color:var(--amber);display:block;font-size:14px;font-weight:600;">06:15</span>CET</div>
+      <div>
+        <span class="tag " style="margin-bottom:8px;display:inline-block;">CRYPTO</span>
+        <h3 style="font-family:var(--serif);font-weight:400;font-size:20px;line-height:1.3;margin-bottom:6px;">Circle (CRCL) tops $42B market cap as MiCA compliance deadline passes</h3>
+        <p style="font-size:14px;color:var(--text-dim);line-height:1.55;max-width:620px;">USDC now the only top-5 stablecoin with full EU MiCA compliance. Tether delisted from Binance EU.</p>
+      </div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.16em;color:var(--text-mute);text-transform:uppercase;">4 MIN</div>
+    </article>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title"><span class="num">&sect; 03</span> Sunday Morning Series</h2>
+    <div class="section-meta"><a href="yazilar.html">ALL ISSUES &rarr;</a></div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+    <a href="yazilar.html#smart-money" style="padding:28px 24px;border-right:1px solid var(--border);display:flex;flex-direction:column;min-height:340px;position:relative;">
+      <div style="font-family:var(--serif);font-size:68px;font-weight:300;line-height:1;color:var(--border);margin-bottom:18px;letter-spacing:-0.04em;">04</div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--amber);margin-bottom:12px;">Crypto &middot; Smart Money</div>
+      <h3 style="font-family:var(--serif);font-weight:400;font-size:22px;line-height:1.25;margin-bottom:14px;flex:1;">Smart Money didn&#8217;t lead. It retreated.</h3>
+      <p style="font-size:13px;color:var(--text-dim);line-height:1.55;margin-bottom:18px;">JPM January expectation vs Q1 reality. The Coinbase Premium Index tells the real story about institutional crypto flows.</p>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:var(--text-mute);text-transform:uppercase;padding-top:14px;border-top:1px solid var(--border-soft);display:flex;justify-content:space-between;"><span>APR 14 &middot; 2026</span><span>7 MIN</span></div>
+    </a>
+    <a href="yazilar.html#nukleer" style="padding:28px 24px;border-right:1px solid var(--border);display:flex;flex-direction:column;min-height:340px;position:relative;">
+      <div style="font-family:var(--serif);font-size:68px;font-weight:300;line-height:1;color:var(--border);margin-bottom:18px;letter-spacing:-0.04em;">03</div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--amber);margin-bottom:12px;">Energy &middot; Infrastructure</div>
+      <h3 style="font-family:var(--serif);font-weight:400;font-size:22px;line-height:1.25;margin-bottom:14px;flex:1;">AI needs electricity. The answer is nuclear.</h3>
+      <p style="font-size:13px;color:var(--text-dim);line-height:1.55;margin-bottom:18px;">IEA: data centers will consume 945 TWh by 2030 &mdash; all of Japan&#8217;s annual electricity. Microsoft $16B, Amazon $20B+, Google 500MW.</p>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:var(--text-mute);text-transform:uppercase;padding-top:14px;border-top:1px solid var(--border-soft);display:flex;justify-content:space-between;"><span>APR 06 &middot; 2026</span><span>9 MIN</span></div>
+    </a>
+    <a href="yazilar.html#bakir" style="padding:28px 24px;border-right:1px solid var(--border);display:flex;flex-direction:column;min-height:340px;position:relative;">
+      <div style="font-family:var(--serif);font-size:68px;font-weight:300;line-height:1;color:var(--border);margin-bottom:18px;letter-spacing:-0.04em;">02</div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--amber);margin-bottom:12px;">Commodities &middot; Macro</div>
+      <h3 style="font-family:var(--serif);font-weight:400;font-size:22px;line-height:1.25;margin-bottom:14px;flex:1;">Dr. Copper &mdash; wrong diagnosis?</h3>
+      <p style="font-size:13px;color:var(--text-dim);line-height:1.55;margin-bottom:18px;">Historically the economy&#8217;s thermometer. But AI data centers, EVs, and renewables all demand it simultaneously. S&amp;P projects 10M tonne deficit by 2040.</p>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:var(--text-mute);text-transform:uppercase;padding-top:14px;border-top:1px solid var(--border-soft);display:flex;justify-content:space-between;"><span>MAR 30 &middot; 2026</span><span>8 MIN</span></div>
+    </a>
+    <a href="yazilar.html#petrol" style="padding:28px 24px;border-right:1px solid var(--border);display:flex;flex-direction:column;min-height:340px;position:relative;">
+      <div style="font-family:var(--serif);font-size:68px;font-weight:300;line-height:1;color:var(--border);margin-bottom:18px;letter-spacing:-0.04em;">01</div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--amber);margin-bottom:12px;">Macro &middot; Inflation</div>
+      <h3 style="font-family:var(--serif);font-weight:400;font-size:22px;line-height:1.25;margin-bottom:14px;flex:1;">Why the 1970s comparison is misleading.</h3>
+      <p style="font-size:13px;color:var(--text-dim);line-height:1.55;margin-bottom:18px;">Brent up 40%, Hormuz closed, 1970s analogies everywhere. But in 1973 it took 1 barrel per $1,000 GDP. Today: 0.43.</p>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:var(--text-mute);text-transform:uppercase;padding-top:14px;border-top:1px solid var(--border-soft);display:flex;justify-content:space-between;"><span>MAR 23 &middot; 2026</span><span>10 MIN</span></div>
+    </a>
+  </div>
+</section>
+
+<section class="newsletter" id="newsletter">
+  <div class="newsletter-inner">
+    <div class="newsletter-label">THE BULLETIN</div>
+    <h2 class="newsletter-title">One email. Every morning. <em>Zero noise.</em></h2>
+    <p class="newsletter-dek">Daily macro bulletin and the Sunday Morning Series, delivered before the market opens. No sponsored picks. No affiliate crypto shills. Just the signal.</p>
+    <form class="newsletter-form">
+      <input class="newsletter-input" type="email" placeholder="your@email.com" required />
+      <button class="newsletter-submit" type="submit">Subscribe</button>
     </form>
+    <div class="newsletter-note">FREE &middot; UNSUBSCRIBE ANYTIME &middot; TR + EN EDITIONS</div>
+    <div class="newsletter-stats">
+      <div class="nl-stat"><div class="v">4,200+</div><div class="k">Subscribers</div></div>
+      <div class="nl-stat"><div class="v">68%</div><div class="k">Open Rate</div></div>
+      <div class="nl-stat"><div class="v">47</div><div class="k">Issues Sent</div></div>
+    </div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer class="footer">
+<footer>
   <div class="footer-inner">
-    <div class="footer-grid">
+    <div class="footer-top">
       <div>
-        <div class="footer-logo">NO<span>CASH</span>FLOW</div>
-        <p class="footer-desc">Macro economics, crypto and market analysis. Every Sunday morning, with data. By Orkun Biçen.</p>
+        <div class="footer-brand-title">No<em>/</em>Cashflow</div>
+        <p class="footer-brand-desc">Macro, markets, and the signal in the noise. Written in Barcelona. Read worldwide. Every Sunday morning, with data.</p>
       </div>
       <div class="footer-col">
-        <h5>Pages</h5>
+        <h4>Read</h4>
         <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="yazilar.html">Articles</a></li>
+          <li><a href="yazilar.html">Sunday Series</a></li>
+          <li><a href="bulletin.html">Daily Bulletin</a></li>
           <li><a href="macro.html">Macro</a></li>
+          <li><a href="crypto.html">Crypto</a></li>
           <li><a href="dashboard.html">Dashboard</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Content</h5>
-        <ul>
-          <li><a href="daily_bulletin.html">Daily Bulletin</a></li>
-          <li><a href="hakkinda.html">About</a></li>
           <li><a href="sozluk.html">Glossary</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h5>Social</h5>
+        <h4>About</h4>
         <ul>
-          <li><a href="https://twitter.com/No_CashFlow" target="_blank">Twitter / X</a></li>
-          <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank">LinkedIn</a></li>
-          <li><a href="mailto:orkun@nocashflow.net">orkun@nocashflow.net</a></li>
+          <li><a href="hakkinda.html">Orkun Bi&ccedil;en</a></li>
+          <li><a href="hakkinda.html#methodology">Methodology</a></li>
+          <li><a href="hakkinda.html#sources">Sources</a></li>
+          <li><a href="mailto:orkun@nocashflow.net">Contact</a></li>
+          <li><a href="mailto:orkun@nocashflow.net">Advertise</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Follow</h4>
+        <ul>
+          <li><a href="https://twitter.com/No_CashFlow">Twitter &middot; @No_CashFlow</a></li>
+          <li><a href="https://www.linkedin.com/in/orkunbicen/">LinkedIn</a></li>
+          <li><a href="#">RSS Feed</a></li>
+          <li><a href="#">Telegram</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
         </ul>
       </div>
     </div>
-    <div class="footer-bottom">
-      <p>© 2026 NoCashFlow.net · Orkun Biçen · Barcelona</p>
-      <p>This site does not provide investment advice.</p>
+    <div class="footer-bot">
+      <span>&copy; 2026 NoCashFlow &middot; Barcelona</span>
+      <span>Built with obsession &middot; <a href="#">Colophon</a></span>
+    </div>
+    <div class="disclaimer">
+      This site does not provide investment advice. All content is for informational purposes. The author may hold positions in instruments mentioned. Always do your own research.
     </div>
   </div>
 </footer>
-
-<script>
-// Ticker — CoinGecko + Alternative.me
-// ── i18n ──────────────────────────────────────────────
-const LANG = { current: localStorage.getItem('ncf-lang') || 'en' };
-const T = {
-  en: {
-    nav: ['Home','Articles','Macro','Dashboard','Bulletin','About'],
-    cta: 'Subscribe to Bulletin',
-    hero_tag: 'Sunday Morning Series',
-    hero_title: 'I spend Sunday mornings <em>with macro data.</em> Now I share it with you.',
-    hero_sub: 'Oil shocks, smart money, nuclear energy, Fed policy — every Sunday, data-driven analysis.',
-    live: 'Live',
-    fg_quote: '"Extreme Fear — institutional flows turned negative, retail is selling."',
-    sidebar_title: 'Market Brief',
-    sidebar_sub: 'Latest Updates',
-    week_title: 'This Week',
-    week_sub: 'Critical Data',
-  },
-  tr: {
-    nav: ['Home','Articles','Macro','Dashboard','Bülten','About'],
-    cta: 'Bültene Subscribe',
-    hero_tag: 'Sunday Morning Series',
-    hero_title: 'I spend Sunday mornings <em>with macro data.</em> Now I share it with you.',
-    hero_sub: 'Oil shocks, smart money, nuclear energy, Fed policy — every Sunday, data-driven analysis.',
-    live: 'Canlı',
-    fg_quote: '"Extreme Fear bölgesi — kurumsal akışlar negatife döndü, retail satıyor."',
-    sidebar_title: 'Piyasa Özeti',
-    sidebar_sub: 'Son Güncellemeler',
-    week_title: 'Bu Hafta',
-    week_sub: 'Kritik Veriler',
-  }
-};
-
-function applyLang() {
-  const t = T[LANG.current];
-  // Nav links
-  const navLinks = document.querySelectorAll('.nav-links a');
-  t.nav.forEach((txt,i) => { if(navLinks[i]) navLinks[i].textContent = txt; });
-  const ctaEl = document.querySelector('.nav-cta');
-  if(ctaEl) ctaEl.textContent = t.cta;
-  // Hero
-  const heroTag = document.querySelector('.hero-tag');
-  if(heroTag) heroTag.textContent = t.hero_tag;
-  const heroTitle = document.querySelector('.hero-title');
-  if(heroTitle) heroTitle.innerHTML = t.hero_title;
-  const heroSub = document.querySelector('.hero-sub');
-  if(heroSub) heroSub.textContent = t.hero_sub;
-  // Live dot label
-  const liveLabel = document.querySelector('.live-label');
-  if(liveLabel) liveLabel.textContent = t.live;
-  // Sentiment quote
-  const fgQ = document.querySelector('.sentiment-quote');
-  if(fgQ) fgQ.textContent = t.fg_quote;
-  // Lang toggle button
-  const btn = document.getElementById('lang-toggle');
-  if(btn) btn.textContent = LANG.current === 'en' ? 'TR' : 'EN';
-}
-
-function toggleLang() {
-  LANG.current = LANG.current === 'en' ? 'tr' : 'en';
-  localStorage.setItem('ncf-lang', LANG.current);
-  applyLang();
-}
-
-// ── Ticker & Data ──────────────────────────────────────
-async function loadTicker() {
-  // Crypto — CoinGecko
-  try {
-    const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true');
-    const d = await res.json();
-    const fmt = (n) => n >= 1000 ? '$' + n.toLocaleString('en-US',{maximumFractionDigits:0}) : '$' + n.toFixed(2);
-    const setChg = (n, el) => {
-      if(!el || n == null) return;
-      el.textContent = (n>=0?'+':'') + n.toFixed(2) + '%';
-      el.className = 'ticker-chg ' + (n>=0?'up':'down');
-    };
-    if(d.bitcoin) { document.getElementById('tk-btc').textContent = fmt(d.bitcoin.usd); setChg(d.bitcoin.usd_24h_change, document.getElementById('tk-btc-chg')); }
-    if(d.ethereum) { document.getElementById('tk-eth').textContent = fmt(d.ethereum.usd); setChg(d.ethereum.usd_24h_change, document.getElementById('tk-eth-chg')); }
-  } catch(e) {}
-
-  // Fear & Greed
-  try {
-    const fg = await fetch('https://api.alternative.me/fng/?limit=1');
-    const fd = await fg.json();
-    if(fd.data?.[0]) {
-      const val = parseInt(fd.data[0].value);
-      const cls = fd.data[0].value_classification;
-      document.getElementById('tk-fg').textContent = val;
-      const fgEl = document.getElementById('tk-fg-cls');
-      fgEl.textContent = cls.toUpperCase();
-      fgEl.className = 'ticker-chg ' + (val>50?'up':'down');
-      // Sidebar gauge
-      document.getElementById('fg-value').textContent = val;
-      document.getElementById('fg-status').textContent = cls.toUpperCase();
-      document.getElementById('fg-bar').style.width = val + '%';
-      document.getElementById('fg-bar').style.background = val>50?'var(--green)':val>25?'#f0a500':'var(--accent)';
-    }
-  } catch(e) {}
-
-  // Yahoo Finance via allorigins — filter NaN
-  const yfPairs = [
-    {sym:'GC=F',  el:'tk-gold',  chgEl:'tk-gold-chg',  pre:'$', dec:2},
-    {sym:'BZ=F',  el:'tk-brent', chgEl:'tk-brent-chg', pre:'$', dec:2},
-    {sym:'DX-Y.NYB', el:'tk-dxy', chgEl:'tk-dxy-chg', pre:'',  dec:2},
-  ];
-  for(const p of yfPairs) {
-    try {
-      const url = 'https://api.allorigins.win/get?url=' + encodeURIComponent(
-        'https://query1.finance.yahoo.com/v8/finance/chart/' + p.sym + '?interval=1d&range=5d'
-      );
-      const r = await fetch(url);
-      const j = await r.json();
-      const chart = JSON.parse(j.contents)?.chart?.result?.[0];
-      if(!chart) continue;
-      const closes = chart.indicators.quote[0].close.filter(x => x != null && !isNaN(x));
-      if(closes.length < 2) continue;
-      const last = closes[closes.length-1];
-      const prev = closes[closes.length-2];
-      const pct = (last - prev) / prev * 100;
-      if(isNaN(pct)) continue;
-      const el = document.getElementById(p.el);
-      const ce = document.getElementById(p.chgEl);
-      if(el) el.textContent = p.pre + last.toFixed(p.dec);
-      if(ce) { ce.textContent = (pct>=0?'+':'') + pct.toFixed(2) + '%'; ce.className = 'ticker-chg '+(pct>=0?'up':'down'); }
-    } catch(e) {}
-  }
-}
-
-loadTicker();
-setInterval(loadTicker, 5*60*1000);
-applyLang();
-</script>
-<script>
-(function(){
-  const canvas=document.getElementById('ncf-rain');
-  if(!canvas)return;
-  const ctx=canvas.getContext('2d');
-  const CHARS='アイウエオカキクケコ0123456789$#ΨΩ∆';
-  const GLITCH='アイウエカキΨΩ∑∆#$%01ノハ';
-  let drops=[],speeds=[],frame=0,gf=0;
-  function init(){
-    const S=46;
-    canvas.width=S*2;canvas.height=S*2;
-    canvas.style.width=S+'px';canvas.style.height=S+'px';
-    ctx.scale(2,2);
-    const n=Math.floor(S/8);
-    drops=Array(n).fill(0).map(()=>Math.random()*-30);
-    speeds=Array(n).fill(0).map(()=>0.3+Math.random()*1.2);
-  }
-  function draw(){
-    frame++;
-    if(frame%2!==0){requestAnimationFrame(draw);return;}
-    ctx.fillStyle='rgba(2,10,2,0.07)';ctx.fillRect(0,0,46,46);
-    ctx.font="7px 'Courier New',monospace";
-    for(let i=0;i<drops.length;i++){
-      const x=(i/drops.length)*46,y=drops[i]*8;
-      if(Math.random()>0.92){ctx.fillStyle='#FFFFFF';ctx.shadowColor='#CCFF00';ctx.shadowBlur=4;}
-      else{ctx.fillStyle='#00CC3355';ctx.shadowBlur=0;}
-      ctx.fillText(CHARS[Math.floor(Math.random()*CHARS.length)],x,y);
-      ctx.shadowBlur=0;
-      if(y>46&&Math.random()>0.97)drops[i]=0;
-      drops[i]+=speeds[i];
-    }
-    requestAnimationFrame(draw);
-  }
-  function runGlitch(){
-    gf++;
-    const p=gf%40<3?0.65:0.08;
-    const g=s=>s.split('').map(c=>c===' '?c:Math.random()<p?GLITCH[Math.floor(Math.random()*GLITCH.length)]:c).join('');
-    const tp=document.querySelector('#ncf-tt textPath');
-    const bp=document.querySelector('#ncf-bt textPath');
-    if(tp)tp.textContent=g('NO CASH');
-    if(bp)bp.textContent=g('FLOW');
-    const te=document.getElementById('ncf-tt');
-    const be=document.getElementById('ncf-bt');
-    if(te)te.setAttribute('opacity',0.88+Math.random()*0.12);
-    if(be)be.setAttribute('opacity',0.88+Math.random()*0.12);
-    const flt=document.querySelector('#ncf-tg feGaussianBlur');
-    if(flt)flt.setAttribute('stdDeviation',(1.2+Math.sin(gf*0.1)*0.6).toFixed(1));
-    const dm=document.getElementById('ncf-dm');
-    if(dm){
-      const sc=1+Math.sin(gf*0.05)*0.012;
-      dm.setAttribute('transform',`scale(${sc.toFixed(3)}) translate(${(50*(1-sc)).toFixed(1)} ${(56*(1-sc)).toFixed(1)})`);
-    }
-  }
-  setInterval(runGlitch,85);
-  const font=new FontFace('Orbitron','url(https://cdn.jsdelivr.net/npm/@fontsource/orbitron@5/files/orbitron-latin-400-normal.woff2)',{weight:'400'});
-  font.load().then(f=>{
-    document.fonts.add(f);
-    ['ncf-tt','ncf-bt','ncf-dm','ncf-ds'].forEach(id=>{
-      const el=document.getElementById(id);
-      if(el)el.setAttribute('font-family',"'Orbitron','Courier New',monospace");
-    });
-  }).catch(()=>{});
-  init();draw();
-})();
-</script>
+<script src="assets/site.js"></script>
 </body>
 </html>

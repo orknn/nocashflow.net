@@ -1,441 +1,207 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Yazılar — NoCashFlow | Sunday Morning Series</title>
-<meta name="description" content="Orkun Biçen'in makro analiz yazıları. Petrol, bakır, nükleer enerji, Fed politikası ve daha fazlası."/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..800;1,6..72,300..800&family=Manrope:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-<style>
-:root{--bg:#faf8ff;--surface:#ffffff;--surface-low:#f2f3ff;--primary:#000e24;--secondary:#505f76;--accent:#f85149;--green:#009e6d;--border:rgba(0,14,36,0.08);--font-display:'Newsreader',serif;--font-body:'Manrope',sans-serif;--font-mono:'JetBrains Mono',monospace;--font-label:'Inter',sans-serif}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font-body);background:var(--bg);color:var(--primary);line-height:1.6}
-a{text-decoration:none;color:inherit}
-img{max-width:100%;display:block}
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,248,255,0.9);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--border)}
-.nav-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:60px}
-.logo{font-family:var(--font-display);font-size:19px;font-weight:800;letter-spacing:-0.5px}
-.logo span{color:var(--accent)}
-.nav-links{display:flex;align-items:center;gap:28px;list-style:none}
-.nav-links a{font-family:var(--font-label);font-size:10.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--secondary);transition:color 0.2s}
-.nav-links a:hover,.nav-links a.active{color:var(--accent)}
-.nav-cta{font-family:var(--font-label);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:var(--primary);color:white;padding:8px 16px;border-radius:2px}
-
-/* PAGE HEADER */
-.page-header{max-width:1280px;margin:0 auto;padding:96px 24px 48px}
-.page-tag{font-family:var(--font-label);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:16px;display:block}
-.page-title{font-family:var(--font-display);font-size:clamp(36px,5vw,56px);font-weight:700;letter-spacing:-1px;margin-bottom:16px}
-.page-sub{font-size:15px;color:var(--secondary);max-width:520px;line-height:1.7}
-
-/* FILTER TABS */
-.filter-bar{max-width:1280px;margin:0 auto;padding:0 24px 40px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.filter-btn{font-family:var(--font-label);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:7px 14px;border-radius:2px;border:0.5px solid var(--border);background:transparent;color:var(--secondary);cursor:pointer;transition:all 0.2s}
-.filter-btn:hover,.filter-btn.active{background:var(--primary);color:white;border-color:var(--primary)}
-
-/* ARTICLES */
-.articles-wrap{max-width:1280px;margin:0 auto;padding:0 24px 80px}
-
-/* FEATURED BIG */
-.article-featured{display:grid;grid-template-columns:1fr 1fr;gap:48px;padding:40px 0;border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);margin-bottom:48px;align-items:center}
-.article-featured-img{aspect-ratio:4/3;border-radius:4px;overflow:hidden;background:var(--surface-low)}
-.article-featured-img img{width:100%;height:100%;object-fit:cover;filter:grayscale(20%);transition:filter 0.5s,transform 0.7s}
-.article-featured-img:hover img{filter:grayscale(0);transform:scale(1.03)}
-.article-series{font-family:var(--font-mono);font-size:11px;color:var(--accent);margin-bottom:10px}
-.article-tag{font-family:var(--font-label);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--secondary);margin-bottom:12px;display:block}
-.article-title{font-family:var(--font-display);font-size:32px;font-weight:700;line-height:1.15;letter-spacing:-0.5px;margin-bottom:14px}
-.article-title a:hover{color:var(--accent)}
-.article-excerpt{font-size:14px;color:var(--secondary);line-height:1.75;margin-bottom:20px}
-.article-meta{display:flex;align-items:center;gap:16px;margin-bottom:20px}
-.article-date{font-family:var(--font-label);font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--secondary)}
-.article-read{font-family:var(--font-label);font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--secondary)}
-.read-btn{font-family:var(--font-label);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--primary);border-bottom:1.5px solid var(--primary);padding-bottom:2px;display:inline-block;transition:color 0.2s,border-color 0.2s}
-.read-btn:hover{color:var(--accent);border-color:var(--accent)}
-
-/* ARTICLE GRID */
-.article-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-bottom:48px}
-.article-card{border-top:2px solid var(--border);padding-top:24px;transition:border-color 0.2s}
-.article-card:hover{border-top-color:var(--accent)}
-.card-img{aspect-ratio:3/2;border-radius:4px;overflow:hidden;background:var(--surface-low);margin-bottom:16px}
-.card-img img{width:100%;height:100%;object-fit:cover;filter:grayscale(30%);transition:filter 0.4s,transform 0.6s}
-.article-card:hover .card-img img{filter:grayscale(0);transform:scale(1.04)}
-.card-series{font-family:var(--font-mono);font-size:10px;color:var(--accent);margin-bottom:6px}
-.card-tag{font-family:var(--font-label);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--secondary);margin-bottom:8px;display:block}
-.card-title{font-family:var(--font-display);font-size:20px;font-weight:700;line-height:1.25;margin-bottom:10px}
-.card-title a:hover{color:var(--accent)}
-.card-excerpt{font-size:12px;color:var(--secondary);line-height:1.7;margin-bottom:14px}
-.card-meta{font-family:var(--font-label);font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(0,14,36,0.35)}
-
-/* FULL ARTICLE */
-.article-full{max-width:720px;margin:0 auto;padding:80px 24px}
-.article-full-header{margin-bottom:48px;padding-bottom:32px;border-bottom:0.5px solid var(--border)}
-.article-full-tag{font-family:var(--font-label);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:16px;display:block}
-.article-full-title{font-family:var(--font-display);font-size:clamp(28px,4vw,44px);font-weight:700;line-height:1.1;letter-spacing:-1px;margin-bottom:20px}
-.article-full-meta{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.author-chip{display:flex;align-items:center;gap:8px}
-.author-chip-avatar{width:32px;height:32px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:12px;font-weight:700;color:white}
-.author-chip-name{font-family:var(--font-label);font-size:11px;font-weight:600;color:var(--primary)}
-.article-full-date{font-family:var(--font-label);font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--secondary)}
-.article-body{font-size:16px;line-height:1.85;color:var(--primary)}
-.article-body p{margin-bottom:24px}
-.article-body h2{font-family:var(--font-display);font-size:26px;font-weight:700;margin:40px 0 16px;letter-spacing:-0.3px}
-.article-body h3{font-family:var(--font-display);font-size:20px;font-weight:700;margin:32px 0 12px}
-.article-body strong{font-weight:700}
-.article-body .highlight{color:var(--accent);font-weight:700}
-.article-body .arrow-list{list-style:none;padding:0;margin:16px 0 24px}
-.article-body .arrow-list li{padding:8px 0 8px 20px;position:relative;border-bottom:0.5px solid var(--border)}
-.article-body .arrow-list li::before{content:'→';position:absolute;left:0;color:var(--accent)}
-.article-body .source-box{background:var(--surface-low);border-left:3px solid var(--primary);padding:16px 20px;margin:24px 0;font-size:13px;color:var(--secondary)}
-.article-body .source-box strong{color:var(--primary);font-size:11px;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:6px}
-.coming-soon{opacity:0.5;pointer-events:none}
-
-/* DIVIDER */
-.section-div{display:flex;align-items:center;gap:12px;margin:48px 0 32px}
-.section-div h3{font-family:var(--font-label);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--secondary);white-space:nowrap}
-.section-div-line{flex:1;height:1px;background:var(--border)}
-
-/* FOOTER */
-.footer{background:var(--primary);color:white;padding:56px 24px 32px;margin-top:80px}
-.footer-inner{max-width:1280px;margin:0 auto}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;padding-bottom:40px;border-bottom:0.5px solid rgba(255,255,255,0.08);margin-bottom:28px}
-.footer-logo{font-family:var(--font-display);font-size:20px;font-weight:800;margin-bottom:12px}
-.footer-logo span{color:var(--accent)}
-.footer-desc{font-size:12px;color:rgba(255,255,255,0.4);line-height:1.75;max-width:240px}
-.footer-col h5{font-family:var(--font-label);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:16px}
-.footer-col ul{list-style:none}
-.footer-col ul li{margin-bottom:10px}
-.footer-col ul li a{font-size:13px;color:rgba(255,255,255,0.55);transition:color 0.2s}
-.footer-col ul li a:hover{color:white}
-.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
-.footer-bottom p{font-family:var(--font-label);font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.2)}
-
-@media(max-width:1024px){.article-featured{grid-template-columns:1fr}.article-grid{grid-template-columns:1fr 1fr}.footer-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:640px){.nav-links{display:none}.article-grid{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr 1fr}}
-</style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sunday Morning Series — NoCashFlow</title>
+<meta name="description" content="Every Sunday, one macro question, fully thought through. Archive of all issues." />
+<meta property="og:title" content="Sunday Morning Series — NoCashFlow" />
+<meta property="og:description" content="Every Sunday, one macro question, fully thought through. Archive of all issues." />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="NoCashFlow" />
+<meta property="og:image" content="https://nocashflow.net/assets/og.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@No_CashFlow" />
+<meta name="theme-color" content="#0b0b0d" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/site.css" />
 </head>
 <body>
+<div class="ticker" data-ticker-live>
+  <div class="ticker-label"><span class="dot"></span> LIVE</div>
+  <div class="ticker-track">
+    <div class="tick" data-sym="BTC"><span class="sym">BTC</span><span class="px">$67,420</span><span class="chg dn">-1.82%</span></div>
+    <div class="tick" data-sym="ETH"><span class="sym">ETH</span><span class="px">$3,284</span><span class="chg dn">-2.41%</span></div>
+    <div class="tick"><span class="sym">GOLD</span><span class="px">$2,614</span><span class="chg up">+0.74%</span></div>
+    <div class="tick"><span class="sym">BRENT</span><span class="px">$106.12</span><span class="chg up">+3.12%</span></div>
+    <div class="tick"><span class="sym">DXY</span><span class="px">104.28</span><span class="chg up">+0.46%</span></div>
+    <div class="tick"><span class="sym">US10Y</span><span class="px">4.38%</span><span class="chg up">+4bp</span></div>
+    <div class="tick"><span class="sym">VIX</span><span class="px">26.8</span><span class="chg up">+2.1%</span></div>
+    <div class="tick"><span class="sym">F&amp;G</span><span class="px">18</span><span class="chg dn">EXTREME FEAR</span></div>
+    <div class="tick"><span class="sym">COPPER</span><span class="px">$4.28</span><span class="chg up">+0.38%</span></div>
+    <div class="tick"><span class="sym">SPX</span><span class="px">5,684</span><span class="chg dn">-0.62%</span></div>
+    <div class="tick"><span class="sym">EUR/USD</span><span class="px">1.0684</span><span class="chg dn">-0.21%</span></div>
+    <div class="tick"><span class="sym">USD/TRY</span><span class="px">34.82</span><span class="chg up">+0.11%</span></div>
+    <div class="tick" data-sym="BTC"><span class="sym">BTC</span><span class="px">$67,420</span><span class="chg dn">-1.82%</span></div>
+    <div class="tick" data-sym="ETH"><span class="sym">ETH</span><span class="px">$3,284</span><span class="chg dn">-2.41%</span></div>
+    <div class="tick"><span class="sym">GOLD</span><span class="px">$2,614</span><span class="chg up">+0.74%</span></div>
+    <div class="tick"><span class="sym">BRENT</span><span class="px">$106.12</span><span class="chg up">+3.12%</span></div>
+    <div class="tick"><span class="sym">DXY</span><span class="px">104.28</span><span class="chg up">+0.46%</span></div>
+    <div class="tick"><span class="sym">US10Y</span><span class="px">4.38%</span><span class="chg up">+4bp</span></div>
+    <div class="tick"><span class="sym">VIX</span><span class="px">26.8</span><span class="chg up">+2.1%</span></div>
+    <div class="tick"><span class="sym">F&amp;G</span><span class="px">18</span><span class="chg dn">EXTREME FEAR</span></div>
+    <div class="tick"><span class="sym">COPPER</span><span class="px">$4.28</span><span class="chg up">+0.38%</span></div>
+    <div class="tick"><span class="sym">SPX</span><span class="px">5,684</span><span class="chg dn">-0.62%</span></div>
+    <div class="tick"><span class="sym">EUR/USD</span><span class="px">1.0684</span><span class="chg dn">-0.21%</span></div>
+    <div class="tick"><span class="sym">USD/TRY</span><span class="px">34.82</span><span class="chg up">+0.11%</span></div>
+  </div>
+</div>
 
 <nav class="nav">
   <div class="nav-inner">
-    <a href="index.html" class="logo">NO<span>CASH</span>FLOW</a>
-    <ul class="nav-links">
-      <li><a href="index.html">Ana Sayfa</a></li>
-      <li><a href="yazilar.html" class="active">Yazılar</a></li>
-      <li><a href="macro.html">Macro</a></li>
-      <li><a href="dashboard.html">Dashboard</a></li>
-      <li><a href="bulletin_page.html">Bülten</a></li>
-      <li><a href="hakkinda.html">Hakkında</a></li>
-    </ul>
-    <a href="bulletin_page.html" class="nav-cta">Bültene Abone Ol</a>
+    <a href="index.html" class="logo">NO<span class="slash">/</span>CASHFLOW<span class="tag">MACRO &times; MARKETS</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="yazilar.html">Sunday</a>
+      <a href="bulletin.html">Bulletin</a>
+      <a href="macro.html">Macro</a>
+      <a href="crypto.html">Crypto</a>
+      <a href="dashboard.html">Dashboard</a>
+    </div>
+    <div class="nav-right">
+      <button class="nav-btn menu-toggle" aria-label="Menu">&#9776;</button>
+      <button class="nav-btn" aria-label="Language" onclick="alert('TR version coming')">TR</button>
+      <a href="#newsletter" class="subscribe">Subscribe</a>
+    </div>
   </div>
 </nav>
 
-<div class="page-header">
-  <span class="page-tag">Sunday Morning Series</span>
-  <h1 class="page-title">Pazar Sabahı Analizleri</h1>
-  <p class="page-sub">Makro ekonomi, kripto ve piyasa verileri üzerine haftalık analizler. Her yazı bir referanstan yola çıkar.</p>
-</div>
+<header class="page-head">
+  <div class="page-eyebrow"><span class="tag filled">SUNDAY</span><span>Weekly deep dives, one idea fully thought through</span><span class="divider"></span><span class="muted">47 ISSUES PUBLISHED</span></div>
+  <h1 class="page-title">The <em>Sunday Morning</em> Series.</h1>
+  <p class="page-dek">Every Sunday I try to answer one macro question &mdash; not what the headlines are saying, but what the data actually shows. No recycled hot takes. No crypto maximalism. Just the work.</p>
+</header>
 
-<div class="filter-bar">
-  <button class="filter-btn active" onclick="filterArticles('all',this)">Tümü</button>
-  <button class="filter-btn" onclick="filterArticles('makro',this)">Makro</button>
-  <button class="filter-btn" onclick="filterArticles('emtia',this)">Emtia</button>
-  <button class="filter-btn" onclick="filterArticles('enerji',this)">Enerji</button>
-  <button class="filter-btn" onclick="filterArticles('kripto',this)">Kripto</button>
-  <button class="filter-btn" onclick="filterArticles('fed',this)">Fed</button>
-</div>
-
-<div class="articles-wrap">
-
-  <!-- FEATURED: Smart Money -->
-  <div id="smart-money" class="article-featured" data-cat="kripto">
-    <div class="article-featured-img">
-      <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&q=80" alt="Smart Money"/>
-    </div>
+<section class="section" style="padding-top:48px;">
+  <div class="section-header">
+    <h2 class="section-title"><span class="num">LATEST</span> Issue &#8470;47</h2>
+    <div class="section-meta">APR 14, 2026 &middot; 7 MIN READ</div>
+  </div>
+  <article id="smart-money" style="display:grid;grid-template-columns:1fr 2fr;gap:48px;padding-bottom:48px;border-bottom:1px solid var(--border);">
+    <div style="font-family:var(--serif);font-size:180px;font-weight:300;line-height:0.85;color:var(--amber);letter-spacing:-0.04em;">04</div>
     <div>
-      <div class="article-series">Sunday Series · #04</div>
-      <span class="article-tag">Kripto · Smart Money</span>
-      <h2 class="article-title"><a href="#smart-money-full">Smart Money Nedir ve Nereye Gidiyor?</a></h2>
-      <div class="article-meta">
-        <span class="article-date">6 Nisan 2026</span>
-        <span class="article-read">5 dk okuma</span>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.22em;color:var(--amber);text-transform:uppercase;margin-bottom:16px;">Crypto &middot; Smart Money</div>
+      <h2 style="font-family:var(--serif);font-weight:300;font-size:52px;line-height:1.05;letter-spacing:-0.02em;margin-bottom:20px;">Smart money didn&#8217;t <em style="color:var(--amber);">lead</em>. It <em style="color:var(--amber);">retreated</em>.</h2>
+      <p style="font-size:17px;line-height:1.65;color:var(--text-dim);margin-bottom:24px;">JPMorgan called Q1 2026 the year institutions would dominate crypto flows. The data tells a different story: Iran war, VIX at 26, Fear &amp; Greed at 12. The Coinbase Premium Index shows exactly where the real money went &mdash; and it wasn&#8217;t in. Here&#8217;s what 90 days of flow data reveals about how institutions actually behave in risk-off regimes.</p>
+      <a href="#" class="btn">Read the full issue <span class="arrow">&rarr;</span></a>
+    </div>
+  </article>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title"><span class="num">ARCHIVE</span> All Issues</h2>
+    <div class="section-meta">FILTER: ALL &middot; MACRO &middot; CRYPTO &middot; ENERGY &middot; COMMODITIES</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);">
+    <article id="nukleer" style="padding:32px 28px;background:var(--bg-elev);display:flex;flex-direction:column;min-height:260px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:18px;">
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.22em;color:var(--amber);text-transform:uppercase;">Energy &middot; Infrastructure</div>
+        <div style="font-family:var(--serif);font-size:42px;font-weight:300;line-height:1;color:var(--border);">03</div>
       </div>
-      <p class="article-excerpt">JPMorgan Ocak'ta kurumsal yatırımcıların 2026'da kripto akışlarını domine edeceğini söyledi. $130B'lik 2025 rekorunun üzerine çıkılacaktı. Ama Q1 rakamları çıktı: sadece $11B — beklentinin üçte biri. İran savaşı, VIX 26, Fear & Greed 12 ile tablo tamamen değişti. Smart money didn't lead. It retreated. Coinbase Premium Index tam olarak bunu gösteriyor.</p>
-      <a href="#smart-money-full" class="read-btn">Devamını Oku</a>
+      <h3 style="font-family:var(--serif);font-weight:400;font-size:28px;line-height:1.2;margin-bottom:14px;flex:1;">AI needs electricity. The answer is nuclear.</h3>
+      <p style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:18px;">IEA: data centers will consume 945 TWh by 2030 &mdash; all of Japan&#8217;s annual electricity. Microsoft $16B, Amazon $20B+, Google 500MW. This is not an energy story, it&#8217;s a capital allocation story.</p>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.14em;color:var(--text-mute);text-transform:uppercase;padding-top:14px;border-top:1px solid var(--border);display:flex;justify-content:space-between;"><span>APR 06, 2026</span><span>9 MIN READ</span></div>
+    </article>
+    <article id="bakir" style="padding:32px 28px;background:var(--bg-elev);display:flex;flex-direction:column;min-height:260px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:18px;">
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.22em;color:var(--amber);text-transform:uppercase;">Commodities &middot; Macro</div>
+        <div style="font-family:var(--serif);font-size:42px;font-weight:300;line-height:1;color:var(--border);">02</div>
+      </div>
+      <h3 style="font-family:var(--serif);font-weight:400;font-size:28px;line-height:1.2;margin-bottom:14px;flex:1;">Dr. Copper &mdash; wrong diagnosis?</h3>
+      <p style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:18px;">Historically the economy&#8217;s thermometer. But AI data centers, EVs, and renewables all demand it simultaneously. S&amp;P Global projects a 10M tonne deficit by 2040. Dr. Copper may have a new disease.</p>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.14em;color:var(--text-mute);text-transform:uppercase;padding-top:14px;border-top:1px solid var(--border);display:flex;justify-content:space-between;"><span>MAR 30, 2026</span><span>8 MIN READ</span></div>
+    </article>
+    <article id="petrol" style="padding:32px 28px;background:var(--bg-elev);display:flex;flex-direction:column;min-height:260px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:18px;">
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.22em;color:var(--amber);text-transform:uppercase;">Macro &middot; Inflation</div>
+        <div style="font-family:var(--serif);font-size:42px;font-weight:300;line-height:1;color:var(--border);">01</div>
+      </div>
+      <h3 style="font-family:var(--serif);font-weight:400;font-size:28px;line-height:1.2;margin-bottom:14px;flex:1;">Why the 1970s comparison is misleading.</h3>
+      <p style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:18px;">Brent up 40%, Hormuz closed, 1970s analogies everywhere. But in 1973 it took 1 barrel per $1,000 GDP. Today: 0.43. PPI came in double expectations. Powell said &ldquo;we don&#8217;t know&rdquo; 17 times.</p>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.14em;color:var(--text-mute);text-transform:uppercase;padding-top:14px;border-top:1px solid var(--border);display:flex;justify-content:space-between;"><span>MAR 23, 2026</span><span>10 MIN READ</span></div>
+    </article>
+    <article id="powell" style="padding:32px 28px;background:var(--bg-elev);display:flex;flex-direction:column;min-height:260px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:18px;">
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.22em;color:var(--amber);text-transform:uppercase;">Preview</div>
+        <div style="font-family:var(--serif);font-size:42px;font-weight:300;line-height:1;color:var(--border);">00</div>
+      </div>
+      <h3 style="font-family:var(--serif);font-weight:400;font-size:28px;line-height:1.2;margin-bottom:14px;flex:1;">&ldquo;Too Late Powell&rdquo; &mdash; or was he right?</h3>
+      <p style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:18px;">Trump called him &ldquo;Too Late Powell.&rdquo; But by not cutting rates, he may have protected the economy from shocks. Coming after March CPI &mdash; all scenarios on the table.</p>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.14em;color:var(--text-mute);text-transform:uppercase;padding-top:14px;border-top:1px solid var(--border);display:flex;justify-content:space-between;"><span>COMING SOON</span><span>&mdash; MIN READ</span></div>
+    </article>
+  </div>
+</section>
+
+<section class="newsletter" id="newsletter">
+  <div class="newsletter-inner">
+    <div class="newsletter-label">THE BULLETIN</div>
+    <h2 class="newsletter-title">One email. Every morning. <em>Zero noise.</em></h2>
+    <p class="newsletter-dek">Daily macro bulletin and the Sunday Morning Series, delivered before the market opens. No sponsored picks. No affiliate crypto shills. Just the signal.</p>
+    <form class="newsletter-form">
+      <input class="newsletter-input" type="email" placeholder="your@email.com" required />
+      <button class="newsletter-submit" type="submit">Subscribe</button>
+    </form>
+    <div class="newsletter-note">FREE &middot; UNSUBSCRIBE ANYTIME &middot; TR + EN EDITIONS</div>
+    <div class="newsletter-stats">
+      <div class="nl-stat"><div class="v">4,200+</div><div class="k">Subscribers</div></div>
+      <div class="nl-stat"><div class="v">68%</div><div class="k">Open Rate</div></div>
+      <div class="nl-stat"><div class="v">47</div><div class="k">Issues Sent</div></div>
     </div>
   </div>
+</section>
 
-  <!-- ARTICLE GRID -->
-  <div class="article-grid">
-
-    <!-- #03 Nükleer -->
-    <div class="article-card" id="nukleer" data-cat="enerji">
-      <div class="card-img">
-        <img src="https://images.unsplash.com/photo-1559302504-64aae6ca6b6d?w=600&q=80" alt="Nuclear"/>
-      </div>
-      <div class="card-series">Sunday Series · #03</div>
-      <span class="card-tag">Enerji · Nükleer</span>
-      <h3 class="card-title"><a href="#nukleer-full">AI Elektrik İstiyor — Ve Cevap Nükleerde</a></h3>
-      <p class="card-excerpt">IEA'ya göre veri merkezleri 2030'da 945 TWh tüketecek — Japonya'nın tüm yıllık tüketimine eşit. Microsoft $16B, Amazon $20B+, Google 500MW SMR. Bu bir enerji haberi değil, sermaye tahsis hikayesi.</p>
-      <div class="card-meta">6 Nisan 2026 · 4 dk</div>
-    </div>
-
-    <!-- #02 Bakır -->
-    <div class="article-card" id="bakir" data-cat="emtia">
-      <div class="card-img">
-        <img src="https://images.unsplash.com/photo-1623427039597-7e0dc847c28b?w=600&q=80" alt="Copper"/>
-      </div>
-      <div class="card-series">Sunday Series · #02</div>
-      <span class="card-tag">Emtia · Dr. Copper</span>
-      <h3 class="card-title"><a href="#bakir-full">Dr. Copper — Yanlış Teşhis mi Koyuyor?</a></h3>
-      <p class="card-excerpt">Bakır tarihsel olarak ekonominin termometresidir. Ama şu an AI, EV ve yeşil enerji aynı anda talep ediyor. Bloomberg: 2026'da 22 yılın en büyük arz açığı. S&P Global: 2040'a kadar 10M ton açık.</p>
-      <div class="card-meta">30 Mart 2026 · 4 dk</div>
-    </div>
-
-    <!-- #01 Petrol -->
-    <div class="article-card" id="petrol" data-cat="makro">
-      <div class="card-img">
-        <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600&q=80" alt="Oil"/>
-      </div>
-      <div class="card-series">Sunday Series · #01</div>
-      <span class="card-tag">Makro · Petrol · Enflasyon</span>
-      <h3 class="card-title"><a href="#petrol-full">1970'ler Kıyaslaması Neden Yanıltıcı?</a></h3>
-      <p class="card-excerpt">Brent %40 arttı. Herkes 1970'lerle kıyaslıyor. Ama 1973'te $1.000 GDP için 1 varil gerekiyordu, bugün 0.43. PPI beklentinin iki katı geldi. Powell 17 kez "we just don't know" dedi.</p>
-      <div class="card-meta">23 Mart 2026 · 4 dk</div>
-    </div>
-
-    <!-- COMING SOON: Powell -->
-    <div class="article-card coming-soon" id="powell" data-cat="fed">
-      <div class="card-img" style="background:var(--surface-low);display:flex;align-items:center;justify-content:center">
-        <span style="font-family:var(--font-label);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--secondary)">Yakında</span>
-      </div>
-      <div class="card-series">Sunday Series · #05</div>
-      <span class="card-tag">Fed · Powell</span>
-      <h3 class="card-title">"Too Late Powell" mu, Yoksa Haklı mıydı?</h3>
-      <p class="card-excerpt">Mart CPI açıklandıktan sonra yayınlanacak. Faizleri indirmeyerek ekonomiyi şoklara karşı korudu mu?</p>
-      <div class="card-meta">Mart CPI sonrası</div>
-    </div>
-
-    <!-- COMING SOON: Blockchain & Energy -->
-    <div class="article-card coming-soon" data-cat="enerji">
-      <div class="card-img" style="background:var(--surface-low);display:flex;align-items:center;justify-content:center">
-        <span style="font-family:var(--font-label);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--secondary)">Yakında</span>
-      </div>
-      <div class="card-series">Sunday Series · #06</div>
-      <span class="card-tag">Blockchain · Enerji</span>
-      <h3 class="card-title">Smart Contracts & Yenilenebilir Enerji</h3>
-      <p class="card-excerpt">Avrupa'nın enerji bağımsızlığı için peer-to-peer enerji ticareti. Blockchain ROI'yi düşürebilir mi?</p>
-      <div class="card-meta">Hazırlanıyor</div>
-    </div>
-
-    <!-- COMING SOON: Bitcoin vs Gold -->
-    <div class="article-card coming-soon" data-cat="kripto">
-      <div class="card-img" style="background:var(--surface-low);display:flex;align-items:center;justify-content:center">
-        <span style="font-family:var(--font-label);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--secondary)">Yakında</span>
-      </div>
-      <div class="card-series">Sunday Series · #07</div>
-      <span class="card-tag">Kripto · Altın</span>
-      <h3 class="card-title">Bitcoin vs Altın — Asimetri Analizi</h3>
-      <p class="card-excerpt">Altın binlerce yıllık güven, Bitcoin ise teknoloji katmanı. İki varlığın risk/getiri profili neden bu kadar farklı?</p>
-      <div class="card-meta">Hazırlanıyor</div>
-    </div>
-
-  </div>
-
-  <!-- FULL ARTICLE: Smart Money -->
-  <div id="smart-money-full" style="scroll-margin-top:80px">
-    <div class="section-div">
-      <h3>Tam Yazı — #04 Smart Money</h3>
-      <div class="section-div-line"></div>
-    </div>
-    <div class="article-full">
-      <div class="article-full-header">
-        <span class="article-full-tag">Kripto · Smart Money · Sunday Series #04</span>
-        <h1 class="article-full-title">Smart Money Nedir ve Nereye Gidiyor?</h1>
-        <div class="article-full-meta">
-          <div class="author-chip">
-            <div class="author-chip-avatar">OB</div>
-            <div>
-              <div class="author-chip-name">Orkun Biçen</div>
-            </div>
-          </div>
-          <span class="article-full-date">6 Nisan 2026</span>
-        </div>
-      </div>
-      <div class="article-body">
-        <p>Geçen hafta nükleer yatırım verilerinde bir şey dikkatimi çekti: dünyanın en büyük şirketleri sessiz sedasız nesiller boyu sürecek bahislere giriyordu. Bu beni düşündürdü — smart money'yi nasıl takip ediyoruz?</p>
-
-        <h2>Smart Money 101</h2>
-        <p>Smart money = kurumsal yatırımcılar. Hedge fonlar, emeklilik fonları, varlık yöneticileri — araştırma ekipleri, risk modelleri ve uzun vadeli zaman ufukları olan oyuncular. Onlar tepki vermez. Pozisyon alır.</p>
-
-        <p>Ben takip ettiğim birkaç sinyal:</p>
-        <ul class="arrow-list">
-          <li><strong>Coinbase Premium Index</strong> — ABD kurumları BTC için Binance'den fazla ödiyorsa, talep geleneksel finans tarafından geliyor demektir.</li>
-          <li><strong>Exchange Net Flow</strong> — BTC borsalardan çıkıyorsa birikim, giriyorsa satış baskısı var.</li>
-          <li><strong>CME Futures Pozisyonlaması</strong> — Hedge fonların yönsel bahisleri, haftalık raporlanıyor.</li>
-          <li><strong>ETF Flows</strong> — Kim alıyor, kim satıyor, ne kadar hızlı.</li>
-        </ul>
-
-        <h2>Ocak Beklentisi vs Q1 Gerçeği</h2>
-        <p>Ocak ayında JPMorgan netti: 2026, kurumsal kripto adoptasyonunun yılı olacak. 2025'te $130B aktı. Bir sonraki dalga daha büyük olacak ve kurumlar liderlik edecekti.</p>
-
-        <div class="source-box">
-          <strong>Kaynak — JPMorgan Research (Ocak 2026)</strong>
-          "We are positive in crypto markets for 2026 as we expect a further rise in the digital asset flow but more led by institutional investors." — Nikolaos Panigirtzoglou
-        </div>
-
-        <p>Ama sonra İran savaşı geldi. VIX 26'ya çıktı. Fear & Greed Index 12'ye düştü — Extreme Fear. Her yerde risk-off.</p>
-
-        <p>Ve dün JPMorgan çok farklı bir rapor yayınladı: Q1 2026 kripto akışları sadece $11B — geçen yılın aynı döneminin üçte biri. Kurumsal ve retail akışlar küçük ya da negatif. Q1 akışlarının büyük bölümü? Strategy'nin Bitcoin alımları ve VC fonları.</p>
-
-        <p><strong>Smart money liderlik etmedi. Geri çekildi.</strong></p>
-
-        <h2>Bu Tam da Neden Bu Sinyalleri Anlık Takip Ediyorum</h2>
-        <p>Makro ortam en güçlü kurumsal tezi bile — hızla — tersine çevirebilir.</p>
-        <p>Coinbase Premium Index bu dönemde sürekli negatifti. Yani ABD kurumları Binance fiyatının altında alım yapıyordu — geleneksel finans satış tarafındaydı.</p>
-
-        <div class="source-box">
-          <strong>Kaynaklar</strong>
-          JPMorgan — Ocak 2026 Outlook: theblock.co/post/385670<br/>
-          JPMorgan — Q1 Gerçeği: theblock.co/post/396327<br/>
-          Coinbase Premium Index: coinglass.com
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FULL ARTICLE: Nükleer -->
-  <div id="nukleer-full" style="scroll-margin-top:80px">
-    <div class="section-div">
-      <h3>Tam Yazı — #03 Nükleer & AI</h3>
-      <div class="section-div-line"></div>
-    </div>
-    <div class="article-full">
-      <div class="article-full-header">
-        <span class="article-full-tag">Enerji · Nükleer · Sunday Series #03</span>
-        <h1 class="article-full-title">AI Elektrik İstiyor — Ve Cevap Nükleerde</h1>
-        <div class="article-full-meta">
-          <div class="author-chip"><div class="author-chip-avatar">OB</div><div><div class="author-chip-name">Orkun Biçen</div></div></div>
-          <span class="article-full-date">6 Nisan 2026</span>
-        </div>
-      </div>
-      <div class="article-body">
-        <p>Geçen hafta sormustum: bu kriz enerji geçişini hızlandıracak son uyarı sinyali mi? Morgan Stanley'nin AI enerji bottleneck araştırmasına rastladım — ve rakamlar çarpıcıydı.</p>
-        <p>AI sadece chip istemiyor. Elektrik istiyor. Çok fazla elektrik.</p>
-
-        <h2>IEA Rakamları</h2>
-        <p>IEA'nın "Energy and AI" raporuna göre <strong>sadece veri merkezleri</strong> 2030'da 945 TWh elektrik tüketecek — Japonya'nın bugün tükettiği toplam elektriğe eşit. ABD'de veri merkezleri yakında alüminyum, çelik, çimento ve tüm ağır sanayi üretiminin toplam elektrik tüketimini geçecek.</p>
-
-        <h2>Nükleere Kim Bahis Yapıyor?</h2>
-        <ul class="arrow-list">
-          <li><strong>Microsoft</strong> — $16B, 20 yıllık anlaşma, 835 MW (Three Mile Island restart)</li>
-          <li><strong>Amazon</strong> — $20B+, nükleer güçlü AWS kampüsü (Pennsylvania)</li>
-          <li><strong>Google</strong> — 500 MW küçük modüler reaktörler (Kairos Power, 2030+)</li>
-          <li><strong>Meta</strong> — 4 GW'a kadar yeni nükleer kapasite için RFP</li>
-        </ul>
-
-        <p>Morgan Stanley Research, uzun vadeli hesaplama ve enerji talebinin mevcut yatırım seviyelerini justify ettiğini söylüyor. Ama dürüst olalım — geleneksel nükleer santral 40 yıla kadar geri ödeme süresi gerektiriyor. SMR'lar için bile 10-15 yıl. Bu bir trade değil. Nesiller boyu sürecek bir bahis.</p>
-
-        <p>Ve belki asıl hikaye şu: nükleer muhtemelen düşündüğümüz kadar tehlikeli değildi. Sadece $1 trilyon AI yatırım dalgasına ihtiyacımız vardı bunu hatırlamak için.</p>
-
-        <div class="source-box">
-          <strong>Kaynaklar</strong>
-          IEA — "Energy and AI" (2026): iea.org/reports/energy-and-ai<br/>
-          Morgan Stanley — "Powering AI": morganstanley.com/insights/articles/powering-ai-energy-market-outlook-2026
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FULL ARTICLE: Petrol -->
-  <div id="petrol-full" style="scroll-margin-top:80px">
-    <div class="section-div">
-      <h3>Tam Yazı — #01 Petrol & Enflasyon</h3>
-      <div class="section-div-line"></div>
-    </div>
-    <div class="article-full">
-      <div class="article-full-header">
-        <span class="article-full-tag">Makro · Petrol · Sunday Series #01</span>
-        <h1 class="article-full-title">1970'ler Kıyaslaması Neden Yanıltıcı?</h1>
-        <div class="article-full-meta">
-          <div class="author-chip"><div class="author-chip-avatar">OB</div><div><div class="author-chip-name">Orkun Biçen</div></div></div>
-          <span class="article-full-date">23 Mart 2026</span>
-        </div>
-      </div>
-      <div class="article-body">
-        <p>Pazar sabahlarımı makroekonomik verilere bakarak geçiriyorum. Bu haftadan itibaren bunu sizinle paylaşmak istiyorum — pazar serisi olarak.</p>
-
-        <p>Brent crude İran savaşı başladığından bu yana %40 arttı. Hormuz Boğazı — küresel petrol ticaretinin %20'si — fiilen kapalı.</p>
-        <p>Herkes 1970'lerle kıyaslamaya başladı. Bence bu yanıltıcı.</p>
-
-        <h2>Veriler Ne Söylüyor?</h2>
-        <p>1973'te $1.000'lik ekonomik çıktı üretmek için 1 varil petrol gerekiyordu. Bugün: 0.43 varil. %56 daha az. Elektrikli araçlar, yenilenebilir enerji, verimlilik artışı — dünya temelden değişti.</p>
-
-        <p>Ama bu "bu sefer önemli değil" anlamına gelmiyor.</p>
-        <ul class="arrow-list">
-          <li>Petrol fiyatları → gübre maliyeti → gıda fiyatları artar</li>
-          <li>Shipping maliyetleri yükselir → her şeyin fiyatı artar</li>
-          <li>Fed köşeye sıkışır → enflasyon yükselirken faiz indiremez</li>
-        </ul>
-
-        <p>Eğer şok kısa süreliyse, stratejik petrol rezervi salımları darbeyi emebilir. Ama petrol aylarca $110 üzerinde kalırsa — enflasyon beklentileri bozulur. 2021'den bu yana savaştığımız aynı döngüye geri döneriz.</p>
-
-        <h2>PPI ve Powell</h2>
-        <p>Bir not daha: Şubat PPI beklentinin iki katı geldi. Ve o veri henüz petrol şokunu yansıtmıyor. Powell geçen Çarşamba outlook hakkında sorulduğunda <strong>"we just don't know"</strong> dedi — 17 kez.</p>
-
-        <p>Bu kriz, enerji geçişini hızlandıracak son uyarı sinyali mi?</p>
-
-        <div class="source-box">
-          <strong>Veri Kaynakları</strong>
-          Columbia University Center on Global Energy Policy — Oil Intensity Study<br/>
-          Paul Krugman, Substack — "War, Oil and the World Economy"<br/>
-          IEA — Strategic Petroleum Reserve Release, Mart 2026
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-<footer class="footer">
+<footer>
   <div class="footer-inner">
-    <div class="footer-grid">
+    <div class="footer-top">
       <div>
-        <div class="footer-logo">NO<span>CASH</span>FLOW</div>
-        <p class="footer-desc">Makro ekonomi, kripto ve piyasa analizleri. Her pazar sabahı, verilerle.</p>
+        <div class="footer-brand-title">No<em>/</em>Cashflow</div>
+        <p class="footer-brand-desc">Macro, markets, and the signal in the noise. Written in Barcelona. Read worldwide. Every Sunday morning, with data.</p>
       </div>
       <div class="footer-col">
-        <h5>Sayfalar</h5>
-        <ul><li><a href="index.html">Ana Sayfa</a></li><li><a href="yazilar.html">Yazılar</a></li><li><a href="macro.html">Macro</a></li><li><a href="dashboard.html">Dashboard</a></li></ul>
+        <h4>Read</h4>
+        <ul>
+          <li><a href="yazilar.html">Sunday Series</a></li>
+          <li><a href="bulletin.html">Daily Bulletin</a></li>
+          <li><a href="macro.html">Macro</a></li>
+          <li><a href="crypto.html">Crypto</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="sozluk.html">Glossary</a></li>
+        </ul>
       </div>
       <div class="footer-col">
-        <h5>İçerik</h5>
-        <ul><li><a href="daily_bulletin.html">Günlük Bülten</a></li><li><a href="hakkinda.html">Hakkında</a></li><li><a href="sozluk.html">Sözlük</a></li></ul>
+        <h4>About</h4>
+        <ul>
+          <li><a href="hakkinda.html">Orkun Bi&ccedil;en</a></li>
+          <li><a href="hakkinda.html#methodology">Methodology</a></li>
+          <li><a href="hakkinda.html#sources">Sources</a></li>
+          <li><a href="mailto:orkun@nocashflow.net">Contact</a></li>
+          <li><a href="mailto:orkun@nocashflow.net">Advertise</a></li>
+        </ul>
       </div>
       <div class="footer-col">
-        <h5>Sosyal</h5>
-        <ul><li><a href="https://twitter.com/No_CashFlow" target="_blank">Twitter / X</a></li><li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank">LinkedIn</a></li><li><a href="mailto:orkun@nocashflow.net">E-posta</a></li></ul>
+        <h4>Follow</h4>
+        <ul>
+          <li><a href="https://twitter.com/No_CashFlow">Twitter &middot; @No_CashFlow</a></li>
+          <li><a href="https://www.linkedin.com/in/orkunbicen/">LinkedIn</a></li>
+          <li><a href="#">RSS Feed</a></li>
+          <li><a href="#">Telegram</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+        </ul>
       </div>
     </div>
-    <div class="footer-bottom">
-      <p>© 2026 NoCashFlow.net · Orkun Biçen · Barcelona</p>
-      <p>Bu site yatırım tavsiyesi vermez.</p>
+    <div class="footer-bot">
+      <span>&copy; 2026 NoCashFlow &middot; Barcelona</span>
+      <span>Built with obsession &middot; <a href="#">Colophon</a></span>
+    </div>
+    <div class="disclaimer">
+      This site does not provide investment advice. All content is for informational purposes. The author may hold positions in instruments mentioned. Always do your own research.
     </div>
   </div>
 </footer>
-
-<script>
-function filterArticles(cat, btn) {
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.article-card, .article-featured').forEach(card => {
-    if(cat === 'all' || card.dataset.cat === cat) {
-      card.style.display = '';
-    } else {
-      card.style.display = 'none';
-    }
-  });
-}
-</script>
+<script src="assets/site.js"></script>
 </body>
 </html>

@@ -1,246 +1,203 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Finansal Sözlük — No Cash Flow</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Source+Serif+4:wght@300;400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        :root {
-            --cream: #f8f5f0;
-            --ink: #1a1a1a;
-            --accent: #c8392b;
-            --muted: #6b6b6b;
-            --border: #e0dcd5;
-        }
-        
-        body {
-            font-family: 'Source Serif 4', Georgia, serif;
-            background: var(--cream);
-            color: var(--ink);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        /* Header */
-        header {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 30px 20px;
-            width: 100%;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .back-link {
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            color: var(--muted);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: color 0.2s;
-        }
-        
-        .back-link:hover { color: var(--ink); }
-        
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            font-weight: 600;
-            text-decoration: none;
-            color: var(--ink);
-        }
-        
-        .logo span { font-style: italic; color: var(--accent); }
-        
-        /* Main */
-        main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 60px 20px;
-            text-align: center;
-        }
-        
-        .coming-soon {
-            max-width: 500px;
-        }
-        
-        .icon {
-            font-size: 64px;
-            margin-bottom: 24px;
-        }
-        
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 42px;
-            font-weight: 400;
-            margin-bottom: 16px;
-        }
-        
-        .subtitle {
-            font-size: 18px;
-            color: var(--muted);
-            margin-bottom: 32px;
-            line-height: 1.6;
-        }
-        
-        .preview-terms {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-bottom: 40px;
-        }
-        
-        .term-card {
-            background: white;
-            border: 1px solid var(--border);
-            padding: 20px;
-            border-radius: 8px;
-            text-align: left;
-        }
-        
-        .term-card h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        
-        .term-card p {
-            font-size: 13px;
-            color: var(--muted);
-            line-height: 1.5;
-        }
-        
-        .term-card .category {
-            font-family: 'Inter', sans-serif;
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--accent);
-            margin-bottom: 8px;
-        }
-        
-        .newsletter-form {
-            display: flex;
-            max-width: 400px;
-            margin: 0 auto;
-            gap: 10px;
-        }
-        
-        .newsletter-form input {
-            flex: 1;
-            padding: 14px 18px;
-            border: 1px solid var(--border);
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            background: white;
-            border-radius: 4px;
-        }
-        
-        .newsletter-form button {
-            padding: 14px 24px;
-            background: var(--ink);
-            color: var(--cream);
-            border: none;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background 0.2s;
-        }
-        
-        .newsletter-form button:hover { background: var(--accent); }
-        
-        .notify-text {
-            font-family: 'Inter', sans-serif;
-            font-size: 13px;
-            color: var(--muted);
-            margin-top: 12px;
-        }
-        
-        /* Footer */
-        footer {
-            border-top: 1px solid var(--border);
-            padding: 20px;
-            text-align: center;
-            font-family: 'Inter', sans-serif;
-            font-size: 13px;
-            color: var(--muted);
-        }
-        
-        footer a {
-            color: var(--muted);
-            text-decoration: none;
-        }
-        
-        footer a:hover { color: var(--ink); }
-        
-        @media (max-width: 768px) {
-            .preview-terms { grid-template-columns: 1fr; }
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Glossary — NoCashFlow</title>
+<meta name="description" content="Every financial term used on this site, defined simply. TR + EN, 247 terms and counting." />
+<meta property="og:title" content="Glossary — NoCashFlow" />
+<meta property="og:description" content="Every financial term used on this site, defined simply. TR + EN, 247 terms and counting." />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="NoCashFlow" />
+<meta property="og:image" content="https://nocashflow.net/assets/og.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@No_CashFlow" />
+<meta name="theme-color" content="#0b0b0d" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/site.css" />
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <a href="index.html" class="back-link">← Ana Sayfa</a>
-            <a href="index.html" class="logo">No Cash <span>Flow</span></a>
-            <div style="width: 100px;"></div>
-        </div>
-    </header>
-    
-    <main>
-        <div class="coming-soon">
-            <div class="icon">📚</div>
-            <h1>Finansal Sözlük</h1>
-            <p class="subtitle">
-                Finansal terimlerin açıklamaları, örnekler ve pratik kullanım rehberleri... 
-                Yakında burada!
-            </p>
-            
-            <div class="preview-terms">
-                <div class="term-card">
-                    <div class="category">Muhasebe</div>
-                    <h3>Cash Flow</h3>
-                    <p>Bir şirketin belirli bir dönemde nakit giriş ve çıkışları...</p>
-                </div>
-                <div class="term-card">
-                    <div class="category">Makro</div>
-                    <h3>Yield Curve</h3>
-                    <p>Farklı vadelerdeki tahvil getirilerinin grafiksel gösterimi...</p>
-                </div>
-                <div class="term-card">
-                    <div class="category">Kripto</div>
-                    <h3>DeFi</h3>
-                    <p>Merkezi olmayan finans protokolleri ve uygulamaları...</p>
-                </div>
-            </div>
-            
-            <form class="newsletter-form" onsubmit="return false;">
-                <input type="email" placeholder="E-posta adresiniz" required>
-                <button type="submit">Haber Ver</button>
-            </form>
-            <p class="notify-text">Sözlük yayınlandığında size haber verelim.</p>
-        </div>
-    </main>
-    
-    <footer>
-        <p>© 2026 No Cash Flow · <a href="hakkinda.html">Orkun Biçen</a></p>
-    </footer>
+<div class="ticker" data-ticker-live>
+  <div class="ticker-label"><span class="dot"></span> LIVE</div>
+  <div class="ticker-track">
+    <div class="tick" data-sym="BTC"><span class="sym">BTC</span><span class="px">$67,420</span><span class="chg dn">-1.82%</span></div>
+    <div class="tick" data-sym="ETH"><span class="sym">ETH</span><span class="px">$3,284</span><span class="chg dn">-2.41%</span></div>
+    <div class="tick"><span class="sym">GOLD</span><span class="px">$2,614</span><span class="chg up">+0.74%</span></div>
+    <div class="tick"><span class="sym">BRENT</span><span class="px">$106.12</span><span class="chg up">+3.12%</span></div>
+    <div class="tick"><span class="sym">DXY</span><span class="px">104.28</span><span class="chg up">+0.46%</span></div>
+    <div class="tick"><span class="sym">US10Y</span><span class="px">4.38%</span><span class="chg up">+4bp</span></div>
+    <div class="tick"><span class="sym">VIX</span><span class="px">26.8</span><span class="chg up">+2.1%</span></div>
+    <div class="tick"><span class="sym">F&amp;G</span><span class="px">18</span><span class="chg dn">EXTREME FEAR</span></div>
+    <div class="tick"><span class="sym">COPPER</span><span class="px">$4.28</span><span class="chg up">+0.38%</span></div>
+    <div class="tick"><span class="sym">SPX</span><span class="px">5,684</span><span class="chg dn">-0.62%</span></div>
+    <div class="tick"><span class="sym">EUR/USD</span><span class="px">1.0684</span><span class="chg dn">-0.21%</span></div>
+    <div class="tick"><span class="sym">USD/TRY</span><span class="px">34.82</span><span class="chg up">+0.11%</span></div>
+    <div class="tick" data-sym="BTC"><span class="sym">BTC</span><span class="px">$67,420</span><span class="chg dn">-1.82%</span></div>
+    <div class="tick" data-sym="ETH"><span class="sym">ETH</span><span class="px">$3,284</span><span class="chg dn">-2.41%</span></div>
+    <div class="tick"><span class="sym">GOLD</span><span class="px">$2,614</span><span class="chg up">+0.74%</span></div>
+    <div class="tick"><span class="sym">BRENT</span><span class="px">$106.12</span><span class="chg up">+3.12%</span></div>
+    <div class="tick"><span class="sym">DXY</span><span class="px">104.28</span><span class="chg up">+0.46%</span></div>
+    <div class="tick"><span class="sym">US10Y</span><span class="px">4.38%</span><span class="chg up">+4bp</span></div>
+    <div class="tick"><span class="sym">VIX</span><span class="px">26.8</span><span class="chg up">+2.1%</span></div>
+    <div class="tick"><span class="sym">F&amp;G</span><span class="px">18</span><span class="chg dn">EXTREME FEAR</span></div>
+    <div class="tick"><span class="sym">COPPER</span><span class="px">$4.28</span><span class="chg up">+0.38%</span></div>
+    <div class="tick"><span class="sym">SPX</span><span class="px">5,684</span><span class="chg dn">-0.62%</span></div>
+    <div class="tick"><span class="sym">EUR/USD</span><span class="px">1.0684</span><span class="chg dn">-0.21%</span></div>
+    <div class="tick"><span class="sym">USD/TRY</span><span class="px">34.82</span><span class="chg up">+0.11%</span></div>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">NO<span class="slash">/</span>CASHFLOW<span class="tag">MACRO &times; MARKETS</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="yazilar.html">Sunday</a>
+      <a href="bulletin.html">Bulletin</a>
+      <a href="macro.html">Macro</a>
+      <a href="crypto.html">Crypto</a>
+      <a href="dashboard.html">Dashboard</a>
+    </div>
+    <div class="nav-right">
+      <button class="nav-btn menu-toggle" aria-label="Menu">&#9776;</button>
+      <button class="nav-btn" aria-label="Language" onclick="alert('TR version coming')">TR</button>
+      <a href="#newsletter" class="subscribe">Subscribe</a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="page-eyebrow"><span class="tag filled">GLOSSARY</span><span>TR + EN &middot; 247 terms and counting</span></div>
+  <h1 class="page-title">The <em>vocabulary</em>.</h1>
+  <p class="page-dek">Every term used on this site, defined simply. Not like a textbook &mdash; like how a colleague would explain it to you in a meeting.</p>
+</header>
+
+<section class="section" style="padding-top:48px;">
+  <input type="text" placeholder="Search terms..." style="width:100%;max-width:500px;padding:16px 20px;background:var(--bg-elev);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:14px;margin-bottom:40px;" oninput="Array.from(document.querySelectorAll('.glossary-item')).forEach(el=>el.style.display=el.textContent.toLowerCase().includes(this.value.toLowerCase())?'':'none')" />
+
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);">
+    <div class="glossary-item" style="padding:28px 24px;background:var(--bg-elev);">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--amber);text-transform:uppercase;margin-bottom:8px;">CRYPTO</div>
+      <h3 style="font-family:var(--serif);font-style:italic;font-weight:400;font-size:26px;color:var(--amber);margin-bottom:12px;">Coinbase Premium Index</h3>
+      <p style="font-size:14px;line-height:1.6;color:var(--text-dim);">The difference between BTC price on Coinbase (USD-based, US institutional) and Binance (USDT-based, global retail). Positive = US buying pressure. Negative = offshore flows dominate. A leading indicator for institutional behavior.</p>
+    </div>
+    <div class="glossary-item" style="padding:28px 24px;background:var(--bg-elev);">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--amber);text-transform:uppercase;margin-bottom:8px;">MACRO</div>
+      <h3 style="font-family:var(--serif);font-style:italic;font-weight:400;font-size:26px;color:var(--amber);margin-bottom:12px;">DXY</h3>
+      <p style="font-size:14px;line-height:1.6;color:var(--text-dim);">US Dollar Index. Measures USD strength against a basket of six currencies (EUR, JPY, GBP, CAD, SEK, CHF). Rises when dollar strengthens. Negatively correlated with most risk assets and commodities priced in dollars.</p>
+    </div>
+    <div class="glossary-item" style="padding:28px 24px;background:var(--bg-elev);">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--amber);text-transform:uppercase;margin-bottom:8px;">CRYPTO</div>
+      <h3 style="font-family:var(--serif);font-style:italic;font-weight:400;font-size:26px;color:var(--amber);margin-bottom:12px;">Fear &amp; Greed Index</h3>
+      <p style="font-size:14px;line-height:1.6;color:var(--text-dim);">A 0&ndash;100 sentiment gauge for crypto markets from Alternative.me. Combines volatility, momentum, social, survey, dominance, and trends. Below 20 = extreme fear, historically a contrarian buy signal. Above 80 = extreme greed, a warning sign.</p>
+    </div>
+    <div class="glossary-item" style="padding:28px 24px;background:var(--bg-elev);">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--amber);text-transform:uppercase;margin-bottom:8px;">RATES</div>
+      <h3 style="font-family:var(--serif);font-style:italic;font-weight:400;font-size:26px;color:var(--amber);margin-bottom:12px;">Yield Curve</h3>
+      <p style="font-size:14px;line-height:1.6;color:var(--text-dim);">A plot of Treasury yields across maturities (3M, 2Y, 10Y, 30Y). Normal = upward sloping. Inverted (short yields above long) = recession signal historically. The 2Y/10Y spread is the most-watched.</p>
+    </div>
+    <div class="glossary-item" style="padding:28px 24px;background:var(--bg-elev);">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--amber);text-transform:uppercase;margin-bottom:8px;">MACRO</div>
+      <h3 style="font-family:var(--serif);font-style:italic;font-weight:400;font-size:26px;color:var(--amber);margin-bottom:12px;">CPI vs PPI</h3>
+      <p style="font-size:14px;line-height:1.6;color:var(--text-dim);">CPI = Consumer Price Index, what households pay. PPI = Producer Price Index, what businesses pay. PPI leads CPI by 1&ndash;3 months. A hot PPI print is a warning that CPI is coming.</p>
+    </div>
+    <div class="glossary-item" style="padding:28px 24px;background:var(--bg-elev);">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--amber);text-transform:uppercase;margin-bottom:8px;">VOL</div>
+      <h3 style="font-family:var(--serif);font-style:italic;font-weight:400;font-size:26px;color:var(--amber);margin-bottom:12px;">VIX</h3>
+      <p style="font-size:14px;line-height:1.6;color:var(--text-dim);">CBOE Volatility Index. Measures 30-day implied volatility on S&amp;P 500 options. Below 15 = calm. 20&ndash;25 = worried. Above 30 = panic. &ldquo;The fear gauge.&rdquo;</p>
+    </div>
+    <div class="glossary-item" style="padding:28px 24px;background:var(--bg-elev);">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--amber);text-transform:uppercase;margin-bottom:8px;">CRYPTO</div>
+      <h3 style="font-family:var(--serif);font-style:italic;font-weight:400;font-size:26px;color:var(--amber);margin-bottom:12px;">MiCA</h3>
+      <p style="font-size:14px;line-height:1.6;color:var(--text-dim);">Markets in Crypto-Assets Regulation. EU framework for crypto, fully in effect April 2026. Requires stablecoin issuers to be licensed and reserve-audited. Created regulatory moats: USDC compliant, USDT not.</p>
+    </div>
+    <div class="glossary-item" style="padding:28px 24px;background:var(--bg-elev);">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--amber);text-transform:uppercase;margin-bottom:8px;">RATES</div>
+      <h3 style="font-family:var(--serif);font-style:italic;font-weight:400;font-size:26px;color:var(--amber);margin-bottom:12px;">Dot Plot</h3>
+      <p style="font-size:14px;line-height:1.6;color:var(--text-dim);">Federal Reserve&#8217;s quarterly projection of where each FOMC member sees the fed funds rate at year-end, one year out, two years out, long-run. The median dot is what markets price.</p>
+    </div>
+    <div class="glossary-item" style="padding:28px 24px;background:var(--bg-elev);">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--amber);text-transform:uppercase;margin-bottom:8px;">CRYPTO</div>
+      <h3 style="font-family:var(--serif);font-style:italic;font-weight:400;font-size:26px;color:var(--amber);margin-bottom:12px;">BTC Dominance</h3>
+      <p style="font-size:14px;line-height:1.6;color:var(--text-dim);">Bitcoin&#8217;s share of total crypto market cap. Rising dominance in selloffs = flight to quality within crypto. Rising in rallies = institutions are in. Falling dominance = alt season.</p>
+    </div>
+    <div class="glossary-item" style="padding:28px 24px;background:var(--bg-elev);">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--amber);text-transform:uppercase;margin-bottom:8px;">COMMODITIES</div>
+      <h3 style="font-family:var(--serif);font-style:italic;font-weight:400;font-size:26px;color:var(--amber);margin-bottom:12px;">Contango vs Backwardation</h3>
+      <p style="font-size:14px;line-height:1.6;color:var(--text-dim);">Contango: futures priced above spot (storage costs, expected price rise). Backwardation: futures below spot (immediate demand, supply tight). Backwardation in oil = a bullish signal.</p>
+    </div>
+  </div>
+</section>
+
+<section class="newsletter" id="newsletter">
+  <div class="newsletter-inner">
+    <div class="newsletter-label">THE BULLETIN</div>
+    <h2 class="newsletter-title">One email. Every morning. <em>Zero noise.</em></h2>
+    <p class="newsletter-dek">Daily macro bulletin and the Sunday Morning Series, delivered before the market opens. No sponsored picks. No affiliate crypto shills. Just the signal.</p>
+    <form class="newsletter-form">
+      <input class="newsletter-input" type="email" placeholder="your@email.com" required />
+      <button class="newsletter-submit" type="submit">Subscribe</button>
+    </form>
+    <div class="newsletter-note">FREE &middot; UNSUBSCRIBE ANYTIME &middot; TR + EN EDITIONS</div>
+    <div class="newsletter-stats">
+      <div class="nl-stat"><div class="v">4,200+</div><div class="k">Subscribers</div></div>
+      <div class="nl-stat"><div class="v">68%</div><div class="k">Open Rate</div></div>
+      <div class="nl-stat"><div class="v">47</div><div class="k">Issues Sent</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-title">No<em>/</em>Cashflow</div>
+        <p class="footer-brand-desc">Macro, markets, and the signal in the noise. Written in Barcelona. Read worldwide. Every Sunday morning, with data.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Read</h4>
+        <ul>
+          <li><a href="yazilar.html">Sunday Series</a></li>
+          <li><a href="bulletin.html">Daily Bulletin</a></li>
+          <li><a href="macro.html">Macro</a></li>
+          <li><a href="crypto.html">Crypto</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="sozluk.html">Glossary</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>About</h4>
+        <ul>
+          <li><a href="hakkinda.html">Orkun Bi&ccedil;en</a></li>
+          <li><a href="hakkinda.html#methodology">Methodology</a></li>
+          <li><a href="hakkinda.html#sources">Sources</a></li>
+          <li><a href="mailto:orkun@nocashflow.net">Contact</a></li>
+          <li><a href="mailto:orkun@nocashflow.net">Advertise</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Follow</h4>
+        <ul>
+          <li><a href="https://twitter.com/No_CashFlow">Twitter &middot; @No_CashFlow</a></li>
+          <li><a href="https://www.linkedin.com/in/orkunbicen/">LinkedIn</a></li>
+          <li><a href="#">RSS Feed</a></li>
+          <li><a href="#">Telegram</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <span>&copy; 2026 NoCashFlow &middot; Barcelona</span>
+      <span>Built with obsession &middot; <a href="#">Colophon</a></span>
+    </div>
+    <div class="disclaimer">
+      This site does not provide investment advice. All content is for informational purposes. The author may hold positions in instruments mentioned. Always do your own research.
+    </div>
+  </div>
+</footer>
+<script src="assets/site.js"></script>
 </body>
 </html>

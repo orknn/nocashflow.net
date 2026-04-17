@@ -1,1311 +1,245 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Watchlist — No Cash Flow</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        :root {
-            --bg-dark: #0f1419;
-            --bg-card: #1a1f2e;
-            --bg-card-hover: #232a3b;
-            --text-primary: #e8eaed;
-            --text-secondary: #8b949e;
-            --accent: #818cf8;
-            --green: #22c55e;
-            --red: #ef4444;
-            --yellow: #eab308;
-            --border: #2d3748;
-        }
-        
-        body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-primary);
-            min-height: 100vh;
-        }
-        
-        /* Header */
-        .header {
-            background: var(--bg-card);
-            border-bottom: 1px solid var(--border);
-            padding: 12px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        
-        .back-btn {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 13px;
-            padding: 6px 12px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            transition: all 0.2s;
-        }
-        
-        .back-btn:hover {
-            color: var(--text-primary);
-            border-color: var(--accent);
-        }
-        
-        .logo {
-            font-size: 20px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .logo-icon {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, var(--accent), #6366f1);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 14px;
-        }
-        
-        .nav-tabs {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .nav-tab {
-            padding: 8px 16px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            transition: all 0.2s;
-        }
-        
-        .nav-tab:hover {
-            color: var(--text-primary);
-            background: var(--bg-card-hover);
-        }
-        
-        .nav-tab.active {
-            background: var(--accent);
-            color: white;
-        }
-        
-        /* Ticker Bar */
-        .ticker-bar {
-            display: flex;
-            gap: 24px;
-            padding: 0 20px;
-            font-size: 13px;
-        }
-        
-        .ticker-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .ticker-symbol { font-weight: 600; }
-        .ticker-price { color: var(--text-secondary); }
-        .ticker-change.up { color: var(--green); }
-        .ticker-change.down { color: var(--red); }
-        
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            font-size: 13px;
-        }
-        
-        .market-status {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-        }
-        
-        .market-status.open { background: rgba(34, 197, 94, 0.2); color: var(--green); }
-        .market-status.closed { background: rgba(239, 68, 68, 0.2); color: var(--red); }
-        
-        .live-badge {
-            background: var(--green);
-            color: white;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 600;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-        
-        /* Macro Bar */
-        .macro-bar {
-            background: var(--bg-card);
-            border-bottom: 1px solid var(--border);
-            padding: 12px 24px;
-            display: flex;
-            gap: 32px;
-        }
-        
-        .macro-item {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-        
-        .macro-label {
-            font-size: 10px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-        }
-        
-        .macro-value {
-            font-size: 16px;
-            font-weight: 600;
-        }
-        
-        .macro-sub {
-            font-size: 11px;
-            color: var(--text-secondary);
-        }
-        
-        /* Main Layout */
-        .main {
-            display: flex;
-            height: calc(100vh - 120px);
-        }
-        
-        /* Sidebar */
-        .sidebar {
-            width: 280px;
-            background: var(--bg-card);
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .sidebar-header {
-            padding: 16px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .sidebar-title {
-            font-size: 14px;
-            font-weight: 600;
-        }
-        
-        .add-btn {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        
-        .add-btn:hover { background: #6366f1; }
-        
-        .search-box {
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .search-input {
-            width: 100%;
-            padding: 10px 12px;
-            background: var(--bg-dark);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            color: var(--text-primary);
-            font-size: 13px;
-        }
-        
-        .search-input::placeholder { color: var(--text-secondary); }
-        
-        .filter-tabs {
-            display: flex;
-            padding: 12px 16px;
-            gap: 8px;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .filter-tab {
-            padding: 6px 12px;
-            background: transparent;
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            color: var(--text-secondary);
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .filter-tab:hover { border-color: var(--accent); color: var(--text-primary); }
-        .filter-tab.active { background: var(--accent); border-color: var(--accent); color: white; }
-        
-        .asset-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 8px;
-        }
-        
-        .asset-category {
-            padding: 8px 12px;
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .asset-item {
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        
-        .asset-item:hover { background: var(--bg-card-hover); }
-        .asset-item.active { background: var(--accent); }
-        
-        .asset-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            margin-right: 12px;
-        }
-        
-        .asset-info { flex: 1; }
-        
-        .asset-symbol {
-            font-weight: 600;
-            font-size: 14px;
-        }
-        
-        .asset-name {
-            font-size: 11px;
-            color: var(--text-secondary);
-        }
-        
-        .asset-price {
-            text-align: right;
-        }
-        
-        .asset-price-value {
-            font-weight: 600;
-            font-size: 14px;
-        }
-        
-        .asset-price-change {
-            font-size: 11px;
-        }
-        
-        .asset-status {
-            font-size: 9px;
-            color: var(--text-secondary);
-            margin-left: 4px;
-        }
-        
-        /* Chart Area */
-        .chart-area {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 24px;
-        }
-        
-        .chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 20px;
-        }
-        
-        .chart-title {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-        
-        .chart-symbol {
-            font-size: 32px;
-            font-weight: 700;
-        }
-        
-        .chart-price {
-            font-size: 36px;
-            font-weight: 700;
-        }
-        
-        .chart-change {
-            font-size: 16px;
-            margin-top: 4px;
-        }
-        
-        .chart-updated {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 8px;
-        }
-        
-        .chart-controls {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .time-btn {
-            padding: 8px 14px;
-            background: transparent;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            color: var(--text-secondary);
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .time-btn:hover { border-color: var(--accent); color: var(--text-primary); }
-        .time-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
-        
-        .chart-type-btn {
-            padding: 8px 14px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            color: var(--text-primary);
-            font-size: 12px;
-            cursor: pointer;
-        }
-        
-        .chart-type-btn.active { background: var(--accent); border-color: var(--accent); }
-        
-        .chart-container {
-            flex: 1;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
-            min-height: 400px;
-        }
-        
-        .chart-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        
-        .chart-footer {
-            display: flex;
-            justify-content: flex-end;
-            padding-top: 12px;
-        }
-        
-        .tv-link {
-            color: var(--text-secondary);
-            font-size: 12px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        
-        .tv-link:hover { color: var(--accent); }
-        
-        /* Add Modal */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.7);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal-overlay.active { display: flex; }
-        
-        .modal {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px;
-            width: 400px;
-            max-width: 90%;
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .modal-title {
-            font-size: 18px;
-            font-weight: 600;
-        }
-        
-        .modal-close {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 24px;
-            cursor: pointer;
-        }
-        
-        .modal-body label {
-            display: block;
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-bottom: 6px;
-        }
-        
-        .modal-body input, .modal-body select {
-            width: 100%;
-            padding: 12px;
-            background: var(--bg-dark);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            color: var(--text-primary);
-            font-size: 14px;
-            margin-bottom: 16px;
-        }
-        
-        .modal-submit {
-            width: 100%;
-            padding: 12px;
-            background: var(--accent);
-            border: none;
-            border-radius: 6px;
-            color: white;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-        }
-        
-        .modal-submit:hover { background: #6366f1; }
-        
-        .preset-btns {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 16px;
-        }
-        
-        .preset-btn {
-            padding: 8px 14px;
-            background: var(--bg-card-hover);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            color: var(--text-secondary);
-            font-size: 12px;
-            cursor: pointer;
-        }
-        
-        .preset-btn:hover { border-color: var(--accent); color: var(--text-primary); }
-        
-        /* Loading animation */
-        .loading-pulse {
-            animation: pulse 1.5s infinite;
-            opacity: 0.5;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.7; }
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .main { flex-direction: column; }
-            .sidebar { width: 100%; height: 40vh; }
-            .ticker-bar { display: none; }
-            .macro-bar { overflow-x: auto; }
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard — NoCashFlow</title>
+<meta name="description" content="Equity, rates, FX, crypto, commodities, sentiment. Everything, one screen." />
+<meta property="og:title" content="Dashboard — NoCashFlow" />
+<meta property="og:description" content="Equity, rates, FX, crypto, commodities, sentiment. Everything, one screen." />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="NoCashFlow" />
+<meta property="og:image" content="https://nocashflow.net/assets/og.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@No_CashFlow" />
+<meta name="theme-color" content="#0b0b0d" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/site.css" />
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="header-left">
-            <a href="index.html" class="back-btn">← Ana Sayfa</a>
-            <div class="logo">
-                <div class="logo-icon">NCF</div>
-                <span>Markets</span>
-            </div>
-            <nav class="nav-tabs">
-                <a href="macro.html" class="nav-tab">📊 Macro</a>
-                <a href="dashboard.html" class="nav-tab active">📈 Watchlist</a>
-                <a href="daily_bulletin.html" class="nav-tab">📰 Bülten</a>
-            </nav>
-        </div>
-        <div class="ticker-bar" id="ticker-bar">
-            <!-- Populated by JS -->
-        </div>
-        <div class="header-right">
-            <span id="clock"></span>
-            <span class="market-status" id="market-status">
-                <span id="market-dot">●</span> <span id="market-text">Yükleniyor</span>
-            </span>
-            <span class="live-badge">● LIVE</span>
-        </div>
-    </header>
-    
-    <!-- Macro Bar -->
-    <div class="macro-bar">
-        <div class="macro-item">
-            <span class="macro-label">DXY</span>
-            <span class="macro-value" id="macro-dxy">--</span>
-            <span class="macro-sub">EUR/USD bazlı</span>
-        </div>
-        <div class="macro-item">
-            <span class="macro-label">Fear & Greed</span>
-            <span class="macro-value" id="macro-fg">--</span>
-            <span class="macro-sub" id="macro-fg-label">--</span>
-        </div>
-        <div class="macro-item">
-            <span class="macro-label">BTC Dom.</span>
-            <span class="macro-value" id="macro-btcdom">--</span>
-            <span class="macro-sub">Dominance</span>
-        </div>
-        <div class="macro-item">
-            <span class="macro-label">EUR/USD</span>
-            <span class="macro-value" id="macro-eurusd">--</span>
-            <span class="macro-sub" id="macro-eurusd-change">--</span>
-        </div>
+<div class="ticker" data-ticker-live>
+  <div class="ticker-label"><span class="dot"></span> LIVE</div>
+  <div class="ticker-track">
+    <div class="tick" data-sym="BTC"><span class="sym">BTC</span><span class="px">$67,420</span><span class="chg dn">-1.82%</span></div>
+    <div class="tick" data-sym="ETH"><span class="sym">ETH</span><span class="px">$3,284</span><span class="chg dn">-2.41%</span></div>
+    <div class="tick"><span class="sym">GOLD</span><span class="px">$2,614</span><span class="chg up">+0.74%</span></div>
+    <div class="tick"><span class="sym">BRENT</span><span class="px">$106.12</span><span class="chg up">+3.12%</span></div>
+    <div class="tick"><span class="sym">DXY</span><span class="px">104.28</span><span class="chg up">+0.46%</span></div>
+    <div class="tick"><span class="sym">US10Y</span><span class="px">4.38%</span><span class="chg up">+4bp</span></div>
+    <div class="tick"><span class="sym">VIX</span><span class="px">26.8</span><span class="chg up">+2.1%</span></div>
+    <div class="tick"><span class="sym">F&amp;G</span><span class="px">18</span><span class="chg dn">EXTREME FEAR</span></div>
+    <div class="tick"><span class="sym">COPPER</span><span class="px">$4.28</span><span class="chg up">+0.38%</span></div>
+    <div class="tick"><span class="sym">SPX</span><span class="px">5,684</span><span class="chg dn">-0.62%</span></div>
+    <div class="tick"><span class="sym">EUR/USD</span><span class="px">1.0684</span><span class="chg dn">-0.21%</span></div>
+    <div class="tick"><span class="sym">USD/TRY</span><span class="px">34.82</span><span class="chg up">+0.11%</span></div>
+    <div class="tick" data-sym="BTC"><span class="sym">BTC</span><span class="px">$67,420</span><span class="chg dn">-1.82%</span></div>
+    <div class="tick" data-sym="ETH"><span class="sym">ETH</span><span class="px">$3,284</span><span class="chg dn">-2.41%</span></div>
+    <div class="tick"><span class="sym">GOLD</span><span class="px">$2,614</span><span class="chg up">+0.74%</span></div>
+    <div class="tick"><span class="sym">BRENT</span><span class="px">$106.12</span><span class="chg up">+3.12%</span></div>
+    <div class="tick"><span class="sym">DXY</span><span class="px">104.28</span><span class="chg up">+0.46%</span></div>
+    <div class="tick"><span class="sym">US10Y</span><span class="px">4.38%</span><span class="chg up">+4bp</span></div>
+    <div class="tick"><span class="sym">VIX</span><span class="px">26.8</span><span class="chg up">+2.1%</span></div>
+    <div class="tick"><span class="sym">F&amp;G</span><span class="px">18</span><span class="chg dn">EXTREME FEAR</span></div>
+    <div class="tick"><span class="sym">COPPER</span><span class="px">$4.28</span><span class="chg up">+0.38%</span></div>
+    <div class="tick"><span class="sym">SPX</span><span class="px">5,684</span><span class="chg dn">-0.62%</span></div>
+    <div class="tick"><span class="sym">EUR/USD</span><span class="px">1.0684</span><span class="chg dn">-0.21%</span></div>
+    <div class="tick"><span class="sym">USD/TRY</span><span class="px">34.82</span><span class="chg up">+0.11%</span></div>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">NO<span class="slash">/</span>CASHFLOW<span class="tag">MACRO &times; MARKETS</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="yazilar.html">Sunday</a>
+      <a href="bulletin.html">Bulletin</a>
+      <a href="macro.html">Macro</a>
+      <a href="crypto.html">Crypto</a>
+      <a href="dashboard.html">Dashboard</a>
     </div>
-    
-    <!-- Main Layout -->
-    <main class="main">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <span class="sidebar-title">WATCHLIST</span>
-                <button class="add-btn" onclick="openAddModal()">+ Ekle</button>
-            </div>
-            <div class="search-box">
-                <input type="text" class="search-input" placeholder="🔍 Ara..." id="search-input" oninput="filterAssets()">
-            </div>
-            <div class="filter-tabs">
-                <button class="filter-tab active" data-filter="all" onclick="setFilter('all')">Tümü</button>
-                <button class="filter-tab" data-filter="crypto" onclick="setFilter('crypto')">Crypto</button>
-                <button class="filter-tab" data-filter="stock" onclick="setFilter('stock')">Hisse</button>
-                <button class="filter-tab" data-filter="commodity" onclick="setFilter('commodity')">Emtia</button>
-            </div>
-            <div class="asset-list" id="asset-list">
-                <!-- Populated by JS -->
-            </div>
-        </aside>
-        
-        <!-- Chart Area -->
-        <div class="chart-area">
-            <div class="chart-header">
-                <div>
-                    <div class="chart-title" id="chart-title">Bitcoin</div>
-                    <div class="chart-symbol" id="chart-symbol">BTC</div>
-                    <div class="chart-price" id="chart-price">$67,313</div>
-                    <div class="chart-change" id="chart-change" style="color: var(--red)">▼ -1.28% · 7G: +0.00%</div>
-                    <div class="chart-updated" id="chart-updated">Güncellendi: --</div>
-                </div>
-                <div class="chart-controls">
-                    <div style="display:flex;gap:8px;margin-bottom:8px">
-                        <button class="time-btn" data-time="5" onclick="setTimeframe('5')">5dk</button>
-                        <button class="time-btn" data-time="15" onclick="setTimeframe('15')">15dk</button>
-                        <button class="time-btn" data-time="60" onclick="setTimeframe('60')">1S</button>
-                        <button class="time-btn active" data-time="240" onclick="setTimeframe('240')">4S</button>
-                        <button class="time-btn" data-time="D" onclick="setTimeframe('D')">1G</button>
-                        <button class="time-btn" data-time="W" onclick="setTimeframe('W')">1H</button>
-                        <button class="time-btn" data-time="M" onclick="setTimeframe('M')">1A</button>
-                    </div>
-                    <div style="display:flex;gap:8px">
-                        <button class="chart-type-btn active" data-type="1" onclick="setChartType('1')">Mum</button>
-                        <button class="chart-type-btn" data-type="2" onclick="setChartType('2')">Çizgi</button>
-                        <button class="chart-type-btn" data-type="3" onclick="setChartType('3')">Alan</button>
-                    </div>
-                </div>
-            </div>
-            <div class="chart-container" id="chart-container">
-                <!-- TradingView widget -->
-            </div>
-            <div class="chart-footer">
-                <a href="#" class="tv-link" id="tv-link" target="_blank">↗ TradingView'de aç</a>
-            </div>
-        </div>
-    </main>
-    
-    <!-- Add Modal -->
-    <div class="modal-overlay" id="add-modal">
-        <div class="modal">
-            <div class="modal-header">
-                <h3 class="modal-title">Watchlist Yönetimi</h3>
-                <button class="modal-close" onclick="closeAddModal()">×</button>
-            </div>
-            <div class="modal-body">
-                <p style="font-size:12px;color:var(--text-secondary);margin-bottom:16px;">HAZIR PAKETLER</p>
-                <div class="preset-btns">
-                    <button class="preset-btn" onclick="addPreset('crypto')">₿ Crypto</button>
-                    <button class="preset-btn" onclick="addPreset('mag7')">💻 Mag 7</button>
-                    <button class="preset-btn" onclick="addPreset('commodity')">🏭 Macro</button>
-                    <button class="preset-btn" onclick="addPreset('all')">🌍 Tümü</button>
-                </div>
-                
-                <p style="font-size:12px;color:var(--text-secondary);margin:20px 0 12px;">MANUEL EKLE</p>
-                
-                <div style="display:flex;gap:8px;margin-bottom:16px;">
-                    <button class="filter-tab active" data-cat="crypto" onclick="setAddCategory('crypto')">₿ Crypto</button>
-                    <button class="filter-tab" data-cat="stock" onclick="setAddCategory('stock')">📊 Hisse</button>
-                    <button class="filter-tab" data-cat="commodity" onclick="setAddCategory('commodity')">⚡ Emtia</button>
-                    <button class="filter-tab" data-cat="etf" onclick="setAddCategory('etf')">📦 ETF</button>
-                </div>
-                
-                <input type="text" id="add-symbol" placeholder="Sembol (ör: CRCL, BTC, GC=F)" style="text-transform:uppercase">
-                <input type="text" id="add-name" placeholder="Görünen isim (ör: Circle, Bitcoin, Gold)">
-                <input type="hidden" id="add-category" value="crypto">
-                
-                <p style="font-size:11px;color:var(--text-secondary);margin-bottom:16px;">
-                    💡 Hisse sembolleri: AAPL, TSLA, NVDA, CRCL<br>
-                    💡 Emtia sembolleri: GC=F (Gold), SI=F (Silver), BZ=F (Brent)
-                </p>
-                
-                <button class="modal-submit" onclick="addAsset()">+ Listeye Ekle</button>
-            </div>
-        </div>
+    <div class="nav-right">
+      <button class="nav-btn menu-toggle" aria-label="Menu">&#9776;</button>
+      <button class="nav-btn" aria-label="Language" onclick="alert('TR version coming')">TR</button>
+      <a href="#newsletter" class="subscribe">Subscribe</a>
     </div>
-    
-    <script>
-        // Default watchlist
-        let watchlist = JSON.parse(localStorage.getItem('watchlist')) || [
-            { symbol: 'BTC', name: 'Bitcoin', category: 'crypto', yahoo: 'BTC-USD', coingecko: 'bitcoin', color: '#f7931a' },
-            { symbol: 'ETH', name: 'Ethereum', category: 'crypto', yahoo: 'ETH-USD', coingecko: 'ethereum', color: '#627eea' },
-            { symbol: 'SOL', name: 'Solana', category: 'crypto', yahoo: 'SOL-USD', coingecko: 'solana', color: '#00ffa3' },
-            { symbol: 'XRP', name: 'Ripple', category: 'crypto', yahoo: 'XRP-USD', coingecko: 'ripple', color: '#23292f' },
-            { symbol: 'HYPE', name: 'Hyperliquid', category: 'crypto', yahoo: 'HYPE-USD', coingecko: 'hyperliquid', color: '#00d4aa' },
-            { symbol: 'AAPL', name: 'Apple', category: 'stock', yahoo: 'AAPL', tv: 'NASDAQ:AAPL', color: '#a2aaad' },
-            { symbol: 'NVDA', name: 'NVIDIA', category: 'stock', yahoo: 'NVDA', tv: 'NASDAQ:NVDA', color: '#76b900' },
-            { symbol: 'MSFT', name: 'Microsoft', category: 'stock', yahoo: 'MSFT', tv: 'NASDAQ:MSFT', color: '#00a4ef' },
-            { symbol: 'GOOGL', name: 'Alphabet', category: 'stock', yahoo: 'GOOGL', tv: 'NASDAQ:GOOGL', color: '#4285f4' },
-            { symbol: 'AMZN', name: 'Amazon', category: 'stock', yahoo: 'AMZN', tv: 'NASDAQ:AMZN', color: '#ff9900' },
-            { symbol: 'META', name: 'Meta', category: 'stock', yahoo: 'META', tv: 'NASDAQ:META', color: '#0081fb' },
-            { symbol: 'TSLA', name: 'Tesla', category: 'stock', yahoo: 'TSLA', tv: 'NASDAQ:TSLA', color: '#cc0000' },
-            { symbol: 'Gold', name: 'Gold XAU/USD', category: 'commodity', yahoo: 'GC=F', tv: 'TVC:GOLD', color: '#ffd700' },
-            { symbol: 'Silver', name: 'Silver XAG/USD', category: 'commodity', yahoo: 'SI=F', tv: 'TVC:SILVER', color: '#c0c0c0' },
-            { symbol: 'Copper', name: 'Copper HG', category: 'commodity', yahoo: 'HG=F', tv: 'COMEX:HG1!', color: '#b87333' },
-            { symbol: 'Brent', name: 'Brent Oil', category: 'commodity', yahoo: 'BZ=F', tv: 'TVC:UKOIL', color: '#000000' },
-            { symbol: 'NatGas', name: 'Natural Gas', category: 'commodity', yahoo: 'NG=F', tv: 'NYMEX:NG1!', color: '#0066cc' }
-        ];
-        
-        let prices = {};
-        let currentAsset = watchlist[0];
-        let currentTimeframe = '240';
-        let currentChartType = '1';
-        let currentFilter = 'all';
-        
-        // Save watchlist
-        function saveWatchlist() {
-            localStorage.setItem('watchlist', JSON.stringify(watchlist));
-        }
-        
-        // Clock
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('clock').textContent = now.toLocaleTimeString('tr-TR', { 
-                hour: '2-digit', 
-                minute: '2-digit', 
-                second: '2-digit',
-                timeZoneName: 'short'
-            });
-            
-            // Market status (US market hours: 14:30-21:00 UTC)
-            const hour = now.getUTCHours();
-            const minute = now.getUTCMinutes();
-            const isOpen = (hour > 14 || (hour === 14 && minute >= 30)) && hour < 21;
-            const statusEl = document.getElementById('market-status');
-            const textEl = document.getElementById('market-text');
-            
-            if (isOpen) {
-                statusEl.className = 'market-status open';
-                textEl.textContent = 'Piyasa Açık';
-            } else {
-                statusEl.className = 'market-status closed';
-                textEl.textContent = 'Piyasa Kapalı';
-            }
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-        
-        // Fetch crypto prices from CoinGecko
-        async function fetchCryptoPrices() {
-            const cryptoAssets = watchlist.filter(a => a.category === 'crypto' && a.coingecko);
-            const ids = cryptoAssets.map(a => a.coingecko).join(',');
-            
-            if (!ids) return;
-            
-            try {
-                const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd&include_24hr_change=true&include_7d_change=true`);
-                const data = await res.json();
-                
-                cryptoAssets.forEach(asset => {
-                    if (data[asset.coingecko]) {
-                        prices[asset.symbol] = {
-                            price: data[asset.coingecko].usd,
-                            change: data[asset.coingecko].usd_24h_change,
-                            change7d: data[asset.coingecko].usd_7d_change
-                        };
-                    }
-                });
-                
-                // Save to cache
-                saveCache('prices', prices);
-                console.log('✅ Crypto prices fetched');
-            } catch (e) {
-                console.error('CoinGecko error:', e);
-            }
-        }
-        
-        // Cache functions
-        function saveCache(key, data) {
-            const cache = { data, timestamp: Date.now() };
-            localStorage.setItem('ncf_cache_' + key, JSON.stringify(cache));
-        }
-        
-        function loadCache(key, maxAge = 300000) { // 5 min default
-            try {
-                const cached = localStorage.getItem('ncf_cache_' + key);
-                if (cached) {
-                    const { data, timestamp } = JSON.parse(cached);
-                    if (Date.now() - timestamp < maxAge) {
-                        return data;
-                    }
-                }
-            } catch (e) {}
-            return null;
-        }
-        
-        // Load cached prices immediately on start
-        function loadCachedPrices() {
-            const cached = loadCache('prices', 600000); // 10 min cache
-            if (cached) {
-                Object.assign(prices, cached);
-                console.log('📦 Cache loaded');
-                renderAssetList();
-            }
-        }
-        
-        // Fetch stock/commodity prices from Yahoo via proxy (with retry + cache)
-        async function fetchYahooPrices() {
-            const yahooAssets = watchlist.filter(a => a.yahoo && a.category !== 'crypto');
-            if (yahooAssets.length === 0) return;
-            
-            const symbols = yahooAssets.map(a => a.yahoo).join(',');
-            const yahooUrl = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${encodeURIComponent(symbols)}`;
-            
-            // Try multiple proxies
-            const proxies = [
-                { name: 'corsproxy', url: 'https://corsproxy.io/?' + encodeURIComponent(yahooUrl) },
-                { name: 'allorigins', url: 'https://api.allorigins.win/raw?url=' + encodeURIComponent(yahooUrl) },
-                { name: 'jsonp', url: 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(yahooUrl) }
-            ];
-            
-            for (const proxy of proxies) {
-                try {
-                    console.log(`🔄 Trying ${proxy.name}...`);
-                    const controller = new AbortController();
-                    const timeoutId = setTimeout(() => controller.abort(), 6000);
-                    
-                    const res = await fetch(proxy.url, { signal: controller.signal });
-                    clearTimeout(timeoutId);
-                    
-                    const data = await res.json();
-                    
-                    if (data.quoteResponse?.result && data.quoteResponse.result.length > 0) {
-                        data.quoteResponse.result.forEach(quote => {
-                            const asset = yahooAssets.find(a => a.yahoo === quote.symbol);
-                            if (asset) {
-                                prices[asset.symbol] = {
-                                    price: quote.regularMarketPrice || quote.regularMarketPreviousClose,
-                                    change: quote.regularMarketChangePercent || 0,
-                                    change7d: null,
-                                    marketState: quote.marketState
-                                };
-                            }
-                        });
-                        saveCache('prices', prices);
-                        console.log(`✅ Yahoo success via ${proxy.name}`);
-                        return; // Success, exit
-                    }
-                } catch (e) {
-                    console.warn(`⚠️ ${proxy.name} failed:`, e.message);
-                }
-            }
-            
-            // All proxies failed - try Twelve Data as backup
-            console.log('🔄 Trying Twelve Data backup...');
-            await fetchTwelveDataBackup(yahooAssets);
-        }
-        
-        // Twelve Data backup for when Yahoo fails
-        async function fetchTwelveDataBackup(assets) {
-            const apiKey = 'e4ac7f98e0d64751985bac86bab429e2';
-            
-            // Twelve Data has rate limits, fetch only first 8
-            const stockAssets = assets.filter(a => a.category === 'stock').slice(0, 8);
-            
-            for (const asset of stockAssets) {
-                try {
-                    const res = await fetch(`https://api.twelvedata.com/price?symbol=${asset.yahoo}&apikey=${apiKey}`);
-                    const data = await res.json();
-                    
-                    if (data.price) {
-                        prices[asset.symbol] = {
-                            price: parseFloat(data.price),
-                            change: 0, // Twelve Data free doesn't give change
-                            change7d: null
-                        };
-                    }
-                    
-                    // Small delay to avoid rate limit
-                    await new Promise(r => setTimeout(r, 150));
-                } catch (e) {
-                    console.warn(`⚠️ Twelve Data failed for ${asset.symbol}`);
-                }
-            }
-            
-            if (Object.keys(prices).length > 0) {
-                saveCache('prices', prices);
-                console.log('✅ Twelve Data backup success');
-            }
-        }
-        
-        // Fetch Fear & Greed
-        async function fetchFearGreed() {
-            try {
-                const res = await fetch('https://api.alternative.me/fng/?limit=1');
-                const data = await res.json();
-                if (data.data && data.data[0]) {
-                    document.getElementById('macro-fg').textContent = '%' + data.data[0].value;
-                    document.getElementById('macro-fg-label').textContent = data.data[0].value_classification;
-                }
-            } catch (e) {
-                console.error('Fear & Greed error:', e);
-            }
-        }
-        
-        // Fetch BTC dominance
-        async function fetchBTCDominance() {
-            try {
-                const res = await fetch('https://api.coingecko.com/api/v3/global');
-                const data = await res.json();
-                if (data.data?.market_cap_percentage?.btc) {
-                    document.getElementById('macro-btcdom').textContent = data.data.market_cap_percentage.btc.toFixed(1) + '%';
-                }
-            } catch (e) {
-                console.error('BTC Dom error:', e);
-            }
-        }
-        
-        // Fetch EUR/USD
-        async function fetchEURUSD() {
-            try {
-                const res = await fetch('https://api.frankfurter.app/latest?from=EUR&to=USD');
-                const data = await res.json();
-                if (data.rates?.USD) {
-                    document.getElementById('macro-eurusd').textContent = data.rates.USD.toFixed(4);
-                }
-            } catch (e) {
-                console.error('EUR/USD error:', e);
-            }
-        }
-        
-        // Render asset list
-        function renderAssetList() {
-            const container = document.getElementById('asset-list');
-            const searchTerm = document.getElementById('search-input').value.toLowerCase();
-            
-            let filtered = watchlist;
-            if (currentFilter !== 'all') {
-                filtered = filtered.filter(a => a.category === currentFilter);
-            }
-            if (searchTerm) {
-                filtered = filtered.filter(a => 
-                    a.symbol.toLowerCase().includes(searchTerm) || 
-                    a.name.toLowerCase().includes(searchTerm)
-                );
-            }
-            
-            // Group by category
-            const crypto = filtered.filter(a => a.category === 'crypto');
-            const stocks = filtered.filter(a => a.category === 'stock');
-            const commodities = filtered.filter(a => a.category === 'commodity');
-            
-            let html = '';
-            
-            if (crypto.length && (currentFilter === 'all' || currentFilter === 'crypto')) {
-                html += '<div class="asset-category">🪙 CRYPTO</div>';
-                crypto.forEach(a => html += renderAssetItem(a));
-            }
-            
-            if (stocks.length && (currentFilter === 'all' || currentFilter === 'stock')) {
-                html += '<div class="asset-category">📊 HİSSELER</div>';
-                stocks.forEach(a => html += renderAssetItem(a));
-            }
-            
-            if (commodities.length && (currentFilter === 'all' || currentFilter === 'commodity')) {
-                html += '<div class="asset-category">⚡ EMTİA</div>';
-                commodities.forEach(a => html += renderAssetItem(a));
-            }
-            
-            container.innerHTML = html;
-        }
-        
-        function renderAssetItem(asset) {
-            const p = prices[asset.symbol] || {};
-            const hasPrice = p.price !== undefined && p.price !== null;
-            const priceStr = hasPrice ? (asset.category === 'crypto' || asset.symbol === 'Gold' || asset.symbol === 'Silver' 
-                ? '$' + p.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})
-                : '$' + p.price.toFixed(2)) : '<span class="loading-pulse">—</span>';
-            const changeStr = p.change !== undefined ? (p.change >= 0 ? '▲' : '▼') + ' ' + Math.abs(p.change).toFixed(2) + '%' : '—';
-            const changeColor = p.change > 0 ? 'var(--green)' : p.change < 0 ? 'var(--red)' : 'var(--text-secondary)';
-            const isActive = currentAsset && currentAsset.symbol === asset.symbol;
-            const statusText = p.marketState === 'CLOSED' || p.marketState === 'POST' ? 'kapanış' : '';
-            
-            return `
-                <div class="asset-item ${isActive ? 'active' : ''}" onclick="selectAsset('${asset.symbol}')">
-                    <div class="asset-dot" style="background:${asset.color}"></div>
-                    <div class="asset-info">
-                        <div class="asset-symbol">${asset.symbol}</div>
-                        <div class="asset-name">${asset.name}</div>
-                    </div>
-                    <div class="asset-price">
-                        <div class="asset-price-value">${priceStr} <span class="asset-status">${statusText}</span></div>
-                        <div class="asset-price-change" style="color:${changeColor}">${changeStr}</div>
-                    </div>
-                </div>
-            `;
-        }
-        
-        // Select asset
-        function selectAsset(symbol) {
-            currentAsset = watchlist.find(a => a.symbol === symbol);
-            if (!currentAsset) return;
-            
-            const p = prices[symbol] || {};
-            
-            document.getElementById('chart-title').textContent = currentAsset.name;
-            document.getElementById('chart-symbol').textContent = currentAsset.symbol;
-            document.getElementById('chart-price').textContent = p.price 
-                ? '$' + p.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})
-                : '—';
-            
-            const changeStr = p.change !== undefined ? (p.change >= 0 ? '▲ +' : '▼ ') + Math.abs(p.change).toFixed(2) + '%' : '—';
-            const change7dStr = p.change7d !== undefined && p.change7d !== null ? ' · 7G: ' + (p.change7d >= 0 ? '+' : '') + p.change7d.toFixed(2) + '%' : '';
-            const changeColor = p.change > 0 ? 'var(--green)' : p.change < 0 ? 'var(--red)' : 'var(--text-secondary)';
-            
-            document.getElementById('chart-change').textContent = changeStr + change7dStr;
-            document.getElementById('chart-change').style.color = changeColor;
-            document.getElementById('chart-updated').textContent = 'Güncellendi: ' + new Date().toLocaleTimeString('tr-TR');
-            
-            updateChart();
-            renderAssetList();
-        }
-        
-        // Update TradingView chart
-        function updateChart() {
-            if (!currentAsset) return;
-            
-            let tvSymbol;
-            if (currentAsset.tv) {
-                tvSymbol = currentAsset.tv;
-            } else if (currentAsset.category === 'crypto') {
-                tvSymbol = 'BINANCE:' + currentAsset.symbol + 'USDT';
-            } else {
-                tvSymbol = currentAsset.yahoo;
-            }
-            
-            const container = document.getElementById('chart-container');
-            container.innerHTML = `
-                <iframe src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_widget&symbol=${encodeURIComponent(tvSymbol)}&interval=${currentTimeframe}&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=1a1f2e&studies=[]&theme=dark&style=${currentChartType}&timezone=Europe/Madrid&withdateranges=1&showpopupbutton=0&locale=tr"></iframe>
-            `;
-            
-            document.getElementById('tv-link').href = `https://www.tradingview.com/chart/?symbol=${encodeURIComponent(tvSymbol)}`;
-        }
-        
-        // Set timeframe
-        function setTimeframe(tf) {
-            currentTimeframe = tf;
-            document.querySelectorAll('.time-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.time === tf);
-            });
-            updateChart();
-        }
-        
-        // Set chart type
-        function setChartType(type) {
-            currentChartType = type;
-            document.querySelectorAll('.chart-type-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.type === type);
-            });
-            updateChart();
-        }
-        
-        // Set filter
-        function setFilter(filter) {
-            currentFilter = filter;
-            document.querySelectorAll('.filter-tab').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.filter === filter);
-            });
-            renderAssetList();
-        }
-        
-        // Filter assets
-        function filterAssets() {
-            renderAssetList();
-        }
-        
-        // Modal functions
-        function openAddModal() {
-            document.getElementById('add-modal').classList.add('active');
-        }
-        
-        function closeAddModal() {
-            document.getElementById('add-modal').classList.remove('active');
-        }
-        
-        function setAddCategory(cat) {
-            document.getElementById('add-category').value = cat;
-            document.querySelectorAll('.modal-body .filter-tab').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.cat === cat);
-            });
-        }
-        
-        function addAsset() {
-            const symbol = document.getElementById('add-symbol').value.trim().toUpperCase();
-            const name = document.getElementById('add-name').value.trim();
-            const category = document.getElementById('add-category').value;
-            
-            if (!symbol || !name) {
-                alert('Sembol ve isim gerekli!');
-                return;
-            }
-            
-            // Check if already exists
-            if (watchlist.find(a => a.symbol === symbol)) {
-                alert('Bu sembol zaten listede!');
-                return;
-            }
-            
-            // Generate TradingView symbol based on category
-            let tvSymbol;
-            if (category === 'crypto') {
-                tvSymbol = 'BINANCE:' + symbol + 'USDT';
-            } else if (category === 'stock') {
-                // Most US stocks are on NASDAQ or NYSE
-                tvSymbol = 'NASDAQ:' + symbol;
-            } else if (category === 'commodity') {
-                tvSymbol = 'TVC:' + symbol;
-            } else if (category === 'etf') {
-                tvSymbol = 'AMEX:' + symbol;
-            } else {
-                tvSymbol = symbol;
-            }
-            
-            const newAsset = {
-                symbol,
-                name,
-                category,
-                yahoo: category === 'crypto' ? symbol + '-USD' : symbol,
-                coingecko: category === 'crypto' ? symbol.toLowerCase() : null,
-                tv: tvSymbol,
-                color: '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0')
-            };
-            
-            watchlist.push(newAsset);
-            saveWatchlist();
-            closeAddModal();
-            
-            // Show loading feedback
-            console.log('Eklendi:', newAsset);
-            
-            refreshAll();
-        }
-        
-        function addPreset(preset) {
-            let assets = [];
-            
-            if (preset === 'mag7') {
-                assets = [
-                    { symbol: 'AAPL', name: 'Apple', category: 'stock', yahoo: 'AAPL', tv: 'NASDAQ:AAPL', color: '#a2aaad' },
-                    { symbol: 'NVDA', name: 'NVIDIA', category: 'stock', yahoo: 'NVDA', tv: 'NASDAQ:NVDA', color: '#76b900' },
-                    { symbol: 'MSFT', name: 'Microsoft', category: 'stock', yahoo: 'MSFT', tv: 'NASDAQ:MSFT', color: '#00a4ef' },
-                    { symbol: 'GOOGL', name: 'Alphabet', category: 'stock', yahoo: 'GOOGL', tv: 'NASDAQ:GOOGL', color: '#4285f4' },
-                    { symbol: 'AMZN', name: 'Amazon', category: 'stock', yahoo: 'AMZN', tv: 'NASDAQ:AMZN', color: '#ff9900' },
-                    { symbol: 'META', name: 'Meta', category: 'stock', yahoo: 'META', tv: 'NASDAQ:META', color: '#0081fb' },
-                    { symbol: 'TSLA', name: 'Tesla', category: 'stock', yahoo: 'TSLA', tv: 'NASDAQ:TSLA', color: '#cc0000' }
-                ];
-            } else if (preset === 'crypto') {
-                assets = [
-                    { symbol: 'BTC', name: 'Bitcoin', category: 'crypto', yahoo: 'BTC-USD', coingecko: 'bitcoin', color: '#f7931a' },
-                    { symbol: 'ETH', name: 'Ethereum', category: 'crypto', yahoo: 'ETH-USD', coingecko: 'ethereum', color: '#627eea' },
-                    { symbol: 'SOL', name: 'Solana', category: 'crypto', yahoo: 'SOL-USD', coingecko: 'solana', color: '#00ffa3' },
-                    { symbol: 'XRP', name: 'Ripple', category: 'crypto', yahoo: 'XRP-USD', coingecko: 'ripple', color: '#23292f' },
-                    { symbol: 'BNB', name: 'BNB', category: 'crypto', yahoo: 'BNB-USD', coingecko: 'binancecoin', color: '#f3ba2f' },
-                    { symbol: 'ADA', name: 'Cardano', category: 'crypto', yahoo: 'ADA-USD', coingecko: 'cardano', color: '#0033ad' },
-                    { symbol: 'DOGE', name: 'Dogecoin', category: 'crypto', yahoo: 'DOGE-USD', coingecko: 'dogecoin', color: '#c3a634' }
-                ];
-            } else if (preset === 'commodity') {
-                assets = [
-                    { symbol: 'Gold', name: 'Gold XAU/USD', category: 'commodity', yahoo: 'GC=F', tv: 'TVC:GOLD', color: '#ffd700' },
-                    { symbol: 'Silver', name: 'Silver XAG/USD', category: 'commodity', yahoo: 'SI=F', tv: 'TVC:SILVER', color: '#c0c0c0' },
-                    { symbol: 'Copper', name: 'Copper HG', category: 'commodity', yahoo: 'HG=F', tv: 'COMEX:HG1!', color: '#b87333' },
-                    { symbol: 'Brent', name: 'Brent Oil', category: 'commodity', yahoo: 'BZ=F', tv: 'TVC:UKOIL', color: '#000000' },
-                    { symbol: 'NatGas', name: 'Natural Gas', category: 'commodity', yahoo: 'NG=F', tv: 'NYMEX:NG1!', color: '#0066cc' },
-                    { symbol: 'Wheat', name: 'Wheat', category: 'commodity', yahoo: 'ZW=F', tv: 'CBOT:ZW1!', color: '#daa520' }
-                ];
-            } else if (preset === 'all') {
-                // Add all default assets
-                assets = [
-                    { symbol: 'BTC', name: 'Bitcoin', category: 'crypto', yahoo: 'BTC-USD', coingecko: 'bitcoin', color: '#f7931a' },
-                    { symbol: 'ETH', name: 'Ethereum', category: 'crypto', yahoo: 'ETH-USD', coingecko: 'ethereum', color: '#627eea' },
-                    { symbol: 'SOL', name: 'Solana', category: 'crypto', yahoo: 'SOL-USD', coingecko: 'solana', color: '#00ffa3' },
-                    { symbol: 'XRP', name: 'Ripple', category: 'crypto', yahoo: 'XRP-USD', coingecko: 'ripple', color: '#23292f' },
-                    { symbol: 'HYPE', name: 'Hyperliquid', category: 'crypto', yahoo: 'HYPE-USD', coingecko: 'hyperliquid', color: '#00d4aa' },
-                    { symbol: 'AAPL', name: 'Apple', category: 'stock', yahoo: 'AAPL', tv: 'NASDAQ:AAPL', color: '#a2aaad' },
-                    { symbol: 'NVDA', name: 'NVIDIA', category: 'stock', yahoo: 'NVDA', tv: 'NASDAQ:NVDA', color: '#76b900' },
-                    { symbol: 'MSFT', name: 'Microsoft', category: 'stock', yahoo: 'MSFT', tv: 'NASDAQ:MSFT', color: '#00a4ef' },
-                    { symbol: 'GOOGL', name: 'Alphabet', category: 'stock', yahoo: 'GOOGL', tv: 'NASDAQ:GOOGL', color: '#4285f4' },
-                    { symbol: 'AMZN', name: 'Amazon', category: 'stock', yahoo: 'AMZN', tv: 'NASDAQ:AMZN', color: '#ff9900' },
-                    { symbol: 'META', name: 'Meta', category: 'stock', yahoo: 'META', tv: 'NASDAQ:META', color: '#0081fb' },
-                    { symbol: 'TSLA', name: 'Tesla', category: 'stock', yahoo: 'TSLA', tv: 'NASDAQ:TSLA', color: '#cc0000' },
-                    { symbol: 'Gold', name: 'Gold XAU/USD', category: 'commodity', yahoo: 'GC=F', tv: 'TVC:GOLD', color: '#ffd700' },
-                    { symbol: 'Silver', name: 'Silver XAG/USD', category: 'commodity', yahoo: 'SI=F', tv: 'TVC:SILVER', color: '#c0c0c0' },
-                    { symbol: 'Brent', name: 'Brent Oil', category: 'commodity', yahoo: 'BZ=F', tv: 'TVC:UKOIL', color: '#000000' },
-                    { symbol: 'NatGas', name: 'Natural Gas', category: 'commodity', yahoo: 'NG=F', tv: 'NYMEX:NG1!', color: '#0066cc' }
-                ];
-            }
-            
-            // Add only new ones
-            assets.forEach(asset => {
-                if (!watchlist.find(a => a.symbol === asset.symbol)) {
-                    watchlist.push(asset);
-                }
-            });
-            
-            saveWatchlist();
-            closeAddModal();
-            refreshAll();
-        }
-        
-        // Update ticker bar
-        function updateTickerBar() {
-            const tickerSymbols = ['BTC', 'Gold', 'NVDA'];
-            const container = document.getElementById('ticker-bar');
-            
-            let html = '';
-            tickerSymbols.forEach(sym => {
-                const asset = watchlist.find(a => a.symbol === sym);
-                const p = prices[sym];
-                if (asset && p) {
-                    const changeClass = p.change > 0 ? 'up' : p.change < 0 ? 'down' : '';
-                    const changeStr = p.change !== undefined ? (p.change >= 0 ? '▲' : '▼') + Math.abs(p.change).toFixed(2) + '%' : '';
-                    html += `
-                        <div class="ticker-item">
-                            <span class="ticker-symbol">${sym}</span>
-                            <span class="ticker-price">$${p.price?.toLocaleString('en-US', {maximumFractionDigits: 2}) || '—'}</span>
-                            <span class="ticker-change ${changeClass}">${changeStr}</span>
-                        </div>
-                    `;
-                }
-            });
-            
-            // Add SPX and EUR/USD
-            html += `
-                <div class="ticker-item">
-                    <span class="ticker-symbol">SPX</span>
-                    <span class="ticker-price" id="ticker-spx">—</span>
-                </div>
-                <div class="ticker-item">
-                    <span class="ticker-symbol">EUR/USD</span>
-                    <span class="ticker-price" id="ticker-eurusd">—</span>
-                </div>
-            `;
-            
-            container.innerHTML = html;
-        }
-        
-        // Refresh all data
-        async function refreshAll() {
-            await Promise.all([
-                fetchCryptoPrices(),
-                fetchYahooPrices()
-            ]);
-            
-            renderAssetList();
-            updateTickerBar();
-            
-            if (currentAsset) {
-                selectAsset(currentAsset.symbol);
-            }
-            
-            // Update macro DXY from EUR/USD
-            const eurusd = prices['EUR/USD'] || {};
-            if (eurusd.price) {
-                document.getElementById('macro-dxy').textContent = (100 / eurusd.price).toFixed(2);
-            }
-        }
-        
-        // Init
-        async function init() {
-            // Load cached prices FIRST for instant display
-            loadCachedPrices();
-            
-            // Then fetch fresh data in background
-            refreshAll();
-            fetchFearGreed();
-            fetchBTCDominance();
-            fetchEURUSD();
-            
-            if (watchlist.length > 0) {
-                selectAsset(watchlist[0].symbol);
-            }
-        }
-        
-        init();
-        
-        // Refresh every 60 seconds
-        setInterval(refreshAll, 60000);
-    </script>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="page-eyebrow"><span class="tag filled">DASHBOARD</span><span>Everything, one screen</span><span class="divider"></span><span class="muted">LIVE &middot; 14:32 CET</span></div>
+  <h1 class="page-title">The <em>whole market,</em> at a glance.</h1>
+  <p class="page-dek">Every datapoint I check before 09:00, every morning. Equity, rates, FX, crypto, commodities, sentiment. Densely packed, ruthlessly prioritized.</p>
+</header>
+
+<section class="section" style="padding-top:48px;">
+  <div class="section-header">
+    <h2 class="section-title"><span class="num">&sect; 01</span> Equities</h2>
+    <div class="section-meta">MAJOR INDICES</div>
+  </div>
+  <div class="stat-grid" style="grid-template-columns:repeat(6,1fr);">
+    <div class="stat"><div class="stat-k">S&amp;P 500</div><div><div class="stat-v">5,684</div><div class="stat-chg dn">&minus;0.62%</div></div><svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line dn" points="0,10 20,8 40,12 60,15 80,18 100,22"/></svg></div>
+    <div class="stat"><div class="stat-k">Nasdaq 100</div><div><div class="stat-v">19,832</div><div class="stat-chg dn">&minus;0.81%</div></div><svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line dn" points="0,8 20,10 40,14 60,18 80,22 100,26"/></svg></div>
+    <div class="stat"><div class="stat-k">Dow 30</div><div><div class="stat-v">42,518</div><div class="stat-chg dn">&minus;0.38%</div></div><svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line dn" points="0,14 20,12 40,14 60,16 80,18 100,20"/></svg></div>
+    <div class="stat"><div class="stat-k">STOXX 600</div><div><div class="stat-v">512</div><div class="stat-chg dn">&minus;0.24%</div></div><svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line dn" points="0,16 20,14 40,16 60,18 80,20 100,22"/></svg></div>
+    <div class="stat"><div class="stat-k">Nikkei 225</div><div><div class="stat-v">38,812</div><div class="stat-chg up">+0.42%</div></div><svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line up" points="0,22 20,20 40,18 60,16 80,14 100,12"/></svg></div>
+    <div class="stat"><div class="stat-k">BIST 100</div><div><div class="stat-v">10,284</div><div class="stat-chg up">+1.20%</div></div><svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line up" points="0,24 20,20 40,16 60,14 80,10 100,6"/></svg></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title"><span class="num">&sect; 02</span> Rates &amp; FX</h2>
+    <div class="section-meta">BENCHMARK YIELDS + G10</div>
+  </div>
+  <div class="stat-grid" style="grid-template-columns:repeat(6,1fr);">
+    <div class="stat"><div class="stat-k">US 2Y</div><div><div class="stat-v">4.63<small>%</small></div><div class="stat-chg up">+12bp</div></div></div>
+    <div class="stat"><div class="stat-k">US 10Y</div><div><div class="stat-v">4.38<small>%</small></div><div class="stat-chg up">+4bp</div></div></div>
+    <div class="stat"><div class="stat-k">German 10Y</div><div><div class="stat-v">2.52<small>%</small></div><div class="stat-chg up">+2bp</div></div></div>
+    <div class="stat"><div class="stat-k">UK 10Y</div><div><div class="stat-v">4.12<small>%</small></div><div class="stat-chg up">+3bp</div></div></div>
+    <div class="stat"><div class="stat-k">EUR/USD</div><div><div class="stat-v">1.0684</div><div class="stat-chg dn">&minus;0.21%</div></div></div>
+    <div class="stat"><div class="stat-k">USD/TRY</div><div><div class="stat-v">34.82</div><div class="stat-chg up">+0.11%</div></div></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title"><span class="num">&sect; 03</span> Crypto</h2>
+    <div class="section-meta"><a href="crypto.html">FULL CRYPTO &rarr;</a></div>
+  </div>
+  <div class="stat-grid" style="grid-template-columns:repeat(6,1fr);">
+    <div class="stat"><div class="stat-k">BTC</div><div><div class="stat-v">$67.4K</div><div class="stat-chg dn">&minus;1.82%</div></div><svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line dn" points="0,8 20,12 40,14 60,18 80,22 100,26"/></svg></div>
+    <div class="stat"><div class="stat-k">ETH</div><div><div class="stat-v">$3,284</div><div class="stat-chg dn">&minus;2.41%</div></div><svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line dn" points="0,6 20,10 40,14 60,18 80,22 100,28"/></svg></div>
+    <div class="stat"><div class="stat-k">SOL</div><div><div class="stat-v">$142</div><div class="stat-chg dn">&minus;3.10%</div></div><svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line dn" points="0,8 20,12 40,16 60,20 80,24 100,28"/></svg></div>
+    <div class="stat"><div class="stat-k">BTC Dominance</div><div><div class="stat-v">54.2<small>%</small></div><div class="stat-chg up">+0.8pp</div></div></div>
+    <div class="stat"><div class="stat-k">Total MCap</div><div><div class="stat-v">$2.4<small>T</small></div><div class="stat-chg dn">&minus;1.9%</div></div></div>
+    <div class="stat"><div class="stat-k">F&amp;G Index</div><div><div class="stat-v" style="color:var(--red);">18</div><div class="stat-chg dn">EXTREME FEAR</div></div></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title"><span class="num">&sect; 04</span> Commodities &amp; Volatility</h2>
+    <div class="section-meta">KEY INPUTS</div>
+  </div>
+  <div class="stat-grid" style="grid-template-columns:repeat(6,1fr);">
+    <div class="stat"><div class="stat-k">Brent</div><div><div class="stat-v">$106</div><div class="stat-chg up">+3.12%</div></div></div>
+    <div class="stat"><div class="stat-k">WTI</div><div><div class="stat-v">$101</div><div class="stat-chg up">+2.84%</div></div></div>
+    <div class="stat"><div class="stat-k">Gold</div><div><div class="stat-v">$2,614</div><div class="stat-chg up">+0.74%</div></div></div>
+    <div class="stat"><div class="stat-k">Copper</div><div><div class="stat-v">$4.28</div><div class="stat-chg up">+0.38%</div></div></div>
+    <div class="stat"><div class="stat-k">VIX</div><div><div class="stat-v">26.8</div><div class="stat-chg dn">ELEVATED</div></div></div>
+    <div class="stat"><div class="stat-k">MOVE</div><div><div class="stat-v">118</div><div class="stat-chg dn">BOND VOL HIGH</div></div></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title"><span class="num">&sect; 05</span> This Week</h2>
+    <div class="section-meta">W16 &middot; APR 07 &rarr; 14</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);">
+    <div style="padding:22px;background:var(--bg-elev);">
+      <div style="font-family:var(--serif);font-size:32px;line-height:1;margin-bottom:4px;">07</div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--amber);text-transform:uppercase;margin-bottom:14px;">Tue</div>
+      <div style="font-size:13px;line-height:1.4;margin-bottom:6px;"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--red);margin-right:6px;"></span>Flash PMI &middot; March</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text-mute);letter-spacing:0.06em;">FIRST WAR-ERA READING</div>
+    </div>
+    <div style="padding:22px;background:var(--bg-elev);">
+      <div style="font-family:var(--serif);font-size:32px;line-height:1;margin-bottom:4px;">08</div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--amber);text-transform:uppercase;margin-bottom:14px;">Wed</div>
+      <div style="font-size:13px;line-height:1.4;margin-bottom:6px;"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--text-mute);margin-right:6px;"></span>FOMC Minutes</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text-mute);letter-spacing:0.06em;">MARCH MEETING</div>
+    </div>
+    <div style="padding:22px;background:var(--bg-elev);">
+      <div style="font-family:var(--serif);font-size:32px;line-height:1;margin-bottom:4px;">09</div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--amber);text-transform:uppercase;margin-bottom:14px;">Thu</div>
+      <div style="font-size:13px;line-height:1.4;margin-bottom:6px;"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--amber);margin-right:6px;"></span>ECB Lagarde + Claims</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text-mute);letter-spacing:0.06em;">RATE PATH SIGNAL</div>
+    </div>
+    <div style="padding:22px;background:var(--bg-elev);">
+      <div style="font-family:var(--serif);font-size:32px;line-height:1;margin-bottom:4px;">11</div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--amber);text-transform:uppercase;margin-bottom:14px;">Fri</div>
+      <div style="font-size:13px;line-height:1.4;margin-bottom:6px;"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--amber);margin-right:6px;"></span>Eurozone HICP</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text-mute);letter-spacing:0.06em;">WAR-IMPACT INFLATION</div>
+    </div>
+    <div style="padding:22px;background:var(--bg-elev);">
+      <div style="font-family:var(--serif);font-size:32px;line-height:1;margin-bottom:4px;">14</div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.2em;color:var(--amber);text-transform:uppercase;margin-bottom:14px;">Mon</div>
+      <div style="font-size:13px;line-height:1.4;margin-bottom:6px;"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--red);margin-right:6px;"></span>US CPI + PPI &#9733;</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text-mute);letter-spacing:0.06em;">MAIN EVENT</div>
+    </div>
+  </div>
+</section>
+
+<section class="newsletter" id="newsletter">
+  <div class="newsletter-inner">
+    <div class="newsletter-label">THE BULLETIN</div>
+    <h2 class="newsletter-title">One email. Every morning. <em>Zero noise.</em></h2>
+    <p class="newsletter-dek">Daily macro bulletin and the Sunday Morning Series, delivered before the market opens. No sponsored picks. No affiliate crypto shills. Just the signal.</p>
+    <form class="newsletter-form">
+      <input class="newsletter-input" type="email" placeholder="your@email.com" required />
+      <button class="newsletter-submit" type="submit">Subscribe</button>
+    </form>
+    <div class="newsletter-note">FREE &middot; UNSUBSCRIBE ANYTIME &middot; TR + EN EDITIONS</div>
+    <div class="newsletter-stats">
+      <div class="nl-stat"><div class="v">4,200+</div><div class="k">Subscribers</div></div>
+      <div class="nl-stat"><div class="v">68%</div><div class="k">Open Rate</div></div>
+      <div class="nl-stat"><div class="v">47</div><div class="k">Issues Sent</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-title">No<em>/</em>Cashflow</div>
+        <p class="footer-brand-desc">Macro, markets, and the signal in the noise. Written in Barcelona. Read worldwide. Every Sunday morning, with data.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Read</h4>
+        <ul>
+          <li><a href="yazilar.html">Sunday Series</a></li>
+          <li><a href="bulletin.html">Daily Bulletin</a></li>
+          <li><a href="macro.html">Macro</a></li>
+          <li><a href="crypto.html">Crypto</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="sozluk.html">Glossary</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>About</h4>
+        <ul>
+          <li><a href="hakkinda.html">Orkun Bi&ccedil;en</a></li>
+          <li><a href="hakkinda.html#methodology">Methodology</a></li>
+          <li><a href="hakkinda.html#sources">Sources</a></li>
+          <li><a href="mailto:orkun@nocashflow.net">Contact</a></li>
+          <li><a href="mailto:orkun@nocashflow.net">Advertise</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Follow</h4>
+        <ul>
+          <li><a href="https://twitter.com/No_CashFlow">Twitter &middot; @No_CashFlow</a></li>
+          <li><a href="https://www.linkedin.com/in/orkunbicen/">LinkedIn</a></li>
+          <li><a href="#">RSS Feed</a></li>
+          <li><a href="#">Telegram</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <span>&copy; 2026 NoCashFlow &middot; Barcelona</span>
+      <span>Built with obsession &middot; <a href="#">Colophon</a></span>
+    </div>
+    <div class="disclaimer">
+      This site does not provide investment advice. All content is for informational purposes. The author may hold positions in instruments mentioned. Always do your own research.
+    </div>
+  </div>
+</footer>
+<script src="assets/site.js"></script>
 </body>
 </html>

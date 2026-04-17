@@ -1,493 +1,230 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Macro — NoCashFlow | Küresel Makroekonomik Göstergeler</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..800;1,6..72,300..800&family=Manrope:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-<style>
-:root{--bg:#faf8ff;--surface:#ffffff;--surface-low:#f2f3ff;--primary:#000e24;--secondary:#505f76;--accent:#f85149;--green:#009e6d;--border:rgba(0,14,36,0.08);--font-display:'Newsreader',serif;--font-body:'Manrope',sans-serif;--font-mono:'JetBrains Mono',monospace;--font-label:'Inter',sans-serif}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font-body);background:var(--bg);color:var(--primary)}
-a{text-decoration:none;color:inherit}
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,248,255,0.9);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--border)}
-.nav-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:60px}
-.logo{font-family:var(--font-display);font-size:19px;font-weight:800;letter-spacing:-0.5px}
-.logo span{color:var(--accent)}
-.nav-links{display:flex;align-items:center;gap:28px;list-style:none}
-.nav-links a{font-family:var(--font-label);font-size:10.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--secondary);transition:color 0.2s}
-.nav-links a:hover,.nav-links a.active{color:var(--accent)}
-.nav-cta{font-family:var(--font-label);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:var(--primary);color:white;padding:8px 16px;border-radius:2px}
-
-/* PAGE HEADER */
-.page-header{max-width:1280px;margin:0 auto;padding:88px 24px 40px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px}
-.page-header-left h1{font-family:var(--font-display);font-size:40px;font-weight:700;letter-spacing:-1px;margin-bottom:6px}
-.page-header-left p{font-size:13px;color:var(--secondary)}
-.last-update{font-family:var(--font-mono);font-size:11px;color:var(--secondary)}
-
-/* MAIN */
-.main{max-width:1280px;margin:0 auto;padding:32px 24px 80px}
-
-/* KPI GRID */
-.kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--border);border:0.5px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:32px}
-.kpi-card{background:var(--surface);padding:16px 14px}
-.kpi-label{font-family:var(--font-label);font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--secondary);margin-bottom:8px}
-.kpi-value{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--primary);margin-bottom:4px;letter-spacing:-0.5px}
-.kpi-chg{font-family:var(--font-mono);font-size:11px;font-weight:500}
-.up{color:var(--green)}.down{color:var(--accent)}.neu{color:var(--secondary)}
-
-/* SECTION HEADER */
-.section-header{display:flex;align-items:center;gap:12px;margin:36px 0 20px;padding-bottom:12px;border-bottom:0.5px solid var(--border)}
-.section-header h2{font-family:var(--font-label);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--secondary)}
-.section-header-line{flex:1;height:1px;background:var(--border)}
-
-/* TABLE */
-.data-table{width:100%;border-collapse:collapse;margin-bottom:32px}
-.data-table th{font-family:var(--font-label);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--secondary);padding:8px 12px;text-align:right;border-bottom:1px solid var(--border);background:var(--surface-low)}
-.data-table th:first-child{text-align:left}
-.data-table td{padding:12px;font-size:13px;border-bottom:0.5px solid var(--border);text-align:right;color:var(--secondary)}
-.data-table td:first-child{text-align:left;color:var(--primary);font-weight:600}
-.data-table tr:hover td{background:var(--surface-low)}
-.data-table tr:last-child td{border-bottom:none}
-
-/* MBAR */
-.mbar-wrap{display:flex;align-items:center;gap:6px;justify-content:flex-end}
-.mbar{width:60px;height:3px;background:var(--border);overflow:hidden;border-radius:2px}
-.mbar-fill{height:100%;border-radius:2px}
-.mbar-fill.pos{background:var(--green)}
-.mbar-fill.neg{background:var(--accent)}
-
-/* YIELD CURVE */
-.yield-card{background:var(--surface);border:0.5px solid var(--border);border-radius:4px;padding:24px;margin-bottom:32px}
-.yield-title{font-family:var(--font-display);font-size:20px;font-weight:700;margin-bottom:4px}
-.yield-sub{font-size:12px;color:var(--secondary);margin-bottom:20px}
-.yield-chart{display:flex;align-items:flex-end;gap:8px;height:80px;padding:0 8px}
-.yield-bar{flex:1;border-radius:2px 2px 0 0;display:flex;align-items:flex-end;justify-content:center;position:relative;transition:opacity 0.2s;cursor:default}
-.yield-bar:hover{opacity:0.8}
-.yield-bar-label{font-family:var(--font-mono);font-size:9px;color:var(--secondary);position:absolute;bottom:-18px;white-space:nowrap}
-.yield-bar-val{font-family:var(--font-mono);font-size:9px;font-weight:500;color:white;padding:2px 4px}
-
-/* SCOREBOARD */
-.scoreboard{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:32px}
-.score-card{background:var(--surface);border:0.5px solid var(--border);border-radius:4px;padding:20px}
-.score-label{font-family:var(--font-label);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--secondary);margin-bottom:10px}
-.score-value{font-family:var(--font-display);font-size:32px;font-weight:700;letter-spacing:-1px;margin-bottom:4px}
-.score-sub{font-family:var(--font-mono);font-size:11px}
-.score-note{font-size:11px;color:var(--secondary);margin-top:8px;line-height:1.5}
-
-/* CALENDAR */
-.cal-table{width:100%;border-collapse:collapse;margin-bottom:32px}
-.cal-table th{font-family:var(--font-label);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--secondary);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);background:var(--surface-low)}
-.cal-table td{padding:10px 12px;font-size:12px;border-bottom:0.5px solid var(--border);color:var(--secondary)}
-.cal-table td:first-child{color:var(--primary);font-weight:600}
-.cal-table tr:hover td{background:var(--surface-low)}
-.impact-high{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent)}
-.impact-med{display:inline-block;width:8px;height:8px;border-radius:50%;background:#f0a500}
-.actual-hot{color:var(--accent);font-weight:700;font-family:var(--font-mono)}
-.actual-ok{color:var(--green);font-weight:700;font-family:var(--font-mono)}
-
-/* FOOTER */
-.footer{background:var(--primary);color:white;padding:56px 24px 32px;margin-top:0}
-.footer-inner{max-width:1280px;margin:0 auto}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;padding-bottom:40px;border-bottom:0.5px solid rgba(255,255,255,0.08);margin-bottom:28px}
-.footer-logo{font-family:var(--font-display);font-size:20px;font-weight:800;margin-bottom:12px}
-.footer-logo span{color:var(--accent)}
-.footer-desc{font-size:12px;color:rgba(255,255,255,0.4);line-height:1.75;max-width:240px}
-.footer-col h5{font-family:var(--font-label);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:16px}
-.footer-col ul{list-style:none}
-.footer-col ul li{margin-bottom:10px}
-.footer-col ul li a{font-size:13px;color:rgba(255,255,255,0.55);transition:color 0.2s}
-.footer-col ul li a:hover{color:white}
-.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
-.footer-bottom p{font-family:var(--font-label);font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.2)}
-
-@media(max-width:1024px){.kpi-grid{grid-template-columns:repeat(3,1fr)}.scoreboard{grid-template-columns:1fr 1fr}.footer-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:640px){.nav-links{display:none}.kpi-grid{grid-template-columns:repeat(2,1fr)}.scoreboard{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr 1fr}}
-</style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Macro Dashboard — NoCashFlow</title>
+<meta name="description" content="Central bank rates, yield curves, inflation prints, FX. What institutional macro desks actually watch." />
+<meta property="og:title" content="Macro Dashboard — NoCashFlow" />
+<meta property="og:description" content="Central bank rates, yield curves, inflation prints, FX. What institutional macro desks actually watch." />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="NoCashFlow" />
+<meta property="og:image" content="https://nocashflow.net/assets/og.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@No_CashFlow" />
+<meta name="theme-color" content="#0b0b0d" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/site.css" />
 </head>
 <body>
+<div class="ticker" data-ticker-live>
+  <div class="ticker-label"><span class="dot"></span> LIVE</div>
+  <div class="ticker-track">
+    <div class="tick" data-sym="BTC"><span class="sym">BTC</span><span class="px">$67,420</span><span class="chg dn">-1.82%</span></div>
+    <div class="tick" data-sym="ETH"><span class="sym">ETH</span><span class="px">$3,284</span><span class="chg dn">-2.41%</span></div>
+    <div class="tick"><span class="sym">GOLD</span><span class="px">$2,614</span><span class="chg up">+0.74%</span></div>
+    <div class="tick"><span class="sym">BRENT</span><span class="px">$106.12</span><span class="chg up">+3.12%</span></div>
+    <div class="tick"><span class="sym">DXY</span><span class="px">104.28</span><span class="chg up">+0.46%</span></div>
+    <div class="tick"><span class="sym">US10Y</span><span class="px">4.38%</span><span class="chg up">+4bp</span></div>
+    <div class="tick"><span class="sym">VIX</span><span class="px">26.8</span><span class="chg up">+2.1%</span></div>
+    <div class="tick"><span class="sym">F&amp;G</span><span class="px">18</span><span class="chg dn">EXTREME FEAR</span></div>
+    <div class="tick"><span class="sym">COPPER</span><span class="px">$4.28</span><span class="chg up">+0.38%</span></div>
+    <div class="tick"><span class="sym">SPX</span><span class="px">5,684</span><span class="chg dn">-0.62%</span></div>
+    <div class="tick"><span class="sym">EUR/USD</span><span class="px">1.0684</span><span class="chg dn">-0.21%</span></div>
+    <div class="tick"><span class="sym">USD/TRY</span><span class="px">34.82</span><span class="chg up">+0.11%</span></div>
+    <div class="tick" data-sym="BTC"><span class="sym">BTC</span><span class="px">$67,420</span><span class="chg dn">-1.82%</span></div>
+    <div class="tick" data-sym="ETH"><span class="sym">ETH</span><span class="px">$3,284</span><span class="chg dn">-2.41%</span></div>
+    <div class="tick"><span class="sym">GOLD</span><span class="px">$2,614</span><span class="chg up">+0.74%</span></div>
+    <div class="tick"><span class="sym">BRENT</span><span class="px">$106.12</span><span class="chg up">+3.12%</span></div>
+    <div class="tick"><span class="sym">DXY</span><span class="px">104.28</span><span class="chg up">+0.46%</span></div>
+    <div class="tick"><span class="sym">US10Y</span><span class="px">4.38%</span><span class="chg up">+4bp</span></div>
+    <div class="tick"><span class="sym">VIX</span><span class="px">26.8</span><span class="chg up">+2.1%</span></div>
+    <div class="tick"><span class="sym">F&amp;G</span><span class="px">18</span><span class="chg dn">EXTREME FEAR</span></div>
+    <div class="tick"><span class="sym">COPPER</span><span class="px">$4.28</span><span class="chg up">+0.38%</span></div>
+    <div class="tick"><span class="sym">SPX</span><span class="px">5,684</span><span class="chg dn">-0.62%</span></div>
+    <div class="tick"><span class="sym">EUR/USD</span><span class="px">1.0684</span><span class="chg dn">-0.21%</span></div>
+    <div class="tick"><span class="sym">USD/TRY</span><span class="px">34.82</span><span class="chg up">+0.11%</span></div>
+  </div>
+</div>
 
 <nav class="nav">
   <div class="nav-inner">
-    <a href="index.html" class="logo">NO<span>CASH</span>FLOW</a>
-    <ul class="nav-links">
-      <li><a href="index.html">Ana Sayfa</a></li>
-      <li><a href="yazilar.html">Yazılar</a></li>
-      <li><a href="macro.html" class="active">Macro</a></li>
-      <li><a href="dashboard.html">Dashboard</a></li>
-      <li><a href="bulletin_page.html">Bülten</a></li>
-      <li><a href="hakkinda.html">Hakkında</a></li>
-    </ul>
-    <a href="bulletin_page.html" class="nav-cta">Bültene Abone Ol</a>
+    <a href="index.html" class="logo">NO<span class="slash">/</span>CASHFLOW<span class="tag">MACRO &times; MARKETS</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="yazilar.html">Sunday</a>
+      <a href="bulletin.html">Bulletin</a>
+      <a href="macro.html">Macro</a>
+      <a href="crypto.html">Crypto</a>
+      <a href="dashboard.html">Dashboard</a>
+    </div>
+    <div class="nav-right">
+      <button class="nav-btn menu-toggle" aria-label="Menu">&#9776;</button>
+      <button class="nav-btn" aria-label="Language" onclick="alert('TR version coming')">TR</button>
+      <a href="#newsletter" class="subscribe">Subscribe</a>
+    </div>
   </div>
 </nav>
 
-<div class="page-header">
-  <div class="page-header-left">
-    <h1>Makro Göstergeler</h1>
-    <p>Küresel ekonominin temel göstergeleri. Fed, yield curve, enflasyon, emtia.</p>
-  </div>
-  <div class="last-update">Son güncelleme: <span id="last-update-time">—</span></div>
-</div>
+<header class="page-head">
+  <div class="page-eyebrow"><span class="tag filled">MACRO</span><span>Rates &middot; Inflation &middot; Growth</span><span class="divider"></span><span class="muted">LIVE &middot; 14:32 CET</span></div>
+  <h1 class="page-title">The <em>macro</em> dashboard.</h1>
+  <p class="page-dek">Central bank rates, yield curves, inflation prints, and FX. What institutional macro desks actually watch, consolidated into one page.</p>
+</header>
 
-<div class="main">
-
-  <!-- KPI GRID -->
-  <div class="kpi-grid">
-    <div class="kpi-card">
-      <div class="kpi-label">VIX</div>
-      <div class="kpi-value" id="m-vix">—</div>
-      <div class="kpi-chg" id="m-vix-c">—</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">DXY</div>
-      <div class="kpi-value" id="m-dxy">—</div>
-      <div class="kpi-chg" id="m-dxy-c">—</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">US 10Y</div>
-      <div class="kpi-value" id="m-10y">—</div>
-      <div class="kpi-chg" id="m-10y-c">—</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">US 2Y</div>
-      <div class="kpi-value" id="m-2y">—</div>
-      <div class="kpi-chg" id="m-2y-c">—</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Fear & Greed</div>
-      <div class="kpi-value" id="m-fg">—</div>
-      <div class="kpi-chg" id="m-fg-c">—</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Spread 2Y-10Y</div>
-      <div class="kpi-value" id="m-spread">—</div>
-      <div class="kpi-chg" id="m-spread-c">—</div>
-    </div>
-  </div>
-
-  <!-- YIELD CURVE -->
-  <div class="yield-card">
-    <div class="yield-title">ABD Getiri Eğrisi</div>
-    <div class="yield-sub">Treasury yield'ları — normalize edilmiş görünüm</div>
-    <div class="yield-chart" id="yield-chart">
-      <div style="text-align:center;color:var(--secondary);font-size:12px;width:100%;padding-top:20px">Veri yükleniyor...</div>
-    </div>
-    <div style="height:24px"></div>
-    <div id="yield-note" style="font-family:var(--font-mono);font-size:11px;color:var(--secondary);margin-top:8px"></div>
-  </div>
-
-  <!-- SCOREBOARD -->
+<section class="section" style="padding-top:48px;">
   <div class="section-header">
-    <h2>Makro Scoreboard</h2>
-    <div class="section-header-line"></div>
+    <h2 class="section-title"><span class="num">&sect; 01</span> Central Bank Rates</h2>
+    <div class="section-meta">NEXT MEETING DATES &middot; UPDATED DAILY</div>
   </div>
-  <div class="scoreboard">
-    <div class="score-card">
-      <div class="score-label">Dolar Endeksi (DXY)</div>
-      <div class="score-value" id="sb-dxy">—</div>
-      <div class="score-sub" id="sb-dxy-c">—</div>
-      <p class="score-note">Güçlü dolar = emtia baskısı, emerging market zorluğu</p>
+  <div class="stat-grid" style="grid-template-columns:repeat(4,1fr);">
+    <div class="stat">
+      <div class="stat-k">Federal Reserve</div>
+      <div><div class="stat-v">3.75<small>%</small></div><div class="stat-chg">HOLD &middot; NEXT APR 30</div></div>
+      <svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line amber" points="0,28 15,25 30,15 45,10 60,8 75,8 100,10"/></svg>
     </div>
-    <div class="score-card">
-      <div class="score-label">M2 Para Arzı</div>
-      <div class="score-value" id="sb-m2">—</div>
-      <div class="score-sub" id="sb-m2-c">—</div>
-      <p class="score-note">Fed balance sheet ile birlikte global likiditeyi ölçer</p>
+    <div class="stat">
+      <div class="stat-k">ECB</div>
+      <div><div class="stat-v">3.50<small>%</small></div><div class="stat-chg">HOLD &middot; NEXT JUN 05</div></div>
+      <svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line amber" points="0,28 20,25 40,14 60,6 80,8 100,12"/></svg>
     </div>
-    <div class="score-card">
-      <div class="score-label">ISM Manufacturing PMI</div>
-      <div class="score-value" id="sb-pmi">—</div>
-      <div class="score-sub" id="sb-pmi-c">—</div>
-      <p class="score-note">50 altı = daralma. 50 üstü = genişleme</p>
+    <div class="stat">
+      <div class="stat-k">Bank of England</div>
+      <div><div class="stat-v">4.25<small>%</small></div><div class="stat-chg up">&darr; 25BP &middot; NEXT MAY 08</div></div>
+      <svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line amber" points="0,26 20,22 40,10 60,8 80,10 100,12"/></svg>
+    </div>
+    <div class="stat">
+      <div class="stat-k">Bank of Japan</div>
+      <div><div class="stat-v">0.50<small>%</small></div><div class="stat-chg">HOLD &middot; NEXT APR 28</div></div>
+      <svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line amber" points="0,28 20,28 40,26 60,22 80,20 100,18"/></svg>
     </div>
   </div>
+</section>
 
-  <!-- EMTIA TABLOSU -->
+<section class="section">
   <div class="section-header">
-    <h2>Emtia Piyasaları</h2>
-    <div class="section-header-line"></div>
+    <h2 class="section-title"><span class="num">&sect; 02</span> US Yield Curve</h2>
+    <div class="section-meta">SRC: US TREASURY &middot; 14:00 CET</div>
   </div>
-  <table class="data-table">
-    <thead>
-      <tr>
-        <th>Emtia</th>
-        <th>Fiyat</th>
-        <th>1G %</th>
-        <th>1H %</th>
-        <th>1A %</th>
-        <th>Momentum</th>
-      </tr>
-    </thead>
-    <tbody id="commodity-tbody">
-      <tr><td colspan="6" style="text-align:center;padding:24px;color:var(--secondary)">Yükleniyor...</td></tr>
-    </tbody>
-  </table>
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:32px;">
+    <div class="card" style="padding:28px;">
+      <svg viewBox="0 0 600 260" preserveAspectRatio="none" style="width:100%;height:280px;">
+        <defs><linearGradient id="yf" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f5a524" stop-opacity="0.2"/><stop offset="1" stop-color="#f5a524" stop-opacity="0"/></linearGradient></defs>
+        <g stroke="#26262b" stroke-width="0.5"><line x1="40" y1="40" x2="600" y2="40"/><line x1="40" y1="100" x2="600" y2="100"/><line x1="40" y1="160" x2="600" y2="160"/><line x1="40" y1="220" x2="600" y2="220"/></g>
+        <g fill="#6d6760" font-family="JetBrains Mono" font-size="10"><text x="5" y="44">5.0%</text><text x="5" y="104">4.5%</text><text x="5" y="164">4.0%</text><text x="5" y="224">3.5%</text></g>
+        <g fill="#6d6760" font-family="JetBrains Mono" font-size="10" text-anchor="middle"><text x="80" y="250">1M</text><text x="160" y="250">3M</text><text x="240" y="250">6M</text><text x="320" y="250">2Y</text><text x="400" y="250">5Y</text><text x="480" y="250">10Y</text><text x="560" y="250">30Y</text></g>
+        <path d="M80,110 L160,105 L240,108 L320,135 L400,130 L480,105 L560,80" stroke="#f5a524" stroke-width="2.5" fill="none"/>
+        <path d="M80,110 L160,105 L240,108 L320,135 L400,130 L480,105 L560,80 L560,240 L80,240 Z" fill="url(#yf)"/>
+        <g fill="#f5a524"><circle cx="80" cy="110" r="4"/><circle cx="160" cy="105" r="4"/><circle cx="240" cy="108" r="4"/><circle cx="320" cy="135" r="4"/><circle cx="400" cy="130" r="4"/><circle cx="480" cy="105" r="4"/><circle cx="560" cy="80" r="4"/></g>
+        <line x1="320" y1="140" x2="320" y2="220" stroke="#ef4444" stroke-width="0.5" stroke-dasharray="3,3"/>
+        <text x="325" y="218" font-family="JetBrains Mono" font-size="10" fill="#ef4444">INVERSION ZONE</text>
+      </svg>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div class="card" style="padding:20px;"><div style="font-family:var(--mono);font-size:10px;letter-spacing:0.18em;color:var(--text-mute);text-transform:uppercase;margin-bottom:6px;">2Y / 10Y Spread</div><div style="font-family:var(--mono);font-size:28px;color:var(--red);">&minus;25bp</div><div style="font-family:var(--mono);font-size:11px;color:var(--text-mute);margin-top:4px;">INVERTED &middot; 21 MONTHS</div></div>
+      <div class="card" style="padding:20px;"><div style="font-family:var(--mono);font-size:10px;letter-spacing:0.18em;color:var(--text-mute);text-transform:uppercase;margin-bottom:6px;">3M / 10Y Spread</div><div style="font-family:var(--mono);font-size:28px;color:var(--red);">&minus;78bp</div><div style="font-family:var(--mono);font-size:11px;color:var(--text-mute);margin-top:4px;">NY FED RECESSION SIGNAL: 42%</div></div>
+      <div class="card" style="padding:20px;"><div style="font-family:var(--mono);font-size:10px;letter-spacing:0.18em;color:var(--text-mute);text-transform:uppercase;margin-bottom:6px;">10Y Yield</div><div style="font-family:var(--mono);font-size:28px;">4.38<small style="color:var(--text-mute);font-size:18px;">%</small></div><div style="font-family:var(--mono);font-size:11px;color:var(--green);margin-top:4px;">+4BP TODAY</div></div>
+    </div>
+  </div>
+</section>
 
-  <!-- EKONOMİK TAKVİM -->
+<section class="section">
   <div class="section-header">
-    <h2>Ekonomik Takvim — Bu Hafta</h2>
-    <div class="section-header-line"></div>
+    <h2 class="section-title"><span class="num">&sect; 03</span> Inflation Tracker</h2>
+    <div class="section-meta">MONTHLY PRINTS &middot; YoY</div>
   </div>
-  <table class="cal-table">
-    <thead>
-      <tr>
-        <th>Tarih</th>
-        <th>Saat (CET)</th>
-        <th>Veri</th>
-        <th>Ülke</th>
-        <th>Önceki</th>
-        <th>Beklenti</th>
-        <th>Gerçekleşen</th>
-      </tr>
-    </thead>
-    <tbody id="calendar-tbody">
-      <tr>
-        <td>07 Nis Sal</td><td>09:30</td><td>Flash Manufacturing PMI (Mart)</td><td>🇺🇸 USD</td><td>49.8</td><td>49.5</td><td>—</td>
-      </tr>
-      <tr>
-        <td>07 Nis Sal</td><td>09:30</td><td>Flash Services PMI (Mart)</td><td>🇺🇸 USD</td><td>51.0</td><td>50.5</td><td>—</td>
-      </tr>
-      <tr>
-        <td>09 Nis Per</td><td>14:30</td><td>Jobless Claims (Haftalık)</td><td>🇺🇸 USD</td><td>213K</td><td>215K</td><td>—</td>
-      </tr>
-      <tr>
-        <td>09 Nis Per</td><td>09:15</td><td>ECB Lagarde Konuşması</td><td>🇪🇺 EUR</td><td>—</td><td>—</td><td>—</td>
-      </tr>
-      <tr>
-        <td>11 Nis Cum</td><td>11:00</td><td>Eurozone HICP Enflasyonu</td><td>🇪🇺 EUR</td><td>2.3%</td><td>2.2%</td><td>—</td>
-      </tr>
-      <tr>
-        <td>14 Nis Pzt</td><td>14:30</td><td><strong>ABD Mart CPI</strong> ⭐</td><td>🇺🇸 USD</td><td>2.4%</td><td>2.6%</td><td>—</td>
-      </tr>
-      <tr>
-        <td>14 Nis Pzt</td><td>14:30</td><td><strong>ABD Mart PPI</strong> ⭐</td><td>🇺🇸 USD</td><td>3.4%</td><td>3.8%</td><td>—</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <!-- NOTLAR -->
-  <div style="background:var(--surface-low);border-left:3px solid var(--accent);padding:16px 20px;border-radius:0 4px 4px 0;margin-bottom:32px">
-    <div style="font-family:var(--font-label);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px">Bu Haftanın Odak Noktası</div>
-    <p style="font-size:13px;color:var(--primary);line-height:1.7"><strong>14 Nisan Mart CPI ve PPI</strong> kritik — ilk kez İran savaşının petrol şokunu tam olarak yansıtacak. Şubat PPI beklentinin iki katı gelmişti. Mart verisi çok daha sert gelme ihtimali yüksek. Powell'ın "Too Late Powell" mı "Just In Time Powell" mı sorusunun cevabını bu veri şekillendirecek.</p>
+  <div class="stat-grid" style="grid-template-columns:repeat(4,1fr);">
+    <div class="stat"><div class="stat-k">US CPI</div><div><div class="stat-v">2.4<small>%</small></div><div class="stat-chg dn">&darr; FROM 2.8% &middot; FEB</div></div><svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line dn" points="0,10 15,8 30,12 45,14 60,12 75,8 100,6"/></svg></div>
+    <div class="stat"><div class="stat-k">US PPI</div><div><div class="stat-v">3.4<small>%</small></div><div class="stat-chg dn">&uarr; 2&times; EXPECTATIONS</div></div><svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line dn" points="0,22 20,20 40,18 60,12 80,8 100,4"/></svg></div>
+    <div class="stat"><div class="stat-k">Eurozone HICP</div><div><div class="stat-v">2.6<small>%</small></div><div class="stat-chg">FLAT &middot; MAR PRINT FRI</div></div><svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line amber" points="0,18 20,14 40,12 60,14 80,12 100,12"/></svg></div>
+    <div class="stat"><div class="stat-k">UK CPI</div><div><div class="stat-v">3.2<small>%</small></div><div class="stat-chg dn">&uarr; FROM 2.9%</div></div><svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line dn" points="0,18 20,14 40,14 60,10 80,6 100,4"/></svg></div>
   </div>
+</section>
 
-</div>
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title"><span class="num">&sect; 04</span> FX &amp; Commodities</h2>
+    <div class="section-meta">LIVE</div>
+  </div>
+  <div class="stat-grid" style="grid-template-columns:repeat(6,1fr);">
+    <div class="stat"><div class="stat-k">DXY</div><div><div class="stat-v">104.28</div><div class="stat-chg up">+0.46%</div></div><svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line up" points="0,22 20,20 40,14 60,12 80,10 100,8"/></svg></div>
+    <div class="stat"><div class="stat-k">EUR/USD</div><div><div class="stat-v">1.0684</div><div class="stat-chg dn">&minus;0.21%</div></div><svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line dn" points="0,10 20,12 40,16 60,20 80,22 100,24"/></svg></div>
+    <div class="stat"><div class="stat-k">USD/JPY</div><div><div class="stat-v">154.82</div><div class="stat-chg up">+0.32%</div></div><svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line up" points="0,24 20,22 40,18 60,14 80,12 100,10"/></svg></div>
+    <div class="stat"><div class="stat-k">Brent</div><div><div class="stat-v">$106</div><div class="stat-chg up">+3.12%</div></div><svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line up" points="0,26 20,22 40,16 60,12 80,8 100,4"/></svg></div>
+    <div class="stat"><div class="stat-k">Gold</div><div><div class="stat-v">$2,614</div><div class="stat-chg up">+0.74%</div></div><svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line up" points="0,22 20,20 40,16 60,14 80,10 100,8"/></svg></div>
+    <div class="stat"><div class="stat-k">Copper</div><div><div class="stat-v">$4.28</div><div class="stat-chg up">+0.38%</div></div><svg class="stat-spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline class="spark-line up" points="0,20 20,18 40,16 60,12 80,10 100,6"/></svg></div>
+  </div>
+</section>
 
-<footer class="footer">
+<section class="newsletter" id="newsletter">
+  <div class="newsletter-inner">
+    <div class="newsletter-label">THE BULLETIN</div>
+    <h2 class="newsletter-title">One email. Every morning. <em>Zero noise.</em></h2>
+    <p class="newsletter-dek">Daily macro bulletin and the Sunday Morning Series, delivered before the market opens. No sponsored picks. No affiliate crypto shills. Just the signal.</p>
+    <form class="newsletter-form">
+      <input class="newsletter-input" type="email" placeholder="your@email.com" required />
+      <button class="newsletter-submit" type="submit">Subscribe</button>
+    </form>
+    <div class="newsletter-note">FREE &middot; UNSUBSCRIBE ANYTIME &middot; TR + EN EDITIONS</div>
+    <div class="newsletter-stats">
+      <div class="nl-stat"><div class="v">4,200+</div><div class="k">Subscribers</div></div>
+      <div class="nl-stat"><div class="v">68%</div><div class="k">Open Rate</div></div>
+      <div class="nl-stat"><div class="v">47</div><div class="k">Issues Sent</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
   <div class="footer-inner">
-    <div class="footer-grid">
+    <div class="footer-top">
       <div>
-        <div class="footer-logo">NO<span>CASH</span>FLOW</div>
-        <p class="footer-desc">Makro ekonomi, kripto ve piyasa analizleri. Her pazar sabahı, verilerle.</p>
+        <div class="footer-brand-title">No<em>/</em>Cashflow</div>
+        <p class="footer-brand-desc">Macro, markets, and the signal in the noise. Written in Barcelona. Read worldwide. Every Sunday morning, with data.</p>
       </div>
       <div class="footer-col">
-        <h5>Sayfalar</h5>
-        <ul><li><a href="index.html">Ana Sayfa</a></li><li><a href="yazilar.html">Yazılar</a></li><li><a href="macro.html">Macro</a></li><li><a href="dashboard.html">Dashboard</a></li></ul>
+        <h4>Read</h4>
+        <ul>
+          <li><a href="yazilar.html">Sunday Series</a></li>
+          <li><a href="bulletin.html">Daily Bulletin</a></li>
+          <li><a href="macro.html">Macro</a></li>
+          <li><a href="crypto.html">Crypto</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="sozluk.html">Glossary</a></li>
+        </ul>
       </div>
       <div class="footer-col">
-        <h5>İçerik</h5>
-        <ul><li><a href="daily_bulletin.html">Günlük Bülten</a></li><li><a href="hakkinda.html">Hakkında</a></li><li><a href="sozluk.html">Sözlük</a></li></ul>
+        <h4>About</h4>
+        <ul>
+          <li><a href="hakkinda.html">Orkun Bi&ccedil;en</a></li>
+          <li><a href="hakkinda.html#methodology">Methodology</a></li>
+          <li><a href="hakkinda.html#sources">Sources</a></li>
+          <li><a href="mailto:orkun@nocashflow.net">Contact</a></li>
+          <li><a href="mailto:orkun@nocashflow.net">Advertise</a></li>
+        </ul>
       </div>
       <div class="footer-col">
-        <h5>Sosyal</h5>
-        <ul><li><a href="https://twitter.com/No_CashFlow" target="_blank">Twitter / X</a></li><li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank">LinkedIn</a></li><li><a href="mailto:orkun@nocashflow.net">E-posta</a></li></ul>
+        <h4>Follow</h4>
+        <ul>
+          <li><a href="https://twitter.com/No_CashFlow">Twitter &middot; @No_CashFlow</a></li>
+          <li><a href="https://www.linkedin.com/in/orkunbicen/">LinkedIn</a></li>
+          <li><a href="#">RSS Feed</a></li>
+          <li><a href="#">Telegram</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+        </ul>
       </div>
     </div>
-    <div class="footer-bottom">
-      <p>© 2026 NoCashFlow.net · Orkun Biçen · Barcelona</p>
-      <p>Bu site yatırım tavsiyesi vermez.</p>
+    <div class="footer-bot">
+      <span>&copy; 2026 NoCashFlow &middot; Barcelona</span>
+      <span>Built with obsession &middot; <a href="#">Colophon</a></span>
+    </div>
+    <div class="disclaimer">
+      This site does not provide investment advice. All content is for informational purposes. The author may hold positions in instruments mentioned. Always do your own research.
     </div>
   </div>
 </footer>
-
-<script>
-const proxy = 'https://api.allorigins.win/get?url=';
-const yf = (sym) => `${proxy}${encodeURIComponent(`https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1d&range=5d`)}`;
-
-function fmt(n, prefix='', dec=2) {
-  if(n == null) return '—';
-  return prefix + n.toFixed(dec);
-}
-function fmtChg(n, el) {
-  if(n == null) { el.textContent='—'; return; }
-  el.textContent = (n>=0?'+':'') + n.toFixed(2) + '%';
-  el.className = 'kpi-chg ' + (n>0?'up':n<0?'down':'neu');
-}
-
-async function fetchYF(sym) {
-  try {
-    const r = await fetch(yf(sym));
-    const j = await r.json();
-    const d = JSON.parse(j.contents);
-    const chart = d?.chart?.result?.[0];
-    if(!chart) return null;
-    const closes = chart.indicators.quote[0].close.filter(x=>x!=null);
-    const last = closes[closes.length-1];
-    const prev = closes[closes.length-2];
-    return { last, prev, pct: prev ? (last-prev)/prev*100 : 0 };
-  } catch(e) { return null; }
-}
-
-async function loadMacro() {
-  document.getElementById('last-update-time').textContent = new Date().toLocaleTimeString('tr-TR');
-
-  // Fear & Greed
-  try {
-    const fg = await fetch('https://api.alternative.me/fng/?limit=1');
-    const fd = await fg.json();
-    const val = fd.data[0].value;
-    const cls = fd.data[0].value_classification;
-    document.getElementById('m-fg').textContent = val;
-    const fgc = document.getElementById('m-fg-c');
-    fgc.textContent = cls;
-    fgc.className = 'kpi-chg ' + (val>50?'up':val<25?'down':'neu');
-  } catch(e){}
-
-  // Yahoo Finance data
-  const tickers = [
-    {sym:'^VIX', elV:'m-vix', elC:'m-vix-c', pre:'', dec:2, inv:true},
-    {sym:'DX-Y.NYB', elV:'m-dxy', elC:'m-dxy-c', pre:'', dec:2},
-    {sym:'^TNX', elV:'m-10y', elC:'m-10y-c', pre:'', dec:2, suf:'%'},
-    {sym:'^IRX', elV:'m-2y', elC:'m-2y-c', pre:'', dec:2, suf:'%'},
-  ];
-
-  let y10=null, y2=null;
-  for(const t of tickers) {
-    const d = await fetchYF(t.sym);
-    if(!d) continue;
-    const el = document.getElementById(t.elV);
-    const ec = document.getElementById(t.elC);
-    if(el) el.textContent = fmt(d.last, t.pre||'', t.dec) + (t.suf||'');
-    if(ec) fmtChg(t.inv ? -d.pct : d.pct, ec);
-    if(t.sym==='^TNX') y10=d.last;
-    if(t.sym==='^IRX') y2=d.last/100;
-  }
-
-  // Spread
-  if(y10!=null && y2!=null) {
-    const spread = y10 - (y2*100);
-    document.getElementById('m-spread').textContent = (spread>=0?'+':'') + spread.toFixed(2) + '%';
-    const sc = document.getElementById('m-spread-c');
-    sc.textContent = spread>=0 ? 'Normal' : 'Inverted ⚠️';
-    sc.className = 'kpi-chg ' + (spread>=0?'up':'down');
-  }
-
-  // Yield Curve Chart
-  const yields = [
-    {label:'1M', sym:'^IRX', scale:100},
-    {label:'2Y', sym:'^IRX', scale:1},
-    {label:'5Y', sym:'^FVX', scale:1},
-    {label:'10Y', sym:'^TNX', scale:1},
-    {label:'30Y', sym:'^TYX', scale:1},
-  ];
-  const colors = ['#8b949e','#58a6ff','#3fb950','#f85149','#e3b341'];
-  const yieldValues = [null, null, null, null, null];
-  // simplified - just show static approximation
-  const staticYields = [5.3, 3.9, 4.1, 4.4, 4.6];
-  const maxY = Math.max(...staticYields);
-  const container = document.getElementById('yield-chart');
-  container.innerHTML = '';
-  staticYields.forEach((v,i) => {
-    const pct = (v/maxY)*100;
-    const bar = document.createElement('div');
-    bar.className = 'yield-bar';
-    bar.style.cssText = `flex:1;height:${pct}%;background:${colors[i]};border-radius:2px 2px 0 0;position:relative;transition:opacity 0.2s;cursor:default`;
-    bar.title = `${yields[i].label}: ${v}%`;
-    const valEl = document.createElement('div');
-    valEl.style.cssText = 'font-family:var(--font-mono);font-size:9px;color:white;padding:2px 4px;position:absolute;top:4px;left:50%;transform:translateX(-50%)';
-    valEl.textContent = v + '%';
-    const lblEl = document.createElement('div');
-    lblEl.style.cssText = 'font-family:var(--font-mono);font-size:9px;color:var(--secondary);position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);white-space:nowrap';
-    lblEl.textContent = yields[i].label;
-    bar.appendChild(valEl);
-    bar.appendChild(lblEl);
-    container.appendChild(bar);
-  });
-  document.getElementById('yield-note').textContent = '10Y-2Y spread: +0.50% — Normal eğri. Resesyon sinyali yok.';
-
-  // Scoreboard - DXY from cache
-  const dxyD = await fetchYF('DX-Y.NYB');
-  if(dxyD) {
-    document.getElementById('sb-dxy').textContent = dxyD.last.toFixed(2);
-    const sc = document.getElementById('sb-dxy-c');
-    sc.textContent = (dxyD.pct>=0?'+':'') + dxyD.pct.toFixed(2) + '%';
-    sc.className = 'score-sub ' + (dxyD.pct>=0?'up':'down');
-  }
-
-  // M2 from FRED
-  try {
-    const fredUrl = 'https://fred.stlouisfed.org/graph/fredgraph.csv?id=M2SL&cosd=2025-01-01';
-    const fr = await fetch(proxy + encodeURIComponent(fredUrl));
-    const fj = await fr.json();
-    const lines = fj.contents.trim().split('\n');
-    const last = lines[lines.length-1].split(',');
-    const prev = lines[lines.length-2].split(',');
-    const val = parseFloat(last[1])/1000;
-    const pval = parseFloat(prev[1])/1000;
-    const chg = (val-pval)/pval*100;
-    document.getElementById('sb-m2').textContent = '$' + val.toFixed(1) + 'T';
-    const mc = document.getElementById('sb-m2-c');
-    mc.textContent = (chg>=0?'+':'') + chg.toFixed(2) + '%';
-    mc.className = 'score-sub ' + (chg>=0?'up':'down');
-  } catch(e) {
-    document.getElementById('sb-m2').textContent = '~$22T';
-    document.getElementById('sb-m2-c').textContent = 'FRED hatası';
-  }
-
-  // PMI static (FRED source)
-  document.getElementById('sb-pmi').textContent = '49.5';
-  document.getElementById('sb-pmi-c').textContent = 'Daralma bölgesi';
-  document.getElementById('sb-pmi-c').className = 'score-sub down';
-
-  // Commodities
-  const commodities = [
-    {name:'Altın', sym:'GC=F', pre:'$'},
-    {name:'Gümüş', sym:'SI=F', pre:'$'},
-    {name:'Bakır', sym:'HG=F', pre:'$'},
-    {name:'Brent Petrol', sym:'BZ=F', pre:'$'},
-    {name:'Doğalgaz', sym:'NG=F', pre:'$'},
-    {name:'Kahve', sym:'KC=F', pre:'$'},
-    {name:'Kakao', sym:'CC=F', pre:'$'},
-  ];
-  const tbody = document.getElementById('commodity-tbody');
-  tbody.innerHTML = '';
-  for(const c of commodities) {
-    try {
-      const r = await fetch(yf(c.sym));
-      const j = await r.json();
-      const d = JSON.parse(j.contents);
-      const chart = d?.chart?.result?.[0];
-      if(!chart) continue;
-      const closes = chart.indicators.quote[0].close.filter(x=>x!=null);
-      if(closes.length < 2) continue;
-      const last = closes[closes.length-1];
-      const prev = closes[closes.length-2];
-      const pct = (last-prev)/prev*100;
-      const mom = Math.min(100, Math.max(0, 50 + pct*5));
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${c.name}</td>
-        <td>${c.pre}${last.toLocaleString('en-US',{maximumFractionDigits:2})}</td>
-        <td style="color:${pct>=0?'var(--green)':'var(--accent)'}">
-          <span style="font-family:var(--font-mono)">${(pct>=0?'+':'')}${pct.toFixed(2)}%</span>
-        </td>
-        <td><span style="font-family:var(--font-mono);color:var(--secondary)">—</span></td>
-        <td><span style="font-family:var(--font-mono);color:var(--secondary)">—</span></td>
-        <td>
-          <div class="mbar-wrap">
-            <div class="mbar"><div class="mbar-fill ${pct>=0?'pos':'neg'}" style="width:${Math.abs(pct)*5}%"></div></div>
-            <span style="font-family:var(--font-mono);font-size:10px;color:var(--secondary)">${mom.toFixed(0)}</span>
-          </div>
-        </td>`;
-      tbody.appendChild(tr);
-    } catch(e) {}
-  }
-}
-
-loadMacro();
-setInterval(loadMacro, 5*60*1000);
-</script>
+<script src="assets/site.js"></script>
 </body>
 </html>
