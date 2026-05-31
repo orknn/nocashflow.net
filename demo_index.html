@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>No Cash Flow — Finansal Bülten & Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Source+Serif+4:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --cream: #f8f5f0;
+            --ink: #1a1a1a;
+            --accent: #c8392b;
+            --muted: #6b6b6b;
+            --border: #e0dcd5;
+        }
+        
+        body {
+            font-family: 'Source Serif 4', Georgia, serif;
+            background: var(--cream);
+            color: var(--ink);
+            line-height: 1.6;
+        }
+
+        /* Page transition */
+        body {
+            animation: pageIn 0.5s ease-out;
+        }
+        @keyframes pageIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Scroll Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Ticker Bar */
+        .ticker-bar {
+            background: var(--ink);
+            color: var(--cream);
+            padding: 8px 0;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            overflow: hidden;
+        }
+        
+        .ticker-content {
+            display: flex;
+            gap: 40px;
+            animation: ticker 30s linear infinite;
+            white-space: nowrap;
+        }
+
+        .ticker-bar:hover .ticker-content {
+            animation-play-state: paused;
+        }
+        
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        .ticker-item { display: flex; gap: 8px; align-items: center; }
+        .ticker-item .symbol { font-weight: 600; }
+        .ticker-item .up { color: #22c55e; }
+        .ticker-item .down { color: #ef4444; }
+        
+        /* Header */
+        header {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: -1px;
+        }
+        
+        .logo span { font-style: italic; color: var(--accent); }
+        
+        .header-meta {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+        
+        .lang-toggle {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .lang-btn {
+            padding: 4px 10px;
+            border: 1px solid var(--border);
+            background: transparent;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .lang-btn.active {
+            background: var(--ink);
+            color: var(--cream);
+            border-color: var(--ink);
+        }
+        
+        nav {
+            display: flex;
+            gap: 30px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        nav a {
+            color: var(--ink);
+            text-decoration: none;
+            padding-bottom: 4px;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.3s, color 0.3s;
+        }
+        
+        nav a:hover { border-color: var(--accent); color: var(--accent); }
+        
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        /* ===== NEW: Hero with Feature Image ===== */
+        .hero {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            margin-bottom: 20px;
+        }
+        
+        .hero-main h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 44px;
+            font-weight: 400;
+            font-style: italic; /* ← NEW: Italic serif like reference */
+            line-height: 1.15;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+        
+        .hero-main .excerpt {
+            font-size: 18px;
+            color: var(--muted);
+            margin-bottom: 20px;
+            font-style: normal;
+        }
+        
+        .hero-main .meta {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        /* NEW: Hero Feature Image */
+        .hero-image {
+            margin-top: 24px;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .hero-image:hover img {
+            transform: scale(1.02);
+        }
+
+        .hero-image .image-caption {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: rgba(0,0,0,0.6);
+            color: rgba(255,255,255,0.7);
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            padding: 4px 10px;
+        }
+        
+        .hero-sidebar {
+            border-left: 1px solid var(--border);
+            padding-left: 30px;
+        }
+        
+        .sidebar-item {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .sidebar-item:hover {
+            transform: translateX(4px);
+        }
+        
+        .sidebar-item:first-child { padding-top: 0; }
+        
+        .sidebar-item h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 400;
+            margin-bottom: 8px;
+            transition: color 0.2s;
+        }
+
+        .sidebar-item:hover h3 {
+            color: var(--accent);
+        }
+        
+        .sidebar-item .meta {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            color: var(--muted);
+        }
+        
+        /* Dashboard CTA */
+        .dashboard-cta {
+            background: var(--ink);
+            color: var(--cream);
+            padding: 50px;
+            margin-bottom: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 0%, rgba(200, 57, 43, 0.08) 100%);
+            pointer-events: none;
+        }
+        
+        .cta-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
+        
+        .cta-content p {
+            color: #a0a0a0;
+            font-size: 16px;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            position: relative;
+        }
+        
+        .cta-btn {
+            padding: 12px 28px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            border: 1px solid var(--cream);
+            color: var(--cream);
+            transition: all 0.3s;
+        }
+        
+        .cta-btn:hover {
+            background: var(--cream);
+            color: var(--ink);
+            transform: translateY(-2px);
+        }
+        
+        .cta-btn.primary {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+        
+        .cta-btn.primary:hover {
+            background: #a82d22;
+            border-color: #a82d22;
+            transform: translateY(-2px);
+        }
+        
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-left: 15px;
+        }
+        
+        .live-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* ===== NEW: Featured Story Section ===== */
+        .featured-story {
+            background: var(--ink);
+            color: var(--cream);
+            margin: 0 -20px 60px;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 400px;
+            overflow: hidden;
+        }
+
+        .featured-story-content {
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .featured-story-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .featured-story-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            font-weight: 400;
+            font-style: italic;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .featured-story-content p {
+            font-size: 16px;
+            color: #a0a0a0;
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+
+        .featured-story-link {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--cream);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: gap 0.3s;
+        }
+
+        .featured-story-link:hover {
+            gap: 14px;
+        }
+
+        .featured-story-link::after {
+            content: '→';
+            transition: transform 0.3s;
+        }
+
+        .featured-story-image {
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .featured-story-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, var(--ink) 0%, transparent 30%);
+        }
+        
+        /* ===== NEW: Section Title - Editorial Style ===== */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        .section-link {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .section-link:hover {
+            color: var(--accent);
+        }
+
+        /* ===== NEW: Featured Article (first card, full width) ===== */
+        .featured-article {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+        }
+
+        .featured-article-image {
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .featured-article-image img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .featured-article:hover .featured-article-image img {
+            transform: scale(1.03);
+        }
+
+        .featured-article-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .featured-article-content .category {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .featured-article-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 400;
+            font-style: italic;
+            line-height: 1.25;
+            margin-bottom: 16px;
+            transition: color 0.2s;
+        }
+
+        .featured-article:hover .featured-article-content h3 {
+            color: var(--accent);
+        }
+
+        .featured-article-content .excerpt {
+            font-size: 16px;
+            color: var(--muted);
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .featured-article-content .meta {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            color: var(--muted);
+        }
+        
+        /* ===== NEW: Article Cards with Thumbnails ===== */
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .article-card {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .article-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .article-card-thumb {
+            width: 100%;
+            height: 160px;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .article-card-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .article-card:hover .article-card-thumb img {
+            transform: scale(1.05);
+        }
+        
+        .article-card .category {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+        
+        .article-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 400;
+            margin-bottom: 10px;
+            line-height: 1.3;
+            transition: color 0.2s;
+        }
+
+        .article-card:hover h3 {
+            color: var(--accent);
+        }
+        
+        .article-card .excerpt {
+            font-size: 15px;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+        
+        .article-card .meta {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            color: var(--muted);
+        }
+        
+        /* ===== IMPROVED: Newsletter ===== */
+        .newsletter {
+            background: #f0ebe3;
+            padding: 60px 50px;
+            text-align: center;
+            margin-bottom: 60px;
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .newsletter::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 30px;
+            font-family: 'Playfair Display', serif;
+            font-size: 120px;
+            color: rgba(0,0,0,0.04);
+            line-height: 1;
+        }
+        
+        .newsletter h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 400;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        
+        .newsletter p {
+            color: var(--muted);
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            gap: 10px;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 14px 18px;
+            border: 1px solid var(--border);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            background: var(--cream);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .newsletter-form input:focus {
+            outline: none;
+            border-color: var(--ink);
+            box-shadow: 0 0 0 3px rgba(26,26,26,0.06);
+        }
+        
+        .newsletter-form button {
+            padding: 14px 28px;
+            background: var(--ink);
+            color: var(--cream);
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .newsletter-form button:hover {
+            background: var(--accent);
+            transform: translateY(-1px);
+        }
+        
+        /* ===== IMPROVED: Footer ===== */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .footer-logo span {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .footer-tagline {
+            font-size: 13px;
+            color: var(--muted);
+            font-style: italic;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 25px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+        }
+        
+        .footer-links a {
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .footer-links a:hover { color: var(--accent); }
+        
+        .footer-copy {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero { grid-template-columns: 1fr; }
+            .hero-sidebar { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 30px; }
+            .articles-grid { grid-template-columns: 1fr; }
+            .dashboard-cta { flex-direction: column; text-align: center; gap: 25px; }
+            .featured-story { grid-template-columns: 1fr; }
+            .featured-story-image { min-height: 250px; }
+            .featured-article { grid-template-columns: 1fr; }
+            nav { flex-wrap: wrap; gap: 15px; }
+            .footer-bottom { flex-direction: column; gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Ticker Bar -->
+    <div class="ticker-bar">
+        <div class="ticker-content" id="ticker">
+            <div class="ticker-item"><span class="symbol">BTC</span> $67,313 <span class="down">▼ -1.28%</span></div>
+            <div class="ticker-item"><span class="symbol">ETH</span> $1,963 <span class="down">▼ -1.18%</span></div>
+            <div class="ticker-item"><span class="symbol">S&P 500</span> 5,738 <span class="up">▲ +0.55%</span></div>
+            <div class="ticker-item"><span class="symbol">NASDAQ</span> 18,124 <span class="up">▲ +0.70%</span></div>
+            <div class="ticker-item"><span class="symbol">Gold</span> $3,133 <span class="down">▼ -0.06%</span></div>
+            <div class="ticker-item"><span class="symbol">EUR/USD</span> 1.0856 <span class="up">▲ +0.12%</span></div>
+            <!-- Duplicate for seamless loop -->
+            <div class="ticker-item"><span class="symbol">BTC</span> $67,313 <span class="down">▼ -1.28%</span></div>
+            <div class="ticker-item"><span class="symbol">ETH</span> $1,963 <span class="down">▼ -1.18%</span></div>
+            <div class="ticker-item"><span class="symbol">S&P 500</span> 5,738 <span class="up">▲ +0.55%</span></div>
+            <div class="ticker-item"><span class="symbol">NASDAQ</span> 18,124 <span class="up">▲ +0.70%</span></div>
+            <div class="ticker-item"><span class="symbol">Gold</span> $3,133 <span class="down">▼ -0.06%</span></div>
+            <div class="ticker-item"><span class="symbol">EUR/USD</span> 1.0856 <span class="up">▲ +0.12%</span></div>
+        </div>
+    </div>
+    
+    <!-- Header -->
+    <header>
+        <div class="header-top">
+            <div class="logo">No Cash <span>Flow</span></div>
+            <div class="header-meta">
+                <span id="currentDate"></span>
+                <div class="lang-toggle">
+                    <button class="lang-btn active" onclick="setLang('tr')">TR</button>
+                    <button class="lang-btn" onclick="setLang('en')">EN</button>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <a href="macro.html">Macro Dashboard</a>
+            <a href="dashboard.html">Watchlist</a>
+            <a href="daily_bulletin.html">Günlük Bülten</a>
+            <a href="yazilar.html">Yazılar</a>
+            <a href="sozluk.html">Sözlük</a>
+            <a href="hakkinda.html">Hakkında</a>
+        </nav>
+    </header>
+    
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section with Feature Image -->
+        <section class="hero">
+            <div class="hero-main">
+                <h1>Piyasalar risk-off modunda: VIX yükseliyor, altın rekor kırıyor</h1>
+                <p class="excerpt">ABD-İran gerginliği ve Fed'in faiz kararı öncesi yatırımcılar güvenli limanlara yöneliyor. Magnificent 7 hisselerinde satış baskısı devam ediyor.</p>
+                <p class="meta">7 Mart 2026 · Orkun Biçen</p>
+
+                <!-- NEW: Hero Feature Image -->
+                <div class="hero-image">
+                    <img src="images/hero_illustration.png" alt="Market volatility illustration">
+                    <span class="image-caption">No Cash Flow Editorial</span>
+                </div>
+            </div>
+            <div class="hero-sidebar">
+                <div class="sidebar-item">
+                    <h3>ECB faiz kararı: Piyasa beklentileri</h3>
+                    <p class="meta">Makro Analiz</p>
+                </div>
+                <div class="sidebar-item">
+                    <h3>Bitcoin ETF girişleri yavaşlıyor</h3>
+                    <p class="meta">Kripto</p>
+                </div>
+                <div class="sidebar-item">
+                    <h3>NVIDIA Q4 sonuçları ne anlama geliyor?</h3>
+                    <p class="meta">Hisse Analizi</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Dashboard CTA -->
+        <section class="dashboard-cta reveal">
+            <div class="cta-content">
+                <h2>Canlı Piyasa Verileri <span class="live-badge">LIVE</span></h2>
+                <p>VIX, DXY, Fear & Greed, emtia fiyatları ve daha fazlası — tek bir dashboard'da.</p>
+            </div>
+            <div class="cta-buttons">
+                <a href="macro.html" class="cta-btn">Macro Dashboard</a>
+                <a href="dashboard.html" class="cta-btn primary">Watchlist Aç</a>
+            </div>
+        </section>
+
+        <!-- NEW: Featured Story - Full Width Dark Section -->
+        <section class="featured-story reveal">
+            <div class="featured-story-content">
+                <span class="featured-story-label">Öne Çıkan Analiz</span>
+                <h2>Gelişen Piyasalar: Çok Kutuplu Dünyada İstikrar Arayışı</h2>
+                <p>Küresel ticaret rotaları yeniden şekillenirken, gelişen piyasalar hem fırsatlar hem riskler sunuyor. Türkiye, Hindistan ve Brezilya'nın karşılaştırmalı analizi.</p>
+                <a href="#" class="featured-story-link">Devamını Oku</a>
+            </div>
+            <div class="featured-story-image" style="background-image: url('images/featured_story.png');">
+            </div>
+        </section>
+
+        <!-- Articles Section with Editorial Header -->
+        <div class="section-header reveal">
+            <h2 class="section-title">Son Yazılar</h2>
+            <a href="yazilar.html" class="section-link">Tümünü Gör →</a>
+        </div>
+
+        <!-- NEW: Featured First Article (Bigger) -->
+        <article class="featured-article reveal">
+            <div class="featured-article-image">
+                <img src="images/thumb_crypto.png" alt="Coinbase Premium Index">
+            </div>
+            <div class="featured-article-content">
+                <p class="category">Kripto</p>
+                <h3>Coinbase Premium Index nedir ve nasıl yorumlanır?</h3>
+                <p class="excerpt">ABD yatırımcı talebini ölçen bu gösterge, kurumsal ilgiyi anlamak için kritik. Premium artarken piyasa ne yapıyor?</p>
+                <p class="meta">5 Mart 2026 · 4 dk okuma</p>
+            </div>
+        </article>
+
+        <!-- Remaining Articles in 3-column grid with thumbnails -->
+        <section class="articles-grid">
+            <article class="article-card reveal">
+                <div class="article-card-thumb">
+                    <img src="images/thumb_macro.png" alt="Yield Curve">
+                </div>
+                <p class="category">Makro</p>
+                <h3>Yield Curve Inversion: Resesyon mu geliyor?</h3>
+                <p class="excerpt">2Y-10Y spread tekrar negatife döndü. Tarihsel olarak bu ne anlama geliyor?</p>
+                <p class="meta">3 Mart 2026</p>
+            </article>
+            <article class="article-card reveal">
+                <div class="article-card-thumb">
+                    <img src="images/thumb_stocks.png" alt="Magnificent 7">
+                </div>
+                <p class="category">Hisse</p>
+                <h3>Magnificent 7: Değerleme analizi</h3>
+                <p class="excerpt">Tech devlerinin P/E oranları ve büyüme beklentileri karşılaştırması...</p>
+                <p class="meta">1 Mart 2026</p>
+            </article>
+            <article class="article-card reveal">
+                <div class="article-card-thumb">
+                    <img src="images/hero_illustration.png" alt="Cash Flow">
+                </div>
+                <p class="category">Sözlük</p>
+                <h3>Cash Flow nedir?</h3>
+                <p class="excerpt">Nakit akışının temelleri, türleri ve neden önemli olduğu...</p>
+                <p class="meta">28 Şubat 2026</p>
+            </article>
+            <article class="article-card reveal">
+                <div class="article-card-thumb">
+                    <img src="images/thumb_crypto.png" alt="Hyperliquid DEX">
+                </div>
+                <p class="category">Kripto</p>
+                <h3>Hyperliquid: Yeni nesil DEX</h3>
+                <p class="excerpt">Merkeziyetsiz türev borsasının arkasındaki teknoloji ve fırsatlar...</p>
+                <p class="meta">25 Şubat 2026</p>
+            </article>
+            <article class="article-card reveal">
+                <div class="article-card-thumb">
+                    <img src="images/thumb_macro.png" alt="Fed Balance Sheet">
+                </div>
+                <p class="category">Makro</p>
+                <h3>Fed Balance Sheet: Neden önemli?</h3>
+                <p class="excerpt">Merkez bankası bilançosu ve piyasalar üzerindeki etkisi...</p>
+                <p class="meta">22 Şubat 2026</p>
+            </article>
+        </section>
+        
+        <!-- Newsletter -->
+        <section class="newsletter reveal">
+            <h2>Günlük Bülten</h2>
+            <p>Her sabah piyasa açılmadan önce günün önemli gelişmeleri e-posta kutunuzda.</p>
+            <form class="newsletter-form" onsubmit="return false;">
+                <input type="email" placeholder="E-posta adresiniz" required>
+                <button type="submit">Abone Ol →</button>
+            </form>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <div class="footer-logo">No Cash <span>Flow</span></div>
+                <p class="footer-tagline">Piyasaları anlamlandır.</p>
+            </div>
+            <div class="footer-links">
+                <a href="hakkinda.html">Hakkında</a>
+                <a href="mailto:orkun@nocashflow.net">İletişim</a>
+                <a href="https://twitter.com/No_CashFlow" target="_blank">Twitter</a>
+                <a href="https://linkedin.com/in/orkunbicen" target="_blank">LinkedIn</a>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border);">
+            <p class="footer-copy">© 2026 No Cash Flow · Orkun Biçen</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Set current date
+        const today = new Date();
+        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        document.getElementById('currentDate').textContent = today.toLocaleDateString('tr-TR', options);
+        
+        // Language toggle
+        let currentLang = 'tr';
+        
+        function setLang(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.lang-btn:${lang === 'tr' ? 'first-child' : 'last-child'}`).classList.add('active');
+            
+            document.querySelectorAll('[data-tr][data-en]').forEach(el => {
+                el.textContent = el.getAttribute(`data-${lang}`);
+            });
+            
+            const dateEl = document.getElementById('currentDate');
+            dateEl.textContent = today.toLocaleDateString(lang === 'tr' ? 'tr-TR' : 'en-US', options);
+        }
+
+        // Scroll reveal animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { 
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

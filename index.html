@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NoCashFlow — Macro &amp; Market Analysis · Orkun Biçen</title>
+<meta name="description" content="Data-driven macro analysis every Sunday — oil shocks, smart money, nuclear energy, Fed policy. By Orkun Biçen from Barcelona."/>
+<meta property="og:title" content="NoCashFlow — Macro &amp; Market Analysis"/>
+<meta property="og:description" content="Data-driven macro analysis every Sunday. Macro, crypto and commodities — primary source, always linked."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://nocashflow.net/"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link rel="icon" href="favicon.svg" type="image/svg+xml"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,400&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="site.css"/>
+<link rel="stylesheet" href="components.css"/>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-label"><span class="dot"></span> Live</div>
+  <div class="ticker-track" id="ticker-track"></div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">NO<span class="slash">/</span>CASHFLOW<span class="tag">MACRO × MARKETS</span></a>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="yazilar.html">Articles</a>
+      <a href="macro.html">Macro</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="bulletin_page.html">Bulletin</a>
+      <a href="hakkinda.html">About</a>
+    </div>
+    <div class="nav-right">
+      <a href="bulletin_page.html" class="subscribe">Subscribe</a>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO / LEAD STORY -->
+<section class="lead">
+  <div class="lead-grid">
+    <div>
+      <div class="lead-eyebrow">Lead Story · Sunday Series #04 <span class="divider"></span> <span class="muted">Apr 6, 2026 · 9 min read</span></div>
+      <h1 class="lead-title"><a href="yazilar.html#smart-money">Smart money didn't <em>lead</em>. It <em>retreated</em>.</a></h1>
+      <p class="lead-dek">JPMorgan called Q1 2026 the year institutions would dominate crypto flows. The data tells a different story — flows came in at one-third of the estimate.</p>
+      <div class="byline">
+        <div class="avatar">OB</div>
+        <div>
+          <div class="who">Orkun Biçen</div>
+          <div class="role">Zone EUR MCS Controller · Nestlé Barcelona</div>
+        </div>
+      </div>
+      <div class="premium">
+        <div class="cell"><div class="k">Coinbase Premium</div><div class="v red">−0.18</div></div>
+        <div class="cell"><div class="k">30D Δ</div><div class="v red">−142%</div></div>
+        <div class="cell"><div class="k">JPM Est.</div><div class="v">$33B</div></div>
+        <div class="cell"><div class="k">Q1 Actual</div><div class="v amber">$11B</div></div>
+      </div>
+    </div>
+    <aside class="lead-aside">
+      <div class="k">Recent Issues</div>
+      <ul class="mini-list">
+        <li><span class="n">#03</span><a href="yazilar.html#nukleer"><div class="t">AI Needs Electricity — The Answer is Nuclear</div><div class="d">Energy · Mar 30</div></a></li>
+        <li><span class="n">#02</span><a href="yazilar.html#bakir"><div class="t">Dr. Copper — Wrong Diagnosis?</div><div class="d">Commodities · Mar 23</div></a></li>
+        <li><span class="n">#01</span><a href="yazilar.html#petrol"><div class="t">Why the 1970s Comparison Is Misleading</div><div class="d">Macro · Mar 16</div></a></li>
+      </ul>
+      <a href="yazilar.html" class="btn" style="width:100%;justify-content:center;margin-top:20px">All Articles <span class="arrow">→</span></a>
+    </aside>
+  </div>
+</section>
+
+<!-- §01 MARKET PULSE -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-title"><span class="num">§ 01</span>Market Pulse</div>
+    <div class="section-meta"><span class="live">● Live</span> · <a href="macro.html">Full Macro →</a></div>
+  </div>
+  <div class="stat-grid">
+    <div class="stat">
+      <div class="stat-k">Crypto Fear &amp; Greed</div>
+      <div><div class="stat-v" data-px="fg">—</div><div class="stat-chg neu" data-chg="fg">—</div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-k">Bitcoin</div>
+      <div><div class="stat-v" data-px="btc">—</div><div class="stat-chg neu" data-chg="btc">—</div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-k">VIX · Volatility</div>
+      <div><div class="stat-v" data-px="vix">—</div><div class="stat-chg neu" data-chg="vix">—</div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-k">Dollar Index · DXY</div>
+      <div><div class="stat-v" data-px="dxy">—</div><div class="stat-chg neu" data-chg="dxy">—</div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-k">US 10Y Yield</div>
+      <div><div class="stat-v" data-px="us10y">—</div><div class="stat-chg neu" data-chg="us10y">—</div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-k">Brent Crude</div>
+      <div><div class="stat-v" data-px="brent">—</div><div class="stat-chg neu" data-chg="brent">—</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- §02 LATEST ANALYSIS -->
+<section class="section tight">
+  <div class="section-header">
+    <div class="section-title"><span class="num">§ 02</span>Latest Analysis</div>
+    <div class="section-meta"><a href="yazilar.html">All Articles →</a></div>
+  </div>
+  <div class="art-list">
+    <div class="art-row">
+      <div class="n">#04</div>
+      <div class="body">
+        <div class="tag-line">Smart Money · Apr 6, 2026</div>
+        <h3><a href="yazilar.html#smart-money">Smart Money Nedir ve Nereye Gidiyor?</a></h3>
+        <p>JPMorgan said institutions would dominate 2026 crypto flows. Q1 came in at one-third of the estimate. Coinbase Premium Index tells the full story.</p>
+      </div>
+      <div class="arrow">→</div>
+    </div>
+    <div class="art-row">
+      <div class="n">#03</div>
+      <div class="body">
+        <div class="tag-line">Energy · Mar 30, 2026</div>
+        <h3><a href="yazilar.html#nukleer">AI Needs Electricity — The Answer Is Nuclear</a></h3>
+        <p>IEA: data centers will consume 945 TWh by 2030 — equal to Japan's entire annual electricity use. Microsoft $16B, Amazon $20B+.</p>
+      </div>
+      <div class="arrow">→</div>
+    </div>
+    <div class="art-row">
+      <div class="n">#02</div>
+      <div class="body">
+        <div class="tag-line">Commodities · Mar 23, 2026</div>
+        <h3><a href="yazilar.html#bakir">Dr. Copper — Wrong Diagnosis?</a></h3>
+        <p>Copper as a recession indicator is broken. AI data centers, EVs and renewables all demand it at once. S&amp;P Global projects a 10M-tonne deficit by 2040.</p>
+      </div>
+      <div class="arrow">→</div>
+    </div>
+    <div class="art-row">
+      <div class="n">#01</div>
+      <div class="body">
+        <div class="tag-line">Macro · Mar 16, 2026</div>
+        <h3><a href="yazilar.html#petrol">Why the 1970s Comparison Is Misleading</a></h3>
+        <p>Brent up 40%, Hormuz closed, everyone drawing 1970s analogies. But oil intensity has more than halved since 1973. Powell said "we don't know" 17 times.</p>
+      </div>
+      <div class="arrow">→</div>
+    </div>
+  </div>
+</section>
+
+<!-- §03 WHAT'S INSIDE -->
+<section class="section tight">
+  <div class="section-header">
+    <div class="section-title"><span class="num">§ 03</span>Inside the Bulletin</div>
+    <div class="section-meta"><a href="bulletin_page.html">Read the Bulletin →</a></div>
+  </div>
+  <div class="card-grid">
+    <div class="acard">
+      <div class="series">01 · Daily</div>
+      <h3>Morning Macro Snapshot</h3>
+      <p>VIX, DXY, yields, Fear &amp; Greed and the key assets. Everything you need in 60 seconds.</p>
+    </div>
+    <div class="acard">
+      <div class="series">02 · Daily</div>
+      <h3>Crypto Signal Board</h3>
+      <p>BTC dominance, funding rates, the Coinbase Premium Index and on-chain flows.</p>
+    </div>
+    <div class="acard">
+      <div class="series">03 · Daily</div>
+      <h3>Fed Watch</h3>
+      <p>Rate probabilities from CME FedWatch, dot-plot updates and Powell speech analysis.</p>
+    </div>
+    <div class="acard">
+      <div class="series">04 · Daily</div>
+      <h3>Economic Calendar</h3>
+      <p>The day's key releases with previous, consensus and a significance flag.</p>
+    </div>
+    <div class="acard">
+      <div class="series">05 · Weekly</div>
+      <h3>Sunday Deep Dive</h3>
+      <p>Long-form macro analysis, 1,500–3,000 words. Primary source, always linked.</p>
+    </div>
+    <div class="acard">
+      <div class="series">06 · Always</div>
+      <h3>No Paywall</h3>
+      <p>Every analysis is free, forever. No credit card, no upsell — just the data.</p>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter">
+  <div class="newsletter-inner">
+    <div class="newsletter-label">The Bulletin</div>
+    <h2 class="newsletter-title">Start your Sunday <em>with data.</em></h2>
+    <p class="newsletter-dek">Clear macro analysis every week — macro, crypto and commodities. No noise, no paywall.</p>
+    <form class="newsletter-form" data-newsletter>
+      <input class="newsletter-input" type="email" placeholder="you@email.com" required/>
+      <button class="newsletter-submit" type="submit">Subscribe</button>
+    </form>
+    <div class="newsletter-note">Free forever · No spam · Unsubscribe anytime</div>
+    <div class="newsletter-stats">
+      <div class="nl-stat"><div class="v">1,200+</div><div class="k">Readers</div></div>
+      <div class="nl-stat"><div class="v">€0</div><div class="k">Forever Free</div></div>
+      <div class="nl-stat"><div class="v">52</div><div class="k">Issues / Year</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-title">NO<span style="color:var(--amber)">/</span>CASHFLOW</div>
+        <p class="footer-brand-desc">Macro economics, crypto and market analysis. Every Sunday morning, with data — by Orkun Biçen from Barcelona.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Pages</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="yazilar.html">Articles</a></li>
+          <li><a href="macro.html">Macro</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="bulletin_page.html">Bulletin</a></li>
+          <li><a href="hakkinda.html">About</a></li>
+          <li><a href="sozluk.html">Glossary</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Social</h4>
+        <ul>
+          <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
+          <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="mailto:orkun@nocashflow.net">Email</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <span>© <span data-year>2026</span> NoCashFlow.net · Orkun Biçen · Barcelona</span>
+      <span><a href="hakkinda.html">About</a> · <a href="bulletin_page.html">Subscribe</a></span>
+    </div>
+    <div class="disclaimer">This site is for information only and does not provide investment advice.</div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+  window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx','eurusd'] });
+</script>
+</body>
+</html>

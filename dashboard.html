@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dashboard — NoCashFlow | Live Markets</title>
+<meta name="description" content="Live market dashboard — crypto, indices, commodities and FX in one view, refreshed automatically."/>
+<meta property="og:title" content="Dashboard — NoCashFlow"/>
+<meta property="og:type" content="website"/>
+<link rel="icon" href="favicon.svg" type="image/svg+xml"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,400&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="site.css"/>
+<link rel="stylesheet" href="components.css"/>
+</head>
+<body>
+
+<div class="ticker">
+  <div class="ticker-label"><span class="dot"></span> Live</div>
+  <div class="ticker-track" id="ticker-track"></div>
+</div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">NO<span class="slash">/</span>CASHFLOW<span class="tag">MACRO × MARKETS</span></a>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="yazilar.html">Articles</a>
+      <a href="macro.html">Macro</a>
+      <a href="dashboard.html" class="active">Dashboard</a>
+      <a href="bulletin_page.html">Bulletin</a>
+      <a href="hakkinda.html">About</a>
+    </div>
+    <div class="nav-right">
+      <a href="bulletin_page.html" class="subscribe">Subscribe</a>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="page-eyebrow">Live Markets <span class="divider"></span> <span class="muted">Updated: <span id="last-update">—</span></span></div>
+  <h1 class="page-title">Markets, <em>in one view.</em></h1>
+  <p class="page-dek">Crypto, indices, commodities and FX — live prices and 24-hour moves, refreshed automatically.</p>
+</header>
+
+<div class="section">
+  <!-- OVERVIEW -->
+  <div class="stat-grid">
+    <div class="stat"><div class="stat-k">Bitcoin</div><div><div class="stat-v" data-px="btc">—</div><div class="stat-chg neu" data-chg="btc">—</div></div></div>
+    <div class="stat"><div class="stat-k">Ethereum</div><div><div class="stat-v" data-px="eth">—</div><div class="stat-chg neu" data-chg="eth">—</div></div></div>
+    <div class="stat"><div class="stat-k">S&amp;P 500</div><div><div class="stat-v" data-px="spx">—</div><div class="stat-chg neu" data-chg="spx">—</div></div></div>
+    <div class="stat"><div class="stat-k">Gold</div><div><div class="stat-v" data-px="gold">—</div><div class="stat-chg neu" data-chg="gold">—</div></div></div>
+    <div class="stat"><div class="stat-k">Crypto F&amp;G</div><div><div class="stat-v" data-px="fg">—</div><div class="stat-chg neu" data-chg="fg">—</div></div></div>
+    <div class="stat"><div class="stat-k">BTC Dominance</div><div><div class="stat-v" id="btc-dom">—</div><div class="stat-chg neu">of total cap</div></div></div>
+  </div>
+
+  <!-- WATCHLIST -->
+  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Watchlist</div><div class="section-meta"><span class="live" style="color:var(--green)">● Live</span> · auto-refresh 60s</div></div>
+  <table class="dtable">
+    <thead><tr><th>Asset</th><th>Class</th><th>Price</th><th>Δ%</th><th>Trend</th></tr></thead>
+    <tbody id="wl-tbody"><tr><td colspan="5" class="muted" style="text-align:center;padding:24px">Loading markets…</td></tr></tbody>
+  </table>
+  <p class="muted" style="font-size:11px;font-family:var(--mono);margin-top:12px">Crypto change is 24h (CoinGecko). Equities, commodities &amp; FX change is last close vs. prior close (Yahoo Finance). Data may be delayed.</p>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-title">NO<span style="color:var(--amber)">/</span>CASHFLOW</div>
+        <p class="footer-brand-desc">Macro economics, crypto and market analysis. Every Sunday morning, with data — by Orkun Biçen from Barcelona.</p>
+      </div>
+      <div class="footer-col"><h4>Pages</h4><ul><li><a href="index.html">Home</a></li><li><a href="yazilar.html">Articles</a></li><li><a href="macro.html">Macro</a></li><li><a href="dashboard.html">Dashboard</a></li></ul></div>
+      <div class="footer-col"><h4>Content</h4><ul><li><a href="bulletin_page.html">Bulletin</a></li><li><a href="hakkinda.html">About</a></li><li><a href="sozluk.html">Glossary</a></li></ul></div>
+      <div class="footer-col"><h4>Social</h4><ul><li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li><li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li><li><a href="mailto:orkun@nocashflow.net">Email</a></li></ul></div>
+    </div>
+    <div class="footer-bot">
+      <span>© <span data-year>2026</span> NoCashFlow.net · Orkun Biçen · Barcelona</span>
+      <span><a href="hakkinda.html">About</a> · <a href="bulletin_page.html">Subscribe</a></span>
+    </div>
+    <div class="disclaimer">This site is for information only and does not provide investment advice.</div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+  window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx','eurusd'], market: false });
+  const $ = (id) => document.getElementById(id);
+
+  const CRYPTO = [
+    {sym:'BTC', name:'Bitcoin',  id:'bitcoin'},
+    {sym:'ETH', name:'Ethereum', id:'ethereum'},
+    {sym:'SOL', name:'Solana',   id:'solana'},
+    {sym:'XRP', name:'Ripple',   id:'ripple'},
+    {sym:'BNB', name:'BNB',      id:'binancecoin'},
+    {sym:'ADA', name:'Cardano',  id:'cardano'},
+    {sym:'DOGE',name:'Dogecoin', id:'dogecoin'}
+  ];
+  const YAHOO = [
+    {sym:'S&P 500', name:'US 500',      s:'^GSPC', cls:'Index',     fmt:v=>v.toLocaleString('en-US',{maximumFractionDigits:0})},
+    {sym:'Nasdaq',  name:'Nasdaq Comp', s:'^IXIC', cls:'Index',     fmt:v=>v.toLocaleString('en-US',{maximumFractionDigits:0})},
+    {sym:'Dow',     name:'Dow Jones',   s:'^DJI',  cls:'Index',     fmt:v=>v.toLocaleString('en-US',{maximumFractionDigits:0})},
+    {sym:'Gold',    name:'Gold',        s:'GC=F',  cls:'Commodity', fmt:v=>'$'+v.toFixed(0)},
+    {sym:'Silver',  name:'Silver',      s:'SI=F',  cls:'Commodity', fmt:v=>'$'+v.toFixed(2)},
+    {sym:'Copper',  name:'Copper',      s:'HG=F',  cls:'Commodity', fmt:v=>'$'+v.toFixed(2)},
+    {sym:'Brent',   name:'Brent Crude', s:'BZ=F',  cls:'Commodity', fmt:v=>'$'+v.toFixed(1)},
+    {sym:'NatGas',  name:'Natural Gas', s:'NG=F',  cls:'Commodity', fmt:v=>'$'+v.toFixed(2)},
+    {sym:'EUR/USD', name:'Euro',        s:'EURUSD=X', cls:'FX',     fmt:v=>v.toFixed(4)},
+    {sym:'USD/TRY', name:'Turkish Lira',s:'TRY=X', cls:'FX',        fmt:v=>v.toFixed(2)},
+    {sym:'DXY',     name:'Dollar Index',s:'DX-Y.NYB', cls:'FX',     fmt:v=>v.toFixed(2)}
+  ];
+
+  function rowHTML(sym, name, cls, priceStr, pct, closes) {
+    const dir = pct == null ? 'neu' : (pct >= 0 ? 'up' : 'dn');
+    const chg = pct == null ? '—' : (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%';
+    return '<tr class="cal-row"><td><strong>' + sym + '</strong> <span class="muted" style="font-size:12px">' + name + '</span></td>' +
+      '<td><span class="badge neu" style="font-size:9px;letter-spacing:0.1em">' + cls + '</span></td>' +
+      '<td class="mono">' + priceStr + '</td>' +
+      '<td><span class="badge ' + dir + '">' + chg + '</span></td>' +
+      '<td style="width:120px">' + (closes ? window.NCF.sparkline(closes, pct >= 0) : '') + '</td></tr>';
+  }
+
+  async function loadDash() {
+    $('last-update').textContent = new Date().toLocaleTimeString('en-GB');
+    const tb = $('wl-tbody');
+    const rows = [];
+
+    /* crypto (one call) */
+    const ids = CRYPTO.map(c => c.id).join(',');
+    let cg = null;
+    try { cg = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=' + ids + '&vs_currencies=usd&include_24hr_change=true').then(r => r.json()); } catch (e) {}
+    CRYPTO.forEach(c => {
+      const d = cg && cg[c.id];
+      const price = d ? '$' + d.usd.toLocaleString('en-US', {maximumFractionDigits: d.usd < 2 ? 4 : 0}) : '—';
+      rows.push(rowHTML(c.sym, c.name, 'Crypto', price, d ? d.usd_24h_change : null, null));
+    });
+    if (cg && cg.bitcoin) window.NCF.paint('btc', cg.bitcoin.usd, cg.bitcoin.usd_24h_change);
+    if (cg && cg.ethereum) window.NCF.paint('eth', cg.ethereum.usd, cg.ethereum.usd_24h_change);
+    tb.innerHTML = rows.join('');
+
+    /* F&G + dominance */
+    window.NCF.fetchFearGreed().then(fg => {
+      if (!fg) return;
+      document.querySelectorAll('[data-px="fg"]').forEach(e => e.textContent = fg.value);
+      document.querySelectorAll('[data-chg="fg"]').forEach(e => { e.textContent = fg.label; e.className = 'stat-chg ' + (fg.value > 55 ? 'up' : fg.value < 35 ? 'dn' : 'neu'); });
+    });
+    fetch('https://api.coingecko.com/api/v3/global').then(r => r.json()).then(g => {
+      const dom = g && g.data && g.data.market_cap_percentage && g.data.market_cap_percentage.btc;
+      if (dom) $('btc-dom').textContent = dom.toFixed(1) + '%';
+    }).catch(() => {});
+
+    /* yahoo (sequential, append as they arrive) */
+    for (const y of YAHOO) {
+      const d = await window.NCF.fetchYahoo(y.s, '10d');
+      const price = d ? y.fmt(d.last) : '—';
+      rows.push(rowHTML(y.sym, y.name, y.cls, price, d ? d.pct : null, d ? d.closes : null));
+      tb.innerHTML = rows.join('');
+      if (d) {
+        if (y.s === '^GSPC') window.NCF.paint('spx', d.last, d.pct);
+        if (y.s === 'GC=F')  window.NCF.paint('gold', d.last, d.pct);
+        if (y.s === 'BZ=F')  window.NCF.paint('brent', d.last, d.pct);
+        if (y.s === 'DX-Y.NYB') window.NCF.paint('dxy', d.last, d.pct);
+        if (y.s === 'EURUSD=X') window.NCF.paint('eurusd', d.last, d.pct);
+      }
+    }
+    /* fill remaining ticker keys */
+    const vix = await window.NCF.fetchYahoo('^VIX'); if (vix) window.NCF.paint('vix', vix.last, vix.pct, {invert:true});
+    const t10 = await window.NCF.fetchYahoo('^TNX'); if (t10) window.NCF.paint('us10y', t10.last, t10.pct);
+  }
+  loadDash();
+  setInterval(loadDash, 60 * 1000);
+</script>
+</body>
+</html>

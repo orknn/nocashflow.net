@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Macro — NoCashFlow | Global Macro Indicators</title>
+<meta name="description" content="Live global macro dashboard — VIX, DXY, US yields, the yield curve, commodities and the economic calendar."/>
+<meta property="og:title" content="Macro — NoCashFlow"/>
+<meta property="og:type" content="website"/>
+<link rel="icon" href="favicon.svg" type="image/svg+xml"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,400&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="site.css"/>
+<link rel="stylesheet" href="components.css"/>
+</head>
+<body>
+
+<div class="ticker">
+  <div class="ticker-label"><span class="dot"></span> Live</div>
+  <div class="ticker-track" id="ticker-track"></div>
+</div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">NO<span class="slash">/</span>CASHFLOW<span class="tag">MACRO × MARKETS</span></a>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="yazilar.html">Articles</a>
+      <a href="macro.html" class="active">Macro</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="bulletin_page.html">Bulletin</a>
+      <a href="hakkinda.html">About</a>
+    </div>
+    <div class="nav-right">
+      <a href="bulletin_page.html" class="subscribe">Subscribe</a>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="page-eyebrow">Macro Dashboard <span class="divider"></span> <span class="muted">Last update: <span id="last-update">—</span></span></div>
+  <h1 class="page-title">Global <em>indicators.</em></h1>
+  <p class="page-dek">The core readings of the global economy — the Fed, the yield curve, inflation and commodities. Refreshed live.</p>
+</header>
+
+<div class="section">
+  <!-- KPI GRID -->
+  <div class="stat-grid">
+    <div class="stat"><div class="stat-k">VIX · Volatility</div><div><div class="stat-v" id="m-vix">—</div><div class="stat-chg neu" id="m-vix-c">—</div><div class="stat-spark" id="sp-vix"></div></div></div>
+    <div class="stat"><div class="stat-k">Dollar Index · DXY</div><div><div class="stat-v" id="m-dxy">—</div><div class="stat-chg neu" id="m-dxy-c">—</div><div class="stat-spark" id="sp-dxy"></div></div></div>
+    <div class="stat"><div class="stat-k">US 10Y Yield</div><div><div class="stat-v" id="m-10y">—</div><div class="stat-chg neu" id="m-10y-c">—</div><div class="stat-spark" id="sp-10y"></div></div></div>
+    <div class="stat"><div class="stat-k">US 2Y (13w proxy)</div><div><div class="stat-v" id="m-2y">—</div><div class="stat-chg neu" id="m-2y-c">—</div><div class="stat-spark" id="sp-2y"></div></div></div>
+    <div class="stat"><div class="stat-k">Crypto Fear &amp; Greed</div><div><div class="stat-v" id="m-fg">—</div><div class="stat-chg neu" id="m-fg-c">—</div></div></div>
+    <div class="stat"><div class="stat-k">Spread 10Y–2Y</div><div><div class="stat-v" id="m-spread">—</div><div class="stat-chg neu" id="m-spread-c">—</div></div></div>
+  </div>
+
+  <!-- YIELD CURVE -->
+  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">US Treasury yield curve</div><div class="section-meta">Normalized reference</div></div>
+  <div class="card"><div class="card-body">
+    <div class="yield-chart" id="yield-chart"><div class="muted" style="margin:auto;font-size:13px">Loading…</div></div>
+    <p class="muted" id="yield-note" style="font-family:var(--mono);font-size:11px;letter-spacing:0.04em;margin-top:8px"></p>
+  </div></div>
+
+  <!-- SCOREBOARD -->
+  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Macro scoreboard</div></div>
+  <div class="card-grid">
+    <div class="acard"><div class="series">Dollar Index · DXY</div><h3 id="sb-dxy" style="font-family:var(--mono);font-weight:500">—</h3><div class="meta" id="sb-dxy-c">—</div><p style="margin-top:12px">Strong dollar = commodity pressure and EM stress. 104+ is the critical threshold.</p></div>
+    <div class="acard"><div class="series">M2 Money Supply</div><h3 id="sb-m2" style="font-family:var(--mono);font-weight:500">—</h3><div class="meta" id="sb-m2-c">—</div><p style="margin-top:12px">With the Fed balance sheet, tracks global liquidity. Highly correlated with risk-asset pricing.</p></div>
+    <div class="acard"><div class="series">ISM Manufacturing PMI</div><h3 id="sb-pmi" style="font-family:var(--mono);font-weight:500">49.5</h3><div class="meta" style="color:var(--red)">Contraction zone</div><p style="margin-top:12px">Below 50 = contraction, above 50 = expansion. A leading recession indicator.</p></div>
+  </div>
+
+  <!-- COMMODITIES -->
+  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Commodities</div><div class="section-meta"><span class="live" style="color:var(--green)">● Live</span></div></div>
+  <table class="dtable">
+    <thead><tr><th>Commodity</th><th>Price</th><th>1D Δ%</th><th>Momentum</th></tr></thead>
+    <tbody id="commodity-tbody"><tr><td colspan="4" class="muted" style="text-align:center;padding:24px">Loading…</td></tr></tbody>
+  </table>
+
+  <!-- ECONOMIC CALENDAR -->
+  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Economic calendar</div><div class="section-meta">Key releases</div></div>
+  <table class="dtable">
+    <thead><tr><th>Date</th><th>Time (CET)</th><th>Event</th><th>Country</th><th>Prev.</th><th>Cons.</th></tr></thead>
+    <tbody>
+      <tr class="cal-row"><td class="mono">Mon</td><td class="mono">14:30</td><td><span class="impact high"></span><strong>US CPI ⭐</strong></td><td>🇺🇸 USD</td><td class="mono">2.4%</td><td class="mono">2.6%</td></tr>
+      <tr class="cal-row"><td class="mono">Mon</td><td class="mono">14:30</td><td><span class="impact high"></span><strong>US PPI ⭐</strong></td><td>🇺🇸 USD</td><td class="mono">3.4%</td><td class="mono">3.8%</td></tr>
+      <tr class="cal-row"><td class="mono">Tue</td><td class="mono">14:30</td><td><span class="impact med"></span>US Retail Sales</td><td>🇺🇸 USD</td><td class="mono">0.2%</td><td class="mono">0.4%</td></tr>
+      <tr class="cal-row"><td class="mono">Wed</td><td class="mono">20:00</td><td><span class="impact high"></span>Fed Beige Book</td><td>🇺🇸 USD</td><td class="mono">—</td><td class="mono">—</td></tr>
+      <tr class="cal-row"><td class="mono">Thu</td><td class="mono">14:30</td><td><span class="impact med"></span>Jobless Claims</td><td>🇺🇸 USD</td><td class="mono">213K</td><td class="mono">215K</td></tr>
+      <tr class="cal-row"><td class="mono">Fri</td><td class="mono">11:00</td><td><span class="impact med"></span>Eurozone HICP</td><td>🇪🇺 EUR</td><td class="mono">2.3%</td><td class="mono">2.2%</td></tr>
+    </tbody>
+  </table>
+
+  <!-- FOCUS -->
+  <div class="callout" style="margin-top:40px">
+    <div class="k">This week's focus</div>
+    <p><strong>CPI and PPI</strong> are the prints to watch — the first to fully reflect the oil shock. February PPI came in at double expectations; March is likely to run hotter. This data will settle the "Too Late Powell" vs. "Just In Time Powell" debate.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-title">NO<span style="color:var(--amber)">/</span>CASHFLOW</div>
+        <p class="footer-brand-desc">Macro economics, crypto and market analysis. Every Sunday morning, with data — by Orkun Biçen from Barcelona.</p>
+      </div>
+      <div class="footer-col"><h4>Pages</h4><ul><li><a href="index.html">Home</a></li><li><a href="yazilar.html">Articles</a></li><li><a href="macro.html">Macro</a></li><li><a href="dashboard.html">Dashboard</a></li></ul></div>
+      <div class="footer-col"><h4>Content</h4><ul><li><a href="bulletin_page.html">Bulletin</a></li><li><a href="hakkinda.html">About</a></li><li><a href="sozluk.html">Glossary</a></li></ul></div>
+      <div class="footer-col"><h4>Social</h4><ul><li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li><li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li><li><a href="mailto:orkun@nocashflow.net">Email</a></li></ul></div>
+    </div>
+    <div class="footer-bot">
+      <span>© <span data-year>2026</span> NoCashFlow.net · Orkun Biçen · Barcelona</span>
+      <span><a href="hakkinda.html">About</a> · <a href="bulletin_page.html">Subscribe</a></span>
+    </div>
+    <div class="disclaimer">This site is for information only and does not provide investment advice.</div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+  /* build ticker + menu/forms, but run our own data loop */
+  window.NCF.init({ ticker: ['vix','dxy','us10y','gold','brent','btc'], market: false });
+
+  const $ = (id) => document.getElementById(id);
+  function setKPI(valEl, chgEl, val, pct, suffix='', invert=false) {
+    if (valEl && val != null) valEl.textContent = val.toFixed(2) + suffix;
+    if (chgEl && pct != null) {
+      const dir = invert ? (pct <= 0 ? 'up' : 'dn') : (pct >= 0 ? 'up' : 'dn');
+      chgEl.textContent = (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%';
+      chgEl.className = 'stat-chg ' + dir;
+    }
+  }
+  function spark(id, closes, up) { const el = $(id); if (el && closes) el.innerHTML = window.NCF.sparkline(closes, up); }
+
+  async function loadMacro() {
+    $('last-update').textContent = new Date().toLocaleTimeString('en-GB');
+
+    const fg = await window.NCF.fetchFearGreed();
+    if (fg) { $('m-fg').textContent = fg.value; const c = $('m-fg-c'); c.textContent = fg.label; c.className = 'stat-chg ' + (fg.value > 55 ? 'up' : fg.value < 35 ? 'dn' : 'neu'); }
+
+    const vix = await window.NCF.fetchYahoo('^VIX');
+    if (vix) { setKPI($('m-vix'), $('m-vix-c'), vix.last, vix.pct, '', true); spark('sp-vix', vix.closes, vix.pct <= 0); window.NCF.paint('vix', vix.last, vix.pct, { invert: true }); }
+
+    const dxy = await window.NCF.fetchYahoo('DX-Y.NYB');
+    if (dxy) {
+      setKPI($('m-dxy'), $('m-dxy-c'), dxy.last, dxy.pct); spark('sp-dxy', dxy.closes, dxy.pct >= 0);
+      window.NCF.paint('dxy', dxy.last, dxy.pct);
+      $('sb-dxy').textContent = dxy.last.toFixed(2);
+      const c = $('sb-dxy-c'); c.textContent = (dxy.pct >= 0 ? '+' : '') + dxy.pct.toFixed(2) + '%'; c.style.color = dxy.pct >= 0 ? 'var(--green)' : 'var(--red)';
+    }
+
+    let y10 = null, y2 = null;
+    y10 = await window.NCF.fetchYahoo('^TNX');
+    if (y10) { setKPI($('m-10y'), $('m-10y-c'), y10.last, y10.pct, '%'); spark('sp-10y', y10.closes, y10.pct >= 0); window.NCF.paint('us10y', y10.last, y10.pct); }
+
+    y2 = await window.NCF.fetchYahoo('^IRX');
+    if (y2) {
+      setKPI($('m-2y'), $('m-2y-c'), y2.last, y2.pct, '%'); spark('sp-2y', y2.closes, y2.pct >= 0);
+      if (y10) {
+        const spread = y10.last - y2.last;
+        $('m-spread').textContent = (spread >= 0 ? '+' : '') + spread.toFixed(2) + '%';
+        const c = $('m-spread-c'); c.textContent = spread >= 0 ? 'Normal curve' : 'Inverted ⚠'; c.className = 'stat-chg ' + (spread >= 0 ? 'up' : 'dn');
+      }
+    }
+
+    /* yield curve */
+    const yields = [{l:'1M',v:5.3},{l:'3M',v:5.25},{l:'6M',v:5.1},{l:'2Y',v:y2?y2.last:3.9},{l:'5Y',v:4.1},{l:'10Y',v:y10?y10.last:4.4},{l:'30Y',v:4.6}];
+    const mx = Math.max(...yields.map(y => y.v));
+    const yc = $('yield-chart'); yc.innerHTML = '';
+    yields.forEach(y => {
+      const bar = document.createElement('div'); bar.className = 'yield-bar';
+      bar.style.height = ((y.v / mx) * 100) + '%';
+      bar.innerHTML = '<span class="v">' + y.v.toFixed(1) + '</span><span class="l">' + y.l + '</span>';
+      yc.appendChild(bar);
+    });
+    const sp = (y10 ? y10.last : 4.4) - (y2 ? y2.last : 3.9);
+    $('yield-note').textContent = '10Y–2Y spread: ' + (sp >= 0 ? '+' : '') + sp.toFixed(2) + '% — ' + (sp >= 0 ? 'Normal curve. No near-term recession signal.' : 'Inverted — historically a recession precursor.');
+
+    /* M2 via FRED (proxied) */
+    try {
+      const url = 'https://fred.stlouisfed.org/graph/fredgraph.csv?id=M2SL&cosd=2025-01-01';
+      const res = await fetch('https://corsproxy.io/?url=' + encodeURIComponent(url));
+      const txt = await res.text();
+      const rows = txt.trim().split('\n');
+      const last = rows[rows.length - 1].split(','), prev = rows[rows.length - 2].split(',');
+      const v = parseFloat(last[1]) / 1000, pv = parseFloat(prev[1]) / 1000;
+      $('sb-m2').textContent = '$' + v.toFixed(1) + 'T';
+      const c = $('sb-m2-c'); const chg = (v - pv) / pv * 100; c.textContent = (chg >= 0 ? '+' : '') + chg.toFixed(2) + '%'; c.style.color = chg >= 0 ? 'var(--green)' : 'var(--red)';
+    } catch (e) { $('sb-m2').textContent = '~$22T'; }
+
+    /* commodities */
+    const commos = [
+      {n:'Gold',s:'GC=F',p:'$'},{n:'Silver',s:'SI=F',p:'$'},{n:'Copper',s:'HG=F',p:'$'},
+      {n:'Brent Crude',s:'BZ=F',p:'$'},{n:'Natural Gas',s:'NG=F',p:'$'},
+      {n:'Coffee',s:'KC=F',p:'$'},{n:'Cocoa',s:'CC=F',p:'$'}
+    ];
+    const tb = $('commodity-tbody'); tb.innerHTML = '';
+    for (const c of commos) {
+      const d = await window.NCF.fetchYahoo(c.s, '5d');
+      if (!d) continue;
+      const dir = d.pct >= 0 ? 'up' : 'dn';
+      const tr = document.createElement('tr'); tr.className = 'cal-row';
+      tr.innerHTML = '<td>' + c.n + '</td><td class="mono">' + c.p + d.last.toLocaleString('en-US', {maximumFractionDigits: 2}) +
+        '</td><td><span class="badge ' + dir + '">' + (d.pct >= 0 ? '+' : '') + d.pct.toFixed(2) + '%</span></td>' +
+        '<td style="width:120px">' + window.NCF.sparkline(d.closes, d.pct >= 0) + '</td>';
+      tb.appendChild(tr);
+      if (c.s === 'GC=F') window.NCF.paint('gold', d.last, d.pct);
+      if (c.s === 'BZ=F') window.NCF.paint('brent', d.last, d.pct);
+    }
+    if (!tb.hasChildNodes()) tb.innerHTML = '<tr><td colspan="4" class="muted" style="text-align:center;padding:20px">Data unavailable.</td></tr>';
+
+    /* BTC for ticker */
+    const cg = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true').then(r => r.json()).catch(() => null);
+    if (cg && cg.bitcoin) window.NCF.paint('btc', cg.bitcoin.usd, cg.bitcoin.usd_24h_change);
+  }
+  loadMacro();
+  setInterval(loadMacro, 5 * 60 * 1000);
+</script>
+</body>
+</html>
