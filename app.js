@@ -279,4 +279,114 @@
   document.addEventListener('DOMContentLoaded', () => {
     if (window.NCF_AUTO) NCF.init(window.NCF_AUTO);
   });
+
+  /* ==========================================================
+     MOUSE EFFECTS — cursor, nav pill, 3D card tilt
+     ========================================================== */
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!window.matchMedia('(hover: hover)').matches) return;
+
+    /* ---- Custom cursor ---- */
+    const dot  = document.querySelector('.cursor-dot');
+    const ring = document.querySelector('.cursor-ring');
+    if (dot && ring) {
+      let mx = innerWidth / 2, my = innerHeight / 2;
+      let rx = mx, ry = my;
+
+      addEventListener('mousemove', e => {
+        mx = e.clientX; my = e.clientY;
+        dot.style.transform = `translate(${mx}px,${my}px) translate(-50%,-50%)`;
+      });
+
+      (function loop() {
+        rx += (mx - rx) * 0.16;
+        ry += (my - ry) * 0.16;
+        ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+        requestAnimationFrame(loop);
+      })();
+
+      /* read cursor on articles / content */
+      $$('article, .acard, .art-row, .card, .lead, [data-read]').forEach(el => {
+        el.addEventListener('mouseenter', () => document.body.classList.add('hovering-read'));
+        el.addEventListener('mouseleave', () => document.body.classList.remove('hovering-read'));
+      });
+
+      /* link cursor on interactive elements */
+      $$('a, button, input, .subscribe, .menu-toggle, .filter-btn').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          document.body.classList.remove('hovering-read');
+          document.body.classList.add('hovering-link');
+        });
+        el.addEventListener('mouseleave', () => document.body.classList.remove('hovering-link'));
+      });
+    }
+
+    /* ---- Gliding nav pill ---- */
+    const navLinks = document.querySelector('.nav-links');
+    if (navLinks) {
+      let pill = navLinks.querySelector('.nav-pill');
+      if (!pill) {
+        pill = document.createElement('span');
+        pill.className = 'nav-pill';
+        navLinks.prepend(pill);
+      }
+      const anchors = Array.from(navLinks.querySelectorAll('a'));
+      const activeA = navLinks.querySelector('a.active') || anchors[0];
+
+      function movePill(target, hot) {
+        const nr = navLinks.getBoundingClientRect();
+        const r  = target.getBoundingClientRect();
+        pill.style.left  = (r.left - nr.left) + 'px';
+        pill.style.width = r.width + 'px';
+        pill.style.background = hot ? 'var(--red)' : 'var(--text)';
+      }
+
+      if (activeA) setTimeout(() => movePill(activeA, false), 60);
+
+      anchors.forEach(a => {
+        a.addEventListener('mouseenter', () => movePill(a, a !== activeA));
+      });
+      navLinks.addEventListener('mouseleave', () => {
+        if (activeA) movePill(activeA, false);
+      });
+      window.addEventListener('resize', () => { if (activeA) movePill(activeA, false); });
+    }
+
+    /* ---- 3D tilt on cards ---- */
+    function bindTilt() {
+      $$('.card, .acard, .lead-aside, .stat').forEach(card => {
+        card.style.transition = 'border-color .3s, box-shadow .3s, transform .12s ease-out';
+        card.style.transformStyle = 'preserve-3d';
+        card.addEventListener('mousemove', e => {
+          const r  = card.getBoundingClientRect();
+          const px = (e.clientX - r.left) / r.width;
+          const py = (e.clientY - r.top)  / r.height;
+          card.style.transform = `perspective(1100px) rotateX(${(0.5-py)*7}deg) rotateY(${(px-0.5)*7}deg) translateZ(3px)`;
+          card.style.setProperty('--gx', px * 100 + '%');
+          card.style.setProperty('--gy', py * 100 + '%');
+        });
+        card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+      });
+    }
+    bindTilt();
+
+    /* ---- Scroll reveal ---- */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach((en, i) => {
+        if (en.isIntersecting) {
+          en.target.style.transition = `opacity .75s ${i * 0.05}s cubic-bezier(.2,.7,.2,1), transform .75s ${i * 0.05}s cubic-bezier(.2,.7,.2,1)`;
+          en.target.style.opacity  = '1';
+          en.target.style.transform = 'translateY(0)';
+          io.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.10 });
+
+    $$('.section, .lead, .stat, .acard, .art-row').forEach(el => {
+      el.style.opacity  = '0';
+      el.style.transform = 'translateY(20px)';
+      io.observe(el);
+    });
+  });
+
 })();

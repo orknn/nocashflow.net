@@ -44,15 +44,15 @@
   font-family: var(--serif); font-weight: 300; font-size: clamp(34px, 5vw, 64px);
   line-height: 0.98; letter-spacing: -0.025em; margin-bottom: 20px;
 }
-.lead-title em { font-style: italic; color: var(--amber); font-weight: 400; }
-.lead-title a:hover em { color: var(--amber-hi); }
+.lead-title em { font-style: italic; color: #1F2D44; font-weight: 400; }
+.lead-title a:hover em { color: #2d4464; }
 .lead-dek {
   font-family: var(--serif); font-weight: 300; font-style: italic; font-size: 19px;
   line-height: 1.5; color: var(--text-dim); max-width: 620px; margin-bottom: 26px;
 }
 .byline { display: flex; align-items: center; gap: 13px; margin-bottom: 28px; }
 .avatar {
-  width: 42px; height: 42px; border-radius: 50%; background: var(--amber); color: var(--on-amber);
+  width: 42px; height: 42px; border-radius: 50%; background: #1F2D44; color: #FFFFFF;
   display: grid; place-items: center; font-family: var(--mono); font-weight: 600; font-size: 14px; flex-shrink: 0;
 }
 .avatar.lg { width: 84px; height: 84px; font-size: 26px; }
