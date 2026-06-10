@@ -37,18 +37,12 @@
     <tbody id="commodity-tbody"><tr><td colspan="4" class="muted" style="text-align:center;padding:24px">Loading…</td></tr></tbody>
   </table>
 
-  <!-- ECONOMIC CALENDAR -->
-  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Economic calendar</div><div class="section-meta">Key releases</div></div>
+  <!-- ECONOMIC CALENDAR (fed from data/calendar.json at build time) -->
+  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Economic calendar</div><div class="section-meta">Next 7 days · <span class="muted">Updated: <!--NCF:CAL_UPDATED--></span></div></div>
+  <!--NCF:CAL_STALE-->
   <table class="dtable">
     <thead><tr><th>Date</th><th>Time (CET)</th><th>Event</th><th>Country</th><th>Prev.</th><th>Cons.</th></tr></thead>
-    <tbody>
-      <tr class="cal-row"><td class="mono">Mon</td><td class="mono">14:30</td><td><span class="impact high"></span><strong>US CPI ⭐</strong></td><td>🇺🇸 USD</td><td class="mono">2.4%</td><td class="mono">2.6%</td></tr>
-      <tr class="cal-row"><td class="mono">Mon</td><td class="mono">14:30</td><td><span class="impact high"></span><strong>US PPI ⭐</strong></td><td>🇺🇸 USD</td><td class="mono">3.4%</td><td class="mono">3.8%</td></tr>
-      <tr class="cal-row"><td class="mono">Tue</td><td class="mono">14:30</td><td><span class="impact med"></span>US Retail Sales</td><td>🇺🇸 USD</td><td class="mono">0.2%</td><td class="mono">0.4%</td></tr>
-      <tr class="cal-row"><td class="mono">Wed</td><td class="mono">20:00</td><td><span class="impact high"></span>Fed Beige Book</td><td>🇺🇸 USD</td><td class="mono">—</td><td class="mono">—</td></tr>
-      <tr class="cal-row"><td class="mono">Thu</td><td class="mono">14:30</td><td><span class="impact med"></span>Jobless Claims</td><td>🇺🇸 USD</td><td class="mono">213K</td><td class="mono">215K</td></tr>
-      <tr class="cal-row"><td class="mono">Fri</td><td class="mono">11:00</td><td><span class="impact med"></span>Eurozone HICP</td><td>🇪🇺 EUR</td><td class="mono">2.3%</td><td class="mono">2.2%</td></tr>
-    </tbody>
+    <tbody><!--NCF:CALENDAR--></tbody>
   </table>
 
   <!-- FOCUS -->

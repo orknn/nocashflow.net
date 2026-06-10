@@ -19,7 +19,10 @@ mid-migration.
 This builder changes structure (templating + i18n + a normalized head), never
 the visual design — page bodies are reproduced byte-for-byte.
 """
+import json
+import re
 import sys
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).parent
@@ -142,6 +145,103 @@ def _exists(lang, page):
 def _read(rel):
     p = CONTENT / rel
     return p.read_text(encoding="utf-8").rstrip("\n") if p.exists() else ""
+
+
+# ── data snapshots (written by scripts/fetch_data.py) ────────────────────────
+def _load_data(name):
+    p = ROOT / "data" / name
+    if p.exists():
+        try:
+            return json.loads(p.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    return {}
+
+MARKET = _load_data("market.json")
+CALENDAR = _load_data("calendar.json")
+
+WEEKDAYS = {"en": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+            "tr": ["Pzt", "Sal", "Çar", "Per", "Cum", "Cmt", "Paz"]}
+MONTHS = {"en": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+          "tr": ["Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara"]}
+COUNTRY = {
+    "US": ("🇺🇸", "USD"), "EA": ("🇪🇺", "EUR"), "EU": ("🇪🇺", "EUR"),
+    "DE": ("🇩🇪", "EUR"), "FR": ("🇫🇷", "EUR"), "IT": ("🇮🇹", "EUR"),
+    "ES": ("🇪🇸", "EUR"), "NL": ("🇳🇱", "EUR"), "BE": ("🇧🇪", "EUR"),
+    "AT": ("🇦🇹", "EUR"), "PT": ("🇵🇹", "EUR"), "IE": ("🇮🇪", "EUR"),
+    "FI": ("🇫🇮", "EUR"), "GR": ("🇬🇷", "EUR"),
+}
+CAL_STALE = {"en": "Calendar data is more than 48 hours old — refresh pending.",
+             "tr": "Takvim verisi 48 saatten eski — güncelleme bekleniyor."}
+CAL_MAX_ROWS = 12  # keep the table readable; calendar.json keeps the full set
+
+
+def inject_market(html):
+    """Fill data-px / data-chg placeholders with the build-time snapshot so the
+    page is never blank if client-side JS or live APIs fail. app.js refreshes."""
+    for key, d in MARKET.get("instruments", {}).items():
+        px, chg, dirc = d.get("px", "—"), d.get("chg", "—"), d.get("dir", "neu")
+        html = re.sub(r'(data-px="' + re.escape(key) + r'"\s*>)—',
+                      lambda m, px=px: m.group(1) + px, html)
+        html = re.sub(r'class="([^"]*?) neu"(\s+data-chg="' + re.escape(key) + r'"\s*>)—',
+                      lambda m, chg=chg, dirc=dirc: f'class="{m.group(1)} {dirc}"{m.group(2)}{chg}',
+                      html)
+    return html
+
+
+def _fmt_stamp(iso, lang):
+    try:
+        dt = datetime.strptime(iso, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+    except Exception:
+        return "—"
+    try:
+        from zoneinfo import ZoneInfo
+        dt = dt.astimezone(ZoneInfo("Europe/Berlin"))
+    except Exception:
+        dt = dt.astimezone(timezone(timedelta(hours=1)))
+    return f"{dt.day} {MONTHS[lang][dt.month - 1]} {dt.year}, {dt:%H:%M} CET"
+
+
+def _is_stale(iso, hours=48):
+    try:
+        dt = datetime.strptime(iso, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+    except Exception:
+        return False
+    return (datetime.now(timezone.utc) - dt) > timedelta(hours=hours)
+
+
+def inject_calendar(html, lang):
+    if "<!--NCF:CALENDAR-->" not in html:
+        return html
+    events = CALENDAR.get("events", [])[:CAL_MAX_ROWS]
+    rows = []
+    for e in events:
+        wd = WEEKDAYS[lang][e["wd"]] if 0 <= e.get("wd", -1) <= 6 else ""
+        flag, ccy = COUNTRY.get(e.get("country", ""), ("🏳️", e.get("country", "")))
+        name = e.get("event", "")
+        if e.get("impact") == "high":
+            ev = f'<span class="impact high"></span><strong>{name} ⭐</strong>'
+        else:
+            ev = f'<span class="impact med"></span>{name}'
+        rows.append(
+            f'<tr class="cal-row"><td class="mono">{wd}</td>'
+            f'<td class="mono">{e.get("time", "")}</td><td>{ev}</td>'
+            f'<td>{flag} {ccy}</td><td class="mono">{e.get("prev", "—")}</td>'
+            f'<td class="mono">{e.get("est", "—")}</td></tr>')
+    body = "\n      ".join(rows) or \
+        '<tr><td colspan="6" class="muted" style="text-align:center;padding:20px">—</td></tr>'
+
+    asof = CALENDAR.get("asof")
+    stamp = _fmt_stamp(asof, lang) if asof else "—"
+    stale = ""
+    if asof and _is_stale(asof):
+        stale = (f'<div class="callout" style="border-left-color:var(--red);margin-bottom:16px">'
+                 f'<p style="font-family:var(--mono);font-size:12px;color:var(--red)">⚠ {CAL_STALE[lang]}</p></div>')
+
+    html = html.replace("<!--NCF:CALENDAR-->", body)
+    html = html.replace("<!--NCF:CAL_UPDATED-->", stamp)
+    html = html.replace("<!--NCF:CAL_STALE-->", stale)
+    return html
 
 # ── chrome fragments ─────────────────────────────────────────────────────────
 def head(page, lang):
@@ -340,7 +440,7 @@ def render(page, lang):
     p = PAGES[page]
     body = _read(f"{lang}/{page}.html")
     splash_html = splash_overlay() if (p.get("splash") and lang == "en") else ""
-    return "\n".join([
+    html = "\n".join([
         head(page, lang),
         splash_html + chrome_top(page),
         nav(page, lang),
@@ -351,6 +451,10 @@ def render(page, lang):
         "</html>",
         "",
     ])
+    # fill build-time snapshots (market values + economic calendar)
+    html = inject_calendar(html, lang)
+    html = inject_market(html)
+    return html
 
 
 def build():
