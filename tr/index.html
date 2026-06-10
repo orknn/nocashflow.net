@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NoCashFlow — Makro &amp; Piyasa Analizi</title>
+<meta name="description" content="Her pazar veri odaklı makro analiz — petrol şokları, akıllı para, nükleer enerji, Fed politikası. Barcelona'dan."/>
+<link rel="canonical" href="https://nocashflow.net/tr/"/>
+<link rel="alternate" hreflang="en" href="https://nocashflow.net/"/>
+<link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/"/>
+<link rel="alternate" hreflang="x-default" href="https://nocashflow.net/"/>
+<meta property="og:title" content="NoCashFlow — Makro &amp; Piyasa Analizi"/>
+<meta property="og:description" content="Her pazar veri odaklı makro analiz. Makro, kripto ve emtia — birincil kaynak, her zaman bağlantılı."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://nocashflow.net/tr/"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<meta name="theme-color" content="#ffffff"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/site.css"/>
+<link rel="stylesheet" href="/components.css"/>
+<script>(function(){try{var q=new URLSearchParams(location.search).get('lang');if(q==='en'){try{localStorage.setItem('ncf_lang','en');}catch(e){}location.replace('/');return;}if(q==='tr'){try{localStorage.setItem('ncf_lang','tr');}catch(e){}return;}var p=null;try{p=localStorage.getItem('ncf_lang');}catch(e){}if(p==='en'){location.replace('/');return;}}catch(e){}})();</script>
+</head>
+<body>
+<div class="cursor-ring"><span class="c-label">Read</span></div>
+<div class="cursor-dot"></div>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-label"><span class="dot"></span> Live</div>
+  <div class="ticker-track" id="ticker-track"></div>
+</div>
+
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/tr/" class="logo">NO<span class="slash">/</span>CASHFLOW<span class="tag">MACRO × MARKETS</span></a>
+    <div class="nav-links" id="nav-links">
+      <a href="/tr/" class="active">Ana Sayfa</a>
+      <a href="/tr/yazilar.html">Yazılar</a>
+      <a href="/tr/macro.html">Makro</a>
+      <a href="/tr/dashboard.html">Panel</a>
+      <a href="/tr/bulletin_page.html">Bülten</a>
+      <a href="/tr/hakkinda.html">Hakkında</a>
+    </div>
+    <div class="nav-right">
+      <a class="lang-switch" href="/" data-set-lang="en" aria-label="Switch to English">EN</a>
+      <a href="/tr/bulletin_page.html" class="subscribe">Abone Ol</a>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- TR PLACEHOLDER — bu sayfanın içerik çevirisi onay aşamasında.
+     Onaylandığında content/en/index.html'in birebir Türkçe karşılığıyla değiştirilecek. -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-title"><span class="num">§</span>Çeviri Hazırlanıyor</div>
+    <div class="section-meta"><a href="/">English →</a></div>
+  </div>
+  <p style="font-family:var(--mono);font-size:13px;line-height:1.9;color:var(--text-dim);max-width:62ch;padding:8px 0 40px">
+    Bu sayfanın Türkçe içerik çevirisi onay aşamasında. Şu anda yalnızca iki dilli
+    <strong>yapı</strong>, <strong>dil karşılama ekranı</strong> ve <strong>TR/EN değiştirici</strong>
+    test edilebilir durumda. İçerik çevirileri sayfa sayfa onaylandıkça bu sayfa İngilizce
+    sürümün birebir Türkçe karşılığıyla doldurulacak.<br><br>
+    İngilizce sürüm: <a href="/" style="color:var(--amber)">nocashflow.net</a>
+  </p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-title">NO<span style="color:var(--amber)">/</span>CASHFLOW</div>
+        <p class="footer-brand-desc">Makro ekonomi, kripto ve piyasa analizi. Her pazar sabahı, veriyle — Barcelona'dan.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Sayfalar</h4>
+        <ul>
+          <li><a href="/tr/">Ana Sayfa</a></li>
+          <li><a href="/tr/yazilar.html">Yazılar</a></li>
+          <li><a href="/tr/macro.html">Makro</a></li>
+          <li><a href="/tr/dashboard.html">Panel</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>İçerik</h4>
+        <ul>
+          <li><a href="/tr/bulletin_page.html">Bülten</a></li>
+          <li><a href="/tr/hakkinda.html">Hakkında</a></li>
+          <li><a href="/tr/sozluk.html">Sözlük</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Sosyal</h4>
+        <ul>
+          <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
+          <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="mailto:orkun@nocashflow.net">E-posta</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona</span>
+      <span><a href="/tr/hakkinda.html">Hakkında</a> · <a href="/tr/bulletin_page.html">Abone Ol</a></span>
+    </div>
+    <div class="disclaimer">Bu site yalnızca bilgilendirme amaçlıdır ve yatırım tavsiyesi içermez.</div>
+  </div>
+</footer>
+
+<script src="/app.js"></script>
+<script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx','eurusd'] });</script>
+<script>document.querySelectorAll('[data-set-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',a.getAttribute('data-set-lang'));}catch(e){}});});</script>
+</body>
+</html>

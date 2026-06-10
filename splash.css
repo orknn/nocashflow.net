@@ -1,0 +1,92 @@
+/* ============================================================
+   NoCashFlow · Language splash gate (index only)
+   Hidden by default; revealed by the inline head script only
+   when no language preference exists. SEO bots & no-JS visitors
+   see the normal page beneath.
+   ============================================================ */
+
+html[data-ncf-splash="on"] { overflow: hidden; }
+
+#ncf-splash { display: none; }
+
+html[data-ncf-splash="on"] #ncf-splash {
+  display: flex;
+  position: fixed; inset: 0;
+  z-index: 100000;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  color: #fff;
+  opacity: 1;
+  transition: opacity .45s ease;
+  font-family: 'Fraunces', 'Times New Roman', serif;
+}
+
+/* restore a visible cursor over the black gate (site hides it globally) */
+#ncf-splash, #ncf-splash * { cursor: auto; }
+#ncf-splash .ncf-splash-btn,
+#ncf-splash .ncf-splash-skip { cursor: pointer; }
+
+#ncf-splash.ncf-splash-out { opacity: 0; }
+
+.ncf-splash-word {
+  font-weight: 700;
+  font-style: italic;
+  font-size: clamp(2.4rem, 9vw, 6rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  min-height: 1.25em;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 0 24px;
+  transition: opacity .13s ease;
+}
+
+.ncf-splash-choices {
+  display: flex;
+  gap: 18px;
+  margin-top: 46px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ncf-splash-btn {
+  font-family: 'Fraunces', 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.15rem;
+  color: #fff;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  padding: 14px 40px;
+  border-radius: 2px;
+  letter-spacing: 0.01em;
+  transition: background .25s ease, color .25s ease, border-color .25s ease;
+}
+.ncf-splash-btn:hover,
+.ncf-splash-btn:focus-visible {
+  background: #fff;
+  color: #000;
+  border-color: #fff;
+  outline: none;
+}
+
+.ncf-splash-skip {
+  position: fixed;
+  top: 26px; right: 30px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-style: normal;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  transition: color .2s ease;
+}
+.ncf-splash-skip:hover { color: #fff; }
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-ncf-splash="on"] #ncf-splash { transition: none; }
+  .ncf-splash-word { transition: none; }
+}
