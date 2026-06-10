@@ -1,0 +1,7 @@
+<script>
+  window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });
+  document.querySelectorAll('.filter-btn').forEach(b => b.addEventListener('click', function(){
+    document.querySelectorAll('.filter-btn').forEach(x => x.classList.remove('active'));
+    this.classList.add('active');
+  }));
+</script>

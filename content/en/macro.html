@@ -1,0 +1,59 @@
+<header class="page-head">
+  <div class="page-eyebrow">Macro Dashboard <span class="divider"></span> <span class="muted">Last update: <span id="last-update">—</span></span></div>
+  <h1 class="page-title">Global <em>indicators.</em></h1>
+  <p class="page-dek">The core readings of the global economy — the Fed, the yield curve, inflation and commodities. Refreshed live.</p>
+</header>
+
+<div class="section">
+  <!-- KPI GRID -->
+  <div class="stat-grid">
+    <div class="stat"><div class="stat-k">VIX · Volatility</div><div><div class="stat-v" id="m-vix">—</div><div class="stat-chg neu" id="m-vix-c">—</div><div class="stat-spark" id="sp-vix"></div></div></div>
+    <div class="stat"><div class="stat-k">Dollar Index · DXY</div><div><div class="stat-v" id="m-dxy">—</div><div class="stat-chg neu" id="m-dxy-c">—</div><div class="stat-spark" id="sp-dxy"></div></div></div>
+    <div class="stat"><div class="stat-k">US 10Y Yield</div><div><div class="stat-v" id="m-10y">—</div><div class="stat-chg neu" id="m-10y-c">—</div><div class="stat-spark" id="sp-10y"></div></div></div>
+    <div class="stat"><div class="stat-k">US 2Y (13w proxy)</div><div><div class="stat-v" id="m-2y">—</div><div class="stat-chg neu" id="m-2y-c">—</div><div class="stat-spark" id="sp-2y"></div></div></div>
+    <div class="stat"><div class="stat-k">Crypto Fear &amp; Greed</div><div><div class="stat-v" id="m-fg">—</div><div class="stat-chg neu" id="m-fg-c">—</div></div></div>
+    <div class="stat"><div class="stat-k">Spread 10Y–2Y</div><div><div class="stat-v" id="m-spread">—</div><div class="stat-chg neu" id="m-spread-c">—</div></div></div>
+  </div>
+
+  <!-- YIELD CURVE -->
+  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">US Treasury yield curve</div><div class="section-meta">Normalized reference</div></div>
+  <div class="card"><div class="card-body">
+    <div class="yield-chart" id="yield-chart"><div class="muted" style="margin:auto;font-size:13px">Loading…</div></div>
+    <p class="muted" id="yield-note" style="font-family:var(--mono);font-size:11px;letter-spacing:0.04em;margin-top:8px"></p>
+  </div></div>
+
+  <!-- SCOREBOARD -->
+  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Macro scoreboard</div></div>
+  <div class="card-grid">
+    <div class="acard"><div class="series">Dollar Index · DXY</div><h3 id="sb-dxy" style="font-family:var(--mono);font-weight:500">—</h3><div class="meta" id="sb-dxy-c">—</div><p style="margin-top:12px">Strong dollar = commodity pressure and EM stress. 104+ is the critical threshold.</p></div>
+    <div class="acard"><div class="series">M2 Money Supply</div><h3 id="sb-m2" style="font-family:var(--mono);font-weight:500">—</h3><div class="meta" id="sb-m2-c">—</div><p style="margin-top:12px">With the Fed balance sheet, tracks global liquidity. Highly correlated with risk-asset pricing.</p></div>
+    <div class="acard"><div class="series">ISM Manufacturing PMI</div><h3 id="sb-pmi" style="font-family:var(--mono);font-weight:500">49.5</h3><div class="meta" style="color:var(--red)">Contraction zone</div><p style="margin-top:12px">Below 50 = contraction, above 50 = expansion. A leading recession indicator.</p></div>
+  </div>
+
+  <!-- COMMODITIES -->
+  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Commodities</div><div class="section-meta"><span class="live" style="color:var(--green)">● Live</span></div></div>
+  <table class="dtable">
+    <thead><tr><th>Commodity</th><th>Price</th><th>1D Δ%</th><th>Momentum</th></tr></thead>
+    <tbody id="commodity-tbody"><tr><td colspan="4" class="muted" style="text-align:center;padding:24px">Loading…</td></tr></tbody>
+  </table>
+
+  <!-- ECONOMIC CALENDAR -->
+  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Economic calendar</div><div class="section-meta">Key releases</div></div>
+  <table class="dtable">
+    <thead><tr><th>Date</th><th>Time (CET)</th><th>Event</th><th>Country</th><th>Prev.</th><th>Cons.</th></tr></thead>
+    <tbody>
+      <tr class="cal-row"><td class="mono">Mon</td><td class="mono">14:30</td><td><span class="impact high"></span><strong>US CPI ⭐</strong></td><td>🇺🇸 USD</td><td class="mono">2.4%</td><td class="mono">2.6%</td></tr>
+      <tr class="cal-row"><td class="mono">Mon</td><td class="mono">14:30</td><td><span class="impact high"></span><strong>US PPI ⭐</strong></td><td>🇺🇸 USD</td><td class="mono">3.4%</td><td class="mono">3.8%</td></tr>
+      <tr class="cal-row"><td class="mono">Tue</td><td class="mono">14:30</td><td><span class="impact med"></span>US Retail Sales</td><td>🇺🇸 USD</td><td class="mono">0.2%</td><td class="mono">0.4%</td></tr>
+      <tr class="cal-row"><td class="mono">Wed</td><td class="mono">20:00</td><td><span class="impact high"></span>Fed Beige Book</td><td>🇺🇸 USD</td><td class="mono">—</td><td class="mono">—</td></tr>
+      <tr class="cal-row"><td class="mono">Thu</td><td class="mono">14:30</td><td><span class="impact med"></span>Jobless Claims</td><td>🇺🇸 USD</td><td class="mono">213K</td><td class="mono">215K</td></tr>
+      <tr class="cal-row"><td class="mono">Fri</td><td class="mono">11:00</td><td><span class="impact med"></span>Eurozone HICP</td><td>🇪🇺 EUR</td><td class="mono">2.3%</td><td class="mono">2.2%</td></tr>
+    </tbody>
+  </table>
+
+  <!-- FOCUS -->
+  <div class="callout" style="margin-top:40px">
+    <div class="k">This week's focus</div>
+    <p><strong>CPI and PPI</strong> are the prints to watch — the first to fully reflect the oil shock. February PPI came in at double expectations; March is likely to run hotter. This data will settle the "Too Late Powell" vs. "Just In Time Powell" debate.</p>
+  </div>
+</div>

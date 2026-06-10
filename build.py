@@ -2,15 +2,22 @@
 """
 NoCashFlow · static site builder (bilingual)
 
-Source of truth for the shared chrome (head, ticker, nav, footer, scripts).
-Per-page body content lives in content/<lang>/<page>.html and is wrapped in
-the localized chrome. English is emitted at the site root; Turkish under /tr/.
+Single source of truth for the shared chrome (head, ticker, nav, footer,
+scripts). Per-page pieces live in content/:
 
-    python3 build.py            # build all pages
-    python3 build.py --clean    # remove generated /tr/ tree first
+    content/<lang>/<page>.html   body (between nav and footer)        [required]
+    content/foot/<page>.html     page-specific tail scripts           [optional, lang-shared]
+    content/head/<page>.html     page-specific extra <head> (e.g. <style>)  [optional]
 
-Design is reproduced faithfully from the current hand-authored pages — this
-builder changes structure (templating + i18n), never the visual design.
+English is emitted at the site root; Turkish under /tr/. A language's page is
+built only when its body partial exists, so the live site is never broken
+mid-migration.
+
+    python3 build.py            # build everything that has a content partial
+    python3 build.py --clean    # remove the generated /tr/ tree first
+
+This builder changes structure (templating + i18n + a normalized head), never
+the visual design — page bodies are reproduced byte-for-byte.
 """
 import sys
 from pathlib import Path
@@ -18,7 +25,6 @@ from pathlib import Path
 ROOT = Path(__file__).parent
 CONTENT = ROOT / "content"
 SITE_URL = "https://nocashflow.net"
-
 LANGS = ("en", "tr")
 
 # ── shared navigation (key, label_en, label_tr, href_en, href_tr) ────────────
@@ -31,12 +37,9 @@ NAV = [
     ("about",     "About",     "Hakkında",  "/hakkinda.html",      "/tr/hakkinda.html"),
 ]
 
-SUBSCRIBE = {
-    "en": ("Subscribe", "/bulletin_page.html"),
-    "tr": ("Abone Ol",  "/tr/bulletin_page.html"),
-}
+SUBSCRIBE = {"en": ("Subscribe", "/bulletin_page.html"),
+             "tr": ("Abone Ol",  "/tr/bulletin_page.html")}
 
-# Footer chrome strings (structural UI — content translations are page-gated)
 FOOTER = {
     "en": {
         "brand_desc": "Macro economics, crypto and market analysis. Every Sunday morning, with data — from Barcelona.",
@@ -56,36 +59,76 @@ FOOTER = {
     },
 }
 
-# per-lang footer link targets (en at root, tr under /tr/)
 def _flink(lang, en_href, tr_href):
     return en_href if lang == "en" else tr_href
 
-# ── page registry ────────────────────────────────────────────────────────────
-# Only pages whose content partials exist are built. Others stay hand-authored
-# until templatized, so the live site is never broken mid-migration.
+# ── page registry ─────────────────────────────────────────────────────────────
+# title/desc are reproduced verbatim from each live page. hakkinda & sozluk are
+# still Turkish at root; the translation phase produces proper EN root + TR /tr/.
 PAGES = {
     "index": {
-        "nav_key": "home",
-        "splash": True,
-        "ticker": "['btc','eth','gold','brent','dxy','us10y','vix','spx','eurusd']",
+        "nav_key": "home", "splash": True, "cursor": True,
         "paths": {"en": "/", "tr": "/tr/"},
         "out":   {"en": "index.html", "tr": "tr/index.html"},
-        "title": {
-            "en": "NoCashFlow — Macro &amp; Market Analysis",
-            "tr": "NoCashFlow — Makro &amp; Piyasa Analizi",
-        },
-        "desc": {
-            "en": "Data-driven macro analysis every Sunday — oil shocks, smart money, nuclear energy, Fed policy. From Barcelona.",
-            "tr": "Her pazar veri odaklı makro analiz — petrol şokları, akıllı para, nükleer enerji, Fed politikası. Barcelona'dan.",
-        },
-        # og:description was authored separately from meta description on the
-        # live page — preserved verbatim so the build doesn't alter content.
-        "og_desc": {
-            "en": "Data-driven macro analysis every Sunday. Macro, crypto and commodities — primary source, always linked.",
-            "tr": "Her pazar veri odaklı makro analiz. Makro, kripto ve emtia — birincil kaynak, her zaman bağlantılı.",
-        },
+        "title": {"en": "NoCashFlow — Macro &amp; Market Analysis",
+                  "tr": "NoCashFlow — Makro &amp; Piyasa Analizi"},
+        "desc":  {"en": "Data-driven macro analysis every Sunday — oil shocks, smart money, nuclear energy, Fed policy. From Barcelona.",
+                  "tr": "Her pazar veri odaklı makro analiz — petrol şokları, akıllı para, nükleer enerji, Fed politikası. Barcelona'dan."},
+        "og_desc": {"en": "Data-driven macro analysis every Sunday. Macro, crypto and commodities — primary source, always linked.",
+                    "tr": "Her pazar veri odaklı makro analiz. Makro, kripto ve emtia — birincil kaynak, her zaman bağlantılı."},
+    },
+    "macro": {
+        "nav_key": "macro",
+        "paths": {"en": "/macro.html", "tr": "/tr/macro.html"},
+        "out":   {"en": "macro.html", "tr": "tr/macro.html"},
+        "title": {"en": "Macro — NoCashFlow | Global Macro Indicators"},
+        "desc":  {"en": "Live global macro dashboard — VIX, DXY, US yields, the yield curve, commodities and the economic calendar."},
+    },
+    "yazilar": {
+        "nav_key": "articles",
+        "paths": {"en": "/yazilar.html", "tr": "/tr/yazilar.html"},
+        "out":   {"en": "yazilar.html", "tr": "tr/yazilar.html"},
+        "title": {"en": "Articles — NoCashFlow | Sunday Morning Series"},
+        "desc":  {"en": "Macro analysis essays — oil, copper, nuclear energy, Fed policy, smart money. One sharp take every Sunday."},
+        "og_desc": {"en": "Data-driven macro analysis essays. One sharp take every Sunday."},
+    },
+    "dashboard": {
+        "nav_key": "dashboard",
+        "paths": {"en": "/dashboard.html", "tr": "/tr/dashboard.html"},
+        "out":   {"en": "dashboard.html", "tr": "tr/dashboard.html"},
+        "title": {"en": "Dashboard — NoCashFlow | Live Markets"},
+        "desc":  {"en": "Live market dashboard — crypto, indices, commodities and FX in one view, refreshed automatically."},
+    },
+    "bulletin_page": {
+        "nav_key": "bulletin",
+        "paths": {"en": "/bulletin_page.html", "tr": "/tr/bulletin_page.html"},
+        "out":   {"en": "bulletin_page.html", "tr": "tr/bulletin_page.html"},
+        "title": {"en": "Bulletin — NoCashFlow | The Daily Macro Brief"},
+        "desc":  {"en": "The NoCashFlow Bulletin — a morning macro snapshot, crypto signals, Fed watch and the economic calendar. Free, every morning."},
+    },
+    "hakkinda": {
+        "nav_key": "about",
+        "paths": {"en": "/hakkinda.html", "tr": "/tr/hakkinda.html"},
+        "out":   {"en": "hakkinda.html", "tr": "tr/hakkinda.html"},
+        "title": {"en": "Hakkında — NoCashFlow | Orkun Biçen"},
+        "desc":  {"en": "Orkun Biçen — tedarik zinciri yöneticisi, MBA, makro analist. NoCashFlow'un kurucusu."},
+    },
+    "sozluk": {
+        "nav_key": None,  # glossary lives in the footer, not the primary nav
+        "paths": {"en": "/sozluk.html", "tr": "/tr/sozluk.html"},
+        "out":   {"en": "sozluk.html", "tr": "tr/sozluk.html"},
+        "title": {"en": "Sözlük — NoCashFlow | Finansal Terimler"},
+        "desc":  {"en": "Makro ekonomi, piyasa ve kripto terimlerinin sade açıklamaları — NoCashFlow finansal sözlüğü."},
     },
 }
+
+# ── helpers ──────────────────────────────────────────────────────────────────
+def _exists(lang, page):
+    return (CONTENT / lang / f"{page}.html").exists()
+
+def _read(rel):
+    p = CONTENT / rel
+    return p.read_text(encoding="utf-8").rstrip("\n") if p.exists() else ""
 
 # ── chrome fragments ─────────────────────────────────────────────────────────
 def head(page, lang):
@@ -93,9 +136,19 @@ def head(page, lang):
     canonical = SITE_URL + p["paths"][lang]
     alt_en = SITE_URL + p["paths"]["en"]
     alt_tr = SITE_URL + p["paths"]["tr"]
+
+    alts = [f'<link rel="alternate" hreflang="en" href="{alt_en}"/>']
+    if _exists("tr", page):  # only advertise tr once it actually exists
+        alts.append(f'<link rel="alternate" hreflang="tr" href="{alt_tr}"/>')
+    alts.append(f'<link rel="alternate" hreflang="x-default" href="{alt_en}"/>')
+    alt_html = "\n".join(alts)
+
+    og_desc = p.get("og_desc", p["desc"])[lang]
+    head_extra = _read(f"head/{page}.html")
+    head_extra = (head_extra + "\n") if head_extra else ""
     splash_css = '<link rel="stylesheet" href="/splash.css"/>\n' if (p.get("splash") and lang == "en") else ""
     early = _early_script(page, lang) if (p.get("splash") or lang == "tr") else ""
-    og_desc = p.get("og_desc", p["desc"])[lang]
+
     return f"""<!DOCTYPE html>
 <html lang="{lang}">
 <head>
@@ -104,9 +157,7 @@ def head(page, lang):
 <title>{p["title"][lang]}</title>
 <meta name="description" content="{p["desc"][lang]}"/>
 <link rel="canonical" href="{canonical}"/>
-<link rel="alternate" hreflang="en" href="{alt_en}"/>
-<link rel="alternate" hreflang="tr" href="{alt_tr}"/>
-<link rel="alternate" hreflang="x-default" href="{alt_en}"/>
+{alt_html}
 <meta property="og:title" content="{p["title"][lang]}"/>
 <meta property="og:description" content="{og_desc}"/>
 <meta property="og:type" content="website"/>
@@ -119,12 +170,11 @@ def head(page, lang):
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
-{splash_css}{early}</head>
+{head_extra}{splash_css}{early}</head>
 <body>"""
 
 
 def _early_script(page, lang):
-    """Pre-paint language decision (runs in <head>, before body renders)."""
     if lang == "en":  # root splash page
         return (
             "<script>(function(){var d=document.documentElement;try{"
@@ -136,7 +186,6 @@ def _early_script(page, lang):
             "d.setAttribute('data-ncf-splash','on');}"
             "catch(e){d.setAttribute('data-ncf-splash','on');}})();</script>\n"
         )
-    # tr page: honor ?lang / stored 'en' preference, no splash
     return (
         "<script>(function(){try{"
         "var q=new URLSearchParams(location.search).get('lang');"
@@ -160,11 +209,12 @@ def splash_overlay():
 """
 
 
-def ticker():
-    return """<div class="cursor-ring"><span class="c-label">Read</span></div>
-<div class="cursor-dot"></div>
-
-<!-- TICKER -->
+def chrome_top(page):
+    cursor = ""
+    if PAGES[page].get("cursor"):
+        cursor = ('<div class="cursor-ring"><span class="c-label">Read</span></div>\n'
+                  '<div class="cursor-dot"></div>\n\n')
+    return cursor + """<!-- TICKER -->
 <div class="ticker">
   <div class="ticker-label"><span class="dot"></span> Live</div>
   <div class="ticker-track" id="ticker-track"></div>
@@ -183,10 +233,7 @@ def nav(page, lang):
         links.append(f'      <a href="{href}"{cls}>{label}</a>')
     links_html = "\n".join(links)
 
-    sub_label, _ = SUBSCRIBE[lang]
-    sub_href = SUBSCRIBE[lang][1]
-
-    # language switcher: en page -> "TR" (go to tr path); tr page -> "EN" (go to en path)
+    sub_label, sub_href = SUBSCRIBE[lang]
     p = PAGES[page]
     if lang == "en":
         sw_label, sw_href, sw_set, sw_aria = "TR", p["paths"]["tr"], "tr", "Türkçe'ye geç"
@@ -214,7 +261,6 @@ def nav(page, lang):
 def footer(lang):
     f = FOOTER[lang]
     fl = lambda en_h, tr_h: _flink(lang, en_h, tr_h)
-    year_sep = ""
     return f"""
 <!-- FOOTER -->
 <footer>
@@ -263,14 +309,15 @@ def footer(lang):
 def scripts(page, lang):
     p = PAGES[page]
     out = ['<script src="/app.js"></script>']
-    out.append(f"<script>window.NCF.init({{ ticker: {p['ticker']} }});</script>")
-    # language switcher: persist preference on click (all pages)
+    foot = _read(f"foot/{page}.html")          # page-specific NCF.init + JS (verbatim)
+    if foot:
+        out.append(foot)
     out.append(
         "<script>document.querySelectorAll('[data-set-lang]').forEach(function(a){"
         "a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',"
         "a.getAttribute('data-set-lang'));}catch(e){}});});</script>"
     )
-    if p.get("splash") and lang == "en":  # splash lives only on the en root
+    if p.get("splash") and lang == "en":       # splash lives only on the en root
         out.append('<script src="/splash.js"></script>')
     return "\n".join(out)
 
@@ -278,13 +325,13 @@ def scripts(page, lang):
 # ── assembly ─────────────────────────────────────────────────────────────────
 def render(page, lang):
     p = PAGES[page]
-    body_partial = (CONTENT / lang / f"{page}.html").read_text(encoding="utf-8").rstrip("\n")
+    body = _read(f"{lang}/{page}.html")
     splash_html = splash_overlay() if (p.get("splash") and lang == "en") else ""
     return "\n".join([
         head(page, lang),
-        splash_html + ticker(),
+        splash_html + chrome_top(page),
         nav(page, lang),
-        body_partial,
+        body,
         footer(lang),
         scripts(page, lang),
         "</body>",
@@ -297,9 +344,7 @@ def build():
     written = []
     for page, p in PAGES.items():
         for lang in LANGS:
-            partial = CONTENT / lang / f"{page}.html"
-            if not partial.exists():
-                print(f"  skip  {page} [{lang}] — no content/{lang}/{page}.html")
+            if not _exists(lang, page):
                 continue
             out_path = ROOT / p["out"][lang]
             out_path.parent.mkdir(parents=True, exist_ok=True)

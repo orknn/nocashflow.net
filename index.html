@@ -230,6 +230,8 @@
 </section>
 
 <!-- FOOTER -->
+
+<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div class="footer-top">
@@ -272,7 +274,9 @@
 </footer>
 
 <script src="/app.js"></script>
-<script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx','eurusd'] });</script>
+<script>
+  window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx','eurusd'] });
+</script>
 <script>document.querySelectorAll('[data-set-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',a.getAttribute('data-set-lang'));}catch(e){}});});</script>
 <script src="/splash.js"></script>
 </body>
