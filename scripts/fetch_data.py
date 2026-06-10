@@ -248,9 +248,90 @@ def build_calendar():
     return {"asof": now_iso(), "events": events}
 
 
+# ── macro series (FRED, real) + funding (Deribit) ────────────────────────────
+FRED_CSV = "https://fred.stlouisfed.org/graph/fredgraph.csv"
+
+
+def fred_latest(series, start="2025-01-01"):
+    """Return (last, prev, date) for a FRED series, skipping '.' gaps. None on error."""
+    try:
+        r = requests.get(FRED_CSV, params={"id": series, "cosd": start},
+                         headers=UA, timeout=25)  # FRED CSV can be slow
+        r.raise_for_status()
+        vals = []
+        for line in r.text.strip().splitlines()[1:]:
+            parts = line.split(",")
+            if len(parts) < 2 or parts[1] in (".", ""):
+                continue
+            try:
+                vals.append((parts[0], float(parts[1])))
+            except ValueError:
+                continue
+        if not vals:
+            return None
+        last = vals[-1]
+        prev = vals[-2][1] if len(vals) > 1 else None
+        return last[1], prev, last[0]
+    except Exception as e:
+        print(f"  ⚠️  FRED {series} failed: {e}")
+        return None
+
+
+def build_macro():
+    prev = load_json("macro.json", {})
+    out = dict(prev)                       # start from last-good
+    stamp = now_iso()
+
+    print("• FRED yields (DGS2, DGS10) + curve…")
+    for key, series in (("us2y", "DGS2"), ("us10y", "DGS10")):
+        d = fred_latest(series)
+        if d:
+            pct = ((d[0] - d[1]) / d[1] * 100) if d[1] else None
+            out[key] = {"value": d[0], "chg": fmt_pct(pct), "dir": ("up" if (pct or 0) >= 0 else "dn"),
+                        "date": d[2], "asof": stamp}
+    if out.get("us10y") and out.get("us2y"):
+        out["spread"] = round(out["us10y"]["value"] - out["us2y"]["value"], 2)
+
+    curve = []
+    for label, series in (("1M", "DGS1MO"), ("3M", "DGS3MO"), ("6M", "DGS6MO"),
+                          ("2Y", "DGS2"), ("5Y", "DGS5"), ("10Y", "DGS10"), ("30Y", "DGS30")):
+        d = fred_latest(series)
+        if d:
+            curve.append({"l": label, "v": d[0]})
+    if curve:
+        out["curve"] = curve
+
+    print("• FRED M2 + Fed funds target…")
+    d = fred_latest("M2SL")
+    if d:
+        out["m2"] = {"value": round(d[0] / 1000, 2),
+                     "prev": round(d[1] / 1000, 2) if d[1] else None, "asof": stamp}
+    d = fred_latest("DFEDTARU")              # Fed funds target range, upper — daily, real
+    if d:
+        out["fed_rate"] = {"value": d[0], "asof": stamp, "date": d[2]}
+
+    print("• funding rate (Deribit BTC-PERPETUAL)…")
+    try:
+        r = requests.get("https://www.deribit.com/api/v2/public/ticker",
+                         params={"instrument_name": "BTC-PERPETUAL"}, headers=UA, timeout=TIMEOUT)
+        r.raise_for_status()
+        fr = r.json().get("result", {}).get("funding_8h")
+        if fr is not None:
+            out["funding"] = {"value": round(fr * 100, 4), "asof": stamp}  # percent, 8h
+    except Exception as e:
+        print(f"  ⚠️  Deribit funding failed: {e}")
+
+    # NOTE: ISM Manufacturing PMI (NAPM) is discontinued on FRED and has no free
+    # real-time source — intentionally NOT fabricated here. Handled separately.
+    out["asof"] = stamp
+    return out
+
+
 def main():
     print("Fetching market snapshot…")
     write_json("market.json", build_market())
+    print("Fetching macro series…")
+    write_json("macro.json", build_macro())
     print("Fetching economic calendar…")
     write_json("calendar.json", build_calendar())
     print("✓ snapshots written to data/")

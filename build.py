@@ -159,6 +159,7 @@ def _load_data(name):
 
 MARKET = _load_data("market.json")
 CALENDAR = _load_data("calendar.json")
+MACRO = _load_data("macro.json")
 
 WEEKDAYS = {"en": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
             "tr": ["Pzt", "Sal", "Çar", "Per", "Cum", "Cmt", "Paz"]}
@@ -186,6 +187,54 @@ def inject_market(html):
         html = re.sub(r'class="([^"]*?) neu"(\s+data-chg="' + re.escape(key) + r'"\s*>)—',
                       lambda m, chg=chg, dirc=dirc: f'class="{m.group(1)} {dirc}"{m.group(2)}{chg}',
                       html)
+    # Fed funds target (real, FRED DFEDTARU) — fills the data-fed cell on Articles
+    fed = MACRO.get("fed_rate", {}).get("value")
+    if fed is not None:
+        html = re.sub(r'(data-fed\s*>)[^<]*',
+                      lambda m, fed=fed: m.group(1) + f"{fed:.2f}%", html)
+    return html
+
+
+def _set_id(html, id_, text):
+    return re.sub(r'(\sid="' + re.escape(id_) + r'"[^>]*>)[^<]*(<)',
+                  lambda m, text=text: m.group(1) + text + m.group(2), html, count=1)
+
+
+def _set_chg_id(html, id_, text, dirc):
+    return re.sub(r'class="([^"]*?) neu"([^>]*\sid="' + re.escape(id_) + r'"[^>]*>)[^<]*(<)',
+                  lambda m, text=text, dirc=dirc: f'class="{m.group(1)} {dirc}"{m.group(2)}{text}{m.group(3)}',
+                  html, count=1)
+
+
+def inject_macro(html, lang):
+    """Build-time fill of the macro page's id-based KPIs (so no-JS / failed-API
+    still shows real numbers). loadSnapshot()/loadLive() then refresh them."""
+    if 'id="yield-chart"' not in html:
+        return html
+    inst = MARKET.get("instruments", {})
+    if "vix" in inst:
+        html = _set_id(html, "m-vix", inst["vix"]["px"])
+        html = _set_chg_id(html, "m-vix-c", inst["vix"]["chg"], inst["vix"]["dir"])
+    if "dxy" in inst:
+        html = _set_id(html, "m-dxy", inst["dxy"]["px"])
+        html = _set_chg_id(html, "m-dxy-c", inst["dxy"]["chg"], inst["dxy"]["dir"])
+        html = _set_id(html, "sb-dxy", inst["dxy"]["px"])
+    if "fg" in inst:
+        html = _set_id(html, "m-fg", inst["fg"]["px"])
+    if MACRO.get("us2y"):
+        html = _set_id(html, "m-2y", f'{MACRO["us2y"]["value"]:.2f}%')
+        html = _set_chg_id(html, "m-2y-c", MACRO["us2y"]["chg"], MACRO["us2y"]["dir"])
+    if MACRO.get("us10y"):
+        html = _set_id(html, "m-10y", f'{MACRO["us10y"]["value"]:.2f}%')
+        html = _set_chg_id(html, "m-10y-c", MACRO["us10y"]["chg"], MACRO["us10y"]["dir"])
+    if MACRO.get("spread") is not None:
+        sp = MACRO["spread"]
+        lbl = ("Normal curve" if lang == "en" else "Normal eğri") if sp >= 0 \
+            else ("Inverted ⚠" if lang == "en" else "Ters ⚠")
+        html = _set_id(html, "m-spread", f'{"+" if sp >= 0 else ""}{sp:.2f}%')
+        html = _set_chg_id(html, "m-spread-c", lbl, "up" if sp >= 0 else "dn")
+    if MACRO.get("m2"):
+        html = _set_id(html, "sb-m2", f'${MACRO["m2"]["value"]:.1f}T')
     return html
 
 
@@ -451,8 +500,9 @@ def render(page, lang):
         "</html>",
         "",
     ])
-    # fill build-time snapshots (market values + economic calendar)
+    # fill build-time snapshots (market values + macro KPIs + economic calendar)
     html = inject_calendar(html, lang)
+    html = inject_macro(html, lang)
     html = inject_market(html)
     return html
 
