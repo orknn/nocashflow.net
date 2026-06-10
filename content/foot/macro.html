@@ -63,6 +63,11 @@
         const c = $('m-spread-c'); if (c) { c.textContent = m.spread >= 0 ? L.normal : L.inverted; c.className = 'stat-chg ' + (m.spread >= 0 ? 'up' : 'dn'); }
       }
       if (m.m2 && $('sb-m2')) $('sb-m2').textContent = '$' + m.m2.value.toFixed(1) + 'T';
+      if (m.mfg && $('sb-pmi')) {
+        $('sb-pmi').textContent = m.mfg.value.toFixed(1);
+        const c = $('sb-pmi-c');
+        if (c) { const exp = m.mfg.value >= 0; c.textContent = exp ? (TR ? 'Genişleme' : 'Expansion') : (TR ? 'Daralma' : 'Contraction'); c.style.color = exp ? 'var(--green)' : 'var(--red)'; }
+      }
       renderCurve(m.curve, m.spread);
     } catch (e) { /* snapshot missing → build-time injected values remain */ }
   }

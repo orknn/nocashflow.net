@@ -192,6 +192,11 @@ def inject_market(html):
     if fed is not None:
         html = re.sub(r'(data-fed\s*>)[^<]*',
                       lambda m, fed=fed: m.group(1) + f"{fed:.2f}%", html)
+    # Funding rate (real, Deribit) — build-time fill of the dashboard card
+    fund = MACRO.get("funding", {}).get("value")
+    if fund is not None:
+        html = re.sub(r'(id="funding"[^>]*>)—',
+                      lambda m, fund=fund: m.group(1) + f'{"+" if fund >= 0 else ""}{fund:.4f}%', html)
     return html
 
 
@@ -235,6 +240,12 @@ def inject_macro(html, lang):
         html = _set_chg_id(html, "m-spread-c", lbl, "up" if sp >= 0 else "dn")
     if MACRO.get("m2"):
         html = _set_id(html, "sb-m2", f'${MACRO["m2"]["value"]:.1f}T')
+    if MACRO.get("mfg"):
+        v = MACRO["mfg"]["value"]
+        html = _set_id(html, "sb-pmi", f"{v:.1f}")
+        lbl = ("Expansion" if lang == "en" else "Genişleme") if v >= 0 \
+            else ("Contraction" if lang == "en" else "Daralma")
+        html = _set_id(html, "sb-pmi-c", lbl)
     return html
 
 

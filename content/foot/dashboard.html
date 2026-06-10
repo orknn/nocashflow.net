@@ -64,6 +64,19 @@
       if (dom) $('btc-dom').textContent = dom.toFixed(1) + '%';
     }).catch(() => {});
 
+    /* Coinbase Premium (client-side: Coinbase − Binance) */
+    window.NCF.fetchCoinbasePremium().then(p => {
+      if (!p || !$('cb-prem')) return;
+      $('cb-prem').textContent = (p.premium >= 0 ? '+$' : '−$') + Math.abs(p.premium).toFixed(0);
+      const c = $('cb-prem-c');
+      if (c) { c.textContent = (p.pct >= 0 ? '+' : '') + p.pct.toFixed(3) + '%'; c.className = 'stat-chg ' + (p.premium >= 0 ? 'up' : 'dn'); }
+    }).catch(() => {});
+
+    /* Funding rate (committed snapshot, Deribit) */
+    fetch('/data/macro.json', { cache: 'no-store' }).then(r => r.json()).then(m => {
+      if (m.funding && $('funding')) $('funding').textContent = (m.funding.value >= 0 ? '+' : '') + m.funding.value.toFixed(4) + '%';
+    }).catch(() => {});
+
     /* yahoo (sequential, append as they arrive) */
     for (const y of YAHOO) {
       const d = await window.NCF.fetchYahoo(y.s, '10d');

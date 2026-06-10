@@ -59,12 +59,14 @@
 <div class="section">
   <!-- OVERVIEW -->
   <div class="stat-grid">
-    <div class="stat"><div class="stat-k">Bitcoin</div><div><div class="stat-v" data-px="btc">$61,492</div><div class="stat-chg dn" data-chg="btc">-1.31%</div></div></div>
-    <div class="stat"><div class="stat-k">Ethereum</div><div><div class="stat-v" data-px="eth">$1,636</div><div class="stat-chg dn" data-chg="eth">-2.00%</div></div></div>
-    <div class="stat"><div class="stat-k">S&amp;P 500</div><div><div class="stat-v" data-px="spx">7,353</div><div class="stat-chg dn" data-chg="spx">-0.46%</div></div></div>
-    <div class="stat"><div class="stat-k">Gold</div><div><div class="stat-v" data-px="gold">$4156</div><div class="stat-chg dn" data-chg="gold">-2.43%</div></div></div>
+    <div class="stat"><div class="stat-k">Bitcoin</div><div><div class="stat-v" data-px="btc">$61,590</div><div class="stat-chg dn" data-chg="btc">-0.31%</div></div></div>
+    <div class="stat"><div class="stat-k">Ethereum</div><div><div class="stat-v" data-px="eth">$1,621</div><div class="stat-chg dn" data-chg="eth">-1.77%</div></div></div>
+    <div class="stat"><div class="stat-k">S&amp;P 500</div><div><div class="stat-v" data-px="spx">7,267</div><div class="stat-chg dn" data-chg="spx">-1.62%</div></div></div>
+    <div class="stat"><div class="stat-k">Gold</div><div><div class="stat-v" data-px="gold">$4094</div><div class="stat-chg dn" data-chg="gold">-3.89%</div></div></div>
     <div class="stat"><div class="stat-k">Crypto F&amp;G</div><div><div class="stat-v" data-px="fg">9</div><div class="stat-chg dn" data-chg="fg">Extreme Fear</div></div></div>
     <div class="stat"><div class="stat-k">BTC Dominance</div><div><div class="stat-v" id="btc-dom">—</div><div class="stat-chg neu">of total cap</div></div></div>
+    <div class="stat"><div class="stat-k">Coinbase Premium</div><div><div class="stat-v" id="cb-prem">—</div><div class="stat-chg neu" id="cb-prem-c">Coinbase − Binance</div></div></div>
+    <div class="stat"><div class="stat-k">Funding · BTC 8h</div><div><div class="stat-v" id="funding">+0.0006%</div><div class="stat-chg neu">Deribit</div></div></div>
   </div>
 
   <!-- WATCHLIST -->
@@ -183,6 +185,19 @@
     fetch('https://api.coingecko.com/api/v3/global').then(r => r.json()).then(g => {
       const dom = g && g.data && g.data.market_cap_percentage && g.data.market_cap_percentage.btc;
       if (dom) $('btc-dom').textContent = dom.toFixed(1) + '%';
+    }).catch(() => {});
+
+    /* Coinbase Premium (client-side: Coinbase − Binance) */
+    window.NCF.fetchCoinbasePremium().then(p => {
+      if (!p || !$('cb-prem')) return;
+      $('cb-prem').textContent = (p.premium >= 0 ? '+$' : '−$') + Math.abs(p.premium).toFixed(0);
+      const c = $('cb-prem-c');
+      if (c) { c.textContent = (p.pct >= 0 ? '+' : '') + p.pct.toFixed(3) + '%'; c.className = 'stat-chg ' + (p.premium >= 0 ? 'up' : 'dn'); }
+    }).catch(() => {});
+
+    /* Funding rate (committed snapshot, Deribit) */
+    fetch('/data/macro.json', { cache: 'no-store' }).then(r => r.json()).then(m => {
+      if (m.funding && $('funding')) $('funding').textContent = (m.funding.value >= 0 ? '+' : '') + m.funding.value.toFixed(4) + '%';
     }).catch(() => {});
 
     /* yahoo (sequential, append as they arrive) */

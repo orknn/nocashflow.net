@@ -16,6 +16,7 @@ In CI:        the workflow exports FINNHUB_API_KEY from repo secrets.
 """
 import json
 import os
+import re
 import sys
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
@@ -213,7 +214,9 @@ def build_calendar():
         r.raise_for_status()
         raw = r.json().get("economicCalendar", [])
     except Exception as e:
-        print(f"  ⚠️  Finnhub calendar failed: {e} — keeping existing")
+        # never echo the token: scrub it from any URL the exception carries
+        msg = re.sub(r"token=[^&\s]+", "token=***", str(e))
+        print(f"  ⚠️  Finnhub calendar failed: {msg} — keeping existing")
         return load_json("calendar.json", {"asof": None, "events": []})
 
     events = []
@@ -309,6 +312,13 @@ def build_macro():
     d = fred_latest("DFEDTARU")              # Fed funds target range, upper — daily, real
     if d:
         out["fed_rate"] = {"value": d[0], "asof": stamp, "date": d[2]}
+
+    # Manufacturing survey — Empire State (NY Fed). Real, free, monthly. Replaces
+    # the ISM PMI (FRED's NAPM is discontinued and ISM has no free real-time feed).
+    # 0-centred diffusion index: >0 expansion, <0 contraction.
+    d = fred_latest("GACDISA066MSFRBNY")
+    if d:
+        out["mfg"] = {"value": d[0], "prev": d[1], "date": d[2], "asof": stamp}
 
     print("• funding rate (Deribit BTC-PERPETUAL)…")
     try:
