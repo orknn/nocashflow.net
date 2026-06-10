@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Dashboard — NoCashFlow | Live Markets</title>
-<meta name="description" content="Live market dashboard — crypto, indices, commodities and FX in one view, refreshed automatically."/>
-<link rel="canonical" href="https://nocashflow.net/dashboard.html"/>
+<title>Panel — NoCashFlow | Canlı Piyasalar</title>
+<meta name="description" content="Canlı piyasa paneli — kripto, endeksler, emtia ve döviz tek ekranda, otomatik yenilenir."/>
+<link rel="canonical" href="https://nocashflow.net/tr/dashboard.html"/>
 <link rel="alternate" hreflang="en" href="https://nocashflow.net/dashboard.html"/>
 <link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/dashboard.html"/>
 <link rel="alternate" hreflang="x-default" href="https://nocashflow.net/dashboard.html"/>
-<meta property="og:title" content="Dashboard — NoCashFlow | Live Markets"/>
-<meta property="og:description" content="Live market dashboard — crypto, indices, commodities and FX in one view, refreshed automatically."/>
+<meta property="og:title" content="Panel — NoCashFlow | Canlı Piyasalar"/>
+<meta property="og:description" content="Canlı piyasa paneli — kripto, endeksler, emtia ve döviz tek ekranda, otomatik yenilenir."/>
 <meta property="og:type" content="website"/>
-<meta property="og:url" content="https://nocashflow.net/dashboard.html"/>
+<meta property="og:url" content="https://nocashflow.net/tr/dashboard.html"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -21,6 +21,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
+<script>(function(){try{var q=new URLSearchParams(location.search).get('lang');if(q==='en'){try{localStorage.setItem('ncf_lang','en');}catch(e){}location.replace('/');return;}if(q==='tr'){try{localStorage.setItem('ncf_lang','tr');}catch(e){}return;}var p=null;try{p=localStorage.getItem('ncf_lang');}catch(e){}if(p==='en'){location.replace('/');return;}}catch(e){}})();</script>
 </head>
 <body>
 <!-- TICKER -->
@@ -33,27 +34,27 @@
 <!-- NAV -->
 <nav class="nav">
   <div class="nav-inner">
-    <a href="/" class="logo">NO<span class="slash">/</span>CASHFLOW<span class="tag">MACRO × MARKETS</span></a>
+    <a href="/tr/" class="logo">NO<span class="slash">/</span>CASHFLOW<span class="tag">MACRO × MARKETS</span></a>
     <div class="nav-links" id="nav-links">
-      <a href="/">Home</a>
-      <a href="/yazilar.html">Articles</a>
-      <a href="/macro.html">Macro</a>
-      <a href="/dashboard.html" class="active">Dashboard</a>
-      <a href="/bulletin_page.html">Bulletin</a>
-      <a href="/hakkinda.html">About</a>
+      <a href="/tr/">Ana Sayfa</a>
+      <a href="/tr/yazilar.html">Yazılar</a>
+      <a href="/tr/macro.html">Makro</a>
+      <a href="/tr/dashboard.html" class="active">Panel</a>
+      <a href="/tr/bulletin_page.html">Bülten</a>
+      <a href="/tr/hakkinda.html">Hakkında</a>
     </div>
     <div class="nav-right">
-      <a class="lang-switch" href="/tr/dashboard.html" data-set-lang="tr" aria-label="Türkçe'ye geç">TR</a>
-      <a href="/bulletin_page.html" class="subscribe">Subscribe</a>
+      <a class="lang-switch" href="/dashboard.html" data-set-lang="en" aria-label="Switch to English">EN</a>
+      <a href="/tr/bulletin_page.html" class="subscribe">Abone Ol</a>
       <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
     </div>
   </div>
 </nav>
 
 <header class="page-head">
-  <div class="page-eyebrow">Live Markets <span class="divider"></span> <span class="muted">Updated: <span id="last-update">—</span></span></div>
-  <h1 class="page-title">Markets, <em>in one view.</em></h1>
-  <p class="page-dek">Crypto, indices, commodities and FX — live prices and 24-hour moves, refreshed automatically.</p>
+  <div class="page-eyebrow">Canlı Piyasalar <span class="divider"></span> <span class="muted">Güncellendi: <span id="last-update">—</span></span></div>
+  <h1 class="page-title">Piyasalar, <em>tek ekranda.</em></h1>
+  <p class="page-dek">Kripto, endeksler, emtia ve döviz — canlı fiyatlar ve 24 saatlik hareketler, otomatik yenilenir.</p>
 </header>
 
 <div class="section">
@@ -62,18 +63,18 @@
     <div class="stat"><div class="stat-k">Bitcoin</div><div><div class="stat-v" data-px="btc">—</div><div class="stat-chg neu" data-chg="btc">—</div></div></div>
     <div class="stat"><div class="stat-k">Ethereum</div><div><div class="stat-v" data-px="eth">—</div><div class="stat-chg neu" data-chg="eth">—</div></div></div>
     <div class="stat"><div class="stat-k">S&amp;P 500</div><div><div class="stat-v" data-px="spx">—</div><div class="stat-chg neu" data-chg="spx">—</div></div></div>
-    <div class="stat"><div class="stat-k">Gold</div><div><div class="stat-v" data-px="gold">—</div><div class="stat-chg neu" data-chg="gold">—</div></div></div>
-    <div class="stat"><div class="stat-k">Crypto F&amp;G</div><div><div class="stat-v" data-px="fg">—</div><div class="stat-chg neu" data-chg="fg">—</div></div></div>
-    <div class="stat"><div class="stat-k">BTC Dominance</div><div><div class="stat-v" id="btc-dom">—</div><div class="stat-chg neu">of total cap</div></div></div>
+    <div class="stat"><div class="stat-k">Altın</div><div><div class="stat-v" data-px="gold">—</div><div class="stat-chg neu" data-chg="gold">—</div></div></div>
+    <div class="stat"><div class="stat-k">Kripto F&amp;G</div><div><div class="stat-v" data-px="fg">—</div><div class="stat-chg neu" data-chg="fg">—</div></div></div>
+    <div class="stat"><div class="stat-k">BTC Dominansı</div><div><div class="stat-v" id="btc-dom">—</div><div class="stat-chg neu">toplam değerin</div></div></div>
   </div>
 
   <!-- WATCHLIST -->
-  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Watchlist</div><div class="section-meta"><span class="live" style="color:var(--green)">● Live</span> · auto-refresh 60s</div></div>
+  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">İzleme Listesi</div><div class="section-meta"><span class="live" style="color:var(--green)">● Canlı</span> · 60sn'de bir yenilenir</div></div>
   <table class="dtable">
-    <thead><tr><th>Asset</th><th>Class</th><th>Price</th><th>Δ%</th><th>Trend</th></tr></thead>
-    <tbody id="wl-tbody"><tr><td colspan="5" class="muted" style="text-align:center;padding:24px">Loading markets…</td></tr></tbody>
+    <thead><tr><th>Varlık</th><th>Sınıf</th><th>Fiyat</th><th>Δ%</th><th>Trend</th></tr></thead>
+    <tbody id="wl-tbody"><tr><td colspan="5" class="muted" style="text-align:center;padding:24px">Piyasalar yükleniyor…</td></tr></tbody>
   </table>
-  <p class="muted" style="font-size:11px;font-family:var(--mono);margin-top:12px">Crypto change is 24h (CoinGecko). Equities, commodities &amp; FX change is last close vs. prior close (Yahoo Finance). Data may be delayed.</p>
+  <p class="muted" style="font-size:11px;font-family:var(--mono);margin-top:12px">Kripto değişimi 24 saatlik (CoinGecko). Hisse, emtia ve döviz değişimi son kapanış / önceki kapanış (Yahoo Finance). Veri gecikmeli olabilir.</p>
 </div>
 
 <!-- FOOTER -->
@@ -82,39 +83,39 @@
     <div class="footer-top">
       <div>
         <div class="footer-brand-title">NO<span style="color:var(--amber)">/</span>CASHFLOW</div>
-        <p class="footer-brand-desc">Macro economics, crypto and market analysis. Every Sunday morning, with data — from Barcelona.</p>
+        <p class="footer-brand-desc">Makro ekonomi, kripto ve piyasa analizi. Her pazar sabahı, veriyle — Barcelona'dan.</p>
       </div>
       <div class="footer-col">
-        <h4>Pages</h4>
+        <h4>Sayfalar</h4>
         <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/yazilar.html">Articles</a></li>
-          <li><a href="/macro.html">Macro</a></li>
-          <li><a href="/dashboard.html">Dashboard</a></li>
+          <li><a href="/tr/">Ana Sayfa</a></li>
+          <li><a href="/tr/yazilar.html">Yazılar</a></li>
+          <li><a href="/tr/macro.html">Makro</a></li>
+          <li><a href="/tr/dashboard.html">Panel</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Content</h4>
+        <h4>İçerik</h4>
         <ul>
-          <li><a href="/bulletin_page.html">Bulletin</a></li>
-          <li><a href="/hakkinda.html">About</a></li>
-          <li><a href="/sozluk.html">Glossary</a></li>
+          <li><a href="/tr/bulletin_page.html">Bülten</a></li>
+          <li><a href="/tr/hakkinda.html">Hakkında</a></li>
+          <li><a href="/tr/sozluk.html">Sözlük</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Social</h4>
+        <h4>Sosyal</h4>
         <ul>
           <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
           <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
-          <li><a href="mailto:orkun@nocashflow.net">Email</a></li>
+          <li><a href="mailto:orkun@nocashflow.net">E-posta</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bot">
       <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona</span>
-      <span><a href="/hakkinda.html">About</a> · <a href="/bulletin_page.html">Subscribe</a></span>
+      <span><a href="/tr/hakkinda.html">Hakkında</a> · <a href="/tr/bulletin_page.html">Abone Ol</a></span>
     </div>
-    <div class="disclaimer">This site is for information only and does not provide investment advice.</div>
+    <div class="disclaimer">Bu site yalnızca bilgilendirme amaçlıdır ve yatırım tavsiyesi içermez.</div>
   </div>
 </footer>
 

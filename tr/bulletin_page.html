@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Bülten — NoCashFlow | Günlük Makro Özet</title>
+<meta name="description" content="NoCashFlow Bülteni — sabah makro özeti, kripto sinyalleri, Fed takibi ve ekonomik takvim. Ücretsiz, her sabah."/>
+<link rel="canonical" href="https://nocashflow.net/tr/bulletin_page.html"/>
+<link rel="alternate" hreflang="en" href="https://nocashflow.net/bulletin_page.html"/>
+<link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/bulletin_page.html"/>
+<link rel="alternate" hreflang="x-default" href="https://nocashflow.net/bulletin_page.html"/>
+<meta property="og:title" content="Bülten — NoCashFlow | Günlük Makro Özet"/>
+<meta property="og:description" content="NoCashFlow Bülteni — sabah makro özeti, kripto sinyalleri, Fed takibi ve ekonomik takvim. Ücretsiz, her sabah."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://nocashflow.net/tr/bulletin_page.html"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<meta name="theme-color" content="#ffffff"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/site.css"/>
+<link rel="stylesheet" href="/components.css"/>
+<style>
+.perks { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.perks li { display: flex; gap: 12px; padding: 16px; border: 1px solid var(--border); background: var(--bg-elev); }
+.perks .ck { color: var(--amber); font-weight: 700; flex-shrink: 0; }
+.perks strong { color: var(--text); }
+.perks div { font-size: 13px; color: var(--text-dim); line-height: 1.55; }
+.bul-row { display: flex; align-items: center; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid var(--border-soft); font-family: var(--mono); font-size: 13px; }
+.bul-row:last-child { border-bottom: none; }
+.bul-row .lbl { color: var(--text-dim); }
+.bul-row .val { color: var(--text); }
+.bul-row .d.up { color: var(--green); } .bul-row .d.dn { color: var(--red); }
+@media(max-width:700px){ .perks { grid-template-columns: 1fr; } }
+</style>
+<script>(function(){try{var q=new URLSearchParams(location.search).get('lang');if(q==='en'){try{localStorage.setItem('ncf_lang','en');}catch(e){}location.replace('/');return;}if(q==='tr'){try{localStorage.setItem('ncf_lang','tr');}catch(e){}return;}var p=null;try{p=localStorage.getItem('ncf_lang');}catch(e){}if(p==='en'){location.replace('/');return;}}catch(e){}})();</script>
+</head>
+<body>
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-label"><span class="dot"></span> Live</div>
+  <div class="ticker-track" id="ticker-track"></div>
+</div>
+
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/tr/" class="logo">NO<span class="slash">/</span>CASHFLOW<span class="tag">MACRO × MARKETS</span></a>
+    <div class="nav-links" id="nav-links">
+      <a href="/tr/">Ana Sayfa</a>
+      <a href="/tr/yazilar.html">Yazılar</a>
+      <a href="/tr/macro.html">Makro</a>
+      <a href="/tr/dashboard.html">Panel</a>
+      <a href="/tr/bulletin_page.html" class="active">Bülten</a>
+      <a href="/tr/hakkinda.html">Hakkında</a>
+    </div>
+    <div class="nav-right">
+      <a class="lang-switch" href="/bulletin_page.html" data-set-lang="en" aria-label="Switch to English">EN</a>
+      <a href="/tr/bulletin_page.html" class="subscribe">Abone Ol</a>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="page-head" id="subscribe">
+  <div class="page-eyebrow">Bülten <span class="divider"></span> <span class="muted">Ücretsiz · Her sabah</span></div>
+  <h1 class="page-title">Tek e-posta. Her sabah. <em>Sıfır gürültü.</em></h1>
+  <p class="page-dek">60 saniyelik makro özet, kripto sinyal panosu, Fed takibi ve günün ekonomik takvimi — piyasa açılmadan gelen kutuna düşer.</p>
+  <form class="newsletter-form" data-newsletter style="margin:28px 0 0;max-width:520px">
+    <input class="newsletter-input" type="email" placeholder="you@email.com" required/>
+    <button class="newsletter-submit" type="submit">Ücretsiz Abone Ol</button>
+  </form>
+  <div class="newsletter-note" style="margin-top:14px">1.200+ okur · Sonsuza dek ücretsiz · Spam yok · İstediğinde çık</div>
+</header>
+
+<div class="section">
+  <!-- WHAT YOU GET -->
+  <div class="section-header"><div class="section-title" style="font-size:24px">Neler alırsın</div></div>
+  <ul class="perks">
+    <li><span class="ck">✓</span><div><strong>Sabah Makro Özeti.</strong> VIX, DXY, getiriler, Fear &amp; Greed ve önemli varlıklar — 60 saniyede her şey.</div></li>
+    <li><span class="ck">✓</span><div><strong>Kripto Sinyal Panosu.</strong> BTC dominansı, funding rate'ler, Coinbase Premium Index ve on-chain akışlar.</div></li>
+    <li><span class="ck">✓</span><div><strong>Fed Takibi.</strong> CME FedWatch faiz olasılıkları, dot-plot güncellemeleri ve Powell konuşma analizi.</div></li>
+    <li><span class="ck">✓</span><div><strong>Ekonomik Takvim.</strong> Günün önemli verileri; önceki, beklenti ve önem işaretiyle.</div></li>
+    <li><span class="ck">✓</span><div><strong>Tek Önemli Grafik.</strong> Verinin piyasalar için ne anlama geldiğini açıklayan, iyi kaynaklı tek bir grafik.</div></li>
+    <li><span class="ck">✓</span><div><strong>Pazar Derin Analizi.</strong> Uzun makro analiz, 1.500–3.000 kelime, haftada bir. Asla paywall yok.</div></li>
+  </ul>
+
+  <!-- SAMPLE ISSUE -->
+  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Örnek sayı</div><div class="section-meta">Cumartesi sayısı</div></div>
+  <div class="with-aside">
+    <div class="card">
+      <div class="card-title">NoCashFlow Daily <span class="muted">Barcelona'dan günaydın</span></div>
+      <div class="card-body">
+        <div class="k" style="font-family:var(--mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--amber);margin-bottom:10px">Sabah Özeti</div>
+        <div class="bul-row"><span class="lbl">Bitcoin (BTC)</span><span class="val">$83,200</span><span class="d dn">−2.4%</span></div>
+        <div class="bul-row"><span class="lbl">Ethereum (ETH)</span><span class="val">$3,840</span><span class="d dn">−3.1%</span></div>
+        <div class="bul-row"><span class="lbl">Altın (XAU/USD)</span><span class="val">$3,240</span><span class="d up">+0.8%</span></div>
+        <div class="bul-row"><span class="lbl">Brent Petrol</span><span class="val">$106.40</span><span class="d up">+1.2%</span></div>
+        <div class="bul-row"><span class="lbl">DXY</span><span class="val">103.8</span><span class="d up">+0.3%</span></div>
+        <div class="bul-row"><span class="lbl">ABD 10Y Tahvil</span><span class="val">4.42%</span><span class="d dn">−4 bps</span></div>
+        <div class="bul-row"><span class="lbl">Fear &amp; Greed</span><span class="val">12 / 100</span><span class="d dn">Aşırı Korku</span></div>
+        <div class="callout" style="margin-top:22px">
+          <div class="k">Günün notu</div>
+          <p>Pazartesi TÜFE haftanın kritik olayı — Mart, savaşın enerji etkisinin ilk tam ayı. Şubat ÜFE'si zaten beklentinin 2 katı geldi. Yukarı yönlü bir sürpriz, faiz indirimi beklentilerini yeniden fiyatlar (şu an 2026'nın tamamı için bir indirim). Altın ve Brent güvenli liman; BTC risk-off işlem görüyor.</p>
+        </div>
+      </div>
+    </div>
+    <aside>
+      <div class="aside-sticky">
+        <div class="brief">
+          <div class="brief-head">Bu haftanın olayları</div>
+          <div class="brief-item"><div class="t">Pzt · Yüksek etki ⭐</div><h4>ABD TÜFE &amp; ÜFE (Mart)</h4><p>Önceki %2,4 / %3,4 · Beklenti %2,6 / %3,8</p></div>
+          <div class="brief-item"><div class="t">Çar · Orta</div><h4>Fed Beige Book</h4></div>
+          <div class="brief-item"><div class="t">Per · Orta</div><h4>İşsizlik Başvuruları</h4><p>Önceki 213B · Beklenti 215B</p></div>
+        </div>
+        <a href="/daily_bulletin.html" class="btn" style="width:100%;justify-content:center" target="_blank" rel="noopener">Son sayıyı oku <span class="arrow">→</span></a>
+      </div>
+    </aside>
+  </div>
+
+  <!-- TESTIMONIALS -->
+  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Okurlar ne diyor</div></div>
+  <div class="card-grid">
+    <div class="acard"><p style="font-family:var(--serif);font-size:16px;font-style:italic;color:var(--text-dim);line-height:1.5;flex:1">"Benim için üç bülteni birden değiştirdi. Veri-sinyal oranı olağanüstü — diğer tüm e-postalardan önce açıyorum."</p><div class="meta" style="margin-top:14px">Portföy Yöneticisi · İstanbul</div></div>
+    <div class="acard"><p style="font-family:var(--serif);font-size:16px;font-style:italic;color:var(--text-dim);line-height:1.5;flex:1">"Sonunda konuyu basitleştirmeyen bir makro bülten. İran petrol analizi, sell-side bankalarından gördüklerimi geçti."</p><div class="meta" style="margin-top:14px">CFA Adayı · Londra</div></div>
+    <div class="acard"><p style="font-family:var(--serif);font-size:16px;font-style:italic;color:var(--text-dim);line-height:1.5;flex:1">"Finans profesyoneli değilim ama bu, beni küçümsemeden makroyu okunur kılıyor. Her zaman kaynaklı."</p><div class="meta" style="margin-top:14px">Teknoloji Girişimcisi · Barcelona</div></div>
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="newsletter">
+  <div class="newsletter-inner">
+    <div class="newsletter-label">Ücretsiz Abonelik</div>
+    <h2 class="newsletter-title">Sabahlarına <em>veriyle başla.</em></h2>
+    <p class="newsletter-dek">Güne net bir makro resimle başlayan 1.200+ okura katıl. Kredi kartı yok, paywall yok — asla.</p>
+    <form class="newsletter-form" data-newsletter>
+      <input class="newsletter-input" type="email" placeholder="you@email.com" required/>
+      <button class="newsletter-submit" type="submit">Ücretsiz Abone Ol</button>
+    </form>
+    <div class="newsletter-note">Sonsuza dek ücretsiz · Spam yok · İstediğinde çık</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-title">NO<span style="color:var(--amber)">/</span>CASHFLOW</div>
+        <p class="footer-brand-desc">Makro ekonomi, kripto ve piyasa analizi. Her pazar sabahı, veriyle — Barcelona'dan.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Sayfalar</h4>
+        <ul>
+          <li><a href="/tr/">Ana Sayfa</a></li>
+          <li><a href="/tr/yazilar.html">Yazılar</a></li>
+          <li><a href="/tr/macro.html">Makro</a></li>
+          <li><a href="/tr/dashboard.html">Panel</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>İçerik</h4>
+        <ul>
+          <li><a href="/tr/bulletin_page.html">Bülten</a></li>
+          <li><a href="/tr/hakkinda.html">Hakkında</a></li>
+          <li><a href="/tr/sozluk.html">Sözlük</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Sosyal</h4>
+        <ul>
+          <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
+          <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="mailto:orkun@nocashflow.net">E-posta</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona</span>
+      <span><a href="/tr/hakkinda.html">Hakkında</a> · <a href="/tr/bulletin_page.html">Abone Ol</a></span>
+    </div>
+    <div class="disclaimer">Bu site yalnızca bilgilendirme amaçlıdır ve yatırım tavsiyesi içermez.</div>
+  </div>
+</footer>
+
+<script src="/app.js"></script>
+<script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>
+<script>document.querySelectorAll('[data-set-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',a.getAttribute('data-set-lang'));}catch(e){}});});</script>
+</body>
+</html>
