@@ -100,6 +100,27 @@
   }
   NCF.fetchFearGreed = fetchFearGreed;
 
+  /* Coinbase Premium = Coinbase BTC − Binance BTC.
+     Computed client-side on purpose: Binance is reachable from browsers but
+     blocked from GitHub Actions US IPs, so this can't live in the server
+     snapshot. Returns { coinbase, binance, premium, pct } or null. */
+  async function fetchCoinbasePremium() {
+    try {
+      const [cb, bn] = await Promise.all([
+        fetch('https://api.coinbase.com/v2/prices/BTC-USD/spot').then((r) => r.json()),
+        fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT').then((r) => r.json()),
+      ]);
+      const c = parseFloat(cb && cb.data && cb.data.amount);
+      const b = parseFloat(bn && bn.price);
+      if (!c || !b) return null;
+      const premium = c - b;
+      return { coinbase: c, binance: b, premium, pct: (premium / b) * 100 };
+    } catch (e) {
+      return null;
+    }
+  }
+  NCF.fetchCoinbasePremium = fetchCoinbasePremium;
+
   /* ---------- the canonical instrument set ---------- */
   /* key -> {label, fmt(price)->string}. Drives ticker + data-px/data-chg */
   const INSTRUMENTS = {
