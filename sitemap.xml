@@ -85,6 +85,42 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/sozluk.html"/>
   </url>
   <url>
+    <loc>https://nocashflow.net/disclaimer.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/disclaimer.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/disclaimer.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/disclaimer.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/tr/disclaimer.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/disclaimer.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/disclaimer.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/disclaimer.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/privacy.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/privacy.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/tr/privacy.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/privacy.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/legal.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/legal.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/legal.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/legal.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/tr/legal.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/legal.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/legal.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/legal.html"/>
+  </url>
+  <url>
     <loc>https://nocashflow.net/articles/smart-money.html</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/articles/smart-money.html"/>
     <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/yazilar/smart-money.html"/>

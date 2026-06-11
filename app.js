@@ -261,11 +261,23 @@
     }
   }
 
-  /* ---------- newsletter (graceful no-backend stub) ---------- */
+  /* ---------- newsletter ----------
+     PLACEHOLDER / TODO: wire to the email provider.
+     This is a front-end stub — it shows a success state but sends nothing.
+     When the provider + embed/endpoint is supplied, replace the body of the
+     submit handler below with a real call, e.g.:
+       const email = input.value;
+       await fetch('<PROVIDER_SUBSCRIBE_ENDPOINT>', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ email })
+       });
+     (or drop the provider's own embed markup in place of <form data-newsletter>). */
   function initForms() {
     $$('form[data-newsletter]').forEach((form) => {
       form.addEventListener('submit', (e) => {
         e.preventDefault();
+        // TODO(newsletter): replace this stub with the real provider call.
         const btn = form.querySelector('button');
         const input = form.querySelector('input');
         if (!btn) return;

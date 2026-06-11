@@ -30,6 +30,17 @@ CONTENT = ROOT / "content"
 SITE_URL = "https://nocashflow.net"
 LANGS = ("en", "tr")
 
+# Cloudflare Web Analytics — paste the beacon token here when you have it.
+# Privacy-first, cookieless. Left empty → a placeholder comment is emitted instead.
+CF_TOKEN = ""
+
+
+def analytics_snippet():
+    if CF_TOKEN:
+        return ('<script defer src="https://static.cloudflareinsights.com/beacon.min.js" '
+                f'data-cf-beacon=\'{{"token": "{CF_TOKEN}"}}\'></script>')
+    return "<!-- Cloudflare Web Analytics: set CF_TOKEN in build.py to enable -->"
+
 # ── shared navigation (key, label_en, label_tr, href_en, href_tr) ────────────
 NAV = [
     ("home",      "Home",      "Ana Sayfa", "/",                   "/tr/"),
@@ -50,6 +61,7 @@ FOOTER = {
         "l_home": "Home", "l_articles": "Articles", "l_macro": "Macro", "l_dashboard": "Dashboard",
         "l_bulletin": "Bulletin", "l_about": "About", "l_glossary": "Glossary",
         "l_email": "Email", "bottom_about": "About", "bottom_subscribe": "Subscribe",
+        "l_privacy": "Privacy", "l_legal": "Legal Notice", "l_disclaimer": "Disclaimer",
         "disclaimer": "This site is for information only and does not provide investment advice.",
     },
     "tr": {
@@ -58,6 +70,7 @@ FOOTER = {
         "l_home": "Ana Sayfa", "l_articles": "Yazılar", "l_macro": "Makro", "l_dashboard": "Panel",
         "l_bulletin": "Bülten", "l_about": "Hakkında", "l_glossary": "Sözlük",
         "l_email": "E-posta", "bottom_about": "Hakkında", "bottom_subscribe": "Abone Ol",
+        "l_privacy": "Gizlilik", "l_legal": "Yasal Bildirim", "l_disclaimer": "Feragatname",
         "disclaimer": "Bu site yalnızca bilgilendirme amaçlıdır ve yatırım tavsiyesi içermez.",
     },
 }
@@ -135,6 +148,30 @@ PAGES = {
                   "tr": "Sözlük — NoCashFlow | Finansal Terimler"},
         "desc":  {"en": "Plain explanations of macro, market and crypto terms — the NoCashFlow financial glossary.",
                   "tr": "Makro ekonomi, piyasa ve kripto terimlerinin sade açıklamaları — NoCashFlow finansal sözlüğü."},
+    },
+    "disclaimer": {
+        "nav_key": None,
+        "paths": {"en": "/disclaimer.html", "tr": "/tr/disclaimer.html"},
+        "out":   {"en": "disclaimer.html", "tr": "tr/disclaimer.html"},
+        "title": {"en": "Disclaimer — NoCashFlow", "tr": "Feragatname — NoCashFlow"},
+        "desc":  {"en": "NoCashFlow is for information only and does not provide investment advice.",
+                  "tr": "NoCashFlow yalnızca bilgilendirme amaçlıdır ve yatırım tavsiyesi içermez."},
+    },
+    "privacy": {
+        "nav_key": None,
+        "paths": {"en": "/privacy.html", "tr": "/tr/privacy.html"},
+        "out":   {"en": "privacy.html", "tr": "tr/privacy.html"},
+        "title": {"en": "Privacy Policy — NoCashFlow", "tr": "Gizlilik Politikası — NoCashFlow"},
+        "desc":  {"en": "How NoCashFlow handles your data, in line with the EU GDPR.",
+                  "tr": "NoCashFlow verilerini AB GDPR'ına uygun olarak nasıl işler."},
+    },
+    "legal": {
+        "nav_key": None,
+        "paths": {"en": "/legal.html", "tr": "/tr/legal.html"},
+        "out":   {"en": "legal.html", "tr": "tr/legal.html"},
+        "title": {"en": "Legal Notice — NoCashFlow", "tr": "Yasal Bildirim — NoCashFlow"},
+        "desc":  {"en": "Aviso Legal — site ownership and terms of use.",
+                  "tr": "Aviso Legal — site sahipliği ve kullanım koşulları."},
     },
 }
 
@@ -496,7 +533,10 @@ def footer(lang):
       <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona</span>
       <span><a href="{fl('/hakkinda.html', '/tr/hakkinda.html')}">{f['bottom_about']}</a> · <a href="{fl('/bulletin_page.html', '/tr/bulletin_page.html')}">{f['bottom_subscribe']}</a></span>
     </div>
-    <div class="disclaimer">{f['disclaimer']}</div>
+    <div class="disclaimer">
+      {f['disclaimer']}<br/>
+      <a href="{fl('/privacy.html', '/tr/privacy.html')}">{f['l_privacy']}</a> · <a href="{fl('/legal.html', '/tr/legal.html')}">{f['l_legal']}</a> · <a href="{fl('/disclaimer.html', '/tr/disclaimer.html')}">{f['l_disclaimer']}</a>
+    </div>
   </div>
 </footer>
 """
@@ -508,6 +548,8 @@ def scripts(page, lang):
     foot = _read(f"foot/{page}.html")          # page-specific NCF.init + JS (verbatim)
     if foot:
         out.append(foot)
+    else:                                       # default ticker init (e.g. legal pages)
+        out.append("<script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>")
     out.append(
         "<script>document.querySelectorAll('[data-set-lang]').forEach(function(a){"
         "a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',"
@@ -515,6 +557,7 @@ def scripts(page, lang):
     )
     if p.get("splash") and lang == "en":       # splash lives only on the en root
         out.append('<script src="/splash.js"></script>')
+    out.append(analytics_snippet())
     return "\n".join(out)
 
 
@@ -695,7 +738,8 @@ def render_article(slug, lang):
     )
 
     html = "\n".join([head_html, ticker, _nav_html("articles", lang, sw_href),
-                      body, footer(lang), scripts_html, "</body>", "</html>", ""])
+                      body, footer(lang), scripts_html, analytics_snippet(),
+                      "</body>", "</html>", ""])
     return inject_market(html)
 
 
