@@ -317,8 +317,22 @@ def head(page, lang):
     alt_html = "\n".join(alts)
 
     og_desc = p.get("og_desc", p["desc"])[lang]
+    feed = "/feed-en.xml" if lang == "en" else "/feed-tr.xml"
     head_extra = _read(f"head/{page}.html")
     head_extra = (head_extra + "\n") if head_extra else ""
+    if page == "hakkinda":
+        site_schema = json.dumps({
+            "@context": "https://schema.org", "@type": "Person", "name": "Orkun Biçen",
+            "url": canonical, "jobTitle": "Macro analyst",
+            "worksFor": {"@type": "Organization", "name": "NoCashFlow", "url": SITE_URL},
+            "sameAs": ["https://twitter.com/No_CashFlow", "https://www.linkedin.com/in/orkunbicen/"],
+        }, ensure_ascii=False)
+    else:
+        site_schema = json.dumps({
+            "@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow",
+            "url": SITE_URL, "inLanguage": lang,
+            "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": SITE_URL},
+        }, ensure_ascii=False)
     splash_css = '<link rel="stylesheet" href="/splash.css"/>\n' if (p.get("splash") and lang == "en") else ""
     early = _early_script(page, lang) if (p.get("splash") or lang == "tr") else ""
 
@@ -335,14 +349,21 @@ def head(page, lang):
 <meta property="og:description" content="{og_desc}"/>
 <meta property="og:type" content="website"/>
 <meta property="og:url" content="{canonical}"/>
+<meta property="og:image" content="{OG_IMAGE}"/>
+<meta property="og:site_name" content="NoCashFlow"/>
 <meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="{OG_IMAGE}"/>
+<meta name="twitter:site" content="@No_CashFlow"/>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="alternate" type="application/rss+xml" title="NoCashFlow" href="{feed}"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <meta name="theme-color" content="#ffffff"/>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
+<script type="application/ld+json">{site_schema}</script>
 {head_extra}{splash_css}{early}</head>
 <body>"""
 
@@ -544,7 +565,7 @@ def render(page, lang):
 
 
 # ── articles (own pages: /articles/<slug>.html en, /tr/yazilar/<slug>.html tr) ─
-OG_IMAGE = SITE_URL + "/images/featured_story.png"
+OG_IMAGE = SITE_URL + "/og.png"
 
 ARTICLES = {
     "smart-money": {
@@ -603,6 +624,7 @@ def render_article(slug, lang):
     canonical = SITE_URL + article_path(slug, lang)
     alt_en, alt_tr = SITE_URL + article_path(slug, "en"), SITE_URL + article_path(slug, "tr")
     prose = _read(f"articles/{slug}/{lang}.html")
+    feed = "/feed-en.xml" if lang == "en" else "/feed-tr.xml"
     yazilar_url = "/yazilar.html" if lang == "en" else "/tr/yazilar.html"
     back = "← All articles" if lang == "en" else "← Tüm yazılar"
     sw_href = article_path(slug, "tr") if lang == "en" else article_path(slug, "en")
@@ -632,7 +654,10 @@ def render_article(slug, lang):
 <meta property="og:url" content="{canonical}"/>
 <meta property="og:image" content="{OG_IMAGE}"/>
 <meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="{OG_IMAGE}"/>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="alternate" type="application/rss+xml" title="NoCashFlow" href="{feed}"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <meta name="theme-color" content="#ffffff"/>
@@ -674,6 +699,70 @@ def render_article(slug, lang):
     return inject_market(html)
 
 
+# ── SEO artefacts: sitemap, RSS feeds, robots ────────────────────────────────
+def _xml_escape(s):
+    return (s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;"))
+
+
+def _indexable_pairs():
+    """(en_url, tr_url) for every indexable page + article."""
+    out = [(SITE_URL + p["paths"]["en"], SITE_URL + p["paths"]["tr"]) for p in PAGES.values()]
+    out += [(SITE_URL + article_path(s, "en"), SITE_URL + article_path(s, "tr")) for s in ARTICLE_ORDER]
+    return out
+
+
+def generate_sitemap():
+    rows = []
+    for en_url, tr_url in _indexable_pairs():
+        alts = (f'    <xhtml:link rel="alternate" hreflang="en" href="{en_url}"/>\n'
+                f'    <xhtml:link rel="alternate" hreflang="tr" href="{tr_url}"/>\n'
+                f'    <xhtml:link rel="alternate" hreflang="x-default" href="{en_url}"/>')
+        for url in (en_url, tr_url):
+            rows.append(f"  <url>\n    <loc>{url}</loc>\n{alts}\n  </url>")
+    xml = ('<?xml version="1.0" encoding="UTF-8"?>\n'
+           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+           'xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' + "\n".join(rows) + "\n</urlset>\n")
+    (ROOT / "sitemap.xml").write_text(xml, encoding="utf-8")
+
+
+def _rfc822(date_str):
+    try:
+        return datetime.strptime(date_str, "%Y-%m-%d").strftime("%a, %d %b %Y 08:00:00 +0000")
+    except Exception:
+        return ""
+
+
+def generate_feeds():
+    for lang, fname, title, desc in (
+        ("en", "feed-en.xml", "NoCashFlow — Articles", "Data-driven macro analysis, every Sunday."),
+        ("tr", "feed-tr.xml", "NoCashFlow — Yazılar", "Veri odaklı makro analiz, her pazar."),
+    ):
+        items = []
+        for slug in ARTICLE_ORDER:
+            a = ARTICLES[slug]
+            link = SITE_URL + article_path(slug, lang)
+            items.append(
+                "    <item>\n"
+                f"      <title>{_xml_escape(a['title'][lang])}</title>\n"
+                f"      <link>{link}</link>\n      <guid>{link}</guid>\n"
+                f"      <pubDate>{_rfc822(a['date'])}</pubDate>\n"
+                f"      <description>{_xml_escape(a['dek'][lang])}</description>\n    </item>")
+        self_url = f"{SITE_URL}/{fname}"
+        home = SITE_URL + ("/" if lang == "en" else "/tr/")
+        xml = ('<?xml version="1.0" encoding="UTF-8"?>\n'
+               '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n  <channel>\n'
+               f"    <title>{title}</title>\n    <link>{home}</link>\n"
+               f"    <description>{desc}</description>\n    <language>{lang}</language>\n"
+               f'    <atom:link href="{self_url}" rel="self" type="application/rss+xml"/>\n'
+               + "\n".join(items) + "\n  </channel>\n</rss>\n")
+        (ROOT / fname).write_text(xml, encoding="utf-8")
+
+
+def generate_robots():
+    (ROOT / "robots.txt").write_text(
+        f"User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}/sitemap.xml\n", encoding="utf-8")
+
+
 def build():
     written = []
     for page, p in PAGES.items():
@@ -694,7 +783,11 @@ def build():
             out_path.write_text(render_article(slug, lang), encoding="utf-8")
             written.append(article_out(slug, lang))
             print(f"  build {article_out(slug, lang):28} [{lang}]")
-    print(f"\n✓ {len(written)} page(s) written.")
+    generate_sitemap()
+    generate_feeds()
+    generate_robots()
+    print("  + sitemap.xml · feed-en.xml · feed-tr.xml · robots.txt")
+    print(f"\n✓ {len(written)} page(s) + SEO artefacts written.")
 
 
 if __name__ == "__main__":
