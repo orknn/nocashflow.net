@@ -395,24 +395,20 @@ def chrome_top(page):
 """
 
 
-def nav(page, lang):
-    active = PAGES[page]["nav_key"]
+def _nav_html(active_key, lang, sw_href):
     home_href = "/" if lang == "en" else "/tr/"
     links = []
     for key, en_l, tr_l, en_h, tr_h in NAV:
         label = en_l if lang == "en" else tr_l
         href = en_h if lang == "en" else tr_h
-        cls = ' class="active"' if key == active else ""
+        cls = ' class="active"' if key == active_key else ""
         links.append(f'      <a href="{href}"{cls}>{label}</a>')
     links_html = "\n".join(links)
-
     sub_label, sub_href = SUBSCRIBE[lang]
-    p = PAGES[page]
     if lang == "en":
-        sw_label, sw_href, sw_set, sw_aria = "TR", p["paths"]["tr"], "tr", "Türkçe'ye geç"
+        sw_label, sw_set, sw_aria = "TR", "tr", "Türkçe'ye geç"
     else:
-        sw_label, sw_href, sw_set, sw_aria = "EN", p["paths"]["en"], "en", "Switch to English"
-
+        sw_label, sw_set, sw_aria = "EN", "en", "Switch to English"
     return f"""
 <!-- NAV -->
 <nav class="nav">
@@ -429,6 +425,12 @@ def nav(page, lang):
   </div>
 </nav>
 """
+
+
+def nav(page, lang):
+    p = PAGES[page]
+    sw_href = p["paths"]["tr"] if lang == "en" else p["paths"]["en"]
+    return _nav_html(p["nav_key"], lang, sw_href)
 
 
 def footer(lang):
@@ -496,6 +498,28 @@ def scripts(page, lang):
 
 
 # ── assembly ─────────────────────────────────────────────────────────────────
+def inject_article_list(html, lang):
+    """Replace the placeholder in yazilar with teaser cards generated from the
+    ARTICLES registry, each linking to its own article page."""
+    if "<!--NCF:ARTICLE_LIST-->" not in html:
+        return html
+    rows = []
+    for slug in ARTICLE_ORDER:
+        a = ARTICLES[slug]
+        rows.append(
+            '    <div class="art-row">\n'
+            f'      <div class="n">{a["num"]}</div>\n'
+            '      <div class="body">\n'
+            f'        <div class="tag-line">{a["cat"][lang]} · {a["date_disp"][lang]} · {a["read"][lang]}</div>\n'
+            f'        <h3><a href="{article_path(slug, lang)}">{a["title"][lang]}</a></h3>\n'
+            f'        <p>{a["dek"][lang]}</p>\n'
+            '      </div>\n'
+            '      <div class="arrow">→</div>\n'
+            '    </div>')
+    list_html = '<div class="art-list">\n' + "\n".join(rows) + "\n  </div>"
+    return html.replace("<!--NCF:ARTICLE_LIST-->", list_html)
+
+
 def render(page, lang):
     p = PAGES[page]
     body = _read(f"{lang}/{page}.html")
@@ -514,8 +538,140 @@ def render(page, lang):
     # fill build-time snapshots (market values + macro KPIs + economic calendar)
     html = inject_calendar(html, lang)
     html = inject_macro(html, lang)
+    html = inject_article_list(html, lang)
     html = inject_market(html)
     return html
+
+
+# ── articles (own pages: /articles/<slug>.html en, /tr/yazilar/<slug>.html tr) ─
+OG_IMAGE = SITE_URL + "/images/featured_story.png"
+
+ARTICLES = {
+    "smart-money": {
+        "num": "#04", "date": "2026-04-06",
+        "cat": {"en": "Smart Money", "tr": "Smart Money"},
+        "date_disp": {"en": "Apr 6, 2026", "tr": "6 Nis 2026"},
+        "read": {"en": "9 min read", "tr": "9 dk okuma"},
+        "title": {"en": "What Is Smart Money, and Where Is It Going?",
+                  "tr": "Smart Money Nedir ve Nereye Gidiyor?"},
+        "dek": {"en": "JPMorgan said institutions would dominate 2026 crypto flows. Q1 came in at one-third of the estimate.",
+                "tr": "JPMorgan kurumların 2026 kripto akışlarını domine edeceğini söyledi. Q1 tahminin üçte biri geldi."},
+    },
+    "nukleer": {
+        "num": "#03", "date": "2026-03-30",
+        "cat": {"en": "Energy", "tr": "Enerji"},
+        "date_disp": {"en": "Mar 30, 2026", "tr": "30 Mar 2026"},
+        "read": {"en": "6 min read", "tr": "6 dk okuma"},
+        "title": {"en": "AI Needs Electricity — The Answer Is Nuclear",
+                  "tr": "Yapay Zekânın Elektriğe İhtiyacı Var — Cevap Nükleer"},
+        "dek": {"en": "Data centers will consume 945 TWh by 2030 — equal to Japan's entire annual electricity use.",
+                "tr": "Veri merkezleri 2030'a kadar 945 TWh tüketecek — Japonya'nın tüm yıllık elektrik kullanımına eşit."},
+    },
+    "bakir": {
+        "num": "#02", "date": "2026-03-23",
+        "cat": {"en": "Commodities", "tr": "Emtia"},
+        "date_disp": {"en": "Mar 23, 2026", "tr": "23 Mar 2026"},
+        "read": {"en": "6 min read", "tr": "6 dk okuma"},
+        "title": {"en": "Dr. Copper — Wrong Diagnosis?", "tr": "Dr. Bakır — Yanlış Teşhis mi?"},
+        "dek": {"en": "Copper as a recession indicator is broken — AI data centers, EVs and renewables all demand it at once.",
+                "tr": "Resesyon göstergesi olarak bakır bozuldu — yapay zekâ, elektrikli araçlar ve yenilenebilir enerji onu aynı anda talep ediyor."},
+    },
+    "petrol": {
+        "num": "#01", "date": "2026-03-16",
+        "cat": {"en": "Macro", "tr": "Makro"},
+        "date_disp": {"en": "Mar 16, 2026", "tr": "16 Mar 2026"},
+        "read": {"en": "7 min read", "tr": "7 dk okuma"},
+        "title": {"en": "Why the 1970s Comparison Is Misleading", "tr": "1970'ler Karşılaştırması Neden Yanıltıcı"},
+        "dek": {"en": "Brent up 40%, Hormuz closed — but oil intensity has more than halved since 1973.",
+                "tr": "Brent %40 yukarıda, Hürmüz kapalı — ama petrol yoğunluğu 1973'ten beri yarıdan fazla düştü."},
+    },
+}
+ARTICLE_ORDER = ["smart-money", "nukleer", "bakir", "petrol"]  # newest first
+
+
+def article_path(slug, lang):
+    return f"/articles/{slug}.html" if lang == "en" else f"/tr/yazilar/{slug}.html"
+
+
+def article_out(slug, lang):
+    return f"articles/{slug}.html" if lang == "en" else f"tr/yazilar/{slug}.html"
+
+
+def render_article(slug, lang):
+    a = ARTICLES[slug]
+    title, dek = a["title"][lang], a["dek"][lang]
+    canonical = SITE_URL + article_path(slug, lang)
+    alt_en, alt_tr = SITE_URL + article_path(slug, "en"), SITE_URL + article_path(slug, "tr")
+    prose = _read(f"articles/{slug}/{lang}.html")
+    yazilar_url = "/yazilar.html" if lang == "en" else "/tr/yazilar.html"
+    back = "← All articles" if lang == "en" else "← Tüm yazılar"
+    sw_href = article_path(slug, "tr") if lang == "en" else article_path(slug, "en")
+
+    schema = json.dumps({
+        "@context": "https://schema.org", "@type": "Article",
+        "headline": title, "description": dek, "datePublished": a["date"], "inLanguage": lang,
+        "author": {"@type": "Person", "name": "Orkun Biçen"},
+        "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": SITE_URL},
+        "mainEntityOfPage": canonical, "image": OG_IMAGE,
+    }, ensure_ascii=False)
+
+    head_html = f"""<!DOCTYPE html>
+<html lang="{lang}">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>{title} — NoCashFlow</title>
+<meta name="description" content="{dek}"/>
+<link rel="canonical" href="{canonical}"/>
+<link rel="alternate" hreflang="en" href="{alt_en}"/>
+<link rel="alternate" hreflang="tr" href="{alt_tr}"/>
+<link rel="alternate" hreflang="x-default" href="{alt_en}"/>
+<meta property="og:title" content="{title}"/>
+<meta property="og:description" content="{dek}"/>
+<meta property="og:type" content="article"/>
+<meta property="og:url" content="{canonical}"/>
+<meta property="og:image" content="{OG_IMAGE}"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<meta name="theme-color" content="#ffffff"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/site.css"/>
+<link rel="stylesheet" href="/components.css"/>
+<script type="application/ld+json">{schema}</script>
+</head>
+<body>"""
+
+    ticker = ('<!-- TICKER -->\n<div class="ticker">\n'
+              '  <div class="ticker-label"><span class="dot"></span> Live</div>\n'
+              '  <div class="ticker-track" id="ticker-track"></div>\n</div>\n')
+
+    body = f"""
+<header class="page-head" data-read>
+  <div class="page-eyebrow">{a['cat'][lang]} · {a['num']} <span class="divider"></span> <span class="muted">{a['date_disp'][lang]} · {a['read'][lang]}</span></div>
+  <h1 class="page-title">{title}</h1>
+  <p class="page-dek">{dek}</p>
+</header>
+<div class="section">
+  <div class="prose" style="max-width:760px">
+{prose}
+  </div>
+  <a href="{yazilar_url}" class="section-link" style="display:inline-block;margin-top:36px">{back}</a>
+</div>
+"""
+
+    scripts_html = (
+        '<script src="/app.js"></script>\n'
+        "<script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>\n"
+        "<script>document.querySelectorAll('[data-set-lang]').forEach(function(a){"
+        "a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',"
+        "a.getAttribute('data-set-lang'));}catch(e){}});});</script>"
+    )
+
+    html = "\n".join([head_html, ticker, _nav_html("articles", lang, sw_href),
+                      body, footer(lang), scripts_html, "</body>", "</html>", ""])
+    return inject_market(html)
 
 
 def build():
@@ -528,7 +684,16 @@ def build():
             out_path.parent.mkdir(parents=True, exist_ok=True)
             out_path.write_text(render(page, lang), encoding="utf-8")
             written.append(p["out"][lang])
-            print(f"  build {p['out'][lang]:24} [{lang}]")
+            print(f"  build {p['out'][lang]:28} [{lang}]")
+    for slug in ARTICLES:
+        for lang in LANGS:
+            if not (CONTENT / "articles" / slug / f"{lang}.html").exists():
+                continue
+            out_path = ROOT / article_out(slug, lang)
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            out_path.write_text(render_article(slug, lang), encoding="utf-8")
+            written.append(article_out(slug, lang))
+            print(f"  build {article_out(slug, lang):28} [{lang}]")
     print(f"\n✓ {len(written)} page(s) written.")
 
 
