@@ -30,16 +30,9 @@ CONTENT = ROOT / "content"
 SITE_URL = "https://nocashflow.net"
 LANGS = ("en", "tr")
 
-# Cloudflare Web Analytics — paste the beacon token here when you have it.
-# Privacy-first, cookieless. Left empty → a placeholder comment is emitted instead.
-CF_TOKEN = ""
-
-
-def analytics_snippet():
-    if CF_TOKEN:
-        return ('<script defer src="https://static.cloudflareinsights.com/beacon.min.js" '
-                f'data-cf-beacon=\'{{"token": "{CF_TOKEN}"}}\'></script>')
-    return "<!-- Cloudflare Web Analytics: set CF_TOKEN in build.py to enable -->"
+# Cloudflare Web Analytics is enabled via Cloudflare's Automatic Setup (the site
+# is proxied through Cloudflare, which injects the beacon at the edge). No manual
+# snippet here — adding one would double-count page views.
 
 # ── shared navigation (key, label_en, label_tr, href_en, href_tr) ────────────
 NAV = [
@@ -557,7 +550,6 @@ def scripts(page, lang):
     )
     if p.get("splash") and lang == "en":       # splash lives only on the en root
         out.append('<script src="/splash.js"></script>')
-    out.append(analytics_snippet())
     return "\n".join(out)
 
 
@@ -738,8 +730,7 @@ def render_article(slug, lang):
     )
 
     html = "\n".join([head_html, ticker, _nav_html("articles", lang, sw_href),
-                      body, footer(lang), scripts_html, analytics_snippet(),
-                      "</body>", "</html>", ""])
+                      body, footer(lang), scripts_html, "</body>", "</html>", ""])
     return inject_market(html)
 
 
