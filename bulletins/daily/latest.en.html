@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Financial Bulletin</title>
+  <link rel="alternate" hreflang="tr" href="https://nocashflow.net/bulletins/daily/latest.tr.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <style>
+    
+:root {
+    --bg: #0b0f17;
+    --bg2: #121824;
+    --bg3: #1c2436;
+    --border: #26344d;
+    --text: #f0f4f9;
+    --dim: #94a3b8;
+    --gold: #f59e0b;
+    --gold2: #fb923c;
+    --green: #10b981;
+    --red: #ef4444;
+    --accent: #3b82f6;
+    
+    --sans: Inter, system-ui, -apple-system, sans-serif;
+    --serif: "Playfair Display", Georgia, serif;
+    --mono: "JetBrains Mono", Menlo, Consolas, monospace;
+}
+
+    
+    body {
+        background-color: var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+        margin: 0;
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
+    }
+    
+    .container {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 24px 16px;
+    }
+    
+    /* Layout components */
+    .card-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+    @media (max-width: 500px) {
+        .card-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    .kpi-card {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 14px 16px;
+        position: relative;
+    }
+    
+    .kpi-label {
+        font-size: 10px;
+        font-weight: 500;
+        text-transform: uppercase;
+        color: var(--dim);
+        letter-spacing: 0.5px;
+        margin-bottom: 6px;
+    }
+    
+    .kpi-value {
+        font-family: var(--mono);
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--text);
+    }
+    
+    .kpi-change {
+        font-family: var(--mono);
+        font-size: 11px;
+        margin-top: 4px;
+    }
+    
+    .up { color: var(--green); }
+    .down { color: var(--red); }
+    
+    /* Tables */
+    table.data-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    
+    table.data-table th {
+        text-align: left;
+        padding: 8px 12px;
+        font-size: 10px;
+        text-transform: uppercase;
+        color: var(--dim);
+        border-bottom: 1px solid var(--border);
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+    
+    table.data-table td {
+        padding: 8px 12px;
+        font-size: 12px;
+        border-bottom: 1px solid rgba(255,255,255,0.03);
+        vertical-align: middle;
+        line-height: 1.35;
+    }
+    
+    .mono {
+        font-family: var(--mono);
+    }
+    
+    /* Section dividers */
+    .section-divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 32px 0 16px 0;
+    }
+    
+    .section-title {
+        font-family: var(--sans);
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--text);
+    }
+    
+    .section-line {
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+    }
+    
+    /* Ticker bar */
+    table.ticker {
+        width: 100%;
+        margin-bottom: 24px;
+        border-collapse: collapse;
+    }
+    
+    .ti {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        padding: 8px 10px;
+        text-align: center;
+        width: 12.5%;
+    }
+    
+    .ti-name {
+        font-size: 8.5px;
+        color: var(--dim);
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 3px;
+        letter-spacing: 0.5px;
+    }
+    
+    .ti-val {
+        font-family: var(--mono);
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 2px;
+    }
+    
+    .ti-chg {
+        font-family: var(--mono);
+        font-size: 9px;
+    }
+    
+    /* S&P Grid */
+    .sp500-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 6px;
+    }
+    @media (max-width: 600px) {
+        .sp500-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+    
+    /* Sparkline wrapper */
+    .sparkline-wrap {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 16px;
+        margin-bottom: 20px;
+    }
+    
+    .asset-dot {
+        width: 6px;
+        height: 6px;
+        background: #3b82f6;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 8px;
+    }
+    
+    .asset-name {
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+    }
+    
+    .summary-card {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--gold);
+        border-radius: 0 4px 4px 0;
+        padding: 16px 20px;
+        margin-bottom: 24px;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+    
+    .summary-text {
+        font-size: 13.5px;
+        line-height: 1.8;
+        color: var(--dim);
+        margin: 0;
+    }
+    
+    .summary-text strong {
+        color: var(--text);
+        font-weight: 600;
+    }
+    
+    .summary-text .highlight {
+        color: var(--gold);
+        font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px; border-bottom:1px solid var(--border); padding-bottom:16px;">
+      <tr>
+        <td>
+          <div style="font-family:var(--sans); font-size:10px; font-weight:700; color:var(--dim); letter-spacing:2px; text-transform:uppercase; margin-bottom:4px;">NOCASHFLOW</div>
+          <h1 style="font-family:var(--serif); font-size:26px; font-weight:700; color:var(--text); margin:0 0 4px 0; letter-spacing:-0.5px; border-left:3px solid #3b82f6; padding-left:12px;">DAILY FINANCIAL BULLETIN</h1>
+          <div style="font-family:var(--sans); font-size:11px; color:var(--dim); font-style:italic;">Global Macro & Crypto Market Intelligence</div>
+        </td>
+        <td align="right" style="vertical-align:bottom; text-align:right;">
+          <div style="font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text); margin-bottom:8px;">Fri, Jun 12 2026</div>
+          
+        </td>
+      </tr>
+    </table>
+    
+    
+    <div style="background:rgba(239,68,68,0.06); border-left:3px solid var(--red); border-radius:0 4px 4px 0; padding:12px 16px; margin-bottom:24px; font-family:var(--sans); font-size:12.5px; line-height:1.6; color:var(--text); page-break-inside:avoid; break-inside:avoid;">
+      <span style="font-weight:700; color:var(--red); margin-right:8px; letter-spacing:1px;">RISK-OFF</span>
+      <span style="color:var(--text);">Extreme fear levels and negative funding rates signal strong selling pressure in the market.</span>
+    </div>
+    
+    
+        <div class="summary-card">
+          <p class="summary-text">Crypto markets are trading in 'Extreme Fear' regime with <span class='highlight'>Fear & Greed Index at 12</span>, while macroeconomic pressures persist. <strong>Bitcoin trades at $62,963 with 0.41% gains</strong>, while total market cap hovers around <span class='highlight'>$2.24 trillion</span>. This week's expected <strong>CPI data (previous: 3.8%, forecast: 4.2%)</strong> poses inflation pressure risks. <span class='highlight'>VIX at 19.52</span> signals high volatility expectations, while <span class='highlight'>10Y yield stands at 4.46%</span>. Coinbase premium remains negative at <span class='highlight'>-0.12%</span>, indicating continued institutional selling pressure.</p>
+        </div>
+        
+    <table class="ticker" cellpadding="0" cellspacing="0"><tr>
+
+    <td class="ti">
+      <div class="ti-name">NASDAQ 100</div>
+      <div class="ti-val">29,307</div>
+      <div style="margin: 3px 0; height: 15px;">
+    <svg width="50" height="15" viewBox="0 0 50 15" style="display:inline-block; vertical-align:middle; overflow:visible;">
+      <path d="M 0.0,2.0 L 8.3,11.3 L 16.7,8.0 L 25.0,10.6 L 33.3,13.0 L 41.7,7.9 L 50.0,9.2" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="50" cy="9.2" r="2.5" fill="#ef4444"/>
+    </svg>
+    </div>
+      <div class="ti-chg down">▼ -0.53%</div>
+    </td>
+    <td class="ti">
+      <div class="ti-name">DXY</div>
+      <div class="ti-val">99.8420</div>
+      <div style="margin: 3px 0; height: 15px;">
+    <svg width="50" height="15" viewBox="0 0 50 15" style="display:inline-block; vertical-align:middle; overflow:visible;">
+      <path d="M 0.0,13.0 L 8.3,2.0 L 16.7,2.0 L 25.0,3.6 L 33.3,2.7 L 41.7,4.8 L 50.0,5.2" fill="none" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="50" cy="5.2" r="2.5" fill="#10b981"/>
+    </svg>
+    </div>
+      <div class="ti-chg down">▼ -0.02%</div>
+    </td>
+    <td class="ti">
+      <div class="ti-name">GOLD</div>
+      <div class="ti-val">$4,198</div>
+      <div style="margin: 3px 0; height: 15px;">
+    <svg width="50" height="15" viewBox="0 0 50 15" style="display:inline-block; vertical-align:middle; overflow:visible;">
+      <path d="M 0.0,2.0 L 8.3,5.4 L 16.7,5.4 L 25.0,8.4 L 33.3,13.0 L 41.7,13.0 L 50.0,10.8" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="50" cy="10.8" r="2.5" fill="#ef4444"/>
+    </svg>
+    </div>
+      <div class="ti-chg up">▲ +2.63%</div>
+    </td>
+    <td class="ti">
+      <div class="ti-name">10Y UST</div>
+      <div class="ti-val">4.46%</div>
+      <div style="margin: 3px 0; height: 15px;">
+    <svg width="50" height="15" viewBox="0 0 50 15" style="display:inline-block; vertical-align:middle; overflow:visible;">
+      <path d="M 0.0,10.3 L 8.3,12.6 L 16.7,2.7 L 25.0,2.0 L 33.3,4.0 L 41.7,2.0 L 50.0,13.0" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="50" cy="13.0" r="2.5" fill="#ef4444"/>
+    </svg>
+    </div>
+      <div class="ti-chg down">▼ -1.74%</div>
+    </td>
+    <td class="ti">
+      <div class="ti-name">VIX</div>
+      <div class="ti-val">19.5</div>
+      <div style="margin: 3px 0; height: 15px;">
+    <svg width="50" height="15" viewBox="0 0 50 15" style="display:inline-block; vertical-align:middle; overflow:visible;">
+      <path d="M 0.0,13.0 L 8.3,2.0 L 16.7,7.3 L 25.0,5.2 L 33.3,2.0 L 41.7,6.1 L 50.0,5.9" fill="none" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="50" cy="5.9" r="2.5" fill="#10b981"/>
+    </svg>
+    </div>
+      <div class="ti-chg up">▲ +0.41%</div>
+    </td>
+    <td class="ti">
+      <div class="ti-name">BTC</div>
+      <div class="ti-val">$62,963</div>
+      <div style="margin: 3px 0; height: 15px;">
+    <svg width="50" height="15" viewBox="0 0 50 15" style="display:inline-block; vertical-align:middle; overflow:visible;">
+      <path d="M 0.0,13.0 L 8.3,2.0 L 16.7,2.6 L 25.0,10.7 L 33.3,11.8 L 41.7,2.0 L 50.0,3.4" fill="none" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="50" cy="3.4" r="2.5" fill="#10b981"/>
+    </svg>
+    </div>
+      <div class="ti-chg up">▲ +0.42%</div>
+    </td>
+    <td class="ti">
+      <div class="ti-name">BTC.D</div>
+      <div class="ti-val">56.3%</div>
+      <div style="height: 15px;"></div>
+      <div class="ti-chg ">—</div>
+    </td>
+    <td class="ti">
+      <div class="ti-name">F&G INDEX</div>
+      <div class="ti-val">12</div>
+      <div style="height: 15px;"></div>
+      <div class="ti-chg down">Extreme Fear</div>
+    </td>
+</tr></table>
+    
+        
+    <div class="section-divider">
+      <span class="section-title">TODAY'S CALENDAR</span>
+      <div class="section-line"></div>
+    </div>
+    
+        
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Event</th>
+          <th>Country</th>
+          <th style="text-align:right;">Prev</th>
+          <th style="text-align:right;">Cons</th>
+          <th style="text-align:right;">Actual</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td style="color:var(--dim); white-space:nowrap; width:12%;">10 Jun Wed</td>
+          <td class="mono" style="white-space:nowrap; width:12%;">8:30 AM</td>
+          <td><div class="asset-name"><div class="asset-dot"></div>Core CPI MoM</div></td>
+          <td style="color:var(--dim); white-space:nowrap; width:10%;">USD</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">0.4%</td>
+          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">0.3%</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
+        </tr>
+        <tr>
+          <td style="color:var(--dim); white-space:nowrap; width:12%;">10 Jun Wed</td>
+          <td class="mono" style="white-space:nowrap; width:12%;">8:30 AM</td>
+          <td><div class="asset-name"><div class="asset-dot"></div>Core CPI YoY</div></td>
+          <td style="color:var(--dim); white-space:nowrap; width:10%;">USD</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">2.8%</td>
+          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">2.9%</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
+        </tr>
+        <tr>
+          <td style="color:var(--dim); white-space:nowrap; width:12%;">10 Jun Wed</td>
+          <td class="mono" style="white-space:nowrap; width:12%;">8:30 AM</td>
+          <td><div class="asset-name"><div class="asset-dot"></div>CPI MoM</div></td>
+          <td style="color:var(--dim); white-space:nowrap; width:10%;">USD</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">0.6%</td>
+          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">0.5%</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
+        </tr>
+        <tr>
+          <td style="color:var(--dim); white-space:nowrap; width:12%;">10 Jun Wed</td>
+          <td class="mono" style="white-space:nowrap; width:12%;">8:30 AM</td>
+          <td><div class="asset-name"><div class="asset-dot"></div>CPI YoY</div></td>
+          <td style="color:var(--dim); white-space:nowrap; width:10%;">USD</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">3.8%</td>
+          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">4.2%</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
+        </tr>
+        <tr>
+          <td style="color:var(--dim); white-space:nowrap; width:12%;">11 Jun Thu</td>
+          <td class="mono" style="white-space:nowrap; width:12%;">8:15 AM</td>
+          <td><div class="asset-name"><div class="asset-dot"></div>Main Refinancing Rate</div></td>
+          <td style="color:var(--dim); white-space:nowrap; width:10%;">EUR</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">2.15%</td>
+          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">2.40%</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
+        </tr>
+        <tr>
+          <td style="color:var(--dim); white-space:nowrap; width:12%;">11 Jun Thu</td>
+          <td class="mono" style="white-space:nowrap; width:12%;">8:15 AM</td>
+          <td><div class="asset-name"><div class="asset-dot"></div>Monetary Policy Statement</div></td>
+          <td style="color:var(--dim); white-space:nowrap; width:10%;">EUR</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
+          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">—</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
+        </tr>
+        <tr>
+          <td style="color:var(--dim); white-space:nowrap; width:12%;">11 Jun Thu</td>
+          <td class="mono" style="white-space:nowrap; width:12%;">8:30 AM</td>
+          <td><div class="asset-name"><div class="asset-dot"></div>Core PPI MoM</div></td>
+          <td style="color:var(--dim); white-space:nowrap; width:10%;">USD</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">1.0%</td>
+          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">0.5%</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
+        </tr>
+        <tr>
+          <td style="color:var(--dim); white-space:nowrap; width:12%;">11 Jun Thu</td>
+          <td class="mono" style="white-space:nowrap; width:12%;">8:30 AM</td>
+          <td><div class="asset-name"><div class="asset-dot"></div>PPI MoM</div></td>
+          <td style="color:var(--dim); white-space:nowrap; width:10%;">USD</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">1.4%</td>
+          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">0.7%</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
+        </tr>
+        <tr>
+          <td style="color:var(--dim); white-space:nowrap; width:12%;">11 Jun Thu</td>
+          <td class="mono" style="white-space:nowrap; width:12%;">8:30 AM</td>
+          <td><div class="asset-name"><div class="asset-dot"></div>Unemployment Claims</div></td>
+          <td style="color:var(--dim); white-space:nowrap; width:10%;">USD</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">225K</td>
+          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">220K</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
+        </tr>
+        <tr>
+          <td style="color:var(--dim); white-space:nowrap; width:12%;">12 Jun Fri</td>
+          <td class="mono" style="white-space:nowrap; width:12%;">10:00 AM</td>
+          <td><div class="asset-name"><div class="asset-dot"></div>Prelim UoM Consumer Sentiment</div></td>
+          <td style="color:var(--dim); white-space:nowrap; width:10%;">USD</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">48.2</td>
+          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">46.1</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
+        </tr>
+        <tr>
+          <td style="color:var(--dim); white-space:nowrap; width:12%;">12 Jun Fri</td>
+          <td class="mono" style="white-space:nowrap; width:12%;">10:00 AM</td>
+          <td><div class="asset-name"><div class="asset-dot"></div>Prelim UoM Inflation Expectations</div></td>
+          <td style="color:var(--dim); white-space:nowrap; width:10%;">USD</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">4.5%</td>
+          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">—</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
+        </tr>
+      </tbody>
+    </table>
+    
+        
+    
+        
+    <div class="section-divider">
+      <span class="section-title">EQUITIES & COMMODITIES</span>
+      <div class="section-line"></div>
+    </div>
+    
+        
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Asset</th>
+          <th>Price</th>
+          <th>24H</th>
+          <th>7D</th>
+          <th>30D</th>
+          <th style="text-align:center; width:60px;">Trend</th>
+        </tr></thead>
+      <tbody>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">AAPL</strong>&nbsp;<span style="color:var(--dim); font-size:10px;">Apple</span></div></td>
+              <td class="mono" style="font-weight:600;">295.63</td>
+              <td class="mono up">▲ +1.39%</td>
+              <td class="mono down">▼ -5.01%</td>
+              <td class="mono up">▲ +0.28%</td>
+              <td style="text-align:center;">
+            <svg width="40" height="6" style="vertical-align:middle; background:var(--bg3); border-radius:3px;">
+              <rect x="0" y="0" width="56%" height="6" fill="var(--green)"/>
+            </svg>
+            </td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">MSFT</strong>&nbsp;<span style="color:var(--dim); font-size:10px;">Microsoft</span></div></td>
+              <td class="mono" style="font-weight:600;">390.34</td>
+              <td class="mono down">▼ -1.77%</td>
+              <td class="mono down">▼ -8.81%</td>
+              <td class="mono down">▼ -4.07%</td>
+              <td style="text-align:center;">
+            <svg width="40" height="6" style="vertical-align:middle; background:var(--bg3); border-radius:3px;">
+              <rect x="0" y="0" width="41%" height="6" fill="var(--red)"/>
+            </svg>
+            </td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">GOOGL</strong>&nbsp;<span style="color:var(--dim); font-size:10px;">Alphabet (Google)</span></div></td>
+              <td class="mono" style="font-weight:600;">357.77</td>
+              <td class="mono up">▲ +0.39%</td>
+              <td class="mono down">▼ -3.82%</td>
+              <td class="mono down">▼ -7.58%</td>
+              <td style="text-align:center;">
+            <svg width="40" height="6" style="vertical-align:middle; background:var(--bg3); border-radius:3px;">
+              <rect x="0" y="0" width="51%" height="6" fill="var(--green)"/>
+            </svg>
+            </td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">AMZN</strong>&nbsp;<span style="color:var(--dim); font-size:10px;">Amazon</span></div></td>
+              <td class="mono" style="font-weight:600;">241.51</td>
+              <td class="mono up">▲ +1.47%</td>
+              <td class="mono down">▼ -4.84%</td>
+              <td class="mono down">▼ -9.15%</td>
+              <td style="text-align:center;">
+            <svg width="40" height="6" style="vertical-align:middle; background:var(--bg3); border-radius:3px;">
+              <rect x="0" y="0" width="57%" height="6" fill="var(--green)"/>
+            </svg>
+            </td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">NVDA</strong>&nbsp;<span style="color:var(--dim); font-size:10px;">NVIDIA</span></div></td>
+              <td class="mono" style="font-weight:600;">204.87</td>
+              <td class="mono up">▲ +2.22%</td>
+              <td class="mono down">▼ -6.31%</td>
+              <td class="mono down">▼ -7.10%</td>
+              <td style="text-align:center;">
+            <svg width="40" height="6" style="vertical-align:middle; background:var(--bg3); border-radius:3px;">
+              <rect x="0" y="0" width="61%" height="6" fill="var(--green)"/>
+            </svg>
+            </td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">META</strong>&nbsp;<span style="color:var(--dim); font-size:10px;">Meta</span></div></td>
+              <td class="mono" style="font-weight:600;">568.43</td>
+              <td class="mono down">▼ -0.45%</td>
+              <td class="mono down">▼ -9.42%</td>
+              <td class="mono down">▼ -5.73%</td>
+              <td style="text-align:center;">
+            <svg width="40" height="6" style="vertical-align:middle; background:var(--bg3); border-radius:3px;">
+              <rect x="0" y="0" width="47%" height="6" fill="var(--red)"/>
+            </svg>
+            </td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">TSLA</strong>&nbsp;<span style="color:var(--dim); font-size:10px;">Tesla</span></div></td>
+              <td class="mono" style="font-weight:600;">399.15</td>
+              <td class="mono up">▲ +4.60%</td>
+              <td class="mono down">▼ -4.61%</td>
+              <td class="mono down">▼ -7.91%</td>
+              <td style="text-align:center;">
+            <svg width="40" height="6" style="vertical-align:middle; background:var(--bg3); border-radius:3px;">
+              <rect x="0" y="0" width="73%" height="6" fill="var(--green)"/>
+            </svg>
+            </td>
+            </tr></tbody>
+    </table>
+    
+        <div style="margin-top:16px;"></div>
+        
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Asset</th>
+          <th>Price</th>
+          <th>24H</th>
+          <th>7D</th>
+          <th>30D</th>
+          <th style="text-align:center; width:60px;">Trend</th>
+        </tr></thead>
+      <tbody>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">XAU</strong>&nbsp;<span style="color:var(--dim); font-size:10px;">Gold</span></div></td>
+              <td class="mono" style="font-weight:600;">$4,197.90</td>
+              <td class="mono up">▲ +2.63%</td>
+              <td class="mono down">▼ -3.21%</td>
+              <td class="mono down">▼ -10.64%</td>
+              <td style="text-align:center;">
+            <svg width="40" height="6" style="vertical-align:middle; background:var(--bg3); border-radius:3px;">
+              <rect x="0" y="0" width="63%" height="6" fill="var(--green)"/>
+            </svg>
+            </td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">XAG</strong>&nbsp;<span style="color:var(--dim); font-size:10px;">Silver</span></div></td>
+              <td class="mono" style="font-weight:600;">$66.17</td>
+              <td class="mono up">▲ +3.58%</td>
+              <td class="mono down">▼ -4.02%</td>
+              <td class="mono down">▼ -25.56%</td>
+              <td style="text-align:center;">
+            <svg width="40" height="6" style="vertical-align:middle; background:var(--bg3); border-radius:3px;">
+              <rect x="0" y="0" width="67%" height="6" fill="var(--green)"/>
+            </svg>
+            </td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">HG</strong>&nbsp;<span style="color:var(--dim); font-size:10px;">Copper</span></div></td>
+              <td class="mono" style="font-weight:600;">$6.37</td>
+              <td class="mono up">▲ +1.81%</td>
+              <td class="mono up">▲ +1.74%</td>
+              <td class="mono down">▼ -3.96%</td>
+              <td style="text-align:center;">
+            <svg width="40" height="6" style="vertical-align:middle; background:var(--bg3); border-radius:3px;">
+              <rect x="0" y="0" width="59%" height="6" fill="var(--green)"/>
+            </svg>
+            </td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">NG</strong>&nbsp;<span style="color:var(--dim); font-size:10px;">Natural Gas</span></div></td>
+              <td class="mono" style="font-weight:600;">$3.07</td>
+              <td class="mono down">▼ -0.42%</td>
+              <td class="mono down">▼ -4.80%</td>
+              <td class="mono up">▲ +7.33%</td>
+              <td style="text-align:center;">
+            <svg width="40" height="6" style="vertical-align:middle; background:var(--bg3); border-radius:3px;">
+              <rect x="0" y="0" width="47%" height="6" fill="var(--red)"/>
+            </svg>
+            </td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">CC</strong>&nbsp;<span style="color:var(--dim); font-size:10px;">Cocoa</span></div></td>
+              <td class="mono" style="font-weight:600;">$3,710.00</td>
+              <td class="mono down">▼ -1.25%</td>
+              <td class="mono down">▼ -6.43%</td>
+              <td class="mono down">▼ -17.61%</td>
+              <td style="text-align:center;">
+            <svg width="40" height="6" style="vertical-align:middle; background:var(--bg3); border-radius:3px;">
+              <rect x="0" y="0" width="43%" height="6" fill="var(--red)"/>
+            </svg>
+            </td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">KC</strong>&nbsp;<span style="color:var(--dim); font-size:10px;">Coffee</span></div></td>
+              <td class="mono" style="font-weight:600;">$253.95</td>
+              <td class="mono up">▲ +2.23%</td>
+              <td class="mono up">▲ +2.75%</td>
+              <td class="mono down">▼ -13.86%</td>
+              <td style="text-align:center;">
+            <svg width="40" height="6" style="vertical-align:middle; background:var(--bg3); border-radius:3px;">
+              <rect x="0" y="0" width="61%" height="6" fill="var(--green)"/>
+            </svg>
+            </td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">BZ</strong>&nbsp;<span style="color:var(--dim); font-size:10px;">Brent Oil</span></div></td>
+              <td class="mono" style="font-weight:600;">$88.57</td>
+              <td class="mono down">▼ -2.00%</td>
+              <td class="mono down">▼ -4.86%</td>
+              <td class="mono down">▼ -16.15%</td>
+              <td style="text-align:center;">
+            <svg width="40" height="6" style="vertical-align:middle; background:var(--bg3); border-radius:3px;">
+              <rect x="0" y="0" width="39%" height="6" fill="var(--red)"/>
+            </svg>
+            </td>
+            </tr></tbody>
+    </table>
+    
+        
+    
+        <div style="display:flex; align-items:center; gap:8px; margin:24px 0 12px 0;">
+          <span style="font-family:var(--sans); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--text); white-space:nowrap;">S&P 500 Sectors</span>
+          <div style="flex:1; height:0.5px; background:var(--border);"></div>
+        </div>
+        <div class="sp500-grid">
+          
+            <div style="background:rgba(16,185,129,0.04); border:1px solid rgba(16,185,129,0.18); padding:8px; text-align:center; border-radius:4px;">
+              <div style="font-size:7.5px; color:var(--dim); text-transform:uppercase; margin-bottom:2px;">Technology</div>
+              <div style="font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text); margin-bottom:2px;">XLK</div>
+              <div class="up" style="font-family:var(--mono); font-size:10px;">▲ +3.73%</div>
+            </div>
+            <div style="background:rgba(16,185,129,0.04); border:1px solid rgba(16,185,129,0.18); padding:8px; text-align:center; border-radius:4px;">
+              <div style="font-size:7.5px; color:var(--dim); text-transform:uppercase; margin-bottom:2px;">Materials</div>
+              <div style="font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text); margin-bottom:2px;">XLB</div>
+              <div class="up" style="font-family:var(--mono); font-size:10px;">▲ +3.27%</div>
+            </div>
+            <div style="background:rgba(16,185,129,0.04); border:1px solid rgba(16,185,129,0.18); padding:8px; text-align:center; border-radius:4px;">
+              <div style="font-size:7.5px; color:var(--dim); text-transform:uppercase; margin-bottom:2px;">Industrials</div>
+              <div style="font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text); margin-bottom:2px;">XLI</div>
+              <div class="up" style="font-family:var(--mono); font-size:10px;">▲ +3.24%</div>
+            </div>
+            <div style="background:rgba(16,185,129,0.04); border:1px solid rgba(16,185,129,0.18); padding:8px; text-align:center; border-radius:4px;">
+              <div style="font-size:7.5px; color:var(--dim); text-transform:uppercase; margin-bottom:2px;">Consumer Discret.</div>
+              <div style="font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text); margin-bottom:2px;">XLY</div>
+              <div class="up" style="font-family:var(--mono); font-size:10px;">▲ +2.48%</div>
+            </div>
+            <div style="background:rgba(16,185,129,0.04); border:1px solid rgba(16,185,129,0.18); padding:8px; text-align:center; border-radius:4px;">
+              <div style="font-size:7.5px; color:var(--dim); text-transform:uppercase; margin-bottom:2px;">Communication</div>
+              <div style="font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text); margin-bottom:2px;">XLC</div>
+              <div class="up" style="font-family:var(--mono); font-size:10px;">▲ +1.00%</div>
+            </div>
+            <div style="background:rgba(16,185,129,0.04); border:1px solid rgba(16,185,129,0.18); padding:8px; text-align:center; border-radius:4px;">
+              <div style="font-size:7.5px; color:var(--dim); text-transform:uppercase; margin-bottom:2px;">Health Care</div>
+              <div style="font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text); margin-bottom:2px;">XLV</div>
+              <div class="up" style="font-family:var(--mono); font-size:10px;">▲ +0.81%</div>
+            </div>
+            <div style="background:rgba(16,185,129,0.04); border:1px solid rgba(16,185,129,0.18); padding:8px; text-align:center; border-radius:4px;">
+              <div style="font-size:7.5px; color:var(--dim); text-transform:uppercase; margin-bottom:2px;">Financials</div>
+              <div style="font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text); margin-bottom:2px;">XLF</div>
+              <div class="up" style="font-family:var(--mono); font-size:10px;">▲ +0.75%</div>
+            </div>
+            <div style="background:rgba(16,185,129,0.04); border:1px solid rgba(16,185,129,0.18); padding:8px; text-align:center; border-radius:4px;">
+              <div style="font-size:7.5px; color:var(--dim); text-transform:uppercase; margin-bottom:2px;">Utilities</div>
+              <div style="font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text); margin-bottom:2px;">XLU</div>
+              <div class="up" style="font-family:var(--mono); font-size:10px;">▲ +0.11%</div>
+            </div>
+            <div style="background:rgba(239,68,68,0.04); border:1px solid rgba(239,68,68,0.18); padding:8px; text-align:center; border-radius:4px;">
+              <div style="font-size:7.5px; color:var(--dim); text-transform:uppercase; margin-bottom:2px;">Real Estate</div>
+              <div style="font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text); margin-bottom:2px;">XLRE</div>
+              <div class="down" style="font-family:var(--mono); font-size:10px;">▼ -0.16%</div>
+            </div>
+            <div style="background:rgba(239,68,68,0.04); border:1px solid rgba(239,68,68,0.18); padding:8px; text-align:center; border-radius:4px;">
+              <div style="font-size:7.5px; color:var(--dim); text-transform:uppercase; margin-bottom:2px;">Consumer Staples</div>
+              <div style="font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text); margin-bottom:2px;">XLP</div>
+              <div class="down" style="font-family:var(--mono); font-size:10px;">▼ -0.26%</div>
+            </div>
+            <div style="background:rgba(239,68,68,0.04); border:1px solid rgba(239,68,68,0.18); padding:8px; text-align:center; border-radius:4px;">
+              <div style="font-size:7.5px; color:var(--dim); text-transform:uppercase; margin-bottom:2px;">Energy</div>
+              <div style="font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text); margin-bottom:2px;">XLE</div>
+              <div class="down" style="font-family:var(--mono); font-size:10px;">▼ -1.94%</div>
+            </div>
+        </div>
+        
+    
+    <div class="section-divider">
+      <span class="section-title">CRYPTO DESK</span>
+      <div class="section-line"></div>
+    </div>
+    
+    
+    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+      
+        <div class="kpi-card">
+          <div class="kpi-label">TOTAL MARKET CAP</div>
+          <div class="kpi-value">$2.24T</div>
+          <div class="kpi-change "></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">BTC DOMINANCE</div>
+          <div class="kpi-value">56.3%</div>
+          <div class="kpi-change "></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">FEAR & GREED</div>
+          <div class="kpi-value">12</div>
+          <div class="kpi-change down">Extreme Fear</div>
+        </div>
+    </div>
+    
+        <div style="font-size:11px; color:var(--dim); line-height:1.5; margin-bottom:24px; background:var(--bg2); padding:10px 14px; border-left:3px solid var(--accent); border-radius:0 4px 4px 0;">
+          <strong style="color:var(--text);">Analyst Note:</strong> 2s10s spread remains low at 0.33 bp, while stablecoin market cap declined 0.06% and despite SMH's 6.75% surge, overall risk appetite remains weak.
+        </div>
+    
+    
+    
+    <div class="section-divider">
+      <span class="section-title">DERIVATIVES DESK</span>
+      <div class="section-line"></div>
+    </div>
+    
+    
+    <div class="sparkline-wrap" style="page-break-inside: avoid; break-inside: avoid;">
+      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:14px;">
+        <tr>
+          <td valign="middle" style="vertical-align:middle;">
+            <table cellpadding="0" cellspacing="0"><tr>
+              <td style="font-family:var(--mono); font-size:22px; font-weight:600; color:var(--text); padding-right:12px;">$62,963</td>
+              <td class="up" style="font-family:var(--mono); font-size:13px;">▲ +0.42%</td>
+            </tr></table>
+          </td>
+          <td valign="middle" style="vertical-align:middle; text-align:right;">
+            <table cellpadding="0" cellspacing="0" style="display:inline-block; font-family:var(--sans); font-size:11px;">
+              <tr>
+                <td style="padding-right:24px; text-align:center;"><div style="color:var(--dim); margin-bottom:3px;">Support Level</div><div style="font-family:var(--mono); color:var(--green); font-size:13px;">$61,078</div></td>
+                <td style="text-align:center;"><div style="color:var(--dim); margin-bottom:3px;">Resistance Level</div><div style="font-family:var(--mono); color:var(--red); font-size:13px;">$63,630</div></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <div style="padding:10px 14px; background:var(--bg3); border-left:3px solid #f59e0b; border-radius:0 4px 4px 0; font-family:var(--sans); font-size:12px; color:var(--dim); line-height:1.65;">
+        Price at <strong>$62,963</strong> is holding above <strong>support</strong> ($61,078), with <strong>resistance</strong> at $63,630.
+      </div>
+    </div>
+    
+    
+    
+    <div style="margin-top:24px; margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:6px;">
+      <span style="font-size:11px; letter-spacing:1px; text-transform:uppercase; color:var(--gold); font-weight:600;">COINBASE PREMIUM INDEX — 7D</span>
+    </div>
+    <div class="sparkline-wrap" style="padding:20px 24px; background:var(--bg2); border:1px solid var(--border); border-radius:6px; margin-bottom:20px; page-break-inside: avoid; break-inside: avoid;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+        <div>
+          <div style="font-size:12px; color:var(--dim); margin-bottom:4px;">BTC/USD · Coinbase vs Global Spread (1H Bars)</div>
+          <div style="font-family:var(--mono); font-size:26px; color:var(--text); font-weight:700;">-0.1211%</div>
+          <div style="font-size:11px; color: var(--red); font-weight: 600; margin-top:2px;">▼ US selling pressure</div>
+        </div>
+        <div style="display:flex; gap:24px; font-size:11px; color:var(--dim);">
+          <div style="text-align:right;">
+            <div style="font-family:var(--mono); color:var(--text); font-size:13px; font-weight:600;">-0.088%</div>
+            <div style="margin-top:2px;">24h High</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-family:var(--mono); color:var(--text); font-size:13px; font-weight:600;">-0.148%</div>
+            <div style="margin-top:2px;">24h Low</div>
+          </div>
+        </div>
+      </div>
+      
+      <div style="position:relative; margin-bottom:16px; margin-top:10px;">
+        
+    <svg width="100%" viewBox="0 0 600 140" preserveAspectRatio="none" style="display:block; overflow:visible;">
+      <line x1="0" y1="65" x2="600" y2="65" stroke="var(--border)" stroke-width="0.5"/>
+      <rect x="0.0" y="65.0" width="2.6" height="31.0" fill="#ef4444" rx="0.5"/><rect x="3.6" y="65.0" width="2.6" height="33.5" fill="#ef4444" rx="0.5"/><rect x="7.2" y="65.0" width="2.6" height="34.0" fill="#ef4444" rx="0.5"/><rect x="10.7" y="65.0" width="2.6" height="40.0" fill="#ef4444" rx="0.5"/><rect x="14.3" y="65.0" width="2.6" height="29.2" fill="#ef4444" rx="0.5"/><rect x="17.9" y="65.0" width="2.6" height="32.3" fill="#ef4444" rx="0.5"/><rect x="21.5" y="65.0" width="2.6" height="31.0" fill="#ef4444" rx="0.5"/><rect x="25.0" y="65.0" width="2.6" height="30.7" fill="#ef4444" rx="0.5"/><rect x="28.6" y="65.0" width="2.6" height="27.5" fill="#ef4444" rx="0.5"/><rect x="32.2" y="65.0" width="2.6" height="37.8" fill="#ef4444" rx="0.5"/><rect x="35.8" y="65.0" width="2.6" height="30.7" fill="#ef4444" rx="0.5"/><rect x="39.4" y="65.0" width="2.6" height="22.2" fill="#ef4444" rx="0.5"/><rect x="42.9" y="65.0" width="2.6" height="14.5" fill="#ef4444" rx="0.5"/><rect x="46.5" y="65.0" width="2.6" height="17.5" fill="#ef4444" rx="0.5"/><rect x="50.1" y="65.0" width="2.6" height="11.7" fill="#ef4444" rx="0.5"/><rect x="53.7" y="65.0" width="2.6" height="14.8" fill="#ef4444" rx="0.5"/><rect x="57.2" y="65.0" width="2.6" height="15.9" fill="#ef4444" rx="0.5"/><rect x="60.8" y="65.0" width="2.6" height="20.1" fill="#ef4444" rx="0.5"/><rect x="64.4" y="65.0" width="2.6" height="17.5" fill="#ef4444" rx="0.5"/><rect x="68.0" y="65.0" width="2.6" height="14.2" fill="#ef4444" rx="0.5"/><rect x="71.5" y="65.0" width="2.6" height="15.1" fill="#ef4444" rx="0.5"/><rect x="75.1" y="65.0" width="2.6" height="19.4" fill="#ef4444" rx="0.5"/><rect x="78.7" y="65.0" width="2.6" height="16.8" fill="#ef4444" rx="0.5"/><rect x="82.3" y="65.0" width="2.6" height="18.7" fill="#ef4444" rx="0.5"/><rect x="85.9" y="65.0" width="2.6" height="16.9" fill="#ef4444" rx="0.5"/><rect x="89.4" y="65.0" width="2.6" height="21.0" fill="#ef4444" rx="0.5"/><rect x="93.0" y="65.0" width="2.6" height="22.7" fill="#ef4444" rx="0.5"/><rect x="96.6" y="65.0" width="2.6" height="16.7" fill="#ef4444" rx="0.5"/><rect x="100.2" y="65.0" width="2.6" height="19.8" fill="#ef4444" rx="0.5"/><rect x="103.7" y="65.0" width="2.6" height="16.4" fill="#ef4444" rx="0.5"/><rect x="107.3" y="65.0" width="2.6" height="16.8" fill="#ef4444" rx="0.5"/><rect x="110.9" y="65.0" width="2.6" height="21.9" fill="#ef4444" rx="0.5"/><rect x="114.5" y="65.0" width="2.6" height="14.4" fill="#ef4444" rx="0.5"/><rect x="118.1" y="65.0" width="2.6" height="16.7" fill="#ef4444" rx="0.5"/><rect x="121.6" y="65.0" width="2.6" height="20.3" fill="#ef4444" rx="0.5"/><rect x="125.2" y="65.0" width="2.6" height="23.2" fill="#ef4444" rx="0.5"/><rect x="128.8" y="65.0" width="2.6" height="17.7" fill="#ef4444" rx="0.5"/><rect x="132.4" y="65.0" width="2.6" height="19.7" fill="#ef4444" rx="0.5"/><rect x="135.9" y="65.0" width="2.6" height="19.9" fill="#ef4444" rx="0.5"/><rect x="139.5" y="65.0" width="2.6" height="20.8" fill="#ef4444" rx="0.5"/><rect x="143.1" y="65.0" width="2.6" height="19.5" fill="#ef4444" rx="0.5"/><rect x="146.7" y="65.0" width="2.6" height="22.8" fill="#ef4444" rx="0.5"/><rect x="150.2" y="65.0" width="2.6" height="21.6" fill="#ef4444" rx="0.5"/><rect x="153.8" y="65.0" width="2.6" height="18.2" fill="#ef4444" rx="0.5"/><rect x="157.4" y="65.0" width="2.6" height="21.2" fill="#ef4444" rx="0.5"/><rect x="161.0" y="65.0" width="2.6" height="19.7" fill="#ef4444" rx="0.5"/><rect x="164.6" y="65.0" width="2.6" height="14.8" fill="#ef4444" rx="0.5"/><rect x="168.1" y="65.0" width="2.6" height="17.9" fill="#ef4444" rx="0.5"/><rect x="171.7" y="65.0" width="2.6" height="18.2" fill="#ef4444" rx="0.5"/><rect x="175.3" y="65.0" width="2.6" height="14.9" fill="#ef4444" rx="0.5"/><rect x="178.9" y="65.0" width="2.6" height="14.9" fill="#ef4444" rx="0.5"/><rect x="182.4" y="65.0" width="2.6" height="13.0" fill="#ef4444" rx="0.5"/><rect x="186.0" y="65.0" width="2.6" height="17.9" fill="#ef4444" rx="0.5"/><rect x="189.6" y="65.0" width="2.6" height="16.0" fill="#ef4444" rx="0.5"/><rect x="193.2" y="65.0" width="2.6" height="20.8" fill="#ef4444" rx="0.5"/><rect x="196.8" y="65.0" width="2.6" height="15.0" fill="#ef4444" rx="0.5"/><rect x="200.3" y="65.0" width="2.6" height="17.6" fill="#ef4444" rx="0.5"/><rect x="203.9" y="65.0" width="2.6" height="19.1" fill="#ef4444" rx="0.5"/><rect x="207.5" y="65.0" width="2.6" height="19.0" fill="#ef4444" rx="0.5"/><rect x="211.1" y="65.0" width="2.6" height="18.1" fill="#ef4444" rx="0.5"/><rect x="214.6" y="65.0" width="2.6" height="23.4" fill="#ef4444" rx="0.5"/><rect x="218.2" y="65.0" width="2.6" height="17.9" fill="#ef4444" rx="0.5"/><rect x="221.8" y="65.0" width="2.6" height="18.5" fill="#ef4444" rx="0.5"/><rect x="225.4" y="65.0" width="2.6" height="17.1" fill="#ef4444" rx="0.5"/><rect x="229.0" y="65.0" width="2.6" height="14.8" fill="#ef4444" rx="0.5"/><rect x="232.5" y="65.0" width="2.6" height="17.0" fill="#ef4444" rx="0.5"/><rect x="236.1" y="65.0" width="2.6" height="21.7" fill="#ef4444" rx="0.5"/><rect x="239.7" y="65.0" width="2.6" height="23.5" fill="#ef4444" rx="0.5"/><rect x="243.3" y="65.0" width="2.6" height="22.8" fill="#ef4444" rx="0.5"/><rect x="246.8" y="65.0" width="2.6" height="23.0" fill="#ef4444" rx="0.5"/><rect x="250.4" y="65.0" width="2.6" height="20.2" fill="#ef4444" rx="0.5"/><rect x="254.0" y="65.0" width="2.6" height="25.7" fill="#ef4444" rx="0.5"/><rect x="257.6" y="65.0" width="2.6" height="27.5" fill="#ef4444" rx="0.5"/><rect x="261.1" y="65.0" width="2.6" height="31.3" fill="#ef4444" rx="0.5"/><rect x="264.7" y="65.0" width="2.6" height="37.3" fill="#ef4444" rx="0.5"/><rect x="268.3" y="65.0" width="2.6" height="29.0" fill="#ef4444" rx="0.5"/><rect x="271.9" y="65.0" width="2.6" height="27.3" fill="#ef4444" rx="0.5"/><rect x="275.5" y="65.0" width="2.6" height="27.9" fill="#ef4444" rx="0.5"/><rect x="279.0" y="65.0" width="2.6" height="12.0" fill="#ef4444" rx="0.5"/><rect x="282.6" y="65.0" width="2.6" height="18.3" fill="#ef4444" rx="0.5"/><rect x="286.2" y="65.0" width="2.6" height="25.2" fill="#ef4444" rx="0.5"/><rect x="289.8" y="65.0" width="2.6" height="17.2" fill="#ef4444" rx="0.5"/><rect x="293.3" y="65.0" width="2.6" height="14.5" fill="#ef4444" rx="0.5"/><rect x="296.9" y="65.0" width="2.6" height="11.4" fill="#ef4444" rx="0.5"/><rect x="300.5" y="65.0" width="2.6" height="10.9" fill="#ef4444" rx="0.5"/><rect x="304.1" y="65.0" width="2.6" height="15.8" fill="#ef4444" rx="0.5"/><rect x="307.7" y="65.0" width="2.6" height="8.2" fill="#ef4444" rx="0.5"/><rect x="311.2" y="65.0" width="2.6" height="13.5" fill="#ef4444" rx="0.5"/><rect x="314.8" y="65.0" width="2.6" height="19.0" fill="#ef4444" rx="0.5"/><rect x="318.4" y="65.0" width="2.6" height="14.2" fill="#ef4444" rx="0.5"/><rect x="322.0" y="65.0" width="2.6" height="12.6" fill="#ef4444" rx="0.5"/><rect x="325.5" y="65.0" width="2.6" height="19.5" fill="#ef4444" rx="0.5"/><rect x="329.1" y="65.0" width="2.6" height="25.2" fill="#ef4444" rx="0.5"/><rect x="332.7" y="65.0" width="2.6" height="19.0" fill="#ef4444" rx="0.5"/><rect x="336.3" y="65.0" width="2.6" height="21.1" fill="#ef4444" rx="0.5"/><rect x="339.9" y="65.0" width="2.6" height="23.4" fill="#ef4444" rx="0.5"/><rect x="343.4" y="65.0" width="2.6" height="24.5" fill="#ef4444" rx="0.5"/><rect x="347.0" y="65.0" width="2.6" height="19.8" fill="#ef4444" rx="0.5"/><rect x="350.6" y="65.0" width="2.6" height="22.0" fill="#ef4444" rx="0.5"/><rect x="354.2" y="65.0" width="2.6" height="22.3" fill="#ef4444" rx="0.5"/><rect x="357.7" y="65.0" width="2.6" height="26.7" fill="#ef4444" rx="0.5"/><rect x="361.3" y="65.0" width="2.6" height="24.6" fill="#ef4444" rx="0.5"/><rect x="364.9" y="65.0" width="2.6" height="23.8" fill="#ef4444" rx="0.5"/><rect x="368.5" y="65.0" width="2.6" height="38.0" fill="#ef4444" rx="0.5"/><rect x="372.0" y="65.0" width="2.6" height="31.7" fill="#ef4444" rx="0.5"/><rect x="375.6" y="65.0" width="2.6" height="32.6" fill="#ef4444" rx="0.5"/><rect x="379.2" y="65.0" width="2.6" height="37.6" fill="#ef4444" rx="0.5"/><rect x="382.8" y="65.0" width="2.6" height="31.8" fill="#ef4444" rx="0.5"/><rect x="386.4" y="65.0" width="2.6" height="25.1" fill="#ef4444" rx="0.5"/><rect x="389.9" y="65.0" width="2.6" height="28.3" fill="#ef4444" rx="0.5"/><rect x="393.5" y="65.0" width="2.6" height="21.3" fill="#ef4444" rx="0.5"/><rect x="397.1" y="65.0" width="2.6" height="26.5" fill="#ef4444" rx="0.5"/><rect x="400.7" y="65.0" width="2.6" height="27.1" fill="#ef4444" rx="0.5"/><rect x="404.2" y="65.0" width="2.6" height="26.1" fill="#ef4444" rx="0.5"/><rect x="407.8" y="65.0" width="2.6" height="26.4" fill="#ef4444" rx="0.5"/><rect x="411.4" y="65.0" width="2.6" height="27.5" fill="#ef4444" rx="0.5"/><rect x="415.0" y="65.0" width="2.6" height="27.6" fill="#ef4444" rx="0.5"/><rect x="418.6" y="65.0" width="2.6" height="33.1" fill="#ef4444" rx="0.5"/><rect x="422.1" y="65.0" width="2.6" height="33.0" fill="#ef4444" rx="0.5"/><rect x="425.7" y="65.0" width="2.6" height="27.9" fill="#ef4444" rx="0.5"/><rect x="429.3" y="65.0" width="2.6" height="29.3" fill="#ef4444" rx="0.5"/><rect x="432.9" y="65.0" width="2.6" height="27.7" fill="#ef4444" rx="0.5"/><rect x="436.4" y="65.0" width="2.6" height="34.2" fill="#ef4444" rx="0.5"/><rect x="440.0" y="65.0" width="2.6" height="34.3" fill="#ef4444" rx="0.5"/><rect x="443.6" y="65.0" width="2.6" height="30.7" fill="#ef4444" rx="0.5"/><rect x="447.2" y="65.0" width="2.6" height="32.5" fill="#ef4444" rx="0.5"/><rect x="450.8" y="65.0" width="2.6" height="29.8" fill="#ef4444" rx="0.5"/><rect x="454.3" y="65.0" width="2.6" height="34.6" fill="#ef4444" rx="0.5"/><rect x="457.9" y="65.0" width="2.6" height="29.4" fill="#ef4444" rx="0.5"/><rect x="461.5" y="65.0" width="2.6" height="33.1" fill="#ef4444" rx="0.5"/><rect x="465.1" y="65.0" width="2.6" height="38.2" fill="#ef4444" rx="0.5"/><rect x="468.6" y="65.0" width="2.6" height="36.1" fill="#ef4444" rx="0.5"/><rect x="472.2" y="65.0" width="2.6" height="40.2" fill="#ef4444" rx="0.5"/><rect x="475.8" y="65.0" width="2.6" height="37.9" fill="#ef4444" rx="0.5"/><rect x="479.4" y="65.0" width="2.6" height="37.1" fill="#ef4444" rx="0.5"/><rect x="482.9" y="65.0" width="2.6" height="37.1" fill="#ef4444" rx="0.5"/><rect x="486.5" y="65.0" width="2.6" height="29.9" fill="#ef4444" rx="0.5"/><rect x="490.1" y="65.0" width="2.6" height="34.6" fill="#ef4444" rx="0.5"/><rect x="493.7" y="65.0" width="2.6" height="48.3" fill="#ef4444" rx="0.5"/><rect x="497.3" y="65.0" width="2.6" height="52.3" fill="#ef4444" rx="0.5"/><rect x="500.8" y="65.0" width="2.6" height="45.4" fill="#ef4444" rx="0.5"/><rect x="504.4" y="65.0" width="2.6" height="39.4" fill="#ef4444" rx="0.5"/><rect x="508.0" y="65.0" width="2.6" height="50.7" fill="#ef4444" rx="0.5"/><rect x="511.6" y="65.0" width="2.6" height="47.0" fill="#ef4444" rx="0.5"/><rect x="515.1" y="65.0" width="2.6" height="42.1" fill="#ef4444" rx="0.5"/><rect x="518.7" y="65.0" width="2.6" height="45.6" fill="#ef4444" rx="0.5"/><rect x="522.3" y="65.0" width="2.6" height="47.4" fill="#ef4444" rx="0.5"/><rect x="525.9" y="65.0" width="2.6" height="37.6" fill="#ef4444" rx="0.5"/><rect x="529.5" y="65.0" width="2.6" height="41.6" fill="#ef4444" rx="0.5"/><rect x="533.0" y="65.0" width="2.6" height="33.8" fill="#ef4444" rx="0.5"/><rect x="536.6" y="65.0" width="2.6" height="45.0" fill="#ef4444" rx="0.5"/><rect x="540.2" y="65.0" width="2.6" height="40.7" fill="#ef4444" rx="0.5"/><rect x="543.8" y="65.0" width="2.6" height="52.5" fill="#ef4444" rx="0.5"/><rect x="547.3" y="65.0" width="2.6" height="47.8" fill="#ef4444" rx="0.5"/><rect x="550.9" y="65.0" width="2.6" height="44.5" fill="#ef4444" rx="0.5"/><rect x="554.5" y="65.0" width="2.6" height="33.6" fill="#ef4444" rx="0.5"/><rect x="558.1" y="65.0" width="2.6" height="36.0" fill="#ef4444" rx="0.5"/><rect x="561.6" y="65.0" width="2.6" height="32.6" fill="#ef4444" rx="0.5"/><rect x="565.2" y="65.0" width="2.6" height="36.9" fill="#ef4444" rx="0.5"/><rect x="568.8" y="65.0" width="2.6" height="36.4" fill="#ef4444" rx="0.5"/><rect x="572.4" y="65.0" width="2.6" height="43.1" fill="#ef4444" rx="0.5"/><rect x="576.0" y="65.0" width="2.6" height="44.2" fill="#ef4444" rx="0.5"/><rect x="579.5" y="65.0" width="2.6" height="52.0" fill="#ef4444" rx="0.5"/><rect x="583.1" y="65.0" width="2.6" height="55.0" fill="#ef4444" rx="0.5"/><rect x="586.7" y="65.0" width="2.6" height="50.1" fill="#ef4444" rx="0.5"/><rect x="590.3" y="65.0" width="2.6" height="52.7" fill="#ef4444" rx="0.5"/><rect x="593.8" y="65.0" width="2.6" height="48.1" fill="#ef4444" rx="0.5"/><rect x="597.4" y="65.0" width="2.6" height="44.9" fill="#ef4444" rx="0.5"/>
+      <text x="1" y="138" font-size="8" fill="var(--dim)" font-family="var(--mono)" text-anchor="middle">08:00</text><text x="119" y="138" font-size="8" fill="var(--dim)" font-family="var(--mono)" text-anchor="middle">17:00</text><text x="237" y="138" font-size="8" fill="var(--dim)" font-family="var(--mono)" text-anchor="middle">02:00</text><text x="359" y="138" font-size="8" fill="var(--dim)" font-family="var(--mono)" text-anchor="middle">12:00</text><text x="477" y="138" font-size="8" fill="var(--dim)" font-family="var(--mono)" text-anchor="middle">21:00</text><text x="599" y="138" font-size="8" fill="var(--dim)" font-family="var(--mono)" text-anchor="middle">07:00</text>
+      <text x="596" y="18" font-size="7.5" fill="var(--dim)" font-family="var(--mono)" text-anchor="end">+0.148%</text><text x="596" y="63.0" font-size="7.5" fill="var(--dim)" font-family="var(--mono)" text-anchor="end">0</text><text x="596" y="118" font-size="7.5" fill="var(--dim)" font-family="var(--mono)" text-anchor="end">-0.148%</text>
+    </svg>
+    
+      </div>
+      
+      <div style="padding:10px 14px; background:var(--bg3); border:1px solid var(--border); border-radius:4px; font-family:var(--sans); font-size:11.5px; color:var(--dim); line-height:1.6;">
+        <strong style="color:var(--gold2);">Reading Guide:</strong> Positive values indicate US institutional buying pressure. Sustained positive premium is a bullish signal for BTC.
+      </div>
+    </div>
+    
+    
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:20px; page-break-inside:avoid; break-inside:avoid;">
+      <div style="background:var(--bg2); border:1px solid var(--border); border-radius:4px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--dim); letter-spacing:0.5px; margin-bottom:12px;">FEAR & GREED</div>
+        
+    <svg viewBox="0 0 400 240" width="200" height="120" xmlns="http://www.w3.org/2000/svg" style="overflow:visible; display:block; margin:0 auto;">
+      <path d="M 90.0,180.0 A 110,110 0 0,1 122.2,102.2 L 136.4,116.4 A 90,90 0 0,0 110.0,180.0 Z" fill="#ef4444" opacity="0.8"/><path d="M 122.2,102.2 A 110,110 0 0,1 182.8,71.4 L 185.9,91.1 A 90,90 0 0,0 136.4,116.4 Z" fill="#f87171" opacity="0.8"/><path d="M 182.8,71.4 A 110,110 0 0,1 217.2,71.4 L 214.1,91.1 A 90,90 0 0,0 185.9,91.1 Z" fill="#fbbf24" opacity="0.8"/><path d="M 217.2,71.4 A 110,110 0 0,1 277.8,102.2 L 263.6,116.4 A 90,90 0 0,0 214.1,91.1 Z" fill="#4ade80" opacity="0.8"/><path d="M 277.8,102.2 A 110,110 0 0,1 310.0,180.0 L 290.0,180.0 A 90,90 0 0,0 263.6,116.4 Z" fill="#22c55e" opacity="0.8"/>
+      <line x1="93.0" y1="180.0" x2="84.0" y2="180.0" stroke="var(--border)" stroke-width="1.5"/><line x1="98.2" y1="146.9" x2="89.7" y2="144.2" stroke="var(--border)" stroke-width="1.5"/><line x1="113.4" y1="117.1" x2="106.2" y2="111.8" stroke="var(--border)" stroke-width="1.5"/><line x1="137.1" y1="93.4" x2="131.8" y2="86.2" stroke="var(--border)" stroke-width="1.5"/><line x1="166.9" y1="78.2" x2="164.2" y2="69.7" stroke="var(--border)" stroke-width="1.5"/><line x1="200.0" y1="73.0" x2="200.0" y2="64.0" stroke="var(--border)" stroke-width="1.5"/><line x1="233.1" y1="78.2" x2="235.8" y2="69.7" stroke="var(--border)" stroke-width="1.5"/><line x1="262.9" y1="93.4" x2="268.2" y2="86.2" stroke="var(--border)" stroke-width="1.5"/><line x1="286.6" y1="117.1" x2="293.8" y2="111.8" stroke="var(--border)" stroke-width="1.5"/><line x1="301.8" y1="146.9" x2="310.3" y2="144.2" stroke="var(--border)" stroke-width="1.5"/><line x1="307.0" y1="180.0" x2="316.0" y2="180.0" stroke="var(--border)" stroke-width="1.5"/>
+      <polygon points="123.8,149.8 197.8,185.6 202.2,174.4" fill="#ef4444" opacity="0.95"/><circle cx="200.0" cy="180" r="5" fill="#ef4444"/>
+      <text x="200.0" y="170" text-anchor="middle" fill="var(--text)" font-family="var(--mono)" font-size="34" font-weight="700">12</text>
+      <text x="200.0" y="195" text-anchor="middle" fill="var(--dim)" font-family="var(--sans)" font-size="12" font-weight="600" letter-spacing="0.5">EXTREME FEAR</text>
+    </svg>
+    
+      </div>
+      
+    <div style="background:var(--bg2); border:1px solid var(--border); border-radius:4px; padding:16px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+        <div style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--dim); letter-spacing:0.5px;">Futures Term Structure & Positioning</div>
+        <div style="font-family:var(--mono); font-size:9px; padding:2px 8px; border-radius:3px; font-weight:600; text-transform:uppercase; background:rgba(245,158,11,0.1); color:var(--gold); border:1px solid rgba(245,158,11,0.25);">Neutral</div>
+      </div>
+      <div style="display:flex; gap:24px; margin-bottom:12px;">
+        <div>
+          <div style="font-family:var(--sans); font-size:9px; font-weight:500; text-transform:uppercase; color:var(--dim); letter-spacing:1px; margin-bottom:4px;">BTC Basis</div>
+          <div style="font-family:var(--mono); font-size:16px; font-weight:600; color:var(--text);">0.00%</div>
+        </div>
+        <div>
+          <div style="font-family:var(--sans); font-size:9px; font-weight:500; text-transform:uppercase; color:var(--dim); letter-spacing:1px; margin-bottom:4px;">ETH Basis</div>
+          <div style="font-family:var(--mono); font-size:16px; font-weight:600; color:var(--text);">0.00%</div>
+        </div>
+      </div>
+      <div style="font-family:var(--sans); font-size:11px; color:var(--dim); line-height:1.5;">
+        Negative funding rates across BTC, ETH, and particularly SOL (-0.43%) indicate short position dominance and strong bearish sentiment in the market.
+      </div>
+    </div>
+    
+    </div>
+    
+    
+    
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:24px; page-break-inside:avoid; break-inside:avoid;">
+      <div style="background:var(--bg2); border:1px solid var(--border); border-radius:4px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--dim); letter-spacing:0.5px; margin-bottom:12px;">Funding Rates (8h Eq.)</div>
+        <table width="100%" style="border-collapse:collapse; font-size:12px;">
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px 0; color:var(--dim);">BTC</td><td class="mono down" align="right">▼ -0.00%</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px 0; color:var(--dim);">ETH</td><td class="mono down" align="right">▼ -0.01%</td></tr>
+          <tr><td style="padding:6px 0; color:var(--dim);">SOL</td><td class="mono down" align="right">▼ -0.43%</td></tr>
+        </table>
+      </div>
+      <div style="background:var(--bg2); border:1px solid var(--border); border-radius:4px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--dim); letter-spacing:0.5px; margin-bottom:12px;">Open Interest (OI)</div>
+        <table width="100%" style="border-collapse:collapse; font-size:12px;">
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px 0; color:var(--dim);">BTC</td><td class="mono" align="right">117.55M</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px 0; color:var(--dim);">ETH</td><td class="mono" align="right">33.78M</td></tr>
+          <tr><td style="padding:6px 0; color:var(--dim);">SOL</td><td class="mono" align="right">14.09M</td></tr>
+        </table>
+      </div>
+    </div>
+    
+    
+        
+    <div class="section-divider">
+      <span class="section-title">SPOT BITCOIN ETF FLOWS</span>
+      <div class="section-line"></div>
+    </div>
+    
+        <div style="background:var(--bg2); border:1px solid var(--border); border-radius:4px; padding:18px; margin-bottom:24px; page-break-inside:avoid; break-inside:avoid;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+            <div>
+              <div style="font-family:var(--sans); font-size:13px; color:var(--text); font-weight:600;">ETF Daily Net Flows</div>
+              <div style="font-family:var(--mono); font-size:9px; color:var(--dim); margin-top:2px;">11 Jun 2026</div>
+            </div>
+            <div style="font-family:var(--mono); font-size:9px; padding:3px 10px; border-radius:3px; font-weight:600; text-transform:uppercase; background:rgba(239,68,68,0.12); color:var(--red); border:1px solid rgba(239,68,68,0.3);">Outflow</div>
+          </div>
+          <div style="display:flex; gap:28px; margin-bottom:12px;">
+            <div>
+              <div style="font-family:var(--sans); font-size:9px; font-weight:500; text-transform:uppercase; color:var(--dim); letter-spacing:1px; margin-bottom:4px;">Total Flow</div>
+              <div class="down" style="font-family:var(--mono); font-size:17px; font-weight:600;">-22.5M</div>
+            </div>
+            <div>
+              <div style="font-family:var(--sans); font-size:9px; font-weight:500; text-transform:uppercase; color:var(--dim); letter-spacing:1px; margin-bottom:4px;">IBIT (BlackRock)</div>
+              <div class="up" style="font-family:var(--mono); font-size:17px; font-weight:600;">+30.3M</div>
+            </div>
+            <div>
+              <div style="font-family:var(--sans); font-size:9px; font-weight:500; text-transform:uppercase; color:var(--dim); letter-spacing:1px; margin-bottom:4px;">FBTC (Fidelity)</div>
+              <div class="down" style="font-family:var(--mono); font-size:17px; font-weight:600;">-5.5M</div>
+            </div>
+          </div>
+          
+          
+            <div style="margin-top:16px; margin-bottom:16px; border-top:1px solid var(--border); padding-top:16px;">
+              <div style="font-size:10px; font-weight:600; text-transform:uppercase; color:var(--dim); margin-bottom:10px;">Spot ETF Flows History (Last 10 Days)</div>
+              
+    <svg width="100%" viewBox="0 0 600 140" preserveAspectRatio="none" style="display:block; overflow:visible;">
+      <!-- Zero Line -->
+      <line x1="0" y1="65.0" x2="600" y2="65.0" stroke="var(--border)" stroke-width="0.5"/>
+      <!-- Bars -->
+      <rect x="0.0" y="65.0" width="56.4" height="13.3" fill="#ef4444" rx="1"/><rect x="60.4" y="65.0" width="56.4" height="51.3" fill="#ef4444" rx="1"/><rect x="120.8" y="65.0" width="56.4" height="55.0" fill="#ef4444" rx="1"/><rect x="181.2" y="65.0" width="56.4" height="42.0" fill="#ef4444" rx="1"/><rect x="241.6" y="64.0" width="56.4" height="1.0" fill="#10b981" rx="1"/><rect x="302.0" y="65.0" width="56.4" height="34.5" fill="#ef4444" rx="1"/><rect x="362.4" y="65.0" width="56.4" height="9.7" fill="#ef4444" rx="1"/><rect x="422.8" y="65.0" width="56.4" height="8.2" fill="#ef4444" rx="1"/><rect x="483.2" y="65.0" width="56.4" height="22.7" fill="#ef4444" rx="1"/><rect x="543.6" y="65.0" width="56.4" height="2.4" fill="#ef4444" rx="1"/>
+      <!-- Labels -->
+      <text x="28" y="138" font-size="8" fill="var(--dim)" text-anchor="middle" font-family="var(--sans)">29 May</text><text x="149" y="138" font-size="8" fill="var(--dim)" text-anchor="middle" font-family="var(--sans)">02 Jun</text><text x="270" y="138" font-size="8" fill="var(--dim)" text-anchor="middle" font-family="var(--sans)">04 Jun</text><text x="391" y="138" font-size="8" fill="var(--dim)" text-anchor="middle" font-family="var(--sans)">08 Jun</text><text x="511" y="138" font-size="8" fill="var(--dim)" text-anchor="middle" font-family="var(--sans)">10 Jun</text><text x="572" y="138" font-size="8" fill="var(--dim)" text-anchor="middle" font-family="var(--sans)">11 Jun</text>
+      <text x="596" y="18" font-size="7.5" fill="var(--dim)" font-family="var(--mono)" text-anchor="end">+$519M</text><text x="596" y="63.0" font-size="7.5" fill="var(--dim)" font-family="var(--mono)" text-anchor="end">0</text><text x="596" y="118" font-size="7.5" fill="var(--dim)" font-family="var(--mono)" text-anchor="end">-$519M</text>
+    </svg>
+    
+            </div>
+            
+          
+          <div style="font-family:var(--sans); font-size:11px; color:var(--dim); line-height:1.5; background:var(--bg3); padding:10px 14px; border-left:3px solid var(--gold); border-radius:0 4px 4px 0;">
+            <strong style="color:var(--text);">Analyst Note:</strong> While IBIT saw $30.3M inflows, FBTC experienced $5.5M outflows, resulting in $22.5M net outflows reflecting cautious institutional sentiment.
+          </div>
+        </div>
+        
+    
+        
+    <div class="section-divider">
+      <span class="section-title">CRYPTO WATCHLIST</span>
+      <div class="section-line"></div>
+    </div>
+    
+        
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Asset</th>
+          <th>Price</th>
+          <th>1H</th>
+          <th>24H</th>
+          <th>7D</th>
+        </tr></thead>
+      <tbody>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">BTC</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
+              <td class="mono" style="font-weight:600;">$62,963.00</td>
+              <td class="mono down">▼ -0.19%</td>
+              <td class="mono up">▲ +0.42%</td>
+              <td class="mono up">▲ +0.94%</td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">ETH</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
+              <td class="mono" style="font-weight:600;">$1,657.32</td>
+              <td class="mono down">▼ -0.07%</td>
+              <td class="mono up">▲ +0.20%</td>
+              <td class="mono down">▼ -1.57%</td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">XRP</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
+              <td class="mono" style="font-weight:600;">$1.1300</td>
+              <td class="mono up">▲ +0.05%</td>
+              <td class="mono up">▲ +1.52%</td>
+              <td class="mono up">▲ +0.54%</td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">SOL</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
+              <td class="mono" style="font-weight:600;">$66.2100</td>
+              <td class="mono up">▲ +0.07%</td>
+              <td class="mono up">▲ +1.85%</td>
+              <td class="mono up">▲ +0.04%</td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">TRX</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
+              <td class="mono" style="font-weight:600;">$0.312913</td>
+              <td class="mono down">▼ -0.12%</td>
+              <td class="mono down">▼ -2.80%</td>
+              <td class="mono down">▼ -4.34%</td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">DOGE</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
+              <td class="mono" style="font-weight:600;">$0.085564</td>
+              <td class="mono down">▼ -0.40%</td>
+              <td class="mono up">▲ +0.86%</td>
+              <td class="mono up">▲ +2.21%</td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">HYPE</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
+              <td class="mono" style="font-weight:600;">$57.3500</td>
+              <td class="mono down">▼ -0.09%</td>
+              <td class="mono up">▲ +2.78%</td>
+              <td class="mono down">▼ -5.61%</td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">LINK</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
+              <td class="mono" style="font-weight:600;">$7.7900</td>
+              <td class="mono up">▲ +0.15%</td>
+              <td class="mono up">▲ +0.24%</td>
+              <td class="mono up">▲ +1.77%</td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">AVAX</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
+              <td class="mono" style="font-weight:600;">$6.5500</td>
+              <td class="mono down">▼ -0.22%</td>
+              <td class="mono down">▼ -0.67%</td>
+              <td class="mono down">▼ -10.14%</td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">SUI</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
+              <td class="mono" style="font-weight:600;">$0.749497</td>
+              <td class="mono up">▲ +0.29%</td>
+              <td class="mono up">▲ +0.18%</td>
+              <td class="mono up">▲ +6.73%</td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">TON</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
+              <td class="mono" style="font-weight:600;">$1.6900</td>
+              <td class="mono down">▼ -0.23%</td>
+              <td class="mono up">▲ +2.78%</td>
+              <td class="mono up">▲ +9.20%</td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">UNI</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
+              <td class="mono" style="font-weight:600;">$2.4900</td>
+              <td class="mono down">▼ -0.12%</td>
+              <td class="mono down">▼ -0.33%</td>
+              <td class="mono down">▼ -1.70%</td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">AAVE</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
+              <td class="mono" style="font-weight:600;">$63.3200</td>
+              <td class="mono down">▼ -0.30%</td>
+              <td class="mono down">▼ -0.00%</td>
+              <td class="mono down">▼ -5.41%</td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">PEPE</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
+              <td class="mono" style="font-weight:600;">$0.000003</td>
+              <td class="mono down">▼ -0.06%</td>
+              <td class="mono up">▲ +0.45%</td>
+              <td class="mono down">▼ -2.17%</td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">RENDER</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
+              <td class="mono" style="font-weight:600;">$1.6200</td>
+              <td class="mono up">▲ +0.05%</td>
+              <td class="mono up">▲ +2.70%</td>
+              <td class="mono down">▼ -6.18%</td>
+            </tr>
+            <tr>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">JUP</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
+              <td class="mono" style="font-weight:600;">$0.161370</td>
+              <td class="mono up">▲ +0.66%</td>
+              <td class="mono up">▲ +5.16%</td>
+              <td class="mono down">▼ -6.16%</td>
+            </tr></tbody>
+    </table>
+    
+        
+    
+    
+    <div style="margin-top:40px; border-top:1px solid var(--border); padding-top:20px; text-align:center; font-family:var(--sans); font-size:10px; color:var(--dim); line-height:1.75; page-break-inside:avoid; break-inside:avoid;">
+      <p style="margin:0 0 10px 0; font-weight:600; color:var(--text); letter-spacing:1px;">NOCASHFLOW bulletin.</p>
+      <p style="margin:0 0 15px 0;">
+        <a href="https://nocashflow.net/bulletins/daily/2026-06-12.en.html" style="color:var(--accent); text-decoration:none;" target="_blank">Read on Web</a> &nbsp;·&nbsp;
+        <a href="https://nocashflow.net/preferences" style="color:var(--accent); text-decoration:none;" target="_blank">Language</a> &nbsp;·&nbsp;
+        <a href="{{{resend_unsubscribe_url}}}" style="color:var(--accent); text-decoration:none;" target="_blank">Unsubscribe</a>
+      </p>
+      <p style="margin:0 0 10px 0; max-width: 580px; margin-left: auto; margin-right: auto;">This document is for informational purposes only and does not constitute financial, investment, or legal advice. All investment decisions carry risks.</p>
+      <p style="margin:0;">&copy; 2026 nocashflow.net. All rights reserved.</p>
+    </div>
+    
+    
+  </div>
+</body>
+</html>
