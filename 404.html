@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>404 — NoCashFlow</title>
+<meta name="robots" content="noindex"/>
+<meta name="theme-color" content="#000000"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    background: #000; color: #fff;
+    font-family: 'Fraunces', 'Times New Roman', serif;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 24px; gap: 6px;
+  }
+  .logo {
+    font-family: 'IBM Plex Mono', monospace; font-weight: 600;
+    font-size: 13px; letter-spacing: 0.14em; color: rgba(255,255,255,.7);
+    margin-bottom: 28px;
+  }
+  .logo .slash { color: #C98A2B; }
+  .code {
+    font-weight: 700; font-style: italic;
+    font-size: clamp(5rem, 22vw, 11rem); line-height: 1; letter-spacing: -0.02em;
+  }
+  .msg { font-size: clamp(1.1rem, 3vw, 1.6rem); color: rgba(255,255,255,.85); margin-top: 8px; }
+  .msg .tr { display: block; color: rgba(255,255,255,.5); font-size: 0.82em; font-style: italic; margin-top: 4px; }
+  .actions { display: flex; gap: 14px; margin-top: 36px; flex-wrap: wrap; justify-content: center; }
+  .btn {
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 1.05rem;
+    color: #fff; text-decoration: none;
+    border: 1px solid rgba(255,255,255,.55); border-radius: 2px;
+    padding: 12px 30px; transition: all .25s ease;
+  }
+  .btn:hover { background: #fff; color: #000; border-color: #fff; }
+</style>
+</head>
+<body>
+  <div class="logo">NO<span class="slash">/</span>CASHFLOW</div>
+  <div class="code">404</div>
+  <p class="msg">This page didn't make it to print.<span class="tr">Bu sayfa baskıya giremedi.</span></p>
+  <div class="actions">
+    <a class="btn" href="/">Home</a>
+    <a class="btn" href="/tr/">Türkçe</a>
+  </div>
+</body>
+</html>

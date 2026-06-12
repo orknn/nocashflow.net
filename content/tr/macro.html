@@ -1,0 +1,53 @@
+<header class="page-head">
+  <div class="page-eyebrow">Makro Panosu <span class="divider"></span> <span class="muted">Son güncelleme: <span id="last-update">—</span></span></div>
+  <h1 class="page-title">Küresel <em>göstergeler.</em></h1>
+  <p class="page-dek">Küresel ekonominin temel okumaları — Fed, getiri eğrisi, enflasyon ve emtia. Canlı yenilenir.</p>
+</header>
+
+<div class="section">
+  <!-- KPI GRID -->
+  <div class="stat-grid">
+    <div class="stat"><div class="stat-k">VIX · Volatilite</div><div><div class="stat-v" id="m-vix">—</div><div class="stat-chg neu" id="m-vix-c">—</div><div class="stat-spark" id="sp-vix"></div></div></div>
+    <div class="stat"><div class="stat-k">Dolar Endeksi · DXY</div><div><div class="stat-v" id="m-dxy">—</div><div class="stat-chg neu" id="m-dxy-c">—</div><div class="stat-spark" id="sp-dxy"></div></div></div>
+    <div class="stat"><div class="stat-k">ABD 10Y Getiri</div><div><div class="stat-v" id="m-10y">—</div><div class="stat-chg neu" id="m-10y-c">—</div><div class="stat-spark" id="sp-10y"></div></div></div>
+    <div class="stat"><div class="stat-k">ABD 2Y (13h vekil)</div><div><div class="stat-v" id="m-2y">—</div><div class="stat-chg neu" id="m-2y-c">—</div><div class="stat-spark" id="sp-2y"></div></div></div>
+    <div class="stat"><div class="stat-k">Kripto Fear &amp; Greed</div><div><div class="stat-v" id="m-fg">—</div><div class="stat-chg neu" id="m-fg-c">—</div></div></div>
+    <div class="stat"><div class="stat-k">Spread 10Y–2Y</div><div><div class="stat-v" id="m-spread">—</div><div class="stat-chg neu" id="m-spread-c">—</div></div></div>
+  </div>
+
+  <!-- YIELD CURVE -->
+  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">ABD Hazine getiri eğrisi</div><div class="section-meta">Normalize referans</div></div>
+  <div class="card"><div class="card-body">
+    <div class="yield-chart" id="yield-chart"><div class="muted" style="margin:auto;font-size:13px">Yükleniyor…</div></div>
+    <p class="muted" id="yield-note" style="font-family:var(--mono);font-size:11px;letter-spacing:0.04em;margin-top:8px"></p>
+  </div></div>
+
+  <!-- SCOREBOARD -->
+  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Makro skor tablosu</div></div>
+  <div class="card-grid">
+    <div class="acard"><div class="series">Dolar Endeksi · DXY</div><h3 id="sb-dxy" style="font-family:var(--mono);font-weight:500">—</h3><div class="meta" id="sb-dxy-c">—</div><p style="margin-top:12px">Güçlü dolar = emtia baskısı ve gelişen piyasa stresi. 104+ kritik eşik.</p></div>
+    <div class="acard"><div class="series">M2 Para Arzı</div><h3 id="sb-m2" style="font-family:var(--mono);font-weight:500">—</h3><div class="meta" id="sb-m2-c">—</div><p style="margin-top:12px">Fed bilançosuyla birlikte küresel likiditeyi izler. Riskli varlık fiyatlamasıyla yüksek korelasyonlu.</p></div>
+    <div class="acard"><div class="series">Empire State İmalat · NY Fed</div><h3 id="sb-pmi" style="font-family:var(--mono);font-weight:500">—</h3><div class="meta" id="sb-pmi-c">—</div><p style="margin-top:12px">NY Fed bölgesel imalat anketi. 0 üstü = genişleme, 0 altı = daralma.</p></div>
+  </div>
+
+  <!-- COMMODITIES -->
+  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Emtia</div><div class="section-meta"><span class="live" style="color:var(--green)">● Canlı</span></div></div>
+  <table class="dtable">
+    <thead><tr><th>Emtia</th><th>Fiyat</th><th>1G Δ%</th><th>Momentum</th></tr></thead>
+    <tbody id="commodity-tbody"><tr><td colspan="4" class="muted" style="text-align:center;padding:24px">Yükleniyor…</td></tr></tbody>
+  </table>
+
+  <!-- ECONOMIC CALENDAR (data/calendar.json'dan build sırasında beslenir) -->
+  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Ekonomik takvim</div><div class="section-meta">Önümüzdeki 7 gün · <span class="muted">Güncellendi: <!--NCF:CAL_UPDATED--></span></div></div>
+  <!--NCF:CAL_STALE-->
+  <table class="dtable">
+    <thead><tr><th>Tarih</th><th>Saat (CET)</th><th>Olay</th><th>Ülke</th><th>Önceki</th><th>Beklenti</th></tr></thead>
+    <tbody><!--NCF:CALENDAR--></tbody>
+  </table>
+
+  <!-- FOCUS -->
+  <div class="callout" style="margin-top:40px">
+    <div class="k">Bu haftanın odağı</div>
+    <p><strong>TÜFE ve ÜFE</strong> izlenecek veriler — petrol şokunu tam yansıtacak ilk veriler. Şubat ÜFE'si beklentinin iki katı geldi; Mart muhtemelen daha sıcak olacak. Bu veri, "Too Late Powell" ile "Just In Time Powell" tartışmasını çözecek.</p>
+  </div>
+</div>

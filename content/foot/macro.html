@@ -1,0 +1,121 @@
+<script>
+  /* Macro page: real FRED series (yields, curve, M2) from the build-time
+     snapshot (data/macro.json) + live VIX/DXY/commodities/crypto. No hardcoded
+     yields, no 13-week proxy for the 2Y. */
+  window.NCF.init({ ticker: ['vix','dxy','us10y','gold','brent','btc'], market: false });
+
+  const $ = (id) => document.getElementById(id);
+  const TR = document.documentElement.lang === 'tr';
+  const L = {
+    normal: TR ? 'Normal eğri' : 'Normal curve',
+    inverted: TR ? 'Ters ⚠' : 'Inverted ⚠',
+    noteNormal: TR ? 'Normal eğri. Yakın vadede resesyon sinyali yok.'
+                   : 'Normal curve. No near-term recession signal.',
+    noteInverted: TR ? 'Ters — tarihsel olarak resesyon habercisi.'
+                     : 'Inverted — historically a recession precursor.',
+    noData: TR ? 'Veri yok.' : 'Data unavailable.',
+    commodities: TR
+      ? [['Altın','GC=F'],['Gümüş','SI=F'],['Bakır','HG=F'],['Brent Petrol','BZ=F'],['Doğal Gaz','NG=F'],['Kahve','KC=F'],['Kakao','CC=F']]
+      : [['Gold','GC=F'],['Silver','SI=F'],['Copper','HG=F'],['Brent Crude','BZ=F'],['Natural Gas','NG=F'],['Coffee','KC=F'],['Cocoa','CC=F']],
+  };
+
+  function setKPI(valEl, chgEl, val, pct, suffix='', invert=false) {
+    if (valEl && val != null) valEl.textContent = val.toFixed(2) + suffix;
+    if (chgEl && pct != null) {
+      const dir = invert ? (pct <= 0 ? 'up' : 'dn') : (pct >= 0 ? 'up' : 'dn');
+      chgEl.textContent = (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%';
+      chgEl.className = 'stat-chg ' + dir;
+    }
+  }
+  function spark(id, closes, up) { const el = $(id); if (el && closes) el.innerHTML = window.NCF.sparkline(closes, up); }
+
+  function renderCurve(curve, spread) {
+    const yc = $('yield-chart');
+    if (!yc || !curve || !curve.length) return;
+    const mx = Math.max(...curve.map(y => y.v));
+    yc.innerHTML = '';
+    curve.forEach(y => {
+      const bar = document.createElement('div'); bar.className = 'yield-bar';
+      bar.style.height = ((y.v / mx) * 100) + '%';
+      bar.innerHTML = '<span class="v">' + y.v.toFixed(1) + '</span><span class="l">' + y.l + '</span>';
+      yc.appendChild(bar);
+    });
+    if (spread != null && $('yield-note'))
+      $('yield-note').textContent = '10Y–2Y spread: ' + (spread >= 0 ? '+' : '') + spread.toFixed(2) +
+        '% — ' + (spread >= 0 ? L.noteNormal : L.noteInverted);
+  }
+
+  /* Real macro series from the committed snapshot (FRED). */
+  async function loadSnapshot() {
+    try {
+      const m = await fetch('/data/macro.json', { cache: 'no-store' }).then(r => r.json());
+      if (m.us2y && $('m-2y')) {
+        $('m-2y').textContent = m.us2y.value.toFixed(2) + '%';
+        const c = $('m-2y-c'); if (c) { c.textContent = m.us2y.chg; c.className = 'stat-chg ' + m.us2y.dir; }
+      }
+      if (m.us10y && $('m-10y')) {
+        $('m-10y').textContent = m.us10y.value.toFixed(2) + '%';
+        const c = $('m-10y-c'); if (c) { c.textContent = m.us10y.chg; c.className = 'stat-chg ' + m.us10y.dir; }
+        window.NCF.paint('us10y', m.us10y.value, parseFloat(m.us10y.chg) || 0);
+      }
+      if (m.spread != null && $('m-spread')) {
+        $('m-spread').textContent = (m.spread >= 0 ? '+' : '') + m.spread.toFixed(2) + '%';
+        const c = $('m-spread-c'); if (c) { c.textContent = m.spread >= 0 ? L.normal : L.inverted; c.className = 'stat-chg ' + (m.spread >= 0 ? 'up' : 'dn'); }
+      }
+      if (m.m2 && $('sb-m2')) $('sb-m2').textContent = '$' + m.m2.value.toFixed(1) + 'T';
+      if (m.mfg && $('sb-pmi')) {
+        $('sb-pmi').textContent = m.mfg.value.toFixed(1);
+        const c = $('sb-pmi-c');
+        if (c) { const exp = m.mfg.value >= 0; c.textContent = exp ? (TR ? 'Genişleme' : 'Expansion') : (TR ? 'Daralma' : 'Contraction'); c.style.color = exp ? 'var(--green)' : 'var(--red)'; }
+      }
+      renderCurve(m.curve, m.spread);
+    } catch (e) { /* snapshot missing → build-time injected values remain */ }
+  }
+
+  /* Live, fast-moving series (intraday). */
+  async function loadLive() {
+    $('last-update').textContent = new Date().toLocaleTimeString('en-GB');
+
+    const fg = await window.NCF.fetchFearGreed();
+    if (fg && $('m-fg')) { $('m-fg').textContent = fg.value; const c = $('m-fg-c'); if (c) { c.textContent = fg.label; c.className = 'stat-chg ' + (fg.value > 55 ? 'up' : fg.value < 35 ? 'dn' : 'neu'); } }
+
+    const vix = await window.NCF.fetchYahoo('^VIX');
+    if (vix) { setKPI($('m-vix'), $('m-vix-c'), vix.last, vix.pct, '', true); spark('sp-vix', vix.closes, vix.pct <= 0); window.NCF.paint('vix', vix.last, vix.pct, { invert: true }); }
+
+    const dxy = await window.NCF.fetchYahoo('DX-Y.NYB');
+    if (dxy) {
+      setKPI($('m-dxy'), $('m-dxy-c'), dxy.last, dxy.pct); spark('sp-dxy', dxy.closes, dxy.pct >= 0);
+      window.NCF.paint('dxy', dxy.last, dxy.pct);
+      if ($('sb-dxy')) $('sb-dxy').textContent = dxy.last.toFixed(2);
+      const c = $('sb-dxy-c'); if (c) { c.textContent = (dxy.pct >= 0 ? '+' : '') + dxy.pct.toFixed(2) + '%'; c.style.color = dxy.pct >= 0 ? 'var(--green)' : 'var(--red)'; }
+    }
+
+    /* commodities (live Yahoo) */
+    const tb = $('commodity-tbody');
+    if (tb) {
+      tb.innerHTML = '';
+      for (const [name, sym] of L.commodities) {
+        const d = await window.NCF.fetchYahoo(sym, '5d');
+        if (!d) continue;
+        const dir = d.pct >= 0 ? 'up' : 'dn';
+        const tr = document.createElement('tr'); tr.className = 'cal-row';
+        tr.innerHTML = '<td>' + name + '</td><td class="mono">$' + d.last.toLocaleString('en-US', { maximumFractionDigits: 2 }) +
+          '</td><td><span class="badge ' + dir + '">' + (d.pct >= 0 ? '+' : '') + d.pct.toFixed(2) + '%</span></td>' +
+          '<td style="width:120px">' + window.NCF.sparkline(d.closes, d.pct >= 0) + '</td>';
+        tb.appendChild(tr);
+        if (sym === 'GC=F') window.NCF.paint('gold', d.last, d.pct);
+        if (sym === 'BZ=F') window.NCF.paint('brent', d.last, d.pct);
+      }
+      if (!tb.hasChildNodes()) tb.innerHTML = '<tr><td colspan="4" class="muted" style="text-align:center;padding:20px">' + L.noData + '</td></tr>';
+    }
+
+    /* BTC for the ticker */
+    const cg = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true').then(r => r.json()).catch(() => null);
+    if (cg && cg.bitcoin) window.NCF.paint('btc', cg.bitcoin.usd, cg.bitcoin.usd_24h_change);
+  }
+
+  loadSnapshot();
+  loadLive();
+  setInterval(loadLive, 5 * 60 * 1000);
+  setInterval(loadSnapshot, 30 * 60 * 1000);
+</script>

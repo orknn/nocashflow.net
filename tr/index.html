@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NoCashFlow — Makro &amp; Piyasa Analizi</title>
+<meta name="description" content="Her pazar veri odaklı makro analiz — petrol şokları, akıllı para, nükleer enerji, Fed politikası. Barcelona'dan."/>
+<link rel="canonical" href="https://nocashflow.net/tr/"/>
+<link rel="alternate" hreflang="en" href="https://nocashflow.net/"/>
+<link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/"/>
+<link rel="alternate" hreflang="x-default" href="https://nocashflow.net/"/>
+<meta property="og:title" content="NoCashFlow — Makro &amp; Piyasa Analizi"/>
+<meta property="og:description" content="Her pazar veri odaklı makro analiz. Makro, kripto ve emtia — birincil kaynak, her zaman bağlantılı."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://nocashflow.net/tr/"/>
+<meta property="og:image" content="https://nocashflow.net/og.png"/>
+<meta property="og:site_name" content="NoCashFlow"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://nocashflow.net/og.png"/>
+<meta name="twitter:site" content="@No_CashFlow"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="alternate" type="application/rss+xml" title="NoCashFlow" href="/feed-tr.xml"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<meta name="theme-color" content="#ffffff"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/site.css"/>
+<link rel="stylesheet" href="/components.css"/>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "tr", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
+<script>(function(){try{var q=new URLSearchParams(location.search).get('lang');if(q==='en'){try{localStorage.setItem('ncf_lang','en');}catch(e){}location.replace('/');return;}if(q==='tr'){try{localStorage.setItem('ncf_lang','tr');}catch(e){}return;}var p=null;try{p=localStorage.getItem('ncf_lang');}catch(e){}if(p==='en'){location.replace('/');return;}}catch(e){}})();</script>
+</head>
+<body>
+<div class="cursor-ring"><span class="c-label">Read</span></div>
+<div class="cursor-dot"></div>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-label"><span class="dot"></span> Live</div>
+  <div class="ticker-track" id="ticker-track"></div>
+</div>
+
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/tr/" class="logo">NO<span class="slash">/</span>CASHFLOW<span class="tag">MACRO × MARKETS</span></a>
+    <div class="nav-links" id="nav-links">
+      <a href="/tr/" class="active">Ana Sayfa</a>
+      <a href="/tr/yazilar.html">Yazılar</a>
+      <a href="/tr/macro.html">Makro</a>
+      <a href="/tr/dashboard.html">Panel</a>
+      <a href="/tr/bulletin_page.html">Bülten</a>
+      <a href="/tr/hakkinda.html">Hakkında</a>
+    </div>
+    <div class="nav-right">
+      <a class="lang-switch" href="/" data-set-lang="en" aria-label="Switch to English">EN</a>
+      <a href="/tr/bulletin_page.html" class="subscribe">Abone Ol</a>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO / LEAD STORY -->
+<section class="lead">
+  <div class="lead-grid">
+    <div>
+      <div class="lead-eyebrow">Manşet · Pazar Serisi #04 <span class="divider"></span> <span class="muted">6 Nis 2026 · 9 dk okuma</span></div>
+      <h1 class="lead-title"><a href="/tr/yazilar/smart-money.html">Akıllı para <em>öncülük etmedi</em>. <em>Geri çekildi.</em></a></h1>
+      <p class="lead-dek">JPMorgan, 2026 Q1'ini kurumların kripto akışlarını domine edeceği yıl ilan etti. Veri farklı bir hikâye anlatıyor — akışlar tahminin üçte biri kadar geldi.</p>
+      <div class="premium">
+        <div class="cell"><div class="k">Coinbase Premium</div><div class="v red">−0.18</div></div>
+        <div class="cell"><div class="k">30G Δ</div><div class="v red">−142%</div></div>
+        <div class="cell"><div class="k">JPM Tahmin</div><div class="v">$33B</div></div>
+        <div class="cell"><div class="k">Q1 Gerçek</div><div class="v amber">$11B</div></div>
+      </div>
+    </div>
+    <aside class="lead-aside">
+      <div class="k">Son Sayılar</div>
+      <ul class="mini-list">
+        <li><span class="n">#03</span><a href="/tr/yazilar/nukleer.html"><div class="t">Yapay Zekânın Elektriğe İhtiyacı Var — Cevap Nükleer</div><div class="d">Enerji · 30 Mar</div></a></li>
+        <li><span class="n">#02</span><a href="/tr/yazilar/bakir.html"><div class="t">Dr. Bakır — Yanlış Teşhis mi?</div><div class="d">Emtia · 23 Mar</div></a></li>
+        <li><span class="n">#01</span><a href="/tr/yazilar/petrol.html"><div class="t">1970'ler Karşılaştırması Neden Yanıltıcı</div><div class="d">Makro · 16 Mar</div></a></li>
+      </ul>
+      <a href="yazilar.html" class="btn" style="width:100%;justify-content:center;margin-top:20px">Tüm Yazılar <span class="arrow">→</span></a>
+    </aside>
+  </div>
+</section>
+
+<!-- §01 MARKET PULSE -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-title"><span class="num">§ 01</span>Piyasa Nabzı</div>
+    <div class="section-meta"><span class="live">● Canlı</span> · <a href="macro.html">Tüm Makro →</a></div>
+  </div>
+  <div class="stat-grid">
+    <div class="stat">
+      <div class="stat-k">Kripto Fear &amp; Greed</div>
+      <div><div class="stat-v" data-px="fg">12</div><div class="stat-chg dn" data-chg="fg">Extreme Fear</div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-k">Bitcoin</div>
+      <div><div class="stat-v" data-px="btc">$62,674</div><div class="stat-chg up" data-chg="btc">+1.20%</div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-k">VIX · Volatilite</div>
+      <div><div class="stat-v" data-px="vix">22.19</div><div class="stat-chg up" data-chg="vix">-0.14%</div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-k">Dolar Endeksi · DXY</div>
+      <div><div class="stat-v" data-px="dxy">100.24</div><div class="stat-chg up" data-chg="dxy">+0.29%</div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-k">ABD 10Y Getiri</div>
+      <div><div class="stat-v" data-px="us10y">4.53%</div><div class="stat-chg dn" data-chg="us10y">-0.37%</div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-k">Brent Petrol</div>
+      <div><div class="stat-v" data-px="brent">$92.7</div><div class="stat-chg dn" data-chg="brent">-0.42%</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- §02 LATEST ANALYSIS -->
+<section class="section tight">
+  <div class="section-header">
+    <div class="section-title"><span class="num">§ 02</span>Son Analizler</div>
+    <div class="section-meta"><a href="yazilar.html">Tüm Yazılar →</a></div>
+  </div>
+  <div class="art-list">
+    <div class="art-row">
+      <div class="n">#04</div>
+      <div class="body">
+        <div class="tag-line">Smart Money · 6 Nis 2026</div>
+        <h3><a href="/tr/yazilar/smart-money.html">Smart Money Nedir ve Nereye Gidiyor?</a></h3>
+        <p>JPMorgan kurumların 2026 kripto akışlarını domine edeceğini söyledi. Q1 tahminin üçte biri geldi. Coinbase Premium Index tüm hikâyeyi anlatıyor.</p>
+      </div>
+      <div class="arrow">→</div>
+    </div>
+    <div class="art-row">
+      <div class="n">#03</div>
+      <div class="body">
+        <div class="tag-line">Enerji · 30 Mar 2026</div>
+        <h3><a href="/tr/yazilar/nukleer.html">Yapay Zekânın Elektriğe İhtiyacı Var — Cevap Nükleer</a></h3>
+        <p>IEA: veri merkezleri 2030'a kadar 945 TWh tüketecek — Japonya'nın tüm yıllık elektrik kullanımına eşit. Microsoft $16 milyar, Amazon $20 milyar+.</p>
+      </div>
+      <div class="arrow">→</div>
+    </div>
+    <div class="art-row">
+      <div class="n">#02</div>
+      <div class="body">
+        <div class="tag-line">Emtia · 23 Mar 2026</div>
+        <h3><a href="/tr/yazilar/bakir.html">Dr. Bakır — Yanlış Teşhis mi?</a></h3>
+        <p>Resesyon göstergesi olarak bakır bozuldu. Yapay zekâ veri merkezleri, elektrikli araçlar ve yenilenebilir enerji onu aynı anda talep ediyor. S&amp;P Global 2040'a kadar 10 milyon tonluk açık öngörüyor.</p>
+      </div>
+      <div class="arrow">→</div>
+    </div>
+    <div class="art-row">
+      <div class="n">#01</div>
+      <div class="body">
+        <div class="tag-line">Makro · 16 Mar 2026</div>
+        <h3><a href="/tr/yazilar/petrol.html">1970'ler Karşılaştırması Neden Yanıltıcı</a></h3>
+        <p>Brent %40 yukarıda, Hürmüz kapalı, herkes 1970'ler analojisi kuruyor. Ama petrol yoğunluğu 1973'ten beri yarıdan fazla düştü. Powell 17 kez "bilmiyoruz" dedi.</p>
+      </div>
+      <div class="arrow">→</div>
+    </div>
+  </div>
+</section>
+
+<!-- §03 WHAT'S INSIDE -->
+<section class="section tight">
+  <div class="section-header">
+    <div class="section-title"><span class="num">§ 03</span>Bültenin İçinde</div>
+    <div class="section-meta"><a href="bulletin_page.html">Bülteni Oku →</a></div>
+  </div>
+  <div class="card-grid">
+    <div class="acard">
+      <div class="series">01 · Günlük</div>
+      <h3>Sabah Makro Özeti</h3>
+      <p>VIX, DXY, getiriler, Fear &amp; Greed ve önemli varlıklar. 60 saniyede ihtiyacın olan her şey.</p>
+    </div>
+    <div class="acard">
+      <div class="series">02 · Günlük</div>
+      <h3>Kripto Sinyal Panosu</h3>
+      <p>BTC dominansı, funding rate'ler, Coinbase Premium Index ve on-chain akışlar.</p>
+    </div>
+    <div class="acard">
+      <div class="series">03 · Günlük</div>
+      <h3>Fed Takibi</h3>
+      <p>CME FedWatch faiz olasılıkları, dot-plot güncellemeleri ve Powell konuşma analizi.</p>
+    </div>
+    <div class="acard">
+      <div class="series">04 · Günlük</div>
+      <h3>Ekonomik Takvim</h3>
+      <p>Günün önemli verileri; önceki, beklenti ve önem işaretiyle.</p>
+    </div>
+    <div class="acard">
+      <div class="series">05 · Haftalık</div>
+      <h3>Pazar Derin Analizi</h3>
+      <p>Uzun makro analiz, 1.500–3.000 kelime. Birincil kaynak, her zaman bağlantılı.</p>
+    </div>
+    <div class="acard">
+      <div class="series">06 · Daima</div>
+      <h3>Paywall Yok</h3>
+      <p>Her analiz sonsuza dek ücretsiz. Kredi kartı yok, ek satış yok — sadece veri.</p>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter">
+  <div class="newsletter-inner">
+    <div class="newsletter-label">Bülten</div>
+    <h2 class="newsletter-title">Pazarına <em>veriyle başla.</em></h2>
+    <p class="newsletter-dek">Her hafta net makro analiz — makro, kripto ve emtia. Gürültü yok, paywall yok.</p>
+    <form class="newsletter-form" data-newsletter>
+      <input class="newsletter-input" type="email" placeholder="you@email.com" required/>
+      <button class="newsletter-submit" type="submit">Abone Ol</button>
+    </form>
+    <div class="newsletter-note">Sonsuza dek ücretsiz · Spam yok · İstediğinde çık</div>
+    <div class="newsletter-stats">
+      <div class="nl-stat"><div class="v">1.200+</div><div class="k">Okur</div></div>
+      <div class="nl-stat"><div class="v">€0</div><div class="k">Hep Ücretsiz</div></div>
+      <div class="nl-stat"><div class="v">52</div><div class="k">Yıllık Sayı</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-title">NO<span style="color:var(--amber)">/</span>CASHFLOW</div>
+        <p class="footer-brand-desc">Makro ekonomi, kripto ve piyasa analizi. Her pazar sabahı, veriyle — Barcelona'dan.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Sayfalar</h4>
+        <ul>
+          <li><a href="/tr/">Ana Sayfa</a></li>
+          <li><a href="/tr/yazilar.html">Yazılar</a></li>
+          <li><a href="/tr/macro.html">Makro</a></li>
+          <li><a href="/tr/dashboard.html">Panel</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>İçerik</h4>
+        <ul>
+          <li><a href="/tr/bulletin_page.html">Bülten</a></li>
+          <li><a href="/tr/hakkinda.html">Hakkında</a></li>
+          <li><a href="/tr/sozluk.html">Sözlük</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Sosyal</h4>
+        <ul>
+          <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
+          <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="mailto:orkun@nocashflow.net">E-posta</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona</span>
+      <span><a href="/tr/hakkinda.html">Hakkında</a> · <a href="/tr/bulletin_page.html">Abone Ol</a></span>
+    </div>
+    <div class="disclaimer">
+      Bu site yalnızca bilgilendirme amaçlıdır ve yatırım tavsiyesi içermez.<br/>
+      <a href="/tr/privacy.html">Gizlilik</a> · <a href="/tr/legal.html">Yasal Bildirim</a> · <a href="/tr/disclaimer.html">Feragatname</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/app.js"></script>
+<script>
+  window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx','eurusd'] });
+</script>
+<script>document.querySelectorAll('[data-set-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',a.getAttribute('data-set-lang'));}catch(e){}});});</script>
+</body>
+</html>

@@ -1,111 +1,155 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Sözlük — NoCashFlow | Finansal Terimler</title>
-<meta name="description" content="Makro ekonomi, piyasa ve kripto terimlerinin sade açıklamaları — NoCashFlow finansal sözlüğü."/>
-<meta property="og:title" content="Sözlük — NoCashFlow"/>
+<title>Glossary — NoCashFlow | Financial Terms</title>
+<meta name="description" content="Plain explanations of macro, market and crypto terms — the NoCashFlow financial glossary."/>
+<link rel="canonical" href="https://nocashflow.net/sozluk.html"/>
+<link rel="alternate" hreflang="en" href="https://nocashflow.net/sozluk.html"/>
+<link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/sozluk.html"/>
+<link rel="alternate" hreflang="x-default" href="https://nocashflow.net/sozluk.html"/>
+<meta property="og:title" content="Glossary — NoCashFlow | Financial Terms"/>
+<meta property="og:description" content="Plain explanations of macro, market and crypto terms — the NoCashFlow financial glossary."/>
 <meta property="og:type" content="website"/>
-<link rel="icon" href="favicon.svg" type="image/svg+xml"/>
+<meta property="og:url" content="https://nocashflow.net/sozluk.html"/>
+<meta property="og:image" content="https://nocashflow.net/og.png"/>
+<meta property="og:site_name" content="NoCashFlow"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://nocashflow.net/og.png"/>
+<meta name="twitter:site" content="@No_CashFlow"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="alternate" type="application/rss+xml" title="NoCashFlow" href="/feed-en.xml"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,400&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="site.css"/>
-<link rel="stylesheet" href="components.css"/>
+<meta name="theme-color" content="#ffffff"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/site.css"/>
+<link rel="stylesheet" href="/components.css"/>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "en", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
 </head>
 <body>
-
+<!-- TICKER -->
 <div class="ticker">
   <div class="ticker-label"><span class="dot"></span> Live</div>
   <div class="ticker-track" id="ticker-track"></div>
 </div>
 
+
+<!-- NAV -->
 <nav class="nav">
   <div class="nav-inner">
-    <a href="index.html" class="logo">NO<span class="slash">/</span>CASHFLOW<span class="tag">MACRO × MARKETS</span></a>
+    <a href="/" class="logo">NO<span class="slash">/</span>CASHFLOW<span class="tag">MACRO × MARKETS</span></a>
     <div class="nav-links" id="nav-links">
-      <a href="index.html">Home</a>
-      <a href="yazilar.html">Articles</a>
-      <a href="macro.html">Macro</a>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="bulletin_page.html">Bulletin</a>
-      <a href="hakkinda.html">About</a>
+      <a href="/">Home</a>
+      <a href="/yazilar.html">Articles</a>
+      <a href="/macro.html">Macro</a>
+      <a href="/dashboard.html">Dashboard</a>
+      <a href="/bulletin_page.html">Bulletin</a>
+      <a href="/hakkinda.html">About</a>
     </div>
     <div class="nav-right">
-      <a href="bulletin_page.html" class="subscribe">Subscribe</a>
+      <a class="lang-switch" href="/tr/sozluk.html" data-set-lang="tr" aria-label="Türkçe'ye geç">TR</a>
+      <a href="/bulletin_page.html" class="subscribe">Subscribe</a>
       <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
     </div>
   </div>
 </nav>
 
 <header class="page-head">
-  <div class="page-eyebrow">Finansal Sözlük <span class="divider"></span> <span class="muted">Sade açıklamalar</span></div>
-  <h1 class="page-title">Terimler, <em>jargonsuz.</em></h1>
-  <p class="page-dek">Yazılarda ve bültende geçen makro, piyasa ve kripto terimlerinin kısa açıklamaları. Aramak için filtrele.</p>
+  <div class="page-eyebrow">Financial Glossary <span class="divider"></span> <span class="muted">Plain explanations</span></div>
+  <h1 class="page-title">Terms, <em>without the jargon.</em></h1>
+  <p class="page-dek">Short explanations of the macro, market and crypto terms that show up in the essays and the bulletin. Filter to find one.</p>
 </header>
 
 <div class="section">
   <div class="filters" style="margin-bottom:28px" id="gloss-filters">
-    <button class="filter-btn active" data-cat="all">Tümü</button>
-    <button class="filter-btn" data-cat="Makro">Makro</button>
-    <button class="filter-btn" data-cat="Piyasa">Piyasa</button>
-    <button class="filter-btn" data-cat="Kripto">Kripto</button>
+    <button class="filter-btn active" data-cat="all">All</button>
+    <button class="filter-btn" data-cat="Macro">Macro</button>
+    <button class="filter-btn" data-cat="Market">Market</button>
+    <button class="filter-btn" data-cat="Crypto">Crypto</button>
   </div>
 
   <div class="glossary-grid" id="glossary">
-    <div class="term" data-cat="Piyasa"><div class="cat">Piyasa</div><h3>Cash Flow</h3><p>Bir şirketin belirli dönemde nakit giriş-çıkışı. Kârdan farkı: muhasebe kârı pozitif olsa da nakit akışı negatif olabilir. "No cash flow" buradan gelir.</p></div>
-    <div class="term" data-cat="Makro"><div class="cat">Makro</div><h3>Yield Curve</h3><p>Farklı vadelerdeki tahvil getirilerinin grafiği. Normalde uzun vade > kısa vade. Tersine döndüğünde (inverted) tarihsel olarak resesyon habercisidir.</p></div>
-    <div class="term" data-cat="Makro"><div class="cat">Makro</div><h3>Inverted Curve</h3><p>2 yıllık getirinin 10 yıllığı geçmesi. Piyasanın yakın vadede faiz indirimi / yavaşlama beklediğini gösterir; son resesyonların çoğunu öncelemiştir.</p></div>
-    <div class="term" data-cat="Piyasa"><div class="cat">Piyasa</div><h3>VIX</h3><p>S&amp;P 500 opsiyonlarından türetilen 30 günlük beklenen volatilite endeksi. "Korku endeksi" — yükseldikçe piyasa stresi artar. 20 altı sakin, 30 üstü gergin.</p></div>
-    <div class="term" data-cat="Piyasa"><div class="cat">Piyasa</div><h3>DXY</h3><p>Doların altı büyük para birimine karşı endeksi. Güçlü dolar (104+) genelde emtia ve gelişmekte olan piyasalar üzerinde baskı yaratır.</p></div>
-    <div class="term" data-cat="Kripto"><div class="cat">Kripto</div><h3>Fear &amp; Greed</h3><p>Kripto piyasası duyarlılığını 0–100 arası ölçen endeks. 0–25 aşırı korku, 75+ aşırı açgözlülük. Tersine yatırım sinyali olarak kullanılır.</p></div>
-    <div class="term" data-cat="Kripto"><div class="cat">Kripto</div><h3>Coinbase Premium</h3><p>Coinbase ile Binance BTC fiyatı farkı. Pozitif = ABD kurumsal alım baskısı; negatif = retail baskın veya kurumsal çıkış.</p></div>
-    <div class="term" data-cat="Kripto"><div class="cat">Kripto</div><h3>BTC Dominance</h3><p>Bitcoin'in toplam kripto piyasa değeri içindeki payı. Yükselişi genelde "altcoin'lerden BTC'ye kaçış", düşüşü "altseason" sinyali sayılır.</p></div>
-    <div class="term" data-cat="Kripto"><div class="cat">Kripto</div><h3>DeFi</h3><p>Decentralized Finance — aracısız, akıllı kontratlarla çalışan borç verme, takas ve getiri protokolleri. Banka yerine kod.</p></div>
-    <div class="term" data-cat="Makro"><div class="cat">Makro</div><h3>PMI</h3><p>Satınalma Yöneticileri Endeksi. 50 üstü genişleme, altı daralma. ISM Manufacturing PMI öncü bir resesyon göstergesidir.</p></div>
-    <div class="term" data-cat="Makro"><div class="cat">Makro</div><h3>Basis Point (bps)</h3><p>Yüzde puanının yüzde biri. 25 bps = %0,25. Faiz ve tahvil hareketleri bps cinsinden konuşulur.</p></div>
-    <div class="term" data-cat="Makro"><div class="cat">Makro</div><h3>Quantitative Tightening</h3><p>Merkez bankasının bilançosunu küçültmesi — tahvilleri vadesinde eritip piyasadan likidite çekmesi. QE'nin tersi.</p></div>
-    <div class="term" data-cat="Piyasa"><div class="cat">Piyasa</div><h3>Smart Money</h3><p>Kurumsal ve bilgili sermaye — fonlar, bankalar, "akıllı" oyuncular. Akışları çoğu zaman retail'den önce yön değiştirir.</p></div>
-    <div class="term" data-cat="Makro"><div class="cat">Makro</div><h3>Oil Intensity</h3><p>Birim GSYİH başına tüketilen petrol. 1973'te $1.000 GSYİH için ~1 varil; bugün ~0,43. Aynı fiyat şokunun bugün daha az hasar vermesinin nedeni.</p></div>
-    <div class="term" data-cat="Piyasa"><div class="cat">Piyasa</div><h3>Funding Rate</h3><p>Vadeli (perpetual) kripto sözleşmelerinde long ve short'lar arasındaki periyodik ödeme. Pozitif = long'lar baskın (kaldıraçlı iyimserlik).</p></div>
+    <div class="term" data-cat="Market"><div class="cat">Market</div><h3>Cash Flow</h3><p>The cash moving in and out of a company over a given period. Not the same as profit: accounting profit can be positive while cash flow is negative. That's where "no cash flow" comes from.</p></div>
+    <div class="term" data-cat="Macro"><div class="cat">Macro</div><h3>Yield Curve</h3><p>A plot of bond yields across maturities. Normally long-term &gt; short-term. When it inverts, it has historically been a recession warning.</p></div>
+    <div class="term" data-cat="Macro"><div class="cat">Macro</div><h3>Inverted Curve</h3><p>When the 2-year yield rises above the 10-year. It signals the market expects near-term rate cuts or a slowdown, and it has led most recent recessions.</p></div>
+    <div class="term" data-cat="Market"><div class="cat">Market</div><h3>VIX</h3><p>The 30-day expected-volatility index derived from S&amp;P 500 options. The "fear index" — the higher it climbs, the greater the market stress. Below 20 is calm, above 30 is tense.</p></div>
+    <div class="term" data-cat="Market"><div class="cat">Market</div><h3>DXY</h3><p>The dollar's index against six major currencies. A strong dollar (104+) typically weighs on commodities and emerging markets.</p></div>
+    <div class="term" data-cat="Crypto"><div class="cat">Crypto</div><h3>Fear &amp; Greed</h3><p>An index that scores crypto-market sentiment from 0 to 100. 0–25 is extreme fear, 75+ extreme greed. Often used as a contrarian signal.</p></div>
+    <div class="term" data-cat="Crypto"><div class="cat">Crypto</div><h3>Coinbase Premium</h3><p>The BTC price gap between Coinbase and Binance. Positive = US institutional buying pressure; negative = retail-driven or institutional outflow.</p></div>
+    <div class="term" data-cat="Crypto"><div class="cat">Crypto</div><h3>BTC Dominance</h3><p>Bitcoin's share of total crypto market cap. A rise is usually read as a "flight from altcoins to BTC," a fall as an "altseason" signal.</p></div>
+    <div class="term" data-cat="Crypto"><div class="cat">Crypto</div><h3>DeFi</h3><p>Decentralized Finance — lending, swapping and yield protocols that run on smart contracts with no intermediary. Code instead of a bank.</p></div>
+    <div class="term" data-cat="Macro"><div class="cat">Macro</div><h3>PMI</h3><p>Purchasing Managers' Index. Above 50 is expansion, below is contraction. The ISM Manufacturing PMI is a leading recession indicator.</p></div>
+    <div class="term" data-cat="Macro"><div class="cat">Macro</div><h3>Basis Point (bps)</h3><p>One hundredth of a percentage point. 25 bps = 0.25%. Rate and bond moves are quoted in bps.</p></div>
+    <div class="term" data-cat="Macro"><div class="cat">Macro</div><h3>Quantitative Tightening</h3><p>A central bank shrinking its balance sheet — letting bonds roll off at maturity and draining liquidity from the market. The opposite of QE.</p></div>
+    <div class="term" data-cat="Market"><div class="cat">Market</div><h3>Smart Money</h3><p>Institutional, informed capital — funds, banks, the "smart" players. Their flows often turn before retail does.</p></div>
+    <div class="term" data-cat="Macro"><div class="cat">Macro</div><h3>Oil Intensity</h3><p>The oil consumed per unit of GDP. In 1973 it took ~1 barrel per $1,000 of GDP; today ~0.43. Why the same price shock does less damage now.</p></div>
+    <div class="term" data-cat="Market"><div class="cat">Market</div><h3>Funding Rate</h3><p>The periodic payment between longs and shorts on perpetual crypto contracts. Positive = longs dominate (leveraged optimism).</p></div>
   </div>
 </div>
 
 <!-- CTA -->
 <section class="newsletter">
   <div class="newsletter-inner">
-    <div class="newsletter-label">Bülten</div>
-    <h2 class="newsletter-title">Yeni terimleri <em>kaçırma.</em></h2>
-    <p class="newsletter-dek">Sözlük büyüdükçe ve her yeni analiz çıktığında haberin olsun.</p>
+    <div class="newsletter-label">The Bulletin</div>
+    <h2 class="newsletter-title">Never miss a <em>new term.</em></h2>
+    <p class="newsletter-dek">Hear about it as the glossary grows and every time a new analysis drops.</p>
     <form class="newsletter-form" data-newsletter>
       <input class="newsletter-input" type="email" placeholder="you@email.com" required/>
-      <button class="newsletter-submit" type="submit">Abone Ol</button>
+      <button class="newsletter-submit" type="submit">Subscribe</button>
     </form>
-    <div class="newsletter-note">Ücretsiz · Spam yok · İstediğinde çık</div>
+    <div class="newsletter-note">Free · No spam · Unsubscribe anytime</div>
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div class="footer-top">
       <div>
         <div class="footer-brand-title">NO<span style="color:var(--amber)">/</span>CASHFLOW</div>
-        <p class="footer-brand-desc">Makro ekonomi, kripto ve piyasa analizleri. Her pazar sabahı, verilerle — Barcelona'dan.</p>
+        <p class="footer-brand-desc">Macro economics, crypto and market analysis. Every Sunday morning, with data — from Barcelona.</p>
       </div>
-      <div class="footer-col"><h4>Sayfalar</h4><ul><li><a href="index.html">Ana Sayfa</a></li><li><a href="yazilar.html">Yazılar</a></li><li><a href="macro.html">Macro</a></li><li><a href="dashboard.html">Dashboard</a></li></ul></div>
-      <div class="footer-col"><h4>İçerik</h4><ul><li><a href="bulletin_page.html">Bülten</a></li><li><a href="hakkinda.html">Hakkında</a></li><li><a href="sozluk.html">Sözlük</a></li></ul></div>
-      <div class="footer-col"><h4>Sosyal</h4><ul><li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li><li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li><li><a href="mailto:orkun@nocashflow.net">E-posta</a></li></ul></div>
+      <div class="footer-col">
+        <h4>Pages</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/yazilar.html">Articles</a></li>
+          <li><a href="/macro.html">Macro</a></li>
+          <li><a href="/dashboard.html">Dashboard</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/bulletin_page.html">Bulletin</a></li>
+          <li><a href="/hakkinda.html">About</a></li>
+          <li><a href="/sozluk.html">Glossary</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Social</h4>
+        <ul>
+          <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
+          <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="mailto:orkun@nocashflow.net">Email</a></li>
+        </ul>
+      </div>
     </div>
     <div class="footer-bot">
       <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona</span>
-      <span><a href="hakkinda.html">Hakkında</a> · <a href="bulletin_page.html">Abone Ol</a></span>
+      <span><a href="/hakkinda.html">About</a> · <a href="/bulletin_page.html">Subscribe</a></span>
     </div>
-    <div class="disclaimer">Bu site yalnızca bilgilendirme amaçlıdır ve yatırım tavsiyesi vermez.</div>
+    <div class="disclaimer">
+      This site is for information only and does not provide investment advice.<br/>
+      <a href="/privacy.html">Privacy</a> · <a href="/legal.html">Legal Notice</a> · <a href="/disclaimer.html">Disclaimer</a>
+    </div>
   </div>
 </footer>
 
-<script src="app.js"></script>
+<script src="/app.js"></script>
 <script>
   window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });
   document.querySelectorAll('#gloss-filters .filter-btn').forEach(b => b.addEventListener('click', function () {
@@ -117,5 +161,6 @@
     });
   }));
 </script>
+<script>document.querySelectorAll('[data-set-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',a.getAttribute('data-set-lang'));}catch(e){}});});</script>
 </body>
 </html>

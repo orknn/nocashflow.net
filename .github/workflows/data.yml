@@ -1,0 +1,49 @@
+name: Refresh data snapshots
+
+# Daily, early European morning. Fetches market + economic-calendar snapshots,
+# rebuilds the pages pre-filled with them, and commits the result so the live
+# site is never blank even when the client-side APIs fail.
+on:
+  schedule:
+    - cron: "0 5 * * *"   # 05:00 UTC ≈ 06:00 CET / 07:00 CEST
+  workflow_dispatch: {}    # allow manual runs from the Actions tab
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install --quiet requests
+
+      - name: Fetch market + calendar snapshots
+        env:
+          FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+        run: python scripts/fetch_data.py
+
+      - name: Rebuild pages with the fresh snapshot
+        run: python build.py
+
+      - name: Commit if anything changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data *.html tr/*.html
+          if git diff --staged --quiet; then
+            echo "No snapshot changes."
+          else
+            git commit -m "chore(data): refresh market + calendar snapshot [skip ci]"
+            git push
+          fi

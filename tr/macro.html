@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Macro — NoCashFlow | Global Macro Indicators</title>
-<meta name="description" content="Live global macro dashboard — VIX, DXY, US yields, the yield curve, commodities and the economic calendar."/>
-<link rel="canonical" href="https://nocashflow.net/macro.html"/>
+<title>Makro — NoCashFlow | Küresel Makro Göstergeler</title>
+<meta name="description" content="Canlı küresel makro panosu — VIX, DXY, ABD getirileri, getiri eğrisi, emtia ve ekonomik takvim."/>
+<link rel="canonical" href="https://nocashflow.net/tr/macro.html"/>
 <link rel="alternate" hreflang="en" href="https://nocashflow.net/macro.html"/>
 <link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/macro.html"/>
 <link rel="alternate" hreflang="x-default" href="https://nocashflow.net/macro.html"/>
-<meta property="og:title" content="Macro — NoCashFlow | Global Macro Indicators"/>
-<meta property="og:description" content="Live global macro dashboard — VIX, DXY, US yields, the yield curve, commodities and the economic calendar."/>
+<meta property="og:title" content="Makro — NoCashFlow | Küresel Makro Göstergeler"/>
+<meta property="og:description" content="Canlı küresel makro panosu — VIX, DXY, ABD getirileri, getiri eğrisi, emtia ve ekonomik takvim."/>
 <meta property="og:type" content="website"/>
-<meta property="og:url" content="https://nocashflow.net/macro.html"/>
+<meta property="og:url" content="https://nocashflow.net/tr/macro.html"/>
 <meta property="og:image" content="https://nocashflow.net/og.png"/>
 <meta property="og:site_name" content="NoCashFlow"/>
 <meta name="twitter:card" content="summary_large_image"/>
@@ -20,14 +20,15 @@
 <meta name="twitter:site" content="@No_CashFlow"/>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
 <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-<link rel="alternate" type="application/rss+xml" title="NoCashFlow" href="/feed-en.xml"/>
+<link rel="alternate" type="application/rss+xml" title="NoCashFlow" href="/feed-tr.xml"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <meta name="theme-color" content="#ffffff"/>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "en", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "tr", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
+<script>(function(){try{var q=new URLSearchParams(location.search).get('lang');if(q==='en'){try{localStorage.setItem('ncf_lang','en');}catch(e){}location.replace('/');return;}if(q==='tr'){try{localStorage.setItem('ncf_lang','tr');}catch(e){}return;}var p=null;try{p=localStorage.getItem('ncf_lang');}catch(e){}if(p==='en'){location.replace('/');return;}}catch(e){}})();</script>
 </head>
 <body>
 <!-- TICKER -->
@@ -40,85 +41,85 @@
 <!-- NAV -->
 <nav class="nav">
   <div class="nav-inner">
-    <a href="/" class="logo">NO<span class="slash">/</span>CASHFLOW<span class="tag">MACRO × MARKETS</span></a>
+    <a href="/tr/" class="logo">NO<span class="slash">/</span>CASHFLOW<span class="tag">MACRO × MARKETS</span></a>
     <div class="nav-links" id="nav-links">
-      <a href="/">Home</a>
-      <a href="/yazilar.html">Articles</a>
-      <a href="/macro.html" class="active">Macro</a>
-      <a href="/dashboard.html">Dashboard</a>
-      <a href="/bulletin_page.html">Bulletin</a>
-      <a href="/hakkinda.html">About</a>
+      <a href="/tr/">Ana Sayfa</a>
+      <a href="/tr/yazilar.html">Yazılar</a>
+      <a href="/tr/macro.html" class="active">Makro</a>
+      <a href="/tr/dashboard.html">Panel</a>
+      <a href="/tr/bulletin_page.html">Bülten</a>
+      <a href="/tr/hakkinda.html">Hakkında</a>
     </div>
     <div class="nav-right">
-      <a class="lang-switch" href="/tr/macro.html" data-set-lang="tr" aria-label="Türkçe'ye geç">TR</a>
-      <a href="/bulletin_page.html" class="subscribe">Subscribe</a>
+      <a class="lang-switch" href="/macro.html" data-set-lang="en" aria-label="Switch to English">EN</a>
+      <a href="/tr/bulletin_page.html" class="subscribe">Abone Ol</a>
       <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
     </div>
   </div>
 </nav>
 
 <header class="page-head">
-  <div class="page-eyebrow">Macro Dashboard <span class="divider"></span> <span class="muted">Last update: <span id="last-update">—</span></span></div>
-  <h1 class="page-title">Global <em>indicators.</em></h1>
-  <p class="page-dek">The core readings of the global economy — the Fed, the yield curve, inflation and commodities. Refreshed live.</p>
+  <div class="page-eyebrow">Makro Panosu <span class="divider"></span> <span class="muted">Son güncelleme: <span id="last-update">—</span></span></div>
+  <h1 class="page-title">Küresel <em>göstergeler.</em></h1>
+  <p class="page-dek">Küresel ekonominin temel okumaları — Fed, getiri eğrisi, enflasyon ve emtia. Canlı yenilenir.</p>
 </header>
 
 <div class="section">
   <!-- KPI GRID -->
   <div class="stat-grid">
-    <div class="stat"><div class="stat-k">VIX · Volatility</div><div><div class="stat-v" id="m-vix">22.19</div><div class="stat-chg up" id="m-vix-c">-0.14%</div><div class="stat-spark" id="sp-vix"></div></div></div>
-    <div class="stat"><div class="stat-k">Dollar Index · DXY</div><div><div class="stat-v" id="m-dxy">100.24</div><div class="stat-chg up" id="m-dxy-c">+0.29%</div><div class="stat-spark" id="sp-dxy"></div></div></div>
-    <div class="stat"><div class="stat-k">US 10Y Yield</div><div><div class="stat-v" id="m-10y">4.53%</div><div class="stat-chg dn" id="m-10y-c">-0.66%</div><div class="stat-spark" id="sp-10y"></div></div></div>
-    <div class="stat"><div class="stat-k">US 2Y (13w proxy)</div><div><div class="stat-v" id="m-2y">4.13%</div><div class="stat-chg dn" id="m-2y-c">-0.48%</div><div class="stat-spark" id="sp-2y"></div></div></div>
-    <div class="stat"><div class="stat-k">Crypto Fear &amp; Greed</div><div><div class="stat-v" id="m-fg">12</div><div class="stat-chg neu" id="m-fg-c">—</div></div></div>
-    <div class="stat"><div class="stat-k">Spread 10Y–2Y</div><div><div class="stat-v" id="m-spread">+0.40%</div><div class="stat-chg up" id="m-spread-c">Normal curve</div></div></div>
+    <div class="stat"><div class="stat-k">VIX · Volatilite</div><div><div class="stat-v" id="m-vix">22.19</div><div class="stat-chg up" id="m-vix-c">-0.14%</div><div class="stat-spark" id="sp-vix"></div></div></div>
+    <div class="stat"><div class="stat-k">Dolar Endeksi · DXY</div><div><div class="stat-v" id="m-dxy">100.24</div><div class="stat-chg up" id="m-dxy-c">+0.29%</div><div class="stat-spark" id="sp-dxy"></div></div></div>
+    <div class="stat"><div class="stat-k">ABD 10Y Getiri</div><div><div class="stat-v" id="m-10y">4.53%</div><div class="stat-chg dn" id="m-10y-c">-0.66%</div><div class="stat-spark" id="sp-10y"></div></div></div>
+    <div class="stat"><div class="stat-k">ABD 2Y (13h vekil)</div><div><div class="stat-v" id="m-2y">4.13%</div><div class="stat-chg dn" id="m-2y-c">-0.48%</div><div class="stat-spark" id="sp-2y"></div></div></div>
+    <div class="stat"><div class="stat-k">Kripto Fear &amp; Greed</div><div><div class="stat-v" id="m-fg">12</div><div class="stat-chg neu" id="m-fg-c">—</div></div></div>
+    <div class="stat"><div class="stat-k">Spread 10Y–2Y</div><div><div class="stat-v" id="m-spread">+0.40%</div><div class="stat-chg up" id="m-spread-c">Normal eğri</div></div></div>
   </div>
 
   <!-- YIELD CURVE -->
-  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">US Treasury yield curve</div><div class="section-meta">Normalized reference</div></div>
+  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">ABD Hazine getiri eğrisi</div><div class="section-meta">Normalize referans</div></div>
   <div class="card"><div class="card-body">
-    <div class="yield-chart" id="yield-chart"><div class="muted" style="margin:auto;font-size:13px">Loading…</div></div>
+    <div class="yield-chart" id="yield-chart"><div class="muted" style="margin:auto;font-size:13px">Yükleniyor…</div></div>
     <p class="muted" id="yield-note" style="font-family:var(--mono);font-size:11px;letter-spacing:0.04em;margin-top:8px"></p>
   </div></div>
 
   <!-- SCOREBOARD -->
-  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Macro scoreboard</div></div>
+  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Makro skor tablosu</div></div>
   <div class="card-grid">
-    <div class="acard"><div class="series">Dollar Index · DXY</div><h3 id="sb-dxy" style="font-family:var(--mono);font-weight:500">100.24</h3><div class="meta" id="sb-dxy-c">—</div><p style="margin-top:12px">Strong dollar = commodity pressure and EM stress. 104+ is the critical threshold.</p></div>
-    <div class="acard"><div class="series">M2 Money Supply</div><h3 id="sb-m2" style="font-family:var(--mono);font-weight:500">$22.8T</h3><div class="meta" id="sb-m2-c">—</div><p style="margin-top:12px">With the Fed balance sheet, tracks global liquidity. Highly correlated with risk-asset pricing.</p></div>
-    <div class="acard"><div class="series">Empire State Mfg · NY Fed</div><h3 id="sb-pmi" style="font-family:var(--mono);font-weight:500">19.6</h3><div class="meta" id="sb-pmi-c">Expansion</div><p style="margin-top:12px">NY Fed regional manufacturing survey. Above 0 = expansion, below 0 = contraction.</p></div>
+    <div class="acard"><div class="series">Dolar Endeksi · DXY</div><h3 id="sb-dxy" style="font-family:var(--mono);font-weight:500">100.24</h3><div class="meta" id="sb-dxy-c">—</div><p style="margin-top:12px">Güçlü dolar = emtia baskısı ve gelişen piyasa stresi. 104+ kritik eşik.</p></div>
+    <div class="acard"><div class="series">M2 Para Arzı</div><h3 id="sb-m2" style="font-family:var(--mono);font-weight:500">$22.8T</h3><div class="meta" id="sb-m2-c">—</div><p style="margin-top:12px">Fed bilançosuyla birlikte küresel likiditeyi izler. Riskli varlık fiyatlamasıyla yüksek korelasyonlu.</p></div>
+    <div class="acard"><div class="series">Empire State İmalat · NY Fed</div><h3 id="sb-pmi" style="font-family:var(--mono);font-weight:500">19.6</h3><div class="meta" id="sb-pmi-c">Genişleme</div><p style="margin-top:12px">NY Fed bölgesel imalat anketi. 0 üstü = genişleme, 0 altı = daralma.</p></div>
   </div>
 
   <!-- COMMODITIES -->
-  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Commodities</div><div class="section-meta"><span class="live" style="color:var(--green)">● Live</span></div></div>
+  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Emtia</div><div class="section-meta"><span class="live" style="color:var(--green)">● Canlı</span></div></div>
   <table class="dtable">
-    <thead><tr><th>Commodity</th><th>Price</th><th>1D Δ%</th><th>Momentum</th></tr></thead>
-    <tbody id="commodity-tbody"><tr><td colspan="4" class="muted" style="text-align:center;padding:24px">Loading…</td></tr></tbody>
+    <thead><tr><th>Emtia</th><th>Fiyat</th><th>1G Δ%</th><th>Momentum</th></tr></thead>
+    <tbody id="commodity-tbody"><tr><td colspan="4" class="muted" style="text-align:center;padding:24px">Yükleniyor…</td></tr></tbody>
   </table>
 
-  <!-- ECONOMIC CALENDAR (fed from data/calendar.json at build time) -->
-  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Economic calendar</div><div class="section-meta">Next 7 days · <span class="muted">Updated: 10 Jun 2026, 15:29 CET</span></div></div>
+  <!-- ECONOMIC CALENDAR (data/calendar.json'dan build sırasında beslenir) -->
+  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Ekonomik takvim</div><div class="section-meta">Önümüzdeki 7 gün · <span class="muted">Güncellendi: 10 Haz 2026, 15:29 CET</span></div></div>
   
   <table class="dtable">
-    <thead><tr><th>Date</th><th>Time (CET)</th><th>Event</th><th>Country</th><th>Prev.</th><th>Cons.</th></tr></thead>
-    <tbody><tr class="cal-row"><td class="mono">Wed</td><td class="mono">10:00</td><td><span class="impact med"></span>Industrial Production MoM</td><td>🇮🇹 EUR</td><td class="mono">0.6%</td><td class="mono">-0.1%</td></tr>
-      <tr class="cal-row"><td class="mono">Wed</td><td class="mono">13:00</td><td><span class="impact med"></span>MBA 30-Year Mortgage Rate</td><td>🇺🇸 USD</td><td class="mono">6.57%</td><td class="mono">—</td></tr>
-      <tr class="cal-row"><td class="mono">Wed</td><td class="mono">14:30</td><td><span class="impact high"></span><strong>Core Inflation Rate MoM ⭐</strong></td><td>🇺🇸 USD</td><td class="mono">0.4%</td><td class="mono">0.3%</td></tr>
-      <tr class="cal-row"><td class="mono">Wed</td><td class="mono">14:30</td><td><span class="impact high"></span><strong>Core Inflation Rate YoY ⭐</strong></td><td>🇺🇸 USD</td><td class="mono">2.8%</td><td class="mono">2.9%</td></tr>
-      <tr class="cal-row"><td class="mono">Wed</td><td class="mono">14:30</td><td><span class="impact high"></span><strong>Inflation Rate MoM ⭐</strong></td><td>🇺🇸 USD</td><td class="mono">0.6%</td><td class="mono">0.5%</td></tr>
-      <tr class="cal-row"><td class="mono">Wed</td><td class="mono">14:30</td><td><span class="impact high"></span><strong>Inflation Rate YoY ⭐</strong></td><td>🇺🇸 USD</td><td class="mono">3.8%</td><td class="mono">4.2%</td></tr>
-      <tr class="cal-row"><td class="mono">Wed</td><td class="mono">14:30</td><td><span class="impact med"></span>CPI</td><td>🇺🇸 USD</td><td class="mono">333.02</td><td class="mono">335.11</td></tr>
-      <tr class="cal-row"><td class="mono">Wed</td><td class="mono">14:30</td><td><span class="impact med"></span>CPI s.a</td><td>🇺🇸 USD</td><td class="mono">332.407</td><td class="mono">—</td></tr>
-      <tr class="cal-row"><td class="mono">Wed</td><td class="mono">16:30</td><td><span class="impact med"></span>EIA Crude Oil Stocks Change</td><td>🇺🇸 USD</td><td class="mono">-7.974</td><td class="mono">-4</td></tr>
-      <tr class="cal-row"><td class="mono">Wed</td><td class="mono">16:30</td><td><span class="impact med"></span>EIA Gasoline Stocks Change</td><td>🇺🇸 USD</td><td class="mono">3.364</td><td class="mono">-0.5</td></tr>
-      <tr class="cal-row"><td class="mono">Wed</td><td class="mono">20:00</td><td><span class="impact med"></span>Monthly Budget Statement</td><td>🇺🇸 USD</td><td class="mono">215$</td><td class="mono">-275$</td></tr>
-      <tr class="cal-row"><td class="mono">Thu</td><td class="mono">14:15</td><td><span class="impact high"></span><strong>Deposit Facility Rate ⭐</strong></td><td>🇪🇺 EUR</td><td class="mono">2%</td><td class="mono">2.25%</td></tr></tbody>
+    <thead><tr><th>Tarih</th><th>Saat (CET)</th><th>Olay</th><th>Ülke</th><th>Önceki</th><th>Beklenti</th></tr></thead>
+    <tbody><tr class="cal-row"><td class="mono">Çar</td><td class="mono">10:00</td><td><span class="impact med"></span>Industrial Production MoM</td><td>🇮🇹 EUR</td><td class="mono">0.6%</td><td class="mono">-0.1%</td></tr>
+      <tr class="cal-row"><td class="mono">Çar</td><td class="mono">13:00</td><td><span class="impact med"></span>MBA 30-Year Mortgage Rate</td><td>🇺🇸 USD</td><td class="mono">6.57%</td><td class="mono">—</td></tr>
+      <tr class="cal-row"><td class="mono">Çar</td><td class="mono">14:30</td><td><span class="impact high"></span><strong>Core Inflation Rate MoM ⭐</strong></td><td>🇺🇸 USD</td><td class="mono">0.4%</td><td class="mono">0.3%</td></tr>
+      <tr class="cal-row"><td class="mono">Çar</td><td class="mono">14:30</td><td><span class="impact high"></span><strong>Core Inflation Rate YoY ⭐</strong></td><td>🇺🇸 USD</td><td class="mono">2.8%</td><td class="mono">2.9%</td></tr>
+      <tr class="cal-row"><td class="mono">Çar</td><td class="mono">14:30</td><td><span class="impact high"></span><strong>Inflation Rate MoM ⭐</strong></td><td>🇺🇸 USD</td><td class="mono">0.6%</td><td class="mono">0.5%</td></tr>
+      <tr class="cal-row"><td class="mono">Çar</td><td class="mono">14:30</td><td><span class="impact high"></span><strong>Inflation Rate YoY ⭐</strong></td><td>🇺🇸 USD</td><td class="mono">3.8%</td><td class="mono">4.2%</td></tr>
+      <tr class="cal-row"><td class="mono">Çar</td><td class="mono">14:30</td><td><span class="impact med"></span>CPI</td><td>🇺🇸 USD</td><td class="mono">333.02</td><td class="mono">335.11</td></tr>
+      <tr class="cal-row"><td class="mono">Çar</td><td class="mono">14:30</td><td><span class="impact med"></span>CPI s.a</td><td>🇺🇸 USD</td><td class="mono">332.407</td><td class="mono">—</td></tr>
+      <tr class="cal-row"><td class="mono">Çar</td><td class="mono">16:30</td><td><span class="impact med"></span>EIA Crude Oil Stocks Change</td><td>🇺🇸 USD</td><td class="mono">-7.974</td><td class="mono">-4</td></tr>
+      <tr class="cal-row"><td class="mono">Çar</td><td class="mono">16:30</td><td><span class="impact med"></span>EIA Gasoline Stocks Change</td><td>🇺🇸 USD</td><td class="mono">3.364</td><td class="mono">-0.5</td></tr>
+      <tr class="cal-row"><td class="mono">Çar</td><td class="mono">20:00</td><td><span class="impact med"></span>Monthly Budget Statement</td><td>🇺🇸 USD</td><td class="mono">215$</td><td class="mono">-275$</td></tr>
+      <tr class="cal-row"><td class="mono">Per</td><td class="mono">14:15</td><td><span class="impact high"></span><strong>Deposit Facility Rate ⭐</strong></td><td>🇪🇺 EUR</td><td class="mono">2%</td><td class="mono">2.25%</td></tr></tbody>
   </table>
 
   <!-- FOCUS -->
   <div class="callout" style="margin-top:40px">
-    <div class="k">This week's focus</div>
-    <p><strong>CPI and PPI</strong> are the prints to watch — the first to fully reflect the oil shock. February PPI came in at double expectations; March is likely to run hotter. This data will settle the "Too Late Powell" vs. "Just In Time Powell" debate.</p>
+    <div class="k">Bu haftanın odağı</div>
+    <p><strong>TÜFE ve ÜFE</strong> izlenecek veriler — petrol şokunu tam yansıtacak ilk veriler. Şubat ÜFE'si beklentinin iki katı geldi; Mart muhtemelen daha sıcak olacak. Bu veri, "Too Late Powell" ile "Just In Time Powell" tartışmasını çözecek.</p>
   </div>
 </div>
 
@@ -128,41 +129,41 @@
     <div class="footer-top">
       <div>
         <div class="footer-brand-title">NO<span style="color:var(--amber)">/</span>CASHFLOW</div>
-        <p class="footer-brand-desc">Macro economics, crypto and market analysis. Every Sunday morning, with data — from Barcelona.</p>
+        <p class="footer-brand-desc">Makro ekonomi, kripto ve piyasa analizi. Her pazar sabahı, veriyle — Barcelona'dan.</p>
       </div>
       <div class="footer-col">
-        <h4>Pages</h4>
+        <h4>Sayfalar</h4>
         <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/yazilar.html">Articles</a></li>
-          <li><a href="/macro.html">Macro</a></li>
-          <li><a href="/dashboard.html">Dashboard</a></li>
+          <li><a href="/tr/">Ana Sayfa</a></li>
+          <li><a href="/tr/yazilar.html">Yazılar</a></li>
+          <li><a href="/tr/macro.html">Makro</a></li>
+          <li><a href="/tr/dashboard.html">Panel</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Content</h4>
+        <h4>İçerik</h4>
         <ul>
-          <li><a href="/bulletin_page.html">Bulletin</a></li>
-          <li><a href="/hakkinda.html">About</a></li>
-          <li><a href="/sozluk.html">Glossary</a></li>
+          <li><a href="/tr/bulletin_page.html">Bülten</a></li>
+          <li><a href="/tr/hakkinda.html">Hakkında</a></li>
+          <li><a href="/tr/sozluk.html">Sözlük</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Social</h4>
+        <h4>Sosyal</h4>
         <ul>
           <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
           <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
-          <li><a href="mailto:orkun@nocashflow.net">Email</a></li>
+          <li><a href="mailto:orkun@nocashflow.net">E-posta</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bot">
       <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona</span>
-      <span><a href="/hakkinda.html">About</a> · <a href="/bulletin_page.html">Subscribe</a></span>
+      <span><a href="/tr/hakkinda.html">Hakkında</a> · <a href="/tr/bulletin_page.html">Abone Ol</a></span>
     </div>
     <div class="disclaimer">
-      This site is for information only and does not provide investment advice.<br/>
-      <a href="/privacy.html">Privacy</a> · <a href="/legal.html">Legal Notice</a> · <a href="/disclaimer.html">Disclaimer</a>
+      Bu site yalnızca bilgilendirme amaçlıdır ve yatırım tavsiyesi içermez.<br/>
+      <a href="/tr/privacy.html">Gizlilik</a> · <a href="/tr/legal.html">Yasal Bildirim</a> · <a href="/tr/disclaimer.html">Feragatname</a>
     </div>
   </div>
 </footer>

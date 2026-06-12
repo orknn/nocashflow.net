@@ -1,0 +1,11 @@
+<script>
+  window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });
+  document.querySelectorAll('#gloss-filters .filter-btn').forEach(b => b.addEventListener('click', function () {
+    document.querySelectorAll('#gloss-filters .filter-btn').forEach(x => x.classList.remove('active'));
+    this.classList.add('active');
+    const cat = this.dataset.cat;
+    document.querySelectorAll('#glossary .term').forEach(t => {
+      t.style.display = (cat === 'all' || t.dataset.cat === cat) ? '' : 'none';
+    });
+  }));
+</script>

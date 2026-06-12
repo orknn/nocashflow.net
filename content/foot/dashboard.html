@@ -1,0 +1,100 @@
+<script>
+  window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx','eurusd'], market: false });
+  const $ = (id) => document.getElementById(id);
+
+  const CRYPTO = [
+    {sym:'BTC', name:'Bitcoin',  id:'bitcoin'},
+    {sym:'ETH', name:'Ethereum', id:'ethereum'},
+    {sym:'SOL', name:'Solana',   id:'solana'},
+    {sym:'XRP', name:'Ripple',   id:'ripple'},
+    {sym:'BNB', name:'BNB',      id:'binancecoin'},
+    {sym:'ADA', name:'Cardano',  id:'cardano'},
+    {sym:'DOGE',name:'Dogecoin', id:'dogecoin'}
+  ];
+  const YAHOO = [
+    {sym:'S&P 500', name:'US 500',      s:'^GSPC', cls:'Index',     fmt:v=>v.toLocaleString('en-US',{maximumFractionDigits:0})},
+    {sym:'Nasdaq',  name:'Nasdaq Comp', s:'^IXIC', cls:'Index',     fmt:v=>v.toLocaleString('en-US',{maximumFractionDigits:0})},
+    {sym:'Dow',     name:'Dow Jones',   s:'^DJI',  cls:'Index',     fmt:v=>v.toLocaleString('en-US',{maximumFractionDigits:0})},
+    {sym:'Gold',    name:'Gold',        s:'GC=F',  cls:'Commodity', fmt:v=>'$'+v.toFixed(0)},
+    {sym:'Silver',  name:'Silver',      s:'SI=F',  cls:'Commodity', fmt:v=>'$'+v.toFixed(2)},
+    {sym:'Copper',  name:'Copper',      s:'HG=F',  cls:'Commodity', fmt:v=>'$'+v.toFixed(2)},
+    {sym:'Brent',   name:'Brent Crude', s:'BZ=F',  cls:'Commodity', fmt:v=>'$'+v.toFixed(1)},
+    {sym:'NatGas',  name:'Natural Gas', s:'NG=F',  cls:'Commodity', fmt:v=>'$'+v.toFixed(2)},
+    {sym:'EUR/USD', name:'Euro',        s:'EURUSD=X', cls:'FX',     fmt:v=>v.toFixed(4)},
+    {sym:'USD/TRY', name:'Turkish Lira',s:'TRY=X', cls:'FX',        fmt:v=>v.toFixed(2)},
+    {sym:'DXY',     name:'Dollar Index',s:'DX-Y.NYB', cls:'FX',     fmt:v=>v.toFixed(2)}
+  ];
+
+  function rowHTML(sym, name, cls, priceStr, pct, closes) {
+    const dir = pct == null ? 'neu' : (pct >= 0 ? 'up' : 'dn');
+    const chg = pct == null ? '—' : (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%';
+    return '<tr class="cal-row"><td><strong>' + sym + '</strong> <span class="muted" style="font-size:12px">' + name + '</span></td>' +
+      '<td><span class="badge neu" style="font-size:9px;letter-spacing:0.1em">' + cls + '</span></td>' +
+      '<td class="mono">' + priceStr + '</td>' +
+      '<td><span class="badge ' + dir + '">' + chg + '</span></td>' +
+      '<td style="width:120px">' + (closes ? window.NCF.sparkline(closes, pct >= 0) : '') + '</td></tr>';
+  }
+
+  async function loadDash() {
+    $('last-update').textContent = new Date().toLocaleTimeString('en-GB');
+    const tb = $('wl-tbody');
+    const rows = [];
+
+    /* crypto (one call) */
+    const ids = CRYPTO.map(c => c.id).join(',');
+    let cg = null;
+    try { cg = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=' + ids + '&vs_currencies=usd&include_24hr_change=true').then(r => r.json()); } catch (e) {}
+    CRYPTO.forEach(c => {
+      const d = cg && cg[c.id];
+      const price = d ? '$' + d.usd.toLocaleString('en-US', {maximumFractionDigits: d.usd < 2 ? 4 : 0}) : '—';
+      rows.push(rowHTML(c.sym, c.name, 'Crypto', price, d ? d.usd_24h_change : null, null));
+    });
+    if (cg && cg.bitcoin) window.NCF.paint('btc', cg.bitcoin.usd, cg.bitcoin.usd_24h_change);
+    if (cg && cg.ethereum) window.NCF.paint('eth', cg.ethereum.usd, cg.ethereum.usd_24h_change);
+    tb.innerHTML = rows.join('');
+
+    /* F&G + dominance */
+    window.NCF.fetchFearGreed().then(fg => {
+      if (!fg) return;
+      document.querySelectorAll('[data-px="fg"]').forEach(e => e.textContent = fg.value);
+      document.querySelectorAll('[data-chg="fg"]').forEach(e => { e.textContent = fg.label; e.className = 'stat-chg ' + (fg.value > 55 ? 'up' : fg.value < 35 ? 'dn' : 'neu'); });
+    });
+    fetch('https://api.coingecko.com/api/v3/global').then(r => r.json()).then(g => {
+      const dom = g && g.data && g.data.market_cap_percentage && g.data.market_cap_percentage.btc;
+      if (dom) $('btc-dom').textContent = dom.toFixed(1) + '%';
+    }).catch(() => {});
+
+    /* Coinbase Premium (client-side: Coinbase − Binance) */
+    window.NCF.fetchCoinbasePremium().then(p => {
+      if (!p || !$('cb-prem')) return;
+      $('cb-prem').textContent = (p.premium >= 0 ? '+$' : '−$') + Math.abs(p.premium).toFixed(0);
+      const c = $('cb-prem-c');
+      if (c) { c.textContent = (p.pct >= 0 ? '+' : '') + p.pct.toFixed(3) + '%'; c.className = 'stat-chg ' + (p.premium >= 0 ? 'up' : 'dn'); }
+    }).catch(() => {});
+
+    /* Funding rate (committed snapshot, Deribit) */
+    fetch('/data/macro.json', { cache: 'no-store' }).then(r => r.json()).then(m => {
+      if (m.funding && $('funding')) $('funding').textContent = (m.funding.value >= 0 ? '+' : '') + m.funding.value.toFixed(4) + '%';
+    }).catch(() => {});
+
+    /* yahoo (sequential, append as they arrive) */
+    for (const y of YAHOO) {
+      const d = await window.NCF.fetchYahoo(y.s, '10d');
+      const price = d ? y.fmt(d.last) : '—';
+      rows.push(rowHTML(y.sym, y.name, y.cls, price, d ? d.pct : null, d ? d.closes : null));
+      tb.innerHTML = rows.join('');
+      if (d) {
+        if (y.s === '^GSPC') window.NCF.paint('spx', d.last, d.pct);
+        if (y.s === 'GC=F')  window.NCF.paint('gold', d.last, d.pct);
+        if (y.s === 'BZ=F')  window.NCF.paint('brent', d.last, d.pct);
+        if (y.s === 'DX-Y.NYB') window.NCF.paint('dxy', d.last, d.pct);
+        if (y.s === 'EURUSD=X') window.NCF.paint('eurusd', d.last, d.pct);
+      }
+    }
+    /* fill remaining ticker keys */
+    const vix = await window.NCF.fetchYahoo('^VIX'); if (vix) window.NCF.paint('vix', vix.last, vix.pct, {invert:true});
+    const t10 = await window.NCF.fetchYahoo('^TNX'); if (t10) window.NCF.paint('us10y', t10.last, t10.pct);
+  }
+  loadDash();
+  setInterval(loadDash, 60 * 1000);
+</script>

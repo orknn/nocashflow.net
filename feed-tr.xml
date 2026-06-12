@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>NoCashFlow — Yazılar</title>
+    <link>https://nocashflow.net/tr/</link>
+    <description>Veri odaklı makro analiz, her pazar.</description>
+    <language>tr</language>
+    <atom:link href="https://nocashflow.net/feed-tr.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Smart Money Nedir ve Nereye Gidiyor?</title>
+      <link>https://nocashflow.net/tr/yazilar/smart-money.html</link>
+      <guid>https://nocashflow.net/tr/yazilar/smart-money.html</guid>
+      <pubDate>Mon, 06 Apr 2026 08:00:00 +0000</pubDate>
+      <description>JPMorgan kurumların 2026 kripto akışlarını domine edeceğini söyledi. Q1 tahminin üçte biri geldi.</description>
+    </item>
+    <item>
+      <title>Yapay Zekânın Elektriğe İhtiyacı Var — Cevap Nükleer</title>
+      <link>https://nocashflow.net/tr/yazilar/nukleer.html</link>
+      <guid>https://nocashflow.net/tr/yazilar/nukleer.html</guid>
+      <pubDate>Mon, 30 Mar 2026 08:00:00 +0000</pubDate>
+      <description>Veri merkezleri 2030'a kadar 945 TWh tüketecek — Japonya'nın tüm yıllık elektrik kullanımına eşit.</description>
+    </item>
+    <item>
+      <title>Dr. Bakır — Yanlış Teşhis mi?</title>
+      <link>https://nocashflow.net/tr/yazilar/bakir.html</link>
+      <guid>https://nocashflow.net/tr/yazilar/bakir.html</guid>
+      <pubDate>Mon, 23 Mar 2026 08:00:00 +0000</pubDate>
+      <description>Resesyon göstergesi olarak bakır bozuldu — yapay zekâ, elektrikli araçlar ve yenilenebilir enerji onu aynı anda talep ediyor.</description>
+    </item>
+    <item>
+      <title>1970'ler Karşılaştırması Neden Yanıltıcı</title>
+      <link>https://nocashflow.net/tr/yazilar/petrol.html</link>
+      <guid>https://nocashflow.net/tr/yazilar/petrol.html</guid>
+      <pubDate>Mon, 16 Mar 2026 08:00:00 +0000</pubDate>
+      <description>Brent %40 yukarıda, Hürmüz kapalı — ama petrol yoğunluğu 1973'ten beri yarıdan fazla düştü.</description>
+    </item>
+  </channel>
+</rss>

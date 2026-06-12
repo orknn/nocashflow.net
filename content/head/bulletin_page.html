@@ -1,0 +1,13 @@
+<style>
+.perks { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.perks li { display: flex; gap: 12px; padding: 16px; border: 1px solid var(--border); background: var(--bg-elev); }
+.perks .ck { color: var(--amber); font-weight: 700; flex-shrink: 0; }
+.perks strong { color: var(--text); }
+.perks div { font-size: 13px; color: var(--text-dim); line-height: 1.55; }
+.bul-row { display: flex; align-items: center; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid var(--border-soft); font-family: var(--mono); font-size: 13px; }
+.bul-row:last-child { border-bottom: none; }
+.bul-row .lbl { color: var(--text-dim); }
+.bul-row .val { color: var(--text); }
+.bul-row .d.up { color: var(--green); } .bul-row .d.dn { color: var(--red); }
+@media(max-width:700px){ .perks { grid-template-columns: 1fr; } }
+</style>

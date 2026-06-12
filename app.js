@@ -100,6 +100,27 @@
   }
   NCF.fetchFearGreed = fetchFearGreed;
 
+  /* Coinbase Premium = Coinbase BTC − Binance BTC.
+     Computed client-side on purpose: Binance is reachable from browsers but
+     blocked from GitHub Actions US IPs, so this can't live in the server
+     snapshot. Returns { coinbase, binance, premium, pct } or null. */
+  async function fetchCoinbasePremium() {
+    try {
+      const [cb, bn] = await Promise.all([
+        fetch('https://api.coinbase.com/v2/prices/BTC-USD/spot').then((r) => r.json()),
+        fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT').then((r) => r.json()),
+      ]);
+      const c = parseFloat(cb && cb.data && cb.data.amount);
+      const b = parseFloat(bn && bn.price);
+      if (!c || !b) return null;
+      const premium = c - b;
+      return { coinbase: c, binance: b, premium, pct: (premium / b) * 100 };
+    } catch (e) {
+      return null;
+    }
+  }
+  NCF.fetchCoinbasePremium = fetchCoinbasePremium;
+
   /* ---------- the canonical instrument set ---------- */
   /* key -> {label, fmt(price)->string}. Drives ticker + data-px/data-chg */
   const INSTRUMENTS = {
@@ -240,11 +261,23 @@
     }
   }
 
-  /* ---------- newsletter (graceful no-backend stub) ---------- */
+  /* ---------- newsletter ----------
+     PLACEHOLDER / TODO: wire to the email provider.
+     This is a front-end stub — it shows a success state but sends nothing.
+     When the provider + embed/endpoint is supplied, replace the body of the
+     submit handler below with a real call, e.g.:
+       const email = input.value;
+       await fetch('<PROVIDER_SUBSCRIBE_ENDPOINT>', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ email })
+       });
+     (or drop the provider's own embed markup in place of <form data-newsletter>). */
   function initForms() {
     $$('form[data-newsletter]').forEach((form) => {
       form.addEventListener('submit', (e) => {
         e.preventDefault();
+        // TODO(newsletter): replace this stub with the real provider call.
         const btn = form.querySelector('button');
         const input = form.querySelector('input');
         if (!btn) return;

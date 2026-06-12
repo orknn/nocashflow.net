@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>NoCashFlow — Articles</title>
+    <link>https://nocashflow.net/</link>
+    <description>Data-driven macro analysis, every Sunday.</description>
+    <language>en</language>
+    <atom:link href="https://nocashflow.net/feed-en.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>What Is Smart Money, and Where Is It Going?</title>
+      <link>https://nocashflow.net/articles/smart-money.html</link>
+      <guid>https://nocashflow.net/articles/smart-money.html</guid>
+      <pubDate>Mon, 06 Apr 2026 08:00:00 +0000</pubDate>
+      <description>JPMorgan said institutions would dominate 2026 crypto flows. Q1 came in at one-third of the estimate.</description>
+    </item>
+    <item>
+      <title>AI Needs Electricity — The Answer Is Nuclear</title>
+      <link>https://nocashflow.net/articles/nukleer.html</link>
+      <guid>https://nocashflow.net/articles/nukleer.html</guid>
+      <pubDate>Mon, 30 Mar 2026 08:00:00 +0000</pubDate>
+      <description>Data centers will consume 945 TWh by 2030 — equal to Japan's entire annual electricity use.</description>
+    </item>
+    <item>
+      <title>Dr. Copper — Wrong Diagnosis?</title>
+      <link>https://nocashflow.net/articles/bakir.html</link>
+      <guid>https://nocashflow.net/articles/bakir.html</guid>
+      <pubDate>Mon, 23 Mar 2026 08:00:00 +0000</pubDate>
+      <description>Copper as a recession indicator is broken — AI data centers, EVs and renewables all demand it at once.</description>
+    </item>
+    <item>
+      <title>Why the 1970s Comparison Is Misleading</title>
+      <link>https://nocashflow.net/articles/petrol.html</link>
+      <guid>https://nocashflow.net/articles/petrol.html</guid>
+      <pubDate>Mon, 16 Mar 2026 08:00:00 +0000</pubDate>
+      <description>Brent up 40%, Hormuz closed — but oil intensity has more than halved since 1973.</description>
+    </item>
+  </channel>
+</rss>

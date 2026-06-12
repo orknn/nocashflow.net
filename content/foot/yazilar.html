@@ -1,0 +1,17 @@
+<script>
+  /* Old anchor links (yazilar.html#smart-money) now live on their own pages.
+     Redirect any incoming #slug to the dedicated article page. */
+  (function () {
+    var slugs = { 'smart-money': 1, 'nukleer': 1, 'bakir': 1, 'petrol': 1 };
+    var h = (location.hash || '').replace('#', '');
+    if (slugs[h]) {
+      var base = document.documentElement.lang === 'tr' ? '/tr/yazilar/' : '/articles/';
+      location.replace(base + h + '.html');
+    }
+  })();
+  window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });
+  document.querySelectorAll('.filter-btn').forEach(b => b.addEventListener('click', function(){
+    document.querySelectorAll('.filter-btn').forEach(x => x.classList.remove('active'));
+    this.classList.add('active');
+  }));
+</script>
