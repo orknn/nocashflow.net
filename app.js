@@ -262,30 +262,40 @@
   }
 
   /* ---------- newsletter ----------
-     PLACEHOLDER / TODO: wire to the email provider.
-     This is a front-end stub — it shows a success state but sends nothing.
-     When the provider + embed/endpoint is supplied, replace the body of the
-     submit handler below with a real call, e.g.:
-       const email = input.value;
-       await fetch('<PROVIDER_SUBSCRIBE_ENDPOINT>', {
-         method: 'POST',
-         headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify({ email })
-       });
-     (or drop the provider's own embed markup in place of <form data-newsletter>). */
+     Real subscribe: POSTs to the Cloudflare Worker at /api/subscribe, which
+     adds the address to the matching Resend Audience (TR/EN by page language).
+     Worker source + deploy steps live in /workers/. Honest UX: success only on
+     a real 2xx; failures show an error instead of pretending. */
   function initForms() {
+    const TR = document.documentElement.lang === 'tr';
+    const MSG = {
+      busy: TR ? 'Gönderiliyor…' : 'Subscribing…',
+      ok: TR ? '✓ Abone olundu' : '✓ Subscribed',
+      err: TR ? 'Olmadı — tekrar dene' : 'Failed — try again',
+    };
     $$('form[data-newsletter]').forEach((form) => {
-      form.addEventListener('submit', (e) => {
+      form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        // TODO(newsletter): replace this stub with the real provider call.
         const btn = form.querySelector('button');
         const input = form.querySelector('input');
-        if (!btn) return;
+        if (!btn || !input || btn.disabled) return;
+        const email = input.value.trim();
+        if (!email) return;
         const orig = btn.textContent;
-        btn.textContent = '✓ Subscribed';
+        btn.textContent = MSG.busy;
         btn.disabled = true;
-        if (input) input.value = '';
-        setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, 3000);
+        let ok = false;
+        try {
+          const r = await fetch('/api/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, lang: TR ? 'tr' : 'en' }),
+          });
+          ok = r.ok;
+        } catch (err) { ok = false; }
+        btn.textContent = ok ? MSG.ok : MSG.err;
+        if (ok) input.value = '';            // keep the address on failure for retry
+        setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, ok ? 4000 : 2500);
       });
     });
   }

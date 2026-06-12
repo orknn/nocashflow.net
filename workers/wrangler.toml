@@ -1,0 +1,13 @@
+name = "ncf-subscribe"
+main = "subscribe.js"
+compatibility_date = "2026-06-01"
+
+# Route the worker under the site (the zone is already proxied by Cloudflare).
+routes = [
+  { pattern = "nocashflow.net/api/subscribe", zone_name = "nocashflow.net" }
+]
+
+# Secrets — set once with:
+#   wrangler secret put RESEND_API_KEY
+#   wrangler secret put RESEND_AUDIENCE_TR
+#   wrangler secret put RESEND_AUDIENCE_EN
