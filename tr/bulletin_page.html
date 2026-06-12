@@ -95,6 +95,27 @@
     <li><span class="ck">✓</span><div><strong>Pazar Derin Analizi.</strong> Uzun makro analiz, 1.500–3.000 kelime, haftada bir. Asla paywall yok.</div></li>
   </ul>
 
+  <!-- LATEST ISSUES (newsletter pipeline'ının push ettiği canlı bültenler) -->
+  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Son sayılar</div><div class="section-meta">Her sabah güncellenir · 07:45 CET</div></div>
+  <div class="card-grid">
+    <div class="acard">
+      <div class="k" style="font-family:var(--mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--amber);margin-bottom:8px">Günlük Nabız</div>
+      <p style="font-size:13px;color:var(--text-dim);line-height:1.55;flex:1">Sabah makro özeti, ekonomik takvim, hisse &amp; emtia ve kripto masası — her sabah 3 dakikalık okuma.</p>
+      <div style="display:flex;gap:10px;margin-top:14px">
+        <a class="btn" style="flex:1;justify-content:center" href="/bulletins/daily/latest.tr.html" target="_blank" rel="noopener">Türkçe <span class="arrow">→</span></a>
+        <a class="btn" style="flex:1;justify-content:center" href="/bulletins/daily/latest.en.html" target="_blank" rel="noopener">English <span class="arrow">→</span></a>
+      </div>
+    </div>
+    <div class="acard" id="weekly-card" style="display:none">
+      <div class="k" style="font-family:var(--mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--amber);margin-bottom:8px">Haftalık Derin Analiz</div>
+      <p style="font-size:13px;color:var(--text-dim);line-height:1.55;flex:1">Net likidite, enflasyon patikası, stablecoin arzı, döngü panosu ve önümüzdeki hafta — her pazar uzun analiz.</p>
+      <div style="display:flex;gap:10px;margin-top:14px">
+        <a class="btn" style="flex:1;justify-content:center" href="/bulletins/weekly/latest.tr.html" target="_blank" rel="noopener">Türkçe <span class="arrow">→</span></a>
+        <a class="btn" style="flex:1;justify-content:center" href="/bulletins/weekly/latest.en.html" target="_blank" rel="noopener">English <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+
   <!-- SAMPLE ISSUE -->
   <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Örnek sayı</div><div class="section-meta">Cumartesi sayısı</div></div>
   <div class="with-aside">
@@ -123,7 +144,10 @@
           <div class="brief-item"><div class="t">Çar · Orta</div><h4>Fed Beige Book</h4></div>
           <div class="brief-item"><div class="t">Per · Orta</div><h4>İşsizlik Başvuruları</h4><p>Önceki 213B · Beklenti 215B</p></div>
         </div>
-        <a href="/daily_bulletin.html" class="btn" style="width:100%;justify-content:center" target="_blank" rel="noopener">Son sayıyı oku <span class="arrow">→</span></a>
+        <div style="display:flex;gap:8px">
+          <a href="/bulletins/daily/latest.tr.html" class="btn" style="flex:1;justify-content:center" target="_blank" rel="noopener">Son · TR <span class="arrow">→</span></a>
+          <a href="/bulletins/daily/latest.en.html" class="btn" style="flex:1;justify-content:center" target="_blank" rel="noopener">Latest · EN <span class="arrow">→</span></a>
+        </div>
       </div>
     </aside>
   </div>
@@ -198,6 +222,13 @@
 
 <script src="/app.js"></script>
 <script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>
+<script>
+  /* Reveal the Weekly Deep Dive card only once a weekly bulletin has been
+     published (the weekly pipeline runs Sundays; until then the file 404s). */
+  fetch('/bulletins/weekly/latest.tr.html', { method: 'HEAD' })
+    .then(function (r) { if (r.ok) { var c = document.getElementById('weekly-card'); if (c) c.style.display = ''; } })
+    .catch(function () {});
+</script>
 <script>document.querySelectorAll('[data-set-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',a.getAttribute('data-set-lang'));}catch(e){}});});</script>
 </body>
 </html>

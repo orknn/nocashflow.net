@@ -1,1 +1,8 @@
 <script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>
+<script>
+  /* Reveal the Weekly Deep Dive card only once a weekly bulletin has been
+     published (the weekly pipeline runs Sundays; until then the file 404s). */
+  fetch('/bulletins/weekly/latest.tr.html', { method: 'HEAD' })
+    .then(function (r) { if (r.ok) { var c = document.getElementById('weekly-card'); if (c) c.style.display = ''; } })
+    .catch(function () {});
+</script>
