@@ -305,11 +305,93 @@
     $$('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
   }
 
+  /* ---------- After Hours toggle (pre-paint decision lives in <head>) ------ */
+  function initTheme() {
+    $$('[data-theme-toggle]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+        if (dark) document.documentElement.removeAttribute('data-theme');
+        else document.documentElement.setAttribute('data-theme', 'dark');
+        try { localStorage.setItem('ncf_theme', dark ? 'light' : 'dark'); } catch (e) {}
+      });
+    });
+  }
+
+  /* ---------- reading progress (article pages) ---------- */
+  function initProgress() {
+    const bar = document.getElementById('read-progress');
+    if (!bar) return;
+    const update = () => {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+    };
+    addEventListener('scroll', update, { passive: true });
+    update();
+  }
+
+  /* ---------- copy link (article share row) ---------- */
+  function initCopy() {
+    $$('[data-copy]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const orig = btn.textContent;
+        try {
+          await navigator.clipboard.writeText(btn.getAttribute('data-copy'));
+          btn.textContent = '✓';
+        } catch (e) { btn.textContent = '✗'; }
+        setTimeout(() => { btn.textContent = orig; }, 1600);
+      });
+    });
+  }
+
+  /* ---------- page transitions: a quick "page turn" on internal nav ------- */
+  function initPageTransitions() {
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // a restored (back/forward) page must never stay faded out
+    addEventListener('pageshow', () => document.documentElement.classList.remove('is-leaving'));
+    if (reduce) return;
+    document.addEventListener('click', (e) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const a = e.target.closest('a');
+      if (!a) return;
+      const href = a.getAttribute('href');
+      if (!href || a.target || a.hasAttribute('download')) return;
+      if (/^(#|mailto:|tel:|javascript:)/i.test(href)) return;
+      let url;
+      try { url = new URL(a.href); } catch (err) { return; }
+      if (url.origin !== location.origin) return;            // external → let it go
+      if (url.pathname === location.pathname && url.hash) return; // same-page anchor
+      e.preventDefault();
+      document.documentElement.classList.add('is-leaving');
+      setTimeout(() => { location.href = a.href; }, 270);
+    });
+  }
+
+  /* ---------- section headers: draw the rule when scrolled into view ------ */
+  function initSectionRules() {
+    const heads = $$('.section-header');
+    if (!heads.length || !('IntersectionObserver' in window)) {
+      heads.forEach((h) => h.classList.add('ruled'));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (en.isIntersecting) { en.target.classList.add('ruled'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.6 });
+    heads.forEach((h) => io.observe(h));
+  }
+
   /* ---------- boot ---------- */
   function init(opts = {}) {
     initMenu();
     initForms();
     initYear();
+    initTheme();
+    initProgress();
+    initCopy();
+    initPageTransitions();
+    initSectionRules();
     if (opts.ticker) buildTicker(opts.ticker);
     if (opts.market !== false) {
       loadMarket(opts).catch(() => {});

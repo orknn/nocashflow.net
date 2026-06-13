@@ -24,14 +24,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <meta name="theme-color" content="#ffffff"/>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('theme');if(q==='dark'||q==='light'){try{localStorage.setItem('ncf_theme',q);}catch(e){}}var t=null;try{t=localStorage.getItem('ncf_theme');}catch(e){}if(!t){var h=new Date().getHours();t=(h>=21||h<7)?'dark':'light';}if(t==='dark')d.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "en", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
 <link rel="stylesheet" href="/splash.css"/>
 <script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('lang');if(q==='tr'||q==='en'){try{localStorage.setItem('ncf_lang',q);}catch(e){}if(q==='tr'){location.replace('/tr/');return;}return;}var p=null;try{p=localStorage.getItem('ncf_lang');}catch(e){}if(p==='tr'){location.replace('/tr/');return;}if(p==='en'){return;}d.setAttribute('data-ncf-splash','on');}catch(e){d.setAttribute('data-ncf-splash','on');}})();</script>
 </head>
-<body>
+<body data-mood="fear">
 <!-- LANGUAGE GATE (hidden unless the head script reveals it) -->
 <div id="ncf-splash" role="dialog" aria-label="Language / Dil">
   <a href="?lang=en" class="ncf-splash-skip">Skip &rarr;</a>
@@ -44,6 +45,7 @@
 <div class="cursor-ring"><span class="c-label">Read</span></div>
 <div class="cursor-dot"></div>
 
+<div id="page-sweep"></div>
 <!-- TICKER -->
 <div class="ticker">
   <div class="ticker-label"><span class="dot"></span> Live</div>
@@ -65,11 +67,45 @@
     </div>
     <div class="nav-right">
       <a class="lang-switch" href="/tr/" data-set-lang="tr" aria-label="Türkçe'ye geç">TR</a>
+      <button class="nav-btn theme-toggle" data-theme-toggle aria-label="After Hours" title="After Hours">◐</button>
       <a href="/bulletin_page.html" class="subscribe">Subscribe</a>
       <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
     </div>
   </div>
 </nav>
+
+
+<div class="masthead"><div class="masthead-inner"><span>Morning Edition</span><span class="mh-date">Saturday, June 13, 2026</span><span>Barcelona</span></div></div>
+
+<!-- MANIFESTO HERO — giant statement over the live yield curve -->
+<section class="hero-v2">
+  
+<!-- HERO FRIEZE — generated from data/macro.json at build time; the site redraws itself daily -->
+<div class="hero-frieze" aria-hidden="true">
+  <svg viewBox="0 0 1200 150" preserveAspectRatio="none">
+    <line x1="46" y1="124" x2="1154" y2="124" class="hf-base"/>
+    <path d="M46.0,116.0 C76.8,115.0 169.1,111.6 230.7,110.3 C292.2,109.0 353.8,111.2 415.3,108.4 C476.9,105.5 538.4,97.1 600.0,93.1 C661.6,89.2 723.1,89.1 784.7,84.9 C846.2,80.7 907.8,75.9 969.3,67.7 C1030.9,59.6 1123.2,41.3 1154.0,36.0 L1154.0,124 L46.0,124 Z" class="hf-area"/>
+    <path d="M46.0,116.0 C76.8,115.0 169.1,111.6 230.7,110.3 C292.2,109.0 353.8,111.2 415.3,108.4 C476.9,105.5 538.4,97.1 600.0,93.1 C661.6,89.2 723.1,89.1 784.7,84.9 C846.2,80.7 907.8,75.9 969.3,67.7 C1030.9,59.6 1123.2,41.3 1154.0,36.0" class="hf-line"/>
+    <g><circle cx="46.0" cy="116.0" r="2.6" class="hf-pt"/><text x="46.0" y="140" class="hf-lbl">1M</text><text x="46.0" y="107.0" class="hf-val">3.69</text></g><g><circle cx="230.7" cy="110.3" r="2.6" class="hf-pt"/><text x="230.7" y="140" class="hf-lbl">3M</text><text x="230.7" y="101.3" class="hf-val">3.78</text></g><g><circle cx="415.3" cy="108.4" r="2.6" class="hf-pt"/><text x="415.3" y="140" class="hf-lbl">6M</text><text x="415.3" y="99.4" class="hf-val">3.81</text></g><g><circle cx="600.0" cy="93.1" r="2.6" class="hf-pt"/><text x="600.0" y="140" class="hf-lbl">2Y</text><text x="600.0" y="84.1" class="hf-val">4.05</text></g><g><circle cx="784.7" cy="84.9" r="2.6" class="hf-pt"/><text x="784.7" y="140" class="hf-lbl">5Y</text><text x="784.7" y="75.9" class="hf-val">4.18</text></g><g><circle cx="969.3" cy="67.7" r="2.6" class="hf-pt"/><text x="969.3" y="140" class="hf-lbl">10Y</text><text x="969.3" y="58.7" class="hf-val">4.45</text></g><g><circle cx="1154.0" cy="36.0" r="2.6" class="hf-pt"/><text x="1154.0" y="140" class="hf-lbl">30Y</text><text x="1154.0" y="27.0" class="hf-val">4.95</text></g>
+  </svg>
+  <div class="hf-cap">US Treasury yield curve · drawn 2026-06-11 · FRED</div>
+</div>
+
+  <div class="hero-inner">
+    <div class="mood-pill" data-m="fear"><span class="mp-dot"></span><span class="mp-k">Market mood</span><span class="mp-w">fearful</span><span class="mp-v">F&amp;G 13</span></div>
+    <h1 class="hero-title"><span class="ht-line">Make sense</span><span class="ht-line">of the <em>macro.</em></span></h1>
+    <p class="hero-sub">Data-driven macro &amp; market analysis. Every morning, from Barcelona — primary source, always linked.</p>
+    <div class="hero-cta">
+      <a class="subscribe" href="/bulletin_page.html">Read the bulletin</a>
+      <a class="hero-ghost" href="/yazilar.html">Sunday essays <span class="arrow">→</span></a>
+    </div>
+    <div class="hero-kpis">
+      <div class="hk"><span class="hk-k">Bitcoin</span><span class="hk-v" data-px="btc">$63,748</span><span class="hk-c up" data-chg="btc">+0.48%</span></div>
+      <div class="hk"><span class="hk-k">US 10Y</span><span class="hk-v" data-px="us10y">4.49%</span><span class="hk-c up" data-chg="us10y">+0.54%</span></div>
+      <div class="hk"><span class="hk-k">Fear &amp; Greed</span><span class="hk-v" data-px="fg">13</span><span class="hk-c dn" data-chg="fg">Extreme Fear</span></div>
+    </div>
+  </div>
+</section>
 
 <!-- HERO / LEAD STORY -->
 <section class="lead">
@@ -259,6 +295,7 @@
         <h4>Content</h4>
         <ul>
           <li><a href="/bulletin_page.html">Bulletin</a></li>
+          <li><a href="/archive.html">Archive</a></li>
           <li><a href="/hakkinda.html">About</a></li>
           <li><a href="/sozluk.html">Glossary</a></li>
         </ul>
@@ -268,6 +305,7 @@
         <ul>
           <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
           <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="/feed-en.xml">RSS</a></li>
           <li><a href="mailto:orkun@nocashflow.net">Email</a></li>
         </ul>
       </div>
@@ -276,6 +314,7 @@
       <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona</span>
       <span><a href="/hakkinda.html">About</a> · <a href="/bulletin_page.html">Subscribe</a></span>
     </div>
+    <div class="mood-line"><span class="mood-dot"></span>Today the market is fearful — Fear &amp; Greed 13/100.</div>
     <div class="disclaimer">
       This site is for information only and does not provide investment advice.<br/>
       <a href="/privacy.html">Privacy</a> · <a href="/legal.html">Legal Notice</a> · <a href="/disclaimer.html">Disclaimer</a>

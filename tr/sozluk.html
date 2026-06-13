@@ -24,13 +24,18 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <meta name="theme-color" content="#ffffff"/>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('theme');if(q==='dark'||q==='light'){try{localStorage.setItem('ncf_theme',q);}catch(e){}}var t=null;try{t=localStorage.getItem('ncf_theme');}catch(e){}if(!t){var h=new Date().getHours();t=(h>=21||h<7)?'dark':'light';}if(t==='dark')d.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "tr", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
 <script>(function(){try{var q=new URLSearchParams(location.search).get('lang');if(q==='en'){try{localStorage.setItem('ncf_lang','en');}catch(e){}location.replace('/');return;}if(q==='tr'){try{localStorage.setItem('ncf_lang','tr');}catch(e){}return;}var p=null;try{p=localStorage.getItem('ncf_lang');}catch(e){}if(p==='en'){location.replace('/');return;}}catch(e){}})();</script>
 </head>
-<body>
+<body data-mood="fear">
+<div class="cursor-ring"><span class="c-label">Read</span></div>
+<div class="cursor-dot"></div>
+
+<div id="page-sweep"></div>
 <!-- TICKER -->
 <div class="ticker">
   <div class="ticker-label"><span class="dot"></span> Live</div>
@@ -52,11 +57,15 @@
     </div>
     <div class="nav-right">
       <a class="lang-switch" href="/sozluk.html" data-set-lang="en" aria-label="Switch to English">EN</a>
+      <button class="nav-btn theme-toggle" data-theme-toggle aria-label="After Hours" title="After Hours">◐</button>
       <a href="/tr/bulletin_page.html" class="subscribe">Abone Ol</a>
       <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
     </div>
   </div>
 </nav>
+
+
+<div class="masthead"><div class="masthead-inner"><span>Sabah Baskısı</span><span class="mh-date">13 Haziran 2026 Cumartesi</span><span>Barcelona</span></div></div>
 
 <header class="page-head">
   <div class="page-eyebrow">Finansal Sözlük <span class="divider"></span> <span class="muted">Sade açıklamalar</span></div>
@@ -126,6 +135,7 @@
         <h4>İçerik</h4>
         <ul>
           <li><a href="/tr/bulletin_page.html">Bülten</a></li>
+          <li><a href="/tr/arsiv.html">Arşiv</a></li>
           <li><a href="/tr/hakkinda.html">Hakkında</a></li>
           <li><a href="/tr/sozluk.html">Sözlük</a></li>
         </ul>
@@ -135,6 +145,7 @@
         <ul>
           <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
           <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="/feed-tr.xml">RSS</a></li>
           <li><a href="mailto:orkun@nocashflow.net">E-posta</a></li>
         </ul>
       </div>
@@ -143,6 +154,7 @@
       <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona</span>
       <span><a href="/tr/hakkinda.html">Hakkında</a> · <a href="/tr/bulletin_page.html">Abone Ol</a></span>
     </div>
+    <div class="mood-line"><span class="mood-dot"></span>Bugün piyasa korkuyor — Fear &amp; Greed 13/100.</div>
     <div class="disclaimer">
       Bu site yalnızca bilgilendirme amaçlıdır ve yatırım tavsiyesi içermez.<br/>
       <a href="/tr/privacy.html">Gizlilik</a> · <a href="/tr/legal.html">Yasal Bildirim</a> · <a href="/tr/disclaimer.html">Feragatname</a>

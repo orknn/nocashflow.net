@@ -24,12 +24,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <meta name="theme-color" content="#ffffff"/>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('theme');if(q==='dark'||q==='light'){try{localStorage.setItem('ncf_theme',q);}catch(e){}}var t=null;try{t=localStorage.getItem('ncf_theme');}catch(e){}if(!t){var h=new Date().getHours();t=(h>=21||h<7)?'dark':'light';}if(t==='dark')d.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "en", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
 </head>
-<body>
+<body data-mood="fear">
+<div class="cursor-ring"><span class="c-label">Read</span></div>
+<div class="cursor-dot"></div>
+
+<div id="page-sweep"></div>
 <!-- TICKER -->
 <div class="ticker">
   <div class="ticker-label"><span class="dot"></span> Live</div>
@@ -51,11 +56,15 @@
     </div>
     <div class="nav-right">
       <a class="lang-switch" href="/tr/dashboard.html" data-set-lang="tr" aria-label="Türkçe'ye geç">TR</a>
+      <button class="nav-btn theme-toggle" data-theme-toggle aria-label="After Hours" title="After Hours">◐</button>
       <a href="/bulletin_page.html" class="subscribe">Subscribe</a>
       <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
     </div>
   </div>
 </nav>
+
+
+<div class="masthead"><div class="masthead-inner"><span>Morning Edition</span><span class="mh-date">Saturday, June 13, 2026</span><span>Barcelona</span></div></div>
 
 <header class="page-head">
   <div class="page-eyebrow">Live Markets <span class="divider"></span> <span class="muted">Updated: <span id="last-update">—</span></span></div>
@@ -106,6 +115,7 @@
         <h4>Content</h4>
         <ul>
           <li><a href="/bulletin_page.html">Bulletin</a></li>
+          <li><a href="/archive.html">Archive</a></li>
           <li><a href="/hakkinda.html">About</a></li>
           <li><a href="/sozluk.html">Glossary</a></li>
         </ul>
@@ -115,6 +125,7 @@
         <ul>
           <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
           <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="/feed-en.xml">RSS</a></li>
           <li><a href="mailto:orkun@nocashflow.net">Email</a></li>
         </ul>
       </div>
@@ -123,6 +134,7 @@
       <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona</span>
       <span><a href="/hakkinda.html">About</a> · <a href="/bulletin_page.html">Subscribe</a></span>
     </div>
+    <div class="mood-line"><span class="mood-dot"></span>Today the market is fearful — Fear &amp; Greed 13/100.</div>
     <div class="disclaimer">
       This site is for information only and does not provide investment advice.<br/>
       <a href="/privacy.html">Privacy</a> · <a href="/legal.html">Legal Notice</a> · <a href="/disclaimer.html">Disclaimer</a>

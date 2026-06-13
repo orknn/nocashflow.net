@@ -3,7 +3,8 @@
    Author: Orkun Biçen
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+/* Fonts load once from the page <head> (Fraunces · Newsreader · IBM Plex Mono) —
+   the old @import here was a second render-blocking request. */
 
 :root {
   --bg: #FFFFFF;
@@ -633,3 +634,26 @@ footer { padding: 80px var(--pad) 40px; background: var(--bg); border-top: 2px s
   body { cursor: auto; }
   .cursor-dot, .cursor-ring { display: none; }
 }
+
+/* ════════ AFTER HOURS — dark edition ════════
+   Same broadsheet, printed at night. Toggle ◐ in the nav; auto 21:00–07:00. */
+html[data-theme="dark"] {
+  --bg: #14110D;
+  --bg-elev: #1B1712;
+  --bg-elev-2: #221D16;
+  --border: #3A332A;
+  --border-soft: #2A251E;
+  --text: #EDE6D8;
+  --text-dim: #B3A894;
+  --text-mute: #7C7261;
+  --amber: #D89A3A;
+  --amber-hi: #E8AC4C;
+  --on-amber: #14110D;
+  --green: #5CAD78;
+  --red: #E2603F;
+}
+html[data-theme="dark"] body::before { mix-blend-mode: screen; opacity: 0.06; }
+html[data-theme="dark"] .nav { background: rgba(20, 17, 13, 0.92); }
+html[data-theme="dark"] .subscribe:hover { color: #14110D; }
+html[data-theme="dark"] ::selection { background: var(--amber); color: #14110D; }
+html[data-theme="dark"] .gloss::after { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }

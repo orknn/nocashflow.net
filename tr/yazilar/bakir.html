@@ -22,12 +22,18 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <meta name="theme-color" content="#ffffff"/>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('theme');if(q==='dark'||q==='light'){try{localStorage.setItem('ncf_theme',q);}catch(e){}}var t=null;try{t=localStorage.getItem('ncf_theme');}catch(e){}if(!t){var h=new Date().getHours();t=(h>=21||h<7)?'dark':'light';}if(t==='dark')d.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Dr. Bakır — Yanlış Teşhis mi?", "description": "Resesyon göstergesi olarak bakır bozuldu — yapay zekâ, elektrikli araçlar ve yenilenebilir enerji onu aynı anda talep ediyor.", "datePublished": "2026-03-23", "inLanguage": "tr", "author": {"@type": "Person", "name": "Orkun Biçen"}, "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}, "mainEntityOfPage": "https://nocashflow.net/tr/yazilar/bakir.html", "image": "https://nocashflow.net/og.png"}</script>
 </head>
-<body>
+<body data-mood="fear">
+<div class="cursor-ring"><span class="c-label">Read</span></div>
+<div class="cursor-dot"></div>
+
+<div id="page-sweep"></div>
+<div id="read-progress" aria-hidden="true"></div>
 <!-- TICKER -->
 <div class="ticker">
   <div class="ticker-label"><span class="dot"></span> Live</div>
@@ -49,11 +55,15 @@
     </div>
     <div class="nav-right">
       <a class="lang-switch" href="/articles/bakir.html" data-set-lang="en" aria-label="Switch to English">EN</a>
+      <button class="nav-btn theme-toggle" data-theme-toggle aria-label="After Hours" title="After Hours">◐</button>
       <a href="/tr/bulletin_page.html" class="subscribe">Abone Ol</a>
       <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
     </div>
   </div>
 </nav>
+
+
+<div class="masthead"><div class="masthead-inner"><span>Sabah Baskısı</span><span class="mh-date">13 Haziran 2026 Cumartesi</span><span>Barcelona</span></div></div>
 
 
 <header class="page-head" data-read>
@@ -62,9 +72,9 @@
   <p class="page-dek">Resesyon göstergesi olarak bakır bozuldu — yapay zekâ, elektrikli araçlar ve yenilenebilir enerji onu aynı anda talep ediyor.</p>
 </header>
 <div class="section">
-  <div class="prose" style="max-width:760px">
+  <div class="prose article-prose" style="max-width:760px">
 <p>Bakır uzun süredir ekonominin termometresi oldu. Ama yapay zekâ veri merkezleri, elektrikli araçlar ve yenilenebilir enerji onu artık aynı anda talep ediyor. S&amp;P Global 2040'a kadar 10 milyon tonluk açık öngörüyor.</p>
-<p>2024–2026 verisi "Dr. Copper" ilişkisini kırıyor: bakır yüksekte kalırken PMI daralıyor. Elektrikleşme talebi döngüsel talebi geçti.</p>
+<p>2024–2026 verisi "Dr. Copper" ilişkisini kırıyor: bakır yüksekte kalırken <span class="gloss" tabindex="0" data-gd="Satınalma Yöneticileri Endeksi. 50 üstü genişleme, altı daralma. ISM Manufacturing PMI öncü bir resesyon göstergesidir.">PMI</span> daralıyor. Elektrikleşme talebi döngüsel talebi geçti.</p>
 <ul class="arrow-list">
   <li>EV: 1 elektrikli araç = 4× geleneksel araç kadar bakır</li>
   <li>Solar: 1 GW = 1,000 ton bakır</li>
@@ -72,7 +82,18 @@
 </ul>
 <div class="source-box"><span class="k">Veri Kaynağı</span>S&amp;P Global Copper Outlook.</div>
   </div>
-  <a href="/tr/yazilar.html" class="section-link" style="display:inline-block;margin-top:36px">← Tüm yazılar</a>
+
+  <div class="share-row">
+    <span class="share-k">Paylaş</span>
+    <a href="https://twitter.com/intent/tweet?text=Dr.%20Bak%C4%B1r%20%E2%80%94%20Yanl%C4%B1%C5%9F%20Te%C5%9Fhis%20mi%3F&url=https%3A//nocashflow.net/tr/yazilar/bakir.html" target="_blank" rel="noopener">X / Twitter</a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A//nocashflow.net/tr/yazilar/bakir.html" target="_blank" rel="noopener">LinkedIn</a>
+    <button type="button" data-copy="https://nocashflow.net/tr/yazilar/bakir.html">Bağlantıyı kopyala</button>
+  </div>
+  <div class="pn-grid">
+    <a class="pn-card" href="/tr/yazilar/nukleer.html"><span class="pn-k">← Yeni</span><span class="pn-t">Yapay Zekânın Elektriğe İhtiyacı Var — Cevap Nükleer</span></a>
+    <a class="pn-card pn-right" href="/tr/yazilar/petrol.html"><span class="pn-k">Eski →</span><span class="pn-t">1970'ler Karşılaştırması Neden Yanıltıcı</span></a>
+  </div>
+  <a href="/tr/yazilar.html" class="section-link" style="display:inline-block;margin-top:28px">← Tüm yazılar</a>
 </div>
 
 
@@ -97,6 +118,7 @@
         <h4>İçerik</h4>
         <ul>
           <li><a href="/tr/bulletin_page.html">Bülten</a></li>
+          <li><a href="/tr/arsiv.html">Arşiv</a></li>
           <li><a href="/tr/hakkinda.html">Hakkında</a></li>
           <li><a href="/tr/sozluk.html">Sözlük</a></li>
         </ul>
@@ -106,6 +128,7 @@
         <ul>
           <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
           <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="/feed-tr.xml">RSS</a></li>
           <li><a href="mailto:orkun@nocashflow.net">E-posta</a></li>
         </ul>
       </div>
@@ -114,6 +137,7 @@
       <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona</span>
       <span><a href="/tr/hakkinda.html">Hakkında</a> · <a href="/tr/bulletin_page.html">Abone Ol</a></span>
     </div>
+    <div class="mood-line"><span class="mood-dot"></span>Bugün piyasa korkuyor — Fear &amp; Greed 13/100.</div>
     <div class="disclaimer">
       Bu site yalnızca bilgilendirme amaçlıdır ve yatırım tavsiyesi içermez.<br/>
       <a href="/tr/privacy.html">Gizlilik</a> · <a href="/tr/legal.html">Yasal Bildirim</a> · <a href="/tr/disclaimer.html">Feragatname</a>

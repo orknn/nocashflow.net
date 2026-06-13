@@ -24,7 +24,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <meta name="theme-color" content="#ffffff"/>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('theme');if(q==='dark'||q==='light'){try{localStorage.setItem('ncf_theme',q);}catch(e){}}var t=null;try{t=localStorage.getItem('ncf_theme');}catch(e){}if(!t){var h=new Date().getHours();t=(h>=21||h<7)?'dark':'light';}if(t==='dark')d.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "en", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
@@ -42,7 +43,11 @@
 @media(max-width:700px){ .perks { grid-template-columns: 1fr; } }
 </style>
 </head>
-<body>
+<body data-mood="fear">
+<div class="cursor-ring"><span class="c-label">Read</span></div>
+<div class="cursor-dot"></div>
+
+<div id="page-sweep"></div>
 <!-- TICKER -->
 <div class="ticker">
   <div class="ticker-label"><span class="dot"></span> Live</div>
@@ -64,11 +69,15 @@
     </div>
     <div class="nav-right">
       <a class="lang-switch" href="/tr/bulletin_page.html" data-set-lang="tr" aria-label="Türkçe'ye geç">TR</a>
+      <button class="nav-btn theme-toggle" data-theme-toggle aria-label="After Hours" title="After Hours">◐</button>
       <a href="/bulletin_page.html" class="subscribe">Subscribe</a>
       <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
     </div>
   </div>
 </nav>
+
+
+<div class="masthead"><div class="masthead-inner"><span>Morning Edition</span><span class="mh-date">Saturday, June 13, 2026</span><span>Barcelona</span></div></div>
 
 <!-- HERO -->
 <header class="page-head" id="subscribe">
@@ -116,32 +125,32 @@
   </div>
 
   <!-- SAMPLE ISSUE -->
-  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Sample issue</div><div class="section-meta">Saturday edition</div></div>
+  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">This morning's snapshot</div><div class="section-meta"><span class="live">● Live</span> · what the bulletin opens with</div></div>
   <div class="with-aside">
     <div class="card">
       <div class="card-title">NoCashFlow Daily <span class="muted">Good morning from Barcelona</span></div>
       <div class="card-body">
         <div class="k" style="font-family:var(--mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--amber);margin-bottom:10px">Morning Snapshot</div>
-        <div class="bul-row"><span class="lbl">Bitcoin (BTC)</span><span class="val">$83,200</span><span class="d dn">−2.4%</span></div>
-        <div class="bul-row"><span class="lbl">Ethereum (ETH)</span><span class="val">$3,840</span><span class="d dn">−3.1%</span></div>
-        <div class="bul-row"><span class="lbl">Gold (XAU/USD)</span><span class="val">$3,240</span><span class="d up">+0.8%</span></div>
-        <div class="bul-row"><span class="lbl">Brent Crude</span><span class="val">$106.40</span><span class="d up">+1.2%</span></div>
-        <div class="bul-row"><span class="lbl">DXY</span><span class="val">103.8</span><span class="d up">+0.3%</span></div>
-        <div class="bul-row"><span class="lbl">US 10Y Treasury</span><span class="val">4.42%</span><span class="d dn">−4 bps</span></div>
-        <div class="bul-row"><span class="lbl">Fear &amp; Greed</span><span class="val">12 / 100</span><span class="d dn">Extreme Fear</span></div>
+        <div class="bul-row"><span class="lbl">Bitcoin (BTC)</span><span class="val" data-px="btc">$63,748</span><span class="d up" data-chg="btc">+0.48%</span></div>
+        <div class="bul-row"><span class="lbl">Ethereum (ETH)</span><span class="val" data-px="eth">$1,674</span><span class="d up" data-chg="eth">+0.09%</span></div>
+        <div class="bul-row"><span class="lbl">Gold (XAU/USD)</span><span class="val" data-px="gold">$4215</span><span class="d up" data-chg="gold">+3.05%</span></div>
+        <div class="bul-row"><span class="lbl">Brent Crude</span><span class="val" data-px="brent">$87.3</span><span class="d dn" data-chg="brent">-3.37%</span></div>
+        <div class="bul-row"><span class="lbl">DXY</span><span class="val" data-px="dxy">99.75</span><span class="d dn" data-chg="dxy">-0.11%</span></div>
+        <div class="bul-row"><span class="lbl">US 10Y Treasury</span><span class="val" data-px="us10y">4.49%</span><span class="d up" data-chg="us10y">+0.54%</span></div>
+        <div class="bul-row"><span class="lbl">Fear &amp; Greed</span><span class="val" data-px="fg">13</span><span class="d dn" data-chg="fg">Extreme Fear</span></div>
         <div class="callout" style="margin-top:22px">
           <div class="k">Today's note</div>
-          <p>Monday CPI is the week's critical event — March is the first full month of the war's energy impact. February PPI already printed at 2× expectations. An upside surprise would reprice rate-cut expectations (currently one cut for all of 2026). Gold and Brent are the safe havens; BTC is trading risk-off.</p>
+          <p>Live snapshot as of 13 Jun 2026, 10:26 CET. Crypto Fear &amp; Greed at 13/100 (Extreme Fear). The full picture — calendar, Fed watch and the desk note — is in <a href="/bulletins/daily/latest.en.html" target="_blank" rel="noopener">today's issue →</a></p>
         </div>
       </div>
     </div>
     <aside>
       <div class="aside-sticky">
         <div class="brief">
-          <div class="brief-head">This week's events</div>
-          <div class="brief-item"><div class="t">Mon · High impact ⭐</div><h4>US CPI &amp; PPI (March)</h4><p>Prev 2.4% / 3.4% · Cons 2.6% / 3.8%</p></div>
-          <div class="brief-item"><div class="t">Wed · Medium</div><h4>Fed Beige Book</h4></div>
-          <div class="brief-item"><div class="t">Thu · Medium</div><h4>Jobless Claims</h4><p>Prev 213K · Cons 215K</p></div>
+          <div class="brief-head">Next on the calendar</div>
+          <div class="brief-item"><div class="t">Wed 14:30 · High impact ⭐</div><h4>Core Inflation Rate MoM</h4><p>Prev 0.4% · Cons 0.3%</p></div>
+          <div class="brief-item"><div class="t">Wed 14:30 · High impact ⭐</div><h4>Core Inflation Rate YoY</h4><p>Prev 2.8% · Cons 2.9%</p></div>
+          <div class="brief-item"><div class="t">Wed 14:30 · High impact ⭐</div><h4>Inflation Rate MoM</h4><p>Prev 0.6% · Cons 0.5%</p></div>
         </div>
         <div style="display:flex;gap:8px">
           <a href="/bulletins/daily/latest.tr.html" class="btn" style="flex:1;justify-content:center" target="_blank" rel="noopener">Latest · TR <span class="arrow">→</span></a>
@@ -195,6 +204,7 @@
         <h4>Content</h4>
         <ul>
           <li><a href="/bulletin_page.html">Bulletin</a></li>
+          <li><a href="/archive.html">Archive</a></li>
           <li><a href="/hakkinda.html">About</a></li>
           <li><a href="/sozluk.html">Glossary</a></li>
         </ul>
@@ -204,6 +214,7 @@
         <ul>
           <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
           <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="/feed-en.xml">RSS</a></li>
           <li><a href="mailto:orkun@nocashflow.net">Email</a></li>
         </ul>
       </div>
@@ -212,6 +223,7 @@
       <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona</span>
       <span><a href="/hakkinda.html">About</a> · <a href="/bulletin_page.html">Subscribe</a></span>
     </div>
+    <div class="mood-line"><span class="mood-dot"></span>Today the market is fearful — Fear &amp; Greed 13/100.</div>
     <div class="disclaimer">
       This site is for information only and does not provide investment advice.<br/>
       <a href="/privacy.html">Privacy</a> · <a href="/legal.html">Legal Notice</a> · <a href="/disclaimer.html">Disclaimer</a>

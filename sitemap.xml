@@ -121,6 +121,18 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/legal.html"/>
   </url>
   <url>
+    <loc>https://nocashflow.net/archive.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/archive.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/arsiv.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/archive.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/tr/arsiv.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/archive.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/arsiv.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/archive.html"/>
+  </url>
+  <url>
     <loc>https://nocashflow.net/articles/smart-money.html</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/articles/smart-money.html"/>
     <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/yazilar/smart-money.html"/>

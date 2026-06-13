@@ -24,6 +24,7 @@ import re
 import sys
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
+from urllib.parse import quote as _uq
 
 ROOT = Path(__file__).parent
 CONTENT = ROOT / "content"
@@ -33,6 +34,237 @@ LANGS = ("en", "tr")
 # Cloudflare Web Analytics is enabled via Cloudflare's Automatic Setup (the site
 # is proxied through Cloudflare, which injects the beacon at the edge). No manual
 # snippet here — adding one would double-count page views.
+
+# One consolidated Google Fonts request (Fraunces display · Newsreader body ·
+# IBM Plex Mono data) — replaces the extra render-blocking @import in site.css.
+FONTS_URL = ("https://fonts.googleapis.com/css2"
+             "?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900"
+             "&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500"
+             "&family=IBM+Plex+Mono:wght@400;500;600&display=swap")
+
+# After Hours theme — pre-paint decision (no flash): stored preference wins;
+# otherwise dark between 21:00–07:00 local. ?theme=dark|light overrides + persists.
+THEME_SCRIPT = (
+    "<script>(function(){var d=document.documentElement;try{"
+    "var q=new URLSearchParams(location.search).get('theme');"
+    "if(q==='dark'||q==='light'){try{localStorage.setItem('ncf_theme',q);}catch(e){}}"
+    "var t=null;try{t=localStorage.getItem('ncf_theme');}catch(e){}"
+    "if(!t){var h=new Date().getHours();t=(h>=21||h<7)?'dark':'light';}"
+    "if(t==='dark')d.setAttribute('data-theme','dark');}catch(e){}})();</script>"
+)
+
+
+def _mood():
+    """Market mood from the committed Fear & Greed snapshot: fear / neutral / greed."""
+    try:
+        v = int(MARKET["instruments"]["fg"]["px"])
+        return "fear" if v < 35 else ("greed" if v > 55 else "neutral")
+    except Exception:
+        return "neutral"
+
+
+def _fg_value():
+    try:
+        d = MARKET["instruments"]["fg"]
+        return int(d["px"]), d.get("chg", "")
+    except Exception:
+        return None, ""
+
+
+MOOD_LABEL = {
+    "en": {"fear": "fearful", "neutral": "undecided", "greed": "greedy"},
+    "tr": {"fear": "korkuyor", "neutral": "kararsız", "greed": "açgözlü"},
+}
+
+
+def _mood_line(lang):
+    """One honest sentence in the footer: how the market feels today (real F&G)."""
+    v, _ = _fg_value()
+    if v is None:
+        return ""
+    m = _mood()
+    if lang == "en":
+        txt = f"Today the market is {MOOD_LABEL['en'][m]} — Fear &amp; Greed {v}/100."
+    else:
+        txt = f"Bugün piyasa {MOOD_LABEL['tr'][m]} — Fear &amp; Greed {v}/100."
+    return f'<div class="mood-line"><span class="mood-dot"></span>{txt}</div>'
+
+
+def _mood_pill(lang):
+    """Compact badge above the hero title — real F&G, mood-coloured."""
+    v, label = _fg_value()
+    if v is None:
+        return ""
+    m = _mood()
+    head = "Market mood" if lang == "en" else "Piyasa modu"
+    word = MOOD_LABEL[lang][m]
+    return (f'<div class="mood-pill" data-m="{m}"><span class="mp-dot"></span>'
+            f'<span class="mp-k">{head}</span>'
+            f'<span class="mp-w">{word}</span>'
+            f'<span class="mp-v">F&amp;G {v}</span></div>')
+
+
+# ── generative hero frieze: the real US yield curve, redrawn on every build ──
+def hero_frieze(lang):
+    curve = MACRO.get("curve") or []
+    if len(curve) < 4:
+        return ""
+    W, H, PAD = 1200, 150, 46
+    vals = [p["v"] for p in curve]
+    mn, mx = min(vals), max(vals)
+    rng = (mx - mn) or 1.0
+    pts = []
+    for i, p in enumerate(curve):
+        x = PAD + i * (W - 2 * PAD) / (len(curve) - 1)
+        y = H - 34 - ((p["v"] - mn) / rng) * (H - 70)
+        pts.append((x, y, p["l"], p["v"]))
+
+    # smooth path (Catmull-Rom → cubic bézier)
+    def path_d(points):
+        if len(points) < 3:
+            return "M" + " L".join(f"{x:.1f},{y:.1f}" for x, y, *_ in points)
+        d = f"M{points[0][0]:.1f},{points[0][1]:.1f}"
+        for i in range(len(points) - 1):
+            p0 = points[max(i - 1, 0)]; p1 = points[i]
+            p2 = points[i + 1]; p3 = points[min(i + 2, len(points) - 1)]
+            c1x = p1[0] + (p2[0] - p0[0]) / 6; c1y = p1[1] + (p2[1] - p0[1]) / 6
+            c2x = p2[0] - (p3[0] - p1[0]) / 6; c2y = p2[1] - (p3[1] - p1[1]) / 6
+            d += f" C{c1x:.1f},{c1y:.1f} {c2x:.1f},{c2y:.1f} {p2[0]:.1f},{p2[1]:.1f}"
+        return d
+
+    d = path_d(pts)
+    area = d + f" L{pts[-1][0]:.1f},{H - 26} L{pts[0][0]:.1f},{H - 26} Z"
+    ticks = "".join(
+        f'<g><circle cx="{x:.1f}" cy="{y:.1f}" r="2.6" class="hf-pt"/>'
+        f'<text x="{x:.1f}" y="{H - 10}" class="hf-lbl">{l}</text>'
+        f'<text x="{x:.1f}" y="{y - 9:.1f}" class="hf-val">{v:.2f}</text></g>'
+        for x, y, l, v in pts)
+    date = MACRO.get("us10y", {}).get("date", "")
+    cap = (f"US Treasury yield curve · drawn {date} · FRED" if lang == "en"
+           else f"ABD Hazine getiri eğrisi · {date} çizimi · FRED")
+    return f"""
+<!-- HERO FRIEZE — generated from data/macro.json at build time; the site redraws itself daily -->
+<div class="hero-frieze" aria-hidden="true">
+  <svg viewBox="0 0 {W} {H}" preserveAspectRatio="none">
+    <line x1="{PAD}" y1="{H - 26}" x2="{W - PAD}" y2="{H - 26}" class="hf-base"/>
+    <path d="{area}" class="hf-area"/>
+    <path d="{d}" class="hf-line"/>
+    {ticks}
+  </svg>
+  <div class="hf-cap">{cap}</div>
+</div>
+"""
+
+
+# ── bulletin-page aside: next high-impact events from the real calendar ─────
+def inject_cal_brief(html, lang):
+    if "<!--NCF:CAL_BRIEF-->" not in html:
+        return html
+    evs = [e for e in CALENDAR.get("events", []) if e.get("impact") == "high"][:3]
+    if len(evs) < 3:
+        evs += [e for e in CALENDAR.get("events", []) if e.get("impact") == "medium"][: 3 - len(evs)]
+    items = []
+    imp_lbl = {"high": ("High impact ⭐", "Yüksek etki ⭐"), "medium": ("Medium", "Orta")}
+    for e in evs:
+        wd = WEEKDAYS[lang][e["wd"]] if 0 <= e.get("wd", -1) <= 6 else ""
+        imp = imp_lbl.get(e.get("impact"), ("", ""))[0 if lang == "en" else 1]
+        sub = ""
+        if e.get("prev", "—") != "—" or e.get("est", "—") != "—":
+            pv = "Prev" if lang == "en" else "Önceki"
+            cs = "Cons" if lang == "en" else "Beklenti"
+            sub = f'<p>{pv} {e.get("prev", "—")} · {cs} {e.get("est", "—")}</p>'
+        items.append(f'<div class="brief-item"><div class="t">{wd} {e.get("time", "")} · {imp}</div>'
+                     f'<h4>{e.get("event", "")}</h4>{sub}</div>')
+    return html.replace("<!--NCF:CAL_BRIEF-->", "\n          ".join(items))
+
+
+# ── bulletin-page sample: honest auto note from the snapshot ─────────────────
+def inject_snapshot_note(html, lang):
+    if "<!--NCF:SNAP_NOTE-->" not in html:
+        return html
+    v, label = _fg_value()
+    stamp = _fmt_stamp(MARKET.get("asof", ""), lang)
+    if lang == "en":
+        txt = (f"Live snapshot as of {stamp}. Crypto Fear &amp; Greed at {v}/100 ({label}). "
+               f'The full picture — calendar, Fed watch and the desk note — is in '
+               f'<a href="/bulletins/daily/latest.en.html" target="_blank" rel="noopener">today\'s issue →</a>')
+    else:
+        txt = (f"Canlı görüntü, {stamp} itibarıyla. Kripto Fear &amp; Greed {v}/100 ({label}). "
+               f'Tam resim — takvim, Fed takibi ve masa notu — '
+               f'<a href="/bulletins/daily/latest.tr.html" target="_blank" rel="noopener">bugünkü sayıda →</a>')
+    return html.replace("<!--NCF:SNAP_NOTE-->", txt)
+
+
+# ── bulletin archive: every dated issue the pipeline has pushed ──────────────
+def inject_archive(html, lang):
+    if "<!--NCF:ARCHIVE-->" not in html:
+        return html
+    import glob as _g
+    out = []
+    for kind, title_en, title_tr in (("weekly", "Weekly Deep Dive", "Haftalık Derin Analiz"),
+                                     ("daily", "Daily Pulse", "Günlük Nabız")):
+        files = sorted(_g.glob(str(ROOT / "bulletins" / kind / "*.[et][nr].html")), reverse=True)
+        dates = sorted({Path(f).name.rsplit(".", 2)[0] for f in files
+                        if not Path(f).name.startswith("latest")}, reverse=True)
+        if not dates:
+            continue
+        rows = []
+        for ds in dates:
+            other = "en" if lang == "tr" else "tr"
+            rows.append(
+                f'<li class="arch-row"><span class="arch-date">{ds}</span>'
+                f'<span class="arch-links"><a href="/bulletins/{kind}/{ds}.{lang}.html" target="_blank" rel="noopener">'
+                f'{"Read" if lang == "en" else "Oku"} →</a>'
+                f'<a class="arch-alt" href="/bulletins/{kind}/{ds}.{other}.html" target="_blank" rel="noopener">{other.upper()}</a></span></li>')
+        t = title_en if lang == "en" else title_tr
+        out.append(f'<div class="section-header" style="margin-top:40px"><div class="section-title" style="font-size:22px">{t}</div>'
+                   f'<div class="section-meta">{len(dates)} {"issues" if lang == "en" else "sayı"}</div></div>'
+                   f'<ul class="arch-list">{"".join(rows)}</ul>')
+    if not out:
+        msg = "The archive starts filling up as issues are published." if lang == "en" \
+            else "Arşiv, sayılar yayımlandıkça dolmaya başlayacak."
+        out.append(f'<p class="muted" style="font-family:var(--mono);font-size:13px">{msg}</p>')
+    return html.replace("<!--NCF:ARCHIVE-->", "\n".join(out))
+
+
+# ── glossary tooltips: terms from sozluk, dotted-underlined in article prose ─
+def _glossary_terms(lang):
+    src = _read(f"{lang}/sozluk.html")
+    return re.findall(r'<h3>(.*?)</h3><p>(.*?)</p>', src)
+
+
+def gloss_wrap(prose, lang):
+    """Wrap the first plain-text occurrence of each glossary term in a CSS-tooltip
+    span. Operates on text tokens only (never inside tags/attributes/links)."""
+    terms = sorted(_glossary_terms(lang), key=lambda t: -len(t[0]))
+    if not terms:
+        return prose
+    tokens = re.split(r'(<[^>]+>)', prose)
+    in_skip = 0
+    done = set()
+    for i, tok in enumerate(tokens):
+        if tok.startswith("<"):
+            low = tok.lower()
+            if re.match(r'<(a|h\d|code)[\s>]', low):
+                in_skip += 1
+            elif re.match(r'</(a|h\d|code)>', low):
+                in_skip = max(0, in_skip - 1)
+            continue
+        if in_skip or not tok.strip():
+            continue
+        for term, desc in terms:
+            t_plain = re.sub(r'&amp;', '&', term)
+            if t_plain in done:
+                continue
+            pat = re.compile(r'(?<![\w&])(' + re.escape(t_plain) + r')(?![\w;])')
+            if pat.search(tok):
+                d_attr = re.sub(r'<[^>]+>', '', desc).replace('"', '&quot;')
+                tokens[i] = pat.sub(
+                    lambda m: f'<span class="gloss" tabindex="0" data-gd="{d_attr}">{m.group(1)}</span>',
+                    tok, count=1)
+                tok = tokens[i]
+                done.add(t_plain)
+    return "".join(tokens)
 
 # ── shared navigation (key, label_en, label_tr, href_en, href_tr) ────────────
 NAV = [
@@ -55,6 +287,7 @@ FOOTER = {
         "l_bulletin": "Bulletin", "l_about": "About", "l_glossary": "Glossary",
         "l_email": "Email", "bottom_about": "About", "bottom_subscribe": "Subscribe",
         "l_privacy": "Privacy", "l_legal": "Legal Notice", "l_disclaimer": "Disclaimer",
+        "l_archive": "Archive", "l_rss": "RSS",
         "disclaimer": "This site is for information only and does not provide investment advice.",
     },
     "tr": {
@@ -64,6 +297,7 @@ FOOTER = {
         "l_bulletin": "Bülten", "l_about": "Hakkında", "l_glossary": "Sözlük",
         "l_email": "E-posta", "bottom_about": "Hakkında", "bottom_subscribe": "Abone Ol",
         "l_privacy": "Gizlilik", "l_legal": "Yasal Bildirim", "l_disclaimer": "Feragatname",
+        "l_archive": "Arşiv", "l_rss": "RSS",
         "disclaimer": "Bu site yalnızca bilgilendirme amaçlıdır ve yatırım tavsiyesi içermez.",
     },
 }
@@ -165,6 +399,14 @@ PAGES = {
         "title": {"en": "Legal Notice — NoCashFlow", "tr": "Yasal Bildirim — NoCashFlow"},
         "desc":  {"en": "Aviso Legal — site ownership and terms of use.",
                   "tr": "Aviso Legal — site sahipliği ve kullanım koşulları."},
+    },
+    "archive": {
+        "nav_key": "bulletin",
+        "paths": {"en": "/archive.html", "tr": "/tr/arsiv.html"},
+        "out":   {"en": "archive.html", "tr": "tr/arsiv.html"},
+        "title": {"en": "Archive — NoCashFlow Bulletins", "tr": "Arşiv — NoCashFlow Bültenleri"},
+        "desc":  {"en": "Every published issue of the NoCashFlow daily and weekly bulletins, in chronological order.",
+                  "tr": "NoCashFlow günlük ve haftalık bültenlerinin yayımlanmış tüm sayıları, kronolojik sırayla."},
     },
 }
 
@@ -390,12 +632,13 @@ def head(page, lang):
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <meta name="theme-color" content="#ffffff"/>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+{THEME_SCRIPT}
+<link href="{FONTS_URL}" rel="stylesheet"/>
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
 <script type="application/ld+json">{site_schema}</script>
 {head_extra}{splash_css}{early}</head>
-<body>"""
+<body data-mood="{_mood()}">"""
 
 
 def _early_script(page, lang):
@@ -433,12 +676,39 @@ def splash_overlay():
 """
 
 
-def chrome_top(page):
-    cursor = ""
-    if PAGES[page].get("cursor"):
-        cursor = ('<div class="cursor-ring"><span class="c-label">Read</span></div>\n'
-                  '<div class="cursor-dot"></div>\n\n')
-    return cursor + """<!-- TICKER -->
+CURSOR_HTML = ('<div class="cursor-ring"><span class="c-label">Read</span></div>\n'
+               '<div class="cursor-dot"></div>\n\n')
+
+MONTHS_LONG = {"en": ["January", "February", "March", "April", "May", "June", "July",
+                      "August", "September", "October", "November", "December"],
+               "tr": ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz",
+                      "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"]}
+WEEKDAYS_LONG = {"en": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+                 "tr": ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"]}
+
+
+def masthead(lang):
+    """Thin broadsheet dateline under the nav — re-typeset on every build."""
+    try:
+        from zoneinfo import ZoneInfo
+        now = datetime.now(ZoneInfo("Europe/Madrid"))
+    except Exception:
+        now = datetime.now()
+    wd = WEEKDAYS_LONG[lang][now.weekday()]
+    mo = MONTHS_LONG[lang][now.month - 1]
+    if lang == "en":
+        datestr = f"{wd}, {mo} {now.day}, {now.year}"
+        edition = "Morning Edition"
+    else:
+        datestr = f"{now.day} {mo} {now.year} {wd}"
+        edition = "Sabah Baskısı"
+    return (f'\n<div class="masthead"><div class="masthead-inner">'
+            f'<span>{edition}</span><span class="mh-date">{datestr}</span>'
+            f'<span>Barcelona</span></div></div>\n')
+
+
+def chrome_top(page=None):
+    return CURSOR_HTML + '<div id="page-sweep"></div>\n' + """<!-- TICKER -->
 <div class="ticker">
   <div class="ticker-label"><span class="dot"></span> Live</div>
   <div class="ticker-track" id="ticker-track"></div>
@@ -470,6 +740,7 @@ def _nav_html(active_key, lang, sw_href):
     </div>
     <div class="nav-right">
       <a class="lang-switch" href="{sw_href}" data-set-lang="{sw_set}" aria-label="{sw_aria}">{sw_label}</a>
+      <button class="nav-btn theme-toggle" data-theme-toggle aria-label="After Hours" title="After Hours">◐</button>
       <a href="{sub_href}" class="subscribe">{sub_label}</a>
       <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
     </div>
@@ -509,6 +780,7 @@ def footer(lang):
         <h4>{f['col_content']}</h4>
         <ul>
           <li><a href="{fl('/bulletin_page.html', '/tr/bulletin_page.html')}">{f['l_bulletin']}</a></li>
+          <li><a href="{fl('/archive.html', '/tr/arsiv.html')}">{f['l_archive']}</a></li>
           <li><a href="{fl('/hakkinda.html', '/tr/hakkinda.html')}">{f['l_about']}</a></li>
           <li><a href="{fl('/sozluk.html', '/tr/sozluk.html')}">{f['l_glossary']}</a></li>
         </ul>
@@ -518,6 +790,7 @@ def footer(lang):
         <ul>
           <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
           <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="{fl('/feed-en.xml', '/feed-tr.xml')}">{f['l_rss']}</a></li>
           <li><a href="mailto:orkun@nocashflow.net">{f['l_email']}</a></li>
         </ul>
       </div>
@@ -526,6 +799,7 @@ def footer(lang):
       <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona</span>
       <span><a href="{fl('/hakkinda.html', '/tr/hakkinda.html')}">{f['bottom_about']}</a> · <a href="{fl('/bulletin_page.html', '/tr/bulletin_page.html')}">{f['bottom_subscribe']}</a></span>
     </div>
+    {_mood_line(lang)}
     <div class="disclaimer">
       {f['disclaimer']}<br/>
       <a href="{fl('/privacy.html', '/tr/privacy.html')}">{f['l_privacy']}</a> · <a href="{fl('/legal.html', '/tr/legal.html')}">{f['l_legal']}</a> · <a href="{fl('/disclaimer.html', '/tr/disclaimer.html')}">{f['l_disclaimer']}</a>
@@ -584,6 +858,7 @@ def render(page, lang):
         head(page, lang),
         splash_html + chrome_top(page),
         nav(page, lang),
+        masthead(lang),
         body,
         footer(lang),
         scripts(page, lang),
@@ -592,7 +867,12 @@ def render(page, lang):
         "",
     ])
     # fill build-time snapshots (market values + macro KPIs + economic calendar)
+    html = html.replace("<!--NCF:HERO-->", hero_frieze(lang))
+    html = html.replace("<!--NCF:MOOD-->", _mood_pill(lang))
     html = inject_calendar(html, lang)
+    html = inject_cal_brief(html, lang)
+    html = inject_snapshot_note(html, lang)
+    html = inject_archive(html, lang)
     html = inject_macro(html, lang)
     html = inject_article_list(html, lang)
     html = inject_market(html)
@@ -696,16 +976,50 @@ def render_article(slug, lang):
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <meta name="theme-color" content="#ffffff"/>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+{THEME_SCRIPT}
+<link href="{FONTS_URL}" rel="stylesheet"/>
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
 <script type="application/ld+json">{schema}</script>
 </head>
-<body>"""
+<body data-mood="{_mood()}">"""
 
-    ticker = ('<!-- TICKER -->\n<div class="ticker">\n'
+    ticker = (CURSOR_HTML +
+              '<div id="page-sweep"></div>\n'
+              '<div id="read-progress" aria-hidden="true"></div>\n'
+              '<!-- TICKER -->\n<div class="ticker">\n'
               '  <div class="ticker-label"><span class="dot"></span> Live</div>\n'
               '  <div class="ticker-track" id="ticker-track"></div>\n</div>\n')
+
+    # glossary tooltips (terms from sozluk, defined per language)
+    prose = gloss_wrap(prose, lang)
+
+    # prev / next within the series (ARTICLE_ORDER is newest-first)
+    idx = ARTICLE_ORDER.index(slug)
+    newer = ARTICLE_ORDER[idx - 1] if idx > 0 else None
+    older = ARTICLE_ORDER[idx + 1] if idx < len(ARTICLE_ORDER) - 1 else None
+    lbl_new = "Newer" if lang == "en" else "Yeni"
+    lbl_old = "Older" if lang == "en" else "Eski"
+
+    def _pn_card(s, label, arrow_left):
+        if not s:
+            return '<div class="pn-card pn-empty"></div>'
+        t = ARTICLES[s]["title"][lang]
+        arr = "←" if arrow_left else "→"
+        inner = (f'<span class="pn-k">{arr} {label}</span><span class="pn-t">{t}</span>'
+                 if arrow_left else
+                 f'<span class="pn-k">{label} {arr}</span><span class="pn-t">{t}</span>')
+        return f'<a class="pn-card{"" if arrow_left else " pn-right"}" href="{article_path(s, lang)}">{inner}</a>'
+
+    share_lbl = "Share" if lang == "en" else "Paylaş"
+    copy_lbl = "Copy link" if lang == "en" else "Bağlantıyı kopyala"
+    share_html = f"""
+  <div class="share-row">
+    <span class="share-k">{share_lbl}</span>
+    <a href="https://twitter.com/intent/tweet?text={_uq(title)}&url={_uq(canonical)}" target="_blank" rel="noopener">X / Twitter</a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url={_uq(canonical)}" target="_blank" rel="noopener">LinkedIn</a>
+    <button type="button" data-copy="{canonical}">{copy_lbl}</button>
+  </div>"""
 
     body = f"""
 <header class="page-head" data-read>
@@ -714,10 +1028,15 @@ def render_article(slug, lang):
   <p class="page-dek">{dek}</p>
 </header>
 <div class="section">
-  <div class="prose" style="max-width:760px">
+  <div class="prose article-prose" style="max-width:760px">
 {prose}
   </div>
-  <a href="{yazilar_url}" class="section-link" style="display:inline-block;margin-top:36px">{back}</a>
+{share_html}
+  <div class="pn-grid">
+    {_pn_card(newer, lbl_new, True)}
+    {_pn_card(older, lbl_old, False)}
+  </div>
+  <a href="{yazilar_url}" class="section-link" style="display:inline-block;margin-top:28px">{back}</a>
 </div>
 """
 
@@ -730,7 +1049,8 @@ def render_article(slug, lang):
     )
 
     html = "\n".join([head_html, ticker, _nav_html("articles", lang, sw_href),
-                      body, footer(lang), scripts_html, "</body>", "</html>", ""])
+                      masthead(lang), body, footer(lang), scripts_html,
+                      "</body>", "</html>", ""])
     return inject_market(html)
 
 
