@@ -26,7 +26,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install --quiet requests
+        run: pip install --quiet requests pillow
 
       - name: Fetch market + calendar snapshots
         env:
@@ -40,7 +40,9 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data *.html tr/*.html
+          # stage every build artefact: pages (incl. now/, tr/simdi/ subdirs),
+          # sitemap/feeds, the widget JSONP snapshot and the daily share image
+          git add -A
           if git diff --staged --quiet; then
             echo "No snapshot changes."
           else

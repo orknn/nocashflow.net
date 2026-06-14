@@ -1,0 +1,47 @@
+<header class="page-head">
+  <div class="page-eyebrow">Widget <span class="divider"></span> <span class="muted">Ücretsiz · Kayıt yok</span></div>
+  <h1 class="page-title">Sitene <em>canlı piyasa verisi</em> koy</h1>
+  <p class="page-dek">Ücretsiz, kendi kendine yeten bir widget — Kripto Korku &amp; Açgözlülük, Bitcoin, altın ve ABD 10 yıllık getirisi, birincil kaynaklardan her gün güncellenir. Tek satır HTML, API anahtarı yok, ziyaretçilerini izlemez.</p>
+</header>
+
+<div class="section">
+  <div class="with-aside">
+    <div>
+      <!-- SEÇENEK 1: SCRIPT -->
+      <div class="section-header" style="margin-bottom:18px"><div class="section-title" style="font-size:22px">1 · Script (önerilen)</div></div>
+      <p class="prose" style="margin-bottom:14px">Widget'ın görünmesini istediğin yere yapıştır. Her HTML sayfasında çalışır — WordPress (Özel HTML bloğu), Ghost, düz siteler.</p>
+      <pre class="embed-code"><code>&lt;script src="https://nocashflow.net/embed.js" data-ncf-widget async&gt;&lt;/script&gt;</code></pre>
+      <p class="prose" style="margin:10px 0 36px;font-size:14px">Belirli bir yerde mi olsun? Bir hedef ekle: <code>&lt;div id="ncf"&gt;&lt;/div&gt;</code> ve <code>data-ncf-target="ncf"</code> ile yükle.</p>
+
+      <!-- SEÇENEK 2: IFRAME -->
+      <div class="section-header" style="margin-bottom:18px"><div class="section-title" style="font-size:22px">2 · iframe</div></div>
+      <p class="prose" style="margin-bottom:14px">Platformun script'i engelliyorsa (bazı CMS editörleri engeller) iframe kullan.</p>
+      <pre class="embed-code"><code>&lt;iframe src="https://nocashflow.net/widget/" width="380" height="340"
+        style="border:0;overflow:hidden" loading="lazy"
+        title="NoCashFlow canlı piyasa verisi"&gt;&lt;/iframe&gt;</code></pre>
+
+      <!-- KOŞULLAR -->
+      <div class="section-header" style="margin:40px 0 18px"><div class="section-title" style="font-size:22px">Küçük yazı</div></div>
+      <div class="prose" style="max-width:680px">
+        <p>Ticari kullanım dahil ücretsizdir. Tek ricamız: “nocashflow.net” bağlantısını yerinde bırak — widget'ı ücretsiz tutan o bağlantı. Widget hiçbir üçüncü taraf izleyici yüklemez, ziyaretçilerine çerez koymaz. Veri günlük bir anlık görüntüdür; olduğu gibi, yalnızca bilgilendirme amaçlı sunulur, yatırım tavsiyesi değildir.</p>
+      </div>
+    </div>
+
+    <aside>
+      <div class="aside-sticky">
+        <div class="brief">
+          <div class="brief-head">Canlı önizleme</div>
+          <div class="brief-item">
+            <div id="ncf-preview" style="margin-top:4px"></div>
+          </div>
+        </div>
+        <div class="brief">
+          <div class="brief-head">Neleri gösterir</div>
+          <div class="brief-item">
+            <p>Kripto Korku &amp; Açgözlülük, Bitcoin, Ethereum, altın ve ABD 10 yıllık getirisi. 5 dakikada bir tazelenir; anlık görüntü her gün güncellenir.</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>

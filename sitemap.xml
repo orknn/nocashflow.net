@@ -25,6 +25,30 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/macro.html"/>
   </url>
   <url>
+    <loc>https://nocashflow.net/calendar.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/calendar.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/takvim.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/calendar.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/tr/takvim.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/calendar.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/takvim.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/calendar.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/embed.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/embed.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/embed.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/embed.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/tr/embed.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/embed.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/embed.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/embed.html"/>
+  </url>
+  <url>
     <loc>https://nocashflow.net/yazilar.html</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/yazilar.html"/>
     <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/yazilar.html"/>
@@ -179,5 +203,89 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/articles/petrol.html"/>
     <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/yazilar/petrol.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/articles/petrol.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/now/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/now/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/simdi/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/now/"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/tr/simdi/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/now/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/simdi/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/now/"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/now/crypto-fear-greed.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/now/crypto-fear-greed.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/simdi/kripto-korku-acgozluluk-endeksi.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/now/crypto-fear-greed.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/tr/simdi/kripto-korku-acgozluluk-endeksi.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/now/crypto-fear-greed.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/simdi/kripto-korku-acgozluluk-endeksi.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/now/crypto-fear-greed.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/now/vix-volatility-index.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/now/vix-volatility-index.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/simdi/vix-volatilite-endeksi.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/now/vix-volatility-index.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/tr/simdi/vix-volatilite-endeksi.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/now/vix-volatility-index.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/simdi/vix-volatilite-endeksi.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/now/vix-volatility-index.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/now/dxy-dollar-index.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/now/dxy-dollar-index.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/simdi/dxy-dolar-endeksi.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/now/dxy-dollar-index.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/tr/simdi/dxy-dolar-endeksi.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/now/dxy-dollar-index.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/simdi/dxy-dolar-endeksi.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/now/dxy-dollar-index.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/now/us-10y-2y-yield-spread.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/now/us-10y-2y-yield-spread.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/simdi/abd-10y-2y-getiri-farki.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/now/us-10y-2y-yield-spread.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/tr/simdi/abd-10y-2y-getiri-farki.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/now/us-10y-2y-yield-spread.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/simdi/abd-10y-2y-getiri-farki.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/now/us-10y-2y-yield-spread.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/now/btc-funding-rate.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/now/btc-funding-rate.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/simdi/btc-funding-rate.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/now/btc-funding-rate.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/tr/simdi/btc-funding-rate.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/now/btc-funding-rate.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/simdi/btc-funding-rate.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/now/btc-funding-rate.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/now/fed-funds-rate.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/now/fed-funds-rate.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/simdi/fed-faiz-orani.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/now/fed-funds-rate.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/tr/simdi/fed-faiz-orani.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/now/fed-funds-rate.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/simdi/fed-faiz-orani.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/now/fed-funds-rate.html"/>
   </url>
 </urlset>

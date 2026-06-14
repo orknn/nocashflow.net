@@ -271,6 +271,7 @@ NAV = [
     ("home",      "Home",      "Ana Sayfa", "/",                   "/tr/"),
     ("articles",  "Articles",  "Yazılar",   "/yazilar.html",       "/tr/yazilar.html"),
     ("macro",     "Macro",     "Makro",     "/macro.html",         "/tr/macro.html"),
+    ("calendar",  "Calendar",  "Takvim",    "/calendar.html",      "/tr/takvim.html"),
     ("dashboard", "Dashboard", "Panel",     "/dashboard.html",     "/tr/dashboard.html"),
     ("bulletin",  "Bulletin",  "Bülten",    "/bulletin_page.html", "/tr/bulletin_page.html"),
     ("about",     "About",     "Hakkında",  "/hakkinda.html",      "/tr/hakkinda.html"),
@@ -287,7 +288,8 @@ FOOTER = {
         "l_bulletin": "Bulletin", "l_about": "About", "l_glossary": "Glossary",
         "l_email": "Email", "bottom_about": "About", "bottom_subscribe": "Subscribe",
         "l_privacy": "Privacy", "l_legal": "Legal Notice", "l_disclaimer": "Disclaimer",
-        "l_archive": "Archive", "l_rss": "RSS",
+        "l_archive": "Archive", "l_rss": "RSS", "l_indicators": "Live Indicators",
+        "l_calendar": "Economic Calendar", "l_widget": "Embed Widget",
         "disclaimer": "This site is for information only and does not provide investment advice.",
     },
     "tr": {
@@ -297,7 +299,8 @@ FOOTER = {
         "l_bulletin": "Bülten", "l_about": "Hakkında", "l_glossary": "Sözlük",
         "l_email": "E-posta", "bottom_about": "Hakkında", "bottom_subscribe": "Abone Ol",
         "l_privacy": "Gizlilik", "l_legal": "Yasal Bildirim", "l_disclaimer": "Feragatname",
-        "l_archive": "Arşiv", "l_rss": "RSS",
+        "l_archive": "Arşiv", "l_rss": "RSS", "l_indicators": "Canlı Göstergeler",
+        "l_calendar": "Ekonomik Takvim", "l_widget": "Widget Göm",
         "disclaimer": "Bu site yalnızca bilgilendirme amaçlıdır ve yatırım tavsiyesi içermez.",
     },
 }
@@ -328,6 +331,24 @@ PAGES = {
                   "tr": "Makro — NoCashFlow | Küresel Makro Göstergeler"},
         "desc":  {"en": "Live global macro dashboard — VIX, DXY, US yields, the yield curve, commodities and the economic calendar.",
                   "tr": "Canlı küresel makro panosu — VIX, DXY, ABD getirileri, getiri eğrisi, emtia ve ekonomik takvim."},
+    },
+    "calendar": {
+        "nav_key": "calendar",
+        "paths": {"en": "/calendar.html", "tr": "/tr/takvim.html"},
+        "out":   {"en": "calendar.html", "tr": "tr/takvim.html"},
+        "title": {"en": "Economic Calendar This Week — NoCashFlow | CPI, Fed, Jobs",
+                  "tr": "Bu Hafta Ekonomik Takvim — NoCashFlow | TÜFE, Fed, İstihdam"},
+        "desc":  {"en": "This week's economic calendar — every key US and euro-area release with date, time (CET), previous and consensus. High-impact events flagged.",
+                  "tr": "Bu haftanın ekonomik takvimi — her önemli ABD ve euro bölgesi verisi; tarih, saat (CET), önceki ve beklenti ile. Yüksek etkili olaylar işaretli."},
+    },
+    "embed": {
+        "nav_key": None,  # utility/tools page — footer only, not under Macro
+        "paths": {"en": "/embed.html", "tr": "/tr/embed.html"},
+        "out":   {"en": "embed.html", "tr": "tr/embed.html"},
+        "title": {"en": "Free Market Data Widget — NoCashFlow | Embed Live Macro",
+                  "tr": "Ücretsiz Piyasa Verisi Widget'ı — NoCashFlow | Canlı Makro Göm"},
+        "desc":  {"en": "Embed a free live market widget on your site — Crypto Fear & Greed, Bitcoin, gold and US yields, updated daily. One line of HTML.",
+                  "tr": "Sitene ücretsiz canlı piyasa widget'ı göm — Kripto Korku & Açgözlülük, Bitcoin, altın ve ABD getirileri, her gün güncel. Tek satır HTML."},
     },
     "yazilar": {
         "nav_key": "articles",
@@ -540,6 +561,78 @@ def _is_stale(iso, hours=48):
     except Exception:
         return False
     return (datetime.now(timezone.utc) - dt) > timedelta(hours=hours)
+
+
+def _cal_day_label(cet_date, lang):
+    """'2026-06-10' -> 'Tue · Jun 10' / 'Sal · 10 Haz'."""
+    try:
+        y, m, d = (int(x) for x in cet_date.split("-"))
+        wd = datetime(y, m, d).weekday()
+        mon = MONTHS[lang][m - 1]
+        wlabel = WEEKDAYS[lang][wd]
+        return f"{wlabel} · {mon} {d}" if lang == "en" else f"{wlabel} · {d} {mon}"
+    except Exception:
+        return cet_date
+
+
+def inject_calendar_full(html, lang):
+    """Standalone /calendar page: the full week, grouped by day, nothing capped."""
+    if "<!--NCF:CAL_FULL-->" not in html:
+        return html
+    events = CALENDAR.get("events", [])
+    high_n = sum(1 for e in events if e.get("impact") == "high")
+    groups = {}
+    order = []
+    for e in events:
+        k = e.get("cet_date", "")
+        if k not in groups:
+            groups[k] = []
+            order.append(k)
+        groups[k].append(e)
+
+    blocks = []
+    for day in order:
+        rows = []
+        for e in groups[day]:
+            flag, ccy = COUNTRY.get(e.get("country", ""), ("🏳️", e.get("country", "")))
+            name = e.get("event", "")
+            if e.get("impact") == "high":
+                ev = f'<span class="impact high"></span><strong>{name} ⭐</strong>'
+            else:
+                ev = f'<span class="impact med"></span>{name}'
+            rows.append(
+                f'<tr class="cal-row"><td class="mono">{e.get("time", "")}</td>'
+                f'<td>{ev}</td><td>{flag} {ccy}</td>'
+                f'<td class="mono">{e.get("prev", "—")}</td>'
+                f'<td class="mono">{e.get("est", "—")}</td></tr>')
+        blocks.append(
+            f'<div class="cal-day">'
+            f'<div class="cal-day-head">{_cal_day_label(day, lang)}</div>'
+            f'<table class="dtable cal-full">'
+            f'<thead><tr><th>{"Time (CET)" if lang == "en" else "Saat (CET)"}</th>'
+            f'<th>{"Event" if lang == "en" else "Veri"}</th>'
+            f'<th>{"Country" if lang == "en" else "Ülke"}</th>'
+            f'<th>{"Prev." if lang == "en" else "Önceki"}</th>'
+            f'<th>{"Cons." if lang == "en" else "Beklenti"}</th></tr></thead>'
+            f'<tbody>{"".join(rows)}</tbody></table></div>')
+    body = "\n".join(blocks) or \
+        f'<p class="muted" style="text-align:center;padding:30px">{"No releases scheduled." if lang == "en" else "Planlı veri yok."}</p>'
+
+    asof = CALENDAR.get("asof")
+    stamp = _fmt_stamp(asof, lang) if asof else "—"
+    stale = ""
+    if asof and _is_stale(asof):
+        stale = (f'<div class="callout" style="border-left-color:var(--red);margin-bottom:20px">'
+                 f'<p style="font-family:var(--mono);font-size:12px;color:var(--red)">⚠ {CAL_STALE[lang]}</p></div>')
+    summary = (f"{len(events)} releases this week · {high_n} high-impact ⭐"
+               if lang == "en" else
+               f"Bu hafta {len(events)} veri · {high_n} yüksek etkili ⭐")
+
+    html = html.replace("<!--NCF:CAL_FULL-->", body)
+    html = html.replace("<!--NCF:CAL_UPDATED-->", stamp)
+    html = html.replace("<!--NCF:CAL_STALE-->", stale)
+    html = html.replace("<!--NCF:CAL_SUMMARY-->", summary)
+    return html
 
 
 def inject_calendar(html, lang):
@@ -773,6 +866,8 @@ def footer(lang):
           <li><a href="{fl('/', '/tr/')}">{f['l_home']}</a></li>
           <li><a href="{fl('/yazilar.html', '/tr/yazilar.html')}">{f['l_articles']}</a></li>
           <li><a href="{fl('/macro.html', '/tr/macro.html')}">{f['l_macro']}</a></li>
+          <li><a href="{fl('/now/', '/tr/simdi/')}">{f['l_indicators']}</a></li>
+          <li><a href="{fl('/calendar.html', '/tr/takvim.html')}">{f['l_calendar']}</a></li>
           <li><a href="{fl('/dashboard.html', '/tr/dashboard.html')}">{f['l_dashboard']}</a></li>
         </ul>
       </div>
@@ -781,6 +876,7 @@ def footer(lang):
         <ul>
           <li><a href="{fl('/bulletin_page.html', '/tr/bulletin_page.html')}">{f['l_bulletin']}</a></li>
           <li><a href="{fl('/archive.html', '/tr/arsiv.html')}">{f['l_archive']}</a></li>
+          <li><a href="{fl('/embed.html', '/tr/embed.html')}">{f['l_widget']}</a></li>
           <li><a href="{fl('/hakkinda.html', '/tr/hakkinda.html')}">{f['l_about']}</a></li>
           <li><a href="{fl('/sozluk.html', '/tr/sozluk.html')}">{f['l_glossary']}</a></li>
         </ul>
@@ -870,6 +966,7 @@ def render(page, lang):
     html = html.replace("<!--NCF:HERO-->", hero_frieze(lang))
     html = html.replace("<!--NCF:MOOD-->", _mood_pill(lang))
     html = inject_calendar(html, lang)
+    html = inject_calendar_full(html, lang)
     html = inject_cal_brief(html, lang)
     html = inject_snapshot_note(html, lang)
     html = inject_archive(html, lang)
@@ -1060,9 +1157,11 @@ def _xml_escape(s):
 
 
 def _indexable_pairs():
-    """(en_url, tr_url) for every indexable page + article."""
+    """(en_url, tr_url) for every indexable page + article + indicator."""
     out = [(SITE_URL + p["paths"]["en"], SITE_URL + p["paths"]["tr"]) for p in PAGES.values()]
     out += [(SITE_URL + article_path(s, "en"), SITE_URL + article_path(s, "tr")) for s in ARTICLE_ORDER]
+    out += [(SITE_URL + "/now/", SITE_URL + "/tr/simdi/")]
+    out += [(SITE_URL + indicator_path(s, "en"), SITE_URL + indicator_path(s, "tr")) for s in INDICATOR_ORDER]
     return out
 
 
@@ -1118,6 +1217,267 @@ def generate_robots():
         f"User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}/sitemap.xml\n", encoding="utf-8")
 
 
+# ── programmatic SEO: live single-indicator pages (/now/, /tr/simdi/) ────────
+INDICATORS = {
+    "crypto-fear-greed": {
+        "tr_slug": "kripto-korku-acgozluluk-endeksi", "src": ("market", "fg"),
+        "short": {"en": "Crypto Fear &amp; Greed", "tr": "Kripto Korku &amp; Açgözlülük"},
+        "title": {"en": "Crypto Fear &amp; Greed Index — Today",
+                  "tr": "Kripto Korku &amp; Açgözlülük Endeksi — Bugün"},
+        "lead": {"en": "The live Crypto Fear &amp; Greed Index — what the number is right now and what it means.",
+                 "tr": "Canlı Kripto Korku &amp; Açgözlülük Endeksi — sayı şu an kaç ve ne anlama geliyor."},
+        "explain": {
+            "en": ["The Fear &amp; Greed Index scores crypto-market sentiment on a 0–100 scale. 0–25 is extreme fear, 25–45 fear, 45–55 neutral, 55–75 greed and 75–100 extreme greed.",
+                   "It blends volatility, momentum, social signals and Bitcoin dominance into a single reading. Many investors treat it as a contrarian gauge — deep fear can mark capitulation lows, extreme greed can flag froth."],
+            "tr": ["Korku &amp; Açgözlülük Endeksi, kripto piyasası duyarlılığını 0–100 ölçeğinde puanlar. 0–25 aşırı korku, 25–45 korku, 45–55 nötr, 55–75 açgözlülük, 75–100 aşırı açgözlülük.",
+                   "Volatilite, momentum, sosyal sinyaller ve Bitcoin dominansını tek bir okumada birleştirir. Çoğu yatırımcı bunu tersine bir gösterge olarak kullanır — derin korku dip, aşırı açgözlülük köpük işareti olabilir."]},
+    },
+    "vix-volatility-index": {
+        "tr_slug": "vix-volatilite-endeksi", "src": ("market", "vix"),
+        "short": {"en": "VIX · Volatility", "tr": "VIX · Volatilite"},
+        "title": {"en": "VIX — Volatility Index Today", "tr": "VIX — Volatilite Endeksi Bugün"},
+        "lead": {"en": "The CBOE VIX, the market's 30-day expected volatility — live, with what today's level signals.",
+                 "tr": "CBOE VIX, piyasanın 30 günlük beklenen volatilitesi — canlı, bugünkü seviyenin anlamıyla."},
+        "explain": {
+            "en": ["VIX measures the 30-day expected volatility of the S&amp;P 500, derived from options prices. It is widely called the market's 'fear gauge'.",
+                   "Below 15 is calm, 15–25 is normal, 25–35 is elevated stress and above 35 signals serious risk-off. Spikes usually coincide with sharp equity sell-offs."],
+            "tr": ["VIX, S&amp;P 500'ün opsiyon fiyatlarından türetilen 30 günlük beklenen volatilitesini ölçer. Yaygın olarak piyasanın 'korku göstergesi' denir.",
+                   "15 altı sakin, 15–25 normal, 25–35 yükselen stres, 35 üstü ciddi risk-off demektir. Ani sıçramalar genelde sert hisse satışlarıyla çakışır."]},
+    },
+    "dxy-dollar-index": {
+        "tr_slug": "dxy-dolar-endeksi", "src": ("market", "dxy"),
+        "short": {"en": "DXY · Dollar Index", "tr": "DXY · Dolar Endeksi"},
+        "title": {"en": "DXY — US Dollar Index Today", "tr": "DXY — Dolar Endeksi Bugün"},
+        "lead": {"en": "The US Dollar Index (DXY) live — the dollar against six major currencies, and why it matters.",
+                 "tr": "ABD Dolar Endeksi (DXY) canlı — doların altı büyük para birimine karşı seviyesi ve neden önemli."},
+        "explain": {
+            "en": ["DXY tracks the US dollar against a basket of six major currencies (euro, yen, pound, Canadian dollar, krona, franc).",
+                   "A strong dollar (104+) tends to pressure commodities, emerging-market assets and risk markets; a soft dollar (below 100) eases that pressure. It's one of the cleanest read-throughs for global liquidity."],
+            "tr": ["DXY, ABD dolarını altı büyük para biriminden oluşan bir sepete (euro, yen, sterlin, Kanada doları, kron, frank) karşı izler.",
+                   "Güçlü dolar (104+) emtia, gelişen piyasa varlıkları ve risk piyasaları üzerinde baskı kurar; zayıf dolar (100 altı) bu baskıyı hafifletir. Küresel likidite için en net okumalardan biridir."]},
+    },
+    "us-10y-2y-yield-spread": {
+        "tr_slug": "abd-10y-2y-getiri-farki", "src": ("spread", None),
+        "short": {"en": "10Y–2Y Spread", "tr": "10Y–2Y Farkı"},
+        "title": {"en": "US 10Y–2Y Yield Spread Today (Curve Inversion)",
+                  "tr": "ABD 10Y–2Y Getiri Farkı Bugün (Eğri Tersine Dönmesi)"},
+        "lead": {"en": "The US Treasury 10-year minus 2-year spread — the classic recession signal, live from FRED.",
+                 "tr": "ABD Hazinesi 10 yıllık eksi 2 yıllık farkı — klasik resesyon sinyali, FRED'den canlı."},
+        "explain": {
+            "en": ["The spread is the 10-year Treasury yield minus the 2-year. When it is positive the curve is normal; when it turns negative the curve is 'inverted'.",
+                   "An inverted 10Y–2Y has preceded every US recession of the last half-century, usually by 6–18 months, which is why markets watch it so closely. Source: FRED (DGS10, DGS2)."],
+            "tr": ["Fark, 10 yıllık Hazine getirisi eksi 2 yıllıktır. Pozitifken eğri normaldir; negatife dönünce eğri 'tersine dönmüş' olur.",
+                   "Tersine dönmüş 10Y–2Y, son yarım yüzyıldaki her ABD resesyonunu (genelde 6–18 ay önceden) öncelemiştir; bu yüzden piyasalar yakından izler. Kaynak: FRED (DGS10, DGS2)."]},
+    },
+    "btc-funding-rate": {
+        "tr_slug": "btc-funding-rate", "src": ("funding", None),
+        "short": {"en": "BTC Funding Rate", "tr": "BTC Funding Rate"},
+        "title": {"en": "Bitcoin Funding Rate Today", "tr": "Bitcoin Funding Rate Bugün"},
+        "lead": {"en": "The live BTC perpetual funding rate (Deribit) — what leverage is paying right now.",
+                 "tr": "Canlı BTC perpetual funding rate (Deribit) — kaldıracın şu an ne ödediği."},
+        "explain": {
+            "en": ["Funding rate is the periodic payment exchanged between long and short positions on perpetual futures, keeping the contract tethered to spot.",
+                   "Positive funding means longs pay shorts — leveraged traders are net bullish; negative means shorts pay longs. Persistently high funding often precedes long squeezes. Source: Deribit BTC-PERPETUAL (8h)."],
+            "tr": ["Funding rate, perpetual vadelilerde long ve short pozisyonlar arasında dönemsel olarak el değiştiren ödemedir; sözleşmeyi spota bağlı tutar.",
+                   "Pozitif funding, long'ların short'lara ödediği — kaldıraçlı işlemciler net yükseliş yönlü; negatif ise short'lar öder. Sürekli yüksek funding genelde long squeeze öncesidir. Kaynak: Deribit BTC-PERPETUAL (8s)."]},
+    },
+    "fed-funds-rate": {
+        "tr_slug": "fed-faiz-orani", "src": ("fed", None),
+        "short": {"en": "Fed Funds Rate", "tr": "Fed Faiz Oranı"},
+        "title": {"en": "Fed Funds Rate Today", "tr": "Fed Faiz Oranı Bugün"},
+        "lead": {"en": "The current Federal Reserve target rate (upper bound), live from FRED.",
+                 "tr": "Güncel Fed politika faizi (üst bant), FRED'den canlı."},
+        "explain": {
+            "en": ["This is the upper bound of the Federal Funds target range set by the FOMC — the policy rate that anchors short-term US interest rates.",
+                   "It drives borrowing costs across the economy and is the single most-watched number for risk assets, the dollar and the yield curve. Source: FRED (DFEDTARU)."],
+            "tr": ["Bu, FOMC tarafından belirlenen Federal Fon hedef aralığının üst bandıdır — kısa vadeli ABD faizlerini çıpalayan politika faizi.",
+                   "Ekonomi genelinde borçlanma maliyetlerini belirler ve risk varlıkları, dolar ve getiri eğrisi için en çok izlenen tek rakamdır. Kaynak: FRED (DFEDTARU)."]},
+    },
+}
+INDICATOR_ORDER = list(INDICATORS.keys())
+
+
+def indicator_path(slug, lang):
+    return f"/now/{slug}.html" if lang == "en" else f"/tr/simdi/{INDICATORS[slug]['tr_slug']}.html"
+
+
+def indicator_out(slug, lang):
+    return f"now/{slug}.html" if lang == "en" else f"tr/simdi/{INDICATORS[slug]['tr_slug']}.html"
+
+
+def _ind_reading(slug, lang):
+    """(value, interpretation, dir, data-px-key-or-None) from the snapshot."""
+    kind, key = INDICATORS[slug]["src"]
+    inst = MARKET.get("instruments", {})
+    if kind == "market" and key in inst:
+        d = inst[key]
+        val, dirc = d["px"], d.get("dir", "neu")
+        if key == "vix":
+            v = float(val)
+            interp = ("Calm" if v < 15 else "Normal" if v < 25 else "Elevated" if v < 35 else "High stress") if lang == "en" \
+                else ("Sakin" if v < 15 else "Normal" if v < 25 else "Yüksek" if v < 35 else "Ciddi stres")
+        elif key == "dxy":
+            v = float(val)
+            interp = ("Strong dollar" if v >= 104 else "Neutral" if v >= 100 else "Soft dollar") if lang == "en" \
+                else ("Güçlü dolar" if v >= 104 else "Nötr" if v >= 100 else "Zayıf dolar")
+        else:
+            interp = d.get("chg", "")
+        return val, interp, dirc, key
+    if kind == "spread":
+        sp = MACRO.get("spread")
+        if sp is None:
+            return "—", "", "neu", None
+        val = f'{"+" if sp >= 0 else ""}{sp:.2f}%'
+        interp = ("Normal curve" if sp >= 0 else "Inverted ⚠") if lang == "en" else ("Normal eğri" if sp >= 0 else "Ters ⚠")
+        return val, interp, ("up" if sp >= 0 else "dn"), None
+    if kind == "funding":
+        f = MACRO.get("funding", {}).get("value")
+        if f is None:
+            return "—", "", "neu", None
+        val = f'{"+" if f >= 0 else ""}{f:.4f}%'
+        interp = ("Longs pay" if f > 0 else "Shorts pay" if f < 0 else "Flat") if lang == "en" \
+            else ("Long'lar öder" if f > 0 else "Short'lar öder" if f < 0 else "Düz")
+        return val, interp, ("up" if f > 0 else "dn" if f < 0 else "neu"), None
+    if kind == "fed":
+        v = MACRO.get("fed_rate", {}).get("value")
+        return (f"{v:.2f}%" if v is not None else "—"), ("Target upper bound" if lang == "en" else "Hedef üst bant"), "neu", None
+    return "—", "", "neu", None
+
+
+def _ind_head(lang, title, desc, canonical, alt_en, alt_tr, schema):
+    feed = "/feed-en.xml" if lang == "en" else "/feed-tr.xml"
+    return f"""<!DOCTYPE html>
+<html lang="{lang}">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>{title} — NoCashFlow</title>
+<meta name="description" content="{desc}"/>
+<link rel="canonical" href="{canonical}"/>
+<link rel="alternate" hreflang="en" href="{alt_en}"/>
+<link rel="alternate" hreflang="tr" href="{alt_tr}"/>
+<link rel="alternate" hreflang="x-default" href="{alt_en}"/>
+<meta property="og:title" content="{title}"/>
+<meta property="og:description" content="{desc}"/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="{canonical}"/>
+<meta property="og:image" content="{OG_IMAGE}"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="{OG_IMAGE}"/>
+<meta name="twitter:site" content="@No_CashFlow"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="alternate" type="application/rss+xml" title="NoCashFlow" href="{feed}"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<meta name="theme-color" content="#ffffff"/>
+{THEME_SCRIPT}
+<link href="{FONTS_URL}" rel="stylesheet"/>
+<link rel="stylesheet" href="/site.css"/>
+<link rel="stylesheet" href="/components.css"/>
+<script type="application/ld+json">{schema}</script>
+</head>
+<body data-mood="{_mood()}">"""
+
+
+def _ind_chrome_ticker():
+    return (CURSOR_HTML + '<div id="page-sweep"></div>\n'
+            '<!-- TICKER -->\n<div class="ticker">\n'
+            '  <div class="ticker-label"><span class="dot"></span> Live</div>\n'
+            '  <div class="ticker-track" id="ticker-track"></div>\n</div>\n')
+
+
+def _ind_scripts():
+    return (
+        '<script src="/app.js"></script>\n'
+        "<script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>\n"
+        "<script>document.querySelectorAll('[data-set-lang]').forEach(function(a){"
+        "a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',"
+        "a.getAttribute('data-set-lang'));}catch(e){}});});</script>"
+    )
+
+
+def render_indicator(slug, lang):
+    ind = INDICATORS[slug]
+    title, lead = ind["title"][lang], ind["lead"][lang]
+    canonical = SITE_URL + indicator_path(slug, lang)
+    alt_en, alt_tr = SITE_URL + indicator_path(slug, "en"), SITE_URL + indicator_path(slug, "tr")
+    sw_href = indicator_path(slug, "tr") if lang == "en" else indicator_path(slug, "en")
+    plain_title = re.sub(r"&amp;", "&", re.sub(r"<[^>]+>", "", title))
+    plain_lead = re.sub(r"&amp;", "&", re.sub(r"<[^>]+>", "", lead))
+    val, interp, dirc, px = _ind_reading(slug, lang)
+    stamp = _fmt_stamp(MARKET.get("asof", "") or MACRO.get("asof", ""), lang)
+    hub = "/now/" if lang == "en" else "/tr/simdi/"
+    hub_lbl = "All indicators" if lang == "en" else "Tüm göstergeler"
+    upd = "Updated" if lang == "en" else "Güncellendi"
+    src_lbl = "Live indicator" if lang == "en" else "Canlı gösterge"
+    explain = "".join(f"<p>{para}</p>\n" for para in ind["explain"][lang])
+    px_attr = f' data-px="{px}"' if px else ""
+    schema = json.dumps({"@context": "https://schema.org", "@type": "WebPage", "name": plain_title,
+                         "description": plain_lead, "url": canonical, "inLanguage": lang,
+                         "dateModified": (MARKET.get("asof") or ""),
+                         "isPartOf": {"@type": "WebSite", "name": "NoCashFlow", "url": SITE_URL}}, ensure_ascii=False)
+    head_html = _ind_head(lang, plain_title, plain_lead, canonical, alt_en, alt_tr, schema)
+    vcls = f" {dirc}" if dirc in ("up", "dn") else ""
+    body = f"""
+<header class="page-head" data-read>
+  <div class="page-eyebrow">{src_lbl} <span class="divider"></span> <span class="muted">{upd}: {stamp}</span></div>
+  <h1 class="page-title">{title}</h1>
+  <p class="page-dek">{lead}</p>
+</header>
+<div class="section">
+  <div class="ind-now">
+    <div class="ind-value{vcls}"{px_attr}>{val}</div>
+    <div class="ind-interp">{interp}</div>
+  </div>
+  <div class="prose" style="max-width:720px">
+{explain}  </div>
+  <a href="{hub}" class="section-link" style="display:inline-block;margin-top:30px">{hub_lbl} →</a>
+</div>
+"""
+    html = "\n".join([head_html, _ind_chrome_ticker(), _nav_html(None, lang, sw_href),
+                      masthead(lang), body, footer(lang), _ind_scripts(),
+                      "</body>", "</html>", ""])
+    return inject_market(html)
+
+
+def render_indicator_hub(lang):
+    canonical = SITE_URL + ("/now/" if lang == "en" else "/tr/simdi/")
+    alt_en, alt_tr = SITE_URL + "/now/", SITE_URL + "/tr/simdi/"
+    sw_href = "/tr/simdi/" if lang == "en" else "/now/"
+    title = "Live Market Indicators" if lang == "en" else "Canlı Piyasa Göstergeleri"
+    lead = ("Key macro &amp; crypto indicators, updated every day from primary sources — each with a plain explanation."
+            if lang == "en" else
+            "Önemli makro &amp; kripto göstergeleri, her gün birincil kaynaklardan güncellenir — her biri sade açıklamayla.")
+    cards = []
+    for s in INDICATOR_ORDER:
+        val, interp, dirc, _ = _ind_reading(s, lang)
+        t = INDICATORS[s].get("short", {}).get(lang) or re.sub(r"\s—.*$", "", INDICATORS[s]["title"][lang])
+        cls = f" {dirc}" if dirc in ("up", "dn") else ""
+        cards.append(f'<a class="ind-card" href="{indicator_path(s, lang)}">'
+                     f'<div class="ic-k">{t}</div><div class="ic-v{cls}">{val}</div>'
+                     f'<div class="ic-i">{interp}</div></a>')
+    grid = '<div class="ind-grid">' + "".join(cards) + "</div>"
+    schema = json.dumps({"@context": "https://schema.org", "@type": "CollectionPage",
+                         "name": title, "url": canonical, "inLanguage": lang}, ensure_ascii=False)
+    head_html = _ind_head(lang, title, re.sub(r"&amp;", "&", re.sub(r"<[^>]+>", "", lead)),
+                          canonical, alt_en, alt_tr, schema)
+    body = f"""
+<header class="page-head" data-read>
+  <div class="page-eyebrow">{'Live data' if lang == 'en' else 'Canlı veri'} <span class="divider"></span> <span class="muted">{'Updated daily' if lang == 'en' else 'Her gün güncellenir'}</span></div>
+  <h1 class="page-title">{title}</h1>
+  <p class="page-dek">{lead}</p>
+</header>
+<div class="section">
+  {grid}
+</div>
+"""
+    html = "\n".join([head_html, _ind_chrome_ticker(), _nav_html(None, lang, sw_href),
+                      masthead(lang), body, footer(lang), _ind_scripts(),
+                      "</body>", "</html>", ""])
+    return inject_market(html)
+
+
 def build():
     written = []
     for page, p in PAGES.items():
@@ -1138,11 +1498,41 @@ def build():
             out_path.write_text(render_article(slug, lang), encoding="utf-8")
             written.append(article_out(slug, lang))
             print(f"  build {article_out(slug, lang):28} [{lang}]")
+    for lang in LANGS:                                  # live indicator hub + pages
+        hub_out = "now/index.html" if lang == "en" else "tr/simdi/index.html"
+        (ROOT / hub_out).parent.mkdir(parents=True, exist_ok=True)
+        (ROOT / hub_out).write_text(render_indicator_hub(lang), encoding="utf-8")
+        written.append(hub_out)
+        for slug in INDICATOR_ORDER:
+            op = ROOT / indicator_out(slug, lang)
+            op.parent.mkdir(parents=True, exist_ok=True)
+            op.write_text(render_indicator(slug, lang), encoding="utf-8")
+            written.append(indicator_out(slug, lang))
+        print(f"  build now/ hub + {len(INDICATOR_ORDER)} indicators   [{lang}]")
     generate_sitemap()
     generate_feeds()
     generate_robots()
     print("  + sitemap.xml · feed-en.xml · feed-tr.xml · robots.txt")
+    # JSONP snapshot for the embeddable widget (cross-origin friendly)
+    (ROOT / "data" / "market.js").write_text(
+        "window.NCFMarket&&window.NCFMarket(" + json.dumps(MARKET, ensure_ascii=False) + ");",
+        encoding="utf-8")
+    print("  + data/market.js (widget JSONP)")
+    _render_share_image()
     print(f"\n✓ {len(written)} page(s) + SEO artefacts written.")
+
+
+def _render_share_image():
+    """Refresh the daily share card. Guarded: a missing Pillow never breaks build."""
+    try:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "make_share_image", ROOT / "scripts" / "make_share_image.py")
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        mod.build_card()
+    except Exception as e:
+        print(f"  (share image skipped: {e})")
 
 
 if __name__ == "__main__":

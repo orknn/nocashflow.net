@@ -1,0 +1,47 @@
+<header class="page-head">
+  <div class="page-eyebrow">Widget <span class="divider"></span> <span class="muted">Free · No sign-up</span></div>
+  <h1 class="page-title">Put <em>live market data</em> on your site</h1>
+  <p class="page-dek">A free, self-contained widget — Crypto Fear &amp; Greed, Bitcoin, gold and the US 10-year, refreshed daily from primary sources. One line of HTML, no API key, no tracking of your visitors.</p>
+</header>
+
+<div class="section">
+  <div class="with-aside">
+    <div>
+      <!-- OPTION 1: SCRIPT -->
+      <div class="section-header" style="margin-bottom:18px"><div class="section-title" style="font-size:22px">1 · Script (recommended)</div></div>
+      <p class="prose" style="margin-bottom:14px">Paste this where you want the widget to appear. Works on any HTML page — WordPress (Custom HTML block), Ghost, plain sites.</p>
+      <pre class="embed-code"><code>&lt;script src="https://nocashflow.net/embed.js" data-ncf-widget async&gt;&lt;/script&gt;</code></pre>
+      <p class="prose" style="margin:10px 0 36px;font-size:14px">Want it in a specific spot? Add a target: <code>&lt;div id="ncf"&gt;&lt;/div&gt;</code> then load with <code>data-ncf-target="ncf"</code>.</p>
+
+      <!-- OPTION 2: IFRAME -->
+      <div class="section-header" style="margin-bottom:18px"><div class="section-title" style="font-size:22px">2 · iframe</div></div>
+      <p class="prose" style="margin-bottom:14px">If your platform blocks scripts (some CMS post editors do), use the iframe instead.</p>
+      <pre class="embed-code"><code>&lt;iframe src="https://nocashflow.net/widget/" width="380" height="340"
+        style="border:0;overflow:hidden" loading="lazy"
+        title="NoCashFlow live market data"&gt;&lt;/iframe&gt;</code></pre>
+
+      <!-- TERMS -->
+      <div class="section-header" style="margin:40px 0 18px"><div class="section-title" style="font-size:22px">The fine print</div></div>
+      <div class="prose" style="max-width:680px">
+        <p>It's free to use, including commercially. The only ask: keep the “nocashflow.net” link intact — that link is how the widget stays free. The widget loads no third-party trackers and sets no cookies on your visitors. Data is a daily snapshot, provided as-is for information only, not investment advice.</p>
+      </div>
+    </div>
+
+    <aside>
+      <div class="aside-sticky">
+        <div class="brief">
+          <div class="brief-head">Live preview</div>
+          <div class="brief-item">
+            <div id="ncf-preview" style="margin-top:4px"></div>
+          </div>
+        </div>
+        <div class="brief">
+          <div class="brief-head">What it shows</div>
+          <div class="brief-item">
+            <p>Crypto Fear &amp; Greed, Bitcoin, Ethereum, gold and the US 10-year yield. Refreshes every 5 minutes; the snapshot itself updates daily.</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
