@@ -25,13 +25,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <meta name="theme-color" content="#ffffff"/>
 <script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('theme');if(q==='dark'||q==='light'){try{localStorage.setItem('ncf_theme',q);}catch(e){}}var t=null;try{t=localStorage.getItem('ncf_theme');}catch(e){}if(!t){var h=new Date().getHours();t=(h>=21||h<7)?'dark':'light';}if(t==='dark')d.setAttribute('data-theme','dark');}catch(e){}})();</script>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Libre+Caslon+Display&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "tr", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
+<link rel="stylesheet" href="/broadsheet.css"/>
 <script>(function(){try{var q=new URLSearchParams(location.search).get('lang');if(q==='en'){try{localStorage.setItem('ncf_lang','en');}catch(e){}location.replace('/');return;}if(q==='tr'){try{localStorage.setItem('ncf_lang','tr');}catch(e){}return;}var p=null;try{p=localStorage.getItem('ncf_lang');}catch(e){}if(p==='en'){location.replace('/');return;}}catch(e){}})();</script>
 </head>
-<body data-mood="fear">
+<body data-mood="fear" class="bs">
 <div class="cursor-ring"><span class="c-label">Read</span></div>
 <div class="cursor-dot"></div>
 
@@ -66,11 +67,26 @@
 </nav>
 
 
-<div class="masthead"><div class="masthead-inner"><span>Sabah Baskısı</span><span class="mh-date">21 Haziran 2026 Pazar</span><span>Barcelona</span></div></div>
+<div class="bs-mast"><div class="bs-mast-top"><span>Sabah Baskısı</span><span class="bs-mast-mid">Makro &amp; Piyasalar, her Pazar</span><span>Barcelona · Pazar, 21 Haziran 2026</span></div><a class="bs-wordmark" href="/tr/">NoCashFlow</a><div class="bs-mast-tag">Makroyu anlamlandır. Gününe veriyle başla.</div></div>
 
-<!-- MANIFESTO HERO — canlı getiri eğrisi üzerinde dev manşet -->
-<section class="hero-v2">
-  
+<!-- BROADSHEET FRONT PAGE — manşet + canlı ön-sayfa grafiği (body.bs ile scope'lu) -->
+<section class="bs-front reveal">
+  <div class="bs-front-grid">
+    <div class="bs-lead">
+      <div class="bs-kicker">Bu haftanın manşeti</div>
+      <h1 class="bs-lead-title"><a href="/tr/yazilar/smart-money.html">Akıllı para <em>öncülük etmedi</em>. <em>Geri çekildi.</em></a></h1>
+      <p class="bs-lead-dek">JPMorgan, 2026 Q1'ini kurumların kripto akışlarını domine edeceği yıl ilan etti. Veri farklı bir hikâye anlatıyor: akışlar tahminin üçte biri kadar geldi.</p>
+      <div class="bs-figures">
+        <div class="bs-fig"><span class="k">Coinbase Premium</span><span class="v dn">−0.18</span></div>
+        <div class="bs-fig"><span class="k">30 günlük değişim</span><span class="v dn">−142%</span></div>
+        <div class="bs-fig"><span class="k">JPM tahmini</span><span class="v">$33B</span></div>
+        <div class="bs-fig"><span class="k">Q1 gerçekleşen</span><span class="v accent">$11B</span></div>
+      </div>
+      <div class="bs-byline">NoCashFlow Araştırma · 6 Nis 2026 · 9 dk okuma</div>
+    </div>
+    <aside class="bs-graphic">
+      <div class="bs-graphic-k">Ön-sayfa grafiği</div>
+      
 <!-- HERO FRIEZE — generated from data/macro.json at build time; the site redraws itself daily -->
 <div class="hero-frieze" aria-hidden="true">
   <svg viewBox="0 0 1200 150" preserveAspectRatio="none">
@@ -82,84 +98,49 @@
   <div class="hf-cap">ABD Hazine getiri eğrisi · 2026-06-17 çizimi · FRED</div>
 </div>
 
-  <div class="hero-inner">
-    <div class="mood-pill" data-m="fear"><span class="mp-dot"></span><span class="mp-k">Piyasa modu</span><span class="mp-w">korkuyor</span><span class="mp-v">F&amp;G 23</span></div>
-    <h1 class="hero-title"><span class="ht-line">Makroyu</span><span class="ht-line"><em>anlamlandır.</em></span></h1>
-    <p class="hero-sub">Veri odaklı makro &amp; piyasa analizi. Her sabah, Barcelona'dan — birincil kaynak, her zaman bağlantılı.</p>
-    <div class="hero-cta">
-      <a class="subscribe" href="/tr/bulletin_page.html">Bülteni oku</a>
-      <a class="hero-ghost" href="/tr/yazilar.html">Pazar yazıları <span class="arrow">→</span></a>
-    </div>
-    <div class="hero-kpis">
-      <div class="hk"><span class="hk-k">Bitcoin</span><span class="hk-v" data-px="btc">$63,911</span><span class="hk-c up" data-chg="btc">+0.88%</span></div>
-      <div class="hk"><span class="hk-k">ABD 10Y</span><span class="hk-v" data-px="us10y">4.45%</span><span class="hk-c dn" data-chg="us10y">-0.27%</span></div>
-      <div class="hk"><span class="hk-k">Fear &amp; Greed</span><span class="hk-v" data-px="fg">23</span><span class="hk-c dn" data-chg="fg">Extreme Fear</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- HERO / LEAD STORY -->
-<section class="lead">
-  <div class="lead-grid">
-    <div>
-      <div class="lead-eyebrow">Manşet · Pazar Serisi #04 <span class="divider"></span> <span class="muted">6 Nis 2026 · 9 dk okuma</span></div>
-      <h1 class="lead-title"><a href="/tr/yazilar/smart-money.html">Akıllı para <em>öncülük etmedi</em>. <em>Geri çekildi.</em></a></h1>
-      <p class="lead-dek">JPMorgan, 2026 Q1'ini kurumların kripto akışlarını domine edeceği yıl ilan etti. Veri farklı bir hikâye anlatıyor — akışlar tahminin üçte biri kadar geldi.</p>
-      <div class="premium">
-        <div class="cell"><div class="k">Coinbase Premium</div><div class="v red">−0.18</div></div>
-        <div class="cell"><div class="k">30G Δ</div><div class="v red">−142%</div></div>
-        <div class="cell"><div class="k">JPM Tahmin</div><div class="v">$33B</div></div>
-        <div class="cell"><div class="k">Q1 Gerçek</div><div class="v amber">$11B</div></div>
+      <div class="bs-kpis">
+        <div class="bs-kpi"><span class="k">Bitcoin</span><span class="v" data-px="btc">$63,911</span><span class="c up" data-chg="btc">+0.88%</span></div>
+        <div class="bs-kpi"><span class="k">ABD 10Y</span><span class="v" data-px="us10y">4.45%</span><span class="c dn" data-chg="us10y">-0.27%</span></div>
+        <div class="bs-kpi"><span class="k">Fear &amp; Greed</span><span class="v" data-px="fg">23</span><span class="c dn" data-chg="fg">Extreme Fear</span></div>
       </div>
-    </div>
-    <aside class="lead-aside">
-      <div class="k">Son Sayılar</div>
-      <ul class="mini-list">
-        <li><span class="n">#03</span><a href="/tr/yazilar/nukleer.html"><div class="t">Yapay Zekânın Elektriğe İhtiyacı Var — Cevap Nükleer</div><div class="d">Enerji · 30 Mar</div></a></li>
-        <li><span class="n">#02</span><a href="/tr/yazilar/bakir.html"><div class="t">Dr. Bakır — Yanlış Teşhis mi?</div><div class="d">Emtia · 23 Mar</div></a></li>
-        <li><span class="n">#01</span><a href="/tr/yazilar/petrol.html"><div class="t">1970'ler Karşılaştırması Neden Yanıltıcı</div><div class="d">Makro · 16 Mar</div></a></li>
-      </ul>
-      <a href="yazilar.html" class="btn" style="width:100%;justify-content:center;margin-top:20px">Tüm Yazılar <span class="arrow">→</span></a>
+      <div class="mood-pill" data-m="fear"><span class="mp-dot"></span><span class="mp-k">Piyasa modu</span><span class="mp-w">korkuyor</span><span class="mp-v">F&amp;G 23</span></div>
     </aside>
   </div>
 </section>
 
-<!-- §01 MARKET PULSE -->
-<section class="section">
-  <div class="section-header">
-    <div class="section-title"><span class="num">§ 01</span>Piyasa Nabzı</div>
-    <div class="section-meta"><span class="live">● Canlı</span> · <a href="macro.html">Tüm Makro →</a></div>
+<!-- §01 MARKET PULSE — canlı getiri eğrisiyle Broadsheet veri panosu -->
+<section class="section bs-pulse reveal">
+  <div class="bs-sec-head">
+    <h2 class="bs-sec-title">Piyasa Nabzı</h2>
+    <div class="bs-sec-meta"><span class="bs-live">Canlı</span><a href="macro.html">Tüm makro</a></div>
   </div>
-  <div class="stat-grid">
-    <div class="stat">
-      <div class="stat-k">Kripto Fear &amp; Greed</div>
-      <div><div class="stat-v" data-px="fg">23</div><div class="stat-chg dn" data-chg="fg">Extreme Fear</div></div>
+  <div class="bs-pulse-grid">
+    <div class="bs-quotes">
+      <div class="bs-q"><span class="nm">Kripto Fear &amp; Greed</span><span class="vl" data-px="fg">23</span><span class="cg dn" data-chg="fg">Extreme Fear</span></div>
+      <div class="bs-q"><span class="nm">Bitcoin</span><span class="vl" data-px="btc">$63,911</span><span class="cg up" data-chg="btc">+0.88%</span></div>
+      <div class="bs-q"><span class="nm">VIX · Volatilite</span><span class="vl" data-px="vix">16.40</span><span class="cg up" data-chg="vix">-11.06%</span></div>
+      <div class="bs-q"><span class="nm">Dolar Endeksi · DXY</span><span class="vl" data-px="dxy">100.85</span><span class="cg up" data-chg="dxy">+0.76%</span></div>
+      <div class="bs-q"><span class="nm">ABD 10Y Getiri</span><span class="vl" data-px="us10y">4.45%</span><span class="cg dn" data-chg="us10y">-0.27%</span></div>
+      <div class="bs-q"><span class="nm">Brent Petrol</span><span class="vl" data-px="brent">$80.6</span><span class="cg up" data-chg="brent">+0.93%</span></div>
     </div>
-    <div class="stat">
-      <div class="stat-k">Bitcoin</div>
-      <div><div class="stat-v" data-px="btc">$63,911</div><div class="stat-chg up" data-chg="btc">+0.88%</div></div>
-    </div>
-    <div class="stat">
-      <div class="stat-k">VIX · Volatilite</div>
-      <div><div class="stat-v" data-px="vix">16.40</div><div class="stat-chg up" data-chg="vix">-11.06%</div></div>
-    </div>
-    <div class="stat">
-      <div class="stat-k">Dolar Endeksi · DXY</div>
-      <div><div class="stat-v" data-px="dxy">100.85</div><div class="stat-chg up" data-chg="dxy">+0.76%</div></div>
-    </div>
-    <div class="stat">
-      <div class="stat-k">ABD 10Y Getiri</div>
-      <div><div class="stat-v" data-px="us10y">4.45%</div><div class="stat-chg dn" data-chg="us10y">-0.27%</div></div>
-    </div>
-    <div class="stat">
-      <div class="stat-k">Brent Petrol</div>
-      <div><div class="stat-v" data-px="brent">$80.6</div><div class="stat-chg up" data-chg="brent">+0.93%</div></div>
-    </div>
+    
+<figure class="pc-fig">
+  <figcaption class="pc-head">
+    <span class="pc-title">ABD Hazine getiri eğrisi</span>
+    <span class="pc-src">Kaynak: FRED · 2026-06-17 çizimi</span>
+  </figcaption>
+  <svg class="pc-svg" viewBox="0 0 1000 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="ABD Hazine getiri eğrisi">
+    <line class="pc-grid" x1="52" x2="980" y1="260.0" y2="260.0"/><text class="pc-yl" x="42" y="263.0">3.45</text><line class="pc-grid" x1="52" x2="980" y1="201.5" y2="201.5"/><text class="pc-yl" x="42" y="204.5">3.85</text><line class="pc-grid" x1="52" x2="980" y1="143.0" y2="143.0"/><text class="pc-yl" x="42" y="146.0">4.25</text><line class="pc-grid" x1="52" x2="980" y1="84.5" y2="84.5"/><text class="pc-yl" x="42" y="87.5">4.65</text><line class="pc-grid" x1="52" x2="980" y1="26.0" y2="26.0"/><text class="pc-yl" x="42" y="29.0">5.05</text>
+    <path class="pc-line" d="M52.0 226.4 L206.7 204.4 L361.3 192.7 L516.0 150.3 L670.7 140.1 L825.3 107.9 L980.0 43.6" fill="none"/>
+    <circle class="pc-pt" cx="52.0" cy="226.4" r="2.8"/><text class="pc-xl" x="52.0" y="280">1M</text><circle class="pc-pt" cx="206.7" cy="204.4" r="2.8"/><text class="pc-xl" x="206.7" y="280">3M</text><circle class="pc-pt" cx="361.3" cy="192.7" r="2.8"/><text class="pc-xl" x="361.3" y="280">6M</text><circle class="pc-pt" cx="516.0" cy="150.3" r="2.8"/><text class="pc-xl" x="516.0" y="280">2Y</text><circle class="pc-pt" cx="670.7" cy="140.1" r="2.8"/><text class="pc-xl" x="670.7" y="280">5Y</text><circle class="pc-pt" cx="825.3" cy="107.9" r="2.8"/><text class="pc-xl" x="825.3" y="280">10Y</text><circle class="pc-pt pc-pt-last" cx="980.0" cy="43.6" r="3.6"/><text class="pc-xl" x="980.0" y="280">30Y</text>
+  </svg>
+  <div class="pc-annot"><span class="pc-annot-v">+29 bps</span><span class="pc-annot-k">2s10s farkı · uzun vadede dikleşiyor</span></div>
+</figure>
   </div>
 </section>
 
 <!-- §02 LATEST ANALYSIS -->
-<section class="section tight">
+<section class="section tight reveal">
   <div class="section-header">
     <div class="section-title"><span class="num">§ 02</span>Son Analizler</div>
     <div class="section-meta"><a href="yazilar.html">Tüm Yazılar →</a></div>
@@ -205,7 +186,7 @@
 </section>
 
 <!-- §03 WHAT'S INSIDE -->
-<section class="section tight">
+<section class="section tight reveal">
   <div class="section-header">
     <div class="section-title"><span class="num">§ 03</span>Bültenin İçinde</div>
     <div class="section-meta"><a href="bulletin_page.html">Bülteni Oku →</a></div>
@@ -245,7 +226,7 @@
 </section>
 
 <!-- NEWSLETTER -->
-<section class="newsletter">
+<section class="newsletter reveal">
   <div class="newsletter-inner">
     <div class="newsletter-label">Bülten</div>
     <h2 class="newsletter-title">Sabahına <em>veriyle başla.</em></h2>
@@ -317,6 +298,39 @@
 <script src="/app.js"></script>
 <script>
   window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx','eurusd'] });
+</script>
+<!-- Broadsheet redesign motion: scroll-reveal + count-up (scoped to body.bs, reduced-motion honored) -->
+<script>
+(function(){
+  if(!document.body.classList.contains('bs')) return;
+  var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var reveals = document.querySelectorAll('.bs .reveal');
+  if(reduce){ reveals.forEach(function(el){ el.classList.add('in'); }); }
+  else if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold:.15 });
+    reveals.forEach(function(el){ io.observe(el); });
+  } else { reveals.forEach(function(el){ el.classList.add('in'); }); }
+
+  if(reduce) return;
+  // count-up only on the static editorial figures (app.js never touches these)
+  document.querySelectorAll('.bs-fig .v').forEach(function(el){
+    var raw = el.textContent.trim();
+    var m = raw.match(/^([^\d\-−.]*)(-|−)?([\d.,]+)(.*)$/);
+    if(!m) return;
+    var pre = m[1]||'', neg = m[2]?'−':'', digits = m[3], suf = m[4]||'';
+    var target = parseFloat(digits.replace(/,/g,''));
+    if(!isFinite(target)) return;
+    var dec = (digits.split('.')[1]||'').length;
+    var grouped = digits.indexOf(',')>-1;
+    var t0 = null, dur = 750;
+    function fmt(n){ var s = n.toFixed(dec); if(grouped){ var p=s.split('.'); p[0]=p[0].replace(/\B(?=(\d{3})+(?!\d))/g,','); s=p.join('.'); } return pre+neg+s+suf; }
+    el.textContent = fmt(0);
+    function step(t){ t0=t0||t; var p=Math.min((t-t0)/dur,1); el.textContent = fmt(target*(1-Math.pow(1-p,3))); if(p<1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  });
+})();
 </script>
 <script>document.querySelectorAll('[data-set-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',a.getAttribute('data-set-lang'));}catch(e){}});});</script>
 </body>

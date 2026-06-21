@@ -1,3 +1,36 @@
 <script>
   window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx','eurusd'] });
 </script>
+<!-- Broadsheet redesign motion: scroll-reveal + count-up (scoped to body.bs, reduced-motion honored) -->
+<script>
+(function(){
+  if(!document.body.classList.contains('bs')) return;
+  var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var reveals = document.querySelectorAll('.bs .reveal');
+  if(reduce){ reveals.forEach(function(el){ el.classList.add('in'); }); }
+  else if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold:.15 });
+    reveals.forEach(function(el){ io.observe(el); });
+  } else { reveals.forEach(function(el){ el.classList.add('in'); }); }
+
+  if(reduce) return;
+  // count-up only on the static editorial figures (app.js never touches these)
+  document.querySelectorAll('.bs-fig .v').forEach(function(el){
+    var raw = el.textContent.trim();
+    var m = raw.match(/^([^\d\-−.]*)(-|−)?([\d.,]+)(.*)$/);
+    if(!m) return;
+    var pre = m[1]||'', neg = m[2]?'−':'', digits = m[3], suf = m[4]||'';
+    var target = parseFloat(digits.replace(/,/g,''));
+    if(!isFinite(target)) return;
+    var dec = (digits.split('.')[1]||'').length;
+    var grouped = digits.indexOf(',')>-1;
+    var t0 = null, dur = 750;
+    function fmt(n){ var s = n.toFixed(dec); if(grouped){ var p=s.split('.'); p[0]=p[0].replace(/\B(?=(\d{3})+(?!\d))/g,','); s=p.join('.'); } return pre+neg+s+suf; }
+    el.textContent = fmt(0);
+    function step(t){ t0=t0||t; var p=Math.min((t-t0)/dur,1); el.textContent = fmt(target*(1-Math.pow(1-p,3))); if(p<1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  });
+})();
+</script>

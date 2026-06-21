@@ -25,14 +25,15 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <meta name="theme-color" content="#ffffff"/>
 <script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('theme');if(q==='dark'||q==='light'){try{localStorage.setItem('ncf_theme',q);}catch(e){}}var t=null;try{t=localStorage.getItem('ncf_theme');}catch(e){}if(!t){var h=new Date().getHours();t=(h>=21||h<7)?'dark':'light';}if(t==='dark')d.setAttribute('data-theme','dark');}catch(e){}})();</script>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Libre+Caslon+Display&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "en", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
 <link rel="stylesheet" href="/splash.css"/>
+<link rel="stylesheet" href="/broadsheet.css"/>
 <script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('lang');if(q==='tr'||q==='en'){try{localStorage.setItem('ncf_lang',q);}catch(e){}if(q==='tr'){location.replace('/tr/');return;}return;}var p=null;try{p=localStorage.getItem('ncf_lang');}catch(e){}if(p==='tr'){location.replace('/tr/');return;}if(p==='en'){return;}d.setAttribute('data-ncf-splash','on');}catch(e){d.setAttribute('data-ncf-splash','on');}})();</script>
 </head>
-<body data-mood="fear">
+<body data-mood="fear" class="bs">
 <!-- LANGUAGE GATE (hidden unless the head script reveals it) -->
 <div id="ncf-splash" role="dialog" aria-label="Language / Dil">
   <a href="?lang=en" class="ncf-splash-skip">Skip &rarr;</a>
@@ -76,11 +77,26 @@
 </nav>
 
 
-<div class="masthead"><div class="masthead-inner"><span>Morning Edition</span><span class="mh-date">Sunday, June 21, 2026</span><span>Barcelona</span></div></div>
+<div class="bs-mast"><div class="bs-mast-top"><span>Morning Edition</span><span class="bs-mast-mid">Macro &amp; Markets, every Sunday</span><span>Barcelona · Sunday, June 21, 2026</span></div><a class="bs-wordmark" href="/">NoCashFlow</a><div class="bs-mast-tag">Make sense of the macro. Start your morning with data.</div></div>
 
-<!-- MANIFESTO HERO — giant statement over the live yield curve -->
-<section class="hero-v2">
-  
+<!-- BROADSHEET FRONT PAGE — lead story + live front-page graphic (scoped via body.bs) -->
+<section class="bs-front reveal">
+  <div class="bs-front-grid">
+    <div class="bs-lead">
+      <div class="bs-kicker">This week's lead</div>
+      <h1 class="bs-lead-title"><a href="/articles/smart-money.html">Smart money didn't <em>lead</em>. It <em>retreated</em>.</a></h1>
+      <p class="bs-lead-dek">JPMorgan called Q1 2026 the year institutions would dominate crypto flows. The data tells a different story: flows came in at one-third of the estimate.</p>
+      <div class="bs-figures">
+        <div class="bs-fig"><span class="k">Coinbase Premium</span><span class="v dn">−0.18</span></div>
+        <div class="bs-fig"><span class="k">30-day change</span><span class="v dn">−142%</span></div>
+        <div class="bs-fig"><span class="k">JPM estimate</span><span class="v">$33B</span></div>
+        <div class="bs-fig"><span class="k">Q1 actual</span><span class="v accent">$11B</span></div>
+      </div>
+      <div class="bs-byline">By NoCashFlow Research · Apr 6, 2026 · 9 min read</div>
+    </div>
+    <aside class="bs-graphic">
+      <div class="bs-graphic-k">Front-page graphic</div>
+      
 <!-- HERO FRIEZE — generated from data/macro.json at build time; the site redraws itself daily -->
 <div class="hero-frieze" aria-hidden="true">
   <svg viewBox="0 0 1200 150" preserveAspectRatio="none">
@@ -92,84 +108,49 @@
   <div class="hf-cap">US Treasury yield curve · drawn 2026-06-17 · FRED</div>
 </div>
 
-  <div class="hero-inner">
-    <div class="mood-pill" data-m="fear"><span class="mp-dot"></span><span class="mp-k">Market mood</span><span class="mp-w">fearful</span><span class="mp-v">F&amp;G 23</span></div>
-    <h1 class="hero-title"><span class="ht-line">Make sense</span><span class="ht-line">of the <em>macro.</em></span></h1>
-    <p class="hero-sub">Data-driven macro &amp; market analysis. Every morning, from Barcelona — primary source, always linked.</p>
-    <div class="hero-cta">
-      <a class="subscribe" href="/bulletin_page.html">Read the bulletin</a>
-      <a class="hero-ghost" href="/yazilar.html">Sunday essays <span class="arrow">→</span></a>
-    </div>
-    <div class="hero-kpis">
-      <div class="hk"><span class="hk-k">Bitcoin</span><span class="hk-v" data-px="btc">$63,911</span><span class="hk-c up" data-chg="btc">+0.88%</span></div>
-      <div class="hk"><span class="hk-k">US 10Y</span><span class="hk-v" data-px="us10y">4.45%</span><span class="hk-c dn" data-chg="us10y">-0.27%</span></div>
-      <div class="hk"><span class="hk-k">Fear &amp; Greed</span><span class="hk-v" data-px="fg">23</span><span class="hk-c dn" data-chg="fg">Extreme Fear</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- HERO / LEAD STORY -->
-<section class="lead">
-  <div class="lead-grid">
-    <div>
-      <div class="lead-eyebrow">Lead Story · Sunday Series #04 <span class="divider"></span> <span class="muted">Apr 6, 2026 · 9 min read</span></div>
-      <h1 class="lead-title"><a href="/articles/smart-money.html">Smart money didn't <em>lead</em>. It <em>retreated</em>.</a></h1>
-      <p class="lead-dek">JPMorgan called Q1 2026 the year institutions would dominate crypto flows. The data tells a different story — flows came in at one-third of the estimate.</p>
-      <div class="premium">
-        <div class="cell"><div class="k">Coinbase Premium</div><div class="v red">−0.18</div></div>
-        <div class="cell"><div class="k">30D Δ</div><div class="v red">−142%</div></div>
-        <div class="cell"><div class="k">JPM Est.</div><div class="v">$33B</div></div>
-        <div class="cell"><div class="k">Q1 Actual</div><div class="v amber">$11B</div></div>
+      <div class="bs-kpis">
+        <div class="bs-kpi"><span class="k">Bitcoin</span><span class="v" data-px="btc">$63,911</span><span class="c up" data-chg="btc">+0.88%</span></div>
+        <div class="bs-kpi"><span class="k">US 10Y</span><span class="v" data-px="us10y">4.45%</span><span class="c dn" data-chg="us10y">-0.27%</span></div>
+        <div class="bs-kpi"><span class="k">Fear &amp; Greed</span><span class="v" data-px="fg">23</span><span class="c dn" data-chg="fg">Extreme Fear</span></div>
       </div>
-    </div>
-    <aside class="lead-aside">
-      <div class="k">Recent Issues</div>
-      <ul class="mini-list">
-        <li><span class="n">#03</span><a href="/articles/nukleer.html"><div class="t">AI Needs Electricity — The Answer is Nuclear</div><div class="d">Energy · Mar 30</div></a></li>
-        <li><span class="n">#02</span><a href="/articles/bakir.html"><div class="t">Dr. Copper — Wrong Diagnosis?</div><div class="d">Commodities · Mar 23</div></a></li>
-        <li><span class="n">#01</span><a href="/articles/petrol.html"><div class="t">Why the 1970s Comparison Is Misleading</div><div class="d">Macro · Mar 16</div></a></li>
-      </ul>
-      <a href="yazilar.html" class="btn" style="width:100%;justify-content:center;margin-top:20px">All Articles <span class="arrow">→</span></a>
+      <div class="mood-pill" data-m="fear"><span class="mp-dot"></span><span class="mp-k">Market mood</span><span class="mp-w">fearful</span><span class="mp-v">F&amp;G 23</span></div>
     </aside>
   </div>
 </section>
 
-<!-- §01 MARKET PULSE -->
-<section class="section">
-  <div class="section-header">
-    <div class="section-title"><span class="num">§ 01</span>Market Pulse</div>
-    <div class="section-meta"><span class="live">● Live</span> · <a href="macro.html">Full Macro →</a></div>
+<!-- §01 MARKET PULSE — Broadsheet data board with the live yield curve -->
+<section class="section bs-pulse reveal">
+  <div class="bs-sec-head">
+    <h2 class="bs-sec-title">Market Pulse</h2>
+    <div class="bs-sec-meta"><span class="bs-live">Live</span><a href="macro.html">Full macro</a></div>
   </div>
-  <div class="stat-grid">
-    <div class="stat">
-      <div class="stat-k">Crypto Fear &amp; Greed</div>
-      <div><div class="stat-v" data-px="fg">23</div><div class="stat-chg dn" data-chg="fg">Extreme Fear</div></div>
+  <div class="bs-pulse-grid">
+    <div class="bs-quotes">
+      <div class="bs-q"><span class="nm">Crypto Fear &amp; Greed</span><span class="vl" data-px="fg">23</span><span class="cg dn" data-chg="fg">Extreme Fear</span></div>
+      <div class="bs-q"><span class="nm">Bitcoin</span><span class="vl" data-px="btc">$63,911</span><span class="cg up" data-chg="btc">+0.88%</span></div>
+      <div class="bs-q"><span class="nm">VIX · Volatility</span><span class="vl" data-px="vix">16.40</span><span class="cg up" data-chg="vix">-11.06%</span></div>
+      <div class="bs-q"><span class="nm">Dollar Index · DXY</span><span class="vl" data-px="dxy">100.85</span><span class="cg up" data-chg="dxy">+0.76%</span></div>
+      <div class="bs-q"><span class="nm">US 10Y Yield</span><span class="vl" data-px="us10y">4.45%</span><span class="cg dn" data-chg="us10y">-0.27%</span></div>
+      <div class="bs-q"><span class="nm">Brent Crude</span><span class="vl" data-px="brent">$80.6</span><span class="cg up" data-chg="brent">+0.93%</span></div>
     </div>
-    <div class="stat">
-      <div class="stat-k">Bitcoin</div>
-      <div><div class="stat-v" data-px="btc">$63,911</div><div class="stat-chg up" data-chg="btc">+0.88%</div></div>
-    </div>
-    <div class="stat">
-      <div class="stat-k">VIX · Volatility</div>
-      <div><div class="stat-v" data-px="vix">16.40</div><div class="stat-chg up" data-chg="vix">-11.06%</div></div>
-    </div>
-    <div class="stat">
-      <div class="stat-k">Dollar Index · DXY</div>
-      <div><div class="stat-v" data-px="dxy">100.85</div><div class="stat-chg up" data-chg="dxy">+0.76%</div></div>
-    </div>
-    <div class="stat">
-      <div class="stat-k">US 10Y Yield</div>
-      <div><div class="stat-v" data-px="us10y">4.45%</div><div class="stat-chg dn" data-chg="us10y">-0.27%</div></div>
-    </div>
-    <div class="stat">
-      <div class="stat-k">Brent Crude</div>
-      <div><div class="stat-v" data-px="brent">$80.6</div><div class="stat-chg up" data-chg="brent">+0.93%</div></div>
-    </div>
+    
+<figure class="pc-fig">
+  <figcaption class="pc-head">
+    <span class="pc-title">US Treasury yield curve</span>
+    <span class="pc-src">Source: FRED · drawn 2026-06-17</span>
+  </figcaption>
+  <svg class="pc-svg" viewBox="0 0 1000 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="US Treasury yield curve">
+    <line class="pc-grid" x1="52" x2="980" y1="260.0" y2="260.0"/><text class="pc-yl" x="42" y="263.0">3.45</text><line class="pc-grid" x1="52" x2="980" y1="201.5" y2="201.5"/><text class="pc-yl" x="42" y="204.5">3.85</text><line class="pc-grid" x1="52" x2="980" y1="143.0" y2="143.0"/><text class="pc-yl" x="42" y="146.0">4.25</text><line class="pc-grid" x1="52" x2="980" y1="84.5" y2="84.5"/><text class="pc-yl" x="42" y="87.5">4.65</text><line class="pc-grid" x1="52" x2="980" y1="26.0" y2="26.0"/><text class="pc-yl" x="42" y="29.0">5.05</text>
+    <path class="pc-line" d="M52.0 226.4 L206.7 204.4 L361.3 192.7 L516.0 150.3 L670.7 140.1 L825.3 107.9 L980.0 43.6" fill="none"/>
+    <circle class="pc-pt" cx="52.0" cy="226.4" r="2.8"/><text class="pc-xl" x="52.0" y="280">1M</text><circle class="pc-pt" cx="206.7" cy="204.4" r="2.8"/><text class="pc-xl" x="206.7" y="280">3M</text><circle class="pc-pt" cx="361.3" cy="192.7" r="2.8"/><text class="pc-xl" x="361.3" y="280">6M</text><circle class="pc-pt" cx="516.0" cy="150.3" r="2.8"/><text class="pc-xl" x="516.0" y="280">2Y</text><circle class="pc-pt" cx="670.7" cy="140.1" r="2.8"/><text class="pc-xl" x="670.7" y="280">5Y</text><circle class="pc-pt" cx="825.3" cy="107.9" r="2.8"/><text class="pc-xl" x="825.3" y="280">10Y</text><circle class="pc-pt pc-pt-last" cx="980.0" cy="43.6" r="3.6"/><text class="pc-xl" x="980.0" y="280">30Y</text>
+  </svg>
+  <div class="pc-annot"><span class="pc-annot-v">+29 bps</span><span class="pc-annot-k">2s10s spread · steepening at the long end</span></div>
+</figure>
   </div>
 </section>
 
 <!-- §02 LATEST ANALYSIS -->
-<section class="section tight">
+<section class="section tight reveal">
   <div class="section-header">
     <div class="section-title"><span class="num">§ 02</span>Latest Analysis</div>
     <div class="section-meta"><a href="yazilar.html">All Articles →</a></div>
@@ -215,7 +196,7 @@
 </section>
 
 <!-- §03 WHAT'S INSIDE -->
-<section class="section tight">
+<section class="section tight reveal">
   <div class="section-header">
     <div class="section-title"><span class="num">§ 03</span>Inside the Bulletin</div>
     <div class="section-meta"><a href="bulletin_page.html">Read the Bulletin →</a></div>
@@ -255,7 +236,7 @@
 </section>
 
 <!-- NEWSLETTER -->
-<section class="newsletter">
+<section class="newsletter reveal">
   <div class="newsletter-inner">
     <div class="newsletter-label">The Bulletin</div>
     <h2 class="newsletter-title">Start your morning <em>with data.</em></h2>
@@ -329,6 +310,39 @@
 <script src="/app.js"></script>
 <script>
   window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx','eurusd'] });
+</script>
+<!-- Broadsheet redesign motion: scroll-reveal + count-up (scoped to body.bs, reduced-motion honored) -->
+<script>
+(function(){
+  if(!document.body.classList.contains('bs')) return;
+  var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var reveals = document.querySelectorAll('.bs .reveal');
+  if(reduce){ reveals.forEach(function(el){ el.classList.add('in'); }); }
+  else if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold:.15 });
+    reveals.forEach(function(el){ io.observe(el); });
+  } else { reveals.forEach(function(el){ el.classList.add('in'); }); }
+
+  if(reduce) return;
+  // count-up only on the static editorial figures (app.js never touches these)
+  document.querySelectorAll('.bs-fig .v').forEach(function(el){
+    var raw = el.textContent.trim();
+    var m = raw.match(/^([^\d\-−.]*)(-|−)?([\d.,]+)(.*)$/);
+    if(!m) return;
+    var pre = m[1]||'', neg = m[2]?'−':'', digits = m[3], suf = m[4]||'';
+    var target = parseFloat(digits.replace(/,/g,''));
+    if(!isFinite(target)) return;
+    var dec = (digits.split('.')[1]||'').length;
+    var grouped = digits.indexOf(',')>-1;
+    var t0 = null, dur = 750;
+    function fmt(n){ var s = n.toFixed(dec); if(grouped){ var p=s.split('.'); p[0]=p[0].replace(/\B(?=(\d{3})+(?!\d))/g,','); s=p.join('.'); } return pre+neg+s+suf; }
+    el.textContent = fmt(0);
+    function step(t){ t0=t0||t; var p=Math.min((t-t0)/dur,1); el.textContent = fmt(target*(1-Math.pow(1-p,3))); if(p<1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  });
+})();
 </script>
 <script>document.querySelectorAll('[data-set-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',a.getAttribute('data-set-lang'));}catch(e){}});});</script>
 <script src="/splash.js"></script>

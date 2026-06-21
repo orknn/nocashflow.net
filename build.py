@@ -20,6 +20,7 @@ This builder changes structure (templating + i18n + a normalized head), never
 the visual design — page bodies are reproduced byte-for-byte.
 """
 import json
+import math
 import re
 import sys
 from datetime import datetime, timezone, timedelta
@@ -40,6 +41,8 @@ LANGS = ("en", "tr")
 FONTS_URL = ("https://fonts.googleapis.com/css2"
              "?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900"
              "&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500"
+             "&family=Libre+Caslon+Display"
+             "&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400"
              "&family=IBM+Plex+Mono:wght@400;500;600&display=swap")
 
 # After Hours theme — pre-paint decision (no flash): stored preference wins;
@@ -154,6 +157,66 @@ def hero_frieze(lang):
   <div class="hf-cap">{cap}</div>
 </div>
 """
+
+
+# ── Market Pulse signature chart: the real yield curve with proper axes ──────
+def pulse_chart(lang):
+    """Analytical yield-curve chart for the Market Pulse board (home, Broadsheet).
+    Real data from data/macro.json; redrawn on every build. No fabricated series."""
+    curve = MACRO.get("curve") or []
+    if len(curve) < 4:
+        return ""
+    W, H = 1000, 300
+    PL, PR, PT, PB = 52, 20, 26, 40
+    vals = [p["v"] for p in curve]
+    lo = math.floor(min(vals) * 4) / 4 - 0.05
+    hi = math.ceil(max(vals) * 4) / 4 + 0.05
+    rng = (hi - lo) or 1.0
+    xs = lambda i: PL + i * (W - PL - PR) / (len(curve) - 1)
+    ys = lambda v: PT + (hi - v) / rng * (H - PT - PB)
+    # y gridlines / ticks
+    grid = []
+    steps = 4
+    for k in range(steps + 1):
+        v = lo + (hi - lo) * k / steps
+        y = ys(v)
+        grid.append(f'<line class="pc-grid" x1="{PL}" x2="{W-PR}" y1="{y:.1f}" y2="{y:.1f}"/>'
+                    f'<text class="pc-yl" x="{PL-10}" y="{y+3:.1f}">{v:.2f}</text>')
+    # line + points + tenor labels
+    d = "M" + " L".join(f"{xs(i):.1f} {ys(p['v']):.1f}" for i, p in enumerate(curve))
+    pts, last = [], len(curve) - 1
+    for i, p in enumerate(curve):
+        emph = ' pc-pt-last' if i == last else ''
+        pts.append(f'<circle class="pc-pt{emph}" cx="{xs(i):.1f}" cy="{ys(p["v"]):.1f}" r="{3.6 if i==last else 2.8:.1f}"/>'
+                   f'<text class="pc-xl" x="{xs(i):.1f}" y="{H-PB+20}">{p["l"]}</text>')
+    # 2s10s spread annotation, computed from the real curve
+    by_l = {p["l"]: p["v"] for p in curve}
+    spr_txt = ""
+    if "2Y" in by_l and "10Y" in by_l:
+        bps = round((by_l["10Y"] - by_l["2Y"]) * 100)
+        sign = "+" if bps >= 0 else ""
+        word = ("steepening at the long end" if bps >= 0 else "still inverted")
+        if lang != "en":
+            word = ("uzun vadede dikleşiyor" if bps >= 0 else "hâlâ ters")
+        lab = "2s10s spread" if lang == "en" else "2s10s farkı"
+        spr_txt = (f'<div class="pc-annot"><span class="pc-annot-v">{sign}{bps} bps</span>'
+                   f'<span class="pc-annot-k">{lab} · {word}</span></div>')
+    date = MACRO.get("us10y", {}).get("date", "")
+    title = "US Treasury yield curve" if lang == "en" else "ABD Hazine getiri eğrisi"
+    src = (f"Source: FRED · drawn {date}" if lang == "en" else f"Kaynak: FRED · {date} çizimi")
+    return f"""
+<figure class="pc-fig">
+  <figcaption class="pc-head">
+    <span class="pc-title">{title}</span>
+    <span class="pc-src">{src}</span>
+  </figcaption>
+  <svg class="pc-svg" viewBox="0 0 {W} {H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="{title}">
+    {''.join(grid)}
+    <path class="pc-line" d="{d}" fill="none"/>
+    {''.join(pts)}
+  </svg>
+  {spr_txt}
+</figure>"""
 
 
 # ── bulletin-page aside: next high-impact events from the real calendar ─────
@@ -700,6 +763,9 @@ def head(page, lang):
         }, ensure_ascii=False)
     splash_css = '<link rel="stylesheet" href="/splash.css"/>\n' if (p.get("splash") and lang == "en") else ""
     early = _early_script(page, lang) if (p.get("splash") or lang == "tr") else ""
+    # Broadsheet redesign — now applied site-wide
+    bs_css = '<link rel="stylesheet" href="/broadsheet.css"/>\n'
+    body_cls = ' class="bs"'
 
     return f"""<!DOCTYPE html>
 <html lang="{lang}">
@@ -730,8 +796,8 @@ def head(page, lang):
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
 <script type="application/ld+json">{site_schema}</script>
-{head_extra}{splash_css}{early}</head>
-<body data-mood="{_mood()}">"""
+{head_extra}{splash_css}{bs_css}{early}</head>
+<body data-mood="{_mood()}"{body_cls}>"""
 
 
 def _early_script(page, lang):
@@ -780,8 +846,9 @@ WEEKDAYS_LONG = {"en": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", 
                  "tr": ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"]}
 
 
-def masthead(lang):
-    """Thin broadsheet dateline under the nav — re-typeset on every build."""
+def masthead(page, lang):
+    """Broadsheet nameplate on the home page; thin dateline elsewhere.
+    Re-typeset on every build (the dateline is the live build date)."""
     try:
         from zoneinfo import ZoneInfo
         now = datetime.now(ZoneInfo("Europe/Madrid"))
@@ -792,9 +859,22 @@ def masthead(lang):
     if lang == "en":
         datestr = f"{wd}, {mo} {now.day}, {now.year}"
         edition = "Morning Edition"
+        kicker = "Macro &amp; Markets, every Sunday"
+        tagline = "Make sense of the macro. Start your morning with data."
     else:
-        datestr = f"{now.day} {mo} {now.year} {wd}"
+        datestr = f"{wd}, {now.day} {mo} {now.year}"
         edition = "Sabah Baskısı"
+        kicker = "Makro &amp; Piyasalar, her Pazar"
+        tagline = "Makroyu anlamlandır. Gününe veriyle başla."
+    home = "/" if lang == "en" else "/tr/"
+    if page == "index":
+        return (f'\n<div class="bs-mast">'
+                f'<div class="bs-mast-top"><span>{edition}</span>'
+                f'<span class="bs-mast-mid">{kicker}</span>'
+                f'<span>Barcelona · {datestr}</span></div>'
+                f'<a class="bs-wordmark" href="{home}">NoCashFlow</a>'
+                f'<div class="bs-mast-tag">{tagline}</div>'
+                f'</div>\n')
     return (f'\n<div class="masthead"><div class="masthead-inner">'
             f'<span>{edition}</span><span class="mh-date">{datestr}</span>'
             f'<span>Barcelona</span></div></div>\n')
@@ -954,7 +1034,7 @@ def render(page, lang):
         head(page, lang),
         splash_html + chrome_top(page),
         nav(page, lang),
-        masthead(lang),
+        masthead(page, lang),
         body,
         footer(lang),
         scripts(page, lang),
@@ -965,6 +1045,7 @@ def render(page, lang):
     # fill build-time snapshots (market values + macro KPIs + economic calendar)
     html = html.replace("<!--NCF:HERO-->", hero_frieze(lang))
     html = html.replace("<!--NCF:MOOD-->", _mood_pill(lang))
+    html = html.replace("<!--NCF:PULSECHART-->", pulse_chart(lang))
     html = inject_calendar(html, lang)
     html = inject_calendar_full(html, lang)
     html = inject_cal_brief(html, lang)
@@ -1077,9 +1158,10 @@ def render_article(slug, lang):
 <link href="{FONTS_URL}" rel="stylesheet"/>
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
+<link rel="stylesheet" href="/broadsheet.css"/>
 <script type="application/ld+json">{schema}</script>
 </head>
-<body data-mood="{_mood()}">"""
+<body data-mood="{_mood()}" class="bs">"""
 
     ticker = (CURSOR_HTML +
               '<div id="page-sweep"></div>\n'
@@ -1146,7 +1228,7 @@ def render_article(slug, lang):
     )
 
     html = "\n".join([head_html, ticker, _nav_html("articles", lang, sw_href),
-                      masthead(lang), body, footer(lang), scripts_html,
+                      masthead("article", lang), body, footer(lang), scripts_html,
                       "</body>", "</html>", ""])
     return inject_market(html)
 
@@ -1375,9 +1457,10 @@ def _ind_head(lang, title, desc, canonical, alt_en, alt_tr, schema):
 <link href="{FONTS_URL}" rel="stylesheet"/>
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
+<link rel="stylesheet" href="/broadsheet.css"/>
 <script type="application/ld+json">{schema}</script>
 </head>
-<body data-mood="{_mood()}">"""
+<body data-mood="{_mood()}" class="bs">"""
 
 
 def _ind_chrome_ticker():
@@ -1436,7 +1519,7 @@ def render_indicator(slug, lang):
 </div>
 """
     html = "\n".join([head_html, _ind_chrome_ticker(), _nav_html(None, lang, sw_href),
-                      masthead(lang), body, footer(lang), _ind_scripts(),
+                      masthead("indicator", lang), body, footer(lang), _ind_scripts(),
                       "</body>", "</html>", ""])
     return inject_market(html)
 
@@ -1473,7 +1556,7 @@ def render_indicator_hub(lang):
 </div>
 """
     html = "\n".join([head_html, _ind_chrome_ticker(), _nav_html(None, lang, sw_href),
-                      masthead(lang), body, footer(lang), _ind_scripts(),
+                      masthead("indicator", lang), body, footer(lang), _ind_scripts(),
                       "</body>", "</html>", ""])
     return inject_market(html)
 

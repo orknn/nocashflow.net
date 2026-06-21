@@ -1,0 +1,279 @@
+/* ============================================================================
+   BROADSHEET — homepage redesign (Direction B), scoped to body.bs only.
+   Preview phase: hero + masthead + Market Pulse. Other sections inherit
+   the paper base but are restyled in the propagate phase.
+   Fonts: Libre Caslon Display (nameplate) · Source Serif 4 (body) · IBM Plex Mono (data)
+   ========================================================================== */
+body.bs{
+  --bs-paper:#F8F8F4; --bs-paper2:#F1F1EA; --bs-ink:#16181C; --bs-ink2:#3C3F45;
+  --bs-soft:#74787F; --bs-hair:#D8D7CE; --bs-rule:#23262B;
+  --bs-accent:#B3122B; --bs-pos:#1A7F3C; --bs-neg:#B3122B;
+  --bs-disp:'Libre Caslon Display',Georgia,'Times New Roman',serif;
+  --bs-serif:'Source Serif 4',Georgia,serif;
+  --bs-mono:'IBM Plex Mono',ui-monospace,monospace;
+  --bs-max:1180px;
+  background:var(--bs-paper);
+  color:var(--bs-ink);
+  font-family:var(--bs-serif);
+}
+/* token remap: recolour + re-type every existing homepage component to the
+   Broadsheet palette/fonts (home is a light paper publication; After Hours dark
+   is intentionally not applied to the home page in this phase). */
+body.bs{
+  --bg:#F8F8F4; --bg-elev:#F1F1EA; --border:#D8D7CE; --border-soft:#E5E3DA;
+  --text:#16181C; --text-dim:#3C3F45; --text-mute:#74787F;
+  --amber:#B3122B; --amber-hi:#9A1024; --on-amber:#F8F8F4;
+  --green:#1A7F3C; --red:#B3122B;
+  --serif:'Source Serif 4',Georgia,serif;
+  --sans:'Source Serif 4',Georgia,serif;
+}
+body.bs .bs-front, body.bs .bs-pulse{font-feature-settings:"tnum" 1}
+body.bs .tnum, body.bs [data-px], body.bs [data-chg]{font-variant-numeric:tabular-nums}
+
+/* ---- top utility nav (slim, paper) ---- */
+body.bs .nav{background:var(--bs-paper);border-bottom:1px solid var(--bs-hair);backdrop-filter:none}
+body.bs .nav .logo{font-family:var(--bs-mono);font-size:13px;letter-spacing:.02em;color:var(--bs-ink);font-weight:600}
+body.bs .nav .logo .tag{display:none}
+body.bs .nav .logo .slash{color:var(--bs-accent)}
+body.bs .nav .nav-links a{font-family:var(--bs-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--bs-ink2)}
+body.bs .nav .nav-links a:hover, body.bs .nav .nav-links a.active{color:var(--bs-accent)}
+body.bs .nav .lang-switch{font-family:var(--bs-mono);color:var(--bs-ink2);border-color:var(--bs-hair)}
+body.bs .nav .lang-switch:hover{color:var(--bs-accent);border-color:var(--bs-accent)}
+body.bs .nav .subscribe{background:var(--bs-ink);color:var(--bs-paper);border-radius:0;font-family:var(--bs-mono);
+  font-size:12px;letter-spacing:.04em;text-transform:uppercase;padding:9px 16px}
+body.bs .nav .subscribe:hover{background:var(--bs-accent)}
+body.bs .nav .theme-toggle{color:var(--bs-ink2)}
+
+/* ---- masthead nameplate ---- */
+body.bs .bs-mast{max-width:var(--bs-max);margin:0 auto;padding:30px 30px 18px;text-align:center;
+  border-bottom:3px double var(--bs-rule)}
+body.bs .bs-mast-top{display:flex;justify-content:space-between;align-items:center;
+  font-family:var(--bs-mono);font-size:11px;letter-spacing:.08em;color:var(--bs-soft);
+  text-transform:uppercase;padding-bottom:14px}
+body.bs .bs-mast-mid{color:var(--bs-accent);letter-spacing:.12em}
+body.bs .bs-wordmark{display:block;font-family:var(--bs-disp);font-weight:400;
+  font-size:clamp(52px,9vw,108px);line-height:.92;letter-spacing:-.01em;color:var(--bs-ink);
+  margin:6px 0 8px}
+body.bs .bs-mast-tag{font-family:var(--bs-serif);font-style:italic;font-size:16px;color:var(--bs-ink2)}
+
+/* ---- front page: lead + graphic ---- */
+body.bs .bs-front{max-width:var(--bs-max);margin:0 auto;padding:40px 30px 38px;border-bottom:1px solid var(--bs-hair)}
+body.bs .bs-front-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:46px}
+body.bs .bs-kicker{font-family:var(--bs-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--bs-accent);margin-bottom:16px}
+body.bs .bs-lead-title{font-family:var(--bs-disp);font-weight:400;line-height:1.02;letter-spacing:-.01em;
+  font-size:clamp(34px,4.6vw,58px);margin:0 0 18px}
+body.bs .bs-lead-title a{color:var(--bs-ink);text-decoration:none}
+body.bs .bs-lead-title a:hover{color:var(--bs-accent)}
+body.bs .bs-lead-title em{font-style:italic}
+body.bs .bs-lead-dek{font-size:19px;line-height:1.6;color:var(--bs-ink2);max-width:42ch;margin:0 0 24px}
+body.bs .bs-figures{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--bs-hair);
+  border:1px solid var(--bs-hair);margin-bottom:22px}
+body.bs .bs-fig{background:var(--bs-paper);padding:13px 16px;display:flex;flex-direction:column;gap:4px}
+body.bs .bs-fig .k{font-family:var(--bs-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--bs-soft)}
+body.bs .bs-fig .v{font-family:var(--bs-mono);font-size:22px;font-weight:500;color:var(--bs-ink)}
+body.bs .bs-fig .v.dn{color:var(--bs-neg)} body.bs .bs-fig .v.accent{color:var(--bs-accent)}
+body.bs .bs-byline{font-family:var(--bs-mono);font-size:11px;letter-spacing:.04em;color:var(--bs-soft);
+  border-top:1px solid var(--bs-hair);padding-top:14px}
+
+body.bs .bs-graphic{border:1px solid var(--bs-hair);background:var(--bs-paper);padding:18px}
+body.bs .bs-graphic-k{font-family:var(--bs-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--bs-soft);margin-bottom:10px}
+body.bs .bs-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--bs-hair);
+  border:1px solid var(--bs-hair);margin-top:16px}
+body.bs .bs-kpi{background:var(--bs-paper);padding:12px 14px;display:flex;flex-direction:column;gap:3px}
+body.bs .bs-kpi .k{font-family:var(--bs-mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--bs-soft)}
+body.bs .bs-kpi .v{font-family:var(--bs-mono);font-size:18px;font-weight:500;color:var(--bs-ink)}
+body.bs .bs-kpi .c{font-family:var(--bs-mono);font-size:11px}
+body.bs .c.up,body.bs .cg.up{color:var(--bs-pos)} body.bs .c.down,body.bs .cg.down{color:var(--bs-neg)}
+body.bs .c.neu,body.bs .cg.neu{color:var(--bs-soft)}
+
+/* ---- live yield-curve frieze in the hero graphic ---- */
+body.bs .bs-graphic .hero-frieze{position:static;margin:0;width:100%;opacity:1;pointer-events:none}
+body.bs .bs-graphic .hero-frieze svg{width:100%;height:150px;display:block}
+body.bs .hf-base{stroke:var(--bs-hair);stroke-width:1}
+body.bs .hf-area{fill:var(--bs-accent);opacity:.05}
+body.bs .hf-line{stroke:var(--bs-ink);stroke-width:2;fill:none}
+body.bs .hf-pt{fill:var(--bs-paper);stroke:var(--bs-ink);stroke-width:1.6}
+body.bs .hf-lbl{fill:var(--bs-soft);font-family:var(--bs-mono);font-size:11px;text-anchor:middle}
+body.bs .hf-val{fill:var(--bs-ink2);font-family:var(--bs-mono);font-size:11px;text-anchor:middle}
+body.bs .hf-cap{font-family:var(--bs-mono);font-size:10px;color:var(--bs-soft);letter-spacing:.03em;margin-top:8px;text-align:center}
+
+/* ---- Market Pulse board ---- */
+body.bs .bs-pulse{max-width:var(--bs-max);margin:0 auto;padding:36px 30px 56px;background:var(--bs-paper)}
+body.bs .bs-sec-head{display:flex;align-items:baseline;justify-content:space-between;
+  border-bottom:2px solid var(--bs-rule);padding-bottom:9px;margin-bottom:0}
+body.bs .bs-sec-title{font-family:var(--bs-disp);font-weight:400;font-size:30px;color:var(--bs-ink)}
+body.bs .bs-sec-meta{display:flex;gap:16px;align-items:center;font-family:var(--bs-mono);font-size:11px;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--bs-soft)}
+body.bs .bs-sec-meta a{color:var(--bs-ink2)} body.bs .bs-sec-meta a:hover{color:var(--bs-accent)}
+body.bs .bs-live{color:var(--bs-accent);display:inline-flex;align-items:center;gap:6px}
+body.bs .bs-live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--bs-accent);
+  animation:bs-pulse 1.8s ease-in-out infinite}
+@keyframes bs-pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+body.bs .bs-pulse-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:40px;margin-top:22px;align-items:start}
+body.bs .bs-quotes{display:grid;grid-template-columns:1fr 1fr;border-left:1px solid var(--bs-hair);border-top:1px solid var(--bs-hair)}
+body.bs .bs-q{border-right:1px solid var(--bs-hair);border-bottom:1px solid var(--bs-hair);
+  padding:14px 16px;display:flex;flex-direction:column;gap:5px}
+body.bs .bs-q .nm{font-family:var(--bs-mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--bs-soft)}
+body.bs .bs-q .vl{font-family:var(--bs-mono);font-size:21px;font-weight:500;color:var(--bs-ink)}
+body.bs .bs-q .cg{font-family:var(--bs-mono);font-size:12px}
+
+/* pulse chart (real yield curve, proper axes) */
+body.bs .pc-fig{margin:0;border:1px solid var(--bs-hair);background:var(--bs-paper);padding:18px 18px 14px}
+body.bs .pc-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+body.bs .pc-title{font-family:var(--bs-disp);font-weight:400;font-size:20px;color:var(--bs-ink)}
+body.bs .pc-src{font-family:var(--bs-mono);font-size:10px;letter-spacing:.04em;color:var(--bs-soft)}
+body.bs .pc-svg{width:100%;height:auto;display:block}
+body.bs .pc-grid{stroke:var(--bs-hair);stroke-width:1}
+body.bs .pc-yl{fill:var(--bs-soft);font-family:var(--bs-mono);font-size:11px;text-anchor:end}
+body.bs .pc-xl{fill:var(--bs-soft);font-family:var(--bs-mono);font-size:11px;text-anchor:middle}
+body.bs .pc-line{stroke:var(--bs-ink);stroke-width:1.9;stroke-linejoin:round}
+body.bs .pc-pt{fill:var(--bs-paper);stroke:var(--bs-ink);stroke-width:1.6}
+body.bs .pc-pt-last{fill:var(--bs-accent);stroke:var(--bs-accent)}
+body.bs .pc-annot{display:flex;align-items:baseline;gap:10px;margin-top:12px;padding-top:11px;border-top:1px solid var(--bs-hair)}
+body.bs .pc-annot-v{font-family:var(--bs-mono);font-size:17px;font-weight:600;color:var(--bs-accent)}
+body.bs .pc-annot-k{font-family:var(--bs-serif);font-style:italic;font-size:13px;color:var(--bs-ink2)}
+
+/* ---- mood pill (kept, restyled) ---- */
+body.bs .bs-graphic .mood-pill{margin-top:14px;border:1px solid var(--bs-hair);background:var(--bs-paper2);
+  border-radius:0;font-family:var(--bs-mono);color:var(--bs-ink2)}
+
+/* ---- scroll reveal (motion, honored under reduced-motion) ---- */
+body.bs .reveal{opacity:0;transform:translateY(18px)}
+body.bs .reveal.in{opacity:1;transform:none;
+  transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+
+/* ---- chart line draw-on (real charts; disabled under reduced-motion) ---- */
+@media(prefers-reduced-motion:no-preference){
+  body.bs .hf-line, body.bs .pc-line{
+    stroke-dasharray:2400;stroke-dashoffset:2400;
+    animation:bs-draw 1.5s cubic-bezier(.16,1,.3,1) .2s forwards}
+}
+@keyframes bs-draw{to{stroke-dashoffset:0}}
+
+/* ---- responsive ---- */
+@media(max-width:860px){
+  body.bs .bs-front-grid{grid-template-columns:1fr;gap:30px}
+  body.bs .bs-pulse-grid{grid-template-columns:1fr;gap:26px}
+  body.bs .bs-mast-top{flex-direction:column;gap:6px}
+  body.bs .nav .nav-links{display:none}
+}
+@media(max-width:560px){
+  body.bs .bs-quotes{grid-template-columns:1fr}
+  body.bs .bs-figures{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  body.bs .reveal{opacity:1;transform:none;transition:none}
+  body.bs .bs-live::before{animation:none}
+}
+
+/* ============================================================================
+   PROPAGATE — remaining homepage sections to full Broadsheet consistency
+   (ticker · §02 Latest Analysis · §03 Inside · newsletter · footer)
+   ========================================================================== */
+
+/* ---- live ticker (was dark; now paper editorial) ---- */
+body.bs .ticker{background:var(--bs-paper);border-bottom:1px solid var(--bs-hair)}
+body.bs .ticker-label{color:var(--bs-soft);font-family:var(--bs-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+body.bs .ticker-label .dot{background:var(--bs-accent)}
+body.bs .tick{font-family:var(--bs-mono);font-size:12px}
+body.bs .tick .sym{color:var(--bs-ink);font-weight:600}
+body.bs .tick .px{color:var(--bs-soft)}
+body.bs .tick .chg.up{color:var(--bs-pos)}
+body.bs .tick .chg.dn{color:var(--bs-neg)}
+
+/* ---- generic section + headers (skip the already-styled Market Pulse) ---- */
+body.bs .section:not(.bs-pulse){max-width:var(--bs-max);margin:0 auto;padding:34px 30px 46px}
+body.bs .section:not(.bs-pulse) .section-header{display:flex;justify-content:space-between;align-items:baseline;
+  border-bottom:2px solid var(--bs-rule);padding-bottom:9px;margin-bottom:22px}
+body.bs .section:not(.bs-pulse) .section-title{font-family:var(--bs-disp);font-weight:400;font-size:30px;color:var(--bs-ink);letter-spacing:0}
+body.bs .section-title .num{display:none}
+body.bs .section-meta,body.bs .section-link{font-family:var(--bs-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--bs-soft)}
+body.bs .section-meta a:hover,body.bs .section-link:hover{color:var(--bs-accent)}
+
+/* ---- §02 Latest Analysis: editorial list, hairline rules, no cards ---- */
+body.bs .art-list{border-top:1px solid var(--bs-hair)}
+body.bs .art-row{display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:baseline;
+  padding:20px 0;border-bottom:1px solid var(--bs-hair);
+  transition:background .25s cubic-bezier(.16,1,.3,1)}
+body.bs .art-row:hover{background:var(--bs-paper2)}
+body.bs .art-row .n{font-family:var(--bs-mono);font-size:13px;font-weight:500;color:var(--bs-accent)}
+body.bs .art-row .tag-line{font-family:var(--bs-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--bs-soft);margin-bottom:8px}
+body.bs .art-row .body h3{font-family:var(--bs-disp);font-weight:400;font-size:23px;line-height:1.16;margin-bottom:7px}
+body.bs .art-row .body h3 a{color:var(--bs-ink)}
+body.bs .art-row .body h3 a:hover{color:var(--bs-accent)}
+body.bs .art-row .body p{font-family:var(--bs-serif);font-size:15px;line-height:1.6;color:var(--bs-ink2);max-width:72ch}
+body.bs .art-row .arrow{color:var(--bs-soft);font-size:18px;transition:transform .25s cubic-bezier(.16,1,.3,1),color .25s}
+body.bs .art-row:hover .arrow{color:var(--bs-accent);transform:translateX(5px)}
+
+/* ---- §03 Inside the Bulletin: hairline editorial grid (no bordered cards) ---- */
+body.bs .card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+  border-left:1px solid var(--bs-hair);border-top:1px solid var(--bs-hair)}
+body.bs .acard{border:none;border-right:1px solid var(--bs-hair);border-bottom:1px solid var(--bs-hair);
+  background:transparent;padding:22px;transition:background .25s cubic-bezier(.16,1,.3,1)}
+body.bs .acard:hover{background:var(--bs-paper2)}
+body.bs .acard .series{font-family:var(--bs-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--bs-accent)}
+body.bs .acard h3{font-family:var(--bs-disp);font-weight:400;font-size:20px;color:var(--bs-ink);line-height:1.18}
+body.bs .acard p{font-family:var(--bs-serif);font-size:14px;line-height:1.6;color:var(--bs-ink2)}
+
+/* ---- newsletter ---- */
+body.bs .newsletter{background:var(--bs-paper2);border-top:1px solid var(--bs-hair);border-bottom:1px solid var(--bs-hair)}
+body.bs .newsletter-label{font-family:var(--bs-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--bs-accent)}
+body.bs .newsletter-title{font-family:var(--bs-disp);font-weight:400;font-size:clamp(30px,4vw,48px);color:var(--bs-ink)}
+body.bs .newsletter-title em{font-style:italic}
+body.bs .newsletter-dek{font-family:var(--bs-serif);font-size:17px;color:var(--bs-ink2)}
+body.bs .newsletter-input{background:var(--bs-paper);border:1px solid var(--bs-hair);border-radius:0;
+  color:var(--bs-ink);font-family:var(--bs-mono)}
+body.bs .newsletter-input::placeholder{color:var(--bs-soft)}
+body.bs .newsletter-input:focus{border-color:var(--bs-ink);outline:none}
+body.bs .newsletter-submit{background:var(--bs-ink);color:var(--bs-paper);border-radius:0;border:none;
+  font-family:var(--bs-mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;
+  transition:background .25s cubic-bezier(.16,1,.3,1)}
+body.bs .newsletter-submit:hover{background:var(--bs-accent)}
+body.bs .newsletter-note{font-family:var(--bs-mono);font-size:11px;color:var(--bs-soft)}
+body.bs .nl-stat .v{font-family:var(--bs-disp);font-weight:400;color:var(--bs-ink)}
+body.bs .nl-stat .k{font-family:var(--bs-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--bs-soft)}
+
+/* ---- footer ---- */
+body.bs footer{background:var(--bs-paper);border-top:3px double var(--bs-rule)}
+body.bs .footer-brand-title{font-family:var(--bs-disp);font-weight:400;font-size:26px;color:var(--bs-ink)}
+body.bs .footer-brand-desc{font-family:var(--bs-serif);color:var(--bs-ink2)}
+body.bs .footer-col h4{font-family:var(--bs-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--bs-soft)}
+body.bs .footer-col ul li a{font-family:var(--bs-serif);color:var(--bs-ink2)}
+body.bs .footer-col ul li a:hover{color:var(--bs-accent)}
+body.bs .footer-bot{font-family:var(--bs-mono);font-size:11px;color:var(--bs-soft);border-top:1px solid var(--bs-hair)}
+body.bs .footer-bot a:hover{color:var(--bs-accent)}
+body.bs .disclaimer{font-family:var(--bs-mono);color:var(--bs-soft)}
+body.bs .mood-line{font-family:var(--bs-serif);font-style:italic;color:var(--bs-ink2)}
+
+/* ---- propagate fixes: LIVE chip + active nav pill ---- */
+body.bs .ticker-label{background:var(--bs-paper);border-right:1px solid var(--bs-hair);color:var(--bs-accent)}
+body.bs .nav-links a.active{color:var(--bs-accent)}
+
+/* gliding nav pill (app.js) — recolour to a subtle paper indicator on home */
+body.bs .nav-pill{background:var(--bs-paper2);border:1px solid var(--bs-hair);border-radius:0}
+body.bs .nav-links a.active{color:var(--bs-accent)}
+
+/* ---- inner-page dateline masthead (non-home) ---- */
+body.bs .masthead{max-width:var(--bs-max);margin:0 auto;padding:14px 30px;border-bottom:1px solid var(--bs-hair)}
+body.bs .masthead-inner{display:flex;justify-content:space-between;align-items:center;
+  font-family:var(--bs-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--bs-soft)}
+body.bs .masthead .mh-date{color:var(--bs-accent);letter-spacing:.1em}
+/* dark mode (After Hours) is not part of the Broadsheet phase — hide the dead toggle */
+body.bs .theme-toggle{display:none}
+
+/* ---- page-specific fixes ---- */
+/* macro yield-curve bars: editorial charcoal instead of heavy red blocks;
+   accent only on the long end (last bar) */
+body.bs .yield-bar{background:var(--bs-ink2);opacity:.9;border-radius:0}
+body.bs .yield-bar:last-child{background:var(--bs-accent)}
+/* calendar impact flags stay distinct under the single red accent */
+body.bs .cal-row .impact.high{background:var(--bs-accent)}
+body.bs .cal-row .impact.med{background:var(--bs-soft)}
+body.bs .cal-row .impact.low{background:var(--bs-hair)}
+/* glossary term cards: hairline, not heavy bordered cards */
+body.bs .term{background:transparent;border-color:var(--bs-hair)}
+body.bs .term .cat{color:var(--bs-accent)}
+body.bs .term h3{font-family:var(--bs-disp);font-weight:400}
