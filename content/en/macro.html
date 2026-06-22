@@ -1,53 +1,69 @@
 <header class="page-head">
-  <div class="page-eyebrow">Macro Dashboard <span class="divider"></span> <span class="muted">Last update: <span id="last-update">—</span></span></div>
-  <h1 class="page-title">Global <em>indicators.</em></h1>
-  <p class="page-dek">The core readings of the global economy — the Fed, the yield curve, inflation and commodities. Refreshed live.</p>
+  <div class="page-eyebrow">Macro · The Regime <span class="divider"></span> <span class="muted">Updated: <span id="last-update">—</span></span></div>
+  <h1 class="page-title">Where the economy <em>actually</em> stands.</h1>
+  <p class="page-dek">Not a price board — the readings that set the regime. Inflation, the Fed, liquidity and the curve, each with the read that matters. Updated as the data prints.</p>
+  <!--NCF:MACRO2_REGIME-->
 </header>
 
+<!-- REGIME TAPE -->
+<div class="mcr-tape"><div class="mcr-tape-grid"><!--NCF:MACRO2_TAPE--></div></div>
+
 <div class="section">
-  <!-- KPI GRID -->
-  <div class="stat-grid">
-    <div class="stat"><div class="stat-k">VIX · Volatility</div><div><div class="stat-v" id="m-vix">—</div><div class="stat-chg neu" id="m-vix-c">—</div><div class="stat-spark" id="sp-vix"></div></div></div>
-    <div class="stat"><div class="stat-k">Dollar Index · DXY</div><div><div class="stat-v" id="m-dxy">—</div><div class="stat-chg neu" id="m-dxy-c">—</div><div class="stat-spark" id="sp-dxy"></div></div></div>
-    <div class="stat"><div class="stat-k">US 10Y Yield</div><div><div class="stat-v" id="m-10y">—</div><div class="stat-chg neu" id="m-10y-c">—</div><div class="stat-spark" id="sp-10y"></div></div></div>
-    <div class="stat"><div class="stat-k">US 2Y (13w proxy)</div><div><div class="stat-v" id="m-2y">—</div><div class="stat-chg neu" id="m-2y-c">—</div><div class="stat-spark" id="sp-2y"></div></div></div>
-    <div class="stat"><div class="stat-k">Crypto Fear &amp; Greed</div><div><div class="stat-v" id="m-fg">—</div><div class="stat-chg neu" id="m-fg-c">—</div></div></div>
-    <div class="stat"><div class="stat-k">Spread 10Y–2Y</div><div><div class="stat-v" id="m-spread">—</div><div class="stat-chg neu" id="m-spread-c">—</div></div></div>
+  <!-- §01 INFLATION -->
+  <div class="section-header"><div class="section-title"><span class="num">§ 01</span>Inflation &amp; Prices</div><div class="section-meta">FRED · last print</div></div>
+  <div class="mcr-grid mcr-g4"><!--NCF:MACRO2_INFLATION--></div>
+  <!--NCF:MACRO2_READ_inflation-->
+
+  <!-- §02 FED -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 02</span>Fed &amp; Policy</div><div class="section-meta">CME FedWatch · implied</div></div>
+  <div class="mcr-layout2">
+    <div class="mcr-chartwrap">
+      <h4>Rate-cut odds — next four meetings</h4>
+      <div class="cap">implied from Fed Funds futures</div>
+      <div class="mcr-odds"><!--NCF:MACRO2_FED_ODDS--></div>
+    </div>
+    <div class="mcr-grid mcr-g2" style="align-content:start"><!--NCF:MACRO2_FED_STATS--></div>
   </div>
+  <!--NCF:MACRO2_READ_fed-->
 
-  <!-- YIELD CURVE -->
-  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">US Treasury yield curve</div><div class="section-meta">Normalized reference</div></div>
-  <div class="card"><div class="card-body">
-    <div class="yield-chart" id="yield-chart"><div class="muted" style="margin:auto;font-size:13px">Loading…</div></div>
-    <p class="muted" id="yield-note" style="font-family:var(--mono);font-size:11px;letter-spacing:0.04em;margin-top:8px"></p>
-  </div></div>
-
-  <!-- SCOREBOARD -->
-  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Macro scoreboard</div></div>
-  <div class="card-grid">
-    <div class="acard"><div class="series">Dollar Index · DXY</div><h3 id="sb-dxy" style="font-family:var(--mono);font-weight:500">—</h3><div class="meta" id="sb-dxy-c">—</div><p style="margin-top:12px">Strong dollar = commodity pressure and EM stress. 104+ is the critical threshold.</p></div>
-    <div class="acard"><div class="series">M2 Money Supply</div><h3 id="sb-m2" style="font-family:var(--mono);font-weight:500">—</h3><div class="meta" id="sb-m2-c">—</div><p style="margin-top:12px">With the Fed balance sheet, tracks global liquidity. Highly correlated with risk-asset pricing.</p></div>
-    <div class="acard"><div class="series">Empire State Mfg · NY Fed</div><h3 id="sb-pmi" style="font-family:var(--mono);font-weight:500">—</h3><div class="meta" id="sb-pmi-c">—</div><p style="margin-top:12px">NY Fed regional manufacturing survey. Above 0 = expansion, below 0 = contraction.</p></div>
+  <!-- §03 LIQUIDITY -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 03</span>Liquidity</div><div class="section-meta">the tide under every risk asset</div></div>
+  <div class="mcr-layout2">
+    <div class="mcr-chartwrap">
+      <h4>Net liquidity — Fed balance sheet − TGA − RRP</h4>
+      <div class="cap">weekly · USD trn</div>
+      <!--NCF:MACRO2_LIQ_CHART-->
+    </div>
+    <div class="mcr-grid mcr-g2" style="align-content:start"><!--NCF:MACRO2_LIQ_STATS--></div>
   </div>
+  <!--NCF:MACRO2_READ_liquidity-->
 
-  <!-- COMMODITIES -->
-  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Commodities</div><div class="section-meta"><span class="live" style="color:var(--green)">● Live</span></div></div>
-  <table class="dtable">
-    <thead><tr><th>Commodity</th><th>Price</th><th>1D Δ%</th><th>Momentum</th></tr></thead>
-    <tbody id="commodity-tbody"><tr><td colspan="4" class="muted" style="text-align:center;padding:24px">Loading…</td></tr></tbody>
-  </table>
+  <!-- §04 GROWTH -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 04</span>Growth &amp; Labor</div><div class="section-meta">is the landing soft?</div></div>
+  <div class="mcr-grid mcr-g4"><!--NCF:MACRO2_GROWTH--></div>
+  <!--NCF:MACRO2_READ_growth-->
 
-  <!-- ECONOMIC CALENDAR (fed from data/calendar.json at build time) -->
-  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Economic calendar</div><div class="section-meta"><a href="/calendar.html">Full week →</a> · <span class="muted">Updated: <!--NCF:CAL_UPDATED--></span></div></div>
+  <!-- §05 RATES -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 05</span>Rates &amp; the Dollar</div><div class="section-meta">FRED · the curve</div></div>
+  <div class="mcr-layout2">
+    <div class="mcr-chartwrap">
+      <h4>US Treasury yield curve</h4>
+      <div class="cap">tenor vs. yield · the desk's signature read</div>
+      <!--NCF:MACRO2_RATES_CHART-->
+    </div>
+    <div class="mcr-grid mcr-g2" style="align-content:start"><!--NCF:MACRO2_RATES_STATS--></div>
+  </div>
+  <!--NCF:MACRO2_READ_rates-->
+
+  <!-- §06 THIS WEEK (economic calendar — ForexFactory via calendar.json) -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 06</span>This week</div><div class="section-meta"><a href="/calendar.html">Full week →</a> · <span class="muted">Updated: <!--NCF:CAL_UPDATED--></span></div></div>
   <!--NCF:CAL_STALE-->
   <table class="dtable">
     <thead><tr><th>Date</th><th>Time (CET)</th><th>Event</th><th>Country</th><th>Prev.</th><th>Cons.</th><th>Actual</th></tr></thead>
     <tbody><!--NCF:CALENDAR--></tbody>
   </table>
+  <!--NCF:MACRO2_READ_calendar-->
 
-  <!-- FOCUS -->
-  <div class="callout" style="margin-top:40px">
-    <div class="k">What to watch</div>
-    <p><strong>CPI and PPI</strong> are the prints that move the macro — the inflation reads the Fed reacts to most directly. A hotter-than-expected release revives the "is the Fed behind the curve?" debate and lifts yields; a cooler one buys room to cut. Alongside payrolls and the PCE deflator, they set the tone for the rate path.</p>
-  </div>
+  <!-- CLOSING -->
+  <!--NCF:MACRO2_CLOSING-->
 </div>

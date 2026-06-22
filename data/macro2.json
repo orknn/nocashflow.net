@@ -1,0 +1,233 @@
+{
+  "_note": "PHASE-2 WIRING STUB — sample values from macro-demo.html. Not real, not for live deploy. Replaced by automation in Phase 4.",
+  "updated": "2026-06-23T08:00:00Z",
+  "regime_tape": [
+    {
+      "k": "Fed Funds",
+      "v": "4.25–4.50",
+      "d": "held",
+      "dir": "neu"
+    },
+    {
+      "k": "Next FOMC",
+      "v": "Jul 29",
+      "d": "37d",
+      "dir": "neu"
+    },
+    {
+      "k": "Cut odds (Jul)",
+      "v": "22%",
+      "d": "▲ from 14%",
+      "dir": "up"
+    },
+    {
+      "k": "Core CPI",
+      "v": "3.1%",
+      "d": "▲ sticky",
+      "dir": "down"
+    },
+    {
+      "k": "US 10Y",
+      "v": "4.51",
+      "d": "+1.30%",
+      "dir": "up"
+    },
+    {
+      "k": "2s10s",
+      "v": "+27",
+      "d": "steepening",
+      "dir": "up"
+    },
+    {
+      "k": "DXY",
+      "v": "101.0",
+      "d": "+0.16%",
+      "dir": "up"
+    },
+    {
+      "k": "F&amp;G",
+      "v": "20",
+      "d": "Extreme Fear",
+      "dir": "down"
+    }
+  ],
+  "inflation": [
+    {
+      "v": "2.6%",
+      "sub": "▼ from 2.8%",
+      "dir": "up"
+    },
+    {
+      "v": "3.1%",
+      "sub": "▲ flat 3m",
+      "dir": "down"
+    },
+    {
+      "v": "2.8%",
+      "sub": "→ unchanged",
+      "dir": "neu"
+    },
+    {
+      "v": "2.34%",
+      "sub": "▲ +6bp",
+      "dir": "up"
+    }
+  ],
+  "fed": {
+    "cut_odds": [
+      {
+        "m": "Jul 29",
+        "p": 22
+      },
+      {
+        "m": "Sep 16",
+        "p": 48
+      },
+      {
+        "m": "Oct 28",
+        "p": 61
+      },
+      {
+        "m": "Dec 9",
+        "p": 74
+      }
+    ],
+    "stats": [
+      {
+        "v": "4.25–4.50",
+        "sub": "held 4 mtgs",
+        "dir": "neu"
+      },
+      {
+        "v": "$6.6T",
+        "sub": "▼ QT ongoing",
+        "dir": "down"
+      },
+      {
+        "v": "$148B",
+        "sub": "▼ draining",
+        "dir": "down"
+      },
+      {
+        "v": "2 cuts",
+        "sub": "median",
+        "dir": "neu"
+      }
+    ]
+  },
+  "liquidity": {
+    "net_liq_series": [
+      6.32,
+      6.26,
+      6.14,
+      6.18,
+      6.02,
+      5.88,
+      5.92,
+      5.8,
+      5.76,
+      5.82,
+      5.84
+    ],
+    "y_min": 5.5,
+    "y_max": 6.5,
+    "stats": [
+      {
+        "v": "$22.0T",
+        "sub": "▲ +1.8% YoY",
+        "dir": "up"
+      },
+      {
+        "v": "$5.84T",
+        "sub": "▼ −3.1% 3m",
+        "dir": "down"
+      },
+      {
+        "v": "$108T",
+        "sub": "▲ rising",
+        "dir": "up"
+      },
+      {
+        "v": "$248B",
+        "sub": "▲ +2.4% 30d",
+        "dir": "up"
+      }
+    ]
+  },
+  "growth": [
+    {
+      "v": "49.5",
+      "sub": "contraction",
+      "dir": "down"
+    },
+    {
+      "v": "+139K",
+      "sub": "→ cooling",
+      "dir": "neu"
+    },
+    {
+      "v": "242K",
+      "sub": "▲ +14K",
+      "dir": "down"
+    },
+    {
+      "v": "1.9%",
+      "sub": "Atlanta Fed",
+      "dir": "up"
+    }
+  ],
+  "rates": {
+    "curve": [
+      {
+        "tenor": "1M",
+        "y": 3.69
+      },
+      {
+        "tenor": "3M",
+        "y": 3.83
+      },
+      {
+        "tenor": "6M",
+        "y": 3.92
+      },
+      {
+        "tenor": "2Y",
+        "y": 4.19
+      },
+      {
+        "tenor": "5Y",
+        "y": 4.23
+      },
+      {
+        "tenor": "10Y",
+        "y": 4.46
+      },
+      {
+        "tenor": "30Y",
+        "y": 4.9
+      }
+    ],
+    "stats": [
+      {
+        "v": "4.19",
+        "sub": "+0.8%",
+        "dir": "up"
+      },
+      {
+        "v": "4.51",
+        "sub": "+1.3%",
+        "dir": "up"
+      },
+      {
+        "v": "+27bp",
+        "sub": "steepening",
+        "dir": "up"
+      },
+      {
+        "v": "312bp",
+        "sub": "→ calm",
+        "dir": "neu"
+      }
+    ]
+  }
+}

@@ -517,6 +517,8 @@ MARKET = _load_data("market.json")
 CALENDAR = _load_data("calendar.json")
 MACRO = _load_data("macro.json")
 MARKETS = _load_data("markets.json")        # dashboard "the tape" feed (Phase 1)
+MACRO2 = _load_data("macro2.json")           # macro "the regime" page feed (Phase 2)
+MACRO_NOTES = _load_data("macro-notes.json")  # human-authored read/notes (Phase 2)
 
 WEEKDAYS = {"en": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
             "tr": ["Pzt", "Sal", "Çar", "Per", "Cum", "Cmt", "Paz"]}
@@ -1206,6 +1208,146 @@ def inject_dashboard(html, lang):
     return html
 
 
+# ── macro "the regime" (data/macro2.json + human macro-notes.json) ───────────
+MACRO2_LABELS = {
+    "inflation": {"en": ["Headline CPI · YoY", "Core CPI · YoY", "Core PCE · YoY", "5y5y Breakeven"],
+                  "tr": ["Manşet TÜFE · YY", "Çekirdek TÜFE · YY", "Çekirdek PCE · YY", "5y5y Başabaş"]},
+    "fed": {"en": ["Target range", "Balance sheet", "Reverse repo", "Dot plot '26"],
+            "tr": ["Hedef aralık", "Bilanço", "Ters repo", "Nokta grafik '26"]},
+    "liquidity": {"en": ["M2 supply", "Net liquidity", "Global M2", "Stablecoin supply"],
+                  "tr": ["M2 arzı", "Net likidite", "Global M2", "Stablecoin arzı"]},
+    "growth": {"en": ["ISM Manufacturing", "Nonfarm payrolls", "Jobless claims", "GDPNow · Q2"],
+               "tr": ["ISM İmalat", "Tarım dışı istihdam", "İşsizlik başvuruları", "GDPNow · Ç2"]},
+    "rates": {"en": ["US 2Y", "US 10Y", "2s10s spread", "HY spread"],
+              "tr": ["ABD 2Y", "ABD 10Y", "2s10s farkı", "HY farkı"]},
+}
+
+
+def _mstat(label, s, note=""):
+    sub = s.get("sub", "")
+    sub_html = f'<div class="sub {s.get("dir", "neu")}">{sub}</div>' if sub else ""
+    note_html = f'<div class="note">{note}</div>' if note else ""
+    return (f'<div class="mcr-stat"><div class="lab">{label}</div>'
+            f'<div class="big">{s.get("v", "—")}</div>{sub_html}{note_html}</div>')
+
+
+def _mstats(section, lang):
+    labels = MACRO2_LABELS[section][lang]
+    stats = MACRO2.get(section) if section in ("inflation", "growth") else MACRO2.get(section, {}).get("stats", [])
+    notes = (MACRO_NOTES.get("stat_notes", {}) or {}).get(section, [])
+    out = []
+    for i, s in enumerate(stats):
+        note = notes[i] if i < len(notes) else ""
+        out.append(_mstat(labels[i] if i < len(labels) else "", s, note))
+    return "".join(out)
+
+
+def _mread(key):
+    note = (MACRO_NOTES.get("notes", {}) or {}).get(key, {}) or {}
+    body = note.get("body", "")
+    if not body:
+        return ""
+    by = note.get("by", "")
+    by_html = f'<div class="by">{by}</div>' if by else ""
+    return (f'<div class="mcr-read"><div class="tag">{note.get("tag", "The read")}</div>'
+            f'<p>{body}</p>{by_html}</div>')
+
+
+def _curve_svg(curve):
+    if not curve:
+        return ""
+    ys = [c["y"] for c in curve]
+    lo, hi = min(ys) - 0.3, max(ys) + 0.3
+    n = len(curve)
+    xs = [70, 134, 198, 304, 370, 440, 524] if n == 7 else \
+         [round(44 + i * 504 / (n - 1)) for i in range(n)]
+
+    def yy(v):
+        return round(24 + (hi - v) / (hi - lo) * 164, 1)
+
+    pts = " ".join(f"{xs[i]},{yy(c['y'])}" for i, c in enumerate(curve))
+    circles = "".join(f'<circle cx="{xs[i]}" cy="{yy(c["y"])}" r="3"/>' for i, c in enumerate(curve))
+    tlabels = "".join(f'<text x="{xs[i]}" y="204">{c["tenor"]}</text>' for i, c in enumerate(curve))
+    g1, g2, g3 = hi, (hi + lo) / 2, lo
+    return (f'<svg viewBox="0 0 560 230" role="img" aria-label="US Treasury yield curve">'
+            f'<line x1="44" y1="24" x2="44" y2="188" stroke="var(--border)"/>'
+            f'<line x1="44" y1="188" x2="548" y2="188" stroke="var(--border)"/>'
+            f'<g class="mono" font-size="10" fill="var(--text-mute)">'
+            f'<text x="8" y="{yy(g1)+4}">{g1:.1f}</text><text x="8" y="{yy(g2)+4}">{g2:.1f}</text>'
+            f'<text x="8" y="{yy(g3)+4}">{g3:.1f}</text></g>'
+            f'<polyline fill="none" stroke="var(--amber)" stroke-width="2.5" points="{pts}"/>'
+            f'<g fill="var(--amber)">{circles}</g>'
+            f'<g class="mono" font-size="9.5" fill="var(--text-mute)" text-anchor="middle">{tlabels}</g>'
+            f'</svg>')
+
+
+def _liq_svg(series, ymin, ymax):
+    if not series:
+        return ""
+    n = len(series)
+    ymin = ymin if ymin is not None else min(series)
+    ymax = ymax if ymax is not None else max(series)
+    rng = (ymax - ymin) or 1.0
+
+    def yy(v):
+        return round(186 - (v - ymin) / rng * 166, 1)
+
+    xs = [round(44 + i * 504 / (n - 1)) for i in range(n)]
+    pts = " ".join(f"{xs[i]},{yy(v)}" for i, v in enumerate(series))
+    lx, ly = xs[-1], yy(series[-1])
+    g1, g2, g3 = ymax, (ymax + ymin) / 2, ymin
+    return (f'<svg viewBox="0 0 560 220" role="img" aria-label="Net liquidity">'
+            f'<line x1="44" y1="20" x2="44" y2="186" stroke="var(--border)"/>'
+            f'<line x1="44" y1="186" x2="548" y2="186" stroke="var(--border)"/>'
+            f'<g class="mono" font-size="10" fill="var(--text-mute)">'
+            f'<text x="8" y="{yy(g1)+4}">{g1:.1f}</text><text x="8" y="{yy(g2)+4}">{g2:.1f}</text>'
+            f'<text x="8" y="{yy(g3)+4}">{g3:.1f}</text></g>'
+            f'<polyline fill="none" stroke="var(--amber)" stroke-width="2.5" points="{pts}"/>'
+            f'<circle cx="{lx}" cy="{ly}" r="3.5" fill="var(--amber)"/></svg>')
+
+
+def inject_macro2(html, lang):
+    if "<!--NCF:MACRO2_TAPE-->" not in html:
+        return html
+    M = MACRO2 or {}
+
+    rr = (MACRO_NOTES.get("regime_read", "") or "")
+    regime = (f'<div class="mcr-regime">{"Current read:" if lang == "en" else "Mevcut okuma:"} '
+              f'<b>{rr}</b></div>') if rr else ""
+    html = html.replace("<!--NCF:MACRO2_REGIME-->", regime)
+
+    html = html.replace("<!--NCF:MACRO2_TAPE-->", "".join(
+        f'<div class="mcr-tcell"><div class="k">{c["k"]}</div><div class="v">{c["v"]}</div>'
+        f'<div class="d {c.get("dir", "neu")}">{c.get("d", "")}</div></div>'
+        for c in M.get("regime_tape", [])))
+
+    html = html.replace("<!--NCF:MACRO2_INFLATION-->", _mstats("inflation", lang))
+    html = html.replace("<!--NCF:MACRO2_FED_STATS-->", _mstats("fed", lang))
+    html = html.replace("<!--NCF:MACRO2_LIQ_STATS-->", _mstats("liquidity", lang))
+    html = html.replace("<!--NCF:MACRO2_GROWTH-->", _mstats("growth", lang))
+    html = html.replace("<!--NCF:MACRO2_RATES_STATS-->", _mstats("rates", lang))
+
+    html = html.replace("<!--NCF:MACRO2_FED_ODDS-->", "".join(
+        f'<div class="row"><span class="lbl">{o["m"]}</span>'
+        f'<span class="track"><span class="fill" style="width:{o["p"]}%"></span></span>'
+        f'<span class="pct">{o["p"]}%</span></div>'
+        for o in M.get("fed", {}).get("cut_odds", [])))
+
+    liq = M.get("liquidity", {})
+    html = html.replace("<!--NCF:MACRO2_LIQ_CHART-->", _liq_svg(liq.get("net_liq_series"), liq.get("y_min"), liq.get("y_max")))
+    html = html.replace("<!--NCF:MACRO2_RATES_CHART-->", _curve_svg(M.get("rates", {}).get("curve")))
+
+    for key in ("inflation", "fed", "liquidity", "growth", "rates", "calendar"):
+        html = html.replace(f"<!--NCF:MACRO2_READ_{key}-->", _mread(key))
+
+    wr = (MACRO_NOTES.get("weekly_read", "") or "")
+    closing = (f'<div class="mcr-closing"><div class="page-eyebrow">'
+               f'{"The week’s read" if lang == "en" else "Haftanın okuması"}</div>'
+               f'<p>{wr}</p><div class="sign">NoCashFlow · Macro desk · Barcelona</div></div>') if wr else ""
+    html = html.replace("<!--NCF:MACRO2_CLOSING-->", closing)
+    return html
+
+
 def render(page, lang):
     p = PAGES[page]
     body = _read(f"{lang}/{page}.html")
@@ -1232,6 +1374,7 @@ def render(page, lang):
     html = inject_snapshot_note(html, lang)
     html = inject_archive(html, lang)
     html = inject_macro(html, lang)
+    html = inject_macro2(html, lang)
     html = inject_article_list(html, lang)
     html = inject_dashboard(html, lang)
     html = inject_market(html)
