@@ -231,9 +231,12 @@ def build_calendar():
             "event": (ev.get("title") or "").strip(),
             "country": region,
             "impact": impact,
-            # FF already embeds the unit in the value (e.g. "0.3%", "229K")
+            # FF already embeds the unit in the value (e.g. "0.3%", "229K").
+            # `actual` is absent until the event prints, then populated by the
+            # feed — show "—" (not yet released) until then.
             "prev": _fmt_value(ev.get("previous"), None),
             "est": _fmt_value(ev.get("forecast"), None),
+            "act": _fmt_value(ev.get("actual"), None),
         })
 
     # sort chronologically; high-impact first within the same slot

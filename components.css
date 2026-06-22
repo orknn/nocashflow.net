@@ -218,6 +218,8 @@
 .cal-row .impact.high { background: var(--red); }
 .cal-row .impact.med { background: var(--amber); }
 .cal-row .impact.low { background: var(--text-mute); }
+/* realized release value — stands out from the dim prev/consensus once it prints */
+.cal-actual strong { color: var(--amber); font-weight: 600; }
 
 /* callout */
 .callout { border: 1px solid var(--border); border-left: 2px solid var(--amber); background: var(--bg-elev); padding: 22px 24px; }

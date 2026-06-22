@@ -663,11 +663,15 @@ def inject_calendar_full(html, lang):
                 ev = f'<span class="impact high"></span><strong>{name} ⭐</strong>'
             else:
                 ev = f'<span class="impact med"></span>{name}'
+            act = e.get("act", "—")
+            act_cell = (f'<td class="mono cal-actual"><strong>{act}</strong></td>'
+                        if act != "—" else '<td class="mono">—</td>')
             rows.append(
                 f'<tr class="cal-row"><td class="mono">{e.get("time", "")}</td>'
                 f'<td>{ev}</td><td>{flag} {ccy}</td>'
                 f'<td class="mono">{e.get("prev", "—")}</td>'
-                f'<td class="mono">{e.get("est", "—")}</td></tr>')
+                f'<td class="mono">{e.get("est", "—")}</td>'
+                f'{act_cell}</tr>')
         blocks.append(
             f'<div class="cal-day">'
             f'<div class="cal-day-head">{_cal_day_label(day, lang)}</div>'
@@ -676,7 +680,8 @@ def inject_calendar_full(html, lang):
             f'<th>{"Event" if lang == "en" else "Veri"}</th>'
             f'<th>{"Country" if lang == "en" else "Ülke"}</th>'
             f'<th>{"Prev." if lang == "en" else "Önceki"}</th>'
-            f'<th>{"Cons." if lang == "en" else "Beklenti"}</th></tr></thead>'
+            f'<th>{"Cons." if lang == "en" else "Beklenti"}</th>'
+            f'<th>{"Actual" if lang == "en" else "Gerçekleşen"}</th></tr></thead>'
             f'<tbody>{"".join(rows)}</tbody></table></div>')
     body = "\n".join(blocks) or \
         f'<p class="muted" style="text-align:center;padding:30px">{"No releases scheduled." if lang == "en" else "Planlı veri yok."}</p>'
@@ -711,13 +716,16 @@ def inject_calendar(html, lang):
             ev = f'<span class="impact high"></span><strong>{name} ⭐</strong>'
         else:
             ev = f'<span class="impact med"></span>{name}'
+        act = e.get("act", "—")
+        act_cell = (f'<td class="mono cal-actual"><strong>{act}</strong></td>'
+                    if act != "—" else '<td class="mono">—</td>')
         rows.append(
             f'<tr class="cal-row"><td class="mono">{wd}</td>'
             f'<td class="mono">{e.get("time", "")}</td><td>{ev}</td>'
             f'<td>{flag} {ccy}</td><td class="mono">{e.get("prev", "—")}</td>'
-            f'<td class="mono">{e.get("est", "—")}</td></tr>')
+            f'<td class="mono">{e.get("est", "—")}</td>{act_cell}</tr>')
     body = "\n      ".join(rows) or \
-        '<tr><td colspan="6" class="muted" style="text-align:center;padding:20px">—</td></tr>'
+        '<tr><td colspan="7" class="muted" style="text-align:center;padding:20px">—</td></tr>'
 
     asof = CALENDAR.get("asof")
     stamp = _fmt_stamp(asof, lang) if asof else "—"
