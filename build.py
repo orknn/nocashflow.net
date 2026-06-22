@@ -1069,6 +1069,36 @@ def render(page, lang):
 OG_IMAGE = SITE_URL + "/og.png"
 
 ARTICLES = {
+    "warsh": {
+        "num": "#07", "date": "2026-06-22",
+        "cat": {"en": "Macro", "tr": "Makro"},
+        "date_disp": {"en": "Jun 22, 2026", "tr": "22 Haz 2026"},
+        "read": {"en": "8 min read", "tr": "8 dk okuma"},
+        "title": {"en": "Powell Left. The Dots Went Up.",
+                  "tr": "Powell Gitti. Noktalar Yükseldi."},
+        "dek": {"en": "The June meeting wasn't about the hold. A new chair, a shorter statement, and a dot plot that quietly priced out this year's cuts.",
+                "tr": "Haziran toplantısı faizin sabit tutulmasıyla ilgili değildi. Yeni bir başkan, daha kısa bir metin ve bu yılın indirimlerini sessizce fiyatlardan çıkaran bir dot plot."},
+    },
+    "hormuz": {
+        "num": "#06", "date": "2026-06-21",
+        "cat": {"en": "Commodities", "tr": "Emtia"},
+        "date_disp": {"en": "Jun 21, 2026", "tr": "21 Haz 2026"},
+        "read": {"en": "9 min read", "tr": "9 dk okuma"},
+        "title": {"en": "Closed, and Still Flowing",
+                  "tr": "Kapalı, Ama Hâlâ Akıyor"},
+        "dek": {"en": "In March we argued the 1970s oil analogy was misleading. Three months on, Iran calls the Strait of Hormuz closed again — and the crude is still moving. Time for the scorecard.",
+                "tr": "Mart'ta 1970'ler petrol analojisinin yanıltıcı olduğunu savunmuştuk. Üç ay sonra İran Hürmüz Boğazı'nı yine kapalı ilan ediyor — ve ham petrol hâlâ akıyor. Karne zamanı."},
+    },
+    "circle": {
+        "num": "#05", "date": "2026-06-18",
+        "cat": {"en": "Crypto", "tr": "Kripto"},
+        "date_disp": {"en": "Jun 18, 2026", "tr": "18 Haz 2026"},
+        "read": {"en": "7 min read", "tr": "7 dk okuma"},
+        "title": {"en": "Circle Keeps Half. Coinbase Takes the Rest.",
+                  "tr": "Circle Yarısını Tutuyor. Gerisini Coinbase Alıyor."},
+        "dek": {"en": "USDC is a $77B business. Circle only keeps the half its distributors let it. The most important number at Circle isn't circulation — it's the split.",
+                "tr": "USDC 77 milyar dolarlık bir iş. Circle yalnızca dağıtımcılarının bıraktığı yarıyı elinde tutuyor. Circle'da en önemli rakam dolaşım değil — paylaşım."},
+    },
     "smart-money": {
         "num": "#04", "date": "2026-04-06",
         "cat": {"en": "Smart Money", "tr": "Smart Money"},
@@ -1108,7 +1138,7 @@ ARTICLES = {
                 "tr": "Brent %40 yukarıda, Hürmüz kapalı — ama petrol yoğunluğu 1973'ten beri yarıdan fazla düştü."},
     },
 }
-ARTICLE_ORDER = ["smart-money", "nukleer", "bakir", "petrol"]  # newest first
+ARTICLE_ORDER = ["warsh", "hormuz", "circle", "smart-money", "nukleer", "bakir", "petrol"]  # newest first
 
 
 def article_path(slug, lang):

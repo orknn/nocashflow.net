@@ -157,6 +157,42 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/archive.html"/>
   </url>
   <url>
+    <loc>https://nocashflow.net/articles/warsh.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/articles/warsh.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/yazilar/warsh.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/articles/warsh.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/tr/yazilar/warsh.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/articles/warsh.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/yazilar/warsh.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/articles/warsh.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/articles/hormuz.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/articles/hormuz.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/yazilar/hormuz.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/articles/hormuz.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/tr/yazilar/hormuz.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/articles/hormuz.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/yazilar/hormuz.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/articles/hormuz.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/articles/circle.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/articles/circle.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/yazilar/circle.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/articles/circle.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/tr/yazilar/circle.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/articles/circle.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/yazilar/circle.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/articles/circle.html"/>
+  </url>
+  <url>
     <loc>https://nocashflow.net/articles/smart-money.html</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/articles/smart-money.html"/>
     <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/yazilar/smart-money.html"/>
