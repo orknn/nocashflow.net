@@ -66,18 +66,27 @@ def write_json(name, obj):
                              encoding="utf-8")
 
 
-def yahoo_hist(symbol, rng="5y"):
-    """Daily closes oldest→newest, or None on failure."""
-    try:
-        r = requests.get(f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}",
-                         params={"interval": "1d", "range": rng}, headers=UA, timeout=TIMEOUT)
-        r.raise_for_status()
-        q = r.json()["chart"]["result"][0]["indicators"]["quote"][0]["close"]
-        closes = [c for c in q if c is not None]
-        return closes or None
-    except Exception as e:
-        print(f"  ⚠️  Yahoo {symbol}: {e}")
-        return None
+def yahoo_hist(symbol, rng="5y", retries=4):
+    """Daily closes oldest→newest, or None. Retries with backoff on 429 — Yahoo
+    rate-limits bursts per IP, so we back off rather than give up."""
+    for attempt in range(retries):
+        try:
+            r = requests.get(f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}",
+                             params={"interval": "1d", "range": rng}, headers=UA, timeout=TIMEOUT)
+            if r.status_code == 429:
+                time.sleep(10 * (attempt + 1))  # 10, 20, 30, 40s
+                continue
+            r.raise_for_status()
+            q = r.json()["chart"]["result"][0]["indicators"]["quote"][0]["close"]
+            closes = [c for c in q if c is not None]
+            return closes or None
+        except Exception as e:
+            if attempt == retries - 1:
+                print(f"  ⚠️  Yahoo {symbol}: {e}")
+                return None
+            time.sleep(5)
+    print(f"  ⚠️  Yahoo {symbol}: still 429 after {retries} tries")
+    return None
 
 
 def _pct(last, old):
@@ -159,18 +168,17 @@ def build_markets():
     if sec:
         out["sectors"] = sec
 
-    # equity leaders (full perf + mcap)
+    # equity leaders (full perf; mcap carried from last-good — slow-moving, and
+    # it spares 10 Yahoo calls that would trip the rate limit)
     eq = []
-    mcaps = yahoo_mcap([s for s, _ in LEADERS_EQ])
     for s, name in LEADERS_EQ:
-        c = yahoo_hist(s, "5y"); time.sleep(0.3)
+        c = yahoo_hist(s, "5y"); time.sleep(0.5)
         if not c:
             if s in pmap:
                 eq.append(pmap[s])  # keep last-good row
             continue
         eq.append({"sym": s, "name": name, "price": _round_price(c[-1]),
-                   "mcap": mcaps.get(s) or (pmap.get(s, {}).get("mcap", "—")),
-                   "perf": perf(c)})
+                   "mcap": pmap.get(s, {}).get("mcap", "—"), "perf": perf(c)})
     if eq:
         out["leaders_equity"] = eq
 
