@@ -6,13 +6,12 @@ Writes server-side snapshots that build.py injects into pages so the site is
 never blank ("—") even if the live client-side APIs fail:
 
     data/market.json    market instruments, pre-formatted to match app.js
-    data/calendar.json  Finnhub economic calendar, next 7 days, CET
+    data/calendar.json  ForexFactory economic calendar, this week, CET
 
 Resilience: each source has a timeout; on failure the previous value in the
 existing JSON is kept (last-good), and every record carries an `asof` stamp.
 
-Run locally:  FINNHUB_API_KEY=... python3 scripts/fetch_data.py
-In CI:        the workflow exports FINNHUB_API_KEY from repo secrets.
+Run locally / in CI:  python3 scripts/fetch_data.py   (no API key required)
 """
 import json
 import os
@@ -181,11 +180,13 @@ def build_market():
     return {"asof": stamp, "instruments": inst}
 
 
-# ── economic calendar (Finnhub) ──────────────────────────────────────────────
-# US + Eurozone priority; high + medium impact.
-EUROZONE = {"EA", "EU", "DE", "FR", "IT", "ES", "NL", "BE", "AT", "PT", "IE",
-            "FI", "GR"}
-PRIORITY = {"US"} | EUROZONE
+# ── economic calendar (ForexFactory weekly JSON, free, no API key) ────────────
+# US + Eurozone priority; high + medium impact. ForexFactory tags events by
+# currency (USD/EUR); map those to the country codes the site's COUNTRY table
+# renders. Finnhub's /calendar/economic is a paid endpoint (403 on free keys),
+# so the calendar had been frozen — this feed refreshes daily for free.
+FF_CALENDAR = "https://nfs.faireconomy.media/ff_calendar_thisweek.json"
+CCY_TO_REGION = {"USD": "US", "EUR": "EU"}
 
 
 def _fmt_value(v, unit):
@@ -200,49 +201,39 @@ def _fmt_value(v, unit):
 
 
 def build_calendar():
-    key = os.environ.get("FINNHUB_API_KEY")
-    if not key:
-        print("  ⚠️  FINNHUB_API_KEY not set — keeping existing calendar.json")
-        return load_json("calendar.json", {"asof": None, "events": []})
-
-    frm = datetime.now(timezone.utc).date()
-    to = frm + timedelta(days=7)
     try:
-        r = requests.get("https://finnhub.io/api/v1/calendar/economic",
-                         params={"from": frm.isoformat(), "to": to.isoformat(),
-                                 "token": key}, headers=UA, timeout=TIMEOUT)
+        r = requests.get(FF_CALENDAR, headers=UA, timeout=TIMEOUT)
         r.raise_for_status()
-        raw = r.json().get("economicCalendar", [])
+        raw = r.json()
     except Exception as e:
-        # never echo the token: scrub it from any URL the exception carries
-        msg = re.sub(r"token=[^&\s]+", "token=***", str(e))
-        print(f"  ⚠️  Finnhub calendar failed: {msg} — keeping existing")
+        print(f"  ⚠️  ForexFactory calendar failed: {e} — keeping existing")
         return load_json("calendar.json", {"asof": None, "events": []})
 
     events = []
     for ev in raw:
         impact = (ev.get("impact") or "").lower()
-        country = (ev.get("country") or "").upper()
         if impact not in ("high", "medium"):
             continue
-        if country not in PRIORITY:
+        region = CCY_TO_REGION.get((ev.get("country") or "").upper())
+        if region is None:
             continue
         try:
-            dt_utc = datetime.strptime(ev["time"], "%Y-%m-%d %H:%M:%S").replace(
-                tzinfo=timezone.utc)
+            # FF dates are ISO 8601 with a numeric offset, e.g. ...T21:00:00-04:00
+            dt_utc = datetime.fromisoformat(ev["date"]).astimezone(timezone.utc)
         except Exception:
             continue
         dt_cet = dt_utc.astimezone(CET)
         events.append({
-            "dt_utc": ev["time"],
+            "dt_utc": dt_utc.strftime("%Y-%m-%d %H:%M:%S"),
             "cet_date": dt_cet.strftime("%Y-%m-%d"),
             "wd": dt_cet.weekday(),            # 0=Mon
             "time": dt_cet.strftime("%H:%M"),
-            "event": ev.get("event", "").strip(),
-            "country": country,
+            "event": (ev.get("title") or "").strip(),
+            "country": region,
             "impact": impact,
-            "prev": _fmt_value(ev.get("prev"), ev.get("unit")),
-            "est": _fmt_value(ev.get("estimate"), ev.get("unit")),
+            # FF already embeds the unit in the value (e.g. "0.3%", "229K")
+            "prev": _fmt_value(ev.get("previous"), None),
+            "est": _fmt_value(ev.get("forecast"), None),
         })
 
     # sort chronologically; high-impact first within the same slot

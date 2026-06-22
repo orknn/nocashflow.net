@@ -29,8 +29,6 @@ jobs:
         run: pip install --quiet requests pillow
 
       - name: Fetch market + calendar snapshots
-        env:
-          FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
         run: python scripts/fetch_data.py
 
       - name: Rebuild pages with the fresh snapshot

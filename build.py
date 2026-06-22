@@ -381,10 +381,10 @@ PAGES = {
         "out":   {"en": "index.html", "tr": "tr/index.html"},
         "title": {"en": "NoCashFlow — Macro &amp; Market Analysis",
                   "tr": "NoCashFlow — Makro &amp; Piyasa Analizi"},
-        "desc":  {"en": "Data-driven macro analysis every Sunday — oil shocks, smart money, nuclear energy, Fed policy. From Barcelona.",
-                  "tr": "Her pazar veri odaklı makro analiz — petrol şokları, akıllı para, nükleer enerji, Fed politikası. Barcelona'dan."},
-        "og_desc": {"en": "Data-driven macro analysis every Sunday. Macro, crypto and commodities — primary source, always linked.",
-                    "tr": "Her pazar veri odaklı makro analiz. Makro, kripto ve emtia — birincil kaynak, her zaman bağlantılı."},
+        "desc":  {"en": "Data-driven macro analysis every morning, with a deep dive every Sunday — oil shocks, smart money, nuclear energy, Fed policy. From Barcelona.",
+                  "tr": "Her sabah veri odaklı makro analiz, her pazar derin bir analiz — petrol şokları, akıllı para, nükleer enerji, Fed politikası. Barcelona'dan."},
+        "og_desc": {"en": "Data-driven macro analysis every morning, plus a deep dive every Sunday. Macro, crypto and commodities — primary source, always linked.",
+                    "tr": "Her sabah veri odaklı makro analiz, her pazar derin analiz. Makro, kripto ve emtia — birincil kaynak, her zaman bağlantılı."},
     },
     "macro": {
         "nav_key": "macro",
@@ -859,12 +859,12 @@ def masthead(page, lang):
     if lang == "en":
         datestr = f"{wd}, {mo} {now.day}, {now.year}"
         edition = "Morning Edition"
-        kicker = "Macro &amp; Markets, every Sunday"
+        kicker = "Macro &amp; Markets, every morning"
         tagline = "Make sense of the macro. Start your morning with data."
     else:
         datestr = f"{wd}, {now.day} {mo} {now.year}"
         edition = "Sabah Baskısı"
-        kicker = "Makro &amp; Piyasalar, her Pazar"
+        kicker = "Makro &amp; Piyasalar, her sabah"
         tagline = "Makroyu anlamlandır. Gününe veriyle başla."
     home = "/" if lang == "en" else "/tr/"
     if page == "index":
