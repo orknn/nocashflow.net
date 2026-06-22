@@ -1,5 +1,5 @@
 {
-  "asof": "2026-06-22T20:39:52Z",
+  "asof": "2026-06-22T23:32:35Z",
   "events": [
     {
       "dt_utc": "2026-06-22 13:00:00",
@@ -10,7 +10,8 @@
       "country": "EU",
       "impact": "medium",
       "prev": "—",
-      "est": "—"
+      "est": "—",
+      "act": "—"
     },
     {
       "dt_utc": "2026-06-22 15:25:00",
@@ -21,7 +22,8 @@
       "country": "EU",
       "impact": "medium",
       "prev": "—",
-      "est": "—"
+      "est": "—",
+      "act": "—"
     },
     {
       "dt_utc": "2026-06-23 07:15:00",
@@ -32,7 +34,8 @@
       "country": "EU",
       "impact": "medium",
       "prev": "48.9",
-      "est": "50.2"
+      "est": "50.2",
+      "act": "—"
     },
     {
       "dt_utc": "2026-06-23 07:15:00",
@@ -43,7 +46,8 @@
       "country": "EU",
       "impact": "medium",
       "prev": "42.9",
-      "est": "45.9"
+      "est": "45.9",
+      "act": "—"
     },
     {
       "dt_utc": "2026-06-23 07:30:00",
@@ -54,7 +58,8 @@
       "country": "EU",
       "impact": "medium",
       "prev": "49.9",
-      "est": "50.3"
+      "est": "50.3",
+      "act": "—"
     },
     {
       "dt_utc": "2026-06-23 07:30:00",
@@ -65,7 +70,8 @@
       "country": "EU",
       "impact": "medium",
       "prev": "47.8",
-      "est": "49"
+      "est": "49",
+      "act": "—"
     },
     {
       "dt_utc": "2026-06-23 13:45:00",
@@ -76,7 +82,8 @@
       "country": "US",
       "impact": "medium",
       "prev": "55.3",
-      "est": "54.6"
+      "est": "54.6",
+      "act": "—"
     },
     {
       "dt_utc": "2026-06-23 13:45:00",
@@ -87,7 +94,8 @@
       "country": "US",
       "impact": "medium",
       "prev": "50.9",
-      "est": "51.1"
+      "est": "51.1",
+      "act": "—"
     },
     {
       "dt_utc": "2026-06-25 12:30:00",
@@ -98,7 +106,8 @@
       "country": "US",
       "impact": "high",
       "prev": "0.2%",
-      "est": "0.3%"
+      "est": "0.3%",
+      "act": "—"
     },
     {
       "dt_utc": "2026-06-25 12:30:00",
@@ -109,7 +118,8 @@
       "country": "US",
       "impact": "high",
       "prev": "1.6%",
-      "est": "1.6%"
+      "est": "1.6%",
+      "act": "—"
     },
     {
       "dt_utc": "2026-06-25 12:30:00",
@@ -120,7 +130,8 @@
       "country": "US",
       "impact": "medium",
       "prev": "3.5%",
-      "est": "3.5%"
+      "est": "3.5%",
+      "act": "—"
     },
     {
       "dt_utc": "2026-06-25 12:30:00",
@@ -130,8 +141,9 @@
       "event": "Unemployment Claims",
       "country": "US",
       "impact": "medium",
-      "prev": "229K",
-      "est": "226K"
+      "prev": "226K",
+      "est": "225K",
+      "act": "—"
     },
     {
       "dt_utc": "2026-06-26 14:00:00",
@@ -142,7 +154,8 @@
       "country": "US",
       "impact": "medium",
       "prev": "48.9",
-      "est": "50"
+      "est": "50",
+      "act": "—"
     },
     {
       "dt_utc": "2026-06-26 14:00:00",
@@ -153,7 +166,8 @@
       "country": "US",
       "impact": "medium",
       "prev": "4.6%",
-      "est": "—"
+      "est": "—",
+      "act": "—"
     }
   ]
 }

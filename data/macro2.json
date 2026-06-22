@@ -1,6 +1,6 @@
 {
-  "_note": "PHASE-2 WIRING STUB — sample values from macro-demo.html. Not real, not for live deploy. Replaced by automation in Phase 4.",
-  "updated": "2026-06-23T08:00:00Z",
+  "_note": "Live: FRED + DefiLlama + Atlanta Fed. Manual (no free API): cut-odds, dot plot, ISM, next-FOMC, global M2.",
+  "updated": "2026-06-22T23:33:08Z",
   "regime_tape": [
     {
       "k": "Fed Funds",
@@ -53,24 +53,24 @@
   ],
   "inflation": [
     {
-      "v": "2.6%",
-      "sub": "▼ from 2.8%",
-      "dir": "up"
-    },
-    {
-      "v": "3.1%",
-      "sub": "▲ flat 3m",
+      "v": "4.3%",
+      "sub": "▲ from 2.6%",
       "dir": "down"
     },
     {
-      "v": "2.8%",
-      "sub": "→ unchanged",
-      "dir": "neu"
+      "v": "3.0%",
+      "sub": "▼ from 3.1%",
+      "dir": "up"
     },
     {
-      "v": "2.34%",
-      "sub": "▲ +6bp",
-      "dir": "up"
+      "v": "3.3%",
+      "sub": "▲ from 2.8%",
+      "dir": "down"
+    },
+    {
+      "v": "2.18%",
+      "sub": "▼ -16bp",
+      "dir": "down"
     }
   ],
   "fed": {
@@ -94,17 +94,17 @@
     ],
     "stats": [
       {
-        "v": "4.25–4.50",
+        "v": "3.50–3.75",
         "sub": "held 4 mtgs",
         "dir": "neu"
       },
       {
-        "v": "$6.6T",
+        "v": "$6.7T",
         "sub": "▼ QT ongoing",
         "dir": "down"
       },
       {
-        "v": "$148B",
+        "v": "$4B",
         "sub": "▼ draining",
         "dir": "down"
       },
@@ -117,30 +117,45 @@
   },
   "liquidity": {
     "net_liq_series": [
-      6.32,
-      6.26,
-      6.14,
-      6.18,
-      6.02,
-      5.88,
-      5.92,
+      5.74,
+      5.7,
+      5.77,
       5.8,
-      5.76,
-      5.82,
-      5.84
+      5.71,
+      5.66,
+      5.69,
+      5.71,
+      5.7,
+      5.73,
+      5.8,
+      5.81,
+      5.8,
+      5.78,
+      5.83,
+      5.95,
+      5.95,
+      5.7,
+      5.72,
+      5.83,
+      5.89,
+      5.91,
+      5.87,
+      5.83,
+      5.9,
+      5.85
     ],
-    "y_min": 5.5,
-    "y_max": 6.5,
+    "y_min": 5.6,
+    "y_max": 6.0,
     "stats": [
       {
-        "v": "$22.0T",
-        "sub": "▲ +1.8% YoY",
+        "v": "$22.8T",
+        "sub": "▲ +4.7% YoY",
         "dir": "up"
       },
       {
-        "v": "$5.84T",
-        "sub": "▼ −3.1% 3m",
-        "dir": "down"
+        "v": "$5.85T",
+        "sub": "▲ +1.2% 3m",
+        "dir": "up"
       },
       {
         "v": "$108T",
@@ -148,8 +163,8 @@
         "dir": "up"
       },
       {
-        "v": "$248B",
-        "sub": "▲ +2.4% 30d",
+        "v": "$314B",
+        "sub": "USDC $75B",
         "dir": "up"
       }
     ]
@@ -161,14 +176,14 @@
       "dir": "down"
     },
     {
-      "v": "+139K",
-      "sub": "→ cooling",
+      "v": "+172K",
+      "sub": "→ MoM",
       "dir": "neu"
     },
     {
-      "v": "242K",
-      "sub": "▲ +14K",
-      "dir": "down"
+      "v": "226K",
+      "sub": "▼ -4K",
+      "dir": "up"
     },
     {
       "v": "1.9%",
@@ -211,12 +226,12 @@
       {
         "v": "4.19",
         "sub": "+0.8%",
-        "dir": "up"
+        "dir": "neu"
       },
       {
-        "v": "4.51",
+        "v": "4.46",
         "sub": "+1.3%",
-        "dir": "up"
+        "dir": "neu"
       },
       {
         "v": "+27bp",
@@ -224,7 +239,7 @@
         "dir": "up"
       },
       {
-        "v": "312bp",
+        "v": "266bp",
         "sub": "→ calm",
         "dir": "neu"
       }
