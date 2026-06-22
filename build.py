@@ -891,13 +891,15 @@ def masthead(page, lang):
             f'<span>Barcelona</span></div></div>\n')
 
 
+# Global ticker — dark bar, mounted directly under the header (demo position).
+# Data source unchanged: app.js fills #ticker-track from the existing feed.
+TICKER_HTML = ('<!-- TICKER -->\n<div class="ticker">\n'
+               '  <div class="ticker-label"><span class="dot"></span> Live</div>\n'
+               '  <div class="ticker-track" id="ticker-track"></div>\n</div>\n')
+
+
 def chrome_top(page=None):
-    return CURSOR_HTML + '<div id="page-sweep"></div>\n' + """<!-- TICKER -->
-<div class="ticker">
-  <div class="ticker-label"><span class="dot"></span> Live</div>
-  <div class="ticker-track" id="ticker-track"></div>
-</div>
-"""
+    return CURSOR_HTML + '<div id="page-sweep"></div>\n'
 
 
 def _nav_html(active_key, lang, sw_href):
@@ -1356,6 +1358,7 @@ def render(page, lang):
         head(page, lang),
         splash_html + chrome_top(page),
         nav(page, lang),
+        TICKER_HTML,
         masthead(page, lang),
         body,
         footer(lang),
@@ -1517,12 +1520,9 @@ def render_article(slug, lang):
 </head>
 <body data-mood="{_mood()}" class="bs">"""
 
-    ticker = (CURSOR_HTML +
-              '<div id="page-sweep"></div>\n'
-              '<div id="read-progress" aria-hidden="true"></div>\n'
-              '<!-- TICKER -->\n<div class="ticker">\n'
-              '  <div class="ticker-label"><span class="dot"></span> Live</div>\n'
-              '  <div class="ticker-track" id="ticker-track"></div>\n</div>\n')
+    overlays = (CURSOR_HTML +
+                '<div id="page-sweep"></div>\n'
+                '<div id="read-progress" aria-hidden="true"></div>\n')
 
     # glossary tooltips (terms from sozluk, defined per language)
     prose = gloss_wrap(prose, lang)
@@ -1581,8 +1581,8 @@ def render_article(slug, lang):
         "a.getAttribute('data-set-lang'));}catch(e){}});});</script>"
     )
 
-    html = "\n".join([head_html, ticker, _nav_html("articles", lang, sw_href),
-                      masthead("article", lang), body, footer(lang), scripts_html,
+    html = "\n".join([head_html, overlays, _nav_html("articles", lang, sw_href),
+                      TICKER_HTML, masthead("article", lang), body, footer(lang), scripts_html,
                       "</body>", "</html>", ""])
     return inject_market(html)
 
@@ -1818,10 +1818,7 @@ def _ind_head(lang, title, desc, canonical, alt_en, alt_tr, schema):
 
 
 def _ind_chrome_ticker():
-    return (CURSOR_HTML + '<div id="page-sweep"></div>\n'
-            '<!-- TICKER -->\n<div class="ticker">\n'
-            '  <div class="ticker-label"><span class="dot"></span> Live</div>\n'
-            '  <div class="ticker-track" id="ticker-track"></div>\n</div>\n')
+    return CURSOR_HTML + '<div id="page-sweep"></div>\n'
 
 
 def _ind_scripts():
@@ -1873,7 +1870,7 @@ def render_indicator(slug, lang):
 </div>
 """
     html = "\n".join([head_html, _ind_chrome_ticker(), _nav_html(None, lang, sw_href),
-                      masthead("indicator", lang), body, footer(lang), _ind_scripts(),
+                      TICKER_HTML, masthead("indicator", lang), body, footer(lang), _ind_scripts(),
                       "</body>", "</html>", ""])
     return inject_market(html)
 
@@ -1910,7 +1907,7 @@ def render_indicator_hub(lang):
 </div>
 """
     html = "\n".join([head_html, _ind_chrome_ticker(), _nav_html(None, lang, sw_href),
-                      masthead("indicator", lang), body, footer(lang), _ind_scripts(),
+                      TICKER_HTML, masthead("indicator", lang), body, footer(lang), _ind_scripts(),
                       "</body>", "</html>", ""])
     return inject_market(html)
 
