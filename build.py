@@ -516,6 +516,7 @@ def _load_data(name):
 MARKET = _load_data("market.json")
 CALENDAR = _load_data("calendar.json")
 MACRO = _load_data("macro.json")
+MARKETS = _load_data("markets.json")        # dashboard "the tape" feed (Phase 1)
 
 WEEKDAYS = {"en": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
             "tr": ["Pzt", "Sal", "Çar", "Per", "Cum", "Cmt", "Paz"]}
@@ -1034,6 +1035,177 @@ def inject_article_list(html, lang):
     return html.replace("<!--NCF:ARTICLE_LIST-->", list_html)
 
 
+# ── dashboard "the tape" (data/markets.json → build-time render) ─────────────
+DASH_HERO_LABELS = {
+    "en": ["Bitcoin", "Ethereum", "S&amp;P 500", "Gold", "Crypto F&amp;G", "BTC Dominance"],
+    "tr": ["Bitcoin", "Ethereum", "S&amp;P 500", "Altın", "Kripto K&amp;A", "BTC Hakimiyeti"],
+}
+
+
+def _fmt_price(v):
+    if v is None:
+        return "—"
+    if v >= 1000:
+        return f"{v:,.0f}"
+    if v >= 100:
+        return f"{v:,.1f}"
+    if v >= 1:
+        return f"{v:.2f}"
+    return f"{v:.3f}"
+
+
+def _signed_pct(v, dp=2):
+    sign = "+" if v > 0 else ("−" if v < 0 else "")
+    return f"{sign}{abs(v):.{dp}f}%"
+
+
+def _ud(v):
+    return "up" if v >= 0 else "down"
+
+
+def _pp(v):
+    return ("+" if v >= 0 else "−") + f"{abs(v):.1f}pp"
+
+
+def _pc_cell(v):
+    """Perf table cell: sign, ≥100% no-decimal formatting, and direction tint."""
+    if v is None:
+        return '<td class="pc">—</td>'
+    av = abs(v)
+    txt = f"{round(av):,}" if av >= 100 else f"{av:.1f}"
+    sign = "+" if v > 0 else ("−" if v < 0 else "")
+    label = f"{sign}{txt}%"
+    if v == 0:
+        return f'<td class="pc" style="color:var(--text-mute)">{label}</td>'
+    pos = v > 0
+    a = min(0.24, 0.045 + av * 0.017)
+    rgb = "26,127,60" if pos else "179,18,43"
+    color = "var(--green)" if pos else "var(--red)"
+    return f'<td class="pc" style="color:{color};background:rgba({rgb},{a:.3f})">{label}</td>'
+
+
+def _spark_svg(closes, up):
+    if not closes:
+        return ""
+    lo, hi = min(closes), max(closes)
+    rng = (hi - lo) or 1.0
+    n = len(closes)
+    W, H, pad = 264, 44, 4
+    pts = " ".join(
+        f"{round(i * W / (n - 1), 1)},{round(H - pad - (c - lo) / rng * (H - 2 * pad), 1)}"
+        for i, c in enumerate(closes))
+    stroke = "var(--green)" if up else "var(--red)"
+    return (f'<svg class="dsh-spark" viewBox="0 0 {W} {H}"><polyline fill="none" '
+            f'stroke="{stroke}" stroke-width="1.4" points="{pts}"/></svg>')
+
+
+def _heat_color(d1):
+    m = max(-1.6, min(1.6, d1)) / 1.6
+    base = (116, 120, 127)
+    end = (26, 127, 60) if m >= 0 else (179, 18, 43)
+    t = abs(m)
+    r, g, b = (int(base[i] + (end[i] - base[i]) * t) for i in range(3))
+    return f"#{r:02X}{g:02X}{b:02X}"
+
+
+def _dash_tile(it):
+    chg = it["d1"]
+    return (f'<div class="dsh-tile"><div class="sym">{it["sym"]}</div>'
+            f'<div class="name">{it["name"]}</div>'
+            f'<div class="px">{_fmt_price(it["price"])}</div>'
+            f'<div class="chg {_ud(chg)}">{_signed_pct(chg)}</div>'
+            f'{_spark_svg(it.get("spark30"), chg >= 0)}</div>')
+
+
+def _dash_leader_row(a):
+    p = a["perf"]
+    cells = "".join(_pc_cell(p.get(k)) for k in ("d1", "d7", "d30", "d180", "y1", "y5"))
+    return (f'<tr><td class="nm">{a["sym"]} <span class="full">{a["name"]}</span></td>'
+            f'<td class="num">{_fmt_price(a["price"])}</td>{cells}'
+            f'<td class="num">{a["mcap"]}</td></tr>')
+
+
+def _dash_perf_row(a, horizons):
+    cells = "".join(_pc_cell(a["perf"].get(k)) for k in horizons)
+    return (f'<tr><td class="nm">{a["name"]}</td>'
+            f'<td class="num">{_fmt_price(a["price"])}</td>{cells}</tr>')
+
+
+def inject_dashboard(html, lang):
+    if "<!--NCF:DASH_HERO-->" not in html:
+        return html
+    m = MARKETS or {}
+    html = html.replace("<!--NCF:DASH_UPD-->",
+                        _fmt_stamp(m.get("updated", ""), lang) if m.get("updated") else "—")
+
+    def hcell(label, v, d, cls):
+        return (f'<div class="dsh-hcell"><div class="k">{label}</div>'
+                f'<div class="v">{v}</div><div class="d {cls}">{d}</div></div>')
+
+    h = m.get("hero", {})
+    L = DASH_HERO_LABELS[lang]
+    btc, eth, spx, gold = h.get("btc", {}), h.get("eth", {}), h.get("spx", {}), h.get("gold", {})
+    fng, dom = h.get("fng", {}), h.get("btc_dom", {})
+    fv = fng.get("v")
+    fcls = "up" if (fv or 0) > 55 else ("down" if (fv or 0) < 35 else "neu")
+    hero = "".join([
+        hcell(L[0], f"${_fmt_price(btc.get('px'))}", _signed_pct(btc.get('chg', 0)), _ud(btc.get('chg', 0))),
+        hcell(L[1], f"${_fmt_price(eth.get('px'))}", _signed_pct(eth.get('chg', 0)), _ud(eth.get('chg', 0))),
+        hcell(L[2], _fmt_price(spx.get('px')), _signed_pct(spx.get('chg', 0)), _ud(spx.get('chg', 0))),
+        hcell(L[3], f"${_fmt_price(gold.get('px'))}", _signed_pct(gold.get('chg', 0)), _ud(gold.get('chg', 0))),
+        hcell(L[4], fv if fv is not None else "—", fng.get("label", "—"), fcls),
+        hcell(L[5], f"{dom.get('v', '—')}%", _pp(dom.get('chg_pp', 0)), _ud(dom.get('chg_pp', 0))),
+    ])
+    html = html.replace("<!--NCF:DASH_HERO-->", hero)
+
+    html = html.replace("<!--NCF:DASH_INDICES-->", "".join(_dash_tile(x) for x in m.get("indices", [])))
+    html = html.replace("<!--NCF:DASH_THEMATICS-->", "".join(_dash_tile(x) for x in m.get("thematics", [])))
+
+    html = html.replace("<!--NCF:DASH_FRONTIER-->", "".join(
+        f'<span class="dsh-chip"><b>{f["sym"]}</b>'
+        f'<span class="x {_ud(f["d1"])}">{_signed_pct(f["d1"], 1)}</span></span>'
+        for f in m.get("frontier", [])))
+
+    html = html.replace("<!--NCF:DASH_HEAT-->", "".join(
+        f'<div class="dsh-hc" style="background:{_heat_color(s["d1"])}">'
+        f'<div><div class="s">{s["sym"]}</div><div class="n">{s["name"]}</div></div>'
+        f'<div class="p">{_signed_pct(s["d1"], 1)}</div></div>'
+        for s in m.get("sectors", [])))
+
+    cb = m.get("crypto_board", {})
+    en = lang == "en"
+
+    def btile(sym, name, val, chg_txt, cls):
+        return (f'<div class="dsh-tile"><div class="sym">{sym}</div><div class="name">{name}</div>'
+                f'<div class="px">{val}</div><div class="chg {cls}">{chg_txt}</div></div>')
+
+    tot, bd, st, uc, fu = (cb.get("total_mcap", {}), cb.get("btc_dom", {}),
+                           cb.get("stables", {}), cb.get("usdc_share", {}), cb.get("funding", {}))
+    board = "".join([
+        btile("TOTAL", "Market cap" if en else "Piyasa değeri", f"${tot.get('v', '—')}",
+              _signed_pct(tot.get('chg', 0), 1), _ud(tot.get('chg', 0))),
+        btile("BTC.D", "BTC dominance" if en else "BTC hakimiyeti", f"{bd.get('v', '—')}%",
+              _pp(bd.get('chg_pp', 0)), _ud(bd.get('chg_pp', 0))),
+        btile("STABLES", "Stablecoin supply" if en else "Stablecoin arzı", f"${st.get('v', '—')}",
+              _signed_pct(st.get('chg', 0), 1), _ud(st.get('chg', 0))),
+        btile("USDC.D", "USDC share" if en else "USDC payı", f"{uc.get('v', '—')}%",
+              _pp(uc.get('chg_pp', 0)), _ud(uc.get('chg_pp', 0))),
+        btile("FUND", "BTC funding", f"{'+' if fu.get('v', 0) >= 0 else ''}{fu.get('v', '—')}%",
+              "neutral" if en else "nötr", "neu"),
+    ])
+    html = html.replace("<!--NCF:DASH_CRYPTO-->", board)
+
+    html = html.replace("<!--NCF:DASH_LEADERS_EQ-->", "".join(_dash_leader_row(a) for a in m.get("leaders_equity", [])))
+    html = html.replace("<!--NCF:DASH_LEADERS_CRYPTO-->", "".join(_dash_leader_row(a) for a in m.get("leaders_crypto", [])))
+    html = html.replace("<!--NCF:DASH_COMMODITIES-->", "".join(_dash_perf_row(a, ("d1", "d7", "d30", "y1")) for a in m.get("commodities", [])))
+    html = html.replace("<!--NCF:DASH_FX-->", "".join(_dash_perf_row(a, ("d1", "d7", "d30", "y1")) for a in m.get("fx", [])))
+
+    # editorial "read" notes — human-committed markets-notes.json (empty in Phase 1)
+    for key in ("indices", "sectors", "crypto", "leaders"):
+        html = html.replace(f"<!--NCF:DASH_NOTE_{key}-->", "")
+    return html
+
+
 def render(page, lang):
     p = PAGES[page]
     body = _read(f"{lang}/{page}.html")
@@ -1061,6 +1233,7 @@ def render(page, lang):
     html = inject_archive(html, lang)
     html = inject_macro(html, lang)
     html = inject_article_list(html, lang)
+    html = inject_dashboard(html, lang)
     html = inject_market(html)
     return html
 

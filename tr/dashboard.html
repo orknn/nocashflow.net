@@ -29,6 +29,7 @@
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "tr", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
+<link rel="stylesheet" href="/dashboard.css"/>
 <link rel="stylesheet" href="/broadsheet.css"/>
 <script>(function(){try{var q=new URLSearchParams(location.search).get('lang');if(q==='en'){try{localStorage.setItem('ncf_lang','en');}catch(e){}location.replace('/');return;}if(q==='tr'){try{localStorage.setItem('ncf_lang','tr');}catch(e){}return;}var p=null;try{p=localStorage.getItem('ncf_lang');}catch(e){}if(p==='en'){location.replace('/');return;}}catch(e){}})();</script>
 </head>
@@ -67,34 +68,70 @@
 </nav>
 
 
-<div class="masthead"><div class="masthead-inner"><span>Sabah Baskısı</span><span class="mh-date">Pazartesi, 22 Haziran 2026</span><span>Barcelona</span></div></div>
+<div class="masthead"><div class="masthead-inner"><span>Sabah Baskısı</span><span class="mh-date">Salı, 23 Haziran 2026</span><span>Barcelona</span></div></div>
 
 <header class="page-head">
-  <div class="page-eyebrow">Canlı Piyasalar <span class="divider"></span> <span class="muted">Güncellendi: <span id="last-update">—</span></span></div>
+  <div class="page-eyebrow">Panel · Canlı Şerit <span class="divider"></span> <span class="muted">Güncellendi: 23 Haz 2026, 11:14 CET</span></div>
   <h1 class="page-title">Piyasalar, <em>tek ekranda.</em></h1>
-  <p class="page-dek">Kripto, endeksler, emtia ve döviz — canlı fiyatlar ve 24 saatlik hareketler, otomatik yenilenir.</p>
+  <p class="page-dek">Canlı şerit — geniş endeksler, döngüye öncülük eden temalar, sektör rotasyonu ve kripto. Ne hareket ediyor, para nereye gidiyor.</p>
 </header>
 
-<div class="section">
-  <!-- OVERVIEW -->
-  <div class="stat-grid">
-    <div class="stat"><div class="stat-k">Bitcoin</div><div><div class="stat-v" data-px="btc">$64,398</div><div class="stat-chg up" data-chg="btc">+0.67%</div></div></div>
-    <div class="stat"><div class="stat-k">Ethereum</div><div><div class="stat-v" data-px="eth">$1,733</div><div class="stat-chg up" data-chg="eth">+0.42%</div></div></div>
-    <div class="stat"><div class="stat-k">S&amp;P 500</div><div><div class="stat-v" data-px="spx">7,473</div><div class="stat-chg dn" data-chg="spx">-0.37%</div></div></div>
-    <div class="stat"><div class="stat-k">Altın</div><div><div class="stat-v" data-px="gold">$4209</div><div class="stat-chg dn" data-chg="gold">-0.36%</div></div></div>
-    <div class="stat"><div class="stat-k">Kripto F&amp;G</div><div><div class="stat-v" data-px="fg">20</div><div class="stat-chg dn" data-chg="fg">Extreme Fear</div></div></div>
-    <div class="stat"><div class="stat-k">BTC Dominansı</div><div><div class="stat-v" id="btc-dom">—</div><div class="stat-chg neu">toplam değerin</div></div></div>
-    <div class="stat"><div class="stat-k">Coinbase Premium</div><div><div class="stat-v" id="cb-prem">—</div><div class="stat-chg neu" id="cb-prem-c">Coinbase − Binance</div></div></div>
-    <div class="stat"><div class="stat-k">Funding · BTC 8s</div><div><div class="stat-v" id="funding">+0.0005%</div><div class="stat-chg neu">Deribit</div></div></div>
-  </div>
+<!-- HERO STATS -->
+<div class="dsh-hero"><div class="dsh-hero-grid"><div class="dsh-hcell"><div class="k">Bitcoin</div><div class="v">$64,398</div><div class="d up">+0.67%</div></div><div class="dsh-hcell"><div class="k">Ethereum</div><div class="v">$3,402</div><div class="d up">+1.12%</div></div><div class="dsh-hcell"><div class="k">S&amp;P 500</div><div class="v">5,488</div><div class="d down">−0.41%</div></div><div class="dsh-hcell"><div class="k">Altın</div><div class="v">$2,388</div><div class="d up">+0.31%</div></div><div class="dsh-hcell"><div class="k">Kripto K&amp;A</div><div class="v">20</div><div class="d down">Ext. Fear</div></div><div class="dsh-hcell"><div class="k">BTC Hakimiyeti</div><div class="v">54.2%</div><div class="d up">+0.3pp</div></div></div></div>
 
-  <!-- WATCHLIST -->
-  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">İzleme Listesi</div><div class="section-meta"><span class="live" style="color:var(--green)">● Canlı</span> · 60sn'de bir yenilenir</div></div>
-  <table class="dtable">
-    <thead><tr><th>Varlık</th><th>Sınıf</th><th>Fiyat</th><th>Δ%</th><th>Trend</th></tr></thead>
-    <tbody id="wl-tbody"><tr><td colspan="5" class="muted" style="text-align:center;padding:24px">Piyasalar yükleniyor…</td></tr></tbody>
-  </table>
-  <p class="muted" style="font-size:11px;font-family:var(--mono);margin-top:12px">Kripto değişimi 24 saatlik (CoinGecko). Hisse, emtia ve döviz değişimi son kapanış / önceki kapanış (Yahoo Finance). Veri gecikmeli olabilir.</p>
+<div class="section">
+  <!-- §01 GENİŞ ENDEKSLER -->
+  <div class="section-header"><div class="section-title"><span class="num">§ 01</span>Geniş endeksler</div><div class="section-meta">ETF vekilleri · son kapanış</div></div>
+  <div class="dsh-grid dsh-g5"><div class="dsh-tile"><div class="sym">SPY</div><div class="name">S&P 500</div><div class="px">548.0</div><div class="chg down">−0.41%</div><svg class="dsh-spark" viewBox="0 0 264 44"><polyline fill="none" stroke="var(--red)" stroke-width="1.4" points="0.0,16.6 9.1,4.0 18.2,20.8 27.3,30.0 36.4,11.8 45.5,8.2 54.6,28.2 63.7,27.6 72.8,8.7 81.9,15.2 91.0,33.3 100.1,23.1 109.2,8.5 118.3,23.4 127.4,35.1 136.6,18.1 145.7,11.8 154.8,31.3 163.9,33.6 173.0,14.4 182.1,18.0 191.2,37.3 200.3,29.6 209.4,13.3 218.5,26.0 227.6,40.0 236.7,24.6 245.8,15.5 254.9,34.2 264.0,39.4"/></svg></div><div class="dsh-tile"><div class="sym">QQQ</div><div class="name">Nasdaq 100</div><div class="px">478.6</div><div class="chg down">−0.58%</div><svg class="dsh-spark" viewBox="0 0 264 44"><polyline fill="none" stroke="var(--red)" stroke-width="1.4" points="0.0,15.1 9.1,4.0 18.2,19.1 27.3,27.5 36.4,11.4 45.5,8.3 54.6,26.5 63.7,26.0 72.8,9.3 81.9,15.2 91.0,31.6 100.1,22.6 109.2,9.7 118.3,23.2 127.4,33.9 136.6,18.8 145.7,13.2 154.8,30.9 163.9,33.1 173.0,16.1 182.1,19.4 191.2,36.8 200.3,30.1 209.4,15.7 218.5,27.3 227.6,39.9 236.7,26.3 245.8,18.3 254.9,35.2 264.0,40.0"/></svg></div><div class="dsh-tile"><div class="sym">DIA</div><div class="name">Dow Jones</div><div class="px">392.1</div><div class="chg up">+0.12%</div><svg class="dsh-spark" viewBox="0 0 264 44"><polyline fill="none" stroke="var(--green)" stroke-width="1.4" points="0.0,24.6 9.1,7.4 18.2,28.7 27.3,40.0 36.4,15.5 45.5,10.1 54.6,35.6 63.7,34.1 72.8,8.6 81.9,16.4 91.0,39.6 100.1,25.4 109.2,5.5 118.3,24.4 127.4,39.0 136.6,16.0 145.7,7.0 154.8,31.9 163.9,34.2 173.0,8.3 182.1,12.3 191.2,36.8 200.3,26.1 209.4,4.0 218.5,20.1 227.6,37.7 236.7,16.8 245.8,4.1 254.9,28.0 264.0,34.1"/></svg></div><div class="dsh-tile"><div class="sym">IWM</div><div class="name">Russell 2000</div><div class="px">201.4</div><div class="chg down">−1.08%</div><svg class="dsh-spark" viewBox="0 0 264 44"><polyline fill="none" stroke="var(--red)" stroke-width="1.4" points="0.0,11.8 9.1,4.0 18.2,15.5 27.3,22.1 36.4,10.4 45.5,8.6 54.6,22.3 63.7,22.3 72.8,10.2 81.9,15.0 91.0,27.4 100.1,21.1 109.2,12.0 118.3,22.3 127.4,30.4 136.6,19.7 145.7,15.8 154.8,29.3 163.9,31.2 173.0,18.9 182.1,21.8 191.2,34.9 200.3,30.3 209.4,20.0 218.5,28.9 227.6,38.6 236.7,28.8 245.8,23.3 254.9,36.1 264.0,40.0"/></svg></div><div class="dsh-tile"><div class="sym">VIX</div><div class="name">Volatility</div><div class="px">17.28</div><div class="chg up">+5.37%</div><svg class="dsh-spark" viewBox="0 0 264 44"><polyline fill="none" stroke="var(--green)" stroke-width="1.4" points="0.0,40.0 9.1,35.8 18.2,38.3 27.3,38.7 36.4,33.6 45.5,31.5 54.6,34.5 63.7,33.2 72.8,27.7 81.9,27.7 91.0,30.3 100.1,26.9 109.2,22.2 118.3,24.3 127.4,25.6 136.6,20.5 145.7,17.6 154.8,20.9 163.9,20.1 173.0,14.2 182.1,13.7 191.2,16.7 200.3,13.7 209.4,8.7 218.5,10.4 227.6,12.0 236.7,7.4 245.8,4.0 254.9,7.0 264.0,7.0"/></svg></div></div>
+  
+
+  <!-- §02 TEMALAR -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 02</span>Döngüye öncülük eden temalar</div><div class="section-meta">tematik ETF'ler</div></div>
+  <div class="dsh-grid dsh-g3"><div class="dsh-tile"><div class="sym">SMH</div><div class="name">Semiconductors</div><div class="px">262.4</div><div class="chg up">+1.34%</div><svg class="dsh-spark" viewBox="0 0 264 44"><polyline fill="none" stroke="var(--green)" stroke-width="1.4" points="0.0,34.9 9.1,25.9 18.2,35.3 27.3,40.0 36.4,27.4 45.5,24.0 54.6,35.5 63.7,34.0 72.8,21.0 81.9,24.0 91.0,34.3 100.1,26.7 109.2,16.4 118.3,24.7 127.4,31.0 136.6,19.1 145.7,14.0 154.8,25.1 163.9,25.5 173.0,12.3 182.1,13.4 191.2,24.4 200.3,18.5 209.4,7.1 218.5,14.0 227.6,21.7 236.7,10.8 245.8,4.0 254.9,14.7 264.0,16.8"/></svg></div><div class="dsh-tile"><div class="sym">IGV</div><div class="name">Software</div><div class="px">92.10</div><div class="chg down">−0.72%</div><svg class="dsh-spark" viewBox="0 0 264 44"><polyline fill="none" stroke="var(--red)" stroke-width="1.4" points="0.0,13.9 9.1,4.0 18.2,17.9 27.3,25.8 36.4,11.0 45.5,8.4 54.6,24.9 63.7,24.6 72.8,9.5 81.9,15.0 91.0,30.1 100.1,22.0 109.2,10.4 118.3,22.9 127.4,32.7 136.6,19.1 145.7,14.2 154.8,30.4 163.9,32.5 173.0,17.1 182.1,20.3 191.2,36.2 200.3,30.1 209.4,17.1 218.5,27.8 227.6,39.4 236.7,27.2 245.8,20.0 254.9,35.6 264.0,40.0"/></svg></div><div class="dsh-tile"><div class="sym">QTUM</div><div class="name">Quantum / compute</div><div class="px">88.60</div><div class="chg up">+2.41%</div><svg class="dsh-spark" viewBox="0 0 264 44"><polyline fill="none" stroke="var(--green)" stroke-width="1.4" points="0.0,37.9 9.1,31.2 18.2,37.3 27.3,40.0 36.4,30.9 45.5,28.2 54.6,35.5 63.7,34.1 72.8,24.6 81.9,26.1 91.0,32.8 100.1,27.2 109.2,19.5 118.3,24.8 127.4,28.6 136.6,20.0 145.7,16.0 154.8,23.2 163.9,23.0 173.0,13.4 182.1,13.8 191.2,20.8 200.3,16.3 209.4,8.0 218.5,12.3 227.6,17.1 236.7,9.1 245.8,4.0 254.9,10.9 264.0,11.8"/></svg></div><div class="dsh-tile"><div class="sym">BOTZ</div><div class="name">AI & Robotics</div><div class="px">34.80</div><div class="chg up">+0.91%</div><svg class="dsh-spark" viewBox="0 0 264 44"><polyline fill="none" stroke="var(--green)" stroke-width="1.4" points="0.0,33.4 9.1,22.4 18.2,34.1 27.3,40.0 36.4,25.3 45.5,20.9 54.6,35.6 63.7,34.1 72.8,18.7 81.9,22.4 91.0,35.6 100.1,26.8 109.2,14.3 118.3,24.6 127.4,32.7 136.6,18.7 145.7,12.8 154.8,26.8 163.9,27.5 173.0,11.3 182.1,12.8 191.2,27.5 200.3,20.2 209.4,6.2 218.5,15.0 227.6,25.3 236.7,12.1 245.8,4.0 254.9,17.2 264.0,20.2"/></svg></div><div class="dsh-tile"><div class="sym">CIBR</div><div class="name">Cybersecurity</div><div class="px">68.20</div><div class="chg up">+0.44%</div><svg class="dsh-spark" viewBox="0 0 264 44"><polyline fill="none" stroke="var(--green)" stroke-width="1.4" points="0.0,29.2 9.1,15.3 18.2,31.6 27.3,40.0 36.4,20.8 45.5,16.3 54.6,36.1 63.7,34.1 72.8,13.9 81.9,19.8 91.0,37.5 100.1,26.2 109.2,10.4 118.3,24.7 127.4,35.6 136.6,17.3 145.7,9.9 154.8,29.2 163.9,30.6 173.0,9.9 182.1,12.9 191.2,31.6 200.3,23.2 209.4,5.5 218.5,17.8 227.6,31.1 236.7,14.4 245.8,4.0 254.9,22.2 264.0,26.7"/></svg></div><div class="dsh-tile"><div class="sym">XBI</div><div class="name">Biotech</div><div class="px">91.50</div><div class="chg down">−0.83%</div><svg class="dsh-spark" viewBox="0 0 264 44"><polyline fill="none" stroke="var(--red)" stroke-width="1.4" points="0.0,13.3 9.1,4.0 18.2,17.1 27.3,24.5 36.4,10.8 45.5,8.4 54.6,23.9 63.7,23.9 72.8,9.7 81.9,14.9 91.0,29.1 100.1,21.7 109.2,10.8 118.3,22.5 127.4,31.8 136.6,19.3 145.7,14.6 154.8,29.9 163.9,32.1 173.0,17.6 182.1,20.6 191.2,35.6 200.3,30.2 209.4,18.2 218.5,28.3 227.6,39.2 236.7,27.7 245.8,21.2 254.9,35.6 264.0,40.0"/></svg></div></div>
+  <div class="dsh-miniread"><b>Frontier izleme · saf-oyun, spekülatif</b>Tekil isimler, yüksek volatilite — takip edilir, tavsiye edilmez:<span class="dsh-chips"><span class="dsh-chip"><b>IONQ</b><span class="x up">+4.2%</span></span><span class="dsh-chip"><b>RGTI</b><span class="x up">+6.8%</span></span><span class="dsh-chip"><b>QBTS</b><span class="x down">−3.1%</span></span><span class="dsh-chip"><b>QUBT</b><span class="x up">+5.5%</span></span></span></div>
+
+  <!-- §03 SEKTÖR ROTASYONU -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 03</span>Sektör rotasyonu</div><div class="section-meta">11 SPDR sektörü · 1G Δ%</div></div>
+  <div class="dsh-heat"><div class="dsh-hc" style="background:#367C50"><div><div class="s">XLK</div><div class="n">Technology</div></div><div class="p">+1.1%</div></div><div class="dsh-hc" style="background:#4C7B61"><div><div class="s">XLC</div><div class="n">Comms</div></div><div class="p">+0.7%</div></div><div class="dsh-hc" style="background:#637972"><div><div class="s">XLY</div><div class="n">Discretionary</div></div><div class="p">+0.3%</div></div><div class="dsh-hc" style="background:#6E787A"><div><div class="s">XLI</div><div class="n">Industrials</div></div><div class="p">+0.1%</div></div><div class="dsh-hc" style="background:#74787F"><div><div class="s">XLB</div><div class="n">Materials</div></div><div class="p">0.0%</div></div><div class="dsh-hc" style="background:#7B6B74"><div><div class="s">XLRE</div><div class="n">Real Estate</div></div><div class="p">−0.2%</div></div><div class="dsh-hc" style="background:#7F646F"><div><div class="s">XLP</div><div class="n">Staples</div></div><div class="p">−0.3%</div></div><div class="dsh-hc" style="background:#875864"><div><div class="s">XLV</div><div class="n">Health Care</div></div><div class="p">−0.5%</div></div><div class="dsh-hc" style="background:#8B515F"><div><div class="s">XLF</div><div class="n">Financials</div></div><div class="p">−0.6%</div></div><div class="dsh-hc" style="background:#973E4F"><div><div class="s">XLU</div><div class="n">Utilities</div></div><div class="p">−0.9%</div></div><div class="dsh-hc" style="background:#B3122B"><div><div class="s">XLE</div><div class="n">Energy</div></div><div class="p">−1.6%</div></div></div>
+  
+
+  <!-- §04 KRİPTO PANOSU -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 04</span>Kripto panosu</div><div class="section-meta">CoinGecko · DefiLlama</div></div>
+  <div class="dsh-grid dsh-g5"><div class="dsh-tile"><div class="sym">TOTAL</div><div class="name">Piyasa değeri</div><div class="px">$2.28T</div><div class="chg up">+0.8%</div></div><div class="dsh-tile"><div class="sym">BTC.D</div><div class="name">BTC hakimiyeti</div><div class="px">54.2%</div><div class="chg up">+0.3pp</div></div><div class="dsh-tile"><div class="sym">STABLES</div><div class="name">Stablecoin arzı</div><div class="px">$248B</div><div class="chg up">+2.4%</div></div><div class="dsh-tile"><div class="sym">USDC.D</div><div class="name">USDC payı</div><div class="px">24.6%</div><div class="chg up">+0.5pp</div></div><div class="dsh-tile"><div class="sym">FUND</div><div class="name">BTC funding</div><div class="px">+0.009%</div><div class="chg neu">nötr</div></div></div>
+  
+
+  <!-- §05 PİYASA LİDERLERİ -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 05</span>Piyasa liderleri</div><div class="section-meta">piyasa değerine göre ilk 10 · çok-ufuk</div></div>
+  <div class="dsh-scroll">
+    <table class="dsh-table" style="margin-bottom:30px;min-width:680px">
+      <thead><tr><th>Nasdaq mega'lar</th><th class="num">Fiyat</th><th class="pc">1G</th><th class="pc">7G</th><th class="pc">30G</th><th class="pc">180G</th><th class="pc">1Y</th><th class="pc">5Y</th><th class="num">Piyasa değeri</th></tr></thead>
+      <tbody><tr><td class="nm">MSFT <span class="full">Microsoft</span></td><td class="num">478.2</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.052)">+0.4%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.081)">+2.1%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.144)">+5.8%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+14.2%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+28.4%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+142%</td><td class="num">3.55T</td></tr><tr><td class="nm">AAPL <span class="full">Apple</span></td><td class="num">224.6</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.050)">−0.3%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.065)">−1.2%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.103)">+3.4%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.200)">+9.1%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+16.2%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+108%</td><td class="num">3.42T</td></tr><tr><td class="nm">NVDA <span class="full">Nvidia</span></td><td class="num">134.8</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.077)">+1.9%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.154)">+6.4%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+18.7%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+52.3%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+119%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+1,820%</td><td class="num">3.31T</td></tr><tr><td class="nm">GOOGL <span class="full">Alphabet</span></td><td class="num">178.4</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.055)">−0.6%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.076)">+1.8%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.167)">+7.2%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+21.4%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+42.1%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+124%</td><td class="num">2.20T</td></tr><tr><td class="nm">AMZN <span class="full">Amazon</span></td><td class="num">192.3</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.048)">+0.2%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.094)">+2.9%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.149)">+6.1%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+18.0%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+34.7%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+86.0%</td><td class="num">2.01T</td></tr><tr><td class="nm">META <span class="full">Meta</span></td><td class="num">512.7</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.060)">−0.9%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.052)">+0.4%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.203)">+9.3%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+27.6%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+61.3%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+178%</td><td class="num">1.30T</td></tr><tr><td class="nm">AVGO <span class="full">Broadcom</span></td><td class="num">168.5</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.069)">+1.4%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.125)">+4.7%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+12.5%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+38.9%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+89.2%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+540%</td><td class="num">0.79T</td></tr><tr><td class="nm">TSLA <span class="full">Tesla</span></td><td class="num">218.9</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.074)">−1.7%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.116)">−4.2%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.191)">−8.6%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.240)">−16.2%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.240)">−24.8%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+24.0%</td><td class="num">0.70T</td></tr><tr><td class="nm">COST <span class="full">Costco</span></td><td class="num">882.1</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.047)">+0.1%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.064)">+1.1%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.099)">+3.2%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+11.7%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+29.5%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+168%</td><td class="num">0.39T</td></tr><tr><td class="nm">NFLX <span class="full">Netflix</span></td><td class="num">685.3</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.052)">−0.4%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.084)">+2.3%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.162)">+6.9%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+24.1%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+58.9%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+96.0%</td><td class="num">0.29T</td></tr></tbody>
+    </table>
+  </div>
+  <div class="dsh-scroll">
+    <table class="dsh-table" style="min-width:680px">
+      <thead><tr><th>Kripto ilk 10</th><th class="num">Fiyat</th><th class="pc">1G</th><th class="pc">7G</th><th class="pc">30G</th><th class="pc">180G</th><th class="pc">1Y</th><th class="pc">5Y</th><th class="num">Piyasa değeri</th></tr></thead>
+      <tbody><tr><td class="nm">BTC <span class="full">Bitcoin</span></td><td class="num">64,398</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.057)">+0.7%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.099)">+3.2%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.115)">−4.1%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.191)">+8.6%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+12.4%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+84.0%</td><td class="num">1.27T</td></tr><tr><td class="nm">ETH <span class="full">Ethereum</span></td><td class="num">3,402</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.064)">+1.1%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.127)">+4.8%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.084)">−2.3%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+12.4%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.081)">−2.1%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+38.0%</td><td class="num">410B</td></tr><tr><td class="nm">USDT <span class="full">Tether</span></td><td class="num">1.00</td><td class="pc" style="color:var(--text-mute)">0.0%</td><td class="pc" style="color:var(--text-mute)">0.0%</td><td class="pc" style="color:var(--text-mute)">0.0%</td><td class="pc" style="color:var(--text-mute)">0.0%</td><td class="pc" style="color:var(--text-mute)">0.0%</td><td class="pc" style="color:var(--text-mute)">0.0%</td><td class="num">148B</td></tr><tr><td class="nm">BNB <span class="full">BNB</span></td><td class="num">612.4</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.053)">+0.5%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.081)">+2.1%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.154)">+6.4%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+18.9%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.191)">+8.6%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+104%</td><td class="num">89B</td></tr><tr><td class="nm">SOL <span class="full">Solana</span></td><td class="num">148.2</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.084)">+2.3%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.193)">+8.7%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.150)">−6.2%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+34.1%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+18.3%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+292%</td><td class="num">70B</td></tr><tr><td class="nm">USDC <span class="full">USD Coin</span></td><td class="num">1.00</td><td class="pc" style="color:var(--text-mute)">0.0%</td><td class="pc" style="color:var(--text-mute)">0.0%</td><td class="pc" style="color:var(--text-mute)">0.0%</td><td class="pc" style="color:var(--text-mute)">0.0%</td><td class="pc" style="color:var(--text-mute)">0.0%</td><td class="pc" style="color:var(--text-mute)">0.0%</td><td class="num">61B</td></tr><tr><td class="nm">XRP <span class="full">XRP</span></td><td class="num">0.624</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.059)">−0.8%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.103)">−3.4%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.200)">−9.1%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.133)">+5.2%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+32.4%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.240)">−31.0%</td><td class="num">35B</td></tr><tr><td class="nm">DOGE <span class="full">Dogecoin</span></td><td class="num">0.138</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.064)">+1.1%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.140)">+5.6%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.240)">−12.3%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.188)">−8.4%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.240)">−28.6%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.240)">−54.0%</td><td class="num">20B</td></tr><tr><td class="nm">ADA <span class="full">Cardano</span></td><td class="num">0.462</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.053)">−0.5%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.081)">−2.1%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.178)">−7.8%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.099)">−3.2%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.240)">−15.2%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.240)">−69.0%</td><td class="num">16B</td></tr><tr><td class="nm">TRX <span class="full">Tron</span></td><td class="num">0.162</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.050)">+0.3%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.065)">+1.2%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.122)">+4.5%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+14.7%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+42.8%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+128%</td><td class="num">14B</td></tr></tbody>
+    </table>
+  </div>
+  
+
+  <!-- §06 EMTİA & DÖVİZ -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 06</span>Emtia &amp; Döviz</div><div class="section-meta">spot · son kapanış</div></div>
+  <div class="dsh-twocol">
+    <div class="dsh-scroll">
+      <table class="dsh-table">
+        <thead><tr><th>Emtia</th><th class="num">Fiyat</th><th class="pc">1G</th><th class="pc">7G</th><th class="pc">30G</th><th class="pc">1Y</th></tr></thead>
+        <tbody><tr><td class="nm">Brent</td><td class="num">78.00</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.085)">−2.3%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.115)">−4.1%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.099)">+3.2%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+18.2%</td></tr><tr><td class="nm">WTI</td><td class="num">74.60</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.088)">−2.5%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.120)">−4.4%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.094)">+2.9%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+16.4%</td></tr><tr><td class="nm">Gold</td><td class="num">2,388</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.050)">+0.3%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.076)">+1.8%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.116)">+4.2%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+24.6%</td></tr><tr><td class="nm">Silver</td><td class="num">29.40</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.056)">+0.6%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.098)">+3.1%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.161)">+6.8%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+31.2%</td></tr><tr><td class="nm">Copper</td><td class="num">4.42</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.052)">−0.4%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.065)">−1.2%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.081)">+2.1%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+12.4%</td></tr><tr><td class="nm">Nat Gas</td><td class="num">2.78</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.065)">+1.2%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.103)">−3.4%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.184)">−8.2%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.240)">−22.4%</td></tr></tbody>
+      </table>
+    </div>
+    <div class="dsh-scroll">
+      <table class="dsh-table">
+        <thead><tr><th>Döviz</th><th class="num">Kur</th><th class="pc">1G</th><th class="pc">7G</th><th class="pc">30G</th><th class="pc">1Y</th></tr></thead>
+        <tbody><tr><td class="nm">DXY</td><td class="num">101.0</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.048)">+0.2%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.052)">+0.4%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.065)">−1.2%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.116)">−4.2%</td></tr><tr><td class="nm">EUR/USD</td><td class="num">1.08</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.048)">−0.2%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.050)">−0.3%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.064)">+1.1%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.110)">+3.8%</td></tr><tr><td class="nm">USD/JPY</td><td class="num">157.4</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.049)">+0.2%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.059)">+0.8%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.081)">+2.1%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.208)">+9.6%</td></tr><tr><td class="nm">GBP/USD</td><td class="num">1.27</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.047)">−0.1%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.048)">+0.2%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.060)">+0.9%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.081)">+2.1%</td></tr><tr><td class="nm">USD/TRY</td><td class="num">39.82</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.047)">+0.1%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.060)">+0.9%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.110)">+3.8%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.240)">+28.4%</td></tr><tr><td class="nm">USD/CHF</td><td class="num">0.895</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.047)">+0.1%</td><td class="pc" style="color:var(--green);background:rgba(26,127,60,0.050)">+0.3%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.059)">−0.8%</td><td class="pc" style="color:var(--red);background:rgba(179,18,43,0.089)">−2.6%</td></tr></tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
 <!-- FOOTER -->
@@ -150,104 +187,10 @@
 
 <script src="/app.js"></script>
 <script>
+  /* Dashboard is build-time rendered from data/markets.json (server-side, see
+     build.py inject_dashboard). Only the shared ticker stays client-side, on the
+     existing data source. Phase 4 will add a client-side markets.json refresh. */
   window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx','eurusd'], market: false });
-  const $ = (id) => document.getElementById(id);
-
-  const CRYPTO = [
-    {sym:'BTC', name:'Bitcoin',  id:'bitcoin'},
-    {sym:'ETH', name:'Ethereum', id:'ethereum'},
-    {sym:'SOL', name:'Solana',   id:'solana'},
-    {sym:'XRP', name:'Ripple',   id:'ripple'},
-    {sym:'BNB', name:'BNB',      id:'binancecoin'},
-    {sym:'ADA', name:'Cardano',  id:'cardano'},
-    {sym:'DOGE',name:'Dogecoin', id:'dogecoin'}
-  ];
-  const YAHOO = [
-    {sym:'S&P 500', name:'US 500',      s:'^GSPC', cls:'Index',     fmt:v=>v.toLocaleString('en-US',{maximumFractionDigits:0})},
-    {sym:'Nasdaq',  name:'Nasdaq Comp', s:'^IXIC', cls:'Index',     fmt:v=>v.toLocaleString('en-US',{maximumFractionDigits:0})},
-    {sym:'Dow',     name:'Dow Jones',   s:'^DJI',  cls:'Index',     fmt:v=>v.toLocaleString('en-US',{maximumFractionDigits:0})},
-    {sym:'Gold',    name:'Gold',        s:'GC=F',  cls:'Commodity', fmt:v=>'$'+v.toFixed(0)},
-    {sym:'Silver',  name:'Silver',      s:'SI=F',  cls:'Commodity', fmt:v=>'$'+v.toFixed(2)},
-    {sym:'Copper',  name:'Copper',      s:'HG=F',  cls:'Commodity', fmt:v=>'$'+v.toFixed(2)},
-    {sym:'Brent',   name:'Brent Crude', s:'BZ=F',  cls:'Commodity', fmt:v=>'$'+v.toFixed(1)},
-    {sym:'NatGas',  name:'Natural Gas', s:'NG=F',  cls:'Commodity', fmt:v=>'$'+v.toFixed(2)},
-    {sym:'EUR/USD', name:'Euro',        s:'EURUSD=X', cls:'FX',     fmt:v=>v.toFixed(4)},
-    {sym:'USD/TRY', name:'Turkish Lira',s:'TRY=X', cls:'FX',        fmt:v=>v.toFixed(2)},
-    {sym:'DXY',     name:'Dollar Index',s:'DX-Y.NYB', cls:'FX',     fmt:v=>v.toFixed(2)}
-  ];
-
-  function rowHTML(sym, name, cls, priceStr, pct, closes) {
-    const dir = pct == null ? 'neu' : (pct >= 0 ? 'up' : 'dn');
-    const chg = pct == null ? '—' : (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%';
-    return '<tr class="cal-row"><td><strong>' + sym + '</strong> <span class="muted" style="font-size:12px">' + name + '</span></td>' +
-      '<td><span class="badge neu" style="font-size:9px;letter-spacing:0.1em">' + cls + '</span></td>' +
-      '<td class="mono">' + priceStr + '</td>' +
-      '<td><span class="badge ' + dir + '">' + chg + '</span></td>' +
-      '<td style="width:120px">' + (closes ? window.NCF.sparkline(closes, pct >= 0) : '') + '</td></tr>';
-  }
-
-  async function loadDash() {
-    $('last-update').textContent = new Date().toLocaleTimeString('en-GB');
-    const tb = $('wl-tbody');
-    const rows = [];
-
-    /* crypto (one call) */
-    const ids = CRYPTO.map(c => c.id).join(',');
-    let cg = null;
-    try { cg = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=' + ids + '&vs_currencies=usd&include_24hr_change=true').then(r => r.json()); } catch (e) {}
-    CRYPTO.forEach(c => {
-      const d = cg && cg[c.id];
-      const price = d ? '$' + d.usd.toLocaleString('en-US', {maximumFractionDigits: d.usd < 2 ? 4 : 0}) : '—';
-      rows.push(rowHTML(c.sym, c.name, 'Crypto', price, d ? d.usd_24h_change : null, null));
-    });
-    if (cg && cg.bitcoin) window.NCF.paint('btc', cg.bitcoin.usd, cg.bitcoin.usd_24h_change);
-    if (cg && cg.ethereum) window.NCF.paint('eth', cg.ethereum.usd, cg.ethereum.usd_24h_change);
-    tb.innerHTML = rows.join('');
-
-    /* F&G + dominance */
-    window.NCF.fetchFearGreed().then(fg => {
-      if (!fg) return;
-      document.querySelectorAll('[data-px="fg"]').forEach(e => e.textContent = fg.value);
-      document.querySelectorAll('[data-chg="fg"]').forEach(e => { e.textContent = fg.label; e.className = 'stat-chg ' + (fg.value > 55 ? 'up' : fg.value < 35 ? 'dn' : 'neu'); });
-    });
-    fetch('https://api.coingecko.com/api/v3/global').then(r => r.json()).then(g => {
-      const dom = g && g.data && g.data.market_cap_percentage && g.data.market_cap_percentage.btc;
-      if (dom) $('btc-dom').textContent = dom.toFixed(1) + '%';
-    }).catch(() => {});
-
-    /* Coinbase Premium (client-side: Coinbase − Binance) */
-    window.NCF.fetchCoinbasePremium().then(p => {
-      if (!p || !$('cb-prem')) return;
-      $('cb-prem').textContent = (p.premium >= 0 ? '+$' : '−$') + Math.abs(p.premium).toFixed(0);
-      const c = $('cb-prem-c');
-      if (c) { c.textContent = (p.pct >= 0 ? '+' : '') + p.pct.toFixed(3) + '%'; c.className = 'stat-chg ' + (p.premium >= 0 ? 'up' : 'dn'); }
-    }).catch(() => {});
-
-    /* Funding rate (committed snapshot, Deribit) */
-    fetch('/data/macro.json', { cache: 'no-store' }).then(r => r.json()).then(m => {
-      if (m.funding && $('funding')) $('funding').textContent = (m.funding.value >= 0 ? '+' : '') + m.funding.value.toFixed(4) + '%';
-    }).catch(() => {});
-
-    /* yahoo (sequential, append as they arrive) */
-    for (const y of YAHOO) {
-      const d = await window.NCF.fetchYahoo(y.s, '10d');
-      const price = d ? y.fmt(d.last) : '—';
-      rows.push(rowHTML(y.sym, y.name, y.cls, price, d ? d.pct : null, d ? d.closes : null));
-      tb.innerHTML = rows.join('');
-      if (d) {
-        if (y.s === '^GSPC') window.NCF.paint('spx', d.last, d.pct);
-        if (y.s === 'GC=F')  window.NCF.paint('gold', d.last, d.pct);
-        if (y.s === 'BZ=F')  window.NCF.paint('brent', d.last, d.pct);
-        if (y.s === 'DX-Y.NYB') window.NCF.paint('dxy', d.last, d.pct);
-        if (y.s === 'EURUSD=X') window.NCF.paint('eurusd', d.last, d.pct);
-      }
-    }
-    /* fill remaining ticker keys */
-    const vix = await window.NCF.fetchYahoo('^VIX'); if (vix) window.NCF.paint('vix', vix.last, vix.pct, {invert:true});
-    const t10 = await window.NCF.fetchYahoo('^TNX'); if (t10) window.NCF.paint('us10y', t10.last, t10.pct);
-  }
-  loadDash();
-  setInterval(loadDash, 60 * 1000);
 </script>
 <script>document.querySelectorAll('[data-set-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',a.getAttribute('data-set-lang'));}catch(e){}});});</script>
 </body>

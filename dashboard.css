@@ -1,0 +1,76 @@
+/* ============================================================================
+   Dashboard — "the tape". Components ported from dashboard-demo.html, retokenized
+   to the site palette (crimson/paper, --amber accent) and namespaced `dsh-` to
+   avoid colliding with existing site components (.tile, .grid, …).
+   Loaded only on /dashboard.html via content/head/dashboard.html.
+   ========================================================================== */
+
+/* hero stat band */
+.dsh-hero { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg-elev); margin: 24px 0 0; }
+.dsh-hero-grid { display: grid; grid-template-columns: repeat(6, 1fr); }
+.dsh-hcell { padding: 18px 16px; border-right: 1px solid var(--border); }
+.dsh-hcell:last-child { border-right: 0; }
+.dsh-hcell .k { font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-mute); }
+.dsh-hcell .v { font-family: var(--mono); font-weight: 600; font-size: 21px; margin-top: 6px; }
+.dsh-hcell .d { font-family: var(--mono); font-size: 12px; margin-top: 2px; }
+@media (max-width: 820px) {
+  .dsh-hero-grid { grid-template-columns: repeat(3, 1fr); }
+  .dsh-hcell:nth-child(3) { border-right: 0; }
+  .dsh-hcell:nth-child(-n+3) { border-bottom: 1px solid var(--border); }
+}
+@media (max-width: 520px) {
+  .dsh-hero-grid { grid-template-columns: repeat(2, 1fr); }
+  .dsh-hcell { border-right: 1px solid var(--border) !important; border-bottom: 1px solid var(--border); }
+}
+
+/* tile grids */
+.dsh-grid { display: grid; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+.dsh-g5 { grid-template-columns: repeat(5, 1fr); }
+.dsh-g3 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 900px) { .dsh-g5 { grid-template-columns: repeat(3, 1fr); } .dsh-g3 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .dsh-g5, .dsh-g3 { grid-template-columns: 1fr 1fr; } }
+
+/* asset tile */
+.dsh-tile { background: var(--bg-elev); padding: 16px 16px 14px; display: flex; flex-direction: column; gap: 2px; }
+.dsh-tile .sym { font-family: var(--mono); font-weight: 600; font-size: 13px; letter-spacing: .04em; }
+.dsh-tile .name { font-size: 11px; color: var(--text-mute); margin-bottom: 6px; }
+.dsh-tile .px { font-family: var(--mono); font-weight: 600; font-size: 20px; }
+.dsh-tile .chg { font-family: var(--mono); font-size: 12.5px; margin-top: 1px; }
+.dsh-spark { margin-top: 11px; width: 100%; height: auto; display: block; }
+.dsh-tile .rd { margin-top: 9px; font-size: 12px; line-height: 1.4; color: var(--text-dim); }
+
+/* editorial "read" note (oxide→crimson left border) */
+.dsh-miniread { background: var(--bg-elev); border: 1px solid var(--border); border-left: 3px solid var(--amber); padding: 13px 16px; margin-top: 16px; font-size: 13.5px; line-height: 1.5; color: var(--text-dim); }
+.dsh-miniread b { font-family: var(--mono); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--amber); display: block; margin-bottom: 5px; }
+
+/* frontier watchlist chips */
+.dsh-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.dsh-chip { font-family: var(--mono); font-size: 12px; border: 1px solid var(--border); padding: 6px 10px; background: var(--bg); }
+.dsh-chip b { color: var(--text); } .dsh-chip .x { margin-left: 6px; }
+
+/* sector heatmap */
+.dsh-heat { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+@media (max-width: 720px) { .dsh-heat { grid-template-columns: repeat(2, 1fr); } }
+.dsh-hc { padding: 16px 14px; color: #fff; min-height: 88px; display: flex; flex-direction: column; justify-content: space-between; }
+.dsh-hc .s { font-family: var(--mono); font-weight: 600; font-size: 13px; letter-spacing: .04em; }
+.dsh-hc .n { font-size: 10.5px; opacity: .82; margin-top: 2px; }
+.dsh-hc .p { font-family: var(--mono); font-weight: 600; font-size: 19px; align-self: flex-end; }
+
+/* multi-horizon perf tables */
+.dsh-scroll { overflow-x: auto; }
+.dsh-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.dsh-table th { text-align: left; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-mute); font-weight: 600; padding: 0 12px 10px; border-bottom: 1px solid var(--border); }
+.dsh-table td { padding: 12px; border-bottom: 1px solid var(--border); font-family: var(--mono); font-size: 13.5px; font-variant-numeric: tabular-nums; }
+.dsh-table td.nm { font-family: inherit; font-weight: 500; }
+.dsh-table td.nm .full { color: var(--text-mute); font-weight: 400; }
+.dsh-table .num { text-align: right; }
+.dsh-table td.pc, .dsh-table th.pc { text-align: right; width: 60px; padding-left: 8px; padding-right: 10px; white-space: nowrap; }
+.dsh-table td.pc { font-size: 13px; }
+.dsh-twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+@media (max-width: 760px) { .dsh-twocol { grid-template-columns: 1fr; gap: 8px; } }
+
+/* neutral delta (F&G, funding, flat sectors) */
+.dsh-hcell .d.neu, .dsh-tile .chg.neu, .dsh-chip .x.neu { color: var(--text-mute); }
+
+/* updated stamp */
+.dsh-upd { margin-top: 14px; font-family: var(--mono); font-size: 12px; color: var(--text-mute); }
