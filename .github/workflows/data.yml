@@ -26,10 +26,18 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install --quiet requests pillow
+        run: pip install --quiet requests pillow openpyxl
 
       - name: Fetch market + calendar snapshots
         run: python scripts/fetch_data.py
+
+      - name: Fetch dashboard markets snapshot (Yahoo / CoinGecko / DefiLlama)
+        run: python scripts/fetch_markets.py
+        continue-on-error: true
+
+      - name: Fetch macro regime snapshot (FRED / DefiLlama / GDPNow)
+        run: python scripts/fetch_macro2.py
+        continue-on-error: true
 
       - name: Rebuild pages with the fresh snapshot
         run: python build.py
