@@ -1202,7 +1202,10 @@ def inject_dashboard(html, lang):
     html = html.replace("<!--NCF:DASH_LEADERS_EQ-->", "".join(_dash_leader_row(a) for a in m.get("leaders_equity", [])))
     html = html.replace("<!--NCF:DASH_LEADERS_CRYPTO-->", "".join(_dash_leader_row(a) for a in m.get("leaders_crypto", [])))
     html = html.replace("<!--NCF:DASH_COMMODITIES-->", "".join(_dash_perf_row(a, ("d1", "d7", "d30", "y1")) for a in m.get("commodities", [])))
-    html = html.replace("<!--NCF:DASH_FX-->", "".join(_dash_perf_row(a, ("d1", "d7", "d30", "y1")) for a in m.get("fx", [])))
+    fx_rows = "".join(_dash_perf_row(a, ("d1", "d7", "d30", "y1")) for a in m.get("fx", []))
+    html = html.replace("<!--NCF:DASH_FX-->", fx_rows or
+                        '<tr><td colspan="6" class="num" style="color:var(--text-mute);'
+                        'text-align:center;padding:18px">—</td></tr>')
 
     # editorial "read" notes — human-committed markets-notes.json (empty in Phase 1)
     for key in ("indices", "sectors", "crypto", "leaders"):
@@ -1329,11 +1332,13 @@ def inject_macro2(html, lang):
     html = html.replace("<!--NCF:MACRO2_GROWTH-->", _mstats("growth", lang))
     html = html.replace("<!--NCF:MACRO2_RATES_STATS-->", _mstats("rates", lang))
 
-    html = html.replace("<!--NCF:MACRO2_FED_ODDS-->", "".join(
+    odds_rows = "".join(
         f'<div class="row"><span class="lbl">{o["m"]}</span>'
         f'<span class="track"><span class="fill" style="width:{o["p"]}%"></span></span>'
         f'<span class="pct">{o["p"]}%</span></div>'
-        for o in M.get("fed", {}).get("cut_odds", [])))
+        for o in M.get("fed", {}).get("cut_odds", []))
+    html = html.replace("<!--NCF:MACRO2_FED_ODDS-->", odds_rows or
+                        '<p class="cap" style="margin:10px 0 0">Awaiting a live source.</p>')
 
     liq = M.get("liquidity", {})
     html = html.replace("<!--NCF:MACRO2_LIQ_CHART-->", _liq_svg(liq.get("net_liq_series"), liq.get("y_min"), liq.get("y_max")))

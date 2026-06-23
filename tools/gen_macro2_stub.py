@@ -38,10 +38,7 @@ data = {
     ],
     # §02 Fed — cut-odds bars + 4 stats
     "fed": {
-        "cut_odds": [
-            {"m": "Jul 29", "p": 22}, {"m": "Sep 16", "p": 48},
-            {"m": "Oct 28", "p": 61}, {"m": "Dec 9", "p": 74},
-        ],
+        "cut_odds": [],   # no free live source — Awaiting (Kalshi markets are thin)
         "stats": [
             st("4.25–4.50", "held 4 mtgs", "neu"), st("$6.6T", "▼ QT ongoing", "down"),
             st("$148B", "▼ draining", "down"), st("2 cuts", "median", "neu"),

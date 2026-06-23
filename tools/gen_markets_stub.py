@@ -111,14 +111,7 @@ data = {
         {"name": "Copper", "price": 4.42, "perf": {"d1": -0.44, "d7": -1.2, "d30": 2.1, "y1": 12.4}},
         {"name": "Nat Gas", "price": 2.78, "perf": {"d1": 1.20, "d7": -3.4, "d30": -8.2, "y1": -22.4}},
     ],
-    "fx": [
-        {"name": "DXY", "price": 101.0, "perf": {"d1": 0.16, "d7": 0.4, "d30": -1.2, "y1": -4.2}},
-        {"name": "EUR/USD", "price": 1.0842, "perf": {"d1": -0.18, "d7": -0.3, "d30": 1.1, "y1": 3.8}},
-        {"name": "USD/JPY", "price": 157.4, "perf": {"d1": 0.22, "d7": 0.8, "d30": 2.1, "y1": 9.6}},
-        {"name": "GBP/USD", "price": 1.2710, "perf": {"d1": -0.09, "d7": 0.2, "d30": 0.9, "y1": 2.1}},
-        {"name": "USD/TRY", "price": 39.82, "perf": {"d1": 0.14, "d7": 0.9, "d30": 3.8, "y1": 28.4}},
-        {"name": "USD/CHF", "price": 0.8950, "perf": {"d1": 0.11, "d7": 0.3, "d30": -0.8, "y1": -2.6}},
-    ],
+    "fx": [],   # frozen — no reliable keyless FX spot+history source yet
 }
 
 out = ROOT / "data" / "markets.json"

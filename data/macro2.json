@@ -1,36 +1,36 @@
 {
-  "_note": "Live: FRED + DefiLlama + Atlanta Fed. Manual (no free API): cut-odds, dot plot, ISM, next-FOMC, global M2.",
-  "updated": "2026-06-23T10:05:52Z",
+  "_note": "PHASE-2 WIRING STUB — sample values from macro-demo.html. Not real, not for live deploy. Replaced by automation in Phase 4.",
+  "updated": "2026-06-23T08:00:00Z",
   "regime_tape": [
     {
       "k": "Fed Funds",
-      "v": "3.50–3.75",
+      "v": "4.25–4.50",
       "d": "held",
       "dir": "neu"
     },
     {
       "k": "Next FOMC",
       "v": "Jul 29",
-      "d": "36d",
+      "d": "37d",
       "dir": "neu"
     },
     {
       "k": "Cut odds (Jul)",
-      "v": "0%",
-      "d": "implied",
-      "dir": "neu"
+      "v": "22%",
+      "d": "▲ from 14%",
+      "dir": "up"
     },
     {
       "k": "Core CPI",
-      "v": "3.0%",
-      "d": "core",
-      "dir": "neu"
+      "v": "3.1%",
+      "d": "▲ sticky",
+      "dir": "down"
     },
     {
       "k": "US 10Y",
-      "v": "4.46",
-      "d": "",
-      "dir": "neu"
+      "v": "4.51",
+      "d": "+1.30%",
+      "dir": "up"
     },
     {
       "k": "2s10s",
@@ -40,145 +40,113 @@
     },
     {
       "k": "DXY",
-      "v": "101.14",
-      "d": "",
-      "dir": "neu"
+      "v": "101.0",
+      "d": "+0.16%",
+      "dir": "up"
     },
     {
       "k": "F&amp;G",
-      "v": "23",
+      "v": "20",
       "d": "Extreme Fear",
       "dir": "down"
     }
   ],
   "inflation": [
     {
-      "v": "4.3%",
-      "sub": "→ from 4.3%",
+      "v": "2.6%",
+      "sub": "▼ from 2.8%",
+      "dir": "up"
+    },
+    {
+      "v": "3.1%",
+      "sub": "▲ flat 3m",
+      "dir": "down"
+    },
+    {
+      "v": "2.8%",
+      "sub": "→ unchanged",
       "dir": "neu"
     },
     {
-      "v": "3.0%",
-      "sub": "→ from 3.0%",
-      "dir": "neu"
-    },
-    {
-      "v": "3.3%",
-      "sub": "→ from 3.3%",
-      "dir": "neu"
-    },
-    {
-      "v": "2.18%",
-      "sub": "→ +0bp",
-      "dir": "neu"
+      "v": "2.34%",
+      "sub": "▲ +6bp",
+      "dir": "up"
     }
   ],
   "fed": {
-    "cut_odds": [
-      {
-        "m": "Jul 29",
-        "p": 0
-      },
-      {
-        "m": "Sep 16",
-        "p": 0
-      },
-      {
-        "m": "Oct 28",
-        "p": 0
-      },
-      {
-        "m": "Dec 9",
-        "p": 0
-      }
-    ],
+    "cut_odds": [],
     "stats": [
       {
-        "v": "3.50–3.75",
+        "v": "4.25–4.50",
         "sub": "held 4 mtgs",
         "dir": "neu"
       },
       {
-        "v": "$6.7T",
+        "v": "$6.6T",
         "sub": "▼ QT ongoing",
         "dir": "down"
       },
       {
-        "v": "$4B",
+        "v": "$148B",
         "sub": "▼ draining",
         "dir": "down"
       },
       {
-        "v": "3.80%",
-        "sub": "2026 median",
+        "v": "2 cuts",
+        "sub": "median",
         "dir": "neu"
       }
     ]
   },
   "liquidity": {
     "net_liq_series": [
-      5.74,
-      5.7,
-      5.77,
+      6.32,
+      6.26,
+      6.14,
+      6.18,
+      6.02,
+      5.88,
+      5.92,
       5.8,
-      5.71,
-      5.66,
-      5.69,
-      5.71,
-      5.7,
-      5.73,
-      5.8,
-      5.81,
-      5.8,
-      5.78,
-      5.83,
-      5.95,
-      5.95,
-      5.7,
-      5.72,
-      5.83,
-      5.89,
-      5.91,
-      5.87,
-      5.83,
-      5.9,
-      5.85
+      5.76,
+      5.82,
+      5.84
     ],
-    "y_min": 5.6,
-    "y_max": 6.0,
+    "y_min": 5.5,
+    "y_max": 6.5,
     "stats": [
       {
-        "v": "$22.8T",
-        "sub": "▲ +4.7% YoY",
+        "v": "$22.0T",
+        "sub": "▲ +1.8% YoY",
         "dir": "up"
       },
       {
-        "v": "$5.85T",
-        "sub": "▲ +1.2% 3m",
-        "dir": "up"
+        "v": "$5.84T",
+        "sub": "▼ −3.1% 3m",
+        "dir": "down"
       },
       {
-        "v": "$314B",
-        "sub": "USDC $74B",
+        "v": "$248B",
+        "sub": "▲ +2.4% 30d",
         "dir": "up"
       }
     ]
   },
   "growth": [
     {
-      "v": "+5.7",
-      "sub": "Empire State · NY Fed",
-      "dir": "up"
+      "v": "49.5",
+      "sub": "contraction",
+      "dir": "down"
     },
     {
-      "v": "+172K",
-      "sub": "→ MoM",
+      "v": "+139K",
+      "sub": "→ cooling",
       "dir": "neu"
     },
     {
-      "v": "226K",
-      "sub": "▼ -4K",
-      "dir": "up"
+      "v": "242K",
+      "sub": "▲ +14K",
+      "dir": "down"
     },
     {
       "v": "1.9%",
@@ -221,12 +189,12 @@
       {
         "v": "4.19",
         "sub": "+0.8%",
-        "dir": "neu"
+        "dir": "up"
       },
       {
-        "v": "4.46",
+        "v": "4.51",
         "sub": "+1.3%",
-        "dir": "neu"
+        "dir": "up"
       },
       {
         "v": "+27bp",
@@ -234,7 +202,7 @@
         "dir": "up"
       },
       {
-        "v": "266bp",
+        "v": "312bp",
         "sub": "→ calm",
         "dir": "neu"
       }
