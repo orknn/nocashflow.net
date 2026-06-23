@@ -337,6 +337,7 @@ NAV = [
     ("calendar",  "Calendar",  "Takvim",    "/calendar.html",      "/tr/takvim.html"),
     ("dashboard", "Dashboard", "Panel",     "/dashboard.html",     "/tr/dashboard.html"),
     ("bulletin",  "Bulletin",  "Bülten",    "/bulletin_page.html", "/tr/bulletin_page.html"),
+    ("finance-eng", "Finance Engineering", "Finance Engineering", "/finance-engineering.html", "/tr/finance-engineering.html"),
     ("about",     "About",     "Hakkında",  "/hakkinda.html",      "/tr/hakkinda.html"),
 ]
 
@@ -459,6 +460,15 @@ PAGES = {
                   "tr": "Sözlük — NoCashFlow | Finansal Terimler"},
         "desc":  {"en": "Plain explanations of macro, market and crypto terms — the NoCashFlow financial glossary.",
                   "tr": "Makro ekonomi, piyasa ve kripto terimlerinin sade açıklamaları — NoCashFlow finansal sözlüğü."},
+    },
+    "finance-eng": {
+        "nav_key": "finance-eng",
+        "paths": {"en": "/finance-engineering.html", "tr": "/tr/finance-engineering.html"},
+        "out":   {"en": "finance-engineering.html", "tr": "tr/finance-engineering.html"},
+        "title": {"en": "Finance Engineering — NoCashFlow | How this is built",
+                  "tr": "Finance Engineering — NoCashFlow | Nasıl kuruldu"},
+        "desc":  {"en": "How NoCashFlow is engineered — the data pipeline, the automation, and the rule that every number is sourced, never fabricated.",
+                  "tr": "NoCashFlow nasıl mühendislik edildi — veri pipeline'ı, otomasyon ve her rakamın kaynaklı, asla uydurma olmaması ilkesi."},
     },
     "disclaimer": {
         "nav_key": None,

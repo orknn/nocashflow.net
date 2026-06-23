@@ -3,17 +3,18 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>DXY — US Dollar Index Today — NoCashFlow</title>
-<meta name="description" content="The US Dollar Index (DXY) live — the dollar against six major currencies, and why it matters."/>
-<link rel="canonical" href="https://nocashflow.net/now/dxy-dollar-index.html"/>
-<link rel="alternate" hreflang="en" href="https://nocashflow.net/now/dxy-dollar-index.html"/>
-<link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/simdi/dxy-dolar-endeksi.html"/>
-<link rel="alternate" hreflang="x-default" href="https://nocashflow.net/now/dxy-dollar-index.html"/>
-<meta property="og:title" content="DXY — US Dollar Index Today"/>
-<meta property="og:description" content="The US Dollar Index (DXY) live — the dollar against six major currencies, and why it matters."/>
+<title>Finance Engineering — NoCashFlow | How this is built</title>
+<meta name="description" content="How NoCashFlow is engineered — the data pipeline, the automation, and the rule that every number is sourced, never fabricated."/>
+<link rel="canonical" href="https://nocashflow.net/finance-engineering.html"/>
+<link rel="alternate" hreflang="en" href="https://nocashflow.net/finance-engineering.html"/>
+<link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/finance-engineering.html"/>
+<link rel="alternate" hreflang="x-default" href="https://nocashflow.net/finance-engineering.html"/>
+<meta property="og:title" content="Finance Engineering — NoCashFlow | How this is built"/>
+<meta property="og:description" content="How NoCashFlow is engineered — the data pipeline, the automation, and the rule that every number is sourced, never fabricated."/>
 <meta property="og:type" content="website"/>
-<meta property="og:url" content="https://nocashflow.net/now/dxy-dollar-index.html"/>
+<meta property="og:url" content="https://nocashflow.net/finance-engineering.html"/>
 <meta property="og:image" content="https://nocashflow.net/og.png"/>
+<meta property="og:site_name" content="NoCashFlow"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://nocashflow.net/og.png"/>
 <meta name="twitter:site" content="@No_CashFlow"/>
@@ -30,8 +31,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Libre+Caslon+Display&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "en", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
 <link rel="stylesheet" href="/broadsheet.css"/>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "DXY — US Dollar Index Today", "description": "The US Dollar Index (DXY) live — the dollar against six major currencies, and why it matters.", "url": "https://nocashflow.net/now/dxy-dollar-index.html", "inLanguage": "en", "dateModified": "2026-06-23T08:32:31Z", "isPartOf": {"@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
 </head>
 <body data-mood="fear" class="bs">
 <div class="cursor-ring"><span class="c-label">Read</span></div>
@@ -51,11 +52,11 @@
       <a href="/calendar.html">Calendar</a>
       <a href="/dashboard.html">Dashboard</a>
       <a href="/bulletin_page.html">Bulletin</a>
-      <a href="/finance-engineering.html">Finance Engineering</a>
+      <a href="/finance-engineering.html" class="active">Finance Engineering</a>
       <a href="/hakkinda.html">About</a>
     </div>
     <div class="nav-right">
-      <a class="lang-switch" href="/tr/simdi/dxy-dolar-endeksi.html" data-set-lang="tr" aria-label="Türkçe'ye geç">TR</a>
+      <a class="lang-switch" href="/tr/finance-engineering.html" data-set-lang="tr" aria-label="Türkçe'ye geç">TR</a>
       <button class="nav-btn theme-toggle" data-theme-toggle aria-label="After Hours" title="After Hours">◐</button>
       <a href="/bulletin_page.html" class="subscribe">Subscribe</a>
       <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
@@ -72,24 +73,11 @@
 
 <div class="masthead"><div class="masthead-inner"><span>Morning Edition</span><span class="mh-date">Tuesday, June 23, 2026</span><span>Barcelona</span></div></div>
 
-
-<header class="page-head" data-read>
-  <div class="page-eyebrow">Live indicator <span class="divider"></span> <span class="muted">Updated: 23 Jun 2026, 10:32 CET</span></div>
-  <h1 class="page-title">DXY — US Dollar Index Today</h1>
-  <p class="page-dek">The US Dollar Index (DXY) live — the dollar against six major currencies, and why it matters.</p>
-</header>
-<div class="section">
-  <div class="ind-now">
-    <div class="ind-value up" data-px="dxy">101.14</div>
-    <div class="ind-interp">Neutral</div>
-  </div>
-  <div class="prose" style="max-width:720px">
-<p>DXY tracks the US dollar against a basket of six major currencies (euro, yen, pound, Canadian dollar, krona, franc).</p>
-<p>A strong dollar (104+) tends to pressure commodities, emerging-market assets and risk markets; a soft dollar (below 100) eases that pressure. It's one of the cleanest read-throughs for global liquidity.</p>
-  </div>
-  <a href="/now/" class="section-link" style="display:inline-block;margin-top:30px">All indicators →</a>
+<div class="section" style="text-align:center;padding:150px 20px 170px">
+  <div class="page-eyebrow" style="display:inline-flex;justify-content:center">Finance Engineering</div>
+  <div style="font-family:var(--mono);font-weight:600;font-size:clamp(46px,11vw,104px);letter-spacing:0.06em;color:var(--text);margin-top:30px;line-height:1">LOADING<span style="color:var(--amber)">…</span></div>
+  <p class="muted" style="margin-top:22px;font-size:14px">My own notes on finance engineering — in progress.</p>
 </div>
-
 
 <!-- FOOTER -->
 <footer>

@@ -3,17 +3,18 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Fed Faiz Oranı Bugün — NoCashFlow</title>
-<meta name="description" content="Güncel Fed politika faizi (üst bant), FRED'den canlı."/>
-<link rel="canonical" href="https://nocashflow.net/tr/simdi/fed-faiz-orani.html"/>
-<link rel="alternate" hreflang="en" href="https://nocashflow.net/now/fed-funds-rate.html"/>
-<link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/simdi/fed-faiz-orani.html"/>
-<link rel="alternate" hreflang="x-default" href="https://nocashflow.net/now/fed-funds-rate.html"/>
-<meta property="og:title" content="Fed Faiz Oranı Bugün"/>
-<meta property="og:description" content="Güncel Fed politika faizi (üst bant), FRED'den canlı."/>
+<title>Finance Engineering — NoCashFlow | Nasıl kuruldu</title>
+<meta name="description" content="NoCashFlow nasıl mühendislik edildi — veri pipeline'ı, otomasyon ve her rakamın kaynaklı, asla uydurma olmaması ilkesi."/>
+<link rel="canonical" href="https://nocashflow.net/tr/finance-engineering.html"/>
+<link rel="alternate" hreflang="en" href="https://nocashflow.net/finance-engineering.html"/>
+<link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/finance-engineering.html"/>
+<link rel="alternate" hreflang="x-default" href="https://nocashflow.net/finance-engineering.html"/>
+<meta property="og:title" content="Finance Engineering — NoCashFlow | Nasıl kuruldu"/>
+<meta property="og:description" content="NoCashFlow nasıl mühendislik edildi — veri pipeline'ı, otomasyon ve her rakamın kaynaklı, asla uydurma olmaması ilkesi."/>
 <meta property="og:type" content="website"/>
-<meta property="og:url" content="https://nocashflow.net/tr/simdi/fed-faiz-orani.html"/>
+<meta property="og:url" content="https://nocashflow.net/tr/finance-engineering.html"/>
 <meta property="og:image" content="https://nocashflow.net/og.png"/>
+<meta property="og:site_name" content="NoCashFlow"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://nocashflow.net/og.png"/>
 <meta name="twitter:site" content="@No_CashFlow"/>
@@ -30,8 +31,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Libre+Caslon+Display&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "tr", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
 <link rel="stylesheet" href="/broadsheet.css"/>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Fed Faiz Oranı Bugün", "description": "Güncel Fed politika faizi (üst bant), FRED'den canlı.", "url": "https://nocashflow.net/tr/simdi/fed-faiz-orani.html", "inLanguage": "tr", "dateModified": "2026-06-23T08:32:31Z", "isPartOf": {"@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
+<script>(function(){try{var q=new URLSearchParams(location.search).get('lang');if(q==='en'){try{localStorage.setItem('ncf_lang','en');}catch(e){}location.replace('/');return;}if(q==='tr'){try{localStorage.setItem('ncf_lang','tr');}catch(e){}return;}var p=null;try{p=localStorage.getItem('ncf_lang');}catch(e){}if(p==='en'){location.replace('/');return;}}catch(e){}})();</script>
 </head>
 <body data-mood="fear" class="bs">
 <div class="cursor-ring"><span class="c-label">Read</span></div>
@@ -51,11 +53,11 @@
       <a href="/tr/takvim.html">Takvim</a>
       <a href="/tr/dashboard.html">Panel</a>
       <a href="/tr/bulletin_page.html">Bülten</a>
-      <a href="/tr/finance-engineering.html">Finance Engineering</a>
+      <a href="/tr/finance-engineering.html" class="active">Finance Engineering</a>
       <a href="/tr/hakkinda.html">Hakkında</a>
     </div>
     <div class="nav-right">
-      <a class="lang-switch" href="/now/fed-funds-rate.html" data-set-lang="en" aria-label="Switch to English">EN</a>
+      <a class="lang-switch" href="/finance-engineering.html" data-set-lang="en" aria-label="Switch to English">EN</a>
       <button class="nav-btn theme-toggle" data-theme-toggle aria-label="After Hours" title="After Hours">◐</button>
       <a href="/tr/bulletin_page.html" class="subscribe">Abone Ol</a>
       <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
@@ -72,24 +74,11 @@
 
 <div class="masthead"><div class="masthead-inner"><span>Sabah Baskısı</span><span class="mh-date">Salı, 23 Haziran 2026</span><span>Barcelona</span></div></div>
 
-
-<header class="page-head" data-read>
-  <div class="page-eyebrow">Canlı gösterge <span class="divider"></span> <span class="muted">Güncellendi: 23 Haz 2026, 10:32 CET</span></div>
-  <h1 class="page-title">Fed Faiz Oranı Bugün</h1>
-  <p class="page-dek">Güncel Fed politika faizi (üst bant), FRED'den canlı.</p>
-</header>
-<div class="section">
-  <div class="ind-now">
-    <div class="ind-value">3.75%</div>
-    <div class="ind-interp">Hedef üst bant</div>
-  </div>
-  <div class="prose" style="max-width:720px">
-<p>Bu, FOMC tarafından belirlenen Federal Fon hedef aralığının üst bandıdır — kısa vadeli ABD faizlerini çıpalayan politika faizi.</p>
-<p>Ekonomi genelinde borçlanma maliyetlerini belirler ve risk varlıkları, dolar ve getiri eğrisi için en çok izlenen tek rakamdır. Kaynak: FRED (DFEDTARU).</p>
-  </div>
-  <a href="/tr/simdi/" class="section-link" style="display:inline-block;margin-top:30px">Tüm göstergeler →</a>
+<div class="section" style="text-align:center;padding:150px 20px 170px">
+  <div class="page-eyebrow" style="display:inline-flex;justify-content:center">Finance Engineering</div>
+  <div style="font-family:var(--mono);font-weight:600;font-size:clamp(46px,11vw,104px);letter-spacing:0.06em;color:var(--text);margin-top:30px;line-height:1">LOADING<span style="color:var(--amber)">…</span></div>
+  <p class="muted" style="margin-top:22px;font-size:14px">Finance engineering üzerine kendi notlarım — yolda.</p>
 </div>
-
 
 <!-- FOOTER -->
 <footer>
