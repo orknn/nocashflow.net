@@ -16,10 +16,18 @@ Resilience: each series falls back to last-good; nothing is fabricated.
 import csv
 import io
 import json
-from datetime import datetime, timezone
+import re
+from collections import defaultdict
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 import requests
+
+KH = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36",
+      "Accept": "application/json"}
+_MON = {"JAN": 1, "FEB": 2, "MAR": 3, "APR": 4, "MAY": 5, "JUN": 6,
+        "JUL": 7, "AUG": 8, "SEP": 9, "OCT": 10, "NOV": 11, "DEC": 12}
 
 DATA = Path(__file__).resolve().parent.parent / "data"
 UA = {"User-Agent": "Mozilla/5.0 (NoCashFlow data fetcher)"}
@@ -37,14 +45,48 @@ def now_iso():
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def _next_fomc():
-    from datetime import date
+def _next_fomc_dates(n=4):
     today = date.today()
-    for d in FOMC_DATES:
-        dd = date.fromisoformat(d)
-        if dd > today:
-            return f"{dd.strftime('%b')} {dd.day}", f"{(dd - today).days}d"
-    return "—", ""
+    out = [date.fromisoformat(d) for d in FOMC_DATES if date.fromisoformat(d) > today]
+    return out[:n]
+
+
+def _next_fomc():
+    nd = _next_fomc_dates(1)
+    if not nd:
+        return "—", ""
+    dd = nd[0]
+    return f"{dd.strftime('%b')} {dd.day}", f"{(dd - date.today()).days}d"
+
+
+def fetch_cut_odds():
+    """Rate-cut probability for upcoming FOMC meetings from Kalshi (keyless,
+    prediction-market implied). Per meeting: sum the 'Cut' bucket yes-prices
+    (cents == %). Returns [{m, p}] for the next 4 meetings, or None."""
+    try:
+        r = requests.get("https://api.elections.kalshi.com/trade-api/v2/markets",
+                         params={"series_ticker": "KXFEDDECISION", "status": "open", "limit": 1000},
+                         headers=KH, timeout=TIMEOUT)
+        r.raise_for_status()
+        markets = r.json().get("markets", [])
+    except Exception as e:
+        print(f"  ⚠️  Kalshi cut-odds: {e}")
+        return None
+    cut = defaultdict(float)                          # (month, day) → summed cut %
+    for m in markets:
+        parts = m.get("ticker", "").split("-")
+        if len(parts) < 3 or not parts[2].startswith("C"):
+            continue                                  # cut buckets only (C25, C26…)
+        mm = re.match(r"(\d{1,2})([A-Z]{3})", parts[1])
+        if not mm or mm.group(2) not in _MON:
+            continue
+        price = m.get("last_price") or m.get("yes_bid") or 0
+        cut[(_MON[mm.group(2)], int(mm.group(1)))] += price
+    odds = []
+    for dd in _next_fomc_dates(4):
+        if (dd.month, dd.day) in cut:
+            odds.append({"m": f"{dd.strftime('%b')} {dd.day}", "p": round(cut[(dd.month, dd.day)])})
+    return odds or None
 
 
 def load_json(name, default):
@@ -164,7 +206,10 @@ def build_macro2():
     if dot is not None:
         fstats[3] = st(f"{dot:.2f}%", f"{datetime.now(timezone.utc).year} median", "neu")
     fed["stats"] = fstats
-    out["fed"] = fed  # cut_odds preserved from prev (prediction-market API = future)
+    cut_odds = fetch_cut_odds()                       # Kalshi prediction-market implied
+    if cut_odds:
+        fed["cut_odds"] = cut_odds
+    out["fed"] = fed
 
     # ── liquidity (M2, net liquidity = WALCL − TGA − RRP, + stablecoin) ──────
     liq = dict(prev.get("liquidity", {}))
@@ -266,9 +311,12 @@ def build_macro2():
     if lo is not None and hi is not None:
         tape.append({"k": "Fed Funds", "v": f"{lo:.2f}–{hi:.2f}", "d": "held", "dir": "neu"})
     tape.append({"k": "Next FOMC", "v": nf_v, "d": nf_d, "dir": "neu"})
-    co = prev_tape.get("Cut odds (Jul)") or prev_tape.get("Cut odds")
-    if co:
-        tape.append(co)                                   # prediction-market API → later
+    if cut_odds:
+        f0 = cut_odds[0]
+        tape.append({"k": f"Cut odds ({f0['m'].split()[0]})", "v": f"{f0['p']}%",
+                     "d": "implied", "dir": "up" if f0["p"] >= 50 else "neu"})
+    elif prev_tape.get("Cut odds (Jul)"):
+        tape.append(prev_tape["Cut odds (Jul)"])
     if core.get("v"):
         tape.append({"k": "Core CPI", "v": core["v"], "d": "core", "dir": core.get("dir", "neu")})
     if y10 is not None:
