@@ -1,17 +1,17 @@
 {
   "_note": "Live: FRED + DefiLlama + Atlanta Fed. Manual (no free API): cut-odds, dot plot, ISM, next-FOMC, global M2.",
-  "updated": "2026-06-23T09:17:39Z",
+  "updated": "2026-06-23T09:57:30Z",
   "regime_tape": [
     {
       "k": "Fed Funds",
-      "v": "4.25–4.50",
+      "v": "3.50–3.75",
       "d": "held",
       "dir": "neu"
     },
     {
       "k": "Next FOMC",
       "v": "Jul 29",
-      "d": "37d",
+      "d": "36d",
       "dir": "neu"
     },
     {
@@ -22,15 +22,15 @@
     },
     {
       "k": "Core CPI",
-      "v": "3.1%",
-      "d": "▲ sticky",
-      "dir": "down"
+      "v": "3.0%",
+      "d": "core",
+      "dir": "neu"
     },
     {
       "k": "US 10Y",
-      "v": "4.51",
-      "d": "+1.30%",
-      "dir": "up"
+      "v": "4.46",
+      "d": "",
+      "dir": "neu"
     },
     {
       "k": "2s10s",
@@ -40,13 +40,13 @@
     },
     {
       "k": "DXY",
-      "v": "101.0",
-      "d": "+0.16%",
-      "dir": "up"
+      "v": "101.15",
+      "d": "",
+      "dir": "neu"
     },
     {
       "k": "F&amp;G",
-      "v": "20",
+      "v": "23",
       "d": "Extreme Fear",
       "dir": "down"
     }
@@ -109,8 +109,8 @@
         "dir": "down"
       },
       {
-        "v": "2 cuts",
-        "sub": "median",
+        "v": "3.80%",
+        "sub": "2026 median",
         "dir": "neu"
       }
     ]
@@ -158,11 +158,6 @@
         "dir": "up"
       },
       {
-        "v": "$108T",
-        "sub": "▲ rising",
-        "dir": "up"
-      },
-      {
         "v": "$314B",
         "sub": "USDC $74B",
         "dir": "up"
@@ -171,9 +166,9 @@
   },
   "growth": [
     {
-      "v": "49.5",
-      "sub": "contraction",
-      "dir": "down"
+      "v": "+5.7",
+      "sub": "Empire State · NY Fed",
+      "dir": "up"
     },
     {
       "v": "+172K",
