@@ -346,7 +346,7 @@ SUBSCRIBE = {"en": ("Subscribe", "/bulletin_page.html"),
 
 FOOTER = {
     "en": {
-        "brand_desc": "Macro economics, crypto and market analysis. Every Sunday morning, with data — from Barcelona.",
+        "brand_desc": "Independent macro &amp; markets, published daily. Sourced data, no fabrication.",
         "col_pages": "Pages", "col_content": "Content", "col_social": "Social",
         "l_home": "Home", "l_articles": "Articles", "l_macro": "Macro", "l_dashboard": "Dashboard",
         "l_bulletin": "Bulletin", "l_about": "About", "l_glossary": "Glossary",
@@ -357,7 +357,7 @@ FOOTER = {
         "disclaimer": "This site is for information only and does not provide investment advice.",
     },
     "tr": {
-        "brand_desc": "Makro ekonomi, kripto ve piyasa analizi. Her pazar sabahı, veriyle — Barcelona'dan.",
+        "brand_desc": "Bağımsız makro &amp; piyasa, her gün yayımlanır. Kaynaklı veri, uydurma yok.",
         "col_pages": "Sayfalar", "col_content": "İçerik", "col_social": "Sosyal",
         "l_home": "Ana Sayfa", "l_articles": "Yazılar", "l_macro": "Makro", "l_dashboard": "Panel",
         "l_bulletin": "Bülten", "l_about": "Hakkında", "l_glossary": "Sözlük",
@@ -418,12 +418,12 @@ PAGES = {
         "nav_key": "articles",
         "paths": {"en": "/yazilar.html", "tr": "/tr/yazilar.html"},
         "out":   {"en": "yazilar.html", "tr": "tr/yazilar.html"},
-        "title": {"en": "Articles — NoCashFlow | Sunday Morning Series",
-                  "tr": "Yazılar — NoCashFlow | Pazar Sabahı Serisi"},
-        "desc":  {"en": "Macro analysis essays — oil, copper, nuclear energy, Fed policy, smart money. One sharp take every Sunday.",
-                  "tr": "Makro analiz yazıları — petrol, bakır, nükleer enerji, Fed politikası, akıllı para. Her pazar tek keskin yorum."},
-        "og_desc": {"en": "Data-driven macro analysis essays. One sharp take every Sunday.",
-                    "tr": "Veri odaklı makro analiz yazıları. Her pazar tek keskin yorum."},
+        "title": {"en": "Articles — NoCashFlow | Macro &amp; Market Essays",
+                  "tr": "Yazılar — NoCashFlow | Makro &amp; Piyasa Yazıları"},
+        "desc":  {"en": "Macro analysis essays — oil, copper, nuclear energy, Fed policy, smart money. Sharp macro &amp; market takes, published regularly.",
+                  "tr": "Makro analiz yazıları — petrol, bakır, nükleer enerji, Fed politikası, akıllı para. Keskin makro &amp; piyasa yorumları, düzenli yayımlanır."},
+        "og_desc": {"en": "Data-driven macro analysis essays. Sharp macro &amp; market takes, published regularly.",
+                    "tr": "Veri odaklı makro analiz yazıları. Keskin makro &amp; piyasa yorumları, düzenli yayımlanır."},
     },
     "dashboard": {
         "nav_key": "dashboard",
@@ -1645,8 +1645,8 @@ def _rfc822(date_str):
 
 def generate_feeds():
     for lang, fname, title, desc in (
-        ("en", "feed-en.xml", "NoCashFlow — Articles", "Data-driven macro analysis, every Sunday."),
-        ("tr", "feed-tr.xml", "NoCashFlow — Yazılar", "Veri odaklı makro analiz, her pazar."),
+        ("en", "feed-en.xml", "NoCashFlow — Articles", "Daily macro &amp; market analysis from nocashflow.net"),
+        ("tr", "feed-tr.xml", "NoCashFlow — Yazılar", "nocashflow.net'ten günlük makro &amp; piyasa analizi"),
     ):
         items = []
         for slug in ARTICLE_ORDER:
