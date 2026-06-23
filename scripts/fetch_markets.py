@@ -2,18 +2,21 @@
 """NoCashFlow · dashboard "the tape" snapshot → data/markets.json
 
 Free, server-side, no API key:
-  · equities / ETFs / commodities / FX  → Yahoo chart API (daily history →
-    multi-horizon perf + 30-day sparkline). Replaces Stooq (now JS-gated).
-  · crypto top-10 + dominance + total mcap → CoinGecko (free).
-  · stablecoin supply + USDC share         → DefiLlama.
-  · Crypto 5Y is unavailable on CoinGecko's free tier (365-day cap) → "—".
+  · equities / ETFs / commodities → Nasdaq historical API (daily 5y history →
+    multi-horizon perf + 30-day sparkline). Keyless; replaces Yahoo, which
+    blocks GitHub Actions IPs on bulk requests.
+  · crypto top-10 + dominance + total mcap → CoinGecko (free; 5Y → "—").
+  · stablecoin supply + USDC share          → DefiLlama.
+  · FX is frozen (kept from last-good) — no reliable keyless spot+history source.
+  · commodities use liquid ETF proxies (USO/BNO/GLD/SLV/CPER/UNG): the move is
+    accurate, the printed price is the proxy's.
 
-Resilience: every section falls back to the last-good markets.json on failure,
-so a flaky source never blanks the page. Run: python3 scripts/fetch_markets.py
+Resilience: every section falls back to the last-good markets.json on failure.
+Run: python3 scripts/fetch_markets.py
 """
 import json
 import time
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 import requests
@@ -21,15 +24,18 @@ import requests
 DATA = Path(__file__).resolve().parent.parent / "data"
 UA = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
                     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36"}
-TIMEOUT = 15
+NH = dict(UA, **{"Accept": "application/json", "Origin": "https://www.nasdaq.com",
+                 "Referer": "https://www.nasdaq.com/"})
+TIMEOUT = 20
 CG = "https://api.coingecko.com/api/v3"
 
-INDICES = [("SPY", "SPY", "S&P 500"), ("QQQ", "QQQ", "Nasdaq 100"),
-           ("DIA", "DIA", "Dow Jones"), ("IWM", "IWM", "Russell 2000"),
-           ("^VIX", "VIX", "Volatility")]
+# (yahoo-free) symbol, assetclass, display sym, name
+INDICES = [("SPY", "etf", "SPY", "S&P 500"), ("QQQ", "etf", "QQQ", "Nasdaq 100"),
+           ("DIA", "etf", "DIA", "Dow Jones"), ("IWM", "etf", "IWM", "Russell 2000"),
+           ("VIXY", "etf", "VIX", "Volatility")]
 THEMATICS = [("SMH", "Semiconductors"), ("IGV", "Software"), ("QTUM", "Quantum / compute"),
              ("BOTZ", "AI & Robotics"), ("CIBR", "Cybersecurity"), ("XBI", "Biotech")]
-FRONTIER = ["IONQ", "RGTI", "QBTS", "QUBT"]
+FRONTIER = ["IONQ", "RGTI", "QBTS", "QUBT"]                       # stocks
 SECTORS = [("XLK", "Technology"), ("XLC", "Comms"), ("XLY", "Discretionary"),
            ("XLI", "Industrials"), ("XLB", "Materials"), ("XLRE", "Real Estate"),
            ("XLP", "Staples"), ("XLV", "Health Care"), ("XLF", "Financials"),
@@ -37,13 +43,10 @@ SECTORS = [("XLK", "Technology"), ("XLC", "Comms"), ("XLY", "Discretionary"),
 LEADERS_EQ = [("MSFT", "Microsoft"), ("AAPL", "Apple"), ("NVDA", "Nvidia"),
               ("GOOGL", "Alphabet"), ("AMZN", "Amazon"), ("META", "Meta"),
               ("AVGO", "Broadcom"), ("TSLA", "Tesla"), ("COST", "Costco"), ("NFLX", "Netflix")]
-COMMODITIES = [("BZ=F", "Brent"), ("CL=F", "WTI"), ("GC=F", "Gold"),
-               ("SI=F", "Silver"), ("HG=F", "Copper"), ("NG=F", "Nat Gas")]
-FX = [("DX-Y.NYB", "DXY"), ("EURUSD=X", "EUR/USD"), ("JPY=X", "USD/JPY"),
-      ("GBPUSD=X", "GBP/USD"), ("TRY=X", "USD/TRY"), ("CHF=X", "USD/CHF")]
+COMMODITIES = [("BNO", "Brent"), ("USO", "WTI"), ("GLD", "Gold"),
+               ("SLV", "Silver"), ("CPER", "Copper"), ("UNG", "Nat Gas")]
 CRYPTO_IDS = ["bitcoin", "ethereum", "tether", "binancecoin", "solana",
               "usd-coin", "ripple", "dogecoin", "cardano", "tron"]
-# trading-day offsets for each horizon (Yahoo daily closes skip weekends/holidays)
 HORIZON = {"d1": 1, "d7": 5, "d30": 21, "d180": 126, "y1": 252, "y5": 1260}
 
 
@@ -66,38 +69,26 @@ def write_json(name, obj):
                              encoding="utf-8")
 
 
-SPACING = 9.0          # seconds between Yahoo calls — proactive, stays under the
-_last_yahoo = [0.0]    # per-IP rate limit so requests never trip a 429 burst
-
-
-def _throttle():
-    dt = time.monotonic() - _last_yahoo[0]
-    if dt < SPACING:
-        time.sleep(SPACING - dt)
-    _last_yahoo[0] = time.monotonic()
-
-
-def yahoo_hist(symbol, rng="5y", retries=2):
-    """Daily closes oldest→newest, or None. Proactively spaced (≥SPACING apart) so
-    Yahoo's low per-IP limit is never tripped; a 429 still just backs off + retries."""
-    for attempt in range(retries):
-        _throttle()
-        try:
-            r = requests.get(f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}",
-                             params={"interval": "1d", "range": rng}, headers=UA, timeout=TIMEOUT)
-            if r.status_code == 429:
-                time.sleep(20)
-                continue
-            r.raise_for_status()
-            q = r.json()["chart"]["result"][0]["indicators"]["quote"][0]["close"]
-            closes = [c for c in q if c is not None]
-            return closes or None
-        except Exception as e:
-            if attempt == retries - 1:
-                print(f"  ⚠️  Yahoo {symbol}: {e}")
-                return None
-    print(f"  ⚠️  Yahoo {symbol}: still 429 after {retries} tries")
-    return None
+def nasdaq_hist(symbol, assetclass, years=5):
+    """Daily closes oldest→newest from the Nasdaq historical API, or None."""
+    frm = (date.today() - timedelta(days=365 * years + 12)).isoformat()
+    try:
+        r = requests.get(f"https://api.nasdaq.com/api/quote/{symbol}/historical",
+                         params={"assetclass": assetclass, "fromdate": frm,
+                                 "todate": date.today().isoformat(), "limit": 99999},
+                         headers=NH, timeout=TIMEOUT)
+        r.raise_for_status()
+        rows = ((r.json().get("data") or {}).get("tradesTable") or {}).get("rows") or []
+        closes = []
+        for row in reversed(rows):                       # API is newest→oldest
+            try:
+                closes.append(float(str(row.get("close", "")).replace("$", "").replace(",", "")))
+            except ValueError:
+                pass
+        return closes or None
+    except Exception as e:
+        print(f"  ⚠️  Nasdaq {symbol}: {e}")
+        return None
 
 
 def _pct(last, old):
@@ -106,10 +97,8 @@ def _pct(last, old):
 
 def perf(closes):
     last = closes[-1]
-    out = {}
-    for k, n in HORIZON.items():
-        out[k] = _pct(last, closes[-1 - n]) if len(closes) > n else None
-    return out
+    return {k: (_pct(last, closes[-1 - n]) if len(closes) > n else None)
+            for k, n in HORIZON.items()}
 
 
 def _round_price(v):
@@ -120,106 +109,79 @@ def _round_price(v):
     return round(v, 4)
 
 
-def yahoo_mcap(symbols):
-    """Best-effort market caps via Yahoo quoteSummary; missing → None (keep last-good)."""
-    out = {}
-    for s in symbols:
-        try:
-            r = requests.get(f"https://query1.finance.yahoo.com/v10/finance/quoteSummary/{s}",
-                             params={"modules": "price"}, headers=UA, timeout=TIMEOUT)
-            mc = r.json()["quoteSummary"]["result"][0]["price"]["marketCap"]["raw"]
-            out[s] = f"{mc / 1e12:.2f}T" if mc >= 1e12 else f"{mc / 1e9:.0f}B"
-        except Exception:
-            out[s] = None
-        time.sleep(0.2)
-    return out
+def _r(v):
+    return round(v, 2) if isinstance(v, (int, float)) else None
 
 
 def build_markets():
     prev = load_json("markets.json", {})
-    pmap = {}  # last-good helpers keyed by symbol/name for graceful fallback
-    for a in prev.get("leaders_equity", []):
-        pmap[a["sym"]] = a
-
-    def tile(ysym, dsym, name, rng="6mo"):
-        closes = yahoo_hist(ysym, rng)
-        time.sleep(0.3)
-        if not closes:
-            return None
-        return {"sym": dsym, "name": name, "price": _round_price(closes[-1]),
-                "d1": _pct(closes[-1], closes[-2]) if len(closes) > 1 else None,
-                "spark30": [round(c, 2) for c in closes[-30:]]}
-
-    out = dict(prev)  # start from last-good; overwrite what we successfully fetch
-    out["_note"] = "Live snapshot. Equities/ETFs/commodities/FX: Yahoo. " \
-                   "Crypto: CoinGecko (5Y unavailable on free tier → —). Stablecoins: DefiLlama."
+    pmap = {a["sym"]: a for a in prev.get("leaders_equity", [])}
+    out = dict(prev)
+    out["_note"] = "Live: equities/ETFs/commodities Nasdaq, crypto CoinGecko " \
+                   "(5Y→—), stablecoins DefiLlama. FX frozen; commodities via ETF proxy."
     out["updated"] = now_iso()
 
-    # fetch_data.py just used Yahoo right before us — let its rate window reset
-    # before our proactively-spaced batch starts.
-    print("• cooling down before Yahoo batch…")
-    time.sleep(30)
+    def tile(sym, ac, dsym, name):
+        c = nasdaq_hist(sym, ac); time.sleep(0.4)
+        if not c:
+            return None
+        return {"sym": dsym, "name": name, "price": _round_price(c[-1]),
+                "d1": _pct(c[-1], c[-2]) if len(c) > 1 else None,
+                "spark30": [round(x, 2) for x in c[-30:]]}
 
-    # indices + thematics (tiles with sparkline)
-    idx = [tile(y, d, n) for y, d, n in INDICES]
+    idx = [tile(s, ac, d, n) for s, ac, d, n in INDICES]
     if any(idx):
         out["indices"] = [t for t in idx if t]
-    thm = [tile(y, y, n) for y, n in THEMATICS]
+    thm = [tile(s, "etf", s, n) for s, n in THEMATICS]
     if any(thm):
         out["thematics"] = [{**t, "note_key": t["sym"].lower()} for t in thm if t]
 
-    # frontier + sectors (1-day move only)
     fr = []
     for s in FRONTIER:
-        c = yahoo_hist(s, "5d"); time.sleep(0.25)
+        c = nasdaq_hist(s, "stocks", years=1); time.sleep(0.4)
         if c and len(c) > 1:
             fr.append({"sym": s, "d1": _pct(c[-1], c[-2])})
     if fr:
         out["frontier"] = fr
     sec = []
     for s, n in SECTORS:
-        c = yahoo_hist(s, "5d"); time.sleep(0.25)
+        c = nasdaq_hist(s, "etf", years=1); time.sleep(0.4)
         if c and len(c) > 1:
             sec.append({"sym": s, "name": n, "d1": _pct(c[-1], c[-2])})
     if sec:
         out["sectors"] = sec
 
-    # equity leaders (full perf; mcap carried from last-good — slow-moving, and
-    # it spares 10 Yahoo calls that would trip the rate limit)
     eq = []
     for s, name in LEADERS_EQ:
-        c = yahoo_hist(s, "5y"); time.sleep(0.5)
+        c = nasdaq_hist(s, "stocks"); time.sleep(0.4)
         if not c:
             if s in pmap:
-                eq.append(pmap[s])  # keep last-good row
+                eq.append(pmap[s])
             continue
         eq.append({"sym": s, "name": name, "price": _round_price(c[-1]),
                    "mcap": pmap.get(s, {}).get("mcap", "—"), "perf": perf(c)})
     if eq:
         out["leaders_equity"] = eq
 
-    # commodities + fx
-    def perf_row(ysym, name):
-        c = yahoo_hist(ysym, "1y"); time.sleep(0.3)
+    com = []
+    for s, name in COMMODITIES:
+        c = nasdaq_hist(s, "etf"); time.sleep(0.4)
         if not c:
-            return None
+            continue
         p = perf(c)
-        return {"name": name, "price": _round_price(c[-1]),
-                "perf": {k: p[k] for k in ("d1", "d7", "d30", "y1")}}
+        com.append({"name": name, "price": _round_price(c[-1]),
+                    "perf": {k: p[k] for k in ("d1", "d7", "d30", "y1")}})
+    if com:
+        out["commodities"] = com
+    # FX: frozen (kept from last-good) — see module docstring
 
-    com = [perf_row(y, n) for y, n in COMMODITIES]
-    if any(com):
-        out["commodities"] = [r for r in com if r]
-    fx = [perf_row(y, n) for y, n in FX]
-    if any(fx):
-        out["fx"] = [r for r in fx if r]
-
-    # crypto: CoinGecko markets (1d/7d/30d/200d≈180d/1y; 5Y unavailable free → None)
+    # ── crypto (CoinGecko: 1d/7d/30d/200d≈180d/1y; 5Y unavailable free → None) ─
+    btc = eth = None
     try:
         r = requests.get(f"{CG}/coins/markets", params={
             "vs_currency": "usd", "ids": ",".join(CRYPTO_IDS), "order": "market_cap_desc",
-            "per_page": 20, "page": 1,
-            "price_change_percentage": "24h,7d,30d,200d,1y"}, headers=UA, timeout=TIMEOUT)
+            "per_page": 20, "page": 1, "price_change_percentage": "24h,7d,30d,200d,1y"},
+            headers=UA, timeout=TIMEOUT)
         r.raise_for_status()
         byid = {c["id"]: c for c in r.json()}
         leaders = []
@@ -228,26 +190,21 @@ def build_markets():
             if not c:
                 continue
             mc = c.get("market_cap") or 0
-            leaders.append({
-                "sym": c["symbol"].upper(), "name": c["name"],
-                "price": _round_price(c["current_price"]),
-                "mcap": f"{mc / 1e12:.2f}T" if mc >= 1e12 else f"{mc / 1e9:.0f}B",
-                "perf": {
-                    "d1": _r(c.get("price_change_percentage_24h_in_currency")),
-                    "d7": _r(c.get("price_change_percentage_7d_in_currency")),
-                    "d30": _r(c.get("price_change_percentage_30d_in_currency")),
-                    "d180": _r(c.get("price_change_percentage_200d_in_currency")),
-                    "y1": _r(c.get("price_change_percentage_1y_in_currency")),
-                    "y5": None}})
+            leaders.append({"sym": c["symbol"].upper(), "name": c["name"],
+                            "price": _round_price(c["current_price"]),
+                            "mcap": f"{mc / 1e12:.2f}T" if mc >= 1e12 else f"{mc / 1e9:.0f}B",
+                            "perf": {"d1": _r(c.get("price_change_percentage_24h_in_currency")),
+                                     "d7": _r(c.get("price_change_percentage_7d_in_currency")),
+                                     "d30": _r(c.get("price_change_percentage_30d_in_currency")),
+                                     "d180": _r(c.get("price_change_percentage_200d_in_currency")),
+                                     "y1": _r(c.get("price_change_percentage_1y_in_currency")),
+                                     "y5": None}})
         if leaders:
             out["leaders_crypto"] = leaders
-        # hero crypto + F&G + dominance pulled below from the same data
         btc, eth = byid.get("bitcoin"), byid.get("ethereum")
     except Exception as e:
         print(f"  ⚠️  CoinGecko markets: {e}")
-        btc = eth = None
 
-    # /global dominance + total mcap
     dom = tot = None
     try:
         g = requests.get(f"{CG}/global", headers=UA, timeout=TIMEOUT).json()["data"]
@@ -256,7 +213,6 @@ def build_markets():
     except Exception as e:
         print(f"  ⚠️  CoinGecko global: {e}")
 
-    # Fear & Greed
     fng = None
     try:
         d = requests.get("https://api.alternative.me/fng/", params={"limit": 1},
@@ -265,30 +221,24 @@ def build_markets():
     except Exception as e:
         print(f"  ⚠️  Fear&Greed: {e}")
 
-    # stablecoins (DefiLlama)
     stables = usdc_share = None
     try:
         pa = requests.get("https://stablecoins.llama.fi/stablecoins?includePrices=false",
-                          headers=UA, timeout=20).json()["peggedAssets"]
-        def circ(a):
-            return (a.get("circulating", {}) or {}).get("peggedUSD", 0) or 0
-        total = sum(circ(a) for a in pa)
-        usdc = next((circ(a) for a in pa if a.get("symbol") == "USDC"), 0)
+                          headers=UA, timeout=TIMEOUT).json()["peggedAssets"]
+        total = sum((a.get("circulating", {}) or {}).get("peggedUSD", 0) or 0 for a in pa)
+        usdc = next(((a.get("circulating", {}) or {}).get("peggedUSD", 0) for a in pa if a.get("symbol") == "USDC"), 0)
         if total:
-            stables = f"{total / 1e9:.0f}B"
-            usdc_share = round(usdc / total * 100, 1)
+            stables, usdc_share = f"{total / 1e9:.0f}B", round(usdc / total * 100, 1)
     except Exception as e:
         print(f"  ⚠️  DefiLlama: {e}")
 
-    # hero (carry last-good for any missing piece)
+    # hero + crypto board (carry last-good for any missing piece)
     ph = prev.get("hero", {})
     hero = dict(ph)
     if btc:
-        hero["btc"] = {"px": _round_price(btc["current_price"]),
-                       "chg": _r(btc.get("price_change_percentage_24h_in_currency")) or 0}
+        hero["btc"] = {"px": _round_price(btc["current_price"]), "chg": _r(btc.get("price_change_percentage_24h_in_currency")) or 0}
     if eth:
-        hero["eth"] = {"px": _round_price(eth["current_price"]),
-                       "chg": _r(eth.get("price_change_percentage_24h_in_currency")) or 0}
+        hero["eth"] = {"px": _round_price(eth["current_price"]), "chg": _r(eth.get("price_change_percentage_24h_in_currency")) or 0}
     spx_t = next((t for t in out.get("indices", []) if t["sym"] == "SPY"), None)
     if spx_t:
         hero["spx"] = {"px": spx_t["price"], "chg": spx_t["d1"] or 0}
@@ -298,15 +248,13 @@ def build_markets():
     if fng:
         hero["fng"] = fng
     if dom is not None:
-        pd = (ph.get("btc_dom", {}) or {}).get("v")
-        hero["btc_dom"] = {"v": dom, "chg_pp": round(dom - pd, 1) if pd else 0}
+        pdv = (ph.get("btc_dom", {}) or {}).get("v")
+        hero["btc_dom"] = {"v": dom, "chg_pp": round(dom - pdv, 1) if pdv else 0}
     out["hero"] = hero
 
-    # crypto board
     pcb = prev.get("crypto_board", {})
     board = dict(pcb)
     if tot:
-        pv = (pcb.get("total_mcap", {}) or {}).get("v")
         board["total_mcap"] = {"v": tot, "chg": pcb.get("total_mcap", {}).get("chg", 0)}
     if dom is not None:
         board["btc_dom"] = hero.get("btc_dom", board.get("btc_dom", {}))
@@ -315,12 +263,7 @@ def build_markets():
     if usdc_share is not None:
         board["usdc_share"] = {"v": usdc_share, "chg_pp": 0}
     out["crypto_board"] = board
-
     return out
-
-
-def _r(v):
-    return round(v, 2) if isinstance(v, (int, float)) else None
 
 
 if __name__ == "__main__":
@@ -328,5 +271,5 @@ if __name__ == "__main__":
     data = build_markets()
     write_json("markets.json", data)
     print(f"• markets: {len(data.get('leaders_equity', []))} equity, "
-          f"{len(data.get('leaders_crypto', []))} crypto, "
-          f"{len(data.get('sectors', []))} sectors written")
+          f"{len(data.get('leaders_crypto', []))} crypto, {len(data.get('sectors', []))} sectors, "
+          f"{len(data.get('commodities', []))} commodities")
