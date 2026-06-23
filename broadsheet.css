@@ -174,15 +174,15 @@ body.bs .reveal.in{opacity:1;transform:none;
    (ticker · §02 Latest Analysis · §03 Inside · newsletter · footer)
    ========================================================================== */
 
-/* ---- live ticker (was dark; now paper editorial) ---- */
-body.bs .ticker{background:var(--bs-paper);border-bottom:1px solid var(--bs-hair)}
-body.bs .ticker-label{color:var(--bs-soft);font-family:var(--bs-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+/* ---- live ticker — dark bar under the header (demo format) ---- */
+body.bs .ticker{background:#16181C;border-bottom:1px solid #2a2a30}
+body.bs .ticker-label{color:#9aa0a8;font-family:var(--bs-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;background:#0e1014;border-right:1px solid #2a2a30}
 body.bs .ticker-label .dot{background:var(--bs-accent)}
-body.bs .tick{font-family:var(--bs-mono);font-size:12px}
-body.bs .tick .sym{color:var(--bs-ink);font-weight:600}
-body.bs .tick .px{color:var(--bs-soft)}
-body.bs .tick .chg.up{color:var(--bs-pos)}
-body.bs .tick .chg.dn{color:var(--bs-neg)}
+body.bs .tick{font-family:var(--bs-mono);font-size:12px;border-right:1px solid #2a2a30}
+body.bs .tick .sym{color:#ECE9E2;font-weight:600}
+body.bs .tick .px{color:#a09a92}
+body.bs .tick .chg.up{color:#7FBF9A}
+body.bs .tick .chg.dn{color:#E08A6E}
 
 /* ---- generic section + headers (skip the already-styled Market Pulse) ---- */
 body.bs .section:not(.bs-pulse){max-width:var(--bs-max);margin:0 auto;padding:34px 30px 46px}
@@ -249,7 +249,7 @@ body.bs .disclaimer{font-family:var(--bs-mono);color:var(--bs-soft)}
 body.bs .mood-line{font-family:var(--bs-serif);font-style:italic;color:var(--bs-ink2)}
 
 /* ---- propagate fixes: LIVE chip + active nav pill ---- */
-body.bs .ticker-label{background:var(--bs-paper);border-right:1px solid var(--bs-hair);color:var(--bs-accent)}
+body.bs .ticker-label{background:#0e1014;border-right:1px solid #2a2a30;color:#9aa0a8}
 body.bs .nav-links a.active{color:var(--bs-accent)}
 
 /* gliding nav pill (app.js) — recolour to a subtle paper indicator on home */

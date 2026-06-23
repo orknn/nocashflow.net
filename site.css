@@ -110,7 +110,7 @@ body.hovering-link .cursor-dot { background: var(--amber); width: 4px; height: 4
 
 /* ============ TOP TICKER — dark strip, intentional contrast ============ */
 .ticker {
-  position: sticky; top: 0; z-index: 100;
+  position: static;
   background: #0d0d10;
   border-bottom: 1px solid #2a2a30;
   overflow: hidden;
@@ -165,7 +165,7 @@ body.hovering-link .cursor-dot { background: var(--amber); width: 4px; height: 4
 
 /* ============ NAV ============ */
 .nav {
-  position: sticky; top: 34px; z-index: 99;
+  position: sticky; top: 0; z-index: 99;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);

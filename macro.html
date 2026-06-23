@@ -29,6 +29,7 @@
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "en", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
+<link rel="stylesheet" href="/macro.css"/>
 <link rel="stylesheet" href="/broadsheet.css"/>
 </head>
 <body data-mood="fear" class="bs">
@@ -36,11 +37,6 @@
 <div class="cursor-dot"></div>
 
 <div id="page-sweep"></div>
-<!-- TICKER -->
-<div class="ticker">
-  <div class="ticker-label"><span class="dot"></span> Live</div>
-  <div class="ticker-track" id="ticker-track"></div>
-</div>
 
 
 <!-- NAV -->
@@ -65,50 +61,74 @@
   </div>
 </nav>
 
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-label"><span class="dot"></span> Live</div>
+  <div class="ticker-track" id="ticker-track"></div>
+</div>
+
 
 <div class="masthead"><div class="masthead-inner"><span>Morning Edition</span><span class="mh-date">Tuesday, June 23, 2026</span><span>Barcelona</span></div></div>
 
 <header class="page-head">
-  <div class="page-eyebrow">Macro Dashboard <span class="divider"></span> <span class="muted">Last update: <span id="last-update">—</span></span></div>
-  <h1 class="page-title">Global <em>indicators.</em></h1>
-  <p class="page-dek">The core readings of the global economy — the Fed, the yield curve, inflation and commodities. Refreshed live.</p>
+  <div class="page-eyebrow">Macro · The Regime <span class="divider"></span> <span class="muted">Updated: <span id="last-update">—</span></span></div>
+  <h1 class="page-title">Where the economy <em>actually</em> stands.</h1>
+  <p class="page-dek">Not a price board — the readings that set the regime. Inflation, the Fed, liquidity and the curve, each with the read that matters. Updated as the data prints.</p>
+  
 </header>
 
+<!-- REGIME TAPE -->
+<div class="mcr-tape"><div class="mcr-tape-grid"><div class="mcr-tcell"><div class="k">Fed Funds</div><div class="v">3.50–3.75</div><div class="d neu">held</div></div><div class="mcr-tcell"><div class="k">Next FOMC</div><div class="v">Jul 29</div><div class="d neu">36d</div></div><div class="mcr-tcell"><div class="k">Cut odds (Jul)</div><div class="v">22%</div><div class="d up">▲ from 14%</div></div><div class="mcr-tcell"><div class="k">Core CPI</div><div class="v">3.0%</div><div class="d up">core</div></div><div class="mcr-tcell"><div class="k">US 10Y</div><div class="v">4.46</div><div class="d neu"></div></div><div class="mcr-tcell"><div class="k">2s10s</div><div class="v">+27</div><div class="d up">steepening</div></div><div class="mcr-tcell"><div class="k">DXY</div><div class="v">101.14</div><div class="d neu"></div></div><div class="mcr-tcell"><div class="k">F&amp;G</div><div class="v">23</div><div class="d down">Extreme Fear</div></div></div></div>
+
 <div class="section">
-  <!-- KPI GRID -->
-  <div class="stat-grid">
-    <div class="stat"><div class="stat-k">VIX · Volatility</div><div><div class="stat-v" id="m-vix">20.34</div><div class="stat-chg dn" id="m-vix-c">+17.71%</div><div class="stat-spark" id="sp-vix"></div></div></div>
-    <div class="stat"><div class="stat-k">Dollar Index · DXY</div><div><div class="stat-v" id="m-dxy">101.14</div><div class="stat-chg up" id="m-dxy-c">+0.12%</div><div class="stat-spark" id="sp-dxy"></div></div></div>
-    <div class="stat"><div class="stat-k">US 10Y Yield</div><div><div class="stat-v" id="m-10y">4.46%</div><div class="stat-chg dn" id="m-10y-c">-0.67%</div><div class="stat-spark" id="sp-10y"></div></div></div>
-    <div class="stat"><div class="stat-k">US 2Y (13w proxy)</div><div><div class="stat-v" id="m-2y">4.19%</div><div class="stat-chg dn" id="m-2y-c">-0.24%</div><div class="stat-spark" id="sp-2y"></div></div></div>
-    <div class="stat"><div class="stat-k">Crypto Fear &amp; Greed</div><div><div class="stat-v" id="m-fg">23</div><div class="stat-chg neu" id="m-fg-c">—</div></div></div>
-    <div class="stat"><div class="stat-k">Spread 10Y–2Y</div><div><div class="stat-v" id="m-spread">+0.27%</div><div class="stat-chg up" id="m-spread-c">Normal curve</div></div></div>
+  <!-- §01 INFLATION -->
+  <div class="section-header"><div class="section-title"><span class="num">§ 01</span>Inflation &amp; Prices</div><div class="section-meta">FRED · last print</div></div>
+  <div class="mcr-grid mcr-g4"><div class="mcr-stat"><div class="lab">Headline CPI · YoY</div><div class="big">4.3%</div><div class="sub down">▲ from 2.6%</div></div><div class="mcr-stat"><div class="lab">Core CPI · YoY</div><div class="big">3.0%</div><div class="sub up">▼ from 3.1%</div></div><div class="mcr-stat"><div class="lab">Core PCE · YoY</div><div class="big">3.3%</div><div class="sub down">▲ from 2.8%</div></div><div class="mcr-stat"><div class="lab">5y5y Breakeven</div><div class="big">2.18%</div><div class="sub down">▼ -16bp</div></div></div>
+  
+
+  <!-- §02 FED -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 02</span>Fed &amp; Policy</div><div class="section-meta">CME FedWatch · implied</div></div>
+  <div class="mcr-layout2">
+    <div class="mcr-chartwrap">
+      <h4>Rate-cut odds — next four meetings</h4>
+      <div class="cap">implied from Fed Funds futures</div>
+      <div class="mcr-odds"><p class="cap" style="margin:10px 0 0">Awaiting a live source.</p></div>
+    </div>
+    <div class="mcr-grid mcr-g2" style="align-content:start"><div class="mcr-stat"><div class="lab">Target range</div><div class="big">3.50–3.75</div><div class="sub neu">held 4 mtgs</div></div><div class="mcr-stat"><div class="lab">Balance sheet</div><div class="big">$6.7T</div><div class="sub down">▼ QT ongoing</div></div><div class="mcr-stat"><div class="lab">Reverse repo</div><div class="big">$4B</div><div class="sub down">▼ draining</div></div><div class="mcr-stat"><div class="lab">Dot plot '26</div><div class="big">3.80%</div><div class="sub neu">2026 median</div></div></div>
   </div>
+  
 
-  <!-- YIELD CURVE -->
-  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">US Treasury yield curve</div><div class="section-meta">Normalized reference</div></div>
-  <div class="card"><div class="card-body">
-    <div class="yield-chart" id="yield-chart"><div class="muted" style="margin:auto;font-size:13px">Loading…</div></div>
-    <p class="muted" id="yield-note" style="font-family:var(--mono);font-size:11px;letter-spacing:0.04em;margin-top:8px"></p>
-  </div></div>
-
-  <!-- SCOREBOARD -->
-  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Macro scoreboard</div></div>
-  <div class="card-grid">
-    <div class="acard"><div class="series">Dollar Index · DXY</div><h3 id="sb-dxy" style="font-family:var(--mono);font-weight:500">101.14</h3><div class="meta" id="sb-dxy-c">—</div><p style="margin-top:12px">Strong dollar = commodity pressure and EM stress. 104+ is the critical threshold.</p></div>
-    <div class="acard"><div class="series">M2 Money Supply</div><h3 id="sb-m2" style="font-family:var(--mono);font-weight:500">$22.8T</h3><div class="meta" id="sb-m2-c">—</div><p style="margin-top:12px">With the Fed balance sheet, tracks global liquidity. Highly correlated with risk-asset pricing.</p></div>
-    <div class="acard"><div class="series">Empire State Mfg · NY Fed</div><h3 id="sb-pmi" style="font-family:var(--mono);font-weight:500">5.7</h3><div class="meta" id="sb-pmi-c">Expansion</div><p style="margin-top:12px">NY Fed regional manufacturing survey. Above 0 = expansion, below 0 = contraction.</p></div>
+  <!-- §03 LIQUIDITY -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 03</span>Liquidity</div><div class="section-meta">the tide under every risk asset</div></div>
+  <div class="mcr-layout2">
+    <div class="mcr-chartwrap">
+      <h4>Net liquidity — Fed balance sheet − TGA − RRP</h4>
+      <div class="cap">weekly · USD trn</div>
+      <svg viewBox="0 0 560 220" role="img" aria-label="Net liquidity"><line x1="44" y1="20" x2="44" y2="186" stroke="var(--border)"/><line x1="44" y1="186" x2="548" y2="186" stroke="var(--border)"/><g class="mono" font-size="10" fill="var(--text-mute)"><text x="8" y="24.0">6.0</text><text x="8" y="107.0">5.8</text><text x="8" y="190.0">5.6</text></g><polyline fill="none" stroke="var(--amber)" stroke-width="2.5" points="44,127.9 64,144.5 84,115.5 104,103.0 125,140.3 145,161.1 165,148.6 185,140.3 205,144.5 225,132.0 246,103.0 266,98.9 286,103.0 306,111.3 326,90.5 346,40.7 367,40.7 387,144.5 407,136.2 427,90.5 447,65.7 467,57.3 488,73.9 508,90.5 528,61.5 548,82.3"/><circle cx="548" cy="82.3" r="3.5" fill="var(--amber)"/></svg>
+    </div>
+    <div class="mcr-grid mcr-g2" style="align-content:start"><div class="mcr-stat"><div class="lab">M2 supply</div><div class="big">$22.8T</div><div class="sub up">▲ +4.7% YoY</div></div><div class="mcr-stat"><div class="lab">Net liquidity</div><div class="big">$5.85T</div><div class="sub up">▲ +1.2% 3m</div></div><div class="mcr-stat"><div class="lab">Stablecoin supply</div><div class="big">$314B</div><div class="sub up">USDC $75B</div></div></div>
   </div>
+  
 
-  <!-- COMMODITIES -->
-  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Commodities</div><div class="section-meta"><span class="live" style="color:var(--green)">● Live</span></div></div>
-  <table class="dtable">
-    <thead><tr><th>Commodity</th><th>Price</th><th>1D Δ%</th><th>Momentum</th></tr></thead>
-    <tbody id="commodity-tbody"><tr><td colspan="4" class="muted" style="text-align:center;padding:24px">Loading…</td></tr></tbody>
-  </table>
+  <!-- §04 GROWTH -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 04</span>Growth &amp; Labor</div><div class="section-meta">is the landing soft?</div></div>
+  <div class="mcr-grid mcr-g4"><div class="mcr-stat"><div class="lab">Empire State Mfg</div><div class="big">+5.7</div><div class="sub up">Empire State · NY Fed</div></div><div class="mcr-stat"><div class="lab">Nonfarm payrolls</div><div class="big">+172K</div><div class="sub neu">→ MoM</div></div><div class="mcr-stat"><div class="lab">Jobless claims</div><div class="big">226K</div><div class="sub up">▼ -4K</div></div><div class="mcr-stat"><div class="lab">GDPNow · Q2</div><div class="big">1.9%</div><div class="sub up">Atlanta Fed</div></div></div>
+  
 
-  <!-- ECONOMIC CALENDAR (fed from data/calendar.json at build time) -->
-  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Economic calendar</div><div class="section-meta"><a href="/calendar.html">Full week →</a> · <span class="muted">Updated: 23 Jun 2026, 10:32 CET</span></div></div>
+  <!-- §05 RATES -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 05</span>Rates &amp; the Dollar</div><div class="section-meta">FRED · the curve</div></div>
+  <div class="mcr-layout2">
+    <div class="mcr-chartwrap">
+      <h4>US Treasury yield curve</h4>
+      <div class="cap">tenor vs. yield · the desk's signature read</div>
+      <svg viewBox="0 0 560 230" role="img" aria-label="US Treasury yield curve"><line x1="44" y1="24" x2="44" y2="188" stroke="var(--border)"/><line x1="44" y1="188" x2="548" y2="188" stroke="var(--border)"/><g class="mono" font-size="10" fill="var(--text-mute)"><text x="8" y="28.0">5.2</text><text x="8" y="110.0">4.3</text><text x="8" y="192.0">3.4</text></g><polyline fill="none" stroke="var(--amber)" stroke-width="2.5" points="70,160.8 134,148.1 198,140.0 304,115.5 370,111.9 440,91.0 524,51.2"/><g fill="var(--amber)"><circle cx="70" cy="160.8" r="3"/><circle cx="134" cy="148.1" r="3"/><circle cx="198" cy="140.0" r="3"/><circle cx="304" cy="115.5" r="3"/><circle cx="370" cy="111.9" r="3"/><circle cx="440" cy="91.0" r="3"/><circle cx="524" cy="51.2" r="3"/></g><g class="mono" font-size="9.5" fill="var(--text-mute)" text-anchor="middle"><text x="70" y="204">1M</text><text x="134" y="204">3M</text><text x="198" y="204">6M</text><text x="304" y="204">2Y</text><text x="370" y="204">5Y</text><text x="440" y="204">10Y</text><text x="524" y="204">30Y</text></g></svg>
+    </div>
+    <div class="mcr-grid mcr-g2" style="align-content:start"><div class="mcr-stat"><div class="lab">US 2Y</div><div class="big">4.19</div><div class="sub neu">+0.8%</div></div><div class="mcr-stat"><div class="lab">US 10Y</div><div class="big">4.46</div><div class="sub neu">+1.3%</div></div><div class="mcr-stat"><div class="lab">2s10s spread</div><div class="big">+27bp</div><div class="sub up">steepening</div></div><div class="mcr-stat"><div class="lab">HY spread</div><div class="big">266bp</div><div class="sub neu">→ calm</div></div></div>
+  </div>
+  
+
+  <!-- §06 THIS WEEK (economic calendar — ForexFactory via calendar.json) -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 06</span>This week</div><div class="section-meta"><a href="/calendar.html">Full week →</a> · <span class="muted">Updated: 23 Jun 2026, 10:32 CET</span></div></div>
   
   <table class="dtable">
     <thead><tr><th>Date</th><th>Time (CET)</th><th>Event</th><th>Country</th><th>Prev.</th><th>Cons.</th><th>Actual</th></tr></thead>
@@ -125,12 +145,10 @@
       <tr class="cal-row"><td class="mono">Thu</td><td class="mono">14:30</td><td><span class="impact med"></span>Final GDP Price Index q/q</td><td>🇺🇸 USD</td><td class="mono">3.5%</td><td class="mono">3.5%</td><td class="mono">—</td></tr>
       <tr class="cal-row"><td class="mono">Thu</td><td class="mono">14:30</td><td><span class="impact med"></span>Unemployment Claims</td><td>🇺🇸 USD</td><td class="mono">226K</td><td class="mono">225K</td><td class="mono">—</td></tr></tbody>
   </table>
+  
 
-  <!-- FOCUS -->
-  <div class="callout" style="margin-top:40px">
-    <div class="k">What to watch</div>
-    <p><strong>CPI and PPI</strong> are the prints that move the macro — the inflation reads the Fed reacts to most directly. A hotter-than-expected release revives the "is the Fed behind the curve?" debate and lifts yields; a cooler one buys room to cut. Alongside payrolls and the PCE deflator, they set the tone for the rate path.</p>
-  </div>
+  <!-- CLOSING -->
+  
 </div>
 
 <!-- FOOTER -->
@@ -186,125 +204,12 @@
 
 <script src="/app.js"></script>
 <script>
-  /* Macro page: real FRED series (yields, curve, M2) from the build-time
-     snapshot (data/macro.json) + live VIX/DXY/commodities/crypto. No hardcoded
-     yields, no 13-week proxy for the 2Y. */
-  window.NCF.init({ ticker: ['vix','dxy','us10y','gold','brent','btc'], market: false });
-
-  const $ = (id) => document.getElementById(id);
-  const TR = document.documentElement.lang === 'tr';
-  const L = {
-    normal: TR ? 'Normal eğri' : 'Normal curve',
-    inverted: TR ? 'Ters ⚠' : 'Inverted ⚠',
-    noteNormal: TR ? 'Normal eğri. Yakın vadede resesyon sinyali yok.'
-                   : 'Normal curve. No near-term recession signal.',
-    noteInverted: TR ? 'Ters — tarihsel olarak resesyon habercisi.'
-                     : 'Inverted — historically a recession precursor.',
-    noData: TR ? 'Veri yok.' : 'Data unavailable.',
-    commodities: TR
-      ? [['Altın','GC=F'],['Gümüş','SI=F'],['Bakır','HG=F'],['Brent Petrol','BZ=F'],['Doğal Gaz','NG=F'],['Kahve','KC=F'],['Kakao','CC=F']]
-      : [['Gold','GC=F'],['Silver','SI=F'],['Copper','HG=F'],['Brent Crude','BZ=F'],['Natural Gas','NG=F'],['Coffee','KC=F'],['Cocoa','CC=F']],
-  };
-
-  function setKPI(valEl, chgEl, val, pct, suffix='', invert=false) {
-    if (valEl && val != null) valEl.textContent = val.toFixed(2) + suffix;
-    if (chgEl && pct != null) {
-      const dir = invert ? (pct <= 0 ? 'up' : 'dn') : (pct >= 0 ? 'up' : 'dn');
-      chgEl.textContent = (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%';
-      chgEl.className = 'stat-chg ' + dir;
-    }
-  }
-  function spark(id, closes, up) { const el = $(id); if (el && closes) el.innerHTML = window.NCF.sparkline(closes, up); }
-
-  function renderCurve(curve, spread) {
-    const yc = $('yield-chart');
-    if (!yc || !curve || !curve.length) return;
-    const mx = Math.max(...curve.map(y => y.v));
-    yc.innerHTML = '';
-    curve.forEach(y => {
-      const bar = document.createElement('div'); bar.className = 'yield-bar';
-      bar.style.height = ((y.v / mx) * 100) + '%';
-      bar.innerHTML = '<span class="v">' + y.v.toFixed(1) + '</span><span class="l">' + y.l + '</span>';
-      yc.appendChild(bar);
-    });
-    if (spread != null && $('yield-note'))
-      $('yield-note').textContent = '10Y–2Y spread: ' + (spread >= 0 ? '+' : '') + spread.toFixed(2) +
-        '% — ' + (spread >= 0 ? L.noteNormal : L.noteInverted);
-  }
-
-  /* Real macro series from the committed snapshot (FRED). */
-  async function loadSnapshot() {
-    try {
-      const m = await fetch('/data/macro.json', { cache: 'no-store' }).then(r => r.json());
-      if (m.us2y && $('m-2y')) {
-        $('m-2y').textContent = m.us2y.value.toFixed(2) + '%';
-        const c = $('m-2y-c'); if (c) { c.textContent = m.us2y.chg; c.className = 'stat-chg ' + m.us2y.dir; }
-      }
-      if (m.us10y && $('m-10y')) {
-        $('m-10y').textContent = m.us10y.value.toFixed(2) + '%';
-        const c = $('m-10y-c'); if (c) { c.textContent = m.us10y.chg; c.className = 'stat-chg ' + m.us10y.dir; }
-        window.NCF.paint('us10y', m.us10y.value, parseFloat(m.us10y.chg) || 0);
-      }
-      if (m.spread != null && $('m-spread')) {
-        $('m-spread').textContent = (m.spread >= 0 ? '+' : '') + m.spread.toFixed(2) + '%';
-        const c = $('m-spread-c'); if (c) { c.textContent = m.spread >= 0 ? L.normal : L.inverted; c.className = 'stat-chg ' + (m.spread >= 0 ? 'up' : 'dn'); }
-      }
-      if (m.m2 && $('sb-m2')) $('sb-m2').textContent = '$' + m.m2.value.toFixed(1) + 'T';
-      if (m.mfg && $('sb-pmi')) {
-        $('sb-pmi').textContent = m.mfg.value.toFixed(1);
-        const c = $('sb-pmi-c');
-        if (c) { const exp = m.mfg.value >= 0; c.textContent = exp ? (TR ? 'Genişleme' : 'Expansion') : (TR ? 'Daralma' : 'Contraction'); c.style.color = exp ? 'var(--green)' : 'var(--red)'; }
-      }
-      renderCurve(m.curve, m.spread);
-    } catch (e) { /* snapshot missing → build-time injected values remain */ }
-  }
-
-  /* Live, fast-moving series (intraday). */
-  async function loadLive() {
-    $('last-update').textContent = new Date().toLocaleTimeString('en-GB');
-
-    const fg = await window.NCF.fetchFearGreed();
-    if (fg && $('m-fg')) { $('m-fg').textContent = fg.value; const c = $('m-fg-c'); if (c) { c.textContent = fg.label; c.className = 'stat-chg ' + (fg.value > 55 ? 'up' : fg.value < 35 ? 'dn' : 'neu'); } }
-
-    const vix = await window.NCF.fetchYahoo('^VIX');
-    if (vix) { setKPI($('m-vix'), $('m-vix-c'), vix.last, vix.pct, '', true); spark('sp-vix', vix.closes, vix.pct <= 0); window.NCF.paint('vix', vix.last, vix.pct, { invert: true }); }
-
-    const dxy = await window.NCF.fetchYahoo('DX-Y.NYB');
-    if (dxy) {
-      setKPI($('m-dxy'), $('m-dxy-c'), dxy.last, dxy.pct); spark('sp-dxy', dxy.closes, dxy.pct >= 0);
-      window.NCF.paint('dxy', dxy.last, dxy.pct);
-      if ($('sb-dxy')) $('sb-dxy').textContent = dxy.last.toFixed(2);
-      const c = $('sb-dxy-c'); if (c) { c.textContent = (dxy.pct >= 0 ? '+' : '') + dxy.pct.toFixed(2) + '%'; c.style.color = dxy.pct >= 0 ? 'var(--green)' : 'var(--red)'; }
-    }
-
-    /* commodities (live Yahoo) */
-    const tb = $('commodity-tbody');
-    if (tb) {
-      tb.innerHTML = '';
-      for (const [name, sym] of L.commodities) {
-        const d = await window.NCF.fetchYahoo(sym, '5d');
-        if (!d) continue;
-        const dir = d.pct >= 0 ? 'up' : 'dn';
-        const tr = document.createElement('tr'); tr.className = 'cal-row';
-        tr.innerHTML = '<td>' + name + '</td><td class="mono">$' + d.last.toLocaleString('en-US', { maximumFractionDigits: 2 }) +
-          '</td><td><span class="badge ' + dir + '">' + (d.pct >= 0 ? '+' : '') + d.pct.toFixed(2) + '%</span></td>' +
-          '<td style="width:120px">' + window.NCF.sparkline(d.closes, d.pct >= 0) + '</td>';
-        tb.appendChild(tr);
-        if (sym === 'GC=F') window.NCF.paint('gold', d.last, d.pct);
-        if (sym === 'BZ=F') window.NCF.paint('brent', d.last, d.pct);
-      }
-      if (!tb.hasChildNodes()) tb.innerHTML = '<tr><td colspan="4" class="muted" style="text-align:center;padding:20px">' + L.noData + '</td></tr>';
-    }
-
-    /* BTC for the ticker */
-    const cg = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true').then(r => r.json()).catch(() => null);
-    if (cg && cg.bitcoin) window.NCF.paint('btc', cg.bitcoin.usd, cg.bitcoin.usd_24h_change);
-  }
-
-  loadSnapshot();
-  loadLive();
-  setInterval(loadLive, 5 * 60 * 1000);
-  setInterval(loadSnapshot, 30 * 60 * 1000);
+  /* Macro "the regime" page is build-time rendered from data/macro2.json +
+     macro-notes.json (server-side, see build.py inject_macro2). The two SVGs
+     are drawn from arrays at build time; the economic calendar reuses the
+     ForexFactory calendar snapshot. Only the shared ticker stays client-side.
+     Phase 4 will add the real data pipeline + an optional client refresh. */
+  window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'], market: false });
 </script>
 <script>document.querySelectorAll('[data-set-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',a.getAttribute('data-set-lang'));}catch(e){}});});</script>
 </body>

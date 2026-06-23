@@ -1,53 +1,69 @@
 <header class="page-head">
-  <div class="page-eyebrow">Makro Panosu <span class="divider"></span> <span class="muted">Son güncelleme: <span id="last-update">—</span></span></div>
-  <h1 class="page-title">Küresel <em>göstergeler.</em></h1>
-  <p class="page-dek">Küresel ekonominin temel okumaları — Fed, getiri eğrisi, enflasyon ve emtia. Canlı yenilenir.</p>
+  <div class="page-eyebrow">Makro · Rejim <span class="divider"></span> <span class="muted">Güncellendi: <span id="last-update">—</span></span></div>
+  <h1 class="page-title">Ekonomi <em>gerçekte</em> nerede duruyor.</h1>
+  <p class="page-dek">Bir fiyat panosu değil — rejimi belirleyen okumalar. Enflasyon, Fed, likidite ve eğri, her biri önemli okumayla. Veri açıklandıkça güncellenir.</p>
+  <!--NCF:MACRO2_REGIME-->
 </header>
 
+<!-- REJİM ŞERİDİ -->
+<div class="mcr-tape"><div class="mcr-tape-grid"><!--NCF:MACRO2_TAPE--></div></div>
+
 <div class="section">
-  <!-- KPI GRID -->
-  <div class="stat-grid">
-    <div class="stat"><div class="stat-k">VIX · Volatilite</div><div><div class="stat-v" id="m-vix">—</div><div class="stat-chg neu" id="m-vix-c">—</div><div class="stat-spark" id="sp-vix"></div></div></div>
-    <div class="stat"><div class="stat-k">Dolar Endeksi · DXY</div><div><div class="stat-v" id="m-dxy">—</div><div class="stat-chg neu" id="m-dxy-c">—</div><div class="stat-spark" id="sp-dxy"></div></div></div>
-    <div class="stat"><div class="stat-k">ABD 10Y Getiri</div><div><div class="stat-v" id="m-10y">—</div><div class="stat-chg neu" id="m-10y-c">—</div><div class="stat-spark" id="sp-10y"></div></div></div>
-    <div class="stat"><div class="stat-k">ABD 2Y (13h vekil)</div><div><div class="stat-v" id="m-2y">—</div><div class="stat-chg neu" id="m-2y-c">—</div><div class="stat-spark" id="sp-2y"></div></div></div>
-    <div class="stat"><div class="stat-k">Kripto Fear &amp; Greed</div><div><div class="stat-v" id="m-fg">—</div><div class="stat-chg neu" id="m-fg-c">—</div></div></div>
-    <div class="stat"><div class="stat-k">Spread 10Y–2Y</div><div><div class="stat-v" id="m-spread">—</div><div class="stat-chg neu" id="m-spread-c">—</div></div></div>
+  <!-- §01 ENFLASYON -->
+  <div class="section-header"><div class="section-title"><span class="num">§ 01</span>Enflasyon &amp; Fiyatlar</div><div class="section-meta">FRED · son veri</div></div>
+  <div class="mcr-grid mcr-g4"><!--NCF:MACRO2_INFLATION--></div>
+  <!--NCF:MACRO2_READ_inflation-->
+
+  <!-- §02 FED -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 02</span>Fed &amp; Politika</div><div class="section-meta">CME FedWatch · zımni</div></div>
+  <div class="mcr-layout2">
+    <div class="mcr-chartwrap">
+      <h4>Faiz indirim ihtimalleri — sonraki dört toplantı</h4>
+      <div class="cap">Fed Funds vadelilerinden zımni</div>
+      <div class="mcr-odds"><!--NCF:MACRO2_FED_ODDS--></div>
+    </div>
+    <div class="mcr-grid mcr-g2" style="align-content:start"><!--NCF:MACRO2_FED_STATS--></div>
   </div>
+  <!--NCF:MACRO2_READ_fed-->
 
-  <!-- YIELD CURVE -->
-  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">ABD Hazine getiri eğrisi</div><div class="section-meta">Normalize referans</div></div>
-  <div class="card"><div class="card-body">
-    <div class="yield-chart" id="yield-chart"><div class="muted" style="margin:auto;font-size:13px">Yükleniyor…</div></div>
-    <p class="muted" id="yield-note" style="font-family:var(--mono);font-size:11px;letter-spacing:0.04em;margin-top:8px"></p>
-  </div></div>
-
-  <!-- SCOREBOARD -->
-  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Makro skor tablosu</div></div>
-  <div class="card-grid">
-    <div class="acard"><div class="series">Dolar Endeksi · DXY</div><h3 id="sb-dxy" style="font-family:var(--mono);font-weight:500">—</h3><div class="meta" id="sb-dxy-c">—</div><p style="margin-top:12px">Güçlü dolar = emtia baskısı ve gelişen piyasa stresi. 104+ kritik eşik.</p></div>
-    <div class="acard"><div class="series">M2 Para Arzı</div><h3 id="sb-m2" style="font-family:var(--mono);font-weight:500">—</h3><div class="meta" id="sb-m2-c">—</div><p style="margin-top:12px">Fed bilançosuyla birlikte küresel likiditeyi izler. Riskli varlık fiyatlamasıyla yüksek korelasyonlu.</p></div>
-    <div class="acard"><div class="series">Empire State İmalat · NY Fed</div><h3 id="sb-pmi" style="font-family:var(--mono);font-weight:500">—</h3><div class="meta" id="sb-pmi-c">—</div><p style="margin-top:12px">NY Fed bölgesel imalat anketi. 0 üstü = genişleme, 0 altı = daralma.</p></div>
+  <!-- §03 LİKİDİTE -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 03</span>Likidite</div><div class="section-meta">her risk varlığının altındaki gelgit</div></div>
+  <div class="mcr-layout2">
+    <div class="mcr-chartwrap">
+      <h4>Net likidite — Fed bilançosu − TGA − RRP</h4>
+      <div class="cap">haftalık · USD trilyon</div>
+      <!--NCF:MACRO2_LIQ_CHART-->
+    </div>
+    <div class="mcr-grid mcr-g2" style="align-content:start"><!--NCF:MACRO2_LIQ_STATS--></div>
   </div>
+  <!--NCF:MACRO2_READ_liquidity-->
 
-  <!-- COMMODITIES -->
-  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Emtia</div><div class="section-meta"><span class="live" style="color:var(--green)">● Canlı</span></div></div>
-  <table class="dtable">
-    <thead><tr><th>Emtia</th><th>Fiyat</th><th>1G Δ%</th><th>Momentum</th></tr></thead>
-    <tbody id="commodity-tbody"><tr><td colspan="4" class="muted" style="text-align:center;padding:24px">Yükleniyor…</td></tr></tbody>
-  </table>
+  <!-- §04 BÜYÜME -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 04</span>Büyüme &amp; İstihdam</div><div class="section-meta">iniş yumuşak mı?</div></div>
+  <div class="mcr-grid mcr-g4"><!--NCF:MACRO2_GROWTH--></div>
+  <!--NCF:MACRO2_READ_growth-->
 
-  <!-- ECONOMIC CALENDAR (data/calendar.json'dan build sırasında beslenir) -->
-  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Ekonomik takvim</div><div class="section-meta"><a href="/tr/takvim.html">Tüm hafta →</a> · <span class="muted">Güncellendi: <!--NCF:CAL_UPDATED--></span></div></div>
+  <!-- §05 FAİZLER -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 05</span>Faizler &amp; Dolar</div><div class="section-meta">FRED · eğri</div></div>
+  <div class="mcr-layout2">
+    <div class="mcr-chartwrap">
+      <h4>ABD Hazine getiri eğrisi</h4>
+      <div class="cap">vade vs. getiri · masanın imza okuması</div>
+      <!--NCF:MACRO2_RATES_CHART-->
+    </div>
+    <div class="mcr-grid mcr-g2" style="align-content:start"><!--NCF:MACRO2_RATES_STATS--></div>
+  </div>
+  <!--NCF:MACRO2_READ_rates-->
+
+  <!-- §06 BU HAFTA (ekonomik takvim — ForexFactory / calendar.json) -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 06</span>Bu hafta</div><div class="section-meta"><a href="/tr/takvim.html">Tam hafta →</a> · <span class="muted">Güncellendi: <!--NCF:CAL_UPDATED--></span></div></div>
   <!--NCF:CAL_STALE-->
   <table class="dtable">
     <thead><tr><th>Tarih</th><th>Saat (CET)</th><th>Olay</th><th>Ülke</th><th>Önceki</th><th>Beklenti</th><th>Gerçekleşen</th></tr></thead>
     <tbody><!--NCF:CALENDAR--></tbody>
   </table>
+  <!--NCF:MACRO2_READ_calendar-->
 
-  <!-- FOCUS -->
-  <div class="callout" style="margin-top:40px">
-    <div class="k">Neye bakmalı</div>
-    <p><strong>TÜFE ve ÜFE</strong> makroyu hareket ettiren veriler — Fed'in en doğrudan tepki verdiği enflasyon okumaları. Beklentiden sıcak gelen bir veri "Fed geç mi kaldı?" tartışmasını canlandırır ve getirileri yukarı iter; soğuk gelen bir veri faiz indirimine alan açar. Tarım dışı istihdam ve PCE deflatörüyle birlikte faiz patikasının tonunu belirlerler.</p>
-  </div>
+  <!-- KAPANIŞ -->
+  <!--NCF:MACRO2_CLOSING-->
 </div>

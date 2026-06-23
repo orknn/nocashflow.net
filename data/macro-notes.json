@@ -1,0 +1,63 @@
+{
+  "_note": "HUMAN-AUTHORED, human-committed. Never auto-generated. Fill the bodies in your own voice; empty strings are simply omitted from the page. by = signature line.",
+  "regime_read": "",
+  "weekly_read": "",
+  "notes": {
+    "inflation": {
+      "tag": "The read",
+      "body": "",
+      "by": "NoCashFlow · macro desk"
+    },
+    "fed": {
+      "tag": "Fed read",
+      "body": "",
+      "by": "NoCashFlow · macro desk"
+    },
+    "liquidity": {
+      "tag": "The read",
+      "body": "",
+      "by": "NoCashFlow · macro desk"
+    },
+    "growth": {
+      "tag": "The read",
+      "body": "",
+      "by": "NoCashFlow · macro desk"
+    },
+    "rates": {
+      "tag": "The read",
+      "body": "",
+      "by": "NoCashFlow · macro desk"
+    },
+    "calendar": {
+      "tag": "Watch",
+      "body": "",
+      "by": "NoCashFlow · macro desk"
+    }
+  },
+  "stat_notes": {
+    "inflation": [
+      "",
+      "",
+      "",
+      ""
+    ],
+    "fed": [
+      "",
+      "",
+      "",
+      ""
+    ],
+    "liquidity": [
+      "",
+      "",
+      "",
+      ""
+    ],
+    "growth": [
+      "",
+      "",
+      "",
+      ""
+    ]
+  }
+}

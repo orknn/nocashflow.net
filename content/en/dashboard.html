@@ -1,27 +1,63 @@
 <header class="page-head">
-  <div class="page-eyebrow">Live Markets <span class="divider"></span> <span class="muted">Updated: <span id="last-update">—</span></span></div>
+  <div class="page-eyebrow">Dashboard · The Tape <span class="divider"></span> <span class="muted">Updated: <!--NCF:DASH_UPD--></span></div>
   <h1 class="page-title">Markets, <em>in one view.</em></h1>
-  <p class="page-dek">Crypto, indices, commodities and FX — live prices and 24-hour moves, refreshed automatically.</p>
+  <p class="page-dek">The live tape — broad indices, the themes that lead the cycle, sector rotation and crypto. What's moving, and where the money is going.</p>
 </header>
 
-<div class="section">
-  <!-- OVERVIEW -->
-  <div class="stat-grid">
-    <div class="stat"><div class="stat-k">Bitcoin</div><div><div class="stat-v" data-px="btc">—</div><div class="stat-chg neu" data-chg="btc">—</div></div></div>
-    <div class="stat"><div class="stat-k">Ethereum</div><div><div class="stat-v" data-px="eth">—</div><div class="stat-chg neu" data-chg="eth">—</div></div></div>
-    <div class="stat"><div class="stat-k">S&amp;P 500</div><div><div class="stat-v" data-px="spx">—</div><div class="stat-chg neu" data-chg="spx">—</div></div></div>
-    <div class="stat"><div class="stat-k">Gold</div><div><div class="stat-v" data-px="gold">—</div><div class="stat-chg neu" data-chg="gold">—</div></div></div>
-    <div class="stat"><div class="stat-k">Crypto F&amp;G</div><div><div class="stat-v" data-px="fg">—</div><div class="stat-chg neu" data-chg="fg">—</div></div></div>
-    <div class="stat"><div class="stat-k">BTC Dominance</div><div><div class="stat-v" id="btc-dom">—</div><div class="stat-chg neu">of total cap</div></div></div>
-    <div class="stat"><div class="stat-k">Coinbase Premium</div><div><div class="stat-v" id="cb-prem">—</div><div class="stat-chg neu" id="cb-prem-c">Coinbase − Binance</div></div></div>
-    <div class="stat"><div class="stat-k">Funding · BTC 8h</div><div><div class="stat-v" id="funding">—</div><div class="stat-chg neu">Deribit</div></div></div>
-  </div>
+<!-- HERO STATS -->
+<div class="dsh-hero"><div class="dsh-hero-grid"><!--NCF:DASH_HERO--></div></div>
 
-  <!-- WATCHLIST -->
-  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Watchlist</div><div class="section-meta"><span class="live" style="color:var(--green)">● Live</span> · auto-refresh 60s</div></div>
-  <table class="dtable">
-    <thead><tr><th>Asset</th><th>Class</th><th>Price</th><th>Δ%</th><th>Trend</th></tr></thead>
-    <tbody id="wl-tbody"><tr><td colspan="5" class="muted" style="text-align:center;padding:24px">Loading markets…</td></tr></tbody>
-  </table>
-  <p class="muted" style="font-size:11px;font-family:var(--mono);margin-top:12px">Crypto change is 24h (CoinGecko). Equities, commodities &amp; FX change is last close vs. prior close (Yahoo Finance). Data may be delayed.</p>
+<div class="section">
+  <!-- §01 BROAD INDICES -->
+  <div class="section-header"><div class="section-title"><span class="num">§ 01</span>Broad indices</div><div class="section-meta">ETF proxies · last close</div></div>
+  <div class="dsh-grid dsh-g5"><!--NCF:DASH_INDICES--></div>
+  <!--NCF:DASH_NOTE_indices-->
+
+  <!-- §02 THEMATIC -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 02</span>Themes that lead the cycle</div><div class="section-meta">thematic ETFs</div></div>
+  <div class="dsh-grid dsh-g3"><!--NCF:DASH_THEMATICS--></div>
+  <div class="dsh-miniread"><b>Frontier watch · pure-play, speculative</b>Single names, high volatility — tracked, not endorsed:<span class="dsh-chips"><!--NCF:DASH_FRONTIER--></span></div>
+
+  <!-- §03 SECTOR ROTATION -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 03</span>Sector rotation</div><div class="section-meta">11 SPDR sectors · 1D Δ%</div></div>
+  <div class="dsh-heat"><!--NCF:DASH_HEAT--></div>
+  <!--NCF:DASH_NOTE_sectors-->
+
+  <!-- §04 CRYPTO BOARD -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 04</span>Crypto board</div><div class="section-meta">CoinGecko · DefiLlama</div></div>
+  <div class="dsh-grid dsh-g5"><!--NCF:DASH_CRYPTO--></div>
+  <!--NCF:DASH_NOTE_crypto-->
+
+  <!-- §05 MARKET LEADERS -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 05</span>Market leaders</div><div class="section-meta">top 10 by market cap · multi-horizon</div></div>
+  <div class="dsh-scroll">
+    <table class="dsh-table" style="margin-bottom:30px;min-width:680px">
+      <thead><tr><th>Nasdaq megacaps</th><th class="num">Price</th><th class="pc">1D</th><th class="pc">7D</th><th class="pc">30D</th><th class="pc">180D</th><th class="pc">1Y</th><th class="pc">5Y</th><th class="num">Mkt cap</th></tr></thead>
+      <tbody><!--NCF:DASH_LEADERS_EQ--></tbody>
+    </table>
+  </div>
+  <div class="dsh-scroll">
+    <table class="dsh-table" style="min-width:680px">
+      <thead><tr><th>Crypto top 10</th><th class="num">Price</th><th class="pc">1D</th><th class="pc">7D</th><th class="pc">30D</th><th class="pc">180D</th><th class="pc">1Y</th><th class="pc">5Y</th><th class="num">Mkt cap</th></tr></thead>
+      <tbody><!--NCF:DASH_LEADERS_CRYPTO--></tbody>
+    </table>
+  </div>
+  <!--NCF:DASH_NOTE_leaders-->
+
+  <!-- §06 COMMODITIES & FX -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 06</span>Commodities &amp; FX</div><div class="section-meta">spot · last close</div></div>
+  <div class="dsh-twocol">
+    <div class="dsh-scroll">
+      <table class="dsh-table">
+        <thead><tr><th>Commodity</th><th class="num">Price</th><th class="pc">1D</th><th class="pc">7D</th><th class="pc">30D</th><th class="pc">1Y</th></tr></thead>
+        <tbody><!--NCF:DASH_COMMODITIES--></tbody>
+      </table>
+    </div>
+    <div class="dsh-scroll">
+      <table class="dsh-table">
+        <thead><tr><th>FX</th><th class="num">Rate</th><th class="pc">1D</th><th class="pc">7D</th><th class="pc">30D</th><th class="pc">1Y</th></tr></thead>
+        <tbody><!--NCF:DASH_FX--></tbody>
+      </table>
+    </div>
+  </div>
 </div>

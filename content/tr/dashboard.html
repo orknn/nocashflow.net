@@ -1,27 +1,63 @@
 <header class="page-head">
-  <div class="page-eyebrow">Canlı Piyasalar <span class="divider"></span> <span class="muted">Güncellendi: <span id="last-update">—</span></span></div>
+  <div class="page-eyebrow">Panel · Canlı Şerit <span class="divider"></span> <span class="muted">Güncellendi: <!--NCF:DASH_UPD--></span></div>
   <h1 class="page-title">Piyasalar, <em>tek ekranda.</em></h1>
-  <p class="page-dek">Kripto, endeksler, emtia ve döviz — canlı fiyatlar ve 24 saatlik hareketler, otomatik yenilenir.</p>
+  <p class="page-dek">Canlı şerit — geniş endeksler, döngüye öncülük eden temalar, sektör rotasyonu ve kripto. Ne hareket ediyor, para nereye gidiyor.</p>
 </header>
 
-<div class="section">
-  <!-- OVERVIEW -->
-  <div class="stat-grid">
-    <div class="stat"><div class="stat-k">Bitcoin</div><div><div class="stat-v" data-px="btc">—</div><div class="stat-chg neu" data-chg="btc">—</div></div></div>
-    <div class="stat"><div class="stat-k">Ethereum</div><div><div class="stat-v" data-px="eth">—</div><div class="stat-chg neu" data-chg="eth">—</div></div></div>
-    <div class="stat"><div class="stat-k">S&amp;P 500</div><div><div class="stat-v" data-px="spx">—</div><div class="stat-chg neu" data-chg="spx">—</div></div></div>
-    <div class="stat"><div class="stat-k">Altın</div><div><div class="stat-v" data-px="gold">—</div><div class="stat-chg neu" data-chg="gold">—</div></div></div>
-    <div class="stat"><div class="stat-k">Kripto F&amp;G</div><div><div class="stat-v" data-px="fg">—</div><div class="stat-chg neu" data-chg="fg">—</div></div></div>
-    <div class="stat"><div class="stat-k">BTC Dominansı</div><div><div class="stat-v" id="btc-dom">—</div><div class="stat-chg neu">toplam değerin</div></div></div>
-    <div class="stat"><div class="stat-k">Coinbase Premium</div><div><div class="stat-v" id="cb-prem">—</div><div class="stat-chg neu" id="cb-prem-c">Coinbase − Binance</div></div></div>
-    <div class="stat"><div class="stat-k">Funding · BTC 8s</div><div><div class="stat-v" id="funding">—</div><div class="stat-chg neu">Deribit</div></div></div>
-  </div>
+<!-- HERO STATS -->
+<div class="dsh-hero"><div class="dsh-hero-grid"><!--NCF:DASH_HERO--></div></div>
 
-  <!-- WATCHLIST -->
-  <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">İzleme Listesi</div><div class="section-meta"><span class="live" style="color:var(--green)">● Canlı</span> · 60sn'de bir yenilenir</div></div>
-  <table class="dtable">
-    <thead><tr><th>Varlık</th><th>Sınıf</th><th>Fiyat</th><th>Δ%</th><th>Trend</th></tr></thead>
-    <tbody id="wl-tbody"><tr><td colspan="5" class="muted" style="text-align:center;padding:24px">Piyasalar yükleniyor…</td></tr></tbody>
-  </table>
-  <p class="muted" style="font-size:11px;font-family:var(--mono);margin-top:12px">Kripto değişimi 24 saatlik (CoinGecko). Hisse, emtia ve döviz değişimi son kapanış / önceki kapanış (Yahoo Finance). Veri gecikmeli olabilir.</p>
+<div class="section">
+  <!-- §01 GENİŞ ENDEKSLER -->
+  <div class="section-header"><div class="section-title"><span class="num">§ 01</span>Geniş endeksler</div><div class="section-meta">ETF vekilleri · son kapanış</div></div>
+  <div class="dsh-grid dsh-g5"><!--NCF:DASH_INDICES--></div>
+  <!--NCF:DASH_NOTE_indices-->
+
+  <!-- §02 TEMALAR -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 02</span>Döngüye öncülük eden temalar</div><div class="section-meta">tematik ETF'ler</div></div>
+  <div class="dsh-grid dsh-g3"><!--NCF:DASH_THEMATICS--></div>
+  <div class="dsh-miniread"><b>Frontier izleme · saf-oyun, spekülatif</b>Tekil isimler, yüksek volatilite — takip edilir, tavsiye edilmez:<span class="dsh-chips"><!--NCF:DASH_FRONTIER--></span></div>
+
+  <!-- §03 SEKTÖR ROTASYONU -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 03</span>Sektör rotasyonu</div><div class="section-meta">11 SPDR sektörü · 1G Δ%</div></div>
+  <div class="dsh-heat"><!--NCF:DASH_HEAT--></div>
+  <!--NCF:DASH_NOTE_sectors-->
+
+  <!-- §04 KRİPTO PANOSU -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 04</span>Kripto panosu</div><div class="section-meta">CoinGecko · DefiLlama</div></div>
+  <div class="dsh-grid dsh-g5"><!--NCF:DASH_CRYPTO--></div>
+  <!--NCF:DASH_NOTE_crypto-->
+
+  <!-- §05 PİYASA LİDERLERİ -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 05</span>Piyasa liderleri</div><div class="section-meta">piyasa değerine göre ilk 10 · çok-ufuk</div></div>
+  <div class="dsh-scroll">
+    <table class="dsh-table" style="margin-bottom:30px;min-width:680px">
+      <thead><tr><th>Nasdaq mega'lar</th><th class="num">Fiyat</th><th class="pc">1G</th><th class="pc">7G</th><th class="pc">30G</th><th class="pc">180G</th><th class="pc">1Y</th><th class="pc">5Y</th><th class="num">Piyasa değeri</th></tr></thead>
+      <tbody><!--NCF:DASH_LEADERS_EQ--></tbody>
+    </table>
+  </div>
+  <div class="dsh-scroll">
+    <table class="dsh-table" style="min-width:680px">
+      <thead><tr><th>Kripto ilk 10</th><th class="num">Fiyat</th><th class="pc">1G</th><th class="pc">7G</th><th class="pc">30G</th><th class="pc">180G</th><th class="pc">1Y</th><th class="pc">5Y</th><th class="num">Piyasa değeri</th></tr></thead>
+      <tbody><!--NCF:DASH_LEADERS_CRYPTO--></tbody>
+    </table>
+  </div>
+  <!--NCF:DASH_NOTE_leaders-->
+
+  <!-- §06 EMTİA & DÖVİZ -->
+  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 06</span>Emtia &amp; Döviz</div><div class="section-meta">spot · son kapanış</div></div>
+  <div class="dsh-twocol">
+    <div class="dsh-scroll">
+      <table class="dsh-table">
+        <thead><tr><th>Emtia</th><th class="num">Fiyat</th><th class="pc">1G</th><th class="pc">7G</th><th class="pc">30G</th><th class="pc">1Y</th></tr></thead>
+        <tbody><!--NCF:DASH_COMMODITIES--></tbody>
+      </table>
+    </div>
+    <div class="dsh-scroll">
+      <table class="dsh-table">
+        <thead><tr><th>Döviz</th><th class="num">Kur</th><th class="pc">1G</th><th class="pc">7G</th><th class="pc">30G</th><th class="pc">1Y</th></tr></thead>
+        <tbody><!--NCF:DASH_FX--></tbody>
+      </table>
+    </div>
+  </div>
 </div>
