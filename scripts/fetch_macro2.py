@@ -168,7 +168,8 @@ def build_macro2():
 
     # ── liquidity (M2, net liquidity = WALCL − TGA − RRP, + stablecoin) ──────
     liq = dict(prev.get("liquidity", {}))
-    lstats = list(liq.get("stats", [st(""), st(""), st(""), st("")]))
+    liq.pop("global_m2", None)                        # US M2 is enough (per project)
+    lstats = [st(""), st(""), st("")]                 # M2 · net liquidity · stablecoins
     m2 = fred_last("M2SL")
     m2yoy = fred_yoy("M2SL")
     if m2 is not None:
@@ -201,11 +202,11 @@ def build_macro2():
         total = sum((a.get("circulating", {}) or {}).get("peggedUSD", 0) or 0 for a in pa)
         usdc = next(((a.get("circulating", {}) or {}).get("peggedUSD", 0) for a in pa if a.get("symbol") == "USDC"), 0)
         if total:
-            lstats[3] = st(f"${total / 1e9:.0f}B", f"USDC ${usdc / 1e9:.0f}B", "up")
+            lstats[2] = st(f"${total / 1e9:.0f}B", f"USDC ${usdc / 1e9:.0f}B", "up")
     except Exception as e:
         print(f"  ⚠️  DefiLlama: {e}")
     liq["stats"] = lstats
-    out["liquidity"] = liq  # global_m2 preserved
+    out["liquidity"] = liq
 
     # ── growth (claims, NFP MoM, GDPNow; ISM manual) ─────────────────────────
     g = list(prev.get("growth", [st(""), st(""), st(""), st("")]))

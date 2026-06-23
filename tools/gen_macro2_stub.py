@@ -53,7 +53,7 @@ data = {
         "y_min": 5.5, "y_max": 6.5,
         "stats": [
             st("$22.0T", "▲ +1.8% YoY", "up"), st("$5.84T", "▼ −3.1% 3m", "down"),
-            st("$108T", "▲ rising", "up"), st("$248B", "▲ +2.4% 30d", "up"),
+            st("$248B", "▲ +2.4% 30d", "up"),
         ],
     },
     # §04 Growth & Labor — 4 stats
