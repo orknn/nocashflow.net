@@ -73,26 +73,22 @@ def fetch_cut_odds():
         print(f"  ⚠️  Kalshi cut-odds: {e}")
         return None
     cut = defaultdict(float)                          # (year, month) → summed cut %
-    diag_done = False
     for m in markets:
         parts = m.get("ticker", "").split("-")
         if len(parts) < 3 or not parts[2].startswith("C"):
             continue                                  # cut buckets only (C25, C26…)
-        mm = re.match(r"(\d{2})([A-Z]{3})", parts[1])  # ticker date is YYMon (2026=year!)
+        mm = re.match(r"(\d{2})([A-Z]{3})", parts[1])  # ticker date is YYMon (year, not day)
         if not mm or mm.group(2) not in _MON:
             continue
-        if not diag_done:
-            print("  [diag2] cut market fields:", {k: m.get(k) for k in
-                  ("ticker", "last_price", "yes_bid", "yes_ask", "volume", "status")})
-            diag_done = True
         price = m.get("last_price") or m.get("yes_ask") or m.get("yes_bid") or 0
         cut[(2000 + int(mm.group(1)), _MON[mm.group(2)])] += price
-    print(f"  [diag] cut keys={dict(cut)} | want={[(d.year, d.month) for d in _next_fomc_dates(4)]}")
-    odds = []
-    for dd in _next_fomc_dates(4):
-        if (dd.year, dd.month) in cut:
-            odds.append({"m": f"{dd.strftime('%b')} {dd.day}", "p": round(cut[(dd.year, dd.month)])})
-    return odds or None
+    odds = [{"m": f"{dd.strftime('%b')} {dd.day}", "p": round(cut[(dd.year, dd.month)])}
+            for dd in _next_fomc_dates(4) if (dd.year, dd.month) in cut]
+    # Kalshi's FOMC markets are thin — the list endpoint often returns no live
+    # prices (all 0). Don't publish a fake 0% — keep last-good in that case.
+    if not odds or sum(o["p"] for o in odds) == 0:
+        return None
+    return odds
 
 
 def load_json(name, default):
