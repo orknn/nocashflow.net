@@ -2,18 +2,21 @@
 """NoCashFlow · dashboard "the tape" snapshot → data/markets.json
 
 Free, server-side, no API key:
-  · equities / ETFs / commodities → Nasdaq historical API (daily 5y history →
-    multi-horizon perf + 30-day sparkline). Keyless; replaces Yahoo, which
-    blocks GitHub Actions IPs on bulk requests.
+  · equities / ETFs → Nasdaq historical API (daily 5y history → multi-horizon
+    perf + 30-day sparkline). Keyless; replaces Yahoo, which blocks Actions IPs.
   · crypto top-10 + dominance + total mcap → CoinGecko (free; 5Y → "—").
   · stablecoin supply + USDC share          → DefiLlama.
-  · FX is frozen (kept from last-good) — no reliable keyless spot+history source.
-  · commodities use liquid ETF proxies (USO/BNO/GLD/SLV/CPER/UNG): the move is
-    accurate, the printed price is the proxy's.
+  · FX (EUR/USD, USD/JPY, GBP/USD, USD/CHF, USD/TRY) → frankfurter.app (ECB,
+    keyless, with history → perf). DXY is dropped (no keyless ICE-DXY history).
+  · commodities: Brent/WTI/NatGas → FRED spot; Gold/Silver → gold-api.com spot
+    (real price) with perf from the GLD/SLV ETF history; copper has no keyless
+    XCU spot source, so it is shown honestly as the CPER ETF.
 
 Resilience: every section falls back to the last-good markets.json on failure.
 Run: python3 scripts/fetch_markets.py
 """
+import csv
+import io
 import json
 import time
 from datetime import date, datetime, timedelta, timezone
@@ -43,8 +46,14 @@ SECTORS = [("XLK", "Technology"), ("XLC", "Comms"), ("XLY", "Discretionary"),
 LEADERS_EQ = [("MSFT", "Microsoft"), ("AAPL", "Apple"), ("NVDA", "Nvidia"),
               ("GOOGL", "Alphabet"), ("AMZN", "Amazon"), ("META", "Meta"),
               ("AVGO", "Broadcom"), ("TSLA", "Tesla"), ("COST", "Costco"), ("NFLX", "Netflix")]
-COMMODITIES = [("BNO", "Brent"), ("USO", "WTI"), ("GLD", "Gold"),
-               ("SLV", "Silver"), ("CPER", "Copper"), ("UNG", "Nat Gas")]
+FRED_CSV = "https://fred.stlouisfed.org/graph/fredgraph.csv"
+# FRED's graph-CSV endpoint stalls on a full browser UA (the Nasdaq one); it
+# serves a plain custom UA fine — same UA fetch_macro2 uses successfully in CI.
+FRED_UA = {"User-Agent": "Mozilla/5.0 (NoCashFlow data fetcher)"}
+# FX: display name, frankfurter currency (base USD), invert? (True → X/USD)
+FX_PAIRS = [("EUR/USD", "EUR", True), ("USD/JPY", "JPY", False),
+            ("GBP/USD", "GBP", True), ("USD/CHF", "CHF", False),
+            ("USD/TRY", "TRY", False)]
 CRYPTO_IDS = ["bitcoin", "ethereum", "tether", "binancecoin", "solana",
               "usd-coin", "ripple", "dogecoin", "cardano", "tron"]
 HORIZON = {"d1": 1, "d7": 5, "d30": 21, "d180": 126, "y1": 252, "y5": 1260}
@@ -113,13 +122,90 @@ def _r(v):
     return round(v, 2) if isinstance(v, (int, float)) else None
 
 
+def fred_closes(series_id, days=460):
+    """Daily observations oldest→newest from FRED ('.' gaps dropped), or None.
+    Retries once — FRED can be slow to first-byte."""
+    frm = (date.today() - timedelta(days=days)).isoformat()
+    for attempt in (1, 2, 3):
+        try:
+            r = requests.get(FRED_CSV, params={"id": series_id, "cosd": frm},
+                             headers=FRED_UA, timeout=TIMEOUT)
+            r.raise_for_status()
+            out = []
+            for row in csv.reader(io.StringIO(r.text)):
+                if len(row) < 2:
+                    continue
+                try:
+                    out.append(float(row[1]))   # header's 2nd cell isn't a float → skipped
+                except ValueError:
+                    pass
+            return out or None
+        except Exception as e:
+            if attempt == 3:
+                print(f"  ⚠️  FRED {series_id}: {e}")
+                return None
+            time.sleep(2 * attempt)
+
+
+def gold_api(metal):
+    """Current spot ($/oz) from gold-api.com (XAU/XAG), or None."""
+    try:
+        r = requests.get(f"https://api.gold-api.com/price/{metal}", headers=UA, timeout=TIMEOUT)
+        r.raise_for_status()
+        return float(r.json()["price"])
+    except Exception as e:
+        print(f"  ⚠️  gold-api {metal}: {e}")
+        return None
+
+
+def _fx_round(v):
+    return round(v, 4) if v < 10 else round(v, 2)
+
+
+def build_fx():
+    """EUR/USD, USD/JPY, GBP/USD, USD/CHF, USD/TRY from frankfurter.app (ECB),
+    native symbols, perf computed from ~1y of business-day history."""
+    frm = (date.today() - timedelta(days=460)).isoformat()
+    try:
+        r = requests.get(f"https://api.frankfurter.app/{frm}..{date.today().isoformat()}",
+                         params={"from": "USD", "to": ",".join(c for _, c, _ in FX_PAIRS)},
+                         headers=UA, timeout=TIMEOUT)
+        r.raise_for_status()
+        rates = r.json().get("rates", {})          # {date: {CUR: rate}}
+    except Exception as e:
+        print(f"  ⚠️  frankfurter FX: {e}")
+        return None
+    days = sorted(rates)
+    rows = []
+    for name, cur, inv in FX_PAIRS:
+        series = []
+        for d in days:
+            v = rates[d].get(cur)
+            if v:
+                series.append(1.0 / v if inv else v)
+        if len(series) < 30:
+            continue
+        p = perf(series)
+        rows.append({"name": name, "price": _fx_round(series[-1]),
+                     "perf": {k: p[k] for k in ("d1", "d7", "d30", "y1")}})
+    return rows or None
+
+
 def build_markets():
     prev = load_json("markets.json", {})
     pmap = {a["sym"]: a for a in prev.get("leaders_equity", [])}
     out = dict(prev)
-    out["_note"] = "Live: equities/ETFs/commodities Nasdaq, crypto CoinGecko " \
-                   "(5Y→—), stablecoins DefiLlama. FX frozen; commodities via ETF proxy."
+    out["_note"] = "Live: equities/ETFs Nasdaq, crypto CoinGecko (5Y→—), " \
+                   "stablecoins DefiLlama, commodities FRED + gold-api (copper=CPER ETF), " \
+                   "FX frankfurter (ECB)."
     out["updated"] = now_iso()
+
+    # FRED commodity spot up front, on fresh connections — the graph-CSV endpoint
+    # gets flaky deep into a long run of Nasdaq calls.
+    fred_spot = {}
+    for _nm, _sid in (("Brent", "DCOILBRENTEU"), ("WTI", "DCOILWTICO"), ("NatGas", "DHHNGSP")):
+        fred_spot[_nm] = fred_closes(_sid)
+        time.sleep(0.5)
 
     def tile(sym, ac, dsym, name):
         c = nasdaq_hist(sym, ac); time.sleep(0.4)
@@ -163,17 +249,41 @@ def build_markets():
     if eq:
         out["leaders_equity"] = eq
 
+    # ── commodities: real spot, native labels (last-good per row on failure) ──
     com = []
-    for s, name in COMMODITIES:
-        c = nasdaq_hist(s, "etf"); time.sleep(0.4)
-        if not c:
-            continue
-        p = perf(c)
-        com.append({"name": name, "price": _round_price(c[-1]),
+    prev_com = {r.get("name"): r for r in prev.get("commodities", [])}
+
+    def _add(name, price, closes):
+        """price=spot, closes=history for perf. Falls back to last-good row."""
+        if price is None or not closes:
+            if name in prev_com:
+                com.append(prev_com[name])
+            return
+        p = perf(closes)
+        com.append({"name": name, "price": _round_price(price),
                     "perf": {k: p[k] for k in ("d1", "d7", "d30", "y1")}})
+
+    brent = fred_spot.get("Brent")
+    _add("Brent", brent[-1] if brent else None, brent)
+    wti = fred_spot.get("WTI")
+    _add("WTI", wti[-1] if wti else None, wti)
+    gld = nasdaq_hist("GLD", "etf"); time.sleep(0.4)
+    _add("XAU/USD", gold_api("XAU"), gld)            # real spot price, perf via GLD
+    slv = nasdaq_hist("SLV", "etf"); time.sleep(0.4)
+    _add("XAG/USD", gold_api("XAG"), slv)            # real spot price, perf via SLV
+    cper = nasdaq_hist("CPER", "etf"); time.sleep(0.4)
+    _add("CPER", cper[-1] if cper else None, cper)   # no keyless XCU spot → honest ETF
+    ng = fred_spot.get("NatGas")
+    _add("NatGas", ng[-1] if ng else None, ng)
     if com:
         out["commodities"] = com
-    # FX: frozen (kept from last-good) — see module docstring
+
+    # ── FX: frankfurter.app (ECB), native symbols, perf from history ──────────
+    fx = build_fx()
+    if fx:
+        out["fx"] = fx
+    elif prev.get("fx"):
+        out["fx"] = prev["fx"]
 
     # ── crypto (CoinGecko: 1d/7d/30d/200d≈180d/1y; 5Y unavailable free → None) ─
     btc = eth = None
@@ -242,7 +352,7 @@ def build_markets():
     spx_t = next((t for t in out.get("indices", []) if t["sym"] == "SPY"), None)
     if spx_t:
         hero["spx"] = {"px": spx_t["price"], "chg": spx_t["d1"] or 0}
-    gold_t = next((r for r in out.get("commodities", []) if r["name"] == "Gold"), None)
+    gold_t = next((r for r in out.get("commodities", []) if r["name"] == "XAU/USD"), None)
     if gold_t:
         hero["gold"] = {"px": gold_t["price"], "chg": gold_t["perf"]["d1"] or 0}
     if fng:
