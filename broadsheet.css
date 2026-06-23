@@ -159,6 +159,8 @@ body.bs .reveal.in{opacity:1;transform:none;
   body.bs .bs-pulse-grid{grid-template-columns:1fr;gap:26px}
   body.bs .bs-mast-top{flex-direction:column;gap:6px}
   body.bs .nav .nav-links{display:none}
+  /* hamburger opens it — needs higher specificity than the rule above */
+  body.bs .nav .nav-links.open{display:flex}
 }
 @media(max-width:560px){
   body.bs .bs-quotes{grid-template-columns:1fr}
