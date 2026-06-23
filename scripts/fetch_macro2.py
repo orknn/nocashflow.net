@@ -72,23 +72,26 @@ def fetch_cut_odds():
     except Exception as e:
         print(f"  ⚠️  Kalshi cut-odds: {e}")
         return None
-    print(f"  [diag] kalshi markets={len(markets)} sample_tickers="
-          f"{[m.get('ticker') for m in markets[:6]]}")
-    cut = defaultdict(float)                          # (month, day) → summed cut %
+    cut = defaultdict(float)                          # (year, month) → summed cut %
+    diag_done = False
     for m in markets:
         parts = m.get("ticker", "").split("-")
         if len(parts) < 3 or not parts[2].startswith("C"):
             continue                                  # cut buckets only (C25, C26…)
-        mm = re.match(r"(\d{1,2})([A-Z]{3})", parts[1])
+        mm = re.match(r"(\d{2})([A-Z]{3})", parts[1])  # ticker date is YYMon (2026=year!)
         if not mm or mm.group(2) not in _MON:
             continue
-        price = m.get("last_price") or m.get("yes_bid") or 0
-        cut[(_MON[mm.group(2)], int(mm.group(1)))] += price
-    print(f"  [diag] cut keys={dict(cut)} | want={[(d.month, d.day) for d in _next_fomc_dates(4)]}")
+        if not diag_done:
+            print("  [diag2] cut market fields:", {k: m.get(k) for k in
+                  ("ticker", "last_price", "yes_bid", "yes_ask", "volume", "status")})
+            diag_done = True
+        price = m.get("last_price") or m.get("yes_ask") or m.get("yes_bid") or 0
+        cut[(2000 + int(mm.group(1)), _MON[mm.group(2)])] += price
+    print(f"  [diag] cut keys={dict(cut)} | want={[(d.year, d.month) for d in _next_fomc_dates(4)]}")
     odds = []
     for dd in _next_fomc_dates(4):
-        if (dd.month, dd.day) in cut:
-            odds.append({"m": f"{dd.strftime('%b')} {dd.day}", "p": round(cut[(dd.month, dd.day)])})
+        if (dd.year, dd.month) in cut:
+            odds.append({"m": f"{dd.strftime('%b')} {dd.day}", "p": round(cut[(dd.year, dd.month)])})
     return odds or None
 
 
