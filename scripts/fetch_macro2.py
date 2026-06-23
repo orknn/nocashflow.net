@@ -27,8 +27,24 @@ TIMEOUT = 20
 FRED = "https://fred.stlouisfed.org/graph/fredgraph.csv"
 
 
+# FOMC decision dates (2nd day) — schedule is published a year ahead; "which is
+# next" is computed by date so it advances on its own as meetings pass.
+FOMC_DATES = ["2026-01-28", "2026-03-18", "2026-04-29", "2026-06-17", "2026-07-29",
+              "2026-09-16", "2026-10-28", "2026-12-09", "2027-01-27", "2027-03-17"]
+
+
 def now_iso():
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def _next_fomc():
+    from datetime import date
+    today = date.today()
+    for d in FOMC_DATES:
+        dd = date.fromisoformat(d)
+        if dd > today:
+            return f"{dd.strftime('%b')} {dd.day}", f"{(dd - today).days}d"
+    return "—", ""
 
 
 def load_json(name, default):
@@ -72,6 +88,17 @@ def fred_yoy(sid):
     if len(s) < 13:
         return None
     return round((s[-1][1] / s[-13][1] - 1) * 100, 1)
+
+
+def _fred_nearest_year(sid):
+    """Value for the current calendar year from an annual-projection FRED series
+    (e.g. FEDTARMD dot plot: rows dated 2026/2027/2028 → take 2026)."""
+    s = fred_series(sid, start="2025-01-01")
+    yr = str(datetime.now(timezone.utc).year)
+    for d, v in s:
+        if d.startswith(yr):
+            return v
+    return s[-1][1] if s else None
 
 
 def _arrow(curr, prev):
@@ -132,8 +159,12 @@ def build_macro2():
     rrp = fred_last("RRPONTSYD")
     if rrp is not None:
         fstats[2] = st(f"${rrp:.0f}B" if rrp >= 1 else f"${rrp*1000:.0f}M", "▼ draining", "down")
+    # dot-plot: nearest-year SEP median fed funds projection (FRED FEDTARMD)
+    dot = _fred_nearest_year("FEDTARMD")
+    if dot is not None:
+        fstats[3] = st(f"{dot:.2f}%", f"{datetime.now(timezone.utc).year} median", "neu")
     fed["stats"] = fstats
-    out["fed"] = fed  # cut_odds preserved from prev
+    out["fed"] = fed  # cut_odds preserved from prev (prediction-market API = future)
 
     # ── liquidity (M2, net liquidity = WALCL − TGA − RRP, + stablecoin) ──────
     liq = dict(prev.get("liquidity", {}))
@@ -190,7 +221,13 @@ def build_macro2():
     gdpnow = _gdpnow()
     if gdpnow is not None:
         g[3] = st(f"{gdpnow:.1f}%", "Atlanta Fed", "up")
-    out["growth"] = g  # ISM (g[0]) preserved manual
+    # ISM has no free API → NY Fed Empire State as an honest regional proxy
+    es = fred_series("GACDISA066MSFRBNY")
+    if len(es) >= 2:
+        v, pv = es[-1][1], es[-2][1]
+        sub, _ = _arrow(v, pv)
+        g[0] = st(f"{v:+.1f}", "Empire State · NY Fed", "up" if v > 0 else "down")
+    out["growth"] = g
 
     # ── rates (curve + 2Y/10Y/2s10s/HY) ──────────────────────────────────────
     rates = dict(prev.get("rates", {}))
@@ -217,6 +254,35 @@ def build_macro2():
         rstats[3] = st(f"{round(hy*100)}bp", "→ calm" if hy < 4 else "▲ widening", "neu" if hy < 4 else "down")
     rates["stats"] = rstats
     out["rates"] = rates
+
+    # ── regime tape (top strip) — derive all but cut-odds from live data ──────
+    mi = load_json("market.json", {}).get("instruments", {})
+    prev_tape = {c.get("k"): c for c in prev.get("regime_tape", [])}
+    nf_v, nf_d = _next_fomc()
+    infl = out.get("inflation", [])
+    core = infl[1] if len(infl) > 1 else {}
+    tape = []
+    if lo is not None and hi is not None:
+        tape.append({"k": "Fed Funds", "v": f"{lo:.2f}–{hi:.2f}", "d": "held", "dir": "neu"})
+    tape.append({"k": "Next FOMC", "v": nf_v, "d": nf_d, "dir": "neu"})
+    co = prev_tape.get("Cut odds (Jul)") or prev_tape.get("Cut odds")
+    if co:
+        tape.append(co)                                   # prediction-market API → later
+    if core.get("v"):
+        tape.append({"k": "Core CPI", "v": core["v"], "d": "core", "dir": core.get("dir", "neu")})
+    if y10 is not None:
+        tape.append({"k": "US 10Y", "v": f"{y10:.2f}", "d": "", "dir": "neu"})
+    if spread is not None:
+        tape.append({"k": "2s10s", "v": f"{'+' if spread >= 0 else ''}{round(spread*100)}",
+                     "d": "steepening" if spread > 0 else "inverted", "dir": "up" if spread > 0 else "down"})
+    if mi.get("dxy", {}).get("px"):
+        tape.append({"k": "DXY", "v": str(mi["dxy"]["px"]), "d": "", "dir": "neu"})
+    if mi.get("fg", {}).get("px"):
+        fg = mi["fg"]
+        tape.append({"k": "F&amp;G", "v": str(fg["px"]), "d": fg.get("chg", ""),
+                     "dir": {"up": "up", "dn": "down"}.get(fg.get("dir"), "neu")})
+    if len(tape) >= 6:
+        out["regime_tape"] = tape
 
     return out
 

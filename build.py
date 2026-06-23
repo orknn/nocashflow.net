@@ -1218,8 +1218,8 @@ MACRO2_LABELS = {
             "tr": ["Hedef aralık", "Bilanço", "Ters repo", "Nokta grafik '26"]},
     "liquidity": {"en": ["M2 supply", "Net liquidity", "Global M2", "Stablecoin supply"],
                   "tr": ["M2 arzı", "Net likidite", "Global M2", "Stablecoin arzı"]},
-    "growth": {"en": ["ISM Manufacturing", "Nonfarm payrolls", "Jobless claims", "GDPNow · Q2"],
-               "tr": ["ISM İmalat", "Tarım dışı istihdam", "İşsizlik başvuruları", "GDPNow · Ç2"]},
+    "growth": {"en": ["Empire State Mfg", "Nonfarm payrolls", "Jobless claims", "GDPNow · Q2"],
+               "tr": ["Empire State İmalat", "Tarım dışı istihdam", "İşsizlik başvuruları", "GDPNow · Ç2"]},
     "rates": {"en": ["US 2Y", "US 10Y", "2s10s spread", "HY spread"],
               "tr": ["ABD 2Y", "ABD 10Y", "2s10s farkı", "HY farkı"]},
 }
