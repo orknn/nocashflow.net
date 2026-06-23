@@ -9,8 +9,8 @@ Free, server-side, no API key:
   · FX (EUR/USD, USD/JPY, GBP/USD, USD/CHF, USD/TRY) → frankfurter.app (ECB,
     keyless, with history → perf). DXY is dropped (no keyless ICE-DXY history).
   · commodities: Brent/WTI/NatGas → FRED spot; Gold/Silver → gold-api.com spot
-    (real price) with perf from the GLD/SLV ETF history; copper has no keyless
-    XCU spot source, so it is shown honestly as the CPER ETF.
+    (perf from GLD/SLV ETF history); Copper/Cocoa/Coffee read from the daily
+    bulletin's committed output (it already fetches HG=F/CC=F/KC=F) — 1D/1W/30D.
 
 Resilience: every section falls back to the last-good markets.json on failure.
 Run: python3 scripts/fetch_markets.py
@@ -18,6 +18,7 @@ Run: python3 scripts/fetch_markets.py
 import csv
 import io
 import json
+import re
 import time
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -191,13 +192,40 @@ def build_fx():
     return rows or None
 
 
+def bulletin_commodities():
+    """Copper / Cocoa / Coffee from the latest daily bulletin. The bulletin's own
+    pipeline already fetches HG=F/CC=F/KC=F (Yahoo); we read its committed output
+    rather than re-fetch — robust and offline. Price + 1D/1W/30D, no 1Y."""
+    f = DATA.parent / "bulletins" / "daily" / "latest.en.html"
+    try:
+        html = f.read_text(encoding="utf-8")
+    except Exception as e:
+        print(f"  ⚠️  bulletin read: {e}")
+        return {}
+    out = {}
+    # row: <strong …>CODE</strong> … <td …>$price</td> + three <td>↕ ±x%</td>
+    cell = r'<td class="mono[^"]*"[^>]*>[^<]*?(-?\d[\d,]*\.?\d*)%</td>\s*'
+    for code, label in (("HG", "Copper · HG"), ("CC", "Cocoa · CC"), ("KC", "Coffee · KC")):
+        m = re.search(
+            r'<strong[^>]*>' + code + r'</strong>.*?'
+            r'<td class="mono"[^>]*>\$?([\d,]+\.?\d*)</td>\s*' + cell + cell + cell,
+            html, re.DOTALL)
+        if not m:
+            continue
+        price = float(m.group(1).replace(",", ""))
+        d1, d7, d30 = (float(m.group(i).replace(",", "")) for i in (2, 3, 4))
+        out[label] = {"name": label, "price": _round_price(price),
+                      "perf": {"d1": d1, "d7": d7, "d30": d30, "y1": None}}
+    return out
+
+
 def build_markets():
     prev = load_json("markets.json", {})
     pmap = {a["sym"]: a for a in prev.get("leaders_equity", [])}
     out = dict(prev)
     out["_note"] = "Live: equities/ETFs Nasdaq, crypto CoinGecko (5Y→—), " \
-                   "stablecoins DefiLlama, commodities FRED + gold-api (copper=CPER ETF), " \
-                   "FX frankfurter (ECB)."
+                   "stablecoins DefiLlama, oil/gas FRED, metals gold-api, " \
+                   "copper/cocoa/coffee via daily bulletin, FX frankfurter (ECB)."
     out["updated"] = now_iso()
 
     # FRED commodity spot up front, on fresh connections — the graph-CSV endpoint
@@ -267,14 +295,20 @@ def build_markets():
     _add("Brent", brent[-1] if brent else None, brent)
     wti = fred_spot.get("WTI")
     _add("WTI", wti[-1] if wti else None, wti)
+    ng = fred_spot.get("NatGas")
+    _add("NatGas", ng[-1] if ng else None, ng)
     gld = nasdaq_hist("GLD", "etf"); time.sleep(0.4)
     _add("XAU/USD", gold_api("XAU"), gld)            # real spot price, perf via GLD
     slv = nasdaq_hist("SLV", "etf"); time.sleep(0.4)
     _add("XAG/USD", gold_api("XAG"), slv)            # real spot price, perf via SLV
-    cper = nasdaq_hist("CPER", "etf"); time.sleep(0.4)
-    _add("CPER", cper[-1] if cper else None, cper)   # no keyless XCU spot → honest ETF
-    ng = fred_spot.get("NatGas")
-    _add("NatGas", ng[-1] if ng else None, ng)
+    # Copper / Cocoa / Coffee — read from the daily bulletin (it already fetches
+    # HG=F/CC=F/KC=F via Yahoo). Real HG replaces the CPER ETF; 1D/1W/30D, no 1Y.
+    bull = bulletin_commodities()
+    for label in ("Copper · HG", "Cocoa · CC", "Coffee · KC"):
+        if label in bull:
+            com.append(bull[label])
+        elif label in prev_com:
+            com.append(prev_com[label])
     if com:
         out["commodities"] = com
 
