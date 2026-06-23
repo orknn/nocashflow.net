@@ -72,6 +72,8 @@ def fetch_cut_odds():
     except Exception as e:
         print(f"  ⚠️  Kalshi cut-odds: {e}")
         return None
+    print(f"  [diag] kalshi markets={len(markets)} sample_tickers="
+          f"{[m.get('ticker') for m in markets[:6]]}")
     cut = defaultdict(float)                          # (month, day) → summed cut %
     for m in markets:
         parts = m.get("ticker", "").split("-")
@@ -82,6 +84,7 @@ def fetch_cut_odds():
             continue
         price = m.get("last_price") or m.get("yes_bid") or 0
         cut[(_MON[mm.group(2)], int(mm.group(1)))] += price
+    print(f"  [diag] cut keys={dict(cut)} | want={[(d.month, d.day) for d in _next_fomc_dates(4)]}")
     odds = []
     for dd in _next_fomc_dates(4):
         if (dd.month, dd.day) in cut:
