@@ -66,15 +66,27 @@ def write_json(name, obj):
                              encoding="utf-8")
 
 
-def yahoo_hist(symbol, rng="5y", retries=4):
-    """Daily closes oldest→newest, or None. Retries with backoff on 429 — Yahoo
-    rate-limits bursts per IP, so we back off rather than give up."""
+SPACING = 9.0          # seconds between Yahoo calls — proactive, stays under the
+_last_yahoo = [0.0]    # per-IP rate limit so requests never trip a 429 burst
+
+
+def _throttle():
+    dt = time.monotonic() - _last_yahoo[0]
+    if dt < SPACING:
+        time.sleep(SPACING - dt)
+    _last_yahoo[0] = time.monotonic()
+
+
+def yahoo_hist(symbol, rng="5y", retries=2):
+    """Daily closes oldest→newest, or None. Proactively spaced (≥SPACING apart) so
+    Yahoo's low per-IP limit is never tripped; a 429 still just backs off + retries."""
     for attempt in range(retries):
+        _throttle()
         try:
             r = requests.get(f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}",
                              params={"interval": "1d", "range": rng}, headers=UA, timeout=TIMEOUT)
             if r.status_code == 429:
-                time.sleep(10 * (attempt + 1))  # 10, 20, 30, 40s
+                time.sleep(20)
                 continue
             r.raise_for_status()
             q = r.json()["chart"]["result"][0]["indicators"]["quote"][0]["close"]
@@ -84,7 +96,6 @@ def yahoo_hist(symbol, rng="5y", retries=4):
             if attempt == retries - 1:
                 print(f"  ⚠️  Yahoo {symbol}: {e}")
                 return None
-            time.sleep(5)
     print(f"  ⚠️  Yahoo {symbol}: still 429 after {retries} tries")
     return None
 
@@ -143,6 +154,11 @@ def build_markets():
     out["_note"] = "Live snapshot. Equities/ETFs/commodities/FX: Yahoo. " \
                    "Crypto: CoinGecko (5Y unavailable on free tier → —). Stablecoins: DefiLlama."
     out["updated"] = now_iso()
+
+    # fetch_data.py just used Yahoo right before us — let its rate window reset
+    # before our proactively-spaced batch starts.
+    print("• cooling down before Yahoo batch…")
+    time.sleep(30)
 
     # indices + thematics (tiles with sparkline)
     idx = [tile(y, d, n) for y, d, n in INDICES]
