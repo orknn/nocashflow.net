@@ -1,5 +1,5 @@
 {
-  "asof": "2026-06-23T08:32:36Z",
+  "asof": "2026-06-24T08:27:00Z",
   "events": [
     {
       "dt_utc": "2026-06-22 13:00:00",
@@ -95,6 +95,18 @@
       "impact": "medium",
       "prev": "50.9",
       "est": "51.1",
+      "act": "—"
+    },
+    {
+      "dt_utc": "2026-06-23 18:05:00",
+      "cet_date": "2026-06-23",
+      "wd": 1,
+      "time": "20:05",
+      "event": "President Trump Speaks",
+      "country": "US",
+      "impact": "medium",
+      "prev": "—",
+      "est": "—",
       "act": "—"
     },
     {
