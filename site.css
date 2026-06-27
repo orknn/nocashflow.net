@@ -369,6 +369,18 @@ body.hovering-link .cursor-dot { background: var(--amber); width: 4px; height: 4
 }
 .btn:hover { background: var(--text); color: var(--bg); }
 .btn .arrow { transition: transform 0.2s; }
+
+/* inline text link (thank-you / utility pages) */
+.btn-link {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--text-dim);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s;
+}
+.btn-link:hover { color: var(--red); }
 .btn:hover .arrow { transform: translateX(4px); }
 
 .btn-amber {
@@ -519,6 +531,51 @@ body.hovering-link .cursor-dot { background: var(--amber); width: 4px; height: 4
   text-transform: uppercase;
   margin-top: 18px;
 }
+
+/* honeypot — visually gone, kept reachable for naive bots, hidden from a11y */
+.nl-hp {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px; height: 1px;
+  opacity: 0; pointer-events: none;
+}
+
+/* language toggle (TR/EN) under the main signup */
+.newsletter-lang {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-top: 16px;
+}
+.nl-lang-label {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--text-mute); margin-right: 4px;
+}
+.nl-lang {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em;
+  padding: 4px 10px; cursor: pointer;
+  background: transparent; color: var(--text-mute);
+  border: 1px solid var(--border);
+  transition: color .15s, border-color .15s, background .15s;
+}
+.nl-lang:hover { color: var(--text); border-color: var(--text-mute); }
+.nl-lang.is-active {
+  color: #fff; background: var(--text); border-color: var(--text);
+}
+
+/* subscribe result message ("check your inbox" / errors) */
+.newsletter-msg {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.02em;
+  min-height: 1.2em; margin-top: 14px;
+}
+.newsletter-msg[data-kind="ok"]  { color: var(--green); }
+.newsletter-msg[data-kind="err"] { color: var(--red); }
+
+/* short EU privacy note under the form */
+.newsletter-privacy {
+  font-family: var(--mono); font-size: 10.5px; line-height: 1.6;
+  color: var(--text-mute); max-width: 420px;
+  margin: 12px auto 0;
+}
+.newsletter-privacy a { color: var(--text-dim); text-decoration: underline; }
 .newsletter-stats {
   display: flex; justify-content: center; gap: 56px;
   margin-top: 48px;

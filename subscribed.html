@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Subscribed — NoCashFlow</title>
+<meta name="robots" content="noindex"/>
+<meta name="theme-color" content="#F3EEE3"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    background: #F3EEE3; color: #1a1714;
+    font-family: 'Fraunces', 'Times New Roman', serif;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 24px; gap: 6px;
+  }
+  .logo {
+    font-family: 'IBM Plex Mono', monospace; font-weight: 600;
+    font-size: 13px; letter-spacing: 0.14em; color: rgba(26,23,20,.7);
+    margin-bottom: 28px;
+  }
+  .logo .slash { color: #B0442B; }
+  .kicker {
+    font-family: 'IBM Plex Mono', monospace; font-weight: 500;
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #B0442B; margin-bottom: 14px;
+  }
+  .head {
+    font-weight: 600; font-style: italic;
+    font-size: clamp(2.6rem, 9vw, 4.6rem); line-height: 1.04; letter-spacing: -0.02em;
+  }
+  .msg { font-size: clamp(1.05rem, 3vw, 1.35rem); color: rgba(26,23,20,.78); margin-top: 16px; max-width: 32ch; }
+  .msg .tr { display: block; color: rgba(26,23,20,.5); font-size: 0.82em; font-style: italic; margin-top: 6px; }
+  .actions { display: flex; gap: 14px; margin-top: 38px; flex-wrap: wrap; justify-content: center; }
+  .btn {
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 1.05rem;
+    color: #1a1714; text-decoration: none;
+    border: 1px solid rgba(26,23,20,.45); border-radius: 2px;
+    padding: 12px 30px; transition: all .25s ease;
+  }
+  .btn:hover { background: #B0442B; color: #fff; border-color: #B0442B; }
+</style>
+</head>
+<body>
+  <div class="logo">NO<span class="slash">/</span>CASHFLOW</div>
+  <div class="kicker">The Bulletin</div>
+  <h1 class="head">You're subscribed.</h1>
+  <p class="msg">Your email is confirmed — your first brief lands tomorrow morning.<span class="tr">Aboneliğin onaylandı — ilk bültenin yarın sabah.</span></p>
+  <div class="actions">
+    <a class="btn" href="/">Home</a>
+    <a class="btn" href="/tr/">Türkçe</a>
+  </div>
+</body>
+</html>

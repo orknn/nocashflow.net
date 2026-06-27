@@ -262,40 +262,87 @@
   }
 
   /* ---------- newsletter ----------
-     Real subscribe: POSTs to the Cloudflare Worker at /api/subscribe, which
-     adds the address to the matching Resend Audience (TR/EN by page language).
-     Worker source + deploy steps live in /workers/. Honest UX: success only on
-     a real 2xx; failures show an error instead of pretending. */
+     Double opt-in: POSTs {email, lang, hp} to the Cloudflare Worker at
+     /api/subscribe (source + deploy in /workers/). The worker stores a pending
+     row in D1 and emails a confirm link — so success here means "check your
+     inbox", not "subscribed". Honest UX: real messages only, never pretend.
+     `hp` is a honeypot; bots fill it and the worker drops them silently. */
   function initForms() {
-    const TR = document.documentElement.lang === 'tr';
-    const MSG = {
-      busy: TR ? 'Gönderiliyor…' : 'Subscribing…',
-      ok: TR ? '✓ Abone olundu' : '✓ Subscribed',
-      err: TR ? 'Olmadı — tekrar dene' : 'Failed — try again',
+    const pageTR = document.documentElement.lang === 'tr';
+    const MSG = pageTR ? {
+      busy: 'Gönderiliyor…',
+      pending: '✓ Mailini kontrol et — onay linki yolda',
+      already: '✓ Zaten abonesin',
+      invalid: 'Geçerli bir e-posta gir',
+      err: 'Olmadı — tekrar dene',
+    } : {
+      busy: 'Subscribing…',
+      pending: '✓ Check your inbox — we sent a confirm link',
+      already: '✓ You’re already subscribed',
+      invalid: 'Enter a valid email',
+      err: 'Failed — try again',
     };
+
+    // Language toggle (only on the main signup): flips form.dataset.lang.
+    // Uses `data-nl-lang` — distinct from the site-wide `data-set-lang` nav switch.
+    $$('[data-nl-lang]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const scope = btn.closest('section') || document;
+        const form = scope.querySelector('form[data-newsletter]');
+        if (!form) return;
+        form.dataset.lang = btn.getAttribute('data-nl-lang');
+        scope.querySelectorAll('[data-nl-lang]').forEach((b) =>
+          b.classList.toggle('is-active', b === btn));
+      });
+    });
+
     $$('form[data-newsletter]').forEach((form) => {
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const btn = form.querySelector('button');
-        const input = form.querySelector('input');
+        const btn = form.querySelector('button[type="submit"], .newsletter-submit');
+        const input = form.querySelector('input[type="email"]');
         if (!btn || !input || btn.disabled) return;
         const email = input.value.trim();
-        if (!email) return;
+        const lang = form.dataset.lang === 'tr' ? 'tr'
+                   : form.dataset.lang === 'en' ? 'en'
+                   : (pageTR ? 'tr' : 'en');
+        const hp = (form.querySelector('.nl-hp, input[name="hp"]') || {}).value || '';
+        const scope = form.closest('section') || form.parentElement || document;
+        const msgEl = scope.querySelector('[data-newsletter-msg]');
+        const setMsg = (text, kind) => {
+          if (msgEl) { msgEl.textContent = text; msgEl.dataset.kind = kind || ''; }
+          else { btn.textContent = text; }
+        };
+
+        if (!email) { setMsg(MSG.invalid, 'err'); return; }
         const orig = btn.textContent;
         btn.textContent = MSG.busy;
         btn.disabled = true;
-        let ok = false;
+        if (msgEl) { msgEl.textContent = ''; msgEl.dataset.kind = ''; }
+
+        let outcome = 'err';
         try {
-          const r = await fetch('/api/subscribe', {
+          // nocashflow.net is DNS-only (unproxied), so /api/* must hit the
+          // Worker on its workers.dev host, not the site origin.
+          const r = await fetch('https://ncf-subscribe.bicenorkun.workers.dev/api/subscribe', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, lang: TR ? 'tr' : 'en' }),
+            body: JSON.stringify({ email, lang, hp }),
           });
-          ok = r.ok;
-        } catch (err) { ok = false; }
-        btn.textContent = ok ? MSG.ok : MSG.err;
+          if (r.ok) {
+            let data = {};
+            try { data = await r.json(); } catch (_) {}
+            outcome = data.status === 'already_confirmed' ? 'already' : 'pending';
+          } else if (r.status === 400) {
+            outcome = 'invalid';
+          }
+        } catch (err) { outcome = 'err'; }
+
+        const ok = outcome === 'pending' || outcome === 'already';
+        btn.textContent = orig;
+        btn.disabled = false;
         if (ok) input.value = '';            // keep the address on failure for retry
-        setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, ok ? 4000 : 2500);
+        setMsg(MSG[outcome] || MSG.err, ok ? 'ok' : 'err');
       });
     });
   }

@@ -137,11 +137,20 @@
     <div class="newsletter-label">Bülten</div>
     <h2 class="newsletter-title">Sabahına <em>veriyle başla.</em></h2>
     <p class="newsletter-dek">Her sabah kısa bir özet, her pazar uzun bir derin analiz — makro, kripto ve emtia. Gürültü yok, paywall yok.</p>
-    <form class="newsletter-form" data-newsletter>
-      <input class="newsletter-input" type="email" placeholder="you@email.com" required/>
+    <form class="newsletter-form" data-newsletter data-lang="tr">
+      <input class="newsletter-input" type="email" name="email" placeholder="you@email.com" autocomplete="email" required/>
       <button class="newsletter-submit" type="submit">Abone Ol</button>
+      <!-- honeypot: ekran dışı, insanlardan gizli; botlar doldurur ve sessizce elenir -->
+      <input class="nl-hp" type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true"/>
     </form>
+    <div class="newsletter-lang" role="group" aria-label="Bülten dili">
+      <span class="nl-lang-label">Dil</span>
+      <button type="button" class="nl-lang" data-nl-lang="en">EN</button>
+      <button type="button" class="nl-lang is-active" data-nl-lang="tr">TR</button>
+    </div>
+    <div class="newsletter-msg" data-newsletter-msg aria-live="polite"></div>
     <div class="newsletter-note">Sonsuza dek ücretsiz · Spam yok · İstediğinde çık</div>
+    <p class="newsletter-privacy">Yalnızca e-posta adresini saklarız, sadece bülteni göndermek için — başka hiçbir şey. İstediğin an çıkabilirsin. <a href="/tr/privacy.html">Gizlilik</a></p>
     <div class="newsletter-stats">
       <div class="nl-stat"><div class="v">Günlük</div><div class="k">Her Sabah</div></div>
       <div class="nl-stat"><div class="v">Pazar</div><div class="k">Haftalık Derin Analiz</div></div>

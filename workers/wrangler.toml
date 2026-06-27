@@ -1,13 +1,25 @@
 name = "ncf-subscribe"
 main = "subscribe.js"
+workers_dev = true
+
 compatibility_date = "2026-06-01"
 
-# Route the worker under the site (the zone is already proxied by Cloudflare).
+# One worker, four routes under /api/* (the zone is already proxied by Cloudflare):
+#   POST /api/subscribe          public  · double opt-in signup
+#   GET  /api/confirm?token=...  public  · confirm, then redirect to /subscribed.html
+#   GET  /api/unsubscribe?token  public  · unsubscribe, then redirect to /unsubscribed.html
+#   GET  /api/subscribers?lang=  AUTHED  · Bearer ADMIN_TOKEN, confirmed list for the pipeline
 routes = [
-  { pattern = "nocashflow.net/api/subscribe", zone_name = "nocashflow.net" }
+  { pattern = "nocashflow.net/api/*", zone_name = "nocashflow.net" }
 ]
 
-# Secrets — set once with:
-#   wrangler secret put RESEND_API_KEY
-#   wrangler secret put RESEND_AUDIENCE_TR
-#   wrangler secret put RESEND_AUDIENCE_EN
+# D1 — subscriber store. Create once, then paste the printed database_id here:
+#   wrangler d1 create ncf_subscribers
+[[d1_databases]]
+binding = "DB"
+database_name = "ncf_subscribers"
+database_id = "7ab30c00-de21-4f45-9dce-c32c69e2e93f"
+
+# Secrets — set once, never commit (wrangler secret put <NAME>):
+#   wrangler secret put RESEND_API_KEY   — Resend transactional key (sends confirm mail)
+#   wrangler secret put ADMIN_TOKEN      — Bearer for GET /api/subscribers (pipeline reads it)

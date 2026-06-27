@@ -137,11 +137,20 @@
     <div class="newsletter-label">The Bulletin</div>
     <h2 class="newsletter-title">Start your morning <em>with data.</em></h2>
     <p class="newsletter-dek">A short brief every morning, plus a long-form deep dive every Sunday — macro, crypto and commodities. No noise, no paywall.</p>
-    <form class="newsletter-form" data-newsletter>
-      <input class="newsletter-input" type="email" placeholder="you@email.com" required/>
+    <form class="newsletter-form" data-newsletter data-lang="en">
+      <input class="newsletter-input" type="email" name="email" placeholder="you@email.com" autocomplete="email" required/>
       <button class="newsletter-submit" type="submit">Subscribe</button>
+      <!-- honeypot: off-screen, hidden from humans; bots fill it and get silently dropped -->
+      <input class="nl-hp" type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true"/>
     </form>
+    <div class="newsletter-lang" role="group" aria-label="Bulletin language">
+      <span class="nl-lang-label">Language</span>
+      <button type="button" class="nl-lang is-active" data-nl-lang="en">EN</button>
+      <button type="button" class="nl-lang" data-nl-lang="tr">TR</button>
+    </div>
+    <div class="newsletter-msg" data-newsletter-msg aria-live="polite"></div>
     <div class="newsletter-note">Free forever · No spam · Unsubscribe anytime</div>
+    <p class="newsletter-privacy">We store only your email address, to send the bulletin — nothing else. Unsubscribe anytime. <a href="/privacy.html">Privacy</a></p>
     <div class="newsletter-stats">
       <div class="nl-stat"><div class="v">Daily</div><div class="k">Every Morning</div></div>
       <div class="nl-stat"><div class="v">Sunday</div><div class="k">Weekly Deep Dive</div></div>
