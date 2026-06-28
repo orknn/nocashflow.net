@@ -795,6 +795,7 @@ def head(page, lang):
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>{p["title"][lang]}</title>
 <meta name="description" content="{p["desc"][lang]}"/>
+<meta name="robots" content="max-image-preview:large"/>
 <link rel="canonical" href="{canonical}"/>
 {alt_html}
 <meta property="og:title" content="{p["title"][lang]}"/>
@@ -1405,9 +1406,60 @@ def render(page, lang):
 # ── articles (own pages: /articles/<slug>.html en, /tr/yazilar/<slug>.html tr) ─
 OG_IMAGE = SITE_URL + "/og.png"
 
+# ── article structured data (NewsArticle) ────────────────────────────────────
+try:
+    from zoneinfo import ZoneInfo
+    _TZ = ZoneInfo("Europe/Madrid")
+except Exception:
+    _TZ = None
+
+PUBLISHER = {
+    "@type": "Organization", "name": "NoCashFlow", "url": SITE_URL + "/",
+    "logo": {"@type": "ImageObject", "url": SITE_URL + "/logo.png", "width": 112, "height": 112},
+}
+AUTHOR_BASE = {"@type": "Person", "name": "Orkun Biçen",
+               "sameAs": ["https://www.linkedin.com/in/orkunbicen/"]}
+ABOUT_URL = {"en": SITE_URL + "/about.html", "tr": SITE_URL + "/tr/hakkinda.html"}
+DEFAULT_OG = SITE_URL + "/og.png"
+
+
+def article_image(meta, lang):
+    img = meta.get("img")
+    if isinstance(img, dict):
+        img = img.get(lang)
+    if not img:
+        return DEFAULT_OG
+    return img if img.startswith("http") else SITE_URL + img
+
+
+def _iso(date_str, hour=8):
+    dt = datetime.strptime(date_str, "%Y-%m-%d").replace(hour=hour)
+    if _TZ:
+        return dt.replace(tzinfo=_TZ).isoformat()
+    return f"{date_str}T{hour:02d}:00:00+02:00"
+
+
+def article_jsonld(meta, lang, canonical):
+    data = {
+        "@context": "https://schema.org", "@type": "NewsArticle",
+        "headline": meta["title"][lang], "description": meta["dek"][lang],
+        "image": [article_image(meta, lang)],
+        "datePublished": _iso(meta["date"]),
+        "dateModified": _iso(meta.get("updated", meta["date"])),
+        "author": dict(AUTHOR_BASE, url=ABOUT_URL[lang]),
+        "publisher": PUBLISHER,
+        "mainEntityOfPage": {"@type": "WebPage", "@id": canonical},
+        "articleSection": meta["cat"][lang], "inLanguage": lang,
+    }
+    payload = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
+    payload = payload.replace("<", "\\u003c").replace(">", "\\u003e")
+    return f'<script type="application/ld+json">{payload}</script>'
+
 ARTICLES = {
     "enflasyon": {
         "num": "#08", "date": "2026-06-28",
+        "img": {"en": "/assets/articles/warsh-inflation-en.png",
+                "tr": "/assets/articles/warsh-inflation-tr.png"},
         "cat": {"en": "Macro", "tr": "Makro"},
         "date_disp": {"en": "Jun 28, 2026", "tr": "28 Haz 2026"},
         "read": {"en": "6 min read", "tr": "6 dk okuma"},
@@ -1522,13 +1574,7 @@ def render_article(slug, lang):
     back = "← All articles" if lang == "en" else "← Tüm yazılar"
     sw_href = article_path(slug, "tr") if lang == "en" else article_path(slug, "en")
 
-    schema = json.dumps({
-        "@context": "https://schema.org", "@type": "Article",
-        "headline": title, "description": dek, "datePublished": a["date"], "inLanguage": lang,
-        "author": {"@type": "Person", "name": "Orkun Biçen"},
-        "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": SITE_URL},
-        "mainEntityOfPage": canonical, "image": OG_IMAGE,
-    }, ensure_ascii=False)
+    # NewsArticle JSON-LD (per-article image, ISO dates) — built inline below.
 
     head_html = f"""<!DOCTYPE html>
 <html lang="{lang}">
@@ -1537,6 +1583,7 @@ def render_article(slug, lang):
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>{title} — NoCashFlow</title>
 <meta name="description" content="{dek}"/>
+<meta name="robots" content="max-image-preview:large"/>
 <link rel="canonical" href="{canonical}"/>
 <link rel="alternate" hreflang="en" href="{alt_en}"/>
 <link rel="alternate" hreflang="tr" href="{alt_tr}"/>
@@ -1545,9 +1592,9 @@ def render_article(slug, lang):
 <meta property="og:description" content="{dek}"/>
 <meta property="og:type" content="article"/>
 <meta property="og:url" content="{canonical}"/>
-<meta property="og:image" content="{OG_IMAGE}"/>
+<meta property="og:image" content="{article_image(a, lang)}"/>
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="{OG_IMAGE}"/>
+<meta name="twitter:image" content="{article_image(a, lang)}"/>
 <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml"/>
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=2"/>
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png?v=2"/>
@@ -1562,7 +1609,7 @@ def render_article(slug, lang):
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
 <link rel="stylesheet" href="/broadsheet.css"/>
-<script type="application/ld+json">{schema}</script>
+{article_jsonld(a, lang, canonical)}
 </head>
 <body data-mood="{_mood()}" class="bs">"""
 
