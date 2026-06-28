@@ -1406,6 +1406,16 @@ def render(page, lang):
 OG_IMAGE = SITE_URL + "/og.png"
 
 ARTICLES = {
+    "enflasyon": {
+        "num": "#08", "date": "2026-06-28",
+        "cat": {"en": "Macro", "tr": "Makro"},
+        "date_disp": {"en": "Jun 28, 2026", "tr": "28 Haz 2026"},
+        "read": {"en": "6 min read", "tr": "6 dk okuma"},
+        "title": {"en": "Warsh Raised the Bar.",
+                  "tr": "Warsh Çıtayı Yükseltti."},
+        "dek": {"en": "A hawkish first meeting, inflation at a three-year high, and the July prints that decide everything — along a single line of tension.",
+                "tr": "Şahin bir ilk toplantı, üç yılın zirvesindeki enflasyon ve her şeyi belirleyecek Temmuz verisi — tek bir gerilim hattında."},
+    },
     "warsh": {
         "num": "#07", "date": "2026-06-22",
         "cat": {"en": "Macro", "tr": "Makro"},
@@ -1475,7 +1485,7 @@ ARTICLES = {
                 "tr": "Brent %40 yukarıda, Hürmüz kapalı — ama petrol yoğunluğu 1973'ten beri yarıdan fazla düştü."},
     },
 }
-ARTICLE_ORDER = ["warsh", "hormuz", "circle", "smart-money", "nukleer", "bakir", "petrol"]  # newest first
+ARTICLE_ORDER = ["enflasyon", "warsh", "hormuz", "circle", "smart-money", "nukleer", "bakir", "petrol"]  # newest first
 
 
 def article_path(slug, lang):

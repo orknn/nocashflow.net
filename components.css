@@ -147,6 +147,17 @@
 .arrow-list li::before { content: '→'; position: absolute; left: 0; color: var(--amber); }
 .source-box { border-left: 2px solid var(--border); padding: 12px 18px; margin: 24px 0; font-size: 13px; color: var(--text-mute); }
 .source-box .k { font-family: var(--mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; display: block; margin-bottom: 6px; color: var(--text-dim); }
+.article-figure { margin: 32px 0; }
+.article-figure img {
+  display: block; width: 100%; height: auto;
+  border: 1px solid var(--border-soft); border-radius: 4px;
+  background: var(--bg-elev);
+}
+.article-figure figcaption {
+  font-family: var(--mono); font-size: 11px; line-height: 1.6;
+  letter-spacing: 0.01em; color: var(--text-mute);
+  margin-top: 10px; padding-left: 2px;
+}
 
 /* ===== LAYOUT: content + sidebar ===== */
 .with-aside { display: grid; grid-template-columns: 1fr 320px; gap: 56px; align-items: start; }

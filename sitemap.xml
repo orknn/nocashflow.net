@@ -169,6 +169,18 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/archive.html"/>
   </url>
   <url>
+    <loc>https://nocashflow.net/articles/enflasyon.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/articles/enflasyon.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/yazilar/enflasyon.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/articles/enflasyon.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/tr/yazilar/enflasyon.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/articles/enflasyon.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/yazilar/enflasyon.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/articles/enflasyon.html"/>
+  </url>
+  <url>
     <loc>https://nocashflow.net/articles/warsh.html</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/articles/warsh.html"/>
     <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/yazilar/warsh.html"/>
