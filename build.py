@@ -449,8 +449,8 @@ PAGES = {
         "out":   {"en": "about.html", "tr": "tr/hakkinda.html"},
         "title": {"en": "About — NoCashFlow | Orkun Biçen",
                   "tr": "Hakkında — NoCashFlow | Orkun Biçen"},
-        "desc":  {"en": "Orkun Biçen — supply chain and operations manager, MBA, macro analyst. Founder of NoCashFlow.",
-                  "tr": "Orkun Biçen — tedarik zinciri yöneticisi, MBA, makro analist. NoCashFlow'un kurucusu."},
+        "desc":  {"en": "Orkun Biçen — Finance Business Partner (FP&amp;A &amp; controlling), macro analyst and trader. Founder of NoCashFlow.",
+                  "tr": "Orkun Biçen — Finance Business Partner (FP&amp;A &amp; controlling), makro analist ve trader. NoCashFlow'un kurucusu."},
     },
     "sozluk": {
         "nav_key": None,  # glossary lives in the footer, not the primary nav
@@ -772,7 +772,7 @@ def head(page, lang):
     if page == "hakkinda":
         site_schema = json.dumps({
             "@context": "https://schema.org", "@type": "Person", "name": "Orkun Biçen",
-            "url": canonical, "jobTitle": "Macro analyst",
+            "url": canonical, "jobTitle": "Finance Business Partner",
             "worksFor": {"@type": "Organization", "name": "NoCashFlow", "url": SITE_URL},
             "sameAs": ["https://twitter.com/No_CashFlow", "https://www.linkedin.com/in/orkunbicen/"],
         }, ensure_ascii=False)
