@@ -39,6 +39,10 @@
     <p class="newsletter-dek">Hear about it as the glossary grows and every time a new analysis drops.</p>
     <form class="newsletter-form" data-newsletter data-lang="en">
       <input class="newsletter-input" type="email" name="email" placeholder="you@email.com" autocomplete="email" required/>
+      <fieldset class="nl-lang" aria-label="Bulletin language / Bülten dili">
+        <label class="nl-lang-opt"><input type="radio" name="lang" value="en" checked/><span>English</span></label>
+        <label class="nl-lang-opt"><input type="radio" name="lang" value="tr"/><span>Türkçe</span></label>
+      </fieldset>
       <input class="nl-hp" type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true"/>
       <button class="newsletter-submit" type="submit">Subscribe</button>
     </form>

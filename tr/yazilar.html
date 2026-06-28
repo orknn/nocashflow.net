@@ -192,6 +192,10 @@
         </div>
         <form class="newsletter-form" data-newsletter data-lang="tr" style="max-width:360px;margin:0">
           <input class="newsletter-input" type="email" name="email" placeholder="you@email.com" autocomplete="email" required/>
+          <fieldset class="nl-lang" aria-label="Bulletin language / Bülten dili">
+            <label class="nl-lang-opt"><input type="radio" name="lang" value="en"/><span>English</span></label>
+            <label class="nl-lang-opt"><input type="radio" name="lang" value="tr" checked/><span>Türkçe</span></label>
+          </fieldset>
           <input class="nl-hp" type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true"/>
           <button class="newsletter-submit" type="submit">Abone Ol</button>
         </form>

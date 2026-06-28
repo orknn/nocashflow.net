@@ -491,6 +491,7 @@ body.hovering-link .cursor-dot { background: var(--amber); width: 4px; height: 4
 }
 .newsletter-form {
   display: flex;
+  flex-wrap: wrap;
   max-width: 540px;
   margin: 0 auto;
   gap: 10px;
@@ -540,26 +541,28 @@ body.hovering-link .cursor-dot { background: var(--amber); width: 4px; height: 4
   opacity: 0; pointer-events: none;
 }
 
-/* language toggle (TR/EN) under the main signup */
-.newsletter-lang {
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  margin-top: 16px;
-}
-.nl-lang-label {
-  font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--text-mute); margin-right: 4px;
-}
+/* bulletin-language picker — segmented radio toggle inside the form.
+   The user picks the bulletin language explicitly; it is NOT the page language. */
 .nl-lang {
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em;
-  padding: 4px 10px; cursor: pointer;
-  background: transparent; color: var(--text-mute);
-  border: 1px solid var(--border);
+  flex-basis: 100%;          /* drop onto its own row within the flex form */
+  order: 1;                  /* below the email + submit row */
+  border: 0; padding: 0; margin: 14px auto 0;
+  display: flex; justify-content: center; gap: 8px;
+}
+.nl-lang-opt {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 7px 16px; cursor: pointer; user-select: none;
+  color: var(--text-mute);
+  border: 1px solid var(--border); border-radius: 999px;
   transition: color .15s, border-color .15s, background .15s;
 }
-.nl-lang:hover { color: var(--text); border-color: var(--text-mute); }
-.nl-lang.is-active {
-  color: #fff; background: var(--text); border-color: var(--text);
+.nl-lang-opt input { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
+.nl-lang-opt:hover { color: var(--text); border-color: var(--text-mute); }
+.nl-lang-opt:has(input:checked) {
+  color: #fff; background: var(--red); border-color: var(--red);
 }
+.nl-lang-opt:has(input:focus-visible) { outline: 2px solid var(--red); outline-offset: 2px; }
 
 /* subscribe result message ("check your inbox" / errors) */
 .newsletter-msg {

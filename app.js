@@ -283,19 +283,6 @@
       err: 'Failed — try again',
     };
 
-    // Language toggle (only on the main signup): flips form.dataset.lang.
-    // Uses `data-nl-lang` — distinct from the site-wide `data-set-lang` nav switch.
-    $$('[data-nl-lang]').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const scope = btn.closest('section') || document;
-        const form = scope.querySelector('form[data-newsletter]');
-        if (!form) return;
-        form.dataset.lang = btn.getAttribute('data-nl-lang');
-        scope.querySelectorAll('[data-nl-lang]').forEach((b) =>
-          b.classList.toggle('is-active', b === btn));
-      });
-    });
-
     $$('form[data-newsletter]').forEach((form) => {
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -303,7 +290,11 @@
         const input = form.querySelector('input[type="email"]');
         if (!btn || !input || btn.disabled) return;
         const email = input.value.trim();
-        const lang = form.dataset.lang === 'tr' ? 'tr'
+        // Bulletin language is the user's explicit choice (radio), NOT the page
+        // language. Fall back to the form's data-lang / page lang if absent.
+        const picked = form.querySelector('input[name="lang"]:checked');
+        const lang = picked ? (picked.value === 'tr' ? 'tr' : 'en')
+                   : form.dataset.lang === 'tr' ? 'tr'
                    : form.dataset.lang === 'en' ? 'en'
                    : (pageTR ? 'tr' : 'en');
         const hp = (form.querySelector('.nl-hp, input[name="hp"]') || {}).value || '';
