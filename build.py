@@ -1415,7 +1415,7 @@ except Exception:
 
 PUBLISHER = {
     "@type": "Organization", "name": "NoCashFlow", "url": SITE_URL + "/",
-    "logo": {"@type": "ImageObject", "url": SITE_URL + "/logo.png", "width": 112, "height": 112},
+    "logo": {"@type": "ImageObject", "url": SITE_URL + "/logo.png", "width": 512, "height": 512},
 }
 AUTHOR_BASE = {"@type": "Person", "name": "Orkun Biçen",
                "sameAs": ["https://www.linkedin.com/in/orkunbicen/"]}
