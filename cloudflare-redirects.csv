@@ -1,0 +1,8 @@
+source,target,status,preserve_query_string,include_subdomains,subpath_matching,preserve_path_suffix
+https://nocashflow.net/yazilar.html,https://nocashflow.net/articles.html,301,true,false,false,false
+https://nocashflow.net/hakkinda.html,https://nocashflow.net/about.html,301,true,false,false,false
+https://nocashflow.net/sozluk.html,https://nocashflow.net/glossary.html,301,true,false,false,false
+https://nocashflow.net/articles/enflasyon.html,https://nocashflow.net/articles/inflation.html,301,true,false,false,false
+https://nocashflow.net/articles/nukleer.html,https://nocashflow.net/articles/nuclear.html,301,true,false,false,false
+https://nocashflow.net/articles/bakir.html,https://nocashflow.net/articles/copper.html,301,true,false,false,false
+https://nocashflow.net/articles/petrol.html,https://nocashflow.net/articles/oil.html,301,true,false,false,false

@@ -332,13 +332,13 @@ def gloss_wrap(prose, lang):
 # ── shared navigation (key, label_en, label_tr, href_en, href_tr) ────────────
 NAV = [
     ("home",      "Home",      "Ana Sayfa", "/",                   "/tr/"),
-    ("articles",  "Articles",  "Yazılar",   "/yazilar.html",       "/tr/yazilar.html"),
+    ("articles",  "Articles",  "Yazılar",   "/articles.html",      "/tr/yazilar.html"),
     ("macro",     "Macro",     "Makro",     "/macro.html",         "/tr/macro.html"),
     ("calendar",  "Calendar",  "Takvim",    "/calendar.html",      "/tr/takvim.html"),
     ("dashboard", "Dashboard", "Panel",     "/dashboard.html",     "/tr/dashboard.html"),
     ("bulletin",  "Bulletin",  "Bülten",    "/bulletin_page.html", "/tr/bulletin_page.html"),
     ("finance-eng", "Finance Engineering", "Finance Engineering", "/finance-engineering.html", "/tr/finance-engineering.html"),
-    ("about",     "About",     "Hakkında",  "/hakkinda.html",      "/tr/hakkinda.html"),
+    ("about",     "About",     "Hakkında",  "/about.html",         "/tr/hakkinda.html"),
 ]
 
 SUBSCRIBE = {"en": ("Subscribe", "/bulletin_page.html"),
@@ -416,8 +416,8 @@ PAGES = {
     },
     "yazilar": {
         "nav_key": "articles",
-        "paths": {"en": "/yazilar.html", "tr": "/tr/yazilar.html"},
-        "out":   {"en": "yazilar.html", "tr": "tr/yazilar.html"},
+        "paths": {"en": "/articles.html", "tr": "/tr/yazilar.html"},
+        "out":   {"en": "articles.html", "tr": "tr/yazilar.html"},
         "title": {"en": "Articles — NoCashFlow | Macro &amp; Market Essays",
                   "tr": "Yazılar — NoCashFlow | Makro &amp; Piyasa Yazıları"},
         "desc":  {"en": "Macro analysis essays — oil, copper, nuclear energy, Fed policy, smart money. Sharp macro &amp; market takes, published regularly.",
@@ -445,8 +445,8 @@ PAGES = {
     },
     "hakkinda": {
         "nav_key": "about",
-        "paths": {"en": "/hakkinda.html", "tr": "/tr/hakkinda.html"},
-        "out":   {"en": "hakkinda.html", "tr": "tr/hakkinda.html"},
+        "paths": {"en": "/about.html", "tr": "/tr/hakkinda.html"},
+        "out":   {"en": "about.html", "tr": "tr/hakkinda.html"},
         "title": {"en": "About — NoCashFlow | Orkun Biçen",
                   "tr": "Hakkında — NoCashFlow | Orkun Biçen"},
         "desc":  {"en": "Orkun Biçen — supply chain and operations manager, MBA, macro analyst. Founder of NoCashFlow.",
@@ -454,8 +454,8 @@ PAGES = {
     },
     "sozluk": {
         "nav_key": None,  # glossary lives in the footer, not the primary nav
-        "paths": {"en": "/sozluk.html", "tr": "/tr/sozluk.html"},
-        "out":   {"en": "sozluk.html", "tr": "tr/sozluk.html"},
+        "paths": {"en": "/glossary.html", "tr": "/tr/sozluk.html"},
+        "out":   {"en": "glossary.html", "tr": "tr/sozluk.html"},
         "title": {"en": "Glossary — NoCashFlow | Financial Terms",
                   "tr": "Sözlük — NoCashFlow | Finansal Terimler"},
         "desc":  {"en": "Plain explanations of macro, market and crypto terms — the NoCashFlow financial glossary.",
@@ -970,7 +970,7 @@ def footer(lang):
         <h4>{f['col_pages']}</h4>
         <ul>
           <li><a href="{fl('/', '/tr/')}">{f['l_home']}</a></li>
-          <li><a href="{fl('/yazilar.html', '/tr/yazilar.html')}">{f['l_articles']}</a></li>
+          <li><a href="{fl('/articles.html', '/tr/yazilar.html')}">{f['l_articles']}</a></li>
           <li><a href="{fl('/macro.html', '/tr/macro.html')}">{f['l_macro']}</a></li>
           <li><a href="{fl('/now/', '/tr/simdi/')}">{f['l_indicators']}</a></li>
           <li><a href="{fl('/calendar.html', '/tr/takvim.html')}">{f['l_calendar']}</a></li>
@@ -983,8 +983,8 @@ def footer(lang):
           <li><a href="{fl('/bulletin_page.html', '/tr/bulletin_page.html')}">{f['l_bulletin']}</a></li>
           <li><a href="{fl('/archive.html', '/tr/arsiv.html')}">{f['l_archive']}</a></li>
           <li><a href="{fl('/embed.html', '/tr/embed.html')}">{f['l_widget']}</a></li>
-          <li><a href="{fl('/hakkinda.html', '/tr/hakkinda.html')}">{f['l_about']}</a></li>
-          <li><a href="{fl('/sozluk.html', '/tr/sozluk.html')}">{f['l_glossary']}</a></li>
+          <li><a href="{fl('/about.html', '/tr/hakkinda.html')}">{f['l_about']}</a></li>
+          <li><a href="{fl('/glossary.html', '/tr/sozluk.html')}">{f['l_glossary']}</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -999,7 +999,7 @@ def footer(lang):
     </div>
     <div class="footer-bot">
       <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona</span>
-      <span><a href="{fl('/hakkinda.html', '/tr/hakkinda.html')}">{f['bottom_about']}</a> · <a href="{fl('/bulletin_page.html', '/tr/bulletin_page.html')}">{f['bottom_subscribe']}</a></span>
+      <span><a href="{fl('/about.html', '/tr/hakkinda.html')}">{f['bottom_about']}</a> · <a href="{fl('/bulletin_page.html', '/tr/bulletin_page.html')}">{f['bottom_subscribe']}</a></span>
     </div>
     {_mood_line(lang)}
     <div class="disclaimer">
@@ -1488,12 +1488,27 @@ ARTICLES = {
 ARTICLE_ORDER = ["enflasyon", "warsh", "hormuz", "circle", "smart-money", "nukleer", "bakir", "petrol"]  # newest first
 
 
+# EN-side slug overrides — keep the registry key (and content dir + TR URL) in
+# Turkish, but publish the English page under an English slug. TR URLs are never
+# touched. Anything not listed keeps its key as the slug in both languages.
+EN_ARTICLE_SLUG = {
+    "enflasyon": "inflation",
+    "nukleer":   "nuclear",
+    "bakir":     "copper",
+    "petrol":    "oil",
+}
+
+
+def _en_slug(slug):
+    return EN_ARTICLE_SLUG.get(slug, slug)
+
+
 def article_path(slug, lang):
-    return f"/articles/{slug}.html" if lang == "en" else f"/tr/yazilar/{slug}.html"
+    return f"/articles/{_en_slug(slug)}.html" if lang == "en" else f"/tr/yazilar/{slug}.html"
 
 
 def article_out(slug, lang):
-    return f"articles/{slug}.html" if lang == "en" else f"tr/yazilar/{slug}.html"
+    return f"articles/{_en_slug(slug)}.html" if lang == "en" else f"tr/yazilar/{slug}.html"
 
 
 def render_article(slug, lang):
@@ -1503,7 +1518,7 @@ def render_article(slug, lang):
     alt_en, alt_tr = SITE_URL + article_path(slug, "en"), SITE_URL + article_path(slug, "tr")
     prose = _read(f"articles/{slug}/{lang}.html")
     feed = "/feed-en.xml" if lang == "en" else "/feed-tr.xml"
-    yazilar_url = "/yazilar.html" if lang == "en" else "/tr/yazilar.html"
+    yazilar_url = "/articles.html" if lang == "en" else "/tr/yazilar.html"
     back = "← All articles" if lang == "en" else "← Tüm yazılar"
     sw_href = article_path(slug, "tr") if lang == "en" else article_path(slug, "en")
 
