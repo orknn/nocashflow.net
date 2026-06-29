@@ -1,5 +1,5 @@
 {
-  "asof": "2026-06-28T08:25:54Z",
+  "asof": "2026-06-29T09:54:04Z",
   "events": [
     {
       "dt_utc": "2026-06-29 17:30:00",
@@ -126,23 +126,23 @@
       "cet_date": "2026-07-01",
       "wd": 2,
       "time": "16:00",
-      "event": "ISM Manufacturing Prices",
-      "country": "US",
-      "impact": "medium",
-      "prev": "82.1",
-      "est": "79",
-      "act": "—"
-    },
-    {
-      "dt_utc": "2026-07-01 14:30:00",
-      "cet_date": "2026-07-01",
-      "wd": 2,
-      "time": "16:30",
       "event": "ECB President Lagarde Speaks",
       "country": "EU",
       "impact": "medium",
       "prev": "—",
       "est": "—",
+      "act": "—"
+    },
+    {
+      "dt_utc": "2026-07-01 14:00:00",
+      "cet_date": "2026-07-01",
+      "wd": 2,
+      "time": "16:00",
+      "event": "ISM Manufacturing Prices",
+      "country": "US",
+      "impact": "medium",
+      "prev": "82.1",
+      "est": "79",
       "act": "—"
     },
     {
