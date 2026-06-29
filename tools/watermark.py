@@ -44,7 +44,7 @@ def _is_light(img):
 BRAND_RED = (176, 68, 43)  # #B0442B — same oxide-red as the chart "Headline CPI"
 
 
-def stamp(img, *, diagonal=True, corner=True, opacity=0.06, ink=None,
+def stamp(img, *, diagonal=True, corner=True, opacity=0.08, ink=None,
           corner_color=BRAND_RED):
     """Return a watermarked copy of a PIL image. Original is not mutated."""
     base = img.convert("RGBA")
@@ -54,26 +54,16 @@ def stamp(img, *, diagonal=True, corner=True, opacity=0.06, ink=None,
     overlay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
 
     if diagonal:
-        fsize = max(8, round(W / 67))   # ~60% of the earlier size (−40%)
+        # one single faint horizontal wordmark, centered
+        fsize = max(11, W // 36)
         tfont = _font(fsize)
-        meas = ImageDraw.Draw(overlay)
-        tw = meas.textbbox((0, 0), TEXT, font=tfont)[2]
-        gap_x = max(40, int(tw * 1.7))
-        gap_y = max(28, int(fsize * 4.2))
-        # oversize layer so rotation never leaves bare corners
-        big = (int(W * 1.6), int(H * 1.6))
-        layer = Image.new("RGBA", big, (0, 0, 0, 0))
-        ld = ImageDraw.Draw(layer)
+        td = ImageDraw.Draw(overlay)
+        bb = td.textbbox((0, 0), TEXT, font=tfont)
+        tw, th = bb[2] - bb[0], bb[3] - bb[1]
         a = max(1, int(255 * opacity))
-        row = 0
-        for yy in range(0, big[1], gap_y):
-            x0 = -gap_x + (gap_x // 2 if row % 2 else 0)
-            for xx in range(x0, big[0], gap_x):
-                ld.text((xx, yy), TEXT, font=tfont, fill=(ink[0], ink[1], ink[2], a))
-            row += 1
-        layer = layer.rotate(30, expand=False, resample=Image.BICUBIC)
-        lx, ly = (big[0] - W) // 2, (big[1] - H) // 2
-        overlay = Image.alpha_composite(overlay, layer.crop((lx, ly, lx + W, ly + H)))
+        x = (W - tw) // 2 - bb[0]
+        y = (H - th) // 2 - bb[1]
+        td.text((x, y), TEXT, font=tfont, fill=(ink[0], ink[1], ink[2], a))
 
     if corner:
         cfont = _font(max(11, round(W / 90)))   # ~40% of the earlier size (−60%)
