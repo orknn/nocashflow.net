@@ -17,6 +17,16 @@ DATA = ROOT / "data"
 FONTS = ROOT / "assets" / "fonts"
 OUT = ROOT / "share"
 
+# Brand watermark (faint diagonal). The card already carries a bottom wordmark,
+# so corner=False avoids a duplicate. Never breaks the build if the tool moves.
+try:
+    import sys as _sys
+    if str(ROOT) not in _sys.path:
+        _sys.path.insert(0, str(ROOT))
+    from tools.watermark import stamp as _wm_stamp
+except Exception:
+    _wm_stamp = None
+
 # ── design tokens (mirror site.css :root) ────────────────────────────────────
 BG        = (255, 255, 255)
 BG_ELEV   = (250, 249, 246)
@@ -164,6 +174,8 @@ def build_card():
     ff = mono(15)
     d.text((W - M - _w(d, foot, ff), fy + 6), foot, font=ff, fill=MUTED)
 
+    if _wm_stamp:
+        img = _wm_stamp(img, corner=False)   # faint diagonal; card already branded
     OUT.mkdir(parents=True, exist_ok=True)
     path = OUT / "daily.png"
     img.save(path, "PNG")
