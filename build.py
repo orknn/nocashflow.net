@@ -1420,16 +1420,9 @@ PUBLISHER = {
 AUTHOR_BASE = {"@type": "Person", "name": "Orkun Biçen",
                "sameAs": ["https://www.linkedin.com/in/orkunbicen/"]}
 ABOUT_URL = {"en": SITE_URL + "/about.html", "tr": SITE_URL + "/tr/hakkinda.html"}
-DEFAULT_OG = SITE_URL + "/og.png"
-
-
-def article_image(meta, lang):
-    img = meta.get("img")
-    if isinstance(img, dict):
-        img = img.get(lang)
-    if not img:
-        return DEFAULT_OG
-    return img if img.startswith("http") else SITE_URL + img
+def article_card_url(slug, lang):
+    """Each article's generated social card (assets/cards/) — also its og:image."""
+    return f"{SITE_URL}/assets/cards/{slug}-{lang}.png"
 
 
 def _iso(date_str, hour=8):
@@ -1439,11 +1432,11 @@ def _iso(date_str, hour=8):
     return f"{date_str}T{hour:02d}:00:00+02:00"
 
 
-def article_jsonld(meta, lang, canonical):
+def article_jsonld(meta, lang, canonical, slug):
     data = {
         "@context": "https://schema.org", "@type": "NewsArticle",
         "headline": meta["title"][lang], "description": meta["dek"][lang],
-        "image": [article_image(meta, lang)],
+        "image": [article_card_url(slug, lang)],
         "datePublished": _iso(meta["date"]),
         "dateModified": _iso(meta.get("updated", meta["date"])),
         "author": dict(AUTHOR_BASE, url=ABOUT_URL[lang]),
@@ -1458,8 +1451,6 @@ def article_jsonld(meta, lang, canonical):
 ARTICLES = {
     "enflasyon": {
         "num": "#08", "date": "2026-06-28",
-        "img": {"en": "/assets/articles/warsh-inflation-en.png",
-                "tr": "/assets/articles/warsh-inflation-tr.png"},
         "cat": {"en": "Macro", "tr": "Makro"},
         "date_disp": {"en": "Jun 28, 2026", "tr": "28 Haz 2026"},
         "read": {"en": "6 min read", "tr": "6 dk okuma"},
@@ -1592,9 +1583,9 @@ def render_article(slug, lang):
 <meta property="og:description" content="{dek}"/>
 <meta property="og:type" content="article"/>
 <meta property="og:url" content="{canonical}"/>
-<meta property="og:image" content="{article_image(a, lang)}"/>
+<meta property="og:image" content="{article_card_url(slug, lang)}"/>
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="{article_image(a, lang)}"/>
+<meta name="twitter:image" content="{article_card_url(slug, lang)}"/>
 <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml"/>
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=2"/>
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png?v=2"/>
@@ -1609,7 +1600,7 @@ def render_article(slug, lang):
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
 <link rel="stylesheet" href="/broadsheet.css"/>
-{article_jsonld(a, lang, canonical)}
+{article_jsonld(a, lang, canonical, slug)}
 </head>
 <body data-mood="{_mood()}" class="bs">"""
 
@@ -2049,6 +2040,7 @@ def build():
         encoding="utf-8")
     print("  + data/market.js (widget JSONP)")
     _render_share_image()
+    _render_article_cards()
     print(f"\n✓ {len(written)} page(s) + SEO artefacts written.")
 
 
@@ -2063,6 +2055,28 @@ def _render_share_image():
         mod.build_card()
     except Exception as e:
         print(f"  (share image skipped: {e})")
+
+
+def _render_article_cards():
+    """One branded social card per article × language (also each article's og:image)."""
+    try:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "make_article_card", ROOT / "scripts" / "make_article_card.py")
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        out = ROOT / "assets" / "cards"
+        out.mkdir(parents=True, exist_ok=True)
+        n = 0
+        for slug, a in ARTICLES.items():
+            for lang in ("en", "tr"):
+                mod.build_article_card(a["title"][lang], a["dek"][lang],
+                                       a["cat"][lang], a["date_disp"][lang],
+                                       out / f"{slug}-{lang}.png")
+                n += 1
+        print(f"  + {n} article social cards (assets/cards/)")
+    except Exception as e:
+        print(f"  (article cards skipped: {e})")
 
 
 if __name__ == "__main__":
