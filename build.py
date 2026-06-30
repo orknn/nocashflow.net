@@ -1671,6 +1671,122 @@ def render_article(slug, lang):
     return inject_market(html)
 
 
+# ── Finance Engineering essays (own section; bodies in content/fe/<key>/) ──────
+FE_ESSAYS = {
+    "veri-yalan-soyleyince": {
+        "num": "02", "date": "2026-06-27", "en_slug": "when-data-lies",
+        "cat": {"en": "Teardown", "tr": "Teardown"},
+        "date_disp": {"en": "Jun 27, 2026", "tr": "27 Haz 2026"},
+        "read": {"en": "6 min read", "tr": "6 dk okuma"},
+        "title": {"en": "When the Data Lied", "tr": "Veri Yalan Söyleyince"},
+        "dek": {"en": "Every morning a bulletin went out to confirmed subscribers. Because of one line of code, the ETF-flow figures inside it weren't real. Not estimates — fabricated.",
+                "tr": "Her sabah doğrulanmış abonelere bir bülten gidiyordu. Bir satır kod yüzünden içindeki ETF akış rakamları gerçek değildi. Tahmin değil — uydurma."},
+    },
+    "finans-ai-manzarasi-2026": {
+        "num": "03", "date": "2026-06-29", "en_slug": "finance-ai-landscape-2026",
+        "cat": {"en": "Tooling Radar", "tr": "Araç Radarı"},
+        "date_disp": {"en": "Jun 29, 2026", "tr": "29 Haz 2026"},
+        "read": {"en": "6 min read", "tr": "6 dk okuma"},
+        "title": {"en": "The 2026 Finance-AI Landscape", "tr": "2026 Finans-AI Manzarası"},
+        "dek": {"en": "Finance is six-to-twelve months behind coding, and on the same road. Where Claude, Gemini, OpenAI and specialist agents fit — read as architecture, not a vendor pitch.",
+                "tr": "Finans, kodlamadan altı ay-bir yıl geride; aynı yola giriyor. Claude, Gemini, OpenAI ve uzman ajanlar nereye oturuyor — vendor değil, mimari gözüyle."},
+    },
+    "mesele-hiz-degildi": {
+        "num": "01", "date": "2026-06-24", "en_slug": "not-about-speed",
+        "cat": {"en": "Teardown", "tr": "Teardown"},
+        "date_disp": {"en": "Jun 24, 2026", "tr": "24 Haz 2026"},
+        "read": {"en": "5 min read", "tr": "5 dk okuma"},
+        "title": {"en": "It Was Never About Speed", "tr": "Mesele Hız Değildi"},
+        "dek": {"en": "I built a stock-analysis tool. Everyone assumes it's about speed — but speed was never the problem. The real problem was comparison: a raw ratio says nothing without the right peer set.",
+                "tr": "Bir hisse analiz tool'u kurdum. Herkes bunu hız sanıyor — oysa hız hiçbir zaman problem değildi. Asıl mesele kıyastı: ham bir oran, doğru peer set olmadan hiçbir şey söylemez."},
+    },
+}
+
+
+def fe_path(key, lang):
+    return (f"/finance-engineering/{FE_ESSAYS[key]['en_slug']}.html" if lang == "en"
+            else f"/tr/finance-engineering/{key}.html")
+
+
+def fe_out(key, lang):
+    return (f"finance-engineering/{FE_ESSAYS[key]['en_slug']}.html" if lang == "en"
+            else f"tr/finance-engineering/{key}.html")
+
+
+def render_fe_essay(key, lang):
+    a = FE_ESSAYS[key]
+    title, dek = a["title"][lang], a["dek"][lang]
+    canonical = SITE_URL + fe_path(key, lang)
+    alt_en, alt_tr = SITE_URL + fe_path(key, "en"), SITE_URL + fe_path(key, "tr")
+    prose = _read(f"fe/{key}/{lang}.html")
+    feed = "/feed-en.xml" if lang == "en" else "/feed-tr.xml"
+    hub = "/finance-engineering.html" if lang == "en" else "/tr/finance-engineering.html"
+    back = "← Finance Engineering"
+    sw_href = fe_path(key, "tr") if lang == "en" else fe_path(key, "en")
+    card = article_card_url(key, lang)
+
+    head_html = f"""<!DOCTYPE html>
+<html lang="{lang}">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>{title} — Finance Engineering — NoCashFlow</title>
+<meta name="description" content="{dek}"/>
+<meta name="robots" content="max-image-preview:large"/>
+<link rel="canonical" href="{canonical}"/>
+<link rel="alternate" hreflang="en" href="{alt_en}"/>
+<link rel="alternate" hreflang="tr" href="{alt_tr}"/>
+<link rel="alternate" hreflang="x-default" href="{alt_en}"/>
+<meta property="og:title" content="{title}"/>
+<meta property="og:description" content="{dek}"/>
+<meta property="og:type" content="article"/>
+<meta property="og:url" content="{canonical}"/>
+<meta property="og:image" content="{card}"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="{card}"/>
+<link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml"/>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=2"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2"/>
+<link rel="shortcut icon" href="/favicon.ico?v=2"/>
+<link rel="alternate" type="application/rss+xml" title="NoCashFlow" href="{feed}"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<meta name="theme-color" content="#ffffff"/>
+{THEME_SCRIPT}
+<link href="{FONTS_URL}" rel="stylesheet"/>
+<link rel="stylesheet" href="/site.css"/>
+<link rel="stylesheet" href="/components.css"/>
+<link rel="stylesheet" href="/broadsheet.css"/>
+<link rel="stylesheet" href="/finance-eng.css"/>
+{article_jsonld(a, lang, canonical, key)}
+</head>
+<body data-mood="{_mood()}" class="bs">"""
+
+    overlays = (CURSOR_HTML +
+                '<div id="page-sweep"></div>\n'
+                '<div id="read-progress" aria-hidden="true"></div>\n')
+
+    body = f"""
+<article class="fe-essay">
+{prose}
+  <a class="fe-back" href="{hub}">{back}</a>
+</article>
+"""
+
+    scripts_html = (
+        '<script src="/app.js"></script>\n'
+        "<script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>\n"
+        "<script>document.querySelectorAll('[data-set-lang]').forEach(function(a){"
+        "a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',"
+        "a.getAttribute('data-set-lang'));}catch(e){}});});</script>"
+    )
+
+    html = "\n".join([head_html, overlays, _nav_html("finance-eng", lang, sw_href),
+                      TICKER_HTML, masthead("article", lang), body, footer(lang), scripts_html,
+                      "</body>", "</html>", ""])
+    return inject_market(html)
+
+
 # ── SEO artefacts: sitemap, RSS feeds, robots ────────────────────────────────
 def _xml_escape(s):
     return (s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;"))
@@ -1680,6 +1796,7 @@ def _indexable_pairs():
     """(en_url, tr_url) for every indexable page + article + indicator."""
     out = [(SITE_URL + p["paths"]["en"], SITE_URL + p["paths"]["tr"]) for p in PAGES.values()]
     out += [(SITE_URL + article_path(s, "en"), SITE_URL + article_path(s, "tr")) for s in ARTICLE_ORDER]
+    out += [(SITE_URL + fe_path(k, "en"), SITE_URL + fe_path(k, "tr")) for k in FE_ESSAYS]
     out += [(SITE_URL + "/now/", SITE_URL + "/tr/simdi/")]
     out += [(SITE_URL + indicator_path(s, "en"), SITE_URL + indicator_path(s, "tr")) for s in INDICATOR_ORDER]
     return out
@@ -2019,6 +2136,15 @@ def build():
             out_path.write_text(render_article(slug, lang), encoding="utf-8")
             written.append(article_out(slug, lang))
             print(f"  build {article_out(slug, lang):28} [{lang}]")
+    for key in FE_ESSAYS:                               # Finance Engineering essays
+        for lang in LANGS:
+            if not (CONTENT / "fe" / key / f"{lang}.html").exists():
+                continue
+            out_path = ROOT / fe_out(key, lang)
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            out_path.write_text(render_fe_essay(key, lang), encoding="utf-8")
+            written.append(fe_out(key, lang))
+            print(f"  build {fe_out(key, lang):28} [{lang}]")
     for lang in LANGS:                                  # live indicator hub + pages
         hub_out = "now/index.html" if lang == "en" else "tr/simdi/index.html"
         (ROOT / hub_out).parent.mkdir(parents=True, exist_ok=True)
@@ -2073,6 +2199,12 @@ def _render_article_cards():
                 mod.build_article_card(a["title"][lang], a["dek"][lang],
                                        a["cat"][lang], a["date_disp"][lang],
                                        out / f"{slug}-{lang}.png")
+                n += 1
+        for key, a in FE_ESSAYS.items():
+            for lang in ("en", "tr"):
+                mod.build_article_card(a["title"][lang], a["dek"][lang],
+                                       "Finance Engineering", a["date_disp"][lang],
+                                       out / f"{key}-{lang}.png")
                 n += 1
         print(f"  + {n} article social cards (assets/cards/)")
     except Exception as e:

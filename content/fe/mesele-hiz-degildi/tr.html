@@ -1,0 +1,51 @@
+<span class="eyebrow tag">01 · Teardown — Saha Notu</span>
+    <h1>Mesele <em>hız değildi</em></h1>
+    <p class="dek">Bir hisse analiz tool'u kurdum. Herkes bunu "hız" sanıyor — oysa hız hiçbir zaman problem değildi. Asıl mesele kıyastı: ham bir oran, doğru peer set olmadan hiçbir şey söylemez.</p>
+    <div class="byline">
+      <span>nocashflow.net · Finance Engineering</span>
+      <span>~5 dk · TR/EN</span>
+    </div>
+
+    <p class="first">Bir P/E'yi iki saniyede çekmek beceri değil. Bir API çağrısı, bir satır kod. Tool'un değeri orada değildi. Değer, o sayının <em>ne anlama geldiğini</em> söyleyebilmekteydi — ve bir oran, kiminle kıyaslandığını bilmeden anlamsızdır.</p>
+
+    <h2>Asıl problem</h2>
+    <p>25× bir F/K, tek başına bir veri kırıntısı. Bir yazılım şirketinde sıradan, bir utility'de pahalı, bir bankada anlamsızdır. Tool'un işi hızlı sorgu değildi; bir ismi <em>kendi sektör emsalleriyle</em> normalize edip nerede durduğunu göstermekti. Yani çıktı bir sayı değil, bir konumdu.</p>
+
+    <div class="exhibit">
+      <div class="cap"><span>Aynı oran, üç farklı okuma</span><span><b>peer set = anlam</b></span></div>
+      <table>
+        <tr><th>F/K</th><th>Peer set</th><th>Okuma</th></tr>
+        <tr><td class="v">25×</td><td>SaaS emsalleri (~35× medyan)</td><td class="read">ucuz</td></tr>
+        <tr><td class="v">25×</td><td>Utility emsalleri (~16× medyan)</td><td class="read">pahalı</td></tr>
+        <tr><td class="v">25×</td><td>Yanlış peer set</td><td class="read">gürültü</td></tr>
+      </table>
+    </div>
+
+    <h2>Ne kurdum</h2>
+    <p>İmplementasyon ajanı Claude Code, veri kaynağı yfinance. Fundamental'ları çek, bir sektör peer set'ine göre normalize et, ismin emsallerine göre nerede oturduğunu yüzeye çıkar. Mantık karmaşık değil; değerli olan, ham oranı bir <em>bağlama</em> oturtması.</p>
+
+    <div class="pull">Tool hızda başarısız olmadı — hızda başarılıydı, ve mesele zaten hız değildi. Değer de risk de yargıda yaşıyor.</div>
+
+    <h2>Nerede kırılıyor</h2>
+    <p>Dürüst olmazsam yazının bir değeri kalmaz. İki yerde kırılıyor:</p>
+
+    <div class="brk">
+      <span class="n">Kırılma 01</span>
+      <h3>Peer set seçimi hâlâ insan yargısı</h3>
+      <p>Model bir sektör kovası önerebilir. Ama "doğru" kıyas kümesine karar vermek analistin işidir: Circle bir ödeme şirketi mi, kripto-altyapı mı, money-market proxy'si mi? Bu seçim sonucu baştan belirler — ve tool bunu sahiplenemez.</p>
+    </div>
+
+    <div class="brk">
+      <span class="n">Kırılma 02</span>
+      <h3>yfinance resmi bir API değil</h3>
+      <p>Gayri resmi bir scraper. Şema değişir, rate-limit yer, sessizce boşluk bırakır — kırılgan. Kişisel bir tool için yeterli; sattığın ya da müşteri çıktısına dayadığın ticari bir bağlamda savunulamaz. Bunu bilerek kullanıyorum.</p>
+    </div>
+
+    <div class="principle">
+      <span class="k">İlke</span>
+      <p>Bir tool'un sınırını bilmek, onu kullanmanın bedeli değil; kullanma yetkisidir. Önce doğru kıyası seç, altta verinin neye dayandığını bil — gerisi sadece hız.</p>
+    </div>
+
+    <p class="repo">Kod: <a href="https://github.com/orknn">github.com/&lt;repo&gt;</a> — README'de varsayımlar ve sınırlar açıkça yazılı.</p>
+
+    <p class="disclaimer">Bu yazı finansal/teknik bir eğitim notudur; yatırım tavsiyesi değildir. Bahsi geçen oranlar ve eşikler örnek amaçlıdır.</p>

@@ -1,0 +1,51 @@
+<span class="eyebrow tag">01 · Teardown — Field Note</span>
+    <h1>It was never <em>about speed</em></h1>
+    <p class="dek">I built a stock-analysis tool. Everyone assumes it's about "speed" — but speed was never the problem. The real problem was comparison: a raw ratio says nothing without the right peer set.</p>
+    <div class="byline">
+      <span>nocashflow.net · Finance Engineering</span>
+      <span>~5 min · TR/EN</span>
+    </div>
+
+    <p class="first">Pulling a P/E in two seconds isn't a skill. One API call, one line of code. The tool's value wasn't there. The value was being able to say what that number <em>means</em> — and a ratio is meaningless until you know what it's being compared against.</p>
+
+    <h2>The real problem</h2>
+    <p>A 25× P/E, on its own, is a crumb of data. Ordinary at a software company, expensive at a utility, meaningless at a bank. The tool's job wasn't fast lookup; it was to normalize a name against <em>its own sector peers</em> and show where it sits. The output wasn't a number — it was a position.</p>
+
+    <div class="exhibit">
+      <div class="cap"><span>Same ratio, three readings</span><span><b>peer set = meaning</b></span></div>
+      <table>
+        <tr><th>P/E</th><th>Peer set</th><th>Reading</th></tr>
+        <tr><td class="v">25×</td><td>SaaS peers (~35× median)</td><td class="read">cheap</td></tr>
+        <tr><td class="v">25×</td><td>Utility peers (~16× median)</td><td class="read">expensive</td></tr>
+        <tr><td class="v">25×</td><td>Wrong peer set</td><td class="read">noise</td></tr>
+      </table>
+    </div>
+
+    <h2>What I built</h2>
+    <p>Claude Code as the implementation agent, yfinance as the data source. Pull the fundamentals, normalize against a sector peer set, surface where the name sits relative to its comparables. The logic isn't complex; what's valuable is that it puts a raw ratio into a <em>context</em>.</p>
+
+    <div class="pull">The tool didn't fail at speed — it succeeded at speed, and speed was never the point. Both the value and the risk live in judgment.</div>
+
+    <h2>Where it breaks</h2>
+    <p>Without honesty the piece is worthless. It breaks in two places:</p>
+
+    <div class="brk">
+      <span class="n">Breakpoint 01</span>
+      <h3>Peer-set selection is still human judgment</h3>
+      <p>The model can suggest a sector bucket. But deciding the "right" comparison set is the analyst's job: is Circle a payments company, crypto infrastructure, or a money-market proxy? That choice determines the result up front — and the tool can't own it.</p>
+    </div>
+
+    <div class="brk">
+      <span class="n">Breakpoint 02</span>
+      <h3>yfinance is not an official API</h3>
+      <p>It's an unofficial scraper. Schemas change, rate limits hit, gaps appear silently — it's fragile. Fine for a personal tool; not defensible in a commercial context you sell or stake a client deliverable on. I use it knowing exactly that.</p>
+    </div>
+
+    <div class="principle">
+      <span class="k">Principle</span>
+      <p>Knowing a tool's limits isn't the cost of using it; it's the license to use it. Choose the right comparison first, know what the data rests on underneath — the rest is just speed.</p>
+    </div>
+
+    <p class="repo">Code: <a href="https://github.com/orknn">github.com/&lt;repo&gt;</a> — assumptions and limits written plainly in the README.</p>
+
+    <p class="disclaimer">This is a financial/technical educational note, not investment advice. The ratios and thresholds mentioned are illustrative.</p>

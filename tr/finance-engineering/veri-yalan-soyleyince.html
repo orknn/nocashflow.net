@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Veri Yalan Söyleyince — Finance Engineering — NoCashFlow</title>
+<meta name="description" content="Her sabah doğrulanmış abonelere bir bülten gidiyordu. Bir satır kod yüzünden içindeki ETF akış rakamları gerçek değildi. Tahmin değil — uydurma."/>
+<meta name="robots" content="max-image-preview:large"/>
+<link rel="canonical" href="https://nocashflow.net/tr/finance-engineering/veri-yalan-soyleyince.html"/>
+<link rel="alternate" hreflang="en" href="https://nocashflow.net/finance-engineering/when-data-lies.html"/>
+<link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/finance-engineering/veri-yalan-soyleyince.html"/>
+<link rel="alternate" hreflang="x-default" href="https://nocashflow.net/finance-engineering/when-data-lies.html"/>
+<meta property="og:title" content="Veri Yalan Söyleyince"/>
+<meta property="og:description" content="Her sabah doğrulanmış abonelere bir bülten gidiyordu. Bir satır kod yüzünden içindeki ETF akış rakamları gerçek değildi. Tahmin değil — uydurma."/>
+<meta property="og:type" content="article"/>
+<meta property="og:url" content="https://nocashflow.net/tr/finance-engineering/veri-yalan-soyleyince.html"/>
+<meta property="og:image" content="https://nocashflow.net/assets/cards/veri-yalan-soyleyince-tr.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://nocashflow.net/assets/cards/veri-yalan-soyleyince-tr.png"/>
+<link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml"/>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=2"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2"/>
+<link rel="shortcut icon" href="/favicon.ico?v=2"/>
+<link rel="alternate" type="application/rss+xml" title="NoCashFlow" href="/feed-tr.xml"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<meta name="theme-color" content="#ffffff"/>
+<script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('theme');if(q==='dark'||q==='light'){try{localStorage.setItem('ncf_theme',q);}catch(e){}}var t=null;try{t=localStorage.getItem('ncf_theme');}catch(e){}if(!t){var h=new Date().getHours();t=(h>=21||h<7)?'dark':'light';}if(t==='dark')d.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Libre+Caslon+Display&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/site.css"/>
+<link rel="stylesheet" href="/components.css"/>
+<link rel="stylesheet" href="/broadsheet.css"/>
+<link rel="stylesheet" href="/finance-eng.css"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"NewsArticle","headline":"Veri Yalan Söyleyince","description":"Her sabah doğrulanmış abonelere bir bülten gidiyordu. Bir satır kod yüzünden içindeki ETF akış rakamları gerçek değildi. Tahmin değil — uydurma.","image":["https://nocashflow.net/assets/cards/veri-yalan-soyleyince-tr.png"],"datePublished":"2026-06-27T08:00:00+02:00","dateModified":"2026-06-27T08:00:00+02:00","author":{"@type":"Person","name":"Orkun Biçen","sameAs":["https://www.linkedin.com/in/orkunbicen/"],"url":"https://nocashflow.net/tr/hakkinda.html"},"publisher":{"@type":"Organization","name":"NoCashFlow","url":"https://nocashflow.net/","logo":{"@type":"ImageObject","url":"https://nocashflow.net/logo.png","width":512,"height":512}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://nocashflow.net/tr/finance-engineering/veri-yalan-soyleyince.html"},"articleSection":"Teardown","inLanguage":"tr"}</script>
+</head>
+<body data-mood="fear" class="bs">
+<div class="cursor-ring"><span class="c-label">Read</span></div>
+<div class="cursor-dot"></div>
+
+<div id="page-sweep"></div>
+<div id="read-progress" aria-hidden="true"></div>
+
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/tr/" class="logo">NO<span class="slash">/</span>CASHFLOW<span class="tag">MACRO × MARKETS</span></a>
+    <div class="nav-links" id="nav-links">
+      <a href="/tr/">Ana Sayfa</a>
+      <a href="/tr/yazilar.html">Yazılar</a>
+      <a href="/tr/macro.html">Makro</a>
+      <a href="/tr/takvim.html">Takvim</a>
+      <a href="/tr/dashboard.html">Panel</a>
+      <a href="/tr/bulletin_page.html">Bülten</a>
+      <a href="/tr/finance-engineering.html" class="active">Finance Engineering</a>
+      <a href="/tr/hakkinda.html">Hakkında</a>
+    </div>
+    <div class="nav-right">
+      <a class="lang-switch" href="/finance-engineering/when-data-lies.html" data-set-lang="en" aria-label="Switch to English">EN</a>
+      <button class="nav-btn theme-toggle" data-theme-toggle aria-label="After Hours" title="After Hours">◐</button>
+      <a href="/tr/bulletin_page.html" class="subscribe">Abone Ol</a>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-label"><span class="dot"></span> Live</div>
+  <div class="ticker-track" id="ticker-track"></div>
+</div>
+
+
+<div class="masthead"><div class="masthead-inner"><span>Sabah Baskısı</span><span class="mh-date">Salı, 30 Haziran 2026</span><span>Barcelona</span></div></div>
+
+
+<article class="fe-essay">
+<span class="eyebrow tag">01 · Teardown — Saha Notu</span>
+    <h1>Veri <em>yalan söyleyince</em></h1>
+    <p class="dek">Her sabah doğrulanmış abonelere bir bülten gidiyordu. Bir satır kod yüzünden içindeki ETF akış rakamları gerçek değildi. Tahmin değil — uydurma.</p>
+    <div class="byline">
+      <span>nocashflow.net · Finance Engineering</span>
+      <span>~6 dk · TR/EN</span>
+    </div>
+
+    <p class="first">Bir aracın sizi nasıl yarı yolda bıraktığını anlatmanın en dürüst yolu, kırıldığı satırı göstermektir. Kendi kripto-makro bültenimin veri katmanını denetlerken bulduğum şey bir çökme değildi. Çökme olsa iyiydi; çökme bağırır. Bu sessizce yalan söylüyordu.</p>
+
+    <p>Pipeline her sabah GitHub Actions üzerinde çalışıyor, verileri çekiyor, bir özet üretiyor ve sonucu siteye basıyordu. ETF giriş-çıkış satırı da oradaydı: IBIT şu kadar, FBTC bu kadar. Profesyonel görünen, bültenin en çok bakılan bölümlerinden biri. Tek sorun, o sayıların hiçbir yerden gelmiyor olmasıydı.</p>
+
+    <div class="exhibit">
+      <div class="cap"><span>data_fetcher.py · <b>get_etf_flows()</b></span><span>kanıt</span></div>
+<pre><code><span class="c-com"># Farside'a istek atılıyordu ama response hiç parse edilmiyordu.</span>
+<span class="c-com"># Her çalıştırmada akışlar üretiliyordu:</span>
+ibit_flow = <span class="c-bad">random.uniform(50, 300)</span>
+fbtc_flow = <span class="c-bad">random.uniform(-20, 150)</span>
+<span class="c-com"># → Bültende yayınlanan "ETF akışı" rastgele bir sayıydı.</span></code></pre>
+    </div>
+
+    <p>Yalnız da değildi. Options bölümündeki max pain, güncel BTC fiyatından kopuk bir çapaya rastgele gürültü ekliyordu: <span class="mono">85000 + random.randint(-2000, 2000)</span>. DVOL'ün 24 saatlik değişimi yine rastgele jitter'dı. Coinbase Premium grafiği, API düştüğünde 168 saatlik <em>sahte</em> bir random walk çiziyordu. <span class="mono">oi_chg_24h</span> her zaman 0 dönüyordu ama HTML'de o alan vardı. Gösterdiğim "2Y–10Y spread" aslında 3A–10Y'di, çünkü çektiğim seri (<span class="mono">^IRX</span>) 13 haftalık T-bill'di. PMI ise hiç çekilemiyor, her gün hardcoded 49.5 olarak görünüyordu.</p>
+
+    <div class="pull">Bir tool gürültüyle çökmez; ikna ederek çöker. Uydurulmuş bir sayı, ekranda gerçek bir sayıyla birebir aynı görünür.</div>
+
+    <h2>Asıl mesele</h2>
+    <p>Bunların hiçbiri klasik anlamda "bug" değildi — hiçbiri programı durdurmuyordu. Hepsi <em>makul</em> çıktı üretiyordu. Ve agentic / AI ile kurulmuş pipeline'ların asıl tehlikesi tam burada: makine, çıktıyı her zaman düzgün biçimlendirir. Tablo hizalı, sayı virgüllü, renk doğru. Altındaki mantık bozuk olsa bile sonuç güven verir. Hız kazanırsın, ama doğruluğu görsel olarak denetleyemezsin; çünkü yalan, gerçeğe benziyor.</p>
+
+    <p>Bu, sitenin denetiminde yakaladığım "fabricated data" sorununun aynısıydı — ama bu sefer abonelere giden bir üründe. İtibar açısından en pahalı hata türü.</p>
+
+    <h2>Çözüm: parse-or-hide</h2>
+    <p>Tek bir kural koydum: gerçek sayıyı alamıyorsan, hiçbir şey gösterme. Asla simüle etme. ETF tablosu <span class="mono">cloudscraper + pandas.read_html</span> ile parse edilebiliyorsa parse et; edilemiyorsa bölümü tamamen gizle. Max pain'i rastgele üretmek yerine, zaten çektiğim Deribit OI verisini strike bazında gruplandırıp <em>gerçekten</em> hesapla (~20 satır). Spread için doğru seriyi kullan (FRED <span class="mono">DGS2</span>). Bir veri yoksa, "veri alınamadı" de — boşluğu sahte bir trendle doldurma.</p>
+
+    <p>Fark ince ama belirleyici: önceki sistem sessizce yanlıştı, yenisi sesli olarak eksik. İkincisi her zaman tercih edilir.</p>
+
+    <div class="principle">
+      <span class="k">İlke</span>
+      <p>Finans mühendisliğinde avantaj hızda değil. Avantaj, aracın nerede kırıldığını bilmek ve onu <em>gürültüyle</em> kırılacak biçimde inşa etmektir.</p>
+    </div>
+
+    <p class="disclaimer">Bu yazı finansal/teknik bir eğitim notudur; yatırım tavsiyesi değildir. Bahsi geçen veri kaynakları ve metodolojiler örnek amaçlıdır.</p>
+  <a class="fe-back" href="/tr/finance-engineering.html">← Finance Engineering</a>
+</article>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-title">NO<span style="color:var(--amber)">/</span>CASHFLOW</div>
+        <p class="footer-brand-desc">Bağımsız makro &amp; piyasa, her gün yayımlanır. Kaynaklı veri, uydurma yok.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Sayfalar</h4>
+        <ul>
+          <li><a href="/tr/">Ana Sayfa</a></li>
+          <li><a href="/tr/yazilar.html">Yazılar</a></li>
+          <li><a href="/tr/macro.html">Makro</a></li>
+          <li><a href="/tr/simdi/">Canlı Göstergeler</a></li>
+          <li><a href="/tr/takvim.html">Ekonomik Takvim</a></li>
+          <li><a href="/tr/dashboard.html">Panel</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>İçerik</h4>
+        <ul>
+          <li><a href="/tr/bulletin_page.html">Bülten</a></li>
+          <li><a href="/tr/arsiv.html">Arşiv</a></li>
+          <li><a href="/tr/embed.html">Widget Göm</a></li>
+          <li><a href="/tr/hakkinda.html">Hakkında</a></li>
+          <li><a href="/tr/sozluk.html">Sözlük</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Sosyal</h4>
+        <ul>
+          <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
+          <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="/feed-tr.xml">RSS</a></li>
+          <li><a href="mailto:orkun@nocashflow.net">E-posta</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona</span>
+      <span><a href="/tr/hakkinda.html">Hakkında</a> · <a href="/tr/bulletin_page.html">Abone Ol</a></span>
+    </div>
+    <div class="mood-line"><span class="mood-dot"></span>Bugün piyasa korkuyor — Fear &amp; Greed 12/100.</div>
+    <div class="disclaimer">
+      Bu site yalnızca bilgilendirme amaçlıdır ve yatırım tavsiyesi içermez.<br/>
+      <a href="/tr/privacy.html">Gizlilik</a> · <a href="/tr/legal.html">Yasal Bildirim</a> · <a href="/tr/disclaimer.html">Feragatname</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/app.js"></script>
+<script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>
+<script>document.querySelectorAll('[data-set-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',a.getAttribute('data-set-lang'));}catch(e){}});});</script>
+</body>
+</html>

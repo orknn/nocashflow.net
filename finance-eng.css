@@ -1,0 +1,137 @@
+/* Finance Engineering — section hub + essay styles.
+   Scoped under .fe-page / .fe-essay so nothing leaks into the rest of the site.
+   Uses site CSS vars (so After Hours dark mode adapts); --fe-oxide is the accent. */
+.fe-page, .fe-essay { --fe-oxide: #B0442B; --fe-volt: #15B7EA; }
+.fe-page { max-width: 1120px; margin: 0 auto; padding: 16px 32px 0; }
+@media (max-width: 560px) { .fe-page { padding: 8px 20px 0; } }
+
+/* ── manifesto ─────────────────────────────────────────────────────────── */
+.fe-eyebrow { font-family: var(--mono); font-size: 11.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--fe-oxide); }
+.fe-head { padding: 40px 0 40px; }
+.fe-kicker { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
+.fe-kicker .ln { flex: 1; height: 1px; background: var(--border); }
+.fe-title { font-family: var(--serif); font-size: clamp(40px, 7vw, 76px); font-weight: 400; line-height: 1.02; letter-spacing: -.5px; margin: 0 0 22px; max-width: 15ch; }
+.fe-title em { font-style: italic; color: var(--fe-oxide); }
+.fe-lede { font-family: var(--serif); font-size: clamp(19px, 2.4vw, 23px); max-width: 62ch; line-height: 1.5; color: var(--text); margin: 0; }
+.fe-lede + .fe-lede { margin-top: 14px; color: var(--text-dim); }
+.fe-lede em { font-style: italic; color: var(--fe-oxide); }
+.fe-stamp { margin-top: 28px; font-family: var(--mono); font-size: 12px; color: var(--text-mute); letter-spacing: .06em; }
+
+/* ── pillars ───────────────────────────────────────────────────────────── */
+.fe-pillars { padding: 8px 0 56px; }
+.fe-pillars .grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--text); }
+.fe-pillar { padding: 26px 22px 30px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.fe-pillar:nth-child(4n) { border-right: 0; }
+.fe-pillar .no { font-family: var(--mono); font-size: 12px; color: var(--fe-oxide); letter-spacing: .12em; }
+.fe-pillar h3 { font-family: var(--serif); font-size: 21px; font-weight: 500; margin: 10px 0 8px; line-height: 1.15; }
+.fe-pillar p { font-size: 15px; color: var(--text-mute); margin: 0; line-height: 1.5; }
+@media (max-width: 860px) { .fe-pillars .grid { grid-template-columns: repeat(2, 1fr); } .fe-pillar:nth-child(4n) { border-right: 1px solid var(--border); } .fe-pillar:nth-child(2n) { border-right: 0; } }
+@media (max-width: 520px) { .fe-pillars .grid { grid-template-columns: 1fr; } .fe-pillar { border-right: 0; } }
+
+/* ── article index ─────────────────────────────────────────────────────── */
+.fe-index { padding: 54px 0; }
+.fe-index .ihead { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 8px; }
+.fe-index h2, .fe-radar h2, .fe-toolkit h2 { font-family: var(--mono); font-size: 14px; letter-spacing: .18em; text-transform: uppercase; font-weight: 500; margin: 0; }
+.fe-entry { display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: baseline; padding: 22px 0; border-top: 1px solid var(--border); }
+.fe-entry:first-of-type { border-top: 1px solid var(--text); }
+.fe-cat { font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--fe-oxide); display: block; margin-bottom: 7px; }
+.fe-entry h3 { font-family: var(--serif); font-size: 26px; font-weight: 400; line-height: 1.12; margin: 0 0 6px; letter-spacing: -.2px; }
+.fe-entry h3 .en { display: block; font-size: 16px; font-style: italic; color: var(--text-mute); margin-top: 4px; letter-spacing: 0; }
+.fe-entry p { margin: 8px 0 0; font-size: 15.5px; color: var(--text-mute); max-width: 60ch; }
+.fe-entry a.fe-link:hover h3 { color: var(--fe-oxide); }
+.fe-status { justify-self: end; font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; padding-top: 4px; }
+.fe-status.live { color: var(--fe-oxide); }
+.fe-status.draft { color: var(--text-mute); }
+.fe-status.planned { color: #A99E8C; }
+@media (max-width: 600px) { .fe-entry { grid-template-columns: 1fr; } .fe-status { justify-self: start; margin-top: 6px; } }
+
+/* ── tooling radar ─────────────────────────────────────────────────────── */
+.fe-radar { padding: 54px 0; border-top: 1px solid var(--text); }
+.fe-radar .sub { margin: 14px 0 26px; color: var(--text-mute); max-width: 64ch; font-size: 16px; }
+.fe-board { width: 100%; border-collapse: collapse; font-size: 15px; }
+.fe-board th, .fe-board td { text-align: left; vertical-align: top; padding: 16px 16px 16px 0; border-bottom: 1px solid var(--border); }
+.fe-board th { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--text-mute); font-weight: 500; border-bottom: 1px solid var(--text); }
+.fe-board td:first-child { font-weight: 500; white-space: nowrap; padding-right: 24px; }
+.fe-board td .meta { display: block; font-family: var(--mono); font-size: 11px; color: var(--fe-oxide); margin-top: 4px; letter-spacing: .06em; }
+.fe-note { margin-top: 22px; padding: 18px 20px; border: 1px solid var(--border); background: rgba(176, 68, 43, .05); font-size: 14.5px; color: var(--text); }
+.fe-note b { color: var(--fe-oxide); }
+@media (max-width: 680px) { .fe-board, .fe-board tbody, .fe-board tr, .fe-board td { display: block; width: 100%; } .fe-board thead { display: none; } .fe-board td { border-bottom: 0; padding: 2px 0; } .fe-board tr { border-bottom: 1px solid var(--border); padding: 16px 0; display: block; } }
+
+/* ── toolkit ───────────────────────────────────────────────────────────── */
+.fe-toolkit { padding: 50px 0 10px; border-top: 1px solid var(--text); }
+.fe-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.fe-chip { font-family: var(--mono); font-size: 12px; letter-spacing: .04em; padding: 7px 12px; border: 1px solid var(--border); color: var(--text); }
+.fe-chip { transition: color .18s cubic-bezier(.25,1,.5,1), border-color .18s cubic-bezier(.25,1,.5,1); }
+.fe-chip:hover { border-color: var(--fe-oxide); color: var(--fe-oxide); }
+
+/* ════ MOTION ═══════════════════════════════════════════════════════════════
+   Signature: an animated "agent stack" pipeline (skill → connector → subagent →
+   human sign-off) — a living current with nodes that pulse in sequence, so it
+   reads as data propagating through the stack. Reinforces the section's actual
+   thesis, not decoration. Everything degrades to static under reduced-motion. */
+.fe-flow { margin: 6px 0 4px; padding: 26px 0 16px; border-top: 1px solid var(--text); }
+.fe-flow-cap { font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--text-mute); margin: 0 0 14px; }
+.fe-flow-cap b { color: var(--fe-oxide); font-weight: 500; }
+.fe-flow-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.fe-wire { stroke: var(--border); stroke-width: 1.5; }
+/* flowing DATA: glowing electric-blue charge packets, not a dashed line.
+   round caps + a near-zero dash = luminous dots; drop-shadow = neon glow. */
+.fe-flow-line { fill: none; stroke: var(--fe-volt); stroke-width: 5.5; stroke-linecap: round; stroke-dasharray: 0.5 25; filter: drop-shadow(0 0 3px var(--fe-volt)) drop-shadow(0 0 8px var(--fe-volt)); }
+.fe-node-ring { fill: var(--bg); stroke: var(--text); stroke-width: 1.5; }
+.fe-node-core { fill: var(--fe-oxide); }
+.fe-node-pulse { fill: none; stroke: var(--fe-oxide); stroke-width: 1.5; transform-box: fill-box; transform-origin: center; opacity: 0; }
+.fe-flow-label { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; fill: var(--text-dim); text-anchor: middle; }
+.fe-flow-end { font-family: var(--mono); font-size: 10.5px; letter-spacing: .14em; fill: var(--text-mute); }
+
+/* radar sweep glyph next to the Tooling Radar heading */
+.fe-radar h2 { display: inline-flex; align-items: center; gap: 12px; }
+.fe-sweep { width: 20px; height: 20px; flex: none; }
+.fe-sweep circle { fill: none; stroke: var(--border); stroke-width: 1; }
+.fe-sweep .arm { stroke: var(--fe-oxide); stroke-width: 1.4; transform-origin: 10px 10px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .fe-flow-line { animation: fe-stream 1.6s linear infinite; }
+  .fe-node-pulse { animation: fe-pulse 2.6s cubic-bezier(.16,1,.3,1) infinite; }
+  .fe-node-pulse.n2 { animation-delay: .35s; }
+  .fe-node-pulse.n3 { animation-delay: .7s; }
+  .fe-node-pulse.n4 { animation-delay: 1.05s; }
+  .fe-sweep .arm { animation: fe-rotate 4s linear infinite; }
+  .fe-pillar { animation: fe-rise .6s cubic-bezier(.16,1,.3,1) both; animation-delay: calc(var(--i, 0) * 80ms); }
+}
+@keyframes fe-stream { to { stroke-dashoffset: -25.5; } }
+@keyframes fe-pulse { 0% { transform: scale(1); opacity: .55; } 70% { opacity: 0; } 100% { transform: scale(2); opacity: 0; } }
+@keyframes fe-rotate { to { transform: rotate(360deg); } }
+@keyframes fe-rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+/* ════ ESSAYS (.fe-essay) — author's teardown layout, scoped & token-mapped ══ */
+.fe-essay { max-width: 720px; margin: 0 auto; padding: 18px 24px 10px; font-family: var(--serif); font-size: 19px; line-height: 1.62; color: var(--text); }
+.fe-essay .eyebrow { font-family: var(--mono); font-size: 11.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--fe-oxide); }
+.fe-essay .tag { display: block; margin-bottom: 18px; }
+.fe-essay h1 { font-family: var(--serif); font-size: clamp(34px, 6vw, 54px); font-weight: 400; line-height: 1.05; letter-spacing: -.4px; margin: 0 0 18px; text-wrap: balance; }
+.fe-essay h1 em { font-style: italic; color: var(--fe-oxide); }
+.fe-essay .dek { font-size: clamp(19px, 2.4vw, 22px); color: var(--text-dim); margin: 0 0 26px; line-height: 1.45; }
+.fe-essay .byline { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; color: var(--text-mute); padding: 14px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 30px; }
+.fe-essay h2 { font-family: var(--mono); font-size: 15px; letter-spacing: .16em; text-transform: uppercase; color: var(--fe-oxide); font-weight: 500; margin: 46px 0 14px; }
+.fe-essay p { margin: 0 0 20px; text-wrap: pretty; }
+.fe-essay p.first::first-letter { font-size: 3.4em; line-height: .8; float: left; padding: 6px 10px 0 0; font-weight: 500; color: var(--fe-oxide); }
+.fe-essay .pull { font-size: clamp(22px, 3vw, 28px); line-height: 1.3; font-style: italic; border-left: 2px solid var(--fe-oxide); padding: 6px 0 6px 22px; margin: 30px 0; }
+.fe-essay .exhibit { margin: 28px 0; border: 1px solid var(--text); }
+.fe-essay .exhibit .cap { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-mute); padding: 10px 14px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; }
+.fe-essay .exhibit .cap b { color: var(--fe-oxide); }
+.fe-essay .exhibit table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: 13.5px; }
+.fe-essay .exhibit td, .fe-essay .exhibit th { text-align: left; padding: 11px 14px; border-top: 1px solid var(--border); }
+.fe-essay .exhibit th { color: var(--text-mute); font-weight: 500; border-top: 0; text-transform: uppercase; letter-spacing: .1em; font-size: 11px; }
+.fe-essay .exhibit .v { color: var(--fe-oxide); }
+.fe-essay .exhibit .read { color: var(--text-mute); }
+.fe-essay .brk { margin: 24px 0; border-left: 2px solid var(--fe-oxide); padding-left: 20px; }
+.fe-essay .brk .n { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--fe-oxide); }
+.fe-essay .brk h3 { font-size: 21px; font-weight: 500; margin: 6px 0 6px; }
+.fe-essay .brk p { margin: 0; font-size: 17px; color: var(--text); }
+.fe-essay .principle { margin: 38px 0; padding: 22px 24px; border: 1px solid var(--fe-oxide); background: rgba(176, 68, 43, .05); }
+.fe-essay .principle .k { font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--fe-oxide); display: block; margin-bottom: 8px; }
+.fe-essay .principle p { margin: 0; font-size: 20px; }
+.fe-essay .repo { margin: 30px 0 0; font-family: var(--mono); font-size: 13px; }
+.fe-essay .repo a { color: var(--fe-oxide); border-bottom: 1px solid var(--fe-oxide); text-decoration: none; }
+.fe-essay .disclaimer { margin: 36px 0 0; padding-top: 18px; border-top: 1px solid var(--border); font-size: 14px; color: var(--text-mute); line-height: 1.55; }
+.fe-essay .fe-back { display: inline-block; margin: 40px 0 0; font-family: var(--mono); font-size: 12px; letter-spacing: .08em; color: var(--text-dim); text-decoration: none; border-bottom: 1px solid var(--border); }
+.fe-essay .fe-back:hover { color: var(--fe-oxide); border-color: var(--fe-oxide); }

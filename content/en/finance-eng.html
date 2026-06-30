@@ -1,5 +1,128 @@
-<div class="section" style="text-align:center;padding:150px 20px 170px">
-  <div class="page-eyebrow" style="display:inline-flex;justify-content:center">Finance Engineering</div>
-  <div style="font-family:var(--mono);font-weight:600;font-size:clamp(46px,11vw,104px);letter-spacing:0.06em;color:var(--text);margin-top:30px;line-height:1">LOADING<span style="color:var(--amber)">…</span></div>
-  <p class="muted" style="margin-top:22px;font-size:14px">My own notes on finance engineering — in progress.</p>
-</div>
+<section class="fe-page">
+
+  <!-- MANIFESTO -->
+  <div class="fe-head">
+    <div class="fe-kicker"><span class="fe-eyebrow">Finance Engineering</span><span class="ln"></span><span class="fe-eyebrow">Dossier 01</span></div>
+    <h1 class="fe-title">Rebuilding finance, <em>from the inside</em>.</h1>
+    <p class="fe-lede">Finance runs six months behind code — and it's taking the same road. The work is moving off spreadsheets and onto agents: skills, connectors, subagents. The edge isn't speed; it's architecture, data integrity, and knowing exactly <em>where the tool breaks</em>.</p>
+    <p class="fe-lede">This section is a finance engineer's notebook. We build real tools, then leave them right where we tore them open. No marketing — post-mortems.</p>
+    <div class="fe-stamp">COMPILED · TR/EN · ZERO-FABRICATED-DATA POLICY</div>
+  </div>
+
+  <!-- AGENT-STACK FLOW (signature motion) -->
+  <figure class="fe-flow">
+    <figcaption class="fe-flow-cap">The agent stack &nbsp;·&nbsp; skill &rarr; connector &rarr; subagent &rarr; <b>human sign-off</b></figcaption>
+    <svg class="fe-flow-svg" viewBox="0 0 1020 132" role="img" aria-label="Pipeline: skill, connector, subagent, human sign-off">
+      <g class="fe-wire">
+        <line x1="140" y1="56" x2="363" y2="56"/><line x1="423" y1="56" x2="646" y2="56"/><line x1="706" y1="56" x2="929" y2="56"/>
+      </g>
+      <line class="fe-flow-line" x1="140" y1="56" x2="363" y2="56"/>
+      <line class="fe-flow-line" x1="423" y1="56" x2="646" y2="56"/>
+      <line class="fe-flow-line" x1="706" y1="56" x2="929" y2="56"/>
+      <g>
+        <circle class="fe-node-pulse n1" cx="110" cy="56" r="28"/><circle class="fe-node-ring" cx="110" cy="56" r="28"/><circle class="fe-node-core" cx="110" cy="56" r="5.5"/>
+        <circle class="fe-node-pulse n2" cx="393" cy="56" r="28"/><circle class="fe-node-ring" cx="393" cy="56" r="28"/><circle class="fe-node-core" cx="393" cy="56" r="5.5"/>
+        <circle class="fe-node-pulse n3" cx="676" cy="56" r="28"/><circle class="fe-node-ring" cx="676" cy="56" r="28"/><circle class="fe-node-core" cx="676" cy="56" r="5.5"/>
+        <circle class="fe-node-pulse n4" cx="959" cy="56" r="28"/><circle class="fe-node-ring" cx="959" cy="56" r="28"/><circle class="fe-node-core" cx="959" cy="56" r="5.5"/>
+      </g>
+      <text class="fe-flow-label" x="110" y="112">SKILL</text>
+      <text class="fe-flow-label" x="393" y="112">CONNECTOR</text>
+      <text class="fe-flow-label" x="676" y="112">SUBAGENT</text>
+      <text class="fe-flow-label" x="959" y="112">SIGN-OFF</text>
+    </svg>
+  </figure>
+
+  <!-- PILLARS -->
+  <div class="fe-pillars">
+    <div class="grid">
+      <article class="fe-pillar" style="--i:0"><div class="no">01</div><h3>Teardowns</h3><p>Honest dissections of our own tools. What it solved, where it lied, what had to go. We started with the Stock Analyzer.</p></article>
+      <article class="fe-pillar" style="--i:1"><div class="no">02</div><h3>The Agent Stack</h3><p>The architecture of a financial workflow: skill / connector / subagent, orchestration, data integrity, and why human sign-off isn't negotiable.</p></article>
+      <article class="fe-pillar" style="--i:2"><div class="no">03</div><h3>Tooling Radar</h3><p>A vendor-neutral map. What Claude, Gemini, OpenAI and specialist agents actually do in finance — benchmarks and governance included.</p></article>
+      <article class="fe-pillar" style="--i:3"><div class="no">04</div><h3>Workflows</h3><p>End-to-end, reproducible build logs. The newsletter pipeline, the research desk, the job-hunter, FP&amp;A models.</p></article>
+    </div>
+  </div>
+
+  <!-- INDEX -->
+  <div class="fe-index">
+    <div class="ihead"><h2>Index</h2><span class="fe-eyebrow">Live · Planned</span></div>
+
+    <article class="fe-entry">
+      <a class="fe-link" href="/finance-engineering/not-about-speed.html">
+        <span class="fe-cat">01 · Teardown</span>
+        <h3>It Was Never About Speed<span class="en">Stock Analyzer teardown</span></h3>
+        <p>The first field note that names exactly where the tool broke while building a stock-analysis pipeline.</p>
+      </a>
+      <span class="fe-status live">● Live</span>
+    </article>
+
+    <article class="fe-entry">
+      <a class="fe-link" href="/finance-engineering/when-data-lies.html">
+        <span class="fe-cat">01 · Teardown</span>
+        <h3>When the Data Lies<span class="en">tearing fabricated numbers out of the bulletin</span></h3>
+        <p>How we caught "made-up" ETF-flow, funding-rate and open-interest numbers, and rebuilt data integrity.</p>
+      </a>
+      <span class="fe-status live">● Live</span>
+    </article>
+
+    <article class="fe-entry">
+      <a class="fe-link" href="/finance-engineering/finance-ai-landscape-2026.html">
+        <span class="fe-cat">03 · Tooling Radar</span>
+        <h3>The 2026 Finance-AI Landscape<span class="en">Claude vs Gemini vs OpenAI vs specialists</span></h3>
+        <p>Vals AI and Forrester benchmarks, MNPI and governance notes — an architect's read, not a vendor pitch.</p>
+      </a>
+      <span class="fe-status live">● Live</span>
+    </article>
+
+    <article class="fe-entry">
+      <div>
+        <span class="fe-cat">02 · Agent Stack</span>
+        <h3>Anatomy of a Finance Agent<span class="en">Skill · Connector · Subagent</span></h3>
+        <p>The reference architecture is three parts. We open each one with examples from our own pipeline.</p>
+      </div>
+      <span class="fe-status planned">— Planned</span>
+    </article>
+
+    <article class="fe-entry">
+      <div>
+        <span class="fe-cat">04 · Workflows</span>
+        <h3>Newsletter Pipeline<span class="en">Cloudflare Workers + D1 + Resend, double opt-in</span></h3>
+        <p>Building the subscriber system from scratch: architecture, the double opt-in flow, and shipping it live.</p>
+      </div>
+      <span class="fe-status planned">— Planned</span>
+    </article>
+
+    <article class="fe-entry">
+      <div>
+        <span class="fe-cat">04 · Workflows</span>
+        <h3>Job-Hunter<span class="en">a GitHub Actions pipeline scanning 40+ companies via ATS</span></h3>
+        <p>Wiring multi-source ATS polling to a cron: design decisions and maintenance cost.</p>
+      </div>
+      <span class="fe-status planned">— Planned</span>
+    </article>
+  </div>
+
+  <!-- TOOLING RADAR -->
+  <div class="fe-radar">
+    <h2><svg class="fe-sweep" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8"/><line class="arm" x1="10" y1="10" x2="10" y2="2.5"/></svg>Tooling Radar — June 2026</h2>
+    <p class="sub">Finance is the next stage for generative AI. Below is a vendor-neutral frame: where each player sits in finance.</p>
+    <table class="fe-board">
+      <thead><tr><th>Player</th><th>What the finance side ships</th><th>Where it's strong</th></tr></thead>
+      <tbody>
+        <tr><td>Claude<span class="meta">Anthropic</span></td><td>Claude for Financial Services: 10 ready finance-agent templates (pitchbook, KYC, month-end close), MS365 add-ins (Excel/PPT/Word), a Moody's native MCP app.</td><td>Agent architecture (skill/connector/subagent), long-document and model work, auditability. Leads the Vals AI Finance Agent benchmark.</td></tr>
+        <tr><td>Gemini Enterprise<span class="meta">Google</span></td><td>Financial-analysis templates in Agent Garden, Gemini in Sheets, partner agents (Kensho/S&amp;P, AutoCIO, Obin, Genpact).</td><td>Low-friction inside Workspace/Sheets, large-document summarization, governance and ecosystem integration.</td></tr>
+        <tr><td>OpenAI<span class="meta">Workspace agents</span></td><td>Token-based workspace agents, fast prototyping, a clean API.</td><td>Customer-facing flows, quick pilots, strong on complex financial modeling.</td></tr>
+        <tr><td>Specialist agents<span class="meta">Niche</span></td><td>Kensho/S&amp;P data retrieval, AutoCIO portfolios, Obin private markets, Moody's credit/risk.</td><td>Data-adjacent, going deep on a single vertical; the layer that feeds the general model through a connector.</td></tr>
+      </tbody>
+    </table>
+    <div class="fe-note"><b>The rule that cuts across:</b> no serious finance agent executes a trade or writes to the ledger. Every output is a draft and needs a licensed human's signature. MNPI policy, AICPA/SEC guidance and human-in-the-loop are the default ground under every piece here.</div>
+  </div>
+
+  <!-- TOOLKIT -->
+  <div class="fe-toolkit">
+    <h2>The Finance Engineer's Toolkit</h2>
+    <div class="fe-chips" aria-label="Tools used">
+      <span class="fe-chip">SQL</span><span class="fe-chip">Python</span><span class="fe-chip">openpyxl</span><span class="fe-chip">Power BI</span><span class="fe-chip">Tableau</span><span class="fe-chip">Claude Code</span><span class="fe-chip">MCP</span><span class="fe-chip">GitHub Actions</span><span class="fe-chip">Cloudflare Workers</span><span class="fe-chip">D1</span><span class="fe-chip">Resend</span><span class="fe-chip">yfinance / FRED / CoinGecko</span>
+    </div>
+  </div>
+
+</section>

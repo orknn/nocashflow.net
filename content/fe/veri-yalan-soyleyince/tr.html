@@ -1,0 +1,41 @@
+<span class="eyebrow tag">01 · Teardown — Saha Notu</span>
+    <h1>Veri <em>yalan söyleyince</em></h1>
+    <p class="dek">Her sabah doğrulanmış abonelere bir bülten gidiyordu. Bir satır kod yüzünden içindeki ETF akış rakamları gerçek değildi. Tahmin değil — uydurma.</p>
+    <div class="byline">
+      <span>nocashflow.net · Finance Engineering</span>
+      <span>~6 dk · TR/EN</span>
+    </div>
+
+    <p class="first">Bir aracın sizi nasıl yarı yolda bıraktığını anlatmanın en dürüst yolu, kırıldığı satırı göstermektir. Kendi kripto-makro bültenimin veri katmanını denetlerken bulduğum şey bir çökme değildi. Çökme olsa iyiydi; çökme bağırır. Bu sessizce yalan söylüyordu.</p>
+
+    <p>Pipeline her sabah GitHub Actions üzerinde çalışıyor, verileri çekiyor, bir özet üretiyor ve sonucu siteye basıyordu. ETF giriş-çıkış satırı da oradaydı: IBIT şu kadar, FBTC bu kadar. Profesyonel görünen, bültenin en çok bakılan bölümlerinden biri. Tek sorun, o sayıların hiçbir yerden gelmiyor olmasıydı.</p>
+
+    <div class="exhibit">
+      <div class="cap"><span>data_fetcher.py · <b>get_etf_flows()</b></span><span>kanıt</span></div>
+<pre><code><span class="c-com"># Farside'a istek atılıyordu ama response hiç parse edilmiyordu.</span>
+<span class="c-com"># Her çalıştırmada akışlar üretiliyordu:</span>
+ibit_flow = <span class="c-bad">random.uniform(50, 300)</span>
+fbtc_flow = <span class="c-bad">random.uniform(-20, 150)</span>
+<span class="c-com"># → Bültende yayınlanan "ETF akışı" rastgele bir sayıydı.</span></code></pre>
+    </div>
+
+    <p>Yalnız da değildi. Options bölümündeki max pain, güncel BTC fiyatından kopuk bir çapaya rastgele gürültü ekliyordu: <span class="mono">85000 + random.randint(-2000, 2000)</span>. DVOL'ün 24 saatlik değişimi yine rastgele jitter'dı. Coinbase Premium grafiği, API düştüğünde 168 saatlik <em>sahte</em> bir random walk çiziyordu. <span class="mono">oi_chg_24h</span> her zaman 0 dönüyordu ama HTML'de o alan vardı. Gösterdiğim "2Y–10Y spread" aslında 3A–10Y'di, çünkü çektiğim seri (<span class="mono">^IRX</span>) 13 haftalık T-bill'di. PMI ise hiç çekilemiyor, her gün hardcoded 49.5 olarak görünüyordu.</p>
+
+    <div class="pull">Bir tool gürültüyle çökmez; ikna ederek çöker. Uydurulmuş bir sayı, ekranda gerçek bir sayıyla birebir aynı görünür.</div>
+
+    <h2>Asıl mesele</h2>
+    <p>Bunların hiçbiri klasik anlamda "bug" değildi — hiçbiri programı durdurmuyordu. Hepsi <em>makul</em> çıktı üretiyordu. Ve agentic / AI ile kurulmuş pipeline'ların asıl tehlikesi tam burada: makine, çıktıyı her zaman düzgün biçimlendirir. Tablo hizalı, sayı virgüllü, renk doğru. Altındaki mantık bozuk olsa bile sonuç güven verir. Hız kazanırsın, ama doğruluğu görsel olarak denetleyemezsin; çünkü yalan, gerçeğe benziyor.</p>
+
+    <p>Bu, sitenin denetiminde yakaladığım "fabricated data" sorununun aynısıydı — ama bu sefer abonelere giden bir üründe. İtibar açısından en pahalı hata türü.</p>
+
+    <h2>Çözüm: parse-or-hide</h2>
+    <p>Tek bir kural koydum: gerçek sayıyı alamıyorsan, hiçbir şey gösterme. Asla simüle etme. ETF tablosu <span class="mono">cloudscraper + pandas.read_html</span> ile parse edilebiliyorsa parse et; edilemiyorsa bölümü tamamen gizle. Max pain'i rastgele üretmek yerine, zaten çektiğim Deribit OI verisini strike bazında gruplandırıp <em>gerçekten</em> hesapla (~20 satır). Spread için doğru seriyi kullan (FRED <span class="mono">DGS2</span>). Bir veri yoksa, "veri alınamadı" de — boşluğu sahte bir trendle doldurma.</p>
+
+    <p>Fark ince ama belirleyici: önceki sistem sessizce yanlıştı, yenisi sesli olarak eksik. İkincisi her zaman tercih edilir.</p>
+
+    <div class="principle">
+      <span class="k">İlke</span>
+      <p>Finans mühendisliğinde avantaj hızda değil. Avantaj, aracın nerede kırıldığını bilmek ve onu <em>gürültüyle</em> kırılacak biçimde inşa etmektir.</p>
+    </div>
+
+    <p class="disclaimer">Bu yazı finansal/teknik bir eğitim notudur; yatırım tavsiyesi değildir. Bahsi geçen veri kaynakları ve metodolojiler örnek amaçlıdır.</p>

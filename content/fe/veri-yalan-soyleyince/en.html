@@ -1,0 +1,41 @@
+<span class="eyebrow tag">01 · Teardown — Field Note</span>
+    <h1>When the data <em>lied</em></h1>
+    <p class="dek">Every morning a bulletin went out to confirmed subscribers. Because of one line of code, the ETF flow figures inside it weren't real. Not estimated — invented.</p>
+    <div class="byline">
+      <span>nocashflow.net · Finance Engineering</span>
+      <span>~6 min · TR/EN</span>
+    </div>
+
+    <p class="first">The most honest way to describe how a tool failed you is to show the line where it broke. Auditing the data layer of my own crypto-macro bulletin, what I found wasn't a crash. A crash would have been a mercy; a crash shouts. This was lying quietly.</p>
+
+    <p>The pipeline ran every morning on GitHub Actions: pull the data, synthesize a summary, publish to the site. The ETF inflow/outflow line sat right there — IBIT this much, FBTC that much. Professional-looking, one of the most-read blocks in the bulletin. The only problem was that those numbers came from nowhere.</p>
+
+    <div class="exhibit">
+      <div class="cap"><span>data_fetcher.py · <b>get_etf_flows()</b></span><span>exhibit</span></div>
+<pre><code><span class="c-com"># It requested Farside but never parsed the response.</span>
+<span class="c-com"># Every run, the flows were generated:</span>
+ibit_flow = <span class="c-bad">random.uniform(50, 300)</span>
+fbtc_flow = <span class="c-bad">random.uniform(-20, 150)</span>
+<span class="c-com"># → The "ETF flow" published in the bulletin was a random number.</span></code></pre>
+    </div>
+
+    <p>And it wasn't alone. Max pain in the options block added random noise to an anchor disconnected from the live BTC price: <span class="mono">85000 + random.randint(-2000, 2000)</span>. DVOL's 24h change was random jitter. The Coinbase Premium chart drew a <em>fake</em> 168-hour random walk whenever the API went down. <span class="mono">oi_chg_24h</span> always returned 0, yet the HTML had a field for it. The "2Y–10Y spread" I displayed was actually 3M–10Y, because the series I pulled (<span class="mono">^IRX</span>) is the 13-week T-bill. PMI was never fetched at all — it showed a hardcoded 49.5 every single day.</p>
+
+    <div class="pull">A tool doesn't fail with noise; it fails by being convincing. A fabricated number looks identical to a real one on screen.</div>
+
+    <h2>The real point</h2>
+    <p>None of these were bugs in the classic sense — none of them stopped the program. They all produced <em>plausible</em> output. And that is exactly the danger of agentic, AI-built pipelines: the machine always formats the result cleanly. The table aligns, the number has its separators, the color is right. The logic underneath can be broken and the output still inspires confidence. You gain speed, but you lose the ability to audit correctness by eye — because the lie resembles the truth.</p>
+
+    <p>This was the same "fabricated data" problem I'd caught in the site audit — except now it was in a product going to subscribers. The most expensive kind of mistake, reputationally.</p>
+
+    <h2>The fix: parse-or-hide</h2>
+    <p>I set one rule: if you can't get the real number, show nothing. Never simulate. If the ETF table can be parsed with <span class="mono">cloudscraper + pandas.read_html</span>, parse it; if it can't, hide the section entirely. Instead of generating max pain randomly, group the Deribit OI data I already pull by strike and <em>actually</em> compute it (~20 lines). Use the correct series for the spread (FRED <span class="mono">DGS2</span>). When a figure is missing, say "data unavailable" — don't fill the gap with a fake trend.</p>
+
+    <p>The difference is subtle but decisive: the old system was silently wrong, the new one is loudly incomplete. The second is always preferable.</p>
+
+    <div class="principle">
+      <span class="k">Principle</span>
+      <p>In finance engineering the edge isn't speed. The edge is knowing where the tool breaks — and building it so that it breaks <em>with noise</em>.</p>
+    </div>
+
+    <p class="disclaimer">This is a financial/technical educational note, not investment advice. The data sources and methodologies mentioned are illustrative.</p>

@@ -265,6 +265,42 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/articles/oil.html"/>
   </url>
   <url>
+    <loc>https://nocashflow.net/finance-engineering/when-data-lies.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/finance-engineering/when-data-lies.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/finance-engineering/veri-yalan-soyleyince.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/finance-engineering/when-data-lies.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/tr/finance-engineering/veri-yalan-soyleyince.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/finance-engineering/when-data-lies.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/finance-engineering/veri-yalan-soyleyince.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/finance-engineering/when-data-lies.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/finance-engineering/finance-ai-landscape-2026.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/finance-engineering/finance-ai-landscape-2026.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/finance-engineering/finans-ai-manzarasi-2026.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/finance-engineering/finance-ai-landscape-2026.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/tr/finance-engineering/finans-ai-manzarasi-2026.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/finance-engineering/finance-ai-landscape-2026.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/finance-engineering/finans-ai-manzarasi-2026.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/finance-engineering/finance-ai-landscape-2026.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/finance-engineering/not-about-speed.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/finance-engineering/not-about-speed.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/finance-engineering/mesele-hiz-degildi.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/finance-engineering/not-about-speed.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/tr/finance-engineering/mesele-hiz-degildi.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/finance-engineering/not-about-speed.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/finance-engineering/mesele-hiz-degildi.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/finance-engineering/not-about-speed.html"/>
+  </url>
+  <url>
     <loc>https://nocashflow.net/now/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/now/"/>
     <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/simdi/"/>

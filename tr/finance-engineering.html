@@ -33,6 +33,7 @@
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "tr", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
+<link rel="stylesheet" href="/finance-eng.css"/>
 <link rel="stylesheet" href="/broadsheet.css"/>
 <script>(function(){try{var q=new URLSearchParams(location.search).get('lang');if(q==='en'){try{localStorage.setItem('ncf_lang','en');}catch(e){}location.replace('/');return;}if(q==='tr'){try{localStorage.setItem('ncf_lang','tr');}catch(e){}return;}var p=null;try{p=localStorage.getItem('ncf_lang');}catch(e){}if(p==='en'){location.replace('/');return;}}catch(e){}})();</script>
 </head>
@@ -73,13 +74,136 @@
 </div>
 
 
-<div class="masthead"><div class="masthead-inner"><span>Sabah Baskısı</span><span class="mh-date">Pazartesi, 29 Haziran 2026</span><span>Barcelona</span></div></div>
+<div class="masthead"><div class="masthead-inner"><span>Sabah Baskısı</span><span class="mh-date">Salı, 30 Haziran 2026</span><span>Barcelona</span></div></div>
 
-<div class="section" style="text-align:center;padding:150px 20px 170px">
-  <div class="page-eyebrow" style="display:inline-flex;justify-content:center">Finance Engineering</div>
-  <div style="font-family:var(--mono);font-weight:600;font-size:clamp(46px,11vw,104px);letter-spacing:0.06em;color:var(--text);margin-top:30px;line-height:1">LOADING<span style="color:var(--amber)">…</span></div>
-  <p class="muted" style="margin-top:22px;font-size:14px">Finance engineering üzerine kendi notlarım — yolda.</p>
-</div>
+<section class="fe-page">
+
+  <!-- MANIFESTO -->
+  <div class="fe-head">
+    <div class="fe-kicker"><span class="fe-eyebrow">Finance Engineering</span><span class="ln"></span><span class="fe-eyebrow">Dossier 01</span></div>
+    <h1 class="fe-title">Finans işini <em>yeniden inşa etmek</em>.</h1>
+    <p class="fe-lede">Finans, kodlamadan altı ay geride; aynı yola giriyor. İş artık tablolara değil, ajanlara taşınıyor — skill'ler, connector'lar, subagent'lar. Avantaj hızda değil: mimaride, veri bütünlüğünde ve aracın <em>nerede kırıldığını</em> bilmekte.</p>
+    <p class="fe-lede">Bu bölüm, bir "finans mühendisi"nin defteri. Gerçek araçlar kuruyoruz, sonra onları açıkça söktüğümüz yerde bırakıyoruz. Pazarlama yok, post-mortem var.</p>
+    <div class="fe-stamp">DERLENME · TR/EN · SIFIR UYDURMA VERİ POLİTİKASI</div>
+  </div>
+
+  <!-- AJAN YIĞINI AKIŞI (imza animasyon) -->
+  <figure class="fe-flow">
+    <figcaption class="fe-flow-cap">Ajan yığını &nbsp;·&nbsp; skill &rarr; connector &rarr; subagent &rarr; <b>insan onayı</b></figcaption>
+    <svg class="fe-flow-svg" viewBox="0 0 1020 132" role="img" aria-label="Akış: skill, connector, subagent, insan onayı">
+      <g class="fe-wire">
+        <line x1="140" y1="56" x2="363" y2="56"/><line x1="423" y1="56" x2="646" y2="56"/><line x1="706" y1="56" x2="929" y2="56"/>
+      </g>
+      <line class="fe-flow-line" x1="140" y1="56" x2="363" y2="56"/>
+      <line class="fe-flow-line" x1="423" y1="56" x2="646" y2="56"/>
+      <line class="fe-flow-line" x1="706" y1="56" x2="929" y2="56"/>
+      <g>
+        <circle class="fe-node-pulse n1" cx="110" cy="56" r="28"/><circle class="fe-node-ring" cx="110" cy="56" r="28"/><circle class="fe-node-core" cx="110" cy="56" r="5.5"/>
+        <circle class="fe-node-pulse n2" cx="393" cy="56" r="28"/><circle class="fe-node-ring" cx="393" cy="56" r="28"/><circle class="fe-node-core" cx="393" cy="56" r="5.5"/>
+        <circle class="fe-node-pulse n3" cx="676" cy="56" r="28"/><circle class="fe-node-ring" cx="676" cy="56" r="28"/><circle class="fe-node-core" cx="676" cy="56" r="5.5"/>
+        <circle class="fe-node-pulse n4" cx="959" cy="56" r="28"/><circle class="fe-node-ring" cx="959" cy="56" r="28"/><circle class="fe-node-core" cx="959" cy="56" r="5.5"/>
+      </g>
+      <text class="fe-flow-label" x="110" y="112">SKILL</text>
+      <text class="fe-flow-label" x="393" y="112">CONNECTOR</text>
+      <text class="fe-flow-label" x="676" y="112">SUBAGENT</text>
+      <text class="fe-flow-label" x="959" y="112">ONAY</text>
+    </svg>
+  </figure>
+
+  <!-- PILLARS -->
+  <div class="fe-pillars">
+    <div class="grid">
+      <article class="fe-pillar" style="--i:0"><div class="no">01</div><h3>Teardown'lar</h3><p>Kendi tool'larımızın dürüst sökümü. Neyi çözdü, nerede yalan söyledi, neyi atmak gerekti. Stock Analyzer ile başladık.</p></article>
+      <article class="fe-pillar" style="--i:1"><div class="no">02</div><h3>Ajan Yığını</h3><p>Bir finansal iş akışının mimarisi: skill / connector / subagent, orkestrasyon, veri bütünlüğü ve insan onayının neden pazarlık konusu olmadığı.</p></article>
+      <article class="fe-pillar" style="--i:2"><div class="no">03</div><h3>Araç Radarı</h3><p>Vendor-nötr manzara. Claude, Gemini, OpenAI ve uzman ajanlar finansta ne yapıyor — benchmark'lar ve governance dahil.</p></article>
+      <article class="fe-pillar" style="--i:3"><div class="no">04</div><h3>İş Akışları</h3><p>Uçtan uca, tekrar üretilebilir build log'ları. Newsletter hattı, araştırma masası, job-hunter, FP&amp;A modelleri.</p></article>
+    </div>
+  </div>
+
+  <!-- INDEX -->
+  <div class="fe-index">
+    <div class="ihead"><h2>Yazı Dizini</h2><span class="fe-eyebrow">Canlı · Planlı</span></div>
+
+    <article class="fe-entry">
+      <a class="fe-link" href="/tr/finance-engineering/mesele-hiz-degildi.html">
+        <span class="fe-cat">01 · Teardown</span>
+        <h3>Mesele Hız Değildi<span class="en">It Was Never About Speed — Stock Analyzer teardown</span></h3>
+        <p>Hisse analiz tool'unu kurarken aracın tam olarak nerede kırıldığını adıyla koyan ilk saha notu.</p>
+      </a>
+      <span class="fe-status live">● Canlı</span>
+    </article>
+
+    <article class="fe-entry">
+      <a class="fe-link" href="/tr/finance-engineering/veri-yalan-soyleyince.html">
+        <span class="fe-cat">01 · Teardown</span>
+        <h3>Veri Yalan Söyleyince<span class="en">When the Data Lies — bültende uydurma sayıları söküp atmak</span></h3>
+        <p>ETF akışı, funding rate ve OI için "uydurulan" sayıları nasıl yakaladık ve veri bütünlüğünü nasıl geri kazandık.</p>
+      </a>
+      <span class="fe-status live">● Canlı</span>
+    </article>
+
+    <article class="fe-entry">
+      <a class="fe-link" href="/tr/finance-engineering/finans-ai-manzarasi-2026.html">
+        <span class="fe-cat">03 · Araç Radarı</span>
+        <h3>2026 Finans-AI Manzarası<span class="en">The 2026 Finance-AI Landscape</span></h3>
+        <p>Claude vs Gemini vs OpenAI vs uzman ajanlar. Vals AI ve Forrester benchmark'ları, MNPI ve governance notları.</p>
+      </a>
+      <span class="fe-status live">● Canlı</span>
+    </article>
+
+    <article class="fe-entry">
+      <div>
+        <span class="fe-cat">02 · Ajan Yığını</span>
+        <h3>Bir Finans Ajanının Anatomisi<span class="en">Skill · Connector · Subagent</span></h3>
+        <p>Referans mimari üç parçadan oluşur. Üçünü de tek tek, kendi pipeline'ımızdan örneklerle açıyoruz.</p>
+      </div>
+      <span class="fe-status planned">— Planlı</span>
+    </article>
+
+    <article class="fe-entry">
+      <div>
+        <span class="fe-cat">04 · İş Akışları</span>
+        <h3>Newsletter Pipeline<span class="en">Cloudflare Workers + D1 + Resend, double opt-in</span></h3>
+        <p>Abone yönetim sistemini sıfırdan kurmak: mimari, double opt-in akışı ve canlıya alma.</p>
+      </div>
+      <span class="fe-status planned">— Planlı</span>
+    </article>
+
+    <article class="fe-entry">
+      <div>
+        <span class="fe-cat">04 · İş Akışları</span>
+        <h3>Job-Hunter<span class="en">40+ şirketi ATS üzerinden tarayan GitHub Actions hattı</span></h3>
+        <p>Çok kaynaklı ATS polling'i bir cron'a bağlamak: tasarım kararları ve sürdürme maliyeti.</p>
+      </div>
+      <span class="fe-status planned">— Planlı</span>
+    </article>
+  </div>
+
+  <!-- ARAÇ RADARI -->
+  <div class="fe-radar">
+    <h2><svg class="fe-sweep" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8"/><line class="arm" x1="10" y1="10" x2="10" y2="2.5"/></svg>Araç Radarı — Haziran 2026</h2>
+    <p class="sub">Finans, üretken AI'nin bir sonraki sahnesi. Aşağısı vendor-nötr bir çerçeve: her oyuncunun finansta nereye oturduğu.</p>
+    <table class="fe-board">
+      <thead><tr><th>Oyuncu</th><th>Finans tarafı ne sunuyor</th><th>Nerede güçlü</th></tr></thead>
+      <tbody>
+        <tr><td>Claude<span class="meta">Anthropic</span></td><td>Claude for Financial Services: 10 hazır finans ajan template'i (pitchbook, KYC, month-end close), MS365 add-in'leri (Excel/PPT/Word), Moody's native MCP app.</td><td>Ajan mimarisi (skill/connector/subagent), uzun belge + model işleri, denetlenebilirlik. Vals AI Finance Agent benchmark'ında lider.</td></tr>
+        <tr><td>Gemini Enterprise<span class="meta">Google</span></td><td>Agent Garden'da financial analysis template'leri, Gemini in Sheets, partner ajanları (Kensho/S&amp;P, AutoCIO, Obin, Genpact).</td><td>Workspace/Sheets içi düşük sürtünme, büyük doküman özetleme, governance ve ekosistem entegrasyonu.</td></tr>
+        <tr><td>OpenAI<span class="meta">Workspace agents</span></td><td>Token-bazlı workspace ajanları, hızlı prototipleme, temiz API.</td><td>Müşteri-yüzlü akışlar, hızlı pilot, karmaşık finansal modellemede güçlü.</td></tr>
+        <tr><td>Uzman ajanlar<span class="meta">Niş</span></td><td>Kensho/S&amp;P data retrieval, AutoCIO portföy, Obin private markets, Moody's kredi/risk.</td><td>Veri-yakın, tek bir dikey işi derin yapan; genel modeli connector ile besleyen katman.</td></tr>
+      </tbody>
+    </table>
+    <div class="fe-note"><b>Çapraz kesen kural:</b> Hiçbir ciddi finans ajanı işlem yürütmez, kayıt defterine yazmaz. Her çıktı bir taslaktır ve lisanslı bir insanın imzasını ister. MNPI politikası, AICPA/SEC rehberliği ve human-in-the-loop, bu bölümün her yazısında varsayılan zemin.</div>
+  </div>
+
+  <!-- TOOLKIT -->
+  <div class="fe-toolkit">
+    <h2>Finans Mühendisinin Takım Çantası</h2>
+    <div class="fe-chips" aria-label="Kullanılan araçlar">
+      <span class="fe-chip">SQL</span><span class="fe-chip">Python</span><span class="fe-chip">openpyxl</span><span class="fe-chip">Power BI</span><span class="fe-chip">Tableau</span><span class="fe-chip">Claude Code</span><span class="fe-chip">MCP</span><span class="fe-chip">GitHub Actions</span><span class="fe-chip">Cloudflare Workers</span><span class="fe-chip">D1</span><span class="fe-chip">Resend</span><span class="fe-chip">yfinance / FRED / CoinGecko</span>
+    </div>
+  </div>
+
+</section>
 
 <!-- FOOTER -->
 <footer>

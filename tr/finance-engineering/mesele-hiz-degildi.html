@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mesele Hız Değildi — Finance Engineering — NoCashFlow</title>
+<meta name="description" content="Bir hisse analiz tool'u kurdum. Herkes bunu hız sanıyor — oysa hız hiçbir zaman problem değildi. Asıl mesele kıyastı: ham bir oran, doğru peer set olmadan hiçbir şey söylemez."/>
+<meta name="robots" content="max-image-preview:large"/>
+<link rel="canonical" href="https://nocashflow.net/tr/finance-engineering/mesele-hiz-degildi.html"/>
+<link rel="alternate" hreflang="en" href="https://nocashflow.net/finance-engineering/not-about-speed.html"/>
+<link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/finance-engineering/mesele-hiz-degildi.html"/>
+<link rel="alternate" hreflang="x-default" href="https://nocashflow.net/finance-engineering/not-about-speed.html"/>
+<meta property="og:title" content="Mesele Hız Değildi"/>
+<meta property="og:description" content="Bir hisse analiz tool'u kurdum. Herkes bunu hız sanıyor — oysa hız hiçbir zaman problem değildi. Asıl mesele kıyastı: ham bir oran, doğru peer set olmadan hiçbir şey söylemez."/>
+<meta property="og:type" content="article"/>
+<meta property="og:url" content="https://nocashflow.net/tr/finance-engineering/mesele-hiz-degildi.html"/>
+<meta property="og:image" content="https://nocashflow.net/assets/cards/mesele-hiz-degildi-tr.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://nocashflow.net/assets/cards/mesele-hiz-degildi-tr.png"/>
+<link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml"/>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=2"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2"/>
+<link rel="shortcut icon" href="/favicon.ico?v=2"/>
+<link rel="alternate" type="application/rss+xml" title="NoCashFlow" href="/feed-tr.xml"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<meta name="theme-color" content="#ffffff"/>
+<script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('theme');if(q==='dark'||q==='light'){try{localStorage.setItem('ncf_theme',q);}catch(e){}}var t=null;try{t=localStorage.getItem('ncf_theme');}catch(e){}if(!t){var h=new Date().getHours();t=(h>=21||h<7)?'dark':'light';}if(t==='dark')d.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Libre+Caslon+Display&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/site.css"/>
+<link rel="stylesheet" href="/components.css"/>
+<link rel="stylesheet" href="/broadsheet.css"/>
+<link rel="stylesheet" href="/finance-eng.css"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"NewsArticle","headline":"Mesele Hız Değildi","description":"Bir hisse analiz tool'u kurdum. Herkes bunu hız sanıyor — oysa hız hiçbir zaman problem değildi. Asıl mesele kıyastı: ham bir oran, doğru peer set olmadan hiçbir şey söylemez.","image":["https://nocashflow.net/assets/cards/mesele-hiz-degildi-tr.png"],"datePublished":"2026-06-24T08:00:00+02:00","dateModified":"2026-06-24T08:00:00+02:00","author":{"@type":"Person","name":"Orkun Biçen","sameAs":["https://www.linkedin.com/in/orkunbicen/"],"url":"https://nocashflow.net/tr/hakkinda.html"},"publisher":{"@type":"Organization","name":"NoCashFlow","url":"https://nocashflow.net/","logo":{"@type":"ImageObject","url":"https://nocashflow.net/logo.png","width":512,"height":512}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://nocashflow.net/tr/finance-engineering/mesele-hiz-degildi.html"},"articleSection":"Teardown","inLanguage":"tr"}</script>
+</head>
+<body data-mood="fear" class="bs">
+<div class="cursor-ring"><span class="c-label">Read</span></div>
+<div class="cursor-dot"></div>
+
+<div id="page-sweep"></div>
+<div id="read-progress" aria-hidden="true"></div>
+
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/tr/" class="logo">NO<span class="slash">/</span>CASHFLOW<span class="tag">MACRO × MARKETS</span></a>
+    <div class="nav-links" id="nav-links">
+      <a href="/tr/">Ana Sayfa</a>
+      <a href="/tr/yazilar.html">Yazılar</a>
+      <a href="/tr/macro.html">Makro</a>
+      <a href="/tr/takvim.html">Takvim</a>
+      <a href="/tr/dashboard.html">Panel</a>
+      <a href="/tr/bulletin_page.html">Bülten</a>
+      <a href="/tr/finance-engineering.html" class="active">Finance Engineering</a>
+      <a href="/tr/hakkinda.html">Hakkında</a>
+    </div>
+    <div class="nav-right">
+      <a class="lang-switch" href="/finance-engineering/not-about-speed.html" data-set-lang="en" aria-label="Switch to English">EN</a>
+      <button class="nav-btn theme-toggle" data-theme-toggle aria-label="After Hours" title="After Hours">◐</button>
+      <a href="/tr/bulletin_page.html" class="subscribe">Abone Ol</a>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-label"><span class="dot"></span> Live</div>
+  <div class="ticker-track" id="ticker-track"></div>
+</div>
+
+
+<div class="masthead"><div class="masthead-inner"><span>Sabah Baskısı</span><span class="mh-date">Salı, 30 Haziran 2026</span><span>Barcelona</span></div></div>
+
+
+<article class="fe-essay">
+<span class="eyebrow tag">01 · Teardown — Saha Notu</span>
+    <h1>Mesele <em>hız değildi</em></h1>
+    <p class="dek">Bir hisse analiz tool'u kurdum. Herkes bunu "hız" sanıyor — oysa hız hiçbir zaman problem değildi. Asıl mesele kıyastı: ham bir oran, doğru peer set olmadan hiçbir şey söylemez.</p>
+    <div class="byline">
+      <span>nocashflow.net · Finance Engineering</span>
+      <span>~5 dk · TR/EN</span>
+    </div>
+
+    <p class="first">Bir P/E'yi iki saniyede çekmek beceri değil. Bir API çağrısı, bir satır kod. Tool'un değeri orada değildi. Değer, o sayının <em>ne anlama geldiğini</em> söyleyebilmekteydi — ve bir oran, kiminle kıyaslandığını bilmeden anlamsızdır.</p>
+
+    <h2>Asıl problem</h2>
+    <p>25× bir F/K, tek başına bir veri kırıntısı. Bir yazılım şirketinde sıradan, bir utility'de pahalı, bir bankada anlamsızdır. Tool'un işi hızlı sorgu değildi; bir ismi <em>kendi sektör emsalleriyle</em> normalize edip nerede durduğunu göstermekti. Yani çıktı bir sayı değil, bir konumdu.</p>
+
+    <div class="exhibit">
+      <div class="cap"><span>Aynı oran, üç farklı okuma</span><span><b>peer set = anlam</b></span></div>
+      <table>
+        <tr><th>F/K</th><th>Peer set</th><th>Okuma</th></tr>
+        <tr><td class="v">25×</td><td>SaaS emsalleri (~35× medyan)</td><td class="read">ucuz</td></tr>
+        <tr><td class="v">25×</td><td>Utility emsalleri (~16× medyan)</td><td class="read">pahalı</td></tr>
+        <tr><td class="v">25×</td><td>Yanlış peer set</td><td class="read">gürültü</td></tr>
+      </table>
+    </div>
+
+    <h2>Ne kurdum</h2>
+    <p>İmplementasyon ajanı Claude Code, veri kaynağı yfinance. Fundamental'ları çek, bir sektör peer set'ine göre normalize et, ismin emsallerine göre nerede oturduğunu yüzeye çıkar. Mantık karmaşık değil; değerli olan, ham oranı bir <em>bağlama</em> oturtması.</p>
+
+    <div class="pull">Tool hızda başarısız olmadı — hızda başarılıydı, ve mesele zaten hız değildi. Değer de risk de yargıda yaşıyor.</div>
+
+    <h2>Nerede kırılıyor</h2>
+    <p>Dürüst olmazsam yazının bir değeri kalmaz. İki yerde kırılıyor:</p>
+
+    <div class="brk">
+      <span class="n">Kırılma 01</span>
+      <h3>Peer set seçimi hâlâ insan yargısı</h3>
+      <p>Model bir sektör kovası önerebilir. Ama "doğru" kıyas kümesine karar vermek analistin işidir: Circle bir ödeme şirketi mi, kripto-altyapı mı, money-market proxy'si mi? Bu seçim sonucu baştan belirler — ve tool bunu sahiplenemez.</p>
+    </div>
+
+    <div class="brk">
+      <span class="n">Kırılma 02</span>
+      <h3>yfinance resmi bir API değil</h3>
+      <p>Gayri resmi bir scraper. Şema değişir, rate-limit yer, sessizce boşluk bırakır — kırılgan. Kişisel bir tool için yeterli; sattığın ya da müşteri çıktısına dayadığın ticari bir bağlamda savunulamaz. Bunu bilerek kullanıyorum.</p>
+    </div>
+
+    <div class="principle">
+      <span class="k">İlke</span>
+      <p>Bir tool'un sınırını bilmek, onu kullanmanın bedeli değil; kullanma yetkisidir. Önce doğru kıyası seç, altta verinin neye dayandığını bil — gerisi sadece hız.</p>
+    </div>
+
+    <p class="repo">Kod: <a href="https://github.com/orknn">github.com/&lt;repo&gt;</a> — README'de varsayımlar ve sınırlar açıkça yazılı.</p>
+
+    <p class="disclaimer">Bu yazı finansal/teknik bir eğitim notudur; yatırım tavsiyesi değildir. Bahsi geçen oranlar ve eşikler örnek amaçlıdır.</p>
+  <a class="fe-back" href="/tr/finance-engineering.html">← Finance Engineering</a>
+</article>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-title">NO<span style="color:var(--amber)">/</span>CASHFLOW</div>
+        <p class="footer-brand-desc">Bağımsız makro &amp; piyasa, her gün yayımlanır. Kaynaklı veri, uydurma yok.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Sayfalar</h4>
+        <ul>
+          <li><a href="/tr/">Ana Sayfa</a></li>
+          <li><a href="/tr/yazilar.html">Yazılar</a></li>
+          <li><a href="/tr/macro.html">Makro</a></li>
+          <li><a href="/tr/simdi/">Canlı Göstergeler</a></li>
+          <li><a href="/tr/takvim.html">Ekonomik Takvim</a></li>
+          <li><a href="/tr/dashboard.html">Panel</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>İçerik</h4>
+        <ul>
+          <li><a href="/tr/bulletin_page.html">Bülten</a></li>
+          <li><a href="/tr/arsiv.html">Arşiv</a></li>
+          <li><a href="/tr/embed.html">Widget Göm</a></li>
+          <li><a href="/tr/hakkinda.html">Hakkında</a></li>
+          <li><a href="/tr/sozluk.html">Sözlük</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Sosyal</h4>
+        <ul>
+          <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
+          <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="/feed-tr.xml">RSS</a></li>
+          <li><a href="mailto:orkun@nocashflow.net">E-posta</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona</span>
+      <span><a href="/tr/hakkinda.html">Hakkında</a> · <a href="/tr/bulletin_page.html">Abone Ol</a></span>
+    </div>
+    <div class="mood-line"><span class="mood-dot"></span>Bugün piyasa korkuyor — Fear &amp; Greed 12/100.</div>
+    <div class="disclaimer">
+      Bu site yalnızca bilgilendirme amaçlıdır ve yatırım tavsiyesi içermez.<br/>
+      <a href="/tr/privacy.html">Gizlilik</a> · <a href="/tr/legal.html">Yasal Bildirim</a> · <a href="/tr/disclaimer.html">Feragatname</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/app.js"></script>
+<script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>
+<script>document.querySelectorAll('[data-set-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',a.getAttribute('data-set-lang'));}catch(e){}});});</script>
+</body>
+</html>
