@@ -1,11 +1,11 @@
 {
-  "asof": "2026-06-29T09:54:04Z",
+  "asof": "2026-06-30T08:33:37Z",
   "events": [
     {
-      "dt_utc": "2026-06-29 17:30:00",
+      "dt_utc": "2026-06-29 19:00:00",
       "cet_date": "2026-06-29",
       "wd": 0,
-      "time": "19:30",
+      "time": "21:00",
       "event": "ECB President Lagarde Speaks",
       "country": "EU",
       "impact": "medium",
@@ -22,7 +22,7 @@
       "country": "EU",
       "impact": "medium",
       "prev": "-0.2%",
-      "est": "0.1%",
+      "est": "0.0%",
       "act": "—"
     },
     {
@@ -34,7 +34,7 @@
       "country": "US",
       "impact": "medium",
       "prev": "93.1",
-      "est": "94.2",
+      "est": "94.4",
       "act": "—"
     },
     {
@@ -118,7 +118,7 @@
       "country": "US",
       "impact": "high",
       "prev": "54",
-      "est": "53.7",
+      "est": "53.8",
       "act": "—"
     },
     {
@@ -142,7 +142,7 @@
       "country": "US",
       "impact": "medium",
       "prev": "82.1",
-      "est": "79",
+      "est": "77.7",
       "act": "—"
     },
     {
@@ -166,7 +166,7 @@
       "country": "US",
       "impact": "high",
       "prev": "172K",
-      "est": "114K",
+      "est": "110K",
       "act": "—"
     },
     {
@@ -190,7 +190,7 @@
       "country": "US",
       "impact": "medium",
       "prev": "215K",
-      "est": "220K",
+      "est": "219K",
       "act": "—"
     },
     {
