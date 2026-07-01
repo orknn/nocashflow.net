@@ -8,7 +8,7 @@
 /* hero stat band */
 .dsh-hero { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg-elev); margin: 24px 0 0; }
 .dsh-hero-grid { display: grid; grid-template-columns: repeat(6, 1fr); }
-.dsh-hcell { padding: 18px 16px; border-right: 1px solid var(--border); }
+.dsh-hcell { padding: 18px 16px; border-right: 1px solid var(--border); transition: transform .12s ease-out; will-change: transform; }
 .dsh-hcell:last-child { border-right: 0; }
 .dsh-hcell .k { font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-mute); }
 .dsh-hcell .v { font-family: var(--mono); font-weight: 600; font-size: 21px; margin-top: 6px; }
@@ -31,7 +31,7 @@
 @media (max-width: 560px) { .dsh-g5, .dsh-g3 { grid-template-columns: 1fr 1fr; } }
 
 /* asset tile */
-.dsh-tile { background: var(--bg-elev); padding: 16px 16px 14px; display: flex; flex-direction: column; gap: 2px; }
+.dsh-tile { background: var(--bg-elev); padding: 16px 16px 14px; display: flex; flex-direction: column; gap: 2px; transition: transform .12s ease-out; will-change: transform; }
 .dsh-tile .sym { font-family: var(--mono); font-weight: 600; font-size: 13px; letter-spacing: .04em; }
 .dsh-tile .name { font-size: 11px; color: var(--text-mute); margin-bottom: 6px; }
 .dsh-tile .px { font-family: var(--mono); font-weight: 600; font-size: 20px; }

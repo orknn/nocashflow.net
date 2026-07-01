@@ -250,7 +250,13 @@ body.hovering-link .cursor-dot { background: var(--amber); width: 4px; height: 4
   max-width: var(--max); margin: 0 auto;
   padding: 56px var(--pad) 40px;
   border-bottom: 1px solid var(--border);
+  position: relative; overflow: hidden;
 }
+.page-head .frieze-svg {
+  position: absolute; left: 0; right: 0; top: 0; width: 100%; height: 60px;
+  opacity: .16; z-index: 0; pointer-events: none;
+}
+.page-head > *:not(.frieze-svg) { position: relative; z-index: 1; }
 .page-eyebrow {
   font-family: var(--mono);
   font-size: 11px;
@@ -716,4 +722,18 @@ html[data-theme="dark"] body::before { mix-blend-mode: screen; opacity: 0.06; }
 html[data-theme="dark"] .nav { background: rgba(20, 17, 13, 0.92); }
 html[data-theme="dark"] .subscribe:hover { color: #14110D; }
 html[data-theme="dark"] ::selection { background: var(--amber); color: #14110D; }
+
+/* ============ PRESS LINE — thin line draws on every page load, then fades ============ */
+.press-line {
+  position: fixed; top: 0; left: 0; height: 3px; width: 100%;
+  background: var(--red); transform-origin: left; transform: scaleX(0);
+  z-index: 10002; pointer-events: none;
+  animation: pressDraw .7s cubic-bezier(.2,.8,.2,1) forwards,
+             pressFade .4s ease .7s forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .press-line { display: none; }
+}
+@keyframes pressDraw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes pressFade { to { opacity: 0; } }
 html[data-theme="dark"] .gloss::after { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }

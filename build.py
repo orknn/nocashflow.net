@@ -39,7 +39,7 @@ LANGS = ("en", "tr")
 # One consolidated Google Fonts request (Fraunces display · Newsreader body ·
 # IBM Plex Mono data) — replaces the extra render-blocking @import in site.css.
 FONTS_URL = ("https://fonts.googleapis.com/css2"
-             "?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900"
+             "?family=Fraunces:ital,opsz,SOFT,WONK,wght@0,9..144,0..100,0..1,300..900;1,9..144,0..100,0..1,300..900"
              "&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500"
              "&family=Libre+Caslon+Display"
              "&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400"
@@ -157,6 +157,24 @@ def hero_frieze(lang):
   <div class="hf-cap">{cap}</div>
 </div>
 """
+
+
+# ── article masthead frieze: same real yield-curve series as the hero, drawn
+#   as a faint unlabeled line (no ticks/values) behind the article dateline ──
+def mini_frieze():
+    curve = MACRO.get("curve") or []
+    if len(curve) < 4:
+        return ""
+    W, H, PAD = 800, 60, 8
+    vals = [p["v"] for p in curve]
+    mn, mx = min(vals), max(vals)
+    rng = (mx - mn) or 1.0
+    pts = [(PAD + i * (W - 2 * PAD) / (len(curve) - 1),
+            H - 14 - ((p["v"] - mn) / rng) * (H - 24))
+           for i, p in enumerate(curve)]
+    d = "M" + " L".join(f"{x:.1f},{y:.1f}" for x, y in pts)
+    return (f'<svg class="frieze-svg" viewBox="0 0 {W} {H}" preserveAspectRatio="none" aria-hidden="true">'
+            f'<path d="{d}" fill="none" stroke="var(--amber)" stroke-width="1.6"/></svg>')
 
 
 # ── Market Pulse signature chart: the real yield curve with proper axes ──────
@@ -787,6 +805,12 @@ def head(page, lang):
     # Broadsheet redesign — now applied site-wide
     bs_css = '<link rel="stylesheet" href="/broadsheet.css"/>\n'
     body_cls = ' class="bs"'
+    # masthead ambient tint (home only — that's the only page with .bs-mast)
+    daypart_script = (
+        "\n<script>(function(){var h=new Date().getHours();"
+        "document.body.setAttribute('data-daypart',"
+        "h<7?'night':h<11?'morning':h<18?'midday':h<21?'evening':'night');})();</script>"
+    ) if page == "index" else ""
 
     return f"""<!DOCTYPE html>
 <html lang="{lang}">
@@ -822,7 +846,8 @@ def head(page, lang):
 <link rel="stylesheet" href="/components.css"/>
 <script type="application/ld+json">{site_schema}</script>
 {head_extra}{splash_css}{bs_css}{early}</head>
-<body data-mood="{_mood()}"{body_cls}>"""
+<body data-mood="{_mood()}"{body_cls}>
+<div class="press-line"></div>{daypart_script}"""
 
 
 def _early_script(page, lang):
@@ -1602,7 +1627,8 @@ def render_article(slug, lang):
 <link rel="stylesheet" href="/broadsheet.css"/>
 {article_jsonld(a, lang, canonical, slug)}
 </head>
-<body data-mood="{_mood()}" class="bs">"""
+<body data-mood="{_mood()}" class="bs">
+<div class="press-line"></div>"""
 
     overlays = (CURSOR_HTML +
                 '<div id="page-sweep"></div>\n'
@@ -1640,6 +1666,7 @@ def render_article(slug, lang):
 
     body = f"""
 <header class="page-head" data-read>
+  {mini_frieze()}
   <div class="page-eyebrow">{a['cat'][lang]} · {a['num']} <span class="divider"></span> <span class="muted">{a['date_disp'][lang]} · {a['read'][lang]}</span></div>
   <h1 class="page-title">{title}</h1>
   <p class="page-dek">{dek}</p>
@@ -1760,7 +1787,8 @@ def render_fe_essay(key, lang):
 <link rel="stylesheet" href="/finance-eng.css"/>
 {article_jsonld(a, lang, canonical, key)}
 </head>
-<body data-mood="{_mood()}" class="bs">"""
+<body data-mood="{_mood()}" class="bs">
+<div class="press-line"></div>"""
 
     overlays = (CURSOR_HTML +
                 '<div id="page-sweep"></div>\n'
@@ -2018,7 +2046,8 @@ def _ind_head(lang, title, desc, canonical, alt_en, alt_tr, schema):
 <link rel="stylesheet" href="/broadsheet.css"/>
 <script type="application/ld+json">{schema}</script>
 </head>
-<body data-mood="{_mood()}" class="bs">"""
+<body data-mood="{_mood()}" class="bs">
+<div class="press-line"></div>"""
 
 
 def _ind_chrome_ticker():

@@ -46,7 +46,17 @@ body.bs .nav .theme-toggle{color:var(--bs-ink2)}
 
 /* ---- masthead nameplate ---- */
 body.bs .bs-mast{max-width:var(--bs-max);margin:0 auto;padding:30px 30px 18px;text-align:center;
-  border-bottom:3px double var(--bs-rule)}
+  border-bottom:3px double var(--bs-rule);position:relative}
+body.bs .bs-mast::before{
+  content:'';position:absolute;left:-30px;right:-30px;top:-30px;height:180px;z-index:0;
+  pointer-events:none;opacity:.8;
+  background:radial-gradient(ellipse 60% 100% at 50% 0%,var(--daypart-tint,transparent),transparent 72%);
+  transition:opacity .6s ease}
+body.bs .bs-mast>*{position:relative;z-index:1}
+body[data-daypart="morning"]{--daypart-tint:rgba(233,178,74,.53)}
+body[data-daypart="midday"]{--daypart-tint:rgba(233,178,74,.19)}
+body[data-daypart="evening"]{--daypart-tint:rgba(224,155,48,.30)}
+body[data-daypart="night"]{--daypart-tint:rgba(72,61,112,.35)}
 body.bs .bs-mast-top{display:flex;justify-content:space-between;align-items:center;
   font-family:var(--bs-mono);font-size:11px;letter-spacing:.08em;color:var(--bs-soft);
   text-transform:uppercase;padding-bottom:14px}

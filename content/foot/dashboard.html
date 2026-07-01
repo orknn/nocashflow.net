@@ -4,3 +4,18 @@
      existing data source. Phase 4 will add a client-side markets.json refresh. */
   window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx','eurusd'], market: false });
 </script>
+<script>
+  /* Magnetic tilt on dashboard cards — mouse-position based, skipped for
+     prefers-reduced-motion. */
+  if (!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+    document.querySelectorAll('.dsh-tile, .dsh-hcell').forEach(function (card) {
+      card.addEventListener('mousemove', function (e) {
+        var r = card.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width - 0.5;
+        var py = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transform = 'perspective(500px) rotateX(' + (py * -6) + 'deg) rotateY(' + (px * 6) + 'deg)';
+      });
+      card.addEventListener('mouseleave', function () { card.style.transform = ''; });
+    });
+  }
+</script>
