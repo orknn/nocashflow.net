@@ -1,0 +1,56 @@
+name: Bulletin PDFs
+
+# The newsletter pipeline (nocashflow-bulletin-bot) pushes the bulletins as
+# bulletins/{daily,weekly}/latest.{en,tr}.html. This prints those files to PDF
+# with the runner's Chrome and commits them under fixed names, so the download
+# links on the bulletin page always serve the latest issue — the previous
+# issue's PDF is overwritten automatically.
+on:
+  push:
+    paths:
+      - "bulletins/daily/latest.en.html"
+      - "bulletins/daily/latest.tr.html"
+      - "bulletins/weekly/latest.en.html"
+      - "bulletins/weekly/latest.tr.html"
+  schedule:
+    - cron: "45 6 * * *"   # daily 06:45 UTC — fallback after the morning bot push
+    - cron: "30 20 * * 0"  # Sunday 20:30 UTC — fallback after the weekly bot push
+  workflow_dispatch: {}    # allow manual runs from the Actions tab
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bulletin-pdf
+  cancel-in-progress: false
+
+jobs:
+  print:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Print latest bulletins to PDF
+        run: |
+          for kind in daily weekly; do
+            for lang in en tr; do
+              google-chrome --headless --disable-gpu --no-sandbox \
+                --no-pdf-header-footer --virtual-time-budget=10000 \
+                --print-to-pdf="bulletins/$kind/latest.$lang.pdf" \
+                "file://$PWD/bulletins/$kind/latest.$lang.html"
+            done
+          done
+          ls -la bulletins/daily/*.pdf bulletins/weekly/*.pdf
+
+      - name: Commit if the PDFs changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add bulletins/daily/latest.en.pdf bulletins/daily/latest.tr.pdf \
+                  bulletins/weekly/latest.en.pdf bulletins/weekly/latest.tr.pdf
+          if git diff --staged --quiet; then
+            echo "No PDF changes."
+          else
+            git commit -m "chore(bulletin): refresh PDF downloads [skip ci]"
+            git push
+          fi
