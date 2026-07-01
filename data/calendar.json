@@ -1,5 +1,5 @@
 {
-  "asof": "2026-06-30T08:33:37Z",
+  "asof": "2026-07-01T08:52:06Z",
   "events": [
     {
       "dt_utc": "2026-06-29 19:00:00",
@@ -146,6 +146,18 @@
       "act": "—"
     },
     {
+      "dt_utc": "2026-07-01 19:15:00",
+      "cet_date": "2026-07-01",
+      "wd": 2,
+      "time": "21:15",
+      "event": "President Trump Speaks",
+      "country": "US",
+      "impact": "medium",
+      "prev": "—",
+      "est": "—",
+      "act": "—"
+    },
+    {
       "dt_utc": "2026-07-02 12:30:00",
       "cet_date": "2026-07-02",
       "wd": 3,
@@ -166,7 +178,7 @@
       "country": "US",
       "impact": "high",
       "prev": "172K",
-      "est": "110K",
+      "est": "114K",
       "act": "—"
     },
     {

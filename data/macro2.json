@@ -1,6 +1,6 @@
 {
   "_note": "Live: FRED + DefiLlama + Atlanta Fed. Manual (no free API): cut-odds, dot plot, ISM, next-FOMC, global M2.",
-  "updated": "2026-06-30T08:35:14Z",
+  "updated": "2026-07-01T08:53:55Z",
   "regime_tape": [
     {
       "k": "Fed Funds",
@@ -11,7 +11,7 @@
     {
       "k": "Next FOMC",
       "v": "Jul 29",
-      "d": "29d",
+      "d": "28d",
       "dir": "neu"
     },
     {
@@ -34,19 +34,19 @@
     },
     {
       "k": "2s10s",
-      "v": "+28",
+      "v": "+30",
       "d": "steepening",
       "dir": "up"
     },
     {
       "k": "DXY",
-      "v": "101.36",
+      "v": "101.34",
       "d": "",
       "dir": "neu"
     },
     {
       "k": "F&amp;G",
-      "v": "15",
+      "v": "11",
       "d": "Extreme Fear",
       "dir": "down"
     }
@@ -68,8 +68,8 @@
       "dir": "neu"
     },
     {
-      "v": "2.20%",
-      "sub": "▲ +1bp",
+      "v": "2.22%",
+      "sub": "▲ +2bp",
       "dir": "up"
     }
   ],
@@ -87,7 +87,7 @@
         "dir": "down"
       },
       {
-        "v": "$4B",
+        "v": "$27B",
         "sub": "▼ draining",
         "dir": "down"
       },
@@ -142,7 +142,7 @@
       },
       {
         "v": "$311B",
-        "sub": "USDC $74B",
+        "sub": "USDC $73B",
         "dir": "up"
       }
     ]
@@ -173,23 +173,23 @@
     "curve": [
       {
         "tenor": "1M",
-        "y": 3.7
+        "y": 3.71
       },
       {
         "tenor": "3M",
-        "y": 3.83
+        "y": 3.87
       },
       {
         "tenor": "6M",
-        "y": 3.94
+        "y": 4.0
       },
       {
         "tenor": "2Y",
-        "y": 4.07
+        "y": 4.1
       },
       {
         "tenor": "5Y",
-        "y": 4.12
+        "y": 4.14
       },
       {
         "tenor": "10Y",
@@ -197,12 +197,12 @@
       },
       {
         "tenor": "30Y",
-        "y": 4.87
+        "y": 4.86
       }
     ],
     "stats": [
       {
-        "v": "4.07",
+        "v": "4.10",
         "sub": "+0.8%",
         "dir": "neu"
       },
@@ -212,12 +212,12 @@
         "dir": "neu"
       },
       {
-        "v": "+28bp",
+        "v": "+30bp",
         "sub": "steepening",
         "dir": "up"
       },
       {
-        "v": "283bp",
+        "v": "280bp",
         "sub": "→ calm",
         "dir": "neu"
       }
