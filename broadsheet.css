@@ -48,15 +48,15 @@ body.bs .nav .theme-toggle{color:var(--bs-ink2)}
 body.bs .bs-mast{max-width:var(--bs-max);margin:0 auto;padding:30px 30px 18px;text-align:center;
   border-bottom:3px double var(--bs-rule);position:relative}
 body.bs .bs-mast::before{
-  content:'';position:absolute;left:-30px;right:-30px;top:-30px;height:180px;z-index:0;
+  content:'';position:absolute;left:-30px;right:-30px;top:0;height:160px;z-index:0;
   pointer-events:none;opacity:.8;
   background:radial-gradient(ellipse 60% 100% at 50% 0%,var(--daypart-tint,transparent),transparent 72%);
   transition:opacity .6s ease}
 body.bs .bs-mast>*{position:relative;z-index:1}
-body[data-daypart="morning"]{--daypart-tint:rgba(233,178,74,.53)}
-body[data-daypart="midday"]{--daypart-tint:rgba(233,178,74,.19)}
-body[data-daypart="evening"]{--daypart-tint:rgba(224,155,48,.30)}
-body[data-daypart="night"]{--daypart-tint:rgba(72,61,112,.35)}
+body[data-daypart="morning"]{--daypart-tint:rgba(233,178,74,.30)}
+body[data-daypart="midday"]{--daypart-tint:rgba(233,178,74,.13)}
+body[data-daypart="evening"]{--daypart-tint:rgba(224,155,48,.19)}
+body[data-daypart="night"]{--daypart-tint:rgba(72,61,112,.16)}
 body.bs .bs-mast-top{display:flex;justify-content:space-between;align-items:center;
   font-family:var(--bs-mono);font-size:11px;letter-spacing:.08em;color:var(--bs-soft);
   text-transform:uppercase;padding-bottom:14px}
@@ -99,8 +99,8 @@ body.bs .c.up,body.bs .cg.up{color:var(--bs-pos)} body.bs .c.down,body.bs .cg.do
 body.bs .c.neu,body.bs .cg.neu{color:var(--bs-soft)}
 
 /* ---- live yield-curve frieze in the hero graphic ---- */
-body.bs .bs-graphic .hero-frieze{position:static;margin:0;width:100%;opacity:1;pointer-events:none}
-body.bs .bs-graphic .hero-frieze svg{width:100%;height:150px;display:block}
+body.bs .bs-graphic .hero-frieze{position:static;margin:0;width:100%;opacity:1;pointer-events:none;border:none;background:transparent;overflow:visible}
+body.bs .bs-graphic .hero-frieze svg{width:100%;height:auto;display:block}
 body.bs .hf-base{stroke:var(--bs-hair);stroke-width:1}
 body.bs .hf-area{fill:var(--bs-accent);opacity:.05}
 body.bs .hf-line{stroke:var(--bs-ink);stroke-width:2;fill:none}
@@ -289,3 +289,52 @@ body.bs .cal-row .impact.low{background:var(--bs-hair)}
 body.bs .term{background:transparent;border-color:var(--bs-hair)}
 body.bs .term .cat{color:var(--bs-accent)}
 body.bs .term h3{font-family:var(--bs-disp);font-weight:400}
+
+/* ============================================================================
+   MASTER POLISH — typographic finish, calmer chrome, staggered motion.
+   Appended last on purpose: order breaks the earlier same-specificity ties.
+   ========================================================================== */
+
+/* article lists shed the inherited card box — hairline editorial rows only */
+body.bs .art-list{border:none;border-top:1px solid var(--bs-hair);background:transparent}
+body.bs .art-row{padding:22px 18px;margin:0 -18px}
+
+/* section rule: single ink rule with a short red lead-in that draws on scroll
+   (replaces the old floating gradient hairline 14px below the header) */
+body.bs .section-header::after{
+  left:0;right:auto;bottom:-2px;width:88px;height:2px;
+  background:var(--bs-accent);
+}
+
+/* nav indicator: the sliding pill becomes a gliding baseline underline */
+body.bs .nav-pill{
+  top:auto;bottom:-14px;transform:none;height:2px;
+  background:var(--bs-accent);border:none;border-radius:0;
+}
+body.bs .nav-pill.hot{background:var(--bs-ink2)}
+body.bs .nav-links a.active{color:var(--bs-ink);font-weight:600}
+
+/* headline finish */
+body.bs .bs-lead-title,body.bs .bs-sec-title,body.bs .section-title,
+body.bs .page-title,body.bs .newsletter-title{text-wrap:balance}
+body.bs .bs-lead-dek,body.bs .page-dek,body.bs .newsletter-dek{text-wrap:pretty}
+
+/* pressed feedback + visible keyboard focus, site-wide */
+body.bs .subscribe:active,body.bs .newsletter-submit:active,
+body.bs .btn:active,body.bs .btn-amber:active,body.bs .filter-btn:active{transform:translateY(1px)}
+body.bs a:focus-visible,body.bs button:focus-visible{outline:2px solid var(--bs-accent);outline-offset:3px}
+body.bs input:focus-visible{outline:2px solid var(--bs-ink);outline-offset:2px}
+
+/* staggered entry: rows and grid cells cascade in behind their section */
+body.bs .reveal .art-row,body.bs .reveal .acard{opacity:0;transform:translateY(14px)}
+body.bs .reveal.in .art-row,body.bs .reveal.in .acard{
+  opacity:1;transform:none;
+  transition:opacity .55s cubic-bezier(.16,1,.3,1),transform .55s cubic-bezier(.16,1,.3,1)}
+body.bs .reveal.in .art-row:nth-child(2),body.bs .reveal.in .acard:nth-child(2){transition-delay:.06s}
+body.bs .reveal.in .art-row:nth-child(3),body.bs .reveal.in .acard:nth-child(3){transition-delay:.12s}
+body.bs .reveal.in .art-row:nth-child(4),body.bs .reveal.in .acard:nth-child(4){transition-delay:.18s}
+body.bs .reveal.in .acard:nth-child(5){transition-delay:.24s}
+body.bs .reveal.in .acard:nth-child(6){transition-delay:.30s}
+@media(prefers-reduced-motion:reduce){
+  body.bs .reveal .art-row,body.bs .reveal .acard{opacity:1;transform:none;transition:none}
+}

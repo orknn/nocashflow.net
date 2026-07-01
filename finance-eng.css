@@ -1,7 +1,9 @@
 /* Finance Engineering — section hub + essay styles.
    Scoped under .fe-page / .fe-essay so nothing leaks into the rest of the site.
    Uses site CSS vars (so After Hours dark mode adapts); --fe-oxide is the accent. */
-.fe-page, .fe-essay { --fe-oxide: #B0442B; --fe-volt: #15B7EA; }
+/* --fe-volt: the "live current" in the pipeline diagram — a brighter oxide,
+   so the motion stays in the paper palette instead of going neon blue */
+.fe-page, .fe-essay { --fe-oxide: #B0442B; --fe-volt: #D0552F; }
 .fe-page { max-width: 1120px; margin: 0 auto; padding: 16px 32px 0; }
 @media (max-width: 560px) { .fe-page { padding: 8px 20px 0; } }
 
@@ -76,7 +78,7 @@
 .fe-wire { stroke: var(--border); stroke-width: 1.5; }
 /* flowing DATA: glowing electric-blue charge packets, not a dashed line.
    round caps + a near-zero dash = luminous dots; drop-shadow = neon glow. */
-.fe-flow-line { fill: none; stroke: var(--fe-volt); stroke-width: 5.5; stroke-linecap: round; stroke-dasharray: 0.5 25; filter: drop-shadow(0 0 3px var(--fe-volt)) drop-shadow(0 0 8px var(--fe-volt)); }
+.fe-flow-line { fill: none; stroke: var(--fe-volt); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 0.5 25; filter: drop-shadow(0 0 2px var(--fe-volt)); }
 .fe-node-ring { fill: var(--bg); stroke: var(--text); stroke-width: 1.5; }
 .fe-node-core { fill: var(--fe-oxide); }
 .fe-node-pulse { fill: none; stroke: var(--fe-oxide); stroke-width: 1.5; transform-box: fill-box; transform-origin: center; opacity: 0; }

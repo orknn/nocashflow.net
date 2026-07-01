@@ -112,7 +112,9 @@ def hero_frieze(lang):
     curve = MACRO.get("curve") or []
     if len(curve) < 4:
         return ""
-    W, H, PAD = 1200, 150, 46
+    # sized for the front-page graphic slot (~490px wide) so the SVG keeps its
+    # aspect ratio and the mono labels render unsquashed at ~10px effective
+    W, H, PAD = 560, 240, 40
     vals = [p["v"] for p in curve]
     mn, mx = min(vals), max(vals)
     rng = (mx - mn) or 1.0
@@ -148,7 +150,7 @@ def hero_frieze(lang):
     return f"""
 <!-- HERO FRIEZE — generated from data/macro.json at build time; the site redraws itself daily -->
 <div class="hero-frieze" aria-hidden="true">
-  <svg viewBox="0 0 {W} {H}" preserveAspectRatio="none">
+  <svg viewBox="0 0 {W} {H}" preserveAspectRatio="xMidYMid meet">
     <line x1="{PAD}" y1="{H - 26}" x2="{W - PAD}" y2="{H - 26}" class="hf-base"/>
     <path d="{area}" class="hf-area"/>
     <path d="{d}" class="hf-line"/>
@@ -1376,8 +1378,15 @@ def inject_macro2(html, lang):
         f'<span class="track"><span class="fill" style="width:{o["p"]}%"></span></span>'
         f'<span class="pct">{o["p"]}%</span></div>'
         for o in M.get("fed", {}).get("cut_odds", []))
-    html = html.replace("<!--NCF:MACRO2_FED_ODDS-->", odds_rows or
-                        '<p class="cap" style="margin:10px 0 0">Awaiting a live source.</p>')
+    odds_empty = ('<div class="mcr-odds-empty"><b>—</b>'
+                  '<span>No live feed yet. Odds print here as CME FedWatch data lands; '
+                  'until then, the dot plot on the right is the desk’s read.</span></div>'
+                  if lang == "en" else
+                  '<div class="mcr-odds-empty"><b>—</b>'
+                  '<span>Henüz canlı kaynak yok. CME FedWatch verisi geldikçe '
+                  'olasılıklar burada yazılacak; o zamana dek masanın okuması '
+                  'sağdaki dot plot.</span></div>')
+    html = html.replace("<!--NCF:MACRO2_FED_ODDS-->", odds_rows or odds_empty)
 
     liq = M.get("liquidity", {})
     html = html.replace("<!--NCF:MACRO2_LIQ_CHART-->", _liq_svg(liq.get("net_liq_series"), liq.get("y_min"), liq.get("y_max")))

@@ -531,7 +531,7 @@
         const r  = target.getBoundingClientRect();
         pill.style.left  = (r.left - nr.left) + 'px';
         pill.style.width = r.width + 'px';
-        pill.style.background = hot ? 'var(--red)' : 'var(--text)';
+        pill.classList.toggle('hot', hot);   /* colour lives in CSS, not inline */
       }
 
       if (activeA) setTimeout(() => movePill(activeA, false), 60);

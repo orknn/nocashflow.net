@@ -120,7 +120,8 @@
 
   <!-- LATEST ISSUES (newsletter pipeline'ının push ettiği canlı bültenler) -->
   <div class="section-header" style="margin-top:48px"><div class="section-title" style="font-size:24px">Son sayılar</div><div class="section-meta">Her sabah güncellenir · 07:45 CET</div></div>
-  <div class="card-grid">
+  <!-- auto-fit: haftalık kart gizliyken de grid satırı doldurur -->
+  <div class="card-grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
     <div class="acard">
       <div class="k" style="font-family:var(--mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--amber);margin-bottom:8px">Günlük Nabız</div>
       <p style="font-size:13px;color:var(--text-dim);line-height:1.55;flex:1">Sabah makro özeti, ekonomik takvim, hisse &amp; emtia ve kripto masası — her sabah 3 dakikalık okuma.</p>

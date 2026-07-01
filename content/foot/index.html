@@ -22,12 +22,21 @@
     var m = raw.match(/^([^\d\-−.]*)(-|−)?([\d.,]+)(.*)$/);
     if(!m) return;
     var pre = m[1]||'', neg = m[2]?'−':'', digits = m[3], suf = m[4]||'';
-    var target = parseFloat(digits.replace(/,/g,''));
+    /* TR decimal comma ("4,2") vs EN thousands comma ("58,639"):
+       a trailing comma group of 1–2 digits is a decimal, of 3 is a separator */
+    var eu = /,\d{1,2}$/.test(digits) && !/,\d{3}$/.test(digits);
+    var norm = eu ? digits.replace(/\./g,'').replace(',', '.') : digits.replace(/,/g,'');
+    var target = parseFloat(norm);
     if(!isFinite(target)) return;
-    var dec = (digits.split('.')[1]||'').length;
-    var grouped = digits.indexOf(',')>-1;
+    var dec = (norm.split('.')[1]||'').length;
+    var grouped = eu ? digits.indexOf('.')>-1 : digits.indexOf(',')>-1;
     var t0 = null, dur = 750;
-    function fmt(n){ var s = n.toFixed(dec); if(grouped){ var p=s.split('.'); p[0]=p[0].replace(/\B(?=(\d{3})+(?!\d))/g,','); s=p.join('.'); } return pre+neg+s+suf; }
+    function fmt(n){
+      var s = n.toFixed(dec);
+      if(eu){ s = s.replace('.', ','); if(grouped){ var p=s.split(','); p[0]=p[0].replace(/\B(?=(\d{3})+(?!\d))/g,'.'); s=p.join(','); } }
+      else if(grouped){ var p=s.split('.'); p[0]=p[0].replace(/\B(?=(\d{3})+(?!\d))/g,','); s=p.join('.'); }
+      return pre+neg+s+suf;
+    }
     el.textContent = fmt(0);
     function step(t){ t0=t0||t; var p=Math.min((t-t0)/dur,1); el.textContent = fmt(target*(1-Math.pow(1-p,3))); if(p<1) requestAnimationFrame(step); }
     requestAnimationFrame(step);
