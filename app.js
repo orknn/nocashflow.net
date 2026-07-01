@@ -89,6 +89,26 @@
     } catch (e) { return null; }
   }
 
+  /* Same-origin daily snapshot (data/market.json, written by the server-side
+     cron) — fetched first so the ticker paints instantly instead of sitting
+     on "—" while the Yahoo/CORS-proxy chain below churns in the background. */
+  async function fetchSnapshot() {
+    try {
+      const res = await fetch('/data/market.json', { cache: 'no-store' });
+      if (!res.ok) return null;
+      return await res.json();
+    } catch (e) { return null; }
+  }
+
+  function paintSnapshot(key, val) {
+    $$('[data-px="' + key + '"]').forEach((el) => { el.textContent = val.px; });
+    $$('[data-chg="' + key + '"]').forEach((el) => {
+      el.textContent = val.chg;
+      el.classList.remove('up', 'dn', 'neu');
+      el.classList.add(val.dir || 'neu');
+    });
+  }
+
   /* Fear & Greed (direct) */
   async function fetchFearGreed() {
     try {
@@ -174,6 +194,16 @@
   async function loadMarket(opts = {}) {
     const cache = readCache();
     const updated = {};
+
+    /* instant paint from this morning's snapshot — same-origin, no proxy
+       chain, so the ticker never sits on "—" while the rest of this
+       function fetches live values in the background */
+    const snap = await fetchSnapshot();
+    if (snap && snap.instruments) {
+      Object.keys(snap.instruments).forEach((key) => {
+        if (INSTRUMENTS[key]) paintSnapshot(key, snap.instruments[key]);
+      });
+    }
 
     const apply = (key, price, pct, extra) => {
       if (price != null) {

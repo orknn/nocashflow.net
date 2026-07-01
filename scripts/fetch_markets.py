@@ -4,7 +4,10 @@
 Free, server-side, no API key:
   · equities / ETFs → Nasdaq historical API (daily 5y history → multi-horizon
     perf + 30-day sparkline). Keyless; replaces Yahoo, which blocks Actions IPs.
-  · crypto top-10 + dominance + total mcap → CoinGecko (free; 5Y → "—").
+  · crypto top-10 + dominance + total mcap → CoinGecko (free; 1d/7d/30d/180d/1y).
+    5Y comes from Kraken's public weekly OHLC instead (CoinGecko's free tier
+    caps history at 365d; Binance has it but 451s from Actions IPs) — "—" if
+    a coin has no Kraken pair or under ~5y of listed history.
   · stablecoin supply + USDC share          → DefiLlama.
   · FX (EUR/USD, USD/JPY, GBP/USD, USD/CHF, USD/TRY) → frankfurter.app (ECB,
     keyless, with history → perf). DXY is dropped (no keyless ICE-DXY history).
@@ -57,6 +60,14 @@ FX_PAIRS = [("EUR/USD", "EUR", True), ("USD/JPY", "JPY", False),
             ("USD/TRY", "TRY", False)]
 CRYPTO_IDS = ["bitcoin", "ethereum", "tether", "binancecoin", "solana",
               "usd-coin", "ripple", "dogecoin", "cardano", "tron"]
+# 5Y crypto perf: CoinGecko's free tier caps history at 365 days. Binance has
+# the full history but 451s from GitHub Actions IPs (geo-restricted, same
+# issue Yahoo had). Kraken's public OHLC endpoint is keyless, unrestricted
+# from Actions, and returns enough weekly history in one call.
+KRAKEN_PAIR = {"bitcoin": "XBTUSD", "ethereum": "ETHUSD", "tether": "USDTZUSD",
+               "binancecoin": "BNBUSD", "solana": "SOLUSD", "usd-coin": "USDCUSD",
+               "ripple": "XRPUSD", "dogecoin": "DOGEUSD", "cardano": "ADAUSD",
+               "tron": "TRXUSD"}
 HORIZON = {"d1": 1, "d7": 5, "d30": 21, "d180": 126, "y1": 252, "y5": 1260}
 
 
@@ -121,6 +132,29 @@ def _round_price(v):
 
 def _r(v):
     return round(v, 2) if isinstance(v, (int, float)) else None
+
+
+def kraken_5y_pct(coin_id):
+    """Real 5Y % change for a crypto id via Kraken's public (keyless) weekly
+    OHLC — None if the pair is unknown, unreachable, or has under ~5y of
+    history (no fabricated numbers)."""
+    pair = KRAKEN_PAIR.get(coin_id)
+    if not pair:
+        return None
+    try:
+        r = requests.get("https://api.kraken.com/0/public/OHLC",
+                          params={"pair": pair, "interval": 10080}, timeout=TIMEOUT)
+        r.raise_for_status()
+        j = r.json()
+        if j.get("error"):
+            return None
+        series = next((v for k, v in j.get("result", {}).items() if k != "last"), None)
+        if not series or len(series) < 261:  # ~5y of weekly candles
+            return None
+        old, last = float(series[-261][4]), float(series[-1][4])
+        return round((last - old) / old * 100, 2) if old else None
+    except Exception:
+        return None
 
 
 def fred_closes(series_id, days=460):
@@ -342,7 +376,8 @@ def build_markets():
                                      "d30": _r(c.get("price_change_percentage_30d_in_currency")),
                                      "d180": _r(c.get("price_change_percentage_200d_in_currency")),
                                      "y1": _r(c.get("price_change_percentage_1y_in_currency")),
-                                     "y5": None}})
+                                     "y5": kraken_5y_pct(cid)}})
+            time.sleep(0.3)
         if leaders:
             out["leaders_crypto"] = leaders
         btc, eth = byid.get("bitcoin"), byid.get("ethereum")
