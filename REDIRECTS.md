@@ -20,6 +20,17 @@ Rules). All should be **301 (permanent)**, query string preserved.
 | 6 | `https://nocashflow.net/articles/bakir.html`     | `https://nocashflow.net/articles/copper.html`    | 301 |
 | 7 | `https://nocashflow.net/articles/petrol.html`    | `https://nocashflow.net/articles/oil.html`       | 301 |
 
+## Legacy bulletin files (removed 2026-07-02)
+
+`daily_bulletin.html` and `daily_bulletin.pdf` (old-design leftovers, only ever
+linked from the deleted `demo_index.html`) were removed from the repo. In case
+any old social post still points at them:
+
+| # | Old URL | New URL | Status |
+|---|---|---|---|
+| 8 | `https://nocashflow.net/daily_bulletin.html` | `https://nocashflow.net/bulletins/daily/latest.en.html` | 301 |
+| 9 | `https://nocashflow.net/daily_bulletin.pdf`  | `https://nocashflow.net/bulletins/daily/latest.en.html` | 301 |
+
 ## Notes
 - `bulletin_page.html` was intentionally left unchanged (not a Turkish slug; TR
   side uses the same name).
