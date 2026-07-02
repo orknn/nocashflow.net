@@ -1,8 +1,32 @@
 <script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>
 <script>
-  /* Reveal the Weekly Deep Dive card only once a weekly bulletin has been
-     published (the weekly pipeline runs Sundays; until then the file 404s). */
-  fetch('/bulletins/weekly/latest.tr.html', { method: 'HEAD' })
-    .then(function (r) { if (r.ok) { var c = document.getElementById('weekly-card'); if (c) c.style.display = ''; } })
-    .catch(function () {});
+  /* Stamp each card with the issue date pulled straight out of the bulletin's
+     own header (already localized), so readers know which day/Sunday's PDF
+     they're about to download. Also reveals the Weekly Deep Dive card once a
+     weekly bulletin has been published (the weekly pipeline runs Sundays;
+     until then the file 404s). */
+  (function () {
+    var lang = (document.documentElement.lang || 'en').indexOf('tr') === 0 ? 'tr' : 'en';
+    var prefix = lang === 'tr' ? 'Bülten tarihi' : 'Issue date';
+    var dateRe = /<td align="right"[\s\S]*?<div[^>]*>([^<]+)<\/div>/;
+
+    function stampDateline(kind, elId, onOk) {
+      var el = document.getElementById(elId);
+      fetch('/bulletins/' + kind + '/latest.' + lang + '.html')
+        .then(function (r) { return r.ok ? r.text() : null; })
+        .then(function (html) {
+          if (!html) return;
+          if (onOk) onOk();
+          var m = html.match(dateRe);
+          if (m && el) el.textContent = prefix + ': ' + m[1].trim();
+        })
+        .catch(function () {});
+    }
+
+    stampDateline('daily', 'daily-dateline');
+    stampDateline('weekly', 'weekly-dateline', function () {
+      var c = document.getElementById('weekly-card');
+      if (c) c.style.display = '';
+    });
+  })();
 </script>
