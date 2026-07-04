@@ -19,6 +19,12 @@
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     text-align: center; padding: 24px; gap: 6px;
   }
+  #rain {
+    position: fixed; inset: 0; width: 100%; height: 100%;
+    z-index: 0; pointer-events: none;
+  }
+  body > *:not(#rain) { position: relative; z-index: 1; }
+  @media (prefers-reduced-motion: reduce) { #rain { display: none; } }
   .logo {
     font-family: 'IBM Plex Mono', monospace; font-weight: 600;
     font-size: 13px; letter-spacing: 0.14em; color: rgba(255,255,255,.7);
@@ -28,13 +34,19 @@
   .code {
     font-weight: 700; font-style: italic;
     font-size: clamp(5rem, 22vw, 11rem); line-height: 1; letter-spacing: -0.02em;
+    text-shadow: 0 0 40px rgba(0,0,0,.9), 0 0 12px rgba(0,0,0,.9);
   }
-  .msg { font-size: clamp(1.1rem, 3vw, 1.6rem); color: rgba(255,255,255,.85); margin-top: 8px; }
+  .msg { font-size: clamp(1.1rem, 3vw, 1.6rem); color: rgba(255,255,255,.85); margin-top: 8px; text-shadow: 0 0 14px rgba(0,0,0,.95); }
   .msg .tr { display: block; color: rgba(255,255,255,.5); font-size: 0.82em; font-style: italic; margin-top: 4px; }
+  .whisper {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .22em;
+    text-transform: uppercase; color: rgba(80,255,140,.5); margin-top: 22px;
+  }
   .actions { display: flex; gap: 14px; margin-top: 36px; flex-wrap: wrap; justify-content: center; }
   .btn {
     font-family: 'Fraunces', serif; font-style: italic; font-size: 1.05rem;
     color: #fff; text-decoration: none;
+    background: rgba(0,0,0,.55);
     border: 1px solid rgba(255,255,255,.55); border-radius: 2px;
     padding: 12px 30px; transition: all .25s ease;
   }
@@ -42,12 +54,61 @@
 </style>
 </head>
 <body>
+  <canvas id="rain" aria-hidden="true"></canvas>
   <div class="logo">NO<span class="slash">/</span>CASHFLOW</div>
   <div class="code">404</div>
   <p class="msg">This page didn't make it to print.<span class="tr">Bu sayfa baskıya giremedi.</span></p>
+  <div class="whisper">there is no page &middot; follow the white rabbit</div>
   <div class="actions">
     <a class="btn" href="/">Home</a>
     <a class="btn" href="/tr/">Türkçe</a>
   </div>
+<script>
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var canvas = document.getElementById('rain');
+  var ctx = canvas.getContext('2d');
+  var GLYPHS = 'アイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789$€₺₿%¥£Δ↑↓';
+  var FONT = 16, cols = 0, drops = [];
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    cols = Math.ceil(canvas.width / FONT);
+    drops = [];
+    for (var i = 0; i < cols; i++) drops.push(Math.random() * -canvas.height / FONT);
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  var last = 0;
+  function frame(t) {
+    requestAnimationFrame(frame);
+    if (t - last < 50) return;           // ~20fps — film cadence, kind to batteries
+    last = t;
+    ctx.fillStyle = 'rgba(0,0,0,0.08)';  // trail fade
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.font = FONT + 'px "IBM Plex Mono", monospace';
+    for (var i = 0; i < cols; i++) {
+      var ch = GLYPHS.charAt(Math.floor(Math.random() * GLYPHS.length));
+      var y = drops[i] * FONT;
+      // head glyph bright, occasional amber spark (house accent)
+      ctx.fillStyle = Math.random() < 0.02 ? '#C98A2B'
+                    : Math.random() < 0.10 ? 'rgba(190,255,210,0.95)'
+                    : 'rgba(60,220,110,0.85)';
+      ctx.fillText(ch, i * FONT, y);
+      if (y > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      else drops[i]++;
+    }
+  }
+  requestAnimationFrame(frame);
+
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, canvas.width, canvas.height); }
+  });
+})();
+</script>
 </body>
 </html>

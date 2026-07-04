@@ -9,7 +9,11 @@
 
 /* ── manifesto ─────────────────────────────────────────────────────────── */
 .fe-eyebrow { font-family: var(--mono); font-size: 11.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--fe-oxide); }
-.fe-head { padding: 40px 0 40px; }
+.fe-head { padding: 40px 0 40px; position: relative; }
+/* machine-room rain: canvas injected by app.js behind the manifesto */
+.fe-rain { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.fe-head > *:not(.fe-rain) { position: relative; z-index: 1; }
+@media (prefers-reduced-motion: reduce) { .fe-rain { display: none; } }
 .fe-kicker { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
 .fe-kicker .ln { flex: 1; height: 1px; background: var(--border); }
 .fe-title { font-family: var(--serif); font-size: clamp(40px, 7vw, 76px); font-weight: 400; line-height: 1.02; letter-spacing: -.5px; margin: 0 0 22px; max-width: 15ch; }
@@ -137,3 +141,90 @@
 .fe-essay .disclaimer { margin: 36px 0 0; padding-top: 18px; border-top: 1px solid var(--border); font-size: 14px; color: var(--text-mute); line-height: 1.55; }
 .fe-essay .fe-back { display: inline-block; margin: 40px 0 0; font-family: var(--mono); font-size: 12px; letter-spacing: .08em; color: var(--text-dim); text-decoration: none; border-bottom: 1px solid var(--border); }
 .fe-essay .fe-back:hover { color: var(--fe-oxide); border-color: var(--fe-oxide); }
+
+/* ════════════════════════════════════════════════════════════════════════════
+   THE MACHINE ROOM — Finance Engineering's own theme (body.bs.fe-matrix).
+   Through the white-rabbit door, the broadsheet drops into the terminal that
+   prints it: phosphor green on warm CRT black. The serif editorial voice
+   persists (the paper's ghost inside the machine); everything operational goes
+   mono + phosphor. The single amber spark marks the human — the sign-off node,
+   the logo slash, the link cursor. Scoped: nothing leaks past these pages.
+   ════════════════════════════════════════════════════════════════════════════ */
+body.bs.fe-matrix {
+  /* section tokens — every fe-* component re-skins itself through these */
+  --bg: #040A06; --bg-elev: #071108; --bg-elev-2: #0A1A0E;
+  --border: #143521; --border-soft: #0D2415;
+  --text: #C6EFCE; --text-dim: #8CC79B; --text-mute: #649E72;
+  --amber: #E3A63D; --amber-hi: #F0B44C; --on-amber: #040A06;
+  --green: #3BF57F; --red: #FF6B57;
+  --fe-oxide: #3BF57F; --fe-volt: #5CFF97;
+  --mx-phos: #3BF57F; --mx-glow: rgba(59, 245, 127, .45);
+  /* broadsheet chrome tokens — nav, masthead, footer flip with the room */
+  --bs-paper: #040A06; --bs-paper2: #071108; --bs-ink: #C6EFCE; --bs-ink2: #8CC79B;
+  --bs-soft: #649E72; --bs-hair: #143521; --bs-rule: #2E6B41;
+  --bs-accent: #3BF57F; --bs-pos: #3BF57F; --bs-neg: #FF6B57;
+  background: var(--bg);
+  color: var(--text);
+}
+body.bs.fe-matrix ::selection { background: var(--mx-phos); color: #02120A; }
+/* .fe-page/.fe-essay pin their own oxide accent (line 6); re-pin it to phosphor
+   here, else the body-level remap never reaches the section's descendants */
+body.bs.fe-matrix .fe-page, body.bs.fe-matrix .fe-essay { --fe-oxide: #3BF57F; --fe-volt: #5CFF97; }
+
+/* CRT atmosphere: scanlines + corner vignette, one fixed layer over the room.
+   Sits above content, below the cursor (10000) and progress rails (10001+). */
+body.bs.fe-matrix::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 9000;
+  background:
+    radial-gradient(130% 100% at 50% 0%, transparent 60%, rgba(0, 0, 0, .38) 100%),
+    repeating-linear-gradient(0deg, rgba(1, 6, 3, .22) 0 1px, transparent 1px 3px);
+}
+
+/* chrome: the room's own furniture */
+body.bs.fe-matrix .press-line { background: var(--mx-phos); }
+body.bs.fe-matrix .nav { background: rgba(4, 10, 6, .94); border-bottom: 1px solid var(--border); }
+body.bs.fe-matrix .theme-toggle { display: none; }   /* it is always night in the machine room */
+body.bs.fe-matrix .nav .logo .slash { color: var(--amber); }
+body.bs.fe-matrix .ticker { background: #030805; border-bottom: 1px solid var(--border); }
+body.bs.fe-matrix .ticker-label { background: #021209; border-right: 1px solid var(--border); color: var(--text-dim); }
+body.bs.fe-matrix .tick { border-right: 1px solid var(--border-soft); }
+body.bs.fe-matrix .ticker-label .dot { background: var(--mx-phos); }
+body.bs.fe-matrix .masthead .mh-date { color: var(--mx-phos); }
+body.bs.fe-matrix #read-progress { background: var(--mx-phos); }
+body.bs.fe-matrix #page-sweep { background: linear-gradient(90deg, var(--mx-phos), #9FFFC0); }
+
+/* manifesto: serif ghost of the paper, phosphor where it matters */
+body.bs.fe-matrix .fe-title { color: #EAF8EC; }
+body.bs.fe-matrix .fe-title em { color: var(--mx-phos); text-shadow: 0 0 26px var(--mx-glow); }
+body.bs.fe-matrix .fe-lede em { color: var(--mx-phos); }
+body.bs.fe-matrix .fe-stamp { color: var(--mx-phos); letter-spacing: .1em; }
+body.bs.fe-matrix .fe-stamp::before { content: "[ "; color: var(--text-mute); }
+body.bs.fe-matrix .fe-stamp::after {
+  content: " ] ▮"; color: var(--text-mute);
+  animation: mx-blink 1.1s steps(1, end) infinite;
+}
+
+/* pipeline: the current runs phosphor; the sign-off node stays human amber */
+body.bs.fe-matrix .fe-flow-line { filter: drop-shadow(0 0 4px var(--mx-glow)); }
+body.bs.fe-matrix .fe-node-ring { stroke: var(--text-dim); }
+body.bs.fe-matrix .fe-node-pulse.n4 { stroke: var(--amber); }
+body.bs.fe-matrix .fe-node-pulse.n4 + .fe-node-ring { stroke: var(--amber); }
+body.bs.fe-matrix .fe-node-pulse.n4 + .fe-node-ring + .fe-node-core { fill: var(--amber); }
+body.bs.fe-matrix .fe-flow-label:last-of-type { fill: var(--amber); }
+body.bs.fe-matrix .fe-flow-cap b { color: var(--amber); }
+
+/* panels re-tinted from oxide red to phosphor */
+body.bs.fe-matrix .fe-note { background: rgba(59, 245, 127, .05); }
+body.bs.fe-matrix .fe-chip:hover { box-shadow: 0 0 12px rgba(59, 245, 127, .18); }
+body.bs.fe-matrix .fe-status.planned { color: var(--text-mute); }
+body.bs.fe-matrix .fe-essay .principle { background: rgba(59, 245, 127, .05); box-shadow: inset 0 0 30px rgba(59, 245, 127, .04); }
+body.bs.fe-matrix .fe-essay .exhibit { border-color: var(--border); }
+body.bs.fe-matrix .fe-essay .exhibit .cap { background: #061009; }
+
+/* footer joins the room */
+body.bs.fe-matrix footer { background: var(--bg); border-top: 3px double var(--bs-rule); }
+
+@keyframes mx-blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  body.bs.fe-matrix .fe-stamp::after { animation: none; }
+}

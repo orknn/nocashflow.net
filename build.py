@@ -806,7 +806,9 @@ def head(page, lang):
     early = _early_script(page, lang) if (p.get("splash") or lang == "tr") else ""
     # Broadsheet redesign — now applied site-wide
     bs_css = '<link rel="stylesheet" href="/broadsheet.css"/>\n'
-    body_cls = ' class="bs"'
+    # Finance Engineering lives in the dark "machine room" theme
+    body_cls = ' class="bs fe-matrix"' if page == "finance-eng" else ' class="bs"'
+    theme_color = "#040A06" if page == "finance-eng" else "#ffffff"
     # masthead ambient tint (home only — that's the only page with .bs-mast)
     daypart_script = (
         "\n<script>(function(){var h=new Date().getHours();"
@@ -841,7 +843,7 @@ def head(page, lang):
 <link rel="alternate" type="application/rss+xml" title="NoCashFlow" href="{feed}"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<meta name="theme-color" content="#ffffff"/>
+<meta name="theme-color" content="{theme_color}"/>
 {THEME_SCRIPT}
 <link href="{FONTS_URL}" rel="stylesheet"/>
 <link rel="stylesheet" href="/site.css"/>
@@ -1041,7 +1043,7 @@ def footer(lang):
 
 def scripts(page, lang):
     p = PAGES[page]
-    out = ['<script src="/app.js"></script>']
+    out = ['<script src="/app.js?v=mx1"></script>']
     foot = _read(f"foot/{page}.html")          # page-specific NCF.init + JS (verbatim)
     if foot:
         out.append(foot)
@@ -1694,7 +1696,7 @@ def render_article(slug, lang):
 """
 
     scripts_html = (
-        '<script src="/app.js"></script>\n'
+        '<script src="/app.js?v=mx1"></script>\n'
         "<script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>\n"
         "<script>document.querySelectorAll('[data-set-lang]').forEach(function(a){"
         "a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',"
@@ -1787,16 +1789,16 @@ def render_fe_essay(key, lang):
 <link rel="alternate" type="application/rss+xml" title="NoCashFlow" href="{feed}"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<meta name="theme-color" content="#ffffff"/>
+<meta name="theme-color" content="#040A06"/>
 {THEME_SCRIPT}
 <link href="{FONTS_URL}" rel="stylesheet"/>
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
 <link rel="stylesheet" href="/broadsheet.css"/>
-<link rel="stylesheet" href="/finance-eng.css"/>
+<link rel="stylesheet" href="/finance-eng.css?v=mx1"/>
 {article_jsonld(a, lang, canonical, key)}
 </head>
-<body data-mood="{_mood()}" class="bs">
+<body data-mood="{_mood()}" class="bs fe-matrix">
 <div class="press-line"></div>"""
 
     overlays = (CURSOR_HTML +
@@ -1811,7 +1813,7 @@ def render_fe_essay(key, lang):
 """
 
     scripts_html = (
-        '<script src="/app.js"></script>\n'
+        '<script src="/app.js?v=mx1"></script>\n'
         "<script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>\n"
         "<script>document.querySelectorAll('[data-set-lang]').forEach(function(a){"
         "a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',"
@@ -2065,7 +2067,7 @@ def _ind_chrome_ticker():
 
 def _ind_scripts():
     return (
-        '<script src="/app.js"></script>\n'
+        '<script src="/app.js?v=mx1"></script>\n'
         "<script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>\n"
         "<script>document.querySelectorAll('[data-set-lang]').forEach(function(a){"
         "a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',"

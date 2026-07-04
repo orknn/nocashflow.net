@@ -583,3 +583,240 @@
   });
 
 })();
+
+/* ============================================================
+   Easter egg · Konami code (↑↑↓↓←→←→BA)
+   Five seconds of digital rain over whatever page you're on,
+   then back to the broadsheet like nothing happened.
+   ============================================================ */
+(function () {
+  'use strict';
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var SEQ = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  var pos = 0, active = false;
+
+  document.addEventListener('keydown', function (e) {
+    if (active) return;
+    var tag = (e.target && e.target.tagName) || '';
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+    var k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    pos = (k === SEQ[pos]) ? pos + 1 : (k === SEQ[0] ? 1 : 0);
+    if (pos === SEQ.length) { pos = 0; trigger(); }
+  });
+
+  function trigger() {
+    active = true;
+    var overlay = document.createElement('div');
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:#000;opacity:0;transition:opacity .6s ease;cursor:pointer;';
+    var canvas = document.createElement('canvas');
+    canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;';
+    var msg = document.createElement('div');
+    msg.textContent = 'wake up, trader — the market has you';
+    msg.style.cssText = 'position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);' +
+      'font-family:"IBM Plex Mono",monospace;font-size:clamp(13px,2.4vw,19px);letter-spacing:.18em;' +
+      'text-transform:uppercase;color:rgba(190,255,210,.9);text-shadow:0 0 18px rgba(60,220,110,.6);' +
+      'opacity:0;transition:opacity 1.2s ease .8s;white-space:nowrap;';
+    overlay.appendChild(canvas);
+    overlay.appendChild(msg);
+    document.body.appendChild(overlay);
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    var ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    var GLYPHS = 'アイウエオカキクケコサシスセソタチツテト0123456789$€₺₿%Δ↑↓';
+    var FONT = 16, cols = Math.ceil(canvas.width / FONT);
+    var drops = [];
+    for (var i = 0; i < cols; i++) drops.push(Math.random() * -canvas.height / FONT);
+
+    var raf, last = 0;
+    function frame(t) {
+      raf = requestAnimationFrame(frame);
+      if (t - last < 50) return;
+      last = t;
+      ctx.fillStyle = 'rgba(0,0,0,0.08)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.font = FONT + 'px "IBM Plex Mono", monospace';
+      for (var i = 0; i < cols; i++) {
+        var y = drops[i] * FONT;
+        ctx.fillStyle = Math.random() < 0.02 ? '#C98A2B' : 'rgba(60,220,110,0.85)';
+        ctx.fillText(GLYPHS.charAt(Math.floor(Math.random() * GLYPHS.length)), i * FONT, y);
+        if (y > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        else drops[i]++;
+      }
+    }
+    raf = requestAnimationFrame(frame);
+    requestAnimationFrame(function () { overlay.style.opacity = '1'; msg.style.opacity = '1'; });
+
+    function dismiss() {
+      overlay.style.opacity = '0';
+      setTimeout(function () {
+        cancelAnimationFrame(raf);
+        overlay.remove();
+        active = false;
+      }, 650);
+    }
+    overlay.addEventListener('click', dismiss);
+    setTimeout(dismiss, 5200);
+  }
+})();
+
+/* ============================================================
+   Finance Engineering · white-rabbit door
+   Clicking the FE tab first types "follow the white rabbit…"
+   on black, then walks through. Plain left-clicks only —
+   cmd/ctrl/middle clicks and reduced-motion go straight in.
+   Click or Escape skips the theatre.
+   ============================================================ */
+(function () {
+  'use strict';
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var busy = false;
+
+  document.addEventListener('click', function (e) {
+    if (busy) return;
+    var a = e.target && e.target.closest && e.target.closest('.nav a[href$="finance-engineering.html"]');
+    if (!a) return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    var href = a.getAttribute('href');
+    if (location.pathname === href) return;        // already there
+    e.preventDefault();
+    busy = true;
+
+    // warm the cache while the line types out
+    var pf = document.createElement('link');
+    pf.rel = 'prefetch'; pf.href = href;
+    document.head.appendChild(pf);
+
+    var overlay = document.createElement('div');
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:#000;opacity:0;' +
+      'transition:opacity .35s ease;display:flex;align-items:center;justify-content:center;cursor:pointer;';
+    var line = document.createElement('div');
+    line.style.cssText = 'font-family:"IBM Plex Mono",monospace;font-size:clamp(14px,2.6vw,20px);' +
+      'letter-spacing:.14em;color:rgba(80,255,140,.85);text-shadow:0 0 14px rgba(60,220,110,.45);white-space:pre;';
+    overlay.appendChild(line);
+    document.body.appendChild(overlay);
+    requestAnimationFrame(function () { overlay.style.opacity = '1'; });
+
+    var TEXT = 'follow the white rabbit...';
+    var i = 0, done = false;
+    var typer = setInterval(function () {
+      i++;
+      line.textContent = '> ' + TEXT.slice(0, i) + (i % 2 ? '█' : ' ');
+      if (i >= TEXT.length) {
+        clearInterval(typer);
+        line.textContent = '> ' + TEXT;
+        setTimeout(go, 450);
+      }
+    }, 38);
+
+    function go() {
+      if (done) return;
+      done = true;
+      clearInterval(typer);
+      window.location.href = href;
+    }
+    overlay.addEventListener('click', go);
+    document.addEventListener('keydown', function esc(ev) {
+      if (ev.key === 'Escape') { document.removeEventListener('keydown', esc); go(); }
+    });
+    setTimeout(go, 3500);                          // hard failsafe
+  });
+})();
+
+/* ============================================================
+   Finance Engineering hub · machine-room rain
+   A whisper of falling glyphs behind the manifesto — paper-ink
+   glyphs with the section's oxide accent, not film green. Reads
+   the live CSS vars so After Hours dark mode adapts. Pauses when
+   the hero scrolls away or the tab hides; gone under
+   reduced-motion (CSS hides the canvas, JS never starts).
+   ============================================================ */
+(function () {
+  'use strict';
+  var head = document.querySelector('.fe-page .fe-head');
+  if (!head) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  // Two registers: full Matrix inside the machine room (body.fe-matrix),
+  // whisper-quiet paper-ink rain anywhere else.
+  var MX = document.body.classList.contains('fe-matrix');
+
+  var canvas = document.createElement('canvas');
+  canvas.className = 'fe-rain';
+  canvas.setAttribute('aria-hidden', 'true');
+  head.prepend(canvas);
+  var ctx = canvas.getContext('2d');
+
+  var GLYPHS = MX ? 'アイウエオカキクケコサシスセソタチツテト01$€₺₿%Δ↑↓' : '01$€₺₿%Δ↑↓·';
+  var FONT = 15, TRAIL = MX ? 13 : 9, SPACING = MX ? 1.5 : 2;
+  var AMAX = MX ? 0.5 : 0.14, STEP = MX ? 80 : 110;
+  var cols = 0, drops = [];
+  var inkRGB = MX ? '59,245,127' : '25,21,18';
+  var spark = MX ? '#E3A63D' : '#B0442B';
+
+  function palette() {
+    if (MX) return;                                // machine room is phosphor, fixed
+    var cs = getComputedStyle(head);
+    var ink = cs.getPropertyValue('--text').trim();
+    var m = ink.match(/^#([0-9a-f]{6})$/i);
+    if (m) {
+      inkRGB = parseInt(m[1].slice(0,2),16) + ',' + parseInt(m[1].slice(2,4),16) + ',' + parseInt(m[1].slice(4,6),16);
+    }
+    spark = cs.getPropertyValue('--fe-oxide').trim() || spark;
+  }
+
+  function resize() {
+    canvas.width = head.clientWidth;
+    canvas.height = head.clientHeight;
+    cols = Math.ceil(canvas.width / (FONT * SPACING));
+    drops = [];
+    for (var i = 0; i < cols; i++) drops.push(Math.random() * -2 * canvas.height / FONT);
+    palette();
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  var visible = !document.hidden, onscreen = true;
+  document.addEventListener('visibilitychange', function () { visible = !document.hidden; });
+  new IntersectionObserver(function (entries) { onscreen = entries[0].isIntersecting; },
+    { threshold: 0 }).observe(head);
+  new MutationObserver(palette).observe(document.documentElement, { attributes: true });
+
+  var last = 0;
+  function frame(t) {
+    requestAnimationFrame(frame);
+    if (!visible || !onscreen) return;
+    if (t - last < STEP) return;
+    last = t;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font = FONT + 'px "IBM Plex Mono", monospace';
+    for (var i = 0; i < cols; i++) {
+      var x = i * FONT * SPACING;
+      for (var j = 0; j < TRAIL; j++) {
+        var y = (drops[i] - j) * FONT;
+        if (y < 0 || y > canvas.height + FONT) continue;
+        var a = (1 - j / TRAIL) * AMAX;
+        if (j === 0) {
+          // head glyph: amber = the human spark; bright white-green = phosphor flare
+          ctx.fillStyle = Math.random() < 0.03 ? spark
+                        : (MX && Math.random() < 0.2) ? 'rgba(185,255,204,0.95)'
+                        : (MX ? 'rgba(59,245,127,0.9)' : 'rgba(' + inkRGB + ',' + AMAX + ')');
+        } else {
+          ctx.fillStyle = 'rgba(' + inkRGB + ',' + a.toFixed(3) + ')';
+        }
+        ctx.fillText(GLYPHS.charAt((i * 7 + j * 3 + (drops[i] | 0)) % GLYPHS.length), x, y);
+      }
+      drops[i] += 1;
+      if ((drops[i] - TRAIL) * FONT > canvas.height && Math.random() > 0.96) {
+        drops[i] = Math.random() * -6;
+      }
+    }
+  }
+  requestAnimationFrame(frame);
+})();
