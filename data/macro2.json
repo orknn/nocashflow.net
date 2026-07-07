@@ -1,6 +1,6 @@
 {
   "_note": "Live: FRED + DefiLlama + Atlanta Fed. Manual (no free API): cut-odds, dot plot, ISM, next-FOMC, global M2.",
-  "updated": "2026-07-06T09:06:19Z",
+  "updated": "2026-07-07T08:29:48Z",
   "regime_tape": [
     {
       "k": "Fed Funds",
@@ -11,7 +11,7 @@
     {
       "k": "Next FOMC",
       "v": "Jul 29",
-      "d": "23d",
+      "d": "22d",
       "dir": "neu"
     },
     {
@@ -28,7 +28,7 @@
     },
     {
       "k": "US 10Y",
-      "v": "4.48",
+      "v": "4.49",
       "d": "",
       "dir": "neu"
     },
@@ -40,14 +40,14 @@
     },
     {
       "k": "DXY",
-      "v": "101.09",
+      "v": "100.92",
       "d": "",
       "dir": "neu"
     },
     {
       "k": "F&amp;G",
-      "v": "24",
-      "d": "Extreme Fear",
+      "v": "27",
+      "d": "Fear",
       "dir": "down"
     }
   ],
@@ -68,9 +68,9 @@
       "dir": "neu"
     },
     {
-      "v": "2.22%",
-      "sub": "→ +0bp",
-      "dir": "neu"
+      "v": "2.21%",
+      "sub": "▼ -1bp",
+      "dir": "down"
     }
   ],
   "fed": {
@@ -87,7 +87,7 @@
         "dir": "down"
       },
       {
-        "v": "$2B",
+        "v": "$3B",
         "sub": "▼ draining",
         "dir": "down"
       },
@@ -141,7 +141,7 @@
         "dir": "down"
       },
       {
-        "v": "$310B",
+        "v": "$311B",
         "sub": "USDC $73B",
         "dir": "up"
       }
@@ -173,41 +173,41 @@
     "curve": [
       {
         "tenor": "1M",
-        "y": 3.67
+        "y": 3.7
       },
       {
         "tenor": "3M",
-        "y": 3.85
+        "y": 3.82
       },
       {
         "tenor": "6M",
-        "y": 4.0
+        "y": 3.98
       },
       {
         "tenor": "2Y",
-        "y": 4.17
+        "y": 4.14
       },
       {
         "tenor": "5Y",
-        "y": 4.24
+        "y": 4.23
       },
       {
         "tenor": "10Y",
-        "y": 4.48
+        "y": 4.49
       },
       {
         "tenor": "30Y",
-        "y": 4.97
+        "y": 4.98
       }
     ],
     "stats": [
       {
-        "v": "4.17",
+        "v": "4.14",
         "sub": "+0.8%",
         "dir": "neu"
       },
       {
-        "v": "4.48",
+        "v": "4.49",
         "sub": "+1.3%",
         "dir": "neu"
       },
@@ -217,7 +217,7 @@
         "dir": "up"
       },
       {
-        "v": "275bp",
+        "v": "274bp",
         "sub": "→ calm",
         "dir": "neu"
       }
