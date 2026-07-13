@@ -1,6 +1,6 @@
 {
   "_note": "Live: FRED + DefiLlama + Atlanta Fed. Manual (no free API): cut-odds, dot plot, ISM, next-FOMC, global M2.",
-  "updated": "2026-07-12T07:33:40Z",
+  "updated": "2026-07-13T08:22:21Z",
   "regime_tape": [
     {
       "k": "Fed Funds",
@@ -11,7 +11,7 @@
     {
       "k": "Next FOMC",
       "v": "Jul 29",
-      "d": "17d",
+      "d": "16d",
       "dir": "neu"
     },
     {
@@ -40,13 +40,13 @@
     },
     {
       "k": "DXY",
-      "v": "100.97",
+      "v": "100.88",
       "d": "",
       "dir": "neu"
     },
     {
       "k": "F&amp;G",
-      "v": "26",
+      "v": "28",
       "d": "Fear",
       "dir": "down"
     }
