@@ -1,5 +1,5 @@
 {
-  "asof": "2026-07-13T08:20:28Z",
+  "asof": "2026-07-14T07:13:48Z",
   "events": [
     {
       "dt_utc": "2026-07-14 12:30:00",
@@ -70,7 +70,7 @@
       "country": "US",
       "impact": "high",
       "prev": "0.4%",
-      "est": "0.3%",
+      "est": "0.4%",
       "act": "—"
     },
     {
@@ -106,7 +106,7 @@
       "country": "US",
       "impact": "medium",
       "prev": "0.8%",
-      "est": "-0.1%",
+      "est": "0.0%",
       "act": "—"
     },
     {
@@ -118,7 +118,7 @@
       "country": "US",
       "impact": "medium",
       "prev": "10.3",
-      "est": "12.1",
+      "est": "12.7",
       "act": "—"
     },
     {
@@ -130,7 +130,7 @@
       "country": "US",
       "impact": "medium",
       "prev": "0.9%",
-      "est": "0.3%",
+      "est": "0.2%",
       "act": "—"
     },
     {
@@ -142,7 +142,7 @@
       "country": "US",
       "impact": "medium",
       "prev": "215K",
-      "est": "215K",
+      "est": "216K",
       "act": "—"
     },
     {
@@ -154,7 +154,7 @@
       "country": "US",
       "impact": "medium",
       "prev": "48.9",
-      "est": "51.4",
+      "est": "51",
       "act": "—"
     },
     {
