@@ -169,6 +169,18 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/archive.html"/>
   </url>
   <url>
+    <loc>https://nocashflow.net/articles/core-inflation.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/articles/core-inflation.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/yazilar/cekirdek.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/articles/core-inflation.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/tr/yazilar/cekirdek.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/articles/core-inflation.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/yazilar/cekirdek.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/articles/core-inflation.html"/>
+  </url>
+  <url>
     <loc>https://nocashflow.net/articles/inflation.html</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/articles/inflation.html"/>
     <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/yazilar/enflasyon.html"/>

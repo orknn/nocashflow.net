@@ -1485,6 +1485,16 @@ def article_jsonld(meta, lang, canonical, slug):
     return f'<script type="application/ld+json">{payload}</script>'
 
 ARTICLES = {
+    "cekirdek": {
+        "num": "#09", "date": "2026-07-14",
+        "cat": {"en": "Macro", "tr": "Makro"},
+        "date_disp": {"en": "Jul 14, 2026", "tr": "14 Tem 2026"},
+        "read": {"en": "4 min read", "tr": "4 dk okuma"},
+        "title": {"en": "The Core Cracked — And Almost Nobody Called It.",
+                  "tr": "Çekirdek Çöktü — Neredeyse Kimse Öngörmedi."},
+        "dek": {"en": "Headline fell the most since April 2020 — but the real break was core at 0.0%, and it just took the Warsh hike off the table.",
+                "tr": "Manşet Nisan 2020'den beri en sert düşüşünü yaptı — ama asıl kırılma %0,0'daki çekirdekti ve bu, Warsh'ın faiz artışını masadan kaldırdı."},
+    },
     "enflasyon": {
         "num": "#08", "date": "2026-06-28",
         "cat": {"en": "Macro", "tr": "Makro"},
@@ -1564,13 +1574,14 @@ ARTICLES = {
                 "tr": "Brent %40 yukarıda, Hürmüz kapalı — ama petrol yoğunluğu 1973'ten beri yarıdan fazla düştü."},
     },
 }
-ARTICLE_ORDER = ["enflasyon", "warsh", "hormuz", "circle", "smart-money", "nukleer", "bakir", "petrol"]  # newest first
+ARTICLE_ORDER = ["cekirdek", "enflasyon", "warsh", "hormuz", "circle", "smart-money", "nukleer", "bakir", "petrol"]  # newest first
 
 
 # EN-side slug overrides — keep the registry key (and content dir + TR URL) in
 # Turkish, but publish the English page under an English slug. TR URLs are never
 # touched. Anything not listed keeps its key as the slug in both languages.
 EN_ARTICLE_SLUG = {
+    "cekirdek":  "core-inflation",
     "enflasyon": "inflation",
     "nukleer":   "nuclear",
     "bakir":     "copper",
