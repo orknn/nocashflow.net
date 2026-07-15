@@ -1,6 +1,6 @@
 {
   "_note": "Live: FRED + DefiLlama + Atlanta Fed. Manual (no free API): cut-odds, dot plot, ISM, next-FOMC, global M2.",
-  "updated": "2026-07-14T07:15:49Z",
+  "updated": "2026-07-15T07:21:20Z",
   "regime_tape": [
     {
       "k": "Fed Funds",
@@ -11,7 +11,7 @@
     {
       "k": "Next FOMC",
       "v": "Jul 29",
-      "d": "15d",
+      "d": "14d",
       "dir": "neu"
     },
     {
@@ -22,45 +22,45 @@
     },
     {
       "k": "Core CPI",
-      "v": "3.0%",
+      "v": "2.8%",
       "d": "core",
-      "dir": "neu"
+      "dir": "up"
     },
     {
       "k": "US 10Y",
-      "v": "4.56",
+      "v": "4.62",
       "d": "",
       "dir": "neu"
     },
     {
       "k": "2s10s",
-      "v": "+36",
+      "v": "+40",
       "d": "steepening",
       "dir": "up"
     },
     {
       "k": "DXY",
-      "v": "101.25",
+      "v": "100.86",
       "d": "",
       "dir": "neu"
     },
     {
       "k": "F&amp;G",
-      "v": "22",
+      "v": "25",
       "d": "Extreme Fear",
       "dir": "down"
     }
   ],
   "inflation": [
     {
-      "v": "4.3%",
-      "sub": "→ from 4.3%",
-      "dir": "neu"
+      "v": "3.7%",
+      "sub": "▼ from 4.3%",
+      "dir": "up"
     },
     {
-      "v": "3.0%",
-      "sub": "→ from 3.0%",
-      "dir": "neu"
+      "v": "2.8%",
+      "sub": "▼ from 3.0%",
+      "dir": "up"
     },
     {
       "v": "3.4%",
@@ -68,7 +68,7 @@
       "dir": "neu"
     },
     {
-      "v": "2.21%",
+      "v": "2.22%",
       "sub": "▲ +1bp",
       "dir": "up"
     }
@@ -87,7 +87,7 @@
         "dir": "down"
       },
       {
-        "v": "$795M",
+        "v": "$278M",
         "sub": "▼ draining",
         "dir": "down"
       },
@@ -173,46 +173,46 @@
     "curve": [
       {
         "tenor": "1M",
-        "y": 3.71
+        "y": 3.73
       },
       {
         "tenor": "3M",
-        "y": 3.85
+        "y": 3.89
       },
       {
         "tenor": "6M",
-        "y": 3.99
+        "y": 4.03
       },
       {
         "tenor": "2Y",
-        "y": 4.21
+        "y": 4.26
       },
       {
         "tenor": "5Y",
-        "y": 4.3
+        "y": 4.37
       },
       {
         "tenor": "10Y",
-        "y": 4.56
+        "y": 4.62
       },
       {
         "tenor": "30Y",
-        "y": 5.06
+        "y": 5.1
       }
     ],
     "stats": [
       {
-        "v": "4.21",
+        "v": "4.26",
         "sub": "+0.8%",
         "dir": "neu"
       },
       {
-        "v": "4.56",
+        "v": "4.62",
         "sub": "+1.3%",
         "dir": "neu"
       },
       {
-        "v": "+36bp",
+        "v": "+40bp",
         "sub": "steepening",
         "dir": "up"
       },
