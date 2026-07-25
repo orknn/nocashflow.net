@@ -30,14 +30,29 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Print latest bulletins to PDF
+      # Only print an issue whose HTML actually changed. Chrome's PDF output is
+      # not byte-stable, so printing unconditionally committed four fresh ~1 MB
+      # binaries on every run — the weekly PDF alone landed 55 times in 30 days
+      # for ~4 real issues, and the four files account for 238 MB of the blob
+      # history. The .sha sidecar is the source HTML's hash at last print.
+      - name: Print bulletins whose HTML changed
         run: |
           for kind in daily weekly; do
             for lang in en tr; do
+              src="bulletins/$kind/latest.$lang.html"
+              pdf="bulletins/$kind/latest.$lang.pdf"
+              sig="bulletins/$kind/latest.$lang.pdf.sha"
+              [ -f "$src" ] || { echo "missing: $src"; continue; }
+              new=$(sha256sum "$src" | cut -d' ' -f1)
+              if [ -f "$pdf" ] && [ -f "$sig" ] && [ "$(cat "$sig")" = "$new" ]; then
+                echo "unchanged, keeping existing PDF: $src"
+                continue
+              fi
+              echo "printing: $src"
               google-chrome --headless --disable-gpu --no-sandbox \
                 --no-pdf-header-footer --virtual-time-budget=10000 \
-                --print-to-pdf="bulletins/$kind/latest.$lang.pdf" \
-                "file://$PWD/bulletins/$kind/latest.$lang.html"
+                --print-to-pdf="$pdf" "file://$PWD/$src"
+              echo "$new" > "$sig"
             done
           done
           ls -la bulletins/daily/*.pdf bulletins/weekly/*.pdf
