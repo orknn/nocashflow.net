@@ -109,6 +109,19 @@
     });
   }
 
+  /* Paint every instrument the snapshot carries. Pages that opt out of the
+     live loader (market:false — macro, dashboard) still call this, otherwise
+     their ticker would sit on "—" forever. */
+  async function paintSnapshotAll() {
+    const snap = await fetchSnapshot();
+    if (!snap || !snap.instruments) return null;
+    Object.keys(snap.instruments).forEach((key) => {
+      if (INSTRUMENTS[key]) paintSnapshot(key, snap.instruments[key]);
+    });
+    return snap;
+  }
+  NCF.paintSnapshotAll = paintSnapshotAll;
+
   /* Fear & Greed (direct) */
   async function fetchFearGreed() {
     try {
@@ -198,12 +211,7 @@
     /* instant paint from this morning's snapshot — same-origin, no proxy
        chain, so the ticker never sits on "—" while the rest of this
        function fetches live values in the background */
-    const snap = await fetchSnapshot();
-    if (snap && snap.instruments) {
-      Object.keys(snap.instruments).forEach((key) => {
-        if (INSTRUMENTS[key]) paintSnapshot(key, snap.instruments[key]);
-      });
-    }
+    await paintSnapshotAll();
 
     const apply = (key, price, pct, extra) => {
       if (price != null) {
@@ -465,6 +473,10 @@
       loadMarket(opts).catch(() => {});
       const mins = opts.refresh || 5;
       setInterval(() => loadMarket(opts).catch(() => {}), mins * 60 * 1000);
+    } else {
+      /* server-rendered pages (macro, dashboard) — no live loader, but the
+         ticker still needs this morning's snapshot */
+      paintSnapshotAll().catch(() => {});
     }
   }
   NCF.init = init;
@@ -483,20 +495,26 @@
     const dot  = document.querySelector('.cursor-dot');
     const ring = document.querySelector('.cursor-ring');
     if (dot && ring) {
-      let mx = innerWidth / 2, my = innerHeight / 2;
-      let rx = mx, ry = my;
+      let mx = 0, my = 0, rx = 0, ry = 0, live = false;
 
       addEventListener('mousemove', e => {
         mx = e.clientX; my = e.clientY;
+        if (!live) {
+          /* first move: drop both nodes straight onto the pointer, then reveal
+             — no slide-in from a parked position */
+          live = true;
+          rx = mx; ry = my;
+          ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+          document.body.classList.add('cursor-live');
+          requestAnimationFrame(function loop() {
+            rx += (mx - rx) * 0.16;
+            ry += (my - ry) * 0.16;
+            ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+            requestAnimationFrame(loop);
+          });
+        }
         dot.style.transform = `translate(${mx}px,${my}px) translate(-50%,-50%)`;
       });
-
-      (function loop() {
-        rx += (mx - rx) * 0.16;
-        ry += (my - ry) * 0.16;
-        ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`;
-        requestAnimationFrame(loop);
-      })();
 
       /* read cursor on articles / content */
       $$('article, .acard, .art-row, .card, .lead, [data-read]').forEach(el => {

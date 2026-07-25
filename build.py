@@ -1043,7 +1043,7 @@ def footer(lang):
 
 def scripts(page, lang):
     p = PAGES[page]
-    out = ['<script src="/app.js?v=mx1"></script>']
+    out = ['<script src="/app.js?v=mx2"></script>']
     foot = _read(f"foot/{page}.html")          # page-specific NCF.init + JS (verbatim)
     if foot:
         out.append(foot)
@@ -1358,6 +1358,9 @@ def inject_macro2(html, lang):
     if "<!--NCF:MACRO2_TAPE-->" not in html:
         return html
     M = MACRO2 or {}
+
+    html = html.replace("<!--NCF:MACRO2_UPD-->",
+                        _fmt_stamp(M.get("updated", ""), lang) if M.get("updated") else "—")
 
     rr = (MACRO_NOTES.get("regime_read", "") or "")
     regime = (f'<div class="mcr-regime">{"Current read:" if lang == "en" else "Mevcut okuma:"} '
@@ -1707,7 +1710,7 @@ def render_article(slug, lang):
 """
 
     scripts_html = (
-        '<script src="/app.js?v=mx1"></script>\n'
+        '<script src="/app.js?v=mx2"></script>\n'
         "<script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>\n"
         "<script>document.querySelectorAll('[data-set-lang]').forEach(function(a){"
         "a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',"
@@ -1806,7 +1809,7 @@ def render_fe_essay(key, lang):
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
 <link rel="stylesheet" href="/broadsheet.css"/>
-<link rel="stylesheet" href="/finance-eng.css?v=mx1"/>
+<link rel="stylesheet" href="/finance-eng.css?v=mx2"/>
 {article_jsonld(a, lang, canonical, key)}
 </head>
 <body data-mood="{_mood()}" class="bs fe-matrix">
@@ -1824,7 +1827,7 @@ def render_fe_essay(key, lang):
 """
 
     scripts_html = (
-        '<script src="/app.js?v=mx1"></script>\n'
+        '<script src="/app.js?v=mx2"></script>\n'
         "<script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>\n"
         "<script>document.querySelectorAll('[data-set-lang]').forEach(function(a){"
         "a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',"
@@ -2078,7 +2081,7 @@ def _ind_chrome_ticker():
 
 def _ind_scripts():
     return (
-        '<script src="/app.js?v=mx1"></script>\n'
+        '<script src="/app.js?v=mx2"></script>\n'
         "<script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>\n"
         "<script>document.querySelectorAll('[data-set-lang]').forEach(function(a){"
         "a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',"
