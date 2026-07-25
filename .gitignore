@@ -4,3 +4,5 @@ _demo_*.html
 backup_previous_design/
 .env
 PRODUCT.md
+__pycache__/
+*.pyc
