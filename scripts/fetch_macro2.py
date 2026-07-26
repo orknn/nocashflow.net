@@ -7,27 +7,20 @@ Free, server-side. Auto-sourced:
              nonfarm payrolls (→ MoM change), the Treasury curve, 2s10s, HY spread.
   · DefiLlama — stablecoin supply.
   · Atlanta Fed — GDPNow (xlsx; needs openpyxl).
+  · Polymarket — rate-cut odds per FOMC meeting.
 
 Manual fields (no free API — kept from the last-good file, edited by hand):
-  Fed rate-cut odds, dot-plot median, ISM, next-FOMC date, global M2.
+  dot-plot median, ISM, global M2.
 Editorial read/notes live in macro-notes.json (separate, human-committed).
 Resilience: each series falls back to last-good; nothing is fabricated.
 """
 import csv
 import io
 import json
-import re
-from collections import defaultdict
 from datetime import date, datetime, timezone
 from pathlib import Path
 
 import requests
-
-KH = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-                    "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36",
-      "Accept": "application/json"}
-_MON = {"JAN": 1, "FEB": 2, "MAR": 3, "APR": 4, "MAY": 5, "JUN": 6,
-        "JUL": 7, "AUG": 8, "SEP": 9, "OCT": 10, "NOV": 11, "DEC": 12}
 
 DATA = Path(__file__).resolve().parent.parent / "data"
 UA = {"User-Agent": "Mozilla/5.0 (NoCashFlow data fetcher)"}
@@ -59,34 +52,81 @@ def _next_fomc():
     return f"{dd.strftime('%b')} {dd.day}", f"{(dd - date.today()).days}d"
 
 
-def fetch_cut_odds():
-    """Rate-cut probability for upcoming FOMC meetings from Kalshi (keyless,
-    prediction-market implied). Per meeting: sum the 'Cut' bucket yes-prices
-    (cents == %). Returns [{m, p}] for the next 4 meetings, or None."""
+POLY = "https://gamma-api.polymarket.com"
+
+
+def _pct(x):
+    """Odds read better with a decimal while they are small."""
+    return round(x, 1) if x < 10 else round(x)
+
+
+def fetch_cut_odds(prev_odds=None):
+    """Cut probability per upcoming FOMC meeting, from Polymarket's
+    "Fed Decision in <Month>?" events (keyless, prediction-market implied).
+
+    Each event carries five outcome markets — 50+ bps decrease, 25 bps
+    decrease, no change, 25 bps increase, 50+ bps increase — priced 0..1 on
+    the "Yes" leg. Cut probability = the two decrease legs. Events are matched
+    to the FOMC calendar by endDate, so no month-name parsing.
+
+    Why not the two obvious alternatives:
+      · Kalshi (the previous source here) is dead for keyless use — it answers
+        200 with every price field null, both from Spain and from an Actions
+        runner. That is why this section had shown its empty state since launch.
+      · The Atlanta Fed's Market Probability Tracker is futures-implied and
+        Fed-published, but its horizons roll quarterly (Sep, Dec, Mar, Jun) and
+        never carry the in-between meetings, so it cannot price a July or
+        October FOMC — which is usually the one readers came for.
+
+    prev_odds lets each row carry an honest move ("▲ from 0.4%") instead of a
+    hand-typed delta that never changes. Returns [{m, p, d}] or None.
+    """
     try:
-        r = requests.get("https://api.elections.kalshi.com/trade-api/v2/markets",
-                         params={"series_ticker": "KXFEDDECISION", "status": "open", "limit": 1000},
-                         headers=KH, timeout=TIMEOUT)
+        r = requests.get(f"{POLY}/events",
+                         params={"closed": "false", "limit": 200, "order": "volume",
+                                 "ascending": "false", "tag_slug": "fed-rates"},
+                         headers=UA, timeout=TIMEOUT)
         r.raise_for_status()
-        markets = r.json().get("markets", [])
+        events = r.json()
     except Exception as e:
-        print(f"  ⚠️  Kalshi cut-odds: {e}")
+        print(f"  ⚠️  Polymarket cut-odds: {e}")
         return None
-    cut = defaultdict(float)                          # (year, month) → summed cut %
-    for m in markets:
-        parts = m.get("ticker", "").split("-")
-        if len(parts) < 3 or not parts[2].startswith("C"):
-            continue                                  # cut buckets only (C25, C26…)
-        mm = re.match(r"(\d{2})([A-Z]{3})", parts[1])  # ticker date is YYMon (year, not day)
-        if not mm or mm.group(2) not in _MON:
+
+    by_date = {}                                   # FOMC date → cut probability %
+    for ev in events:
+        if "fed decision in" not in (ev.get("title") or "").lower():
             continue
-        price = m.get("last_price") or m.get("yes_ask") or m.get("yes_bid") or 0
-        cut[(2000 + int(mm.group(1)), _MON[mm.group(2)])] += price
-    odds = [{"m": f"{dd.strftime('%b')} {dd.day}", "p": round(cut[(dd.year, dd.month)])}
-            for dd in _next_fomc_dates(4) if (dd.year, dd.month) in cut]
-    # Kalshi's FOMC markets are thin — the list endpoint often returns no live
-    # prices (all 0). Don't publish a fake 0% — keep last-good in that case.
-    if not odds or sum(o["p"] for o in odds) == 0:
+        end = (ev.get("endDate") or "")[:10]
+        cut = 0.0
+        for m in ev.get("markets") or []:
+            if "decrease" not in (m.get("groupItemTitle") or "").lower():
+                continue
+            try:                                   # prices arrive as a JSON string
+                prices = m.get("outcomePrices")
+                prices = json.loads(prices) if isinstance(prices, str) else prices
+                cut += float(prices[0]) * 100      # [0] is the "Yes" leg
+            except Exception:
+                continue
+        if end:
+            by_date[end] = cut
+
+    prev = {o.get("m"): o.get("p") for o in (prev_odds or [])}
+    odds = []
+    for dd in _next_fomc_dates(4):
+        iso = dd.isoformat()
+        if iso not in by_date:
+            continue                               # no market for it — say nothing
+        label = f"{dd.strftime('%b')} {dd.day}"
+        p = _pct(by_date[iso])
+        was = prev.get(label)
+        if was is None or was == p:
+            d = "implied"
+        else:
+            d = f"{'▲' if p > was else '▼'} from {was}%"
+        odds.append({"m": label, "p": p, "d": d})
+
+    if not odds:
+        print("  ⚠️  Polymarket cut-odds: no FOMC event matched the calendar")
         return None
     return odds
 
@@ -162,8 +202,8 @@ def st(v, sub="", dir="neu"):
 def build_macro2():
     prev = load_json("macro2.json", {})
     out = dict(prev)  # preserve manual fields; overwrite what we source
-    out["_note"] = "Live: FRED + DefiLlama + Atlanta Fed. Manual (no free API): " \
-                   "cut-odds, dot plot, ISM, next-FOMC, global M2."
+    out["_note"] = "Live: FRED + DefiLlama + Atlanta Fed + Polymarket (cut odds). " \
+                   "Manual (no free API): dot plot, ISM, global M2."
     out["updated"] = now_iso()
 
     # ── inflation (YoY from index series) ────────────────────────────────────
@@ -208,7 +248,7 @@ def build_macro2():
     if dot is not None:
         fstats[3] = st(f"{dot:.2f}%", f"{datetime.now(timezone.utc).year} median", "neu")
     fed["stats"] = fstats
-    cut_odds = fetch_cut_odds()                       # Kalshi prediction-market implied
+    cut_odds = fetch_cut_odds(fed.get("cut_odds"))    # Polymarket, per FOMC meeting
     if cut_odds:
         fed["cut_odds"] = cut_odds
     out["fed"] = fed
@@ -305,7 +345,6 @@ def build_macro2():
 
     # ── regime tape (top strip) — derive all but cut-odds from live data ──────
     mi = load_json("market.json", {}).get("instruments", {})
-    prev_tape = {c.get("k"): c for c in prev.get("regime_tape", [])}
     nf_v, nf_d = _next_fomc()
     infl = out.get("inflation", [])
     core = infl[1] if len(infl) > 1 else {}
@@ -313,12 +352,15 @@ def build_macro2():
     if lo is not None and hi is not None:
         tape.append({"k": "Fed Funds", "v": f"{lo:.2f}–{hi:.2f}", "d": "held", "dir": "neu"})
     tape.append({"k": "Next FOMC", "v": nf_v, "d": nf_d, "dir": "neu"})
+    # Cut odds for the next meeting. Sourced every run — never carried over: a
+    # hand-typed value used to sit here frozen (22% "▲ from 14%" for a month,
+    # unchanged in all 34 committed versions of this file) while the section
+    # below it honestly said there was no feed. If the source is quiet, the
+    # cell is dropped rather than repeated.
     if cut_odds:
         f0 = cut_odds[0]
-        tape.append({"k": f"Cut odds ({f0['m'].split()[0]})", "v": f"{f0['p']}%",
-                     "d": "implied", "dir": "up" if f0["p"] >= 50 else "neu"})
-    elif prev_tape.get("Cut odds (Jul)"):
-        tape.append(prev_tape["Cut odds (Jul)"])
+        tape.append({"k": f"Cut odds ({f0['m']})", "v": f"{f0['p']}%",
+                     "d": f0.get("d", "implied"), "dir": "up" if f0["p"] >= 50 else "neu"})
     if core.get("v"):
         tape.append({"k": "Core CPI", "v": core["v"], "d": "core", "dir": core.get("dir", "neu")})
     if y10 is not None:

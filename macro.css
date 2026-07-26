@@ -75,7 +75,9 @@
 .mcr-odds .lbl { width: 120px; font-size: 12.5px; color: var(--text-dim); font-family: var(--mono); }
 .mcr-odds .track { flex: 1; height: 9px; background: var(--border); position: relative; overflow: hidden; }
 .mcr-odds .fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--amber); opacity: .85; }
+.mcr-odds .fill { min-width: 2px; }   /* a 0.6% bar must still be visible */
 .mcr-odds .pct { width: 46px; text-align: right; font-family: var(--mono); font-size: 12.5px; font-weight: 500; }
+.mcr-odds .mv { width: 92px; text-align: right; font-family: var(--mono); font-size: 11px; color: var(--text-mute); }
 
 /* calendar */
 .mcr-table { width: 100%; border-collapse: collapse; font-size: 14px; }

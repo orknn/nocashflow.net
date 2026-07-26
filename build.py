@@ -1381,16 +1381,19 @@ def inject_macro2(html, lang):
     odds_rows = "".join(
         f'<div class="row"><span class="lbl">{o["m"]}</span>'
         f'<span class="track"><span class="fill" style="width:{o["p"]}%"></span></span>'
-        f'<span class="pct">{o["p"]}%</span></div>'
+        f'<span class="pct">{o["p"]}%</span>'
+        + (f'<span class="mv">{o["d"]}</span>' if o.get("d") and o["d"] != "implied" else '')
+        + '</div>'
         for o in M.get("fed", {}).get("cut_odds", []))
     odds_empty = ('<div class="mcr-odds-empty"><b>—</b>'
-                  '<span>No live feed yet. Odds print here as CME FedWatch data lands; '
-                  'until then, the dot plot on the right is the desk’s read.</span></div>'
+                  '<span>The odds feed is quiet this morning. Nothing is printed here '
+                  'from memory — until it answers, the dot plot on the right is the '
+                  'desk’s read.</span></div>'
                   if lang == "en" else
                   '<div class="mcr-odds-empty"><b>—</b>'
-                  '<span>Henüz canlı kaynak yok. CME FedWatch verisi geldikçe '
-                  'olasılıklar burada yazılacak; o zamana dek masanın okuması '
-                  'sağdaki dot plot.</span></div>')
+                  '<span>Olasılık kaynağı bu sabah sessiz. Buraya hafızadan hiçbir şey '
+                  'yazılmaz — kaynak cevap verene dek masanın okuması sağdaki '
+                  'dot plot.</span></div>')
     html = html.replace("<!--NCF:MACRO2_FED_ODDS-->", odds_rows or odds_empty)
 
     liq = M.get("liquidity", {})
