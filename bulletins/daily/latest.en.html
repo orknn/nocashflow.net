@@ -51,8 +51,31 @@
         gap: 12px;
         margin-bottom: 24px;
     }
+    /* Side-by-side card pairs. min-width:0 matters: a grid item defaults to
+       min-width:auto, so the F&G gauge refused to shrink and pushed the whole
+       page 44px wider than a 390px phone. */
+    .pair-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 20px;
+    }
+    .pair-grid > * { min-width: 0; }
+    @media screen and (max-width: 500px) {
+        .pair-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Column counts live here, not in an inline style — an inline
+       grid-template-columns outranks the media query below and squeezed
+       KPI cards to ~78px on phones, truncating "$2.27T" to "$2.271". */
+    .card-grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .card-grid-4 { grid-template-columns: repeat(4, 1fr); }
+    .card-grid-5 { grid-template-columns: repeat(5, 1fr); }
+    .card-grid-6 { grid-template-columns: repeat(6, 1fr); }
     @media (max-width: 500px) {
-        .card-grid {
+        .card-grid,
+        .card-grid-2, .card-grid-3, .card-grid-4, .card-grid-5, .card-grid-6 {
             grid-template-columns: repeat(2, 1fr);
         }
     }
@@ -76,9 +99,10 @@
     
     .kpi-value {
         font-family: var(--mono);
-        font-size: 18px;
+        font-size: clamp(14px, 4.2vw, 18px);
         font-weight: 700;
         color: var(--text);
+        overflow-wrap: anywhere;
     }
     
     .kpi-change {
@@ -91,6 +115,23 @@
     .down { color: var(--red); }
     
     /* Tables */
+    /* Wide tables scroll inside their own box so the page body never
+       scrolls sideways — on a 390px phone the calendar's Consensus/Actual
+       columns used to sit off-screen entirely. */
+    .tbl-scroll {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin-bottom: 20px;
+    }
+    .tbl-scroll table.data-table {
+        margin-bottom: 0;
+        min-width: 460px;
+    }
+    @media print {
+        .tbl-scroll { overflow-x: visible; }
+        .tbl-scroll table.data-table { min-width: 0; }
+    }
+
     table.data-table {
         width: 100%;
         border-collapse: collapse;
@@ -156,6 +197,18 @@
         padding: 8px 10px;
         text-align: center;
         width: 12.5%;
+    }
+
+    /* Eight 12.5% cells need ~540px; on a phone the last three fell off the
+       right edge. Reflow the single ticker row into a 4-wide grid. */
+    @media screen and (max-width: 500px) {
+        table.ticker, table.ticker tbody { display: block; }
+        table.ticker tr {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+        }
+        .ti { width: auto; }
     }
     
     .ti-name {
@@ -295,7 +348,7 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
           <div style="font-family:var(--sans); font-size:11px; color:var(--dim); font-style:italic;">Global Macro & Crypto Market Intelligence</div>
         </td>
         <td align="right" style="vertical-align:bottom; text-align:right;">
-          <div style="font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text); margin-bottom:8px;">Sat, Jul 25 2026</div>
+          <div style="font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text); margin-bottom:8px;">Sun, Jul 26 2026</div>
           
         </td>
       </tr>
@@ -304,12 +357,12 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
     
     <div style="background:rgba(239,68,68,0.06); border-left:3px solid var(--red); border-radius:0 4px 4px 0; padding:12px 16px; margin-bottom:24px; font-family:var(--sans); font-size:12.5px; line-height:1.6; color:var(--text); page-break-inside:avoid; break-inside:avoid;">
       <span style="font-weight:700; color:var(--red); margin-right:8px; letter-spacing:1px;">RISK-OFF</span>
-      <span style="color:var(--text);">Geopolitical escalation, ETF outflows, and negative funding rates suppress risk appetite.</span>
+      <span style="color:var(--text);">Geopolitical escalation, ETF outflows and deepening fear sentiment reinforce a risk-off market regime.</span>
     </div>
     
     
         <div class="summary-card">
-          <p class="summary-text">Global markets are trading in a distinctly risk-off tone today. <strong>BTC</strong> hovers at <span class='highlight'>$63,977</span> with a 24-hour loss of <span class='highlight'>2.0%</span>; the 4-hour technical structure is flagged 'Bearish' with key support at <span class='highlight'>$63,564</span>. The Crypto Fear & Greed Index remains firmly in 'Fear' territory at <span class='highlight'>27</span>, while total crypto market cap has slipped to <span class='highlight'>$2.27T</span>. On the macro front, the <strong>US 10-Year Treasury Yield</strong> holds elevated at <span class='highlight'>4.679%</span>, VIX sits at <span class='highlight'>18.58</span>, and NASDAQ 100 Futures are off <span class='highlight'>1.18%</span> at <span class='highlight'>28,282</span>. Critically, the <strong>FOMC meeting is just 4 days away</strong> on July 29; with the dot-plot median at <span class='highlight'>3.8%</span>, any shift in forward guidance will be closely scrutinized. On the geopolitical front, escalating conflict in Yemen and ongoing Iran tensions have pushed Brent crude to <span class='highlight'>$96.78</span>, while gold at <span class='highlight'>$4,067</span> reflects safe-haven demand.</p>
+          <p class="summary-text">As of July 26, 2026, global markets are operating in a pronounced risk-aversion environment as Iran's war spreads to the Red Sea and the Caspian Sea. <strong>BTC</strong> holds at <span class='highlight'>$64,314</span> but remains in negative territory over the past seven days at <span class='highlight'>-0.5%</span>, while the Fear & Greed Index sits deep in fear territory at <span class='highlight'>26</span>. On the macro front, the <strong>US 10-Year Treasury Yield</strong> remains elevated at <span class='highlight'>4.679%</span>, VIX stands at <span class='highlight'>18.58</span>, and DXY holds relatively firm at <span class='highlight'>101.47</span>. The most critical calendar event this week is the <strong>FOMC rate decision on Wednesday, July 29</strong>, with markets pricing in a hold at <span class='highlight'>3.75%</span>. Thursday's <strong>Core PCE</strong> (forecast: <span class='highlight'>0.1% MoM</span>) and <strong>Advance GDP</strong> (forecast: <span class='highlight'>2.3% QoQ</span>) prints will directly shape the Fed's forward guidance. Two consecutive days of spot BTC ETF outflows and broad weakness across Magnificent 7 equities signal deteriorating institutional risk appetite.</p>
         </div>
         
     
@@ -319,14 +372,28 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
     </div>
     
         <div style="background:var(--bg2); border:1px solid var(--border); border-radius:6px; padding:16px; margin-bottom:14px; page-break-inside:avoid; break-inside:avoid;">
-          <div style="font-size:9px; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:6px; letter-spacing:1px;">CRYPTO</div>
-          <h3 style="font-size:15px; font-weight:700; color:var(--text); margin:0 0 8px 0; line-height:1.4;">Bitcoin ETF Two-Day Outflow Streak: Is Institutional Demand Breaking Down?</h3>
-          <div style="font-size:12.5px; color:var(--dim); line-height:1.65;">Spot Bitcoin ETFs recorded a total outflow of $240.1 million on July 24, 2026, with IBIT alone accounting for $212.2 million in negative flows. Ethereum ETFs saw $70.7 million in outflows on the same day. The Coinbase premium has remained negative throughout the week, approaching -0.10 today, signaling retreat by both US retail and institutional buyers. BTC funding rate is negative (-0.0013), the fear/greed index stands at 27 (Fear), and the 4-hour trend is Bearish: the critical threshold to watch is whether the 63,564 support level holds.</div>
+          <div style="font-size:9px; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:6px; letter-spacing:1px;">MACRO</div>
+          <h3 style="font-size:15px; font-weight:700; color:var(--text); margin:0 0 8px 0; line-height:1.4;">FOMC in 3 Days: What Are Yield Curve and Market Pricing Signaling Ahead of the Fed Decision?</h3>
+          <div style="font-size:12.5px; color:var(--dim); line-height:1.65;">The Fed is expected to hold rates at 3.75% at the July 29 FOMC meeting. However, with the 10-year Treasury yield at 4.68% and the 2-year at 4.37%, the 2s10s spread has widened to 30.9 bps. This positive slope may signal that markets are revising their terminal rate expectations higher. The critical signal to watch: how Powell frames the July 30 Core PCE print (forecast: +0.1% MoM) and the Advance GDP release (forecast: +2.3% annualized) during his press conference.</div>
           
             <div style="margin-top:12px; border-top:1px solid var(--border); padding-top:10px;">
               <div style="font-size:10px; font-weight:600; text-transform:uppercase; color:var(--dim); margin-bottom:6px; letter-spacing:0.5px;">Primary Sources / Reports:</div>
               <ul style="margin:0; padding-left:16px; font-size:11.5px; color:var(--text); line-height:1.6;">
-                <li><a href="https://farside.co.uk/bitcoin-etf-flow-all-data/" style="color:var(--gold2); text-decoration:none; font-weight:500;" target="_blank"><strong>Farside Bitcoin ETF Flow Data</strong></a> — Check the daily net flow table for IBIT, FBTC, and other funds on July 24–25 rows to assess whether outflow momentum is accelerating.</li><li><a href="https://farside.co.uk/ethereum-etf-flow-all-data/" style="color:var(--gold2); text-decoration:none; font-weight:500;" target="_blank"><strong>Farside Ethereum ETF Flow Data</strong></a> — Compare ETHA and FETH daily flow columns to determine whether ETH outflows are developing in tandem with BTC or independently.</li><li><a href="https://www.coinglass.com/" style="color:var(--gold2); text-decoration:none; font-weight:500;" target="_blank"><strong>Coinglass Derivatives Data</strong></a> — Review BTC and ETH open interest changes and funding rate history; assess what the combination of negative funding and ETF outflows has historically implied for price action.</li>
+                <li><a href="https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html" style="color:var(--gold2); text-decoration:none; font-weight:500;" target="_blank"><strong>CME FedWatch Tool</strong></a> — Check the probability distribution priced in for the July 29 FOMC meeting and cut expectations for September/November meetings.</li><li><a href="https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm" style="color:var(--gold2); text-decoration:none; font-weight:500;" target="_blank"><strong>Federal Reserve — FOMC Calendar & Statements</strong></a> — Monitor the July 29 FOMC statement and subsequent press conference transcript; focus on language shifts around inflation and labor market assessments.</li><li><a href="https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_yield_curve" style="color:var(--gold2); text-decoration:none; font-weight:500;" target="_blank"><strong>US Treasury — Daily Yield Curve Rates</strong></a> — Track daily moves in the 2-year (4.37%) and 10-year (4.68%) yields; post-FOMC steepening or flattening will reveal how markets revise their rate path expectations.</li>
+              </ul>
+            </div>
+            
+        </div>
+        
+        <div style="background:var(--bg2); border:1px solid var(--border); border-radius:6px; padding:16px; margin-bottom:14px; page-break-inside:avoid; break-inside:avoid;">
+          <div style="font-size:9px; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:6px; letter-spacing:1px;">CRYPTO</div>
+          <h3 style="font-size:15px; font-weight:700; color:var(--text); margin:0 0 8px 0; line-height:1.4;">Bitcoin ETF Outflows Continue: Coinbase Premium Negative, Fear Index at 26 — Where Is the Floor?</h3>
+          <div style="font-size:12.5px; color:var(--dim); line-height:1.65;">As of July 24 data, Bitcoin spot ETFs saw a total outflow of $240.1M (IBIT: -$212.2M, FBTC: -$27.9M), while Ethereum ETFs shed $70.7M. The Coinbase premium has been persistently negative for weeks (current: -0.085), BTC's 4-hour technical trend is 'Bearish', and support sits at $63,730. The Fear & Greed Index stands at 26, in 'Fear' territory. The key research question: are these outflows a short-term position flush or a structural break in institutional demand? SOL's funding rate at 0.0166 — far above BTC's 0.0052 — signals a notable divergence worth investigating.</div>
+          
+            <div style="margin-top:12px; border-top:1px solid var(--border); padding-top:10px;">
+              <div style="font-size:10px; font-weight:600; text-transform:uppercase; color:var(--dim); margin-bottom:6px; letter-spacing:0.5px;">Primary Sources / Reports:</div>
+              <ul style="margin:0; padding-left:16px; font-size:11.5px; color:var(--text); line-height:1.6;">
+                <li><a href="https://farside.co.uk/bitcoin-etf-flow-all-data/" style="color:var(--gold2); text-decoration:none; font-weight:500;" target="_blank"><strong>Farside — Bitcoin ETF Flows (All Data)</strong></a> — Review the daily flow series by fund; determine how many consecutive days IBIT and FBTC have seen outflows and compare price behavior during similar prior outflow episodes.</li><li><a href="https://www.coinglass.com/" style="color:var(--gold2); text-decoration:none; font-weight:500;" target="_blank"><strong>Coinglass — Derivatives Data</strong></a> — Monitor BTC open interest ($136.8M) and funding rate (0.0052%); assess short-squeeze or long-liquidation risk in conjunction with the negative Coinbase premium.</li><li><a href="https://insights.glassnode.com/" style="color:var(--gold2); text-decoration:none; font-weight:500;" target="_blank"><strong>Glassnode Insights</strong></a> — Examine on-chain long-term and short-term holder cost bases; verify whether the $63,730 support level has meaningful on-chain backing.</li>
               </ul>
             </div>
             
@@ -334,27 +401,13 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
         
         <div style="background:var(--bg2); border:1px solid var(--border); border-radius:6px; padding:16px; margin-bottom:14px; page-break-inside:avoid; break-inside:avoid;">
           <div style="font-size:9px; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:6px; letter-spacing:1px;">POLICY</div>
-          <h3 style="font-size:15px; font-weight:700; color:var(--text); margin:0 0 8px 0; line-height:1.4;">Iran-US Tensions and Tanker Attack in Gulf Waters: Where Is Geopolitical Risk Priced?</h3>
-          <div style="font-size:12.5px; color:var(--dim); line-height:1.65;">A Mozambique-flagged LPG tanker attacked in Iranian waters, Saudi coalition airstrikes on Houthi targets in Hodeidah, and Trump's statement that 'Iran is talking but not yet ready for a deal' all converged on the same day. This triple signal points to a concrete disruption risk for crude oil and LNG flows through the Strait of Hormuz. In market data, the energy sector (XLE) rose only 0.40% today while the VIX retreated to 18.6, suggesting geopolitical risk is not yet fully priced in. Key signals to watch: Hormuz transit volumes and a sudden widening of the Brent-WTI spread.</div>
+          <h3 style="font-size:15px; font-weight:700; color:var(--text); margin:0 0 8px 0; line-height:1.4;">Iran Conflict Spreads to Red Sea and Caspian: How Should Energy Corridors and Risk Premium Be Priced?</h3>
+          <div style="font-size:12.5px; color:var(--dim); line-height:1.65;">According to Reuters, the conflict linked to Iran has extended beyond the Red Sea to the Caspian, with Ukraine reportedly attacking an Iranian vessel and killing a sailor. Iran's Revolutionary Guards have threatened to target the UK if it supports the US. The US decision to forgo strikes in the Gulf is reshaping the conflict's geography. Caspian energy corridors (Kazakhstan and Azerbaijan crude export routes) and global trade volumes through the Red Sea are now at risk. Key signal to watch: EIA weekly petroleum report and Gulf transit volumes.</div>
           
             <div style="margin-top:12px; border-top:1px solid var(--border); padding-top:10px;">
               <div style="font-size:10px; font-weight:600; text-transform:uppercase; color:var(--dim); margin-bottom:6px; letter-spacing:0.5px;">Primary Sources / Reports:</div>
               <ul style="margin:0; padding-left:16px; font-size:11.5px; color:var(--text); line-height:1.6;">
-                <li><a href="https://news.google.com/rss/articles/CBMixgFBVV95cUxQUFR6aTV2UkJKY2doRWZPUnlLeEtRbmRKcFRBeDZqdEJaamNfb3JqUDQ1U1l0QUZJNFR0WXdiYUxHZktsbFNaLXhoNHVfckQyeUJBWXZHcnR6aHVRNHdsRkVDbVZjeTR5UlpwcWQ5SjZEUkpLczJsazFDQ25OcEwzUHdXNnRKQmtlaWZ5OXFhR0pKdUZFN2xzSklBbU9nRUJHendMVUlOd1A4V2lkZ0kxcnFJWDJqdlJoYUlUOF82ZFNONF9UeFE?oc=5" style="color:var(--gold2); text-decoration:none; font-weight:500;" target="_blank"><strong>Reuters — Mozambique-Flagged LPG Tanker Attack</strong></a> — Read the location of the attack, vessel owner, and cargo type; note Iran's official stance on the incident.</li><li><a href="https://news.google.com/rss/articles/CBMiswFBVV95cUxQUDhqRjRkNElnTjZmRjllV2p0QWhHWjY3UGc5Z25PbURhcnplekRpSW9GZjlNcGh5bTAzY3BqOHAwWHpWNS0zaEZtdElPNTRrclI0LVlFR0lKN01wb1V6dDk4UG5qOTlpN25hOENSYWJFMEYzZGtVdUtKb0pYc2VJblp5SGRUNF9qM1ZRVWk4a1ZWbjJaemVyUHZlcUN6V21keTk0M1QxNlV2Q3prRnVyQXA3OA?oc=5" style="color:var(--gold2); text-decoration:none; font-weight:500;" target="_blank"><strong>Reuters — Trump: Iran Not Yet Ready for Deal</strong></a> — Note Trump's framing of the negotiation timeline and any hints about conditions; evaluate the context of the phrase 'not yet ready'.</li><li><a href="https://www.eia.gov/petroleum/supply/weekly/" style="color:var(--gold2); text-decoration:none; font-weight:500;" target="_blank"><strong>EIA Weekly Petroleum Status Report</strong></a> — Review crude oil and refined product inventory changes; assess how long the US inventory buffer could absorb a Gulf supply disruption scenario.</li>
-              </ul>
-            </div>
-            
-        </div>
-        
-        <div style="background:var(--bg2); border:1px solid var(--border); border-radius:6px; padding:16px; margin-bottom:14px; page-break-inside:avoid; break-inside:avoid;">
-          <div style="font-size:9px; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:6px; letter-spacing:1px;">MACRO</div>
-          <h3 style="font-size:15px; font-weight:700; color:var(--text); margin:0 0 8px 0; line-height:1.4;">4 Days to July 29 FOMC: Is the 10-Year Yield and 2s10s Spread Contradicting Market Expectations?</h3>
-          <div style="font-size:12.5px; color:var(--dim); line-height:1.65;">With four days to go before the July 29 FOMC meeting, the 10-year US Treasury yield fell to 4.679 (daily change -0.51 bps) while the 2-year held at 4.37, pushing the 2s10s spread to 30.9 bps. The Fed's 2026 dot median stands at 3.80 — does current market pricing align with that path? In this elevated yield environment, NASDAQ 100 futures fell 1.18% while the semiconductor ETF (SMH) dropped 3.27%, illustrating the transmission of long-end rate pressure to growth equities. Key signal to watch: whether CME FedWatch keeps July cut probability near zero and what September pricing implies for the easing cycle.</div>
-          
-            <div style="margin-top:12px; border-top:1px solid var(--border); padding-top:10px;">
-              <div style="font-size:10px; font-weight:600; text-transform:uppercase; color:var(--dim); margin-bottom:6px; letter-spacing:0.5px;">Primary Sources / Reports:</div>
-              <ul style="margin:0; padding-left:16px; font-size:11.5px; color:var(--text); line-height:1.6;">
-                <li><a href="https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html" style="color:var(--gold2); text-decoration:none; font-weight:500;" target="_blank"><strong>CME FedWatch Tool</strong></a> — Check the probability table for rate changes at the July 29 meeting and the implied cut expectations for September 2026; compare with the prior week's pricing.</li><li><a href="https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm" style="color:var(--gold2); text-decoration:none; font-weight:500;" target="_blank"><strong>Federal Reserve — FOMC Calendar & Statements</strong></a> — Review any preparatory materials published for the July 29 meeting and prior meeting minutes; assess whether the emphasis on 'data dependence' has shifted.</li><li><a href="https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_yield_curve" style="color:var(--gold2); text-decoration:none; font-weight:500;" target="_blank"><strong>US Treasury — Daily Yield Curve Rates</strong></a> — Download the 2-year and 10-year yield series for the last 5 business days and chart how the 2s10s spread has moved in the pre-FOMC window.</li>
+                <li><a href="https://news.google.com/rss/articles/CBMiuAFBVV95cUxPYnVSWlhuMFM5LW94bUxZY2tSeDlTX3p1RC1yNk10aVJobG02aVpFeGc3bFowLVZIT01sQk5yekpRWHNUYmhiS3gxSmJTbF9YU2hROXlmQ3hSMVFvaVpDZlhuUXp6N0d4c2lERjlra2NFeXp6Y1Uwd3M2U3prWUp2LTNvMG5Zd05laVktTmJXaXFTNnp4V3U2RkUwV0FNM04yc0dsQWZKc1BtOFk2aDFKQlUwc21pdW9k?oc=5" style="color:var(--gold2); text-decoration:none; font-weight:500;" target="_blank"><strong>Reuters — Iran war spreads to Red Sea and Caspian, Gulf quiet as US forgoes strikes</strong></a> — Read as primary source for the geographic spread of the conflict and the shift in US posture in the Gulf; identify which maritime corridors are now at risk.</li><li><a href="https://news.google.com/rss/articles/CBMirAFBVV95cUxPdWtpdWZ4NW1EX0RFb3dCV1hZYVU3ZmFESlp6Qnhhd2VLX1VXc293dFp6LUF0Mlo4YWdReXhWNGNkVWNqQS1hZmJjekx4aE1QbVJiaWp1Wl82RVVDdldZVFRhaEs2VEJPRWRRbkpQX0tDbEZ4U3FFdmVUWERaTDBHVmh1Y25RS2lpaWhhSmVzcHlUcmZzeUx4RDRobEl4aDZOYVA0T01lYWVOVDZV?oc=5" style="color:var(--gold2); text-decoration:none; font-weight:500;" target="_blank"><strong>Reuters — Iran says Ukrainian attack on vessel in Caspian Sea killed sailor</strong></a> — Examine the details of the Caspian attack; assess potential impact on Kazakhstan and Azerbaijan crude export routes.</li><li><a href="https://www.eia.gov/petroleum/supply/weekly/" style="color:var(--gold2); text-decoration:none; font-weight:500;" target="_blank"><strong>EIA — Weekly Petroleum Status Report</strong></a> — Check whether Red Sea and Caspian disruptions are showing up in US crude and refined product inventory data; monitor changes in import and export volumes.</li>
               </ul>
             </div>
             
@@ -386,14 +439,14 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
     </td>
     <td class="ti">
       <div class="ti-name">GOLD</div>
-      <div class="ti-val">$4,068</div>
+      <div class="ti-val">$4,071</div>
       <div style="margin: 3px 0; height: 15px;">
     <svg width="50" height="15" viewBox="0 0 50 15" style="display:inline-block; vertical-align:middle; overflow:visible;">
-      <path d="M 0.0,13.0 L 8.3,12.5 L 16.7,12.7 L 25.0,7.0 L 33.3,2.0 L 41.7,9.3 L 50.0,7.4" fill="none" stroke="#22c79a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="50" cy="7.4" r="2.5" fill="#22c79a"/>
+      <path d="M 0.0,13.0 L 8.3,12.5 L 16.7,12.7 L 25.0,7.0 L 33.3,2.0 L 41.7,9.3 L 50.0,7.1" fill="none" stroke="#22c79a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="50" cy="7.1" r="2.5" fill="#22c79a"/>
     </svg>
     </div>
-      <div class="ti-chg up">▲ +0.52%</div>
+      <div class="ti-chg up">▲ +0.60%</div>
     </td>
     <td class="ti">
       <div class="ti-name">10Y UST</div>
@@ -419,24 +472,24 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
     </td>
     <td class="ti">
       <div class="ti-name">BTC</div>
-      <div class="ti-val">$63,977</div>
+      <div class="ti-val">$64,314</div>
       <div style="margin: 3px 0; height: 15px;">
     <svg width="50" height="15" viewBox="0 0 50 15" style="display:inline-block; vertical-align:middle; overflow:visible;">
-      <path d="M 0.0,10.7 L 8.3,7.5 L 16.7,2.0 L 25.0,2.4 L 33.3,8.6 L 41.7,13.0 L 50.0,13.0" fill="none" stroke="#f0556b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M 0.0,7.9 L 8.3,2.0 L 16.7,2.5 L 25.0,9.1 L 33.3,13.0 L 41.7,13.0 L 50.0,13.0" fill="none" stroke="#f0556b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       <circle cx="50" cy="13.0" r="2.5" fill="#f0556b"/>
     </svg>
     </div>
-      <div class="ti-chg down">▼ -2.00%</div>
+      <div class="ti-chg up">▲ +0.60%</div>
     </td>
     <td class="ti">
       <div class="ti-name">BTC.D</div>
-      <div class="ti-val">56.5%</div>
+      <div class="ti-val">56.4%</div>
       <div style="height: 15px;"></div>
       <div class="ti-chg ">—</div>
     </td>
     <td class="ti">
       <div class="ti-name">F&G INDEX</div>
-      <div class="ti-val">27</div>
+      <div class="ti-val">26</div>
       <div style="height: 15px;"></div>
       <div class="ti-chg down">Fear</div>
     </td>
@@ -453,7 +506,7 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
       <table cellpadding="0" cellspacing="0"><tr>
     <td style="padding-right:24px;">
       <span style="font-size:9px; color:var(--dim); text-transform:uppercase; letter-spacing:0.5px;">Next FOMC</span>
-      <div style="font-family:var(--mono); font-size:12px; color:var(--text); font-weight:600; margin-top:2px;">Wed <span style="color:var(--dim); font-weight:400;">(4 days away)</span></div>
+      <div style="font-family:var(--mono); font-size:12px; color:var(--text); font-weight:600; margin-top:2px;">Wed <span style="color:var(--dim); font-weight:400;">(3 days away)</span></div>
     </td>
     <td style="padding-right:24px;">
       <span style="font-size:9px; color:var(--dim); text-transform:uppercase; letter-spacing:0.5px;">Median Dot (2026)</span>
@@ -461,6 +514,7 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
     </td></tr></table>
     </div>
         
+    <div class="tbl-scroll">
     <table class="data-table">
       <thead>
         <tr>
@@ -476,70 +530,134 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
       <tbody>
         
         <tr>
-          <td style="color:var(--dim); white-space:nowrap; width:12%;">23 Jul Thu</td>
-          <td class="mono" style="white-space:nowrap; width:12%;">15:15</td>
-          <td><div class="asset-name"><div class="asset-dot"></div>Main Refinancing Rate</div></td>
-          <td style="color:var(--dim); white-space:nowrap; width:10%;">EUR</td>
-          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">2.40%</td>
-          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">2.40%</td>
+          <td style="color:var(--dim); white-space:nowrap; width:12%;">28 Jul Tue</td>
+          <td class="mono" style="white-space:nowrap; width:12%;">17:00</td>
+          <td><div class="asset-name"><div class="asset-dot"></div>CB Consumer Confidence</div></td>
+          <td style="color:var(--dim); white-space:nowrap; width:10%;">USD</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">91.2</td>
+          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">92.1</td>
           <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
         </tr>
         <tr>
-          <td style="color:var(--dim); white-space:nowrap; width:12%;">23 Jul Thu</td>
-          <td class="mono" style="white-space:nowrap; width:12%;">15:15</td>
-          <td><div class="asset-name"><div class="asset-dot"></div>Monetary Policy Statement</div></td>
-          <td style="color:var(--dim); white-space:nowrap; width:10%;">EUR</td>
+          <td style="color:var(--dim); white-space:nowrap; width:12%;">29 Jul Wed</td>
+          <td class="mono" style="white-space:nowrap; width:12%;">21:00</td>
+          <td><div class="asset-name"><div class="asset-dot"></div>Federal Funds Rate</div></td>
+          <td style="color:var(--dim); white-space:nowrap; width:10%;">USD</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">3.75%</td>
+          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">3.75%</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
+        </tr>
+        <tr>
+          <td style="color:var(--dim); white-space:nowrap; width:12%;">29 Jul Wed</td>
+          <td class="mono" style="white-space:nowrap; width:12%;">21:00</td>
+          <td><div class="asset-name"><div class="asset-dot"></div>FOMC Statement</div></td>
+          <td style="color:var(--dim); white-space:nowrap; width:10%;">USD</td>
           <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
           <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">—</td>
           <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
         </tr>
         <tr>
-          <td style="color:var(--dim); white-space:nowrap; width:12%;">23 Jul Thu</td>
+          <td style="color:var(--dim); white-space:nowrap; width:12%;">30 Jul Thu</td>
+          <td class="mono" style="white-space:nowrap; width:12%;">09:29</td>
+          <td><div class="asset-name"><div class="asset-dot"></div>German Prelim CPI MoM</div></td>
+          <td style="color:var(--dim); white-space:nowrap; width:10%;">EUR</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">-0.3%</td>
+          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">0.7%</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
+        </tr>
+        <tr>
+          <td style="color:var(--dim); white-space:nowrap; width:12%;">30 Jul Thu</td>
+          <td class="mono" style="white-space:nowrap; width:12%;">11:00</td>
+          <td><div class="asset-name"><div class="asset-dot"></div>German Prelim GDP QoQ</div></td>
+          <td style="color:var(--dim); white-space:nowrap; width:10%;">EUR</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">0.3%</td>
+          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">0.1%</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
+        </tr>
+        <tr>
+          <td style="color:var(--dim); white-space:nowrap; width:12%;">30 Jul Thu</td>
+          <td class="mono" style="white-space:nowrap; width:12%;">15:30</td>
+          <td><div class="asset-name"><div class="asset-dot"></div>Advance GDP QoQ</div></td>
+          <td style="color:var(--dim); white-space:nowrap; width:10%;">USD</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">2.0%</td>
+          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">2.3%</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
+        </tr>
+        <tr>
+          <td style="color:var(--dim); white-space:nowrap; width:12%;">30 Jul Thu</td>
+          <td class="mono" style="white-space:nowrap; width:12%;">15:30</td>
+          <td><div class="asset-name"><div class="asset-dot"></div>Core PCE Price Index MoM</div></td>
+          <td style="color:var(--dim); white-space:nowrap; width:10%;">USD</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">0.3%</td>
+          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">0.1%</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
+        </tr>
+        <tr>
+          <td style="color:var(--dim); white-space:nowrap; width:12%;">30 Jul Thu</td>
+          <td class="mono" style="white-space:nowrap; width:12%;">15:30</td>
+          <td><div class="asset-name"><div class="asset-dot"></div>Advance GDP Price Index QoQ</div></td>
+          <td style="color:var(--dim); white-space:nowrap; width:10%;">USD</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">3.6%</td>
+          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">3.7%</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
+        </tr>
+        <tr>
+          <td style="color:var(--dim); white-space:nowrap; width:12%;">30 Jul Thu</td>
           <td class="mono" style="white-space:nowrap; width:12%;">15:30</td>
           <td><div class="asset-name"><div class="asset-dot"></div>Unemployment Claims</div></td>
           <td style="color:var(--dim); white-space:nowrap; width:10%;">USD</td>
-          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">208K</td>
-          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">211K</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">187K</td>
+          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">206K</td>
           <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
         </tr>
         <tr>
-          <td style="color:var(--dim); white-space:nowrap; width:12%;">24 Jul Fri</td>
-          <td class="mono" style="white-space:nowrap; width:12%;">10:15</td>
-          <td><div class="asset-name"><div class="asset-dot"></div>French Flash Manufacturing PMI</div></td>
+          <td style="color:var(--dim); white-space:nowrap; width:12%;">31 Jul Fri</td>
+          <td class="mono" style="white-space:nowrap; width:12%;">12:00</td>
+          <td><div class="asset-name"><div class="asset-dot"></div>Core CPI Flash Estimate YoY</div></td>
           <td style="color:var(--dim); white-space:nowrap; width:10%;">EUR</td>
-          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">50.7</td>
-          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">51.0</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">2.4%</td>
+          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">2.4%</td>
           <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
         </tr>
         <tr>
-          <td style="color:var(--dim); white-space:nowrap; width:12%;">24 Jul Fri</td>
-          <td class="mono" style="white-space:nowrap; width:12%;">10:15</td>
-          <td><div class="asset-name"><div class="asset-dot"></div>French Flash Services PMI</div></td>
+          <td style="color:var(--dim); white-space:nowrap; width:12%;">31 Jul Fri</td>
+          <td class="mono" style="white-space:nowrap; width:12%;">12:00</td>
+          <td><div class="asset-name"><div class="asset-dot"></div>CPI Flash Estimate YoY</div></td>
           <td style="color:var(--dim); white-space:nowrap; width:10%;">EUR</td>
-          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">47.4</td>
-          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">47.5</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">2.8%</td>
+          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">2.9%</td>
           <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
         </tr>
         <tr>
-          <td style="color:var(--dim); white-space:nowrap; width:12%;">24 Jul Fri</td>
-          <td class="mono" style="white-space:nowrap; width:12%;">10:30</td>
-          <td><div class="asset-name"><div class="asset-dot"></div>German Flash Manufacturing PMI</div></td>
-          <td style="color:var(--dim); white-space:nowrap; width:10%;">EUR</td>
-          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">50.0</td>
-          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">50.4</td>
+          <td style="color:var(--dim); white-space:nowrap; width:12%;">31 Jul Fri</td>
+          <td class="mono" style="white-space:nowrap; width:12%;">15:30</td>
+          <td><div class="asset-name"><div class="asset-dot"></div>Employment Cost Index QoQ</div></td>
+          <td style="color:var(--dim); white-space:nowrap; width:10%;">USD</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">0.9%</td>
+          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">0.8%</td>
           <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
         </tr>
         <tr>
-          <td style="color:var(--dim); white-space:nowrap; width:12%;">24 Jul Fri</td>
-          <td class="mono" style="white-space:nowrap; width:12%;">10:30</td>
-          <td><div class="asset-name"><div class="asset-dot"></div>German Flash Services PMI</div></td>
-          <td style="color:var(--dim); white-space:nowrap; width:10%;">EUR</td>
-          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">46.8</td>
-          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">49.0</td>
+          <td style="color:var(--dim); white-space:nowrap; width:12%;">31 Jul Fri</td>
+          <td class="mono" style="white-space:nowrap; width:12%;">17:00</td>
+          <td><div class="asset-name"><div class="asset-dot"></div>Revised UoM Consumer Sentiment</div></td>
+          <td style="color:var(--dim); white-space:nowrap; width:10%;">USD</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">54.4</td>
+          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">54.2</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
+        </tr>
+        <tr>
+          <td style="color:var(--dim); white-space:nowrap; width:12%;">31 Jul Fri</td>
+          <td class="mono" style="white-space:nowrap; width:12%;">17:00</td>
+          <td><div class="asset-name"><div class="asset-dot"></div>Revised UoM Inflation Expectations</div></td>
+          <td style="color:var(--dim); white-space:nowrap; width:10%;">USD</td>
+          <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">4.2%</td>
+          <td class="mono" style="color:var(--gold); text-align:right; white-space:nowrap; width:10%;">—</td>
           <td class="mono" style="color:var(--dim); text-align:right; white-space:nowrap; width:10%;">—</td>
         </tr>
       </tbody>
     </table>
+    </div>
     
         
     
@@ -550,6 +668,7 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
     </div>
     
         
+    <div class="tbl-scroll">
     <table class="data-table">
       <thead>
         <tr>
@@ -576,13 +695,13 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
             </tr>
             <tr>
               <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">MSFT</strong>&nbsp;<span style="color:var(--dim); font-size:10px;">Microsoft</span></div></td>
-              <td class="mono" style="font-weight:600;">381.70</td>
-              <td class="mono up">▲ +0.03%</td>
-              <td class="mono down">▼ -3.08%</td>
-              <td class="mono up">▲ +4.44%</td>
+              <td class="mono" style="font-weight:600;">381.58</td>
+              <td class="mono down">▼ -2.24%</td>
+              <td class="mono down">▼ -4.87%</td>
+              <td class="mono up">▲ +2.04%</td>
               <td style="text-align:center;">
     <svg width="50" height="14" viewBox="0 0 50 14" style="display:inline-block; vertical-align:middle; overflow:visible;">
-      <path d="M 0.0,2.0 L 8.3,5.7 L 16.7,2.0 L 25.0,3.1 L 33.3,8.1 L 41.7,12.0 L 50.0,12.0" fill="none" stroke="#f0556b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M 0.0,4.5 L 8.3,2.0 L 16.7,5.7 L 25.0,2.0 L 33.3,3.1 L 41.7,8.1 L 50.0,12.0" fill="none" stroke="#f0556b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       <circle cx="50" cy="12.0" r="2.5" fill="#f0556b"/>
     </svg>
     </td>
@@ -653,9 +772,11 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
     </td>
             </tr></tbody>
     </table>
+    </div>
     
         <div style="margin-top:16px;"></div>
         
+    <div class="tbl-scroll">
     <table class="data-table">
       <thead>
         <tr>
@@ -669,79 +790,79 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
       <tbody>
             <tr>
               <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">XAU</strong>&nbsp;<span style="color:var(--dim); font-size:10px;">Gold</span></div></td>
-              <td class="mono" style="font-weight:600;">$4,067.60</td>
-              <td class="mono up">▲ +0.52%</td>
-              <td class="mono up">▲ +1.37%</td>
-              <td class="mono up">▲ +1.94%</td>
+              <td class="mono" style="font-weight:600;">$4,070.80</td>
+              <td class="mono up">▲ +0.60%</td>
+              <td class="mono up">▲ +1.45%</td>
+              <td class="mono up">▲ +2.02%</td>
               <td style="text-align:center;">
     <svg width="50" height="14" viewBox="0 0 50 14" style="display:inline-block; vertical-align:middle; overflow:visible;">
-      <path d="M 0.0,12.0 L 8.3,11.6 L 16.7,11.9 L 25.0,6.6 L 33.3,2.0 L 41.7,8.7 L 50.0,6.9" fill="none" stroke="#22c79a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="50" cy="6.9" r="2.5" fill="#22c79a"/>
+      <path d="M 0.0,12.0 L 8.3,11.6 L 16.7,11.9 L 25.0,6.6 L 33.3,2.0 L 41.7,8.7 L 50.0,6.6" fill="none" stroke="#22c79a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="50" cy="6.6" r="2.5" fill="#22c79a"/>
     </svg>
     </td>
             </tr>
             <tr>
               <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">XAG</strong>&nbsp;<span style="color:var(--dim); font-size:10px;">Silver</span></div></td>
-              <td class="mono" style="font-weight:600;">$58.66</td>
-              <td class="mono up">▲ +1.48%</td>
-              <td class="mono up">▲ +4.67%</td>
-              <td class="mono up">▲ +1.04%</td>
+              <td class="mono" style="font-weight:600;">$58.91</td>
+              <td class="mono up">▲ +1.92%</td>
+              <td class="mono up">▲ +5.12%</td>
+              <td class="mono up">▲ +1.47%</td>
               <td style="text-align:center;">
     <svg width="50" height="14" viewBox="0 0 50 14" style="display:inline-block; vertical-align:middle; overflow:visible;">
-      <path d="M 0.0,12.0 L 8.3,12.0 L 16.7,10.9 L 25.0,4.0 L 33.3,2.0 L 41.7,7.5 L 50.0,4.6" fill="none" stroke="#22c79a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="50" cy="4.6" r="2.5" fill="#22c79a"/>
+      <path d="M 0.0,12.0 L 8.3,12.0 L 16.7,10.9 L 25.0,4.0 L 33.3,2.0 L 41.7,7.5 L 50.0,3.8" fill="none" stroke="#22c79a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="50" cy="3.8" r="2.5" fill="#22c79a"/>
     </svg>
     </td>
             </tr>
             <tr>
               <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">HG</strong>&nbsp;<span style="color:var(--dim); font-size:10px;">Copper</span></div></td>
-              <td class="mono" style="font-weight:600;">$6.32</td>
-              <td class="mono up">▲ +0.24%</td>
-              <td class="mono up">▲ +1.61%</td>
-              <td class="mono up">▲ +6.34%</td>
+              <td class="mono" style="font-weight:600;">$6.36</td>
+              <td class="mono up">▲ +0.83%</td>
+              <td class="mono up">▲ +2.21%</td>
+              <td class="mono up">▲ +6.97%</td>
               <td style="text-align:center;">
     <svg width="50" height="14" viewBox="0 0 50 14" style="display:inline-block; vertical-align:middle; overflow:visible;">
-      <path d="M 0.0,10.3 L 8.3,12.0 L 16.7,10.2 L 25.0,2.0 L 33.3,2.9 L 41.7,9.9 L 50.0,9.2" fill="none" stroke="#22c79a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="50" cy="9.2" r="2.5" fill="#22c79a"/>
+      <path d="M 0.0,10.3 L 8.3,12.0 L 16.7,10.2 L 25.0,2.0 L 33.3,2.9 L 41.7,9.9 L 50.0,7.4" fill="none" stroke="#22c79a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="50" cy="7.4" r="2.5" fill="#22c79a"/>
     </svg>
     </td>
             </tr>
             <tr>
               <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">NG</strong>&nbsp;<span style="color:var(--dim); font-size:10px;">Natural Gas</span></div></td>
-              <td class="mono" style="font-weight:600;">$2.87</td>
-              <td class="mono down">▼ -1.54%</td>
-              <td class="mono down">▼ -1.37%</td>
-              <td class="mono down">▼ -10.87%</td>
+              <td class="mono" style="font-weight:600;">$2.89</td>
+              <td class="mono down">▼ -0.96%</td>
+              <td class="mono down">▼ -0.79%</td>
+              <td class="mono down">▼ -10.34%</td>
               <td style="text-align:center;">
     <svg width="50" height="14" viewBox="0 0 50 14" style="display:inline-block; vertical-align:middle; overflow:visible;">
-      <path d="M 0.0,12.0 L 8.3,2.9 L 16.7,12.0 L 25.0,12.0 L 33.3,2.0 L 41.7,2.0 L 50.0,11.3" fill="none" stroke="#22c79a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="50" cy="11.3" r="2.5" fill="#22c79a"/>
+      <path d="M 0.0,12.0 L 8.3,2.9 L 16.7,12.0 L 25.0,12.0 L 33.3,2.0 L 41.7,2.0 L 50.0,7.7" fill="none" stroke="#22c79a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="50" cy="7.7" r="2.5" fill="#22c79a"/>
     </svg>
     </td>
             </tr>
             <tr>
               <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">CC</strong>&nbsp;<span style="color:var(--dim); font-size:10px;">Cocoa</span></div></td>
-              <td class="mono" style="font-weight:600;">$5,376.00</td>
-              <td class="mono up">▲ +1.41%</td>
-              <td class="mono down">▼ -2.84%</td>
-              <td class="mono up">▲ +9.67%</td>
+              <td class="mono" style="font-weight:600;">$5,467.00</td>
+              <td class="mono up">▲ +3.13%</td>
+              <td class="mono down">▼ -1.19%</td>
+              <td class="mono up">▲ +11.53%</td>
               <td style="text-align:center;">
     <svg width="50" height="14" viewBox="0 0 50 14" style="display:inline-block; vertical-align:middle; overflow:visible;">
-      <path d="M 0.0,12.0 L 8.3,2.6 L 16.7,3.1 L 25.0,2.0 L 33.3,10.0 L 41.7,11.0 L 50.0,8.3" fill="none" stroke="#22c79a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="50" cy="8.3" r="2.5" fill="#22c79a"/>
+      <path d="M 0.0,12.0 L 8.3,2.6 L 16.7,3.1 L 25.0,2.0 L 33.3,10.0 L 41.7,11.0 L 50.0,5.0" fill="none" stroke="#22c79a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="50" cy="5.0" r="2.5" fill="#22c79a"/>
     </svg>
     </td>
             </tr>
             <tr>
               <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">KC</strong>&nbsp;<span style="color:var(--dim); font-size:10px;">Coffee</span></div></td>
-              <td class="mono" style="font-weight:600;">$313.80</td>
-              <td class="mono up">▲ +1.42%</td>
-              <td class="mono down">▼ -4.46%</td>
-              <td class="mono up">▲ +7.63%</td>
+              <td class="mono" style="font-weight:600;">$298.25</td>
+              <td class="mono down">▼ -3.60%</td>
+              <td class="mono down">▼ -9.19%</td>
+              <td class="mono up">▲ +2.30%</td>
               <td style="text-align:center;">
     <svg width="50" height="14" viewBox="0 0 50 14" style="display:inline-block; vertical-align:middle; overflow:visible;">
-      <path d="M 0.0,7.3 L 8.3,3.3 L 16.7,2.0 L 25.0,2.0 L 33.3,9.9 L 41.7,12.0 L 50.0,11.5" fill="none" stroke="#f0556b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="50" cy="11.5" r="2.5" fill="#f0556b"/>
+      <path d="M 0.0,5.1 L 8.3,2.3 L 16.7,2.0 L 25.0,2.0 L 33.3,6.9 L 41.7,9.7 L 50.0,12.0" fill="none" stroke="#f0556b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="50" cy="12.0" r="2.5" fill="#f0556b"/>
     </svg>
     </td>
             </tr>
@@ -759,6 +880,7 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
     </td>
             </tr></tbody>
     </table>
+    </div>
     
         
     
@@ -768,6 +890,21 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
         </div>
         <div class="sp500-grid">
           
+            <div style="background:rgba(239,68,68,0.04); border:1px solid rgba(239,68,68,0.18); padding:8px; text-align:center; border-radius:4px;">
+              <div style="font-size:9px; color:var(--dim); text-transform:uppercase; margin-bottom:2px;">Technology</div>
+              <div style="font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text); margin-bottom:2px;">XLK</div>
+              <div class="" style="font-family:var(--mono); font-size:10px;">—</div>
+            </div>
+            <div style="background:rgba(239,68,68,0.04); border:1px solid rgba(239,68,68,0.18); padding:8px; text-align:center; border-radius:4px;">
+              <div style="font-size:9px; color:var(--dim); text-transform:uppercase; margin-bottom:2px;">Communication</div>
+              <div style="font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text); margin-bottom:2px;">XLC</div>
+              <div class="" style="font-family:var(--mono); font-size:10px;">—</div>
+            </div>
+            <div style="background:rgba(239,68,68,0.04); border:1px solid rgba(239,68,68,0.18); padding:8px; text-align:center; border-radius:4px;">
+              <div style="font-size:9px; color:var(--dim); text-transform:uppercase; margin-bottom:2px;">Energy</div>
+              <div style="font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text); margin-bottom:2px;">XLE</div>
+              <div class="" style="font-family:var(--mono); font-size:10px;">—</div>
+            </div>
             <div style="background:rgba(16,185,129,0.04); border:1px solid rgba(16,185,129,0.18); padding:8px; text-align:center; border-radius:4px;">
               <div style="font-size:9px; color:var(--dim); text-transform:uppercase; margin-bottom:2px;">Real Estate</div>
               <div style="font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text); margin-bottom:2px;">XLRE</div>
@@ -782,11 +919,6 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
               <div style="font-size:9px; color:var(--dim); text-transform:uppercase; margin-bottom:2px;">Consumer Staples</div>
               <div style="font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text); margin-bottom:2px;">XLP</div>
               <div class="up" style="font-family:var(--mono); font-size:10px;">▲ +1.11%</div>
-            </div>
-            <div style="background:rgba(16,185,129,0.04); border:1px solid rgba(16,185,129,0.18); padding:8px; text-align:center; border-radius:4px;">
-              <div style="font-size:9px; color:var(--dim); text-transform:uppercase; margin-bottom:2px;">Communication</div>
-              <div style="font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text); margin-bottom:2px;">XLC</div>
-              <div class="up" style="font-family:var(--mono); font-size:10px;">▲ +0.87%</div>
             </div>
             <div style="background:rgba(16,185,129,0.04); border:1px solid rgba(16,185,129,0.18); padding:8px; text-align:center; border-radius:4px;">
               <div style="font-size:9px; color:var(--dim); text-transform:uppercase; margin-bottom:2px;">Financials</div>
@@ -804,11 +936,6 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
               <div class="up" style="font-family:var(--mono); font-size:10px;">▲ +0.60%</div>
             </div>
             <div style="background:rgba(16,185,129,0.04); border:1px solid rgba(16,185,129,0.18); padding:8px; text-align:center; border-radius:4px;">
-              <div style="font-size:9px; color:var(--dim); text-transform:uppercase; margin-bottom:2px;">Energy</div>
-              <div style="font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text); margin-bottom:2px;">XLE</div>
-              <div class="up" style="font-family:var(--mono); font-size:10px;">▲ +0.40%</div>
-            </div>
-            <div style="background:rgba(16,185,129,0.04); border:1px solid rgba(16,185,129,0.18); padding:8px; text-align:center; border-radius:4px;">
               <div style="font-size:9px; color:var(--dim); text-transform:uppercase; margin-bottom:2px;">Industrials</div>
               <div style="font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text); margin-bottom:2px;">XLI</div>
               <div class="up" style="font-family:var(--mono); font-size:10px;">▲ +0.40%</div>
@@ -817,11 +944,6 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
               <div style="font-size:9px; color:var(--dim); text-transform:uppercase; margin-bottom:2px;">Utilities</div>
               <div style="font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text); margin-bottom:2px;">XLU</div>
               <div class="up" style="font-family:var(--mono); font-size:10px;">▲ +0.22%</div>
-            </div>
-            <div style="background:rgba(239,68,68,0.04); border:1px solid rgba(239,68,68,0.18); padding:8px; text-align:center; border-radius:4px;">
-              <div style="font-size:9px; color:var(--dim); text-transform:uppercase; margin-bottom:2px;">Technology</div>
-              <div style="font-family:var(--mono); font-size:11px; font-weight:600; color:var(--text); margin-bottom:2px;">XLK</div>
-              <div class="down" style="font-family:var(--mono); font-size:10px;">▼ -1.44%</div>
             </div>
         </div>
         
@@ -832,25 +954,28 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
     </div>
     
     
-    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="card-grid card-grid-3">
       
         <div class="kpi-card">
           <div class="kpi-label">TOTAL MARKET CAP</div>
-          <div class="kpi-value">$2.27T</div>
-          <div class="kpi-change down">▼ -1.85%</div>
+          <div class="kpi-value">$2.29T</div>
+          <div class="kpi-change up">▲ +0.73%</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-label">BTC DOMINANCE</div>
-          <div class="kpi-value">56.5%</div>
+          <div class="kpi-value">56.4%</div>
           <div class="kpi-change "></div>
         </div>
         <div class="kpi-card">
           <div class="kpi-label">24H TOTAL VOLUME</div>
-          <div class="kpi-value">$59.0B</div>
+          <div class="kpi-value">$38.8B</div>
           <div class="kpi-change "></div>
         </div>
     </div>
     
+        <div style="font-size:11px; color:var(--dim); line-height:1.5; margin-bottom:24px; background:var(--bg2); padding:10px 14px; border-left:3px solid var(--accent); border-radius:0 4px 4px 0;">
+          <strong style="color:var(--text);">Analyst Note:</strong> The 2Y-10Y spread at <span class='highlight'>+30.9 bps</span> confirms the yield curve continues to normalize. The semiconductor ETF SMH's sharp decline of <span class='highlight'>-3.27%</span> underscores the pressure on the tech sector, while a modest rise in the Copper/Gold ratio (<span class='highlight'>+0.75%</span>) suggests only a marginal uptick in growth expectations.
+        </div>
     
     
     
@@ -865,22 +990,22 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
         <tr>
           <td valign="middle" style="vertical-align:middle;">
             <table cellpadding="0" cellspacing="0"><tr>
-              <td style="font-family:var(--mono); font-size:22px; font-weight:600; color:var(--text); padding-right:12px;">$63,977</td>
-              <td class="down" style="font-family:var(--mono); font-size:13px;">▼ -2.00%</td>
+              <td style="font-family:var(--mono); font-size:22px; font-weight:600; color:var(--text); padding-right:12px;">$64,314</td>
+              <td class="up" style="font-family:var(--mono); font-size:13px;">▲ +0.60%</td>
             </tr></table>
           </td>
           <td valign="middle" style="vertical-align:middle; text-align:right;">
             <table cellpadding="0" cellspacing="0" style="display:inline-block; font-family:var(--sans); font-size:11px;">
               <tr>
-                <td style="padding-right:24px; text-align:center;"><div style="color:var(--dim); margin-bottom:3px;">Support Level</div><div style="font-family:var(--mono); color:var(--green); font-size:13px;">$63,564</div></td>
-                <td style="text-align:center;"><div style="color:var(--dim); margin-bottom:3px;">Resistance Level</div><div style="font-family:var(--mono); color:var(--red); font-size:13px;">$65,492</div></td>
+                <td style="padding-right:24px; text-align:center;"><div style="color:var(--dim); margin-bottom:3px;">Support Level</div><div style="font-family:var(--mono); color:var(--green); font-size:13px;">$63,730</div></td>
+                <td style="text-align:center;"><div style="color:var(--dim); margin-bottom:3px;">Resistance Level</div><div style="font-family:var(--mono); color:var(--red); font-size:13px;">$65,658</div></td>
               </tr>
             </table>
           </td>
         </tr>
       </table>
       <div style="padding:10px 14px; background:var(--bg3); border-left:3px solid #d4a853; border-radius:0 4px 4px 0; font-family:var(--sans); font-size:12px; color:var(--dim); line-height:1.65;">
-        Price at <strong>$63,977</strong> is holding above <strong>support</strong> ($63,564), with <strong>resistance</strong> at $65,492.
+        Price at <strong>$64,314</strong> is holding above <strong>support</strong> ($63,730), with <strong>resistance</strong> at $65,658.
       </div>
     </div>
     
@@ -893,16 +1018,16 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
       <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
         <div>
           <div style="font-size:12px; color:var(--dim); margin-bottom:4px;">BTC/USD · Coinbase vs Global Spread (1H Bars)</div>
-          <div style="font-family:var(--mono); font-size:26px; color:var(--text); font-weight:700;">-0.0997%</div>
+          <div style="font-family:var(--mono); font-size:26px; color:var(--text); font-weight:700;">-0.0853%</div>
           <div style="font-size:11px; color: var(--red); font-weight: 600; margin-top:2px;">▼ US selling pressure</div>
         </div>
         <div style="display:flex; gap:24px; font-size:11px; color:var(--dim);">
           <div style="text-align:right;">
-            <div style="font-family:var(--mono); color:var(--text); font-size:13px; font-weight:600;">-0.072%</div>
+            <div style="font-family:var(--mono); color:var(--text); font-size:13px; font-weight:600;">-0.085%</div>
             <div style="margin-top:2px;">24h High</div>
           </div>
           <div style="text-align:right;">
-            <div style="font-family:var(--mono); color:var(--text); font-size:13px; font-weight:600;">-0.112%</div>
+            <div style="font-family:var(--mono); color:var(--text); font-size:13px; font-weight:600;">-0.123%</div>
             <div style="margin-top:2px;">24h Low</div>
           </div>
         </div>
@@ -912,9 +1037,9 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
         
     <svg width="100%" viewBox="0 0 600 140" preserveAspectRatio="none" style="display:block; overflow:visible;">
       <line x1="0" y1="65" x2="600" y2="65" stroke="var(--border)" stroke-width="0.5"/>
-      <rect x="0.0" y="65.0" width="2.6" height="35.4" fill="#f0556b" rx="0.5"/><rect x="3.6" y="65.0" width="2.6" height="36.1" fill="#f0556b" rx="0.5"/><rect x="7.2" y="65.0" width="2.6" height="42.3" fill="#f0556b" rx="0.5"/><rect x="10.7" y="65.0" width="2.6" height="41.3" fill="#f0556b" rx="0.5"/><rect x="14.3" y="65.0" width="2.6" height="41.1" fill="#f0556b" rx="0.5"/><rect x="17.9" y="65.0" width="2.6" height="31.5" fill="#f0556b" rx="0.5"/><rect x="21.5" y="65.0" width="2.6" height="31.2" fill="#f0556b" rx="0.5"/><rect x="25.0" y="65.0" width="2.6" height="35.6" fill="#f0556b" rx="0.5"/><rect x="28.6" y="65.0" width="2.6" height="34.1" fill="#f0556b" rx="0.5"/><rect x="32.2" y="65.0" width="2.6" height="28.3" fill="#f0556b" rx="0.5"/><rect x="35.8" y="65.0" width="2.6" height="33.8" fill="#f0556b" rx="0.5"/><rect x="39.4" y="65.0" width="2.6" height="31.0" fill="#f0556b" rx="0.5"/><rect x="42.9" y="65.0" width="2.6" height="29.3" fill="#f0556b" rx="0.5"/><rect x="46.5" y="65.0" width="2.6" height="30.3" fill="#f0556b" rx="0.5"/><rect x="50.1" y="65.0" width="2.6" height="31.0" fill="#f0556b" rx="0.5"/><rect x="53.7" y="65.0" width="2.6" height="28.8" fill="#f0556b" rx="0.5"/><rect x="57.2" y="65.0" width="2.6" height="35.2" fill="#f0556b" rx="0.5"/><rect x="60.8" y="65.0" width="2.6" height="31.2" fill="#f0556b" rx="0.5"/><rect x="64.4" y="65.0" width="2.6" height="31.9" fill="#f0556b" rx="0.5"/><rect x="68.0" y="65.0" width="2.6" height="27.5" fill="#f0556b" rx="0.5"/><rect x="71.5" y="65.0" width="2.6" height="29.5" fill="#f0556b" rx="0.5"/><rect x="75.1" y="65.0" width="2.6" height="31.9" fill="#f0556b" rx="0.5"/><rect x="78.7" y="65.0" width="2.6" height="33.2" fill="#f0556b" rx="0.5"/><rect x="82.3" y="65.0" width="2.6" height="25.2" fill="#f0556b" rx="0.5"/><rect x="85.9" y="65.0" width="2.6" height="29.6" fill="#f0556b" rx="0.5"/><rect x="89.4" y="65.0" width="2.6" height="30.3" fill="#f0556b" rx="0.5"/><rect x="93.0" y="65.0" width="2.6" height="31.6" fill="#f0556b" rx="0.5"/><rect x="96.6" y="65.0" width="2.6" height="31.3" fill="#f0556b" rx="0.5"/><rect x="100.2" y="65.0" width="2.6" height="32.0" fill="#f0556b" rx="0.5"/><rect x="103.7" y="65.0" width="2.6" height="39.0" fill="#f0556b" rx="0.5"/><rect x="107.3" y="65.0" width="2.6" height="35.0" fill="#f0556b" rx="0.5"/><rect x="110.9" y="65.0" width="2.6" height="31.4" fill="#f0556b" rx="0.5"/><rect x="114.5" y="65.0" width="2.6" height="33.3" fill="#f0556b" rx="0.5"/><rect x="118.1" y="65.0" width="2.6" height="34.7" fill="#f0556b" rx="0.5"/><rect x="121.6" y="65.0" width="2.6" height="35.0" fill="#f0556b" rx="0.5"/><rect x="125.2" y="65.0" width="2.6" height="40.2" fill="#f0556b" rx="0.5"/><rect x="128.8" y="65.0" width="2.6" height="36.4" fill="#f0556b" rx="0.5"/><rect x="132.4" y="65.0" width="2.6" height="33.0" fill="#f0556b" rx="0.5"/><rect x="135.9" y="65.0" width="2.6" height="34.7" fill="#f0556b" rx="0.5"/><rect x="139.5" y="65.0" width="2.6" height="31.1" fill="#f0556b" rx="0.5"/><rect x="143.1" y="65.0" width="2.6" height="38.8" fill="#f0556b" rx="0.5"/><rect x="146.7" y="65.0" width="2.6" height="39.2" fill="#f0556b" rx="0.5"/><rect x="150.2" y="65.0" width="2.6" height="39.1" fill="#f0556b" rx="0.5"/><rect x="153.8" y="65.0" width="2.6" height="42.1" fill="#f0556b" rx="0.5"/><rect x="157.4" y="65.0" width="2.6" height="35.0" fill="#f0556b" rx="0.5"/><rect x="161.0" y="65.0" width="2.6" height="39.9" fill="#f0556b" rx="0.5"/><rect x="164.6" y="65.0" width="2.6" height="44.5" fill="#f0556b" rx="0.5"/><rect x="168.1" y="65.0" width="2.6" height="50.5" fill="#f0556b" rx="0.5"/><rect x="171.7" y="65.0" width="2.6" height="40.5" fill="#f0556b" rx="0.5"/><rect x="175.3" y="65.0" width="2.6" height="46.7" fill="#f0556b" rx="0.5"/><rect x="178.9" y="65.0" width="2.6" height="47.3" fill="#f0556b" rx="0.5"/><rect x="182.4" y="65.0" width="2.6" height="44.0" fill="#f0556b" rx="0.5"/><rect x="186.0" y="65.0" width="2.6" height="41.2" fill="#f0556b" rx="0.5"/><rect x="189.6" y="65.0" width="2.6" height="50.3" fill="#f0556b" rx="0.5"/><rect x="193.2" y="65.0" width="2.6" height="47.1" fill="#f0556b" rx="0.5"/><rect x="196.8" y="65.0" width="2.6" height="36.7" fill="#f0556b" rx="0.5"/><rect x="200.3" y="65.0" width="2.6" height="41.0" fill="#f0556b" rx="0.5"/><rect x="203.9" y="65.0" width="2.6" height="41.0" fill="#f0556b" rx="0.5"/><rect x="207.5" y="65.0" width="2.6" height="36.1" fill="#f0556b" rx="0.5"/><rect x="211.1" y="65.0" width="2.6" height="32.3" fill="#f0556b" rx="0.5"/><rect x="214.6" y="65.0" width="2.6" height="29.9" fill="#f0556b" rx="0.5"/><rect x="218.2" y="65.0" width="2.6" height="33.5" fill="#f0556b" rx="0.5"/><rect x="221.8" y="65.0" width="2.6" height="26.7" fill="#f0556b" rx="0.5"/><rect x="225.4" y="65.0" width="2.6" height="32.1" fill="#f0556b" rx="0.5"/><rect x="229.0" y="65.0" width="2.6" height="35.4" fill="#f0556b" rx="0.5"/><rect x="232.5" y="65.0" width="2.6" height="31.8" fill="#f0556b" rx="0.5"/><rect x="236.1" y="65.0" width="2.6" height="35.5" fill="#f0556b" rx="0.5"/><rect x="239.7" y="65.0" width="2.6" height="33.5" fill="#f0556b" rx="0.5"/><rect x="243.3" y="65.0" width="2.6" height="37.3" fill="#f0556b" rx="0.5"/><rect x="246.8" y="65.0" width="2.6" height="35.6" fill="#f0556b" rx="0.5"/><rect x="250.4" y="65.0" width="2.6" height="28.7" fill="#f0556b" rx="0.5"/><rect x="254.0" y="65.0" width="2.6" height="34.6" fill="#f0556b" rx="0.5"/><rect x="257.6" y="65.0" width="2.6" height="29.8" fill="#f0556b" rx="0.5"/><rect x="261.1" y="65.0" width="2.6" height="30.7" fill="#f0556b" rx="0.5"/><rect x="264.7" y="65.0" width="2.6" height="23.7" fill="#f0556b" rx="0.5"/><rect x="268.3" y="65.0" width="2.6" height="26.9" fill="#f0556b" rx="0.5"/><rect x="271.9" y="65.0" width="2.6" height="37.0" fill="#f0556b" rx="0.5"/><rect x="275.5" y="65.0" width="2.6" height="35.5" fill="#f0556b" rx="0.5"/><rect x="279.0" y="65.0" width="2.6" height="24.0" fill="#f0556b" rx="0.5"/><rect x="282.6" y="65.0" width="2.6" height="20.8" fill="#f0556b" rx="0.5"/><rect x="286.2" y="65.0" width="2.6" height="23.7" fill="#f0556b" rx="0.5"/><rect x="289.8" y="65.0" width="2.6" height="32.7" fill="#f0556b" rx="0.5"/><rect x="293.3" y="65.0" width="2.6" height="29.7" fill="#f0556b" rx="0.5"/><rect x="296.9" y="65.0" width="2.6" height="15.4" fill="#f0556b" rx="0.5"/><rect x="300.5" y="65.0" width="2.6" height="27.1" fill="#f0556b" rx="0.5"/><rect x="304.1" y="65.0" width="2.6" height="28.3" fill="#f0556b" rx="0.5"/><rect x="307.7" y="65.0" width="2.6" height="28.3" fill="#f0556b" rx="0.5"/><rect x="311.2" y="65.0" width="2.6" height="29.6" fill="#f0556b" rx="0.5"/><rect x="314.8" y="65.0" width="2.6" height="27.8" fill="#f0556b" rx="0.5"/><rect x="318.4" y="65.0" width="2.6" height="32.4" fill="#f0556b" rx="0.5"/><rect x="322.0" y="65.0" width="2.6" height="34.3" fill="#f0556b" rx="0.5"/><rect x="325.5" y="65.0" width="2.6" height="36.9" fill="#f0556b" rx="0.5"/><rect x="329.1" y="65.0" width="2.6" height="33.5" fill="#f0556b" rx="0.5"/><rect x="332.7" y="65.0" width="2.6" height="28.1" fill="#f0556b" rx="0.5"/><rect x="336.3" y="65.0" width="2.6" height="32.2" fill="#f0556b" rx="0.5"/><rect x="339.9" y="65.0" width="2.6" height="34.1" fill="#f0556b" rx="0.5"/><rect x="343.4" y="65.0" width="2.6" height="35.5" fill="#f0556b" rx="0.5"/><rect x="347.0" y="65.0" width="2.6" height="32.7" fill="#f0556b" rx="0.5"/><rect x="350.6" y="65.0" width="2.6" height="29.4" fill="#f0556b" rx="0.5"/><rect x="354.2" y="65.0" width="2.6" height="30.5" fill="#f0556b" rx="0.5"/><rect x="357.7" y="65.0" width="2.6" height="37.6" fill="#f0556b" rx="0.5"/><rect x="361.3" y="65.0" width="2.6" height="30.1" fill="#f0556b" rx="0.5"/><rect x="364.9" y="65.0" width="2.6" height="24.7" fill="#f0556b" rx="0.5"/><rect x="368.5" y="65.0" width="2.6" height="25.1" fill="#f0556b" rx="0.5"/><rect x="372.0" y="65.0" width="2.6" height="18.0" fill="#f0556b" rx="0.5"/><rect x="375.6" y="65.0" width="2.6" height="22.6" fill="#f0556b" rx="0.5"/><rect x="379.2" y="65.0" width="2.6" height="27.8" fill="#f0556b" rx="0.5"/><rect x="382.8" y="65.0" width="2.6" height="21.1" fill="#f0556b" rx="0.5"/><rect x="386.4" y="65.0" width="2.6" height="20.4" fill="#f0556b" rx="0.5"/><rect x="389.9" y="65.0" width="2.6" height="21.1" fill="#f0556b" rx="0.5"/><rect x="393.5" y="65.0" width="2.6" height="22.2" fill="#f0556b" rx="0.5"/><rect x="397.1" y="65.0" width="2.6" height="20.8" fill="#f0556b" rx="0.5"/><rect x="400.7" y="65.0" width="2.6" height="23.9" fill="#f0556b" rx="0.5"/><rect x="404.2" y="65.0" width="2.6" height="23.2" fill="#f0556b" rx="0.5"/><rect x="407.8" y="65.0" width="2.6" height="21.1" fill="#f0556b" rx="0.5"/><rect x="411.4" y="65.0" width="2.6" height="28.6" fill="#f0556b" rx="0.5"/><rect x="415.0" y="65.0" width="2.6" height="30.3" fill="#f0556b" rx="0.5"/><rect x="418.6" y="65.0" width="2.6" height="23.1" fill="#f0556b" rx="0.5"/><rect x="422.1" y="65.0" width="2.6" height="23.9" fill="#f0556b" rx="0.5"/><rect x="425.7" y="65.0" width="2.6" height="35.7" fill="#f0556b" rx="0.5"/><rect x="429.3" y="65.0" width="2.6" height="28.9" fill="#f0556b" rx="0.5"/><rect x="432.9" y="65.0" width="2.6" height="23.9" fill="#f0556b" rx="0.5"/><rect x="436.4" y="65.0" width="2.6" height="23.6" fill="#f0556b" rx="0.5"/><rect x="440.0" y="65.0" width="2.6" height="22.6" fill="#f0556b" rx="0.5"/><rect x="443.6" y="65.0" width="2.6" height="33.3" fill="#f0556b" rx="0.5"/><rect x="447.2" y="65.0" width="2.6" height="37.1" fill="#f0556b" rx="0.5"/><rect x="450.8" y="65.0" width="2.6" height="38.6" fill="#f0556b" rx="0.5"/><rect x="454.3" y="65.0" width="2.6" height="40.5" fill="#f0556b" rx="0.5"/><rect x="457.9" y="65.0" width="2.6" height="49.7" fill="#f0556b" rx="0.5"/><rect x="461.5" y="65.0" width="2.6" height="52.9" fill="#f0556b" rx="0.5"/><rect x="465.1" y="65.0" width="2.6" height="46.8" fill="#f0556b" rx="0.5"/><rect x="468.6" y="65.0" width="2.6" height="52.1" fill="#f0556b" rx="0.5"/><rect x="472.2" y="65.0" width="2.6" height="37.8" fill="#f0556b" rx="0.5"/><rect x="475.8" y="65.0" width="2.6" height="37.6" fill="#f0556b" rx="0.5"/><rect x="479.4" y="65.0" width="2.6" height="41.9" fill="#f0556b" rx="0.5"/><rect x="482.9" y="65.0" width="2.6" height="36.2" fill="#f0556b" rx="0.5"/><rect x="486.5" y="65.0" width="2.6" height="34.9" fill="#f0556b" rx="0.5"/><rect x="490.1" y="65.0" width="2.6" height="42.4" fill="#f0556b" rx="0.5"/><rect x="493.7" y="65.0" width="2.6" height="37.9" fill="#f0556b" rx="0.5"/><rect x="497.3" y="65.0" width="2.6" height="36.7" fill="#f0556b" rx="0.5"/><rect x="500.8" y="65.0" width="2.6" height="41.2" fill="#f0556b" rx="0.5"/><rect x="504.4" y="65.0" width="2.6" height="42.7" fill="#f0556b" rx="0.5"/><rect x="508.0" y="65.0" width="2.6" height="33.9" fill="#f0556b" rx="0.5"/><rect x="511.6" y="65.0" width="2.6" height="34.2" fill="#f0556b" rx="0.5"/><rect x="515.1" y="65.0" width="2.6" height="35.3" fill="#f0556b" rx="0.5"/><rect x="518.7" y="65.0" width="2.6" height="37.0" fill="#f0556b" rx="0.5"/><rect x="522.3" y="65.0" width="2.6" height="35.6" fill="#f0556b" rx="0.5"/><rect x="525.9" y="65.0" width="2.6" height="47.2" fill="#f0556b" rx="0.5"/><rect x="529.5" y="65.0" width="2.6" height="48.7" fill="#f0556b" rx="0.5"/><rect x="533.0" y="65.0" width="2.6" height="48.4" fill="#f0556b" rx="0.5"/><rect x="536.6" y="65.0" width="2.6" height="47.4" fill="#f0556b" rx="0.5"/><rect x="540.2" y="65.0" width="2.6" height="52.3" fill="#f0556b" rx="0.5"/><rect x="543.8" y="65.0" width="2.6" height="52.6" fill="#f0556b" rx="0.5"/><rect x="547.3" y="65.0" width="2.6" height="48.4" fill="#f0556b" rx="0.5"/><rect x="550.9" y="65.0" width="2.6" height="46.9" fill="#f0556b" rx="0.5"/><rect x="554.5" y="65.0" width="2.6" height="47.3" fill="#f0556b" rx="0.5"/><rect x="558.1" y="65.0" width="2.6" height="50.9" fill="#f0556b" rx="0.5"/><rect x="561.6" y="65.0" width="2.6" height="51.4" fill="#f0556b" rx="0.5"/><rect x="565.2" y="65.0" width="2.6" height="52.6" fill="#f0556b" rx="0.5"/><rect x="568.8" y="65.0" width="2.6" height="43.6" fill="#f0556b" rx="0.5"/><rect x="572.4" y="65.0" width="2.6" height="49.7" fill="#f0556b" rx="0.5"/><rect x="576.0" y="65.0" width="2.6" height="47.4" fill="#f0556b" rx="0.5"/><rect x="579.5" y="65.0" width="2.6" height="55.0" fill="#f0556b" rx="0.5"/><rect x="583.1" y="65.0" width="2.6" height="49.2" fill="#f0556b" rx="0.5"/><rect x="586.7" y="65.0" width="2.6" height="49.4" fill="#f0556b" rx="0.5"/><rect x="590.3" y="65.0" width="2.6" height="51.9" fill="#f0556b" rx="0.5"/><rect x="593.8" y="65.0" width="2.6" height="44.5" fill="#f0556b" rx="0.5"/><rect x="597.4" y="65.0" width="2.6" height="49.2" fill="#f0556b" rx="0.5"/>
+      <rect x="0.0" y="65.0" width="2.6" height="26.8" fill="#f0556b" rx="0.5"/><rect x="3.6" y="65.0" width="2.6" height="27.4" fill="#f0556b" rx="0.5"/><rect x="7.2" y="65.0" width="2.6" height="28.5" fill="#f0556b" rx="0.5"/><rect x="10.7" y="65.0" width="2.6" height="28.3" fill="#f0556b" rx="0.5"/><rect x="14.3" y="65.0" width="2.6" height="29.0" fill="#f0556b" rx="0.5"/><rect x="17.9" y="65.0" width="2.6" height="35.3" fill="#f0556b" rx="0.5"/><rect x="21.5" y="65.0" width="2.6" height="31.7" fill="#f0556b" rx="0.5"/><rect x="25.0" y="65.0" width="2.6" height="28.4" fill="#f0556b" rx="0.5"/><rect x="28.6" y="65.0" width="2.6" height="30.2" fill="#f0556b" rx="0.5"/><rect x="32.2" y="65.0" width="2.6" height="31.4" fill="#f0556b" rx="0.5"/><rect x="35.8" y="65.0" width="2.6" height="31.7" fill="#f0556b" rx="0.5"/><rect x="39.4" y="65.0" width="2.6" height="36.4" fill="#f0556b" rx="0.5"/><rect x="42.9" y="65.0" width="2.6" height="32.9" fill="#f0556b" rx="0.5"/><rect x="46.5" y="65.0" width="2.6" height="29.9" fill="#f0556b" rx="0.5"/><rect x="50.1" y="65.0" width="2.6" height="31.3" fill="#f0556b" rx="0.5"/><rect x="53.7" y="65.0" width="2.6" height="28.1" fill="#f0556b" rx="0.5"/><rect x="57.2" y="65.0" width="2.6" height="35.1" fill="#f0556b" rx="0.5"/><rect x="60.8" y="65.0" width="2.6" height="35.4" fill="#f0556b" rx="0.5"/><rect x="64.4" y="65.0" width="2.6" height="35.4" fill="#f0556b" rx="0.5"/><rect x="68.0" y="65.0" width="2.6" height="38.1" fill="#f0556b" rx="0.5"/><rect x="71.5" y="65.0" width="2.6" height="31.7" fill="#f0556b" rx="0.5"/><rect x="75.1" y="65.0" width="2.6" height="36.0" fill="#f0556b" rx="0.5"/><rect x="78.7" y="65.0" width="2.6" height="40.2" fill="#f0556b" rx="0.5"/><rect x="82.3" y="65.0" width="2.6" height="45.6" fill="#f0556b" rx="0.5"/><rect x="85.9" y="65.0" width="2.6" height="36.7" fill="#f0556b" rx="0.5"/><rect x="89.4" y="65.0" width="2.6" height="42.2" fill="#f0556b" rx="0.5"/><rect x="93.0" y="65.0" width="2.6" height="42.8" fill="#f0556b" rx="0.5"/><rect x="96.6" y="65.0" width="2.6" height="39.8" fill="#f0556b" rx="0.5"/><rect x="100.2" y="65.0" width="2.6" height="37.3" fill="#f0556b" rx="0.5"/><rect x="103.7" y="65.0" width="2.6" height="45.5" fill="#f0556b" rx="0.5"/><rect x="107.3" y="65.0" width="2.6" height="42.6" fill="#f0556b" rx="0.5"/><rect x="110.9" y="65.0" width="2.6" height="33.1" fill="#f0556b" rx="0.5"/><rect x="114.5" y="65.0" width="2.6" height="37.1" fill="#f0556b" rx="0.5"/><rect x="118.1" y="65.0" width="2.6" height="37.0" fill="#f0556b" rx="0.5"/><rect x="121.6" y="65.0" width="2.6" height="32.6" fill="#f0556b" rx="0.5"/><rect x="125.2" y="65.0" width="2.6" height="29.2" fill="#f0556b" rx="0.5"/><rect x="128.8" y="65.0" width="2.6" height="27.0" fill="#f0556b" rx="0.5"/><rect x="132.4" y="65.0" width="2.6" height="30.3" fill="#f0556b" rx="0.5"/><rect x="135.9" y="65.0" width="2.6" height="24.1" fill="#f0556b" rx="0.5"/><rect x="139.5" y="65.0" width="2.6" height="29.0" fill="#f0556b" rx="0.5"/><rect x="143.1" y="65.0" width="2.6" height="32.0" fill="#f0556b" rx="0.5"/><rect x="146.7" y="65.0" width="2.6" height="28.7" fill="#f0556b" rx="0.5"/><rect x="150.2" y="65.0" width="2.6" height="32.1" fill="#f0556b" rx="0.5"/><rect x="153.8" y="65.0" width="2.6" height="30.2" fill="#f0556b" rx="0.5"/><rect x="157.4" y="65.0" width="2.6" height="33.7" fill="#f0556b" rx="0.5"/><rect x="161.0" y="65.0" width="2.6" height="32.2" fill="#f0556b" rx="0.5"/><rect x="164.6" y="65.0" width="2.6" height="25.9" fill="#f0556b" rx="0.5"/><rect x="168.1" y="65.0" width="2.6" height="31.3" fill="#f0556b" rx="0.5"/><rect x="171.7" y="65.0" width="2.6" height="27.0" fill="#f0556b" rx="0.5"/><rect x="175.3" y="65.0" width="2.6" height="27.7" fill="#f0556b" rx="0.5"/><rect x="178.9" y="65.0" width="2.6" height="21.4" fill="#f0556b" rx="0.5"/><rect x="182.4" y="65.0" width="2.6" height="24.3" fill="#f0556b" rx="0.5"/><rect x="186.0" y="65.0" width="2.6" height="33.5" fill="#f0556b" rx="0.5"/><rect x="189.6" y="65.0" width="2.6" height="32.1" fill="#f0556b" rx="0.5"/><rect x="193.2" y="65.0" width="2.6" height="21.7" fill="#f0556b" rx="0.5"/><rect x="196.8" y="65.0" width="2.6" height="18.8" fill="#f0556b" rx="0.5"/><rect x="200.3" y="65.0" width="2.6" height="21.4" fill="#f0556b" rx="0.5"/><rect x="203.9" y="65.0" width="2.6" height="29.6" fill="#f0556b" rx="0.5"/><rect x="207.5" y="65.0" width="2.6" height="26.9" fill="#f0556b" rx="0.5"/><rect x="211.1" y="65.0" width="2.6" height="13.9" fill="#f0556b" rx="0.5"/><rect x="214.6" y="65.0" width="2.6" height="24.5" fill="#f0556b" rx="0.5"/><rect x="218.2" y="65.0" width="2.6" height="25.6" fill="#f0556b" rx="0.5"/><rect x="221.8" y="65.0" width="2.6" height="25.6" fill="#f0556b" rx="0.5"/><rect x="225.4" y="65.0" width="2.6" height="26.8" fill="#f0556b" rx="0.5"/><rect x="229.0" y="65.0" width="2.6" height="25.2" fill="#f0556b" rx="0.5"/><rect x="232.5" y="65.0" width="2.6" height="29.3" fill="#f0556b" rx="0.5"/><rect x="236.1" y="65.0" width="2.6" height="31.0" fill="#f0556b" rx="0.5"/><rect x="239.7" y="65.0" width="2.6" height="33.4" fill="#f0556b" rx="0.5"/><rect x="243.3" y="65.0" width="2.6" height="30.3" fill="#f0556b" rx="0.5"/><rect x="246.8" y="65.0" width="2.6" height="25.4" fill="#f0556b" rx="0.5"/><rect x="250.4" y="65.0" width="2.6" height="29.1" fill="#f0556b" rx="0.5"/><rect x="254.0" y="65.0" width="2.6" height="30.8" fill="#f0556b" rx="0.5"/><rect x="257.6" y="65.0" width="2.6" height="32.1" fill="#f0556b" rx="0.5"/><rect x="261.1" y="65.0" width="2.6" height="29.6" fill="#f0556b" rx="0.5"/><rect x="264.7" y="65.0" width="2.6" height="26.6" fill="#f0556b" rx="0.5"/><rect x="268.3" y="65.0" width="2.6" height="27.6" fill="#f0556b" rx="0.5"/><rect x="271.9" y="65.0" width="2.6" height="34.0" fill="#f0556b" rx="0.5"/><rect x="275.5" y="65.0" width="2.6" height="27.2" fill="#f0556b" rx="0.5"/><rect x="279.0" y="65.0" width="2.6" height="22.4" fill="#f0556b" rx="0.5"/><rect x="282.6" y="65.0" width="2.6" height="22.7" fill="#f0556b" rx="0.5"/><rect x="286.2" y="65.0" width="2.6" height="16.3" fill="#f0556b" rx="0.5"/><rect x="289.8" y="65.0" width="2.6" height="20.4" fill="#f0556b" rx="0.5"/><rect x="293.3" y="65.0" width="2.6" height="25.1" fill="#f0556b" rx="0.5"/><rect x="296.9" y="65.0" width="2.6" height="19.1" fill="#f0556b" rx="0.5"/><rect x="300.5" y="65.0" width="2.6" height="18.4" fill="#f0556b" rx="0.5"/><rect x="304.1" y="65.0" width="2.6" height="19.1" fill="#f0556b" rx="0.5"/><rect x="307.7" y="65.0" width="2.6" height="20.1" fill="#f0556b" rx="0.5"/><rect x="311.2" y="65.0" width="2.6" height="18.8" fill="#f0556b" rx="0.5"/><rect x="314.8" y="65.0" width="2.6" height="21.6" fill="#f0556b" rx="0.5"/><rect x="318.4" y="65.0" width="2.6" height="21.0" fill="#f0556b" rx="0.5"/><rect x="322.0" y="65.0" width="2.6" height="19.1" fill="#f0556b" rx="0.5"/><rect x="325.5" y="65.0" width="2.6" height="25.8" fill="#f0556b" rx="0.5"/><rect x="329.1" y="65.0" width="2.6" height="27.4" fill="#f0556b" rx="0.5"/><rect x="332.7" y="65.0" width="2.6" height="20.9" fill="#f0556b" rx="0.5"/><rect x="336.3" y="65.0" width="2.6" height="21.6" fill="#f0556b" rx="0.5"/><rect x="339.9" y="65.0" width="2.6" height="32.2" fill="#f0556b" rx="0.5"/><rect x="343.4" y="65.0" width="2.6" height="26.2" fill="#f0556b" rx="0.5"/><rect x="347.0" y="65.0" width="2.6" height="21.6" fill="#f0556b" rx="0.5"/><rect x="350.6" y="65.0" width="2.6" height="21.3" fill="#f0556b" rx="0.5"/><rect x="354.2" y="65.0" width="2.6" height="20.4" fill="#f0556b" rx="0.5"/><rect x="357.7" y="65.0" width="2.6" height="30.1" fill="#f0556b" rx="0.5"/><rect x="361.3" y="65.0" width="2.6" height="33.6" fill="#f0556b" rx="0.5"/><rect x="364.9" y="65.0" width="2.6" height="34.9" fill="#f0556b" rx="0.5"/><rect x="368.5" y="65.0" width="2.6" height="36.6" fill="#f0556b" rx="0.5"/><rect x="372.0" y="65.0" width="2.6" height="44.9" fill="#f0556b" rx="0.5"/><rect x="375.6" y="65.0" width="2.6" height="47.8" fill="#f0556b" rx="0.5"/><rect x="379.2" y="65.0" width="2.6" height="42.3" fill="#f0556b" rx="0.5"/><rect x="382.8" y="65.0" width="2.6" height="47.1" fill="#f0556b" rx="0.5"/><rect x="386.4" y="65.0" width="2.6" height="34.2" fill="#f0556b" rx="0.5"/><rect x="389.9" y="65.0" width="2.6" height="34.0" fill="#f0556b" rx="0.5"/><rect x="393.5" y="65.0" width="2.6" height="37.9" fill="#f0556b" rx="0.5"/><rect x="397.1" y="65.0" width="2.6" height="32.7" fill="#f0556b" rx="0.5"/><rect x="400.7" y="65.0" width="2.6" height="31.6" fill="#f0556b" rx="0.5"/><rect x="404.2" y="65.0" width="2.6" height="38.4" fill="#f0556b" rx="0.5"/><rect x="407.8" y="65.0" width="2.6" height="34.3" fill="#f0556b" rx="0.5"/><rect x="411.4" y="65.0" width="2.6" height="33.2" fill="#f0556b" rx="0.5"/><rect x="415.0" y="65.0" width="2.6" height="37.3" fill="#f0556b" rx="0.5"/><rect x="418.6" y="65.0" width="2.6" height="38.6" fill="#f0556b" rx="0.5"/><rect x="422.1" y="65.0" width="2.6" height="30.7" fill="#f0556b" rx="0.5"/><rect x="425.7" y="65.0" width="2.6" height="31.0" fill="#f0556b" rx="0.5"/><rect x="429.3" y="65.0" width="2.6" height="31.9" fill="#f0556b" rx="0.5"/><rect x="432.9" y="65.0" width="2.6" height="33.5" fill="#f0556b" rx="0.5"/><rect x="436.4" y="65.0" width="2.6" height="32.2" fill="#f0556b" rx="0.5"/><rect x="440.0" y="65.0" width="2.6" height="42.6" fill="#f0556b" rx="0.5"/><rect x="443.6" y="65.0" width="2.6" height="44.1" fill="#f0556b" rx="0.5"/><rect x="447.2" y="65.0" width="2.6" height="43.8" fill="#f0556b" rx="0.5"/><rect x="450.8" y="65.0" width="2.6" height="42.9" fill="#f0556b" rx="0.5"/><rect x="454.3" y="65.0" width="2.6" height="47.3" fill="#f0556b" rx="0.5"/><rect x="457.9" y="65.0" width="2.6" height="47.5" fill="#f0556b" rx="0.5"/><rect x="461.5" y="65.0" width="2.6" height="43.7" fill="#f0556b" rx="0.5"/><rect x="465.1" y="65.0" width="2.6" height="42.4" fill="#f0556b" rx="0.5"/><rect x="468.6" y="65.0" width="2.6" height="42.7" fill="#f0556b" rx="0.5"/><rect x="472.2" y="65.0" width="2.6" height="46.0" fill="#f0556b" rx="0.5"/><rect x="475.8" y="65.0" width="2.6" height="46.5" fill="#f0556b" rx="0.5"/><rect x="479.4" y="65.0" width="2.6" height="47.6" fill="#f0556b" rx="0.5"/><rect x="482.9" y="65.0" width="2.6" height="39.4" fill="#f0556b" rx="0.5"/><rect x="486.5" y="65.0" width="2.6" height="45.0" fill="#f0556b" rx="0.5"/><rect x="490.1" y="65.0" width="2.6" height="42.8" fill="#f0556b" rx="0.5"/><rect x="493.7" y="65.0" width="2.6" height="49.7" fill="#f0556b" rx="0.5"/><rect x="497.3" y="65.0" width="2.6" height="44.5" fill="#f0556b" rx="0.5"/><rect x="500.8" y="65.0" width="2.6" height="44.7" fill="#f0556b" rx="0.5"/><rect x="504.4" y="65.0" width="2.6" height="47.0" fill="#f0556b" rx="0.5"/><rect x="508.0" y="65.0" width="2.6" height="40.3" fill="#f0556b" rx="0.5"/><rect x="511.6" y="65.0" width="2.6" height="43.0" fill="#f0556b" rx="0.5"/><rect x="515.1" y="65.0" width="2.6" height="47.1" fill="#f0556b" rx="0.5"/><rect x="518.7" y="65.0" width="2.6" height="40.9" fill="#f0556b" rx="0.5"/><rect x="522.3" y="65.0" width="2.6" height="48.7" fill="#f0556b" rx="0.5"/><rect x="525.9" y="65.0" width="2.6" height="40.6" fill="#f0556b" rx="0.5"/><rect x="529.5" y="65.0" width="2.6" height="48.1" fill="#f0556b" rx="0.5"/><rect x="533.0" y="65.0" width="2.6" height="47.3" fill="#f0556b" rx="0.5"/><rect x="536.6" y="65.0" width="2.6" height="45.3" fill="#f0556b" rx="0.5"/><rect x="540.2" y="65.0" width="2.6" height="44.7" fill="#f0556b" rx="0.5"/><rect x="543.8" y="65.0" width="2.6" height="38.4" fill="#f0556b" rx="0.5"/><rect x="547.3" y="65.0" width="2.6" height="41.6" fill="#f0556b" rx="0.5"/><rect x="550.9" y="65.0" width="2.6" height="38.6" fill="#f0556b" rx="0.5"/><rect x="554.5" y="65.0" width="2.6" height="41.3" fill="#f0556b" rx="0.5"/><rect x="558.1" y="65.0" width="2.6" height="43.5" fill="#f0556b" rx="0.5"/><rect x="561.6" y="65.0" width="2.6" height="38.8" fill="#f0556b" rx="0.5"/><rect x="565.2" y="65.0" width="2.6" height="41.4" fill="#f0556b" rx="0.5"/><rect x="568.8" y="65.0" width="2.6" height="55.0" fill="#f0556b" rx="0.5"/><rect x="572.4" y="65.0" width="2.6" height="39.4" fill="#f0556b" rx="0.5"/><rect x="576.0" y="65.0" width="2.6" height="39.8" fill="#f0556b" rx="0.5"/><rect x="579.5" y="65.0" width="2.6" height="46.1" fill="#f0556b" rx="0.5"/><rect x="583.1" y="65.0" width="2.6" height="46.0" fill="#f0556b" rx="0.5"/><rect x="586.7" y="65.0" width="2.6" height="44.9" fill="#f0556b" rx="0.5"/><rect x="590.3" y="65.0" width="2.6" height="44.8" fill="#f0556b" rx="0.5"/><rect x="593.8" y="65.0" width="2.6" height="43.1" fill="#f0556b" rx="0.5"/><rect x="597.4" y="65.0" width="2.6" height="38.0" fill="#f0556b" rx="0.5"/>
       <text x="1" y="138" font-size="8" fill="var(--dim)" font-family="var(--mono)" text-anchor="middle">08:00</text><text x="119" y="138" font-size="8" fill="var(--dim)" font-family="var(--mono)" text-anchor="middle">17:00</text><text x="237" y="138" font-size="8" fill="var(--dim)" font-family="var(--mono)" text-anchor="middle">02:00</text><text x="359" y="138" font-size="8" fill="var(--dim)" font-family="var(--mono)" text-anchor="middle">12:00</text><text x="477" y="138" font-size="8" fill="var(--dim)" font-family="var(--mono)" text-anchor="middle">21:00</text><text x="599" y="138" font-size="8" fill="var(--dim)" font-family="var(--mono)" text-anchor="middle">07:00</text>
-      <text x="596" y="18" font-size="7.5" fill="var(--dim)" font-family="var(--mono)" text-anchor="end">+0.112%</text><text x="596" y="63.0" font-size="7.5" fill="var(--dim)" font-family="var(--mono)" text-anchor="end">0</text><text x="596" y="118" font-size="7.5" fill="var(--dim)" font-family="var(--mono)" text-anchor="end">-0.112%</text>
+      <text x="596" y="18" font-size="7.5" fill="var(--dim)" font-family="var(--mono)" text-anchor="end">+0.123%</text><text x="596" y="63.0" font-size="7.5" fill="var(--dim)" font-family="var(--mono)" text-anchor="end">0</text><text x="596" y="118" font-size="7.5" fill="var(--dim)" font-family="var(--mono)" text-anchor="end">-0.123%</text>
     </svg>
     
       </div>
@@ -925,15 +1050,15 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
     </div>
     
     
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:20px; page-break-inside:avoid; break-inside:avoid;">
+    <div class="pair-grid" style="page-break-inside:avoid; break-inside:avoid;">
       <div style="background:var(--bg2); border:1px solid var(--border); border-radius:4px; padding:16px;">
         <div style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--dim); letter-spacing:0.5px; margin-bottom:12px;">FEAR & GREED</div>
         
     <svg viewBox="0 0 400 240" width="200" height="120" xmlns="http://www.w3.org/2000/svg" style="overflow:visible; display:block; margin:0 auto;">
       <path d="M 90.0,180.0 A 110,110 0 0,1 122.2,102.2 L 136.4,116.4 A 90,90 0 0,0 110.0,180.0 Z" fill="#f0556b" opacity="0.8"/><path d="M 122.2,102.2 A 110,110 0 0,1 182.8,71.4 L 185.9,91.1 A 90,90 0 0,0 136.4,116.4 Z" fill="#f0728a" opacity="0.8"/><path d="M 182.8,71.4 A 110,110 0 0,1 217.2,71.4 L 214.1,91.1 A 90,90 0 0,0 185.9,91.1 Z" fill="#d4a853" opacity="0.8"/><path d="M 217.2,71.4 A 110,110 0 0,1 277.8,102.2 L 263.6,116.4 A 90,90 0 0,0 214.1,91.1 Z" fill="#4be3b0" opacity="0.8"/><path d="M 277.8,102.2 A 110,110 0 0,1 310.0,180.0 L 290.0,180.0 A 90,90 0 0,0 263.6,116.4 Z" fill="#22c79a" opacity="0.8"/>
       <line x1="93.0" y1="180.0" x2="84.0" y2="180.0" stroke="var(--border)" stroke-width="1.5"/><line x1="98.2" y1="146.9" x2="89.7" y2="144.2" stroke="var(--border)" stroke-width="1.5"/><line x1="113.4" y1="117.1" x2="106.2" y2="111.8" stroke="var(--border)" stroke-width="1.5"/><line x1="137.1" y1="93.4" x2="131.8" y2="86.2" stroke="var(--border)" stroke-width="1.5"/><line x1="166.9" y1="78.2" x2="164.2" y2="69.7" stroke="var(--border)" stroke-width="1.5"/><line x1="200.0" y1="73.0" x2="200.0" y2="64.0" stroke="var(--border)" stroke-width="1.5"/><line x1="233.1" y1="78.2" x2="235.8" y2="69.7" stroke="var(--border)" stroke-width="1.5"/><line x1="262.9" y1="93.4" x2="268.2" y2="86.2" stroke="var(--border)" stroke-width="1.5"/><line x1="286.6" y1="117.1" x2="293.8" y2="111.8" stroke="var(--border)" stroke-width="1.5"/><line x1="301.8" y1="146.9" x2="310.3" y2="144.2" stroke="var(--border)" stroke-width="1.5"/><line x1="307.0" y1="180.0" x2="316.0" y2="180.0" stroke="var(--border)" stroke-width="1.5"/>
-      <polygon points="145.8,118.5 195.5,184.0 204.5,176.0" fill="#f0728a" opacity="0.95"/><circle cx="200.0" cy="180" r="5" fill="#f0728a"/>
-      <text x="200.0" y="170" text-anchor="middle" fill="var(--text)" font-family="var(--mono)" font-size="34" font-weight="700">27</text>
+      <polygon points="143.9,120.2 195.6,184.1 204.4,175.9" fill="#f0728a" opacity="0.95"/><circle cx="200.0" cy="180" r="5" fill="#f0728a"/>
+      <text x="200.0" y="170" text-anchor="middle" fill="var(--text)" font-family="var(--mono)" font-size="34" font-weight="700">26</text>
       <text x="200.0" y="195" text-anchor="middle" fill="var(--dim)" font-family="var(--sans)" font-size="12" font-weight="600" letter-spacing="0.5">FEAR</text>
     </svg>
     
@@ -947,15 +1072,15 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
       <div style="display:flex; gap:24px; margin-bottom:12px;">
         <div>
           <div style="font-family:var(--sans); font-size:9px; font-weight:500; text-transform:uppercase; color:var(--dim); letter-spacing:1px; margin-bottom:4px;">BTC Basis</div>
-          <div style="font-family:var(--mono); font-size:16px; font-weight:600; color:var(--text);">0.00%</div>
+          <div style="font-family:var(--mono); font-size:16px; font-weight:600; color:var(--text);">—</div>
         </div>
         <div>
           <div style="font-family:var(--sans); font-size:9px; font-weight:500; text-transform:uppercase; color:var(--dim); letter-spacing:1px; margin-bottom:4px;">ETH Basis</div>
-          <div style="font-family:var(--mono); font-size:16px; font-weight:600; color:var(--text);">0.00%</div>
+          <div style="font-family:var(--mono); font-size:16px; font-weight:600; color:var(--text);">—</div>
         </div>
       </div>
       <div style="font-family:var(--sans); font-size:11px; color:var(--dim); line-height:1.5;">
-        BTC funding rates have turned notably negative at <span class='highlight'>-0.00133</span>, with ETH at <span class='highlight'>-0.00302</span>, signaling that perpetual futures are dominated by short positioning and the market is pricing in further downside. SOL's extreme negative funding of <span class='highlight'>-0.433</span> warrants attention as a potential short-squeeze setup.
+        BTC funding rates remain positive at <span class='highlight'>0.0052%</span> and SOL at <span class='highlight'>0.0166%</span>, indicating net long positioning in perpetual futures markets; however, in a heightened geopolitical uncertainty environment, these premiums can compress rapidly. The persistently negative Coinbase premium (-0.085) confirms that US retail buyers are not driving the current price action.
       </div>
     </div>
     
@@ -970,7 +1095,7 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
         </div>
         <div style="background:var(--bg2); border:1px solid var(--border); border-radius:4px; padding:14px 16px; text-align:center; flex:1; min-width:160px;">
           <div style="font-size:9.5px; font-weight:600; text-transform:uppercase; color:var(--dim); letter-spacing:0.5px; margin-bottom:8px;">Deribit DVOL Index</div>
-          <div style="font-family:var(--mono); font-size:17px; font-weight:700; color:var(--text);">37.07&nbsp;<span class='down' style='font-size:11px; font-weight:normal;'>▼ -0.65</span></div>
+          <div style="font-family:var(--mono); font-size:17px; font-weight:700; color:var(--text);">37.56&nbsp;<span class='up' style='font-size:11px; font-weight:normal;'>▲ +0.29</span></div>
         </div>
         <div style="background:var(--bg2); border:1px solid var(--border); border-radius:4px; padding:14px 16px; text-align:center; flex:1; min-width:160px;">
           <div style="font-size:9.5px; font-weight:600; text-transform:uppercase; color:var(--dim); letter-spacing:0.5px; margin-bottom:8px;">Options Put/Call Ratio</div>
@@ -979,21 +1104,21 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
         </div>
         
     
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:24px; page-break-inside:avoid; break-inside:avoid;">
+    <div class="pair-grid" style="page-break-inside:avoid; break-inside:avoid;">
       <div style="background:var(--bg2); border:1px solid var(--border); border-radius:4px; padding:16px;">
         <div style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--dim); letter-spacing:0.5px; margin-bottom:12px;">Funding Rates (8h Eq.)</div>
         <table width="100%" style="border-collapse:collapse; font-size:12px;">
-          <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px 0; color:var(--dim);">BTC</td><td class="mono down" align="right">▼ -0.0013%</td></tr>
-          <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px 0; color:var(--dim);">ETH</td><td class="mono down" align="right">▼ -0.0030%</td></tr>
-          <tr><td style="padding:6px 0; color:var(--dim);">SOL</td><td class="mono down" align="right">▼ -0.4331%</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px 0; color:var(--dim);">BTC</td><td class="mono up" align="right">▲ +0.0052%</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px 0; color:var(--dim);">ETH</td><td class="mono up" align="right">▲ +0.0018%</td></tr>
+          <tr><td style="padding:6px 0; color:var(--dim);">SOL</td><td class="mono up" align="right">▲ +0.0166%</td></tr>
         </table>
       </div>
       <div style="background:var(--bg2); border:1px solid var(--border); border-radius:4px; padding:16px;">
         <div style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--dim); letter-spacing:0.5px; margin-bottom:12px;">Open Interest (OI)</div>
         <table width="100%" style="border-collapse:collapse; font-size:12px;">
-          <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px 0; color:var(--dim);">BTC</td><td class="mono" align="right">137.80M</td></tr>
-          <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px 0; color:var(--dim);">ETH</td><td class="mono" align="right">48.62M</td></tr>
-          <tr><td style="padding:6px 0; color:var(--dim);">SOL</td><td class="mono" align="right">15.55M</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px 0; color:var(--dim);">BTC</td><td class="mono" align="right">136.87M</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px 0; color:var(--dim);">ETH</td><td class="mono" align="right">47.80M</td></tr>
+          <tr><td style="padding:6px 0; color:var(--dim);">SOL</td><td class="mono" align="right">16.13M</td></tr>
         </table>
       </div>
     </div>
@@ -1046,7 +1171,7 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
             
           
           <div style="font-family:var(--sans); font-size:11px; color:var(--dim); line-height:1.5; background:var(--bg3); padding:10px 14px; border-left:3px solid var(--gold); border-radius:0 4px 4px 0;">
-            <strong style="color:var(--text);">Analyst Note:</strong> Spot Bitcoin ETFs recorded a net outflow of <span class='highlight'>-$240.1M</span> on July 24, with IBIT alone accounting for <span class='highlight'>-$212.2M</span> of that total. Two consecutive days of net outflows (July 23: -$225.1M, July 24: -$240.1M) indicate institutional de-risking and add near-term selling pressure to BTC price.
+            <strong style="color:var(--text);">Analyst Note:</strong> Spot Bitcoin ETF data for July 24 shows <strong>IBIT</strong> recorded <span class='highlight'>-$212.2M</span> and <strong>FBTC</strong> <span class='highlight'>-$27.9M</span> in outflows, totaling <span class='highlight'>-$240.1M</span> net — the second consecutive day of outflows, reflecting institutional de-risking. While positive ETF inflows signal institutional buying conviction, consecutive outflow sessions like these serve as a key warning indicator that large players are reducing exposure.
           </div>
         </div>
         
@@ -1082,6 +1207,7 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
     </div>
     
         
+    <div class="tbl-scroll">
     <table class="data-table">
       <thead>
         <tr>
@@ -1094,75 +1220,76 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
       <tbody>
             <tr>
               <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">BTC</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
-              <td class="mono" style="font-weight:600;">$63,977.00</td>
-              <td class="mono down">▼ -0.10%</td>
-              <td class="mono down">▼ -2.00%</td>
-              <td class="mono up">▲ +0.00%</td>
+              <td class="mono" style="font-weight:600;">$64,314.00</td>
+              <td class="mono ">● 0.00%</td>
+              <td class="mono up">▲ +0.60%</td>
+              <td class="mono down">▼ -0.50%</td>
             </tr>
             <tr>
               <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">ETH</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
-              <td class="mono" style="font-weight:600;">$1,856.26</td>
-              <td class="mono down">▼ -0.10%</td>
-              <td class="mono down">▼ -1.30%</td>
-              <td class="mono up">▲ +0.60%</td>
+              <td class="mono" style="font-weight:600;">$1,880.11</td>
+              <td class="mono ">● 0.00%</td>
+              <td class="mono up">▲ +1.40%</td>
+              <td class="mono up">▲ +0.90%</td>
             </tr>
             <tr>
               <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">XRP</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
-              <td class="mono" style="font-weight:600;">$1.0870</td>
-              <td class="mono down">▼ -0.20%</td>
-              <td class="mono down">▼ -1.80%</td>
+              <td class="mono" style="font-weight:600;">$1.0980</td>
               <td class="mono up">▲ +0.10%</td>
+              <td class="mono up">▲ +0.80%</td>
+              <td class="mono up">▲ +0.30%</td>
             </tr>
             <tr>
               <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">SOL</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
-              <td class="mono" style="font-weight:600;">$73.8000</td>
-              <td class="mono up">▲ +0.00%</td>
-              <td class="mono down">▼ -2.30%</td>
-              <td class="mono down">▼ -1.30%</td>
+              <td class="mono" style="font-weight:600;">$74.8200</td>
+              <td class="mono up">▲ +0.10%</td>
+              <td class="mono up">▲ +1.50%</td>
+              <td class="mono down">▼ -1.20%</td>
             </tr>
             <tr>
               <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">TRX</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
-              <td class="mono" style="font-weight:600;">$0.329458</td>
-              <td class="mono down">▼ -0.10%</td>
-              <td class="mono up">▲ +0.00%</td>
-              <td class="mono up">▲ +2.40%</td>
+              <td class="mono" style="font-weight:600;">$0.330871</td>
+              <td class="mono up">▲ +0.10%</td>
+              <td class="mono up">▲ +0.50%</td>
+              <td class="mono up">▲ +1.70%</td>
             </tr>
             <tr>
               <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">HYPE</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
-              <td class="mono" style="font-weight:600;">$57.2900</td>
-              <td class="mono up">▲ +0.00%</td>
-              <td class="mono down">▼ -2.20%</td>
-              <td class="mono down">▼ -2.70%</td>
+              <td class="mono" style="font-weight:600;">$58.6100</td>
+              <td class="mono down">▼ -0.10%</td>
+              <td class="mono up">▲ +2.40%</td>
+              <td class="mono down">▼ -3.60%</td>
             </tr>
             <tr>
               <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">DOGE</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
-              <td class="mono" style="font-weight:600;">$0.069276</td>
-              <td class="mono up">▲ +0.00%</td>
-              <td class="mono up">▲ +0.30%</td>
-              <td class="mono down">▼ -4.00%</td>
+              <td class="mono" style="font-weight:600;">$0.073181</td>
+              <td class="mono up">▲ +0.10%</td>
+              <td class="mono up">▲ +6.00%</td>
+              <td class="mono up">▲ +1.60%</td>
             </tr>
             <tr>
               <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">LINK</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
-              <td class="mono" style="font-weight:600;">$8.2900</td>
-              <td class="mono down">▼ -0.20%</td>
-              <td class="mono down">▼ -1.60%</td>
-              <td class="mono up">▲ +0.70%</td>
+              <td class="mono" style="font-weight:600;">$8.4100</td>
+              <td class="mono ">● 0.00%</td>
+              <td class="mono up">▲ +1.40%</td>
+              <td class="mono up">▲ +1.20%</td>
             </tr>
             <tr>
               <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">TON</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
-              <td class="mono" style="font-weight:600;">$1.4700</td>
-              <td class="mono up">▲ +0.00%</td>
-              <td class="mono up">▲ +0.50%</td>
-              <td class="mono down">▼ -0.90%</td>
+              <td class="mono" style="font-weight:600;">$1.5000</td>
+              <td class="mono down">▼ -0.10%</td>
+              <td class="mono up">▲ +2.60%</td>
+              <td class="mono up">▲ +3.60%</td>
             </tr>
             <tr>
-              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">SUI</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
-              <td class="mono" style="font-weight:600;">$0.702831</td>
-              <td class="mono down">▼ -0.70%</td>
-              <td class="mono down">▼ -4.90%</td>
-              <td class="mono down">▼ -4.00%</td>
+              <td><div class="asset-name"><div class="asset-dot"></div><strong style="color:var(--text);">AVAX</strong>&nbsp;<span style="color:var(--dim); font-size:10px;"></span></div></td>
+              <td class="mono" style="font-weight:600;">$6.7700</td>
+              <td class="mono up">▲ +0.10%</td>
+              <td class="mono up">▲ +8.30%</td>
+              <td class="mono up">▲ +3.40%</td>
             </tr></tbody>
     </table>
+    </div>
     
         
     
@@ -1177,8 +1304,8 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
           <table width="100%" cellpadding="0" cellspacing="0">
             <tr>
               <td style="vertical-align:top;">
-                <div style="font-size:9px; text-transform:uppercase; color:var(--gold2); font-weight:600; margin-bottom:6px; letter-spacing:0.5px;">Reuters · 22:54</div>
-                <h3 style="font-size:14px; font-weight:600; color:var(--text); margin:0 0 6px 0; line-height:1.45;"><a href="https://news.google.com/rss/articles/CBMivAFBVV95cUxPZXJqVTM2Sjk5OGw4TnB5SWw2S0xRNG03eE5JLVFfZnp1NXluaGlpU3hHa2o2NHVCTERuOEpHeEliODNVblllcG1FTzdINTZVRUFSLWg2dXphTVphTVRtR0tSYVdKaTJPTEpwN1B3TFZZVnBNRjJvLWV4U3BvYUZud0RzNVpCLUJxRjBYU0U4SkVNbnRwNlhVRTZVS0p1TjlOczBLTG8zNG5nSHFZMzY4WFNZSGIyMlFKMmRJUg?oc=5" style="color:inherit; text-decoration:none;" target="_blank">Saudi-led coalition says it strikes Houthi targets in Yemen's Hodeidah - Reuters</a></h3>
+                <div style="font-size:9px; text-transform:uppercase; color:var(--gold2); font-weight:600; margin-bottom:6px; letter-spacing:0.5px;">Reuters · 23:18</div>
+                <h3 style="font-size:14px; font-weight:600; color:var(--text); margin:0 0 6px 0; line-height:1.45;"><a href="https://news.google.com/rss/articles/CBMiuAFBVV95cUxPYnVSWlhuMFM5LW94bUxZY2tSeDlTX3p1RC1yNk10aVJobG02aVpFeGc3bFowLVZIT01sQk5yekpRWHNUYmhiS3gxSmJTbF9YU2hROXlmQ3hSMVFvaVpDZlhuUXp6N0d4c2lERjlra2NFeXp6Y1Uwd3M2U3prWUp2LTNvMG5Zd05laVktTmJXaXFTNnp4V3U2RkUwV0FNM04yc0dsQWZKc1BtOFk2aDFKQlUwc21pdW9k?oc=5" style="color:inherit; text-decoration:none;" target="_blank">Iran war spreads to Red Sea and Caspian, Gulf quiet as US forgoes strikes - Reuters</a></h3>
                 
               </td>
               
@@ -1186,7 +1313,7 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
           </table>
           
                 <div style="margin-top:10px; padding:10px 14px; background:var(--bg3); border-left:3px solid var(--gold2); border-radius:0 4px 4px 0; font-size:11.5px; color:var(--dim); line-height:1.6;">
-                  <strong style="color:var(--gold2);">AI Insight:</strong> The Saudi-led coalition's strikes on Yemen's Hodeidah port reignite risks to Red Sea trade routes, serving as a key driver behind Brent crude's move to <span class='highlight'>$96.78</span> and keeping short-term upward pressure alive in energy markets.
+                  <strong style="color:var(--gold2);">AI Insight:</strong> The expansion of Iran's war to the Red Sea and Caspian Sea sharply elevates risk perception around global energy corridors; Brent crude's <span class='highlight'>+31.2%</span> surge over the past 30 days is a concrete reflection of this threat being priced in. This backdrop supports demand for traditional safe-haven assets such as gold ($4,070) and Treasuries, while creating near-term headwinds for BTC.
                 </div>
         </div>
 
@@ -1194,8 +1321,8 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
           <table width="100%" cellpadding="0" cellspacing="0">
             <tr>
               <td style="vertical-align:top;">
-                <div style="font-size:9px; text-transform:uppercase; color:var(--gold2); font-weight:600; margin-bottom:6px; letter-spacing:0.5px;">Reuters · 21:15</div>
-                <h3 style="font-size:14px; font-weight:600; color:var(--text); margin:0 0 6px 0; line-height:1.45;"><a href="https://news.google.com/rss/articles/CBMirAFBVV95cUxPNlpIbW1acm1ubmVwWFhETlNMNVFPRDlZQlpxR25rVW5zRW55eVVIUUNtRUZRbHpiUUlNM05ycV8yWHNUOVNHZ1E0bDJTMExEVUp5S1RNLXI5RnFiajJKc3ZoM1ZmWWRjLTdCT09tTDlpeGZ0WmJBRUxTRW1ub2dMcmRQaFNRSk5pSVlwSk9oc1UyTHFvMGhiUE9zY3JScEZwZ091Q2dDZmVacXQy?oc=5" style="color:inherit; text-decoration:none;" target="_blank">Yemen teeters towards renewed war in shadow of Iran conflict - Reuters</a></h3>
+                <div style="font-size:9px; text-transform:uppercase; color:var(--gold2); font-weight:600; margin-bottom:6px; letter-spacing:0.5px;">Reuters · 21:10</div>
+                <h3 style="font-size:14px; font-weight:600; color:var(--text); margin:0 0 6px 0; line-height:1.45;"><a href="https://news.google.com/rss/articles/CBMirAFBVV95cUxPdWtpdWZ4NW1EX0RFb3dCV1hZYVU3ZmFESlp6Qnhhd2VLX1VXc293dFp6LUF0Mlo4YWdReXhWNGNkVWNqQS1hZmJjekx4aE1QbVJiaWp1Wl82RVVDdldZVFRhaEs2VEJPRWRRbkpQX0tDbEZ4U3FFdmVUWERaTDBHVmh1Y25RS2lpaWhhSmVzcHlUcmZzeUx4RDRobEl4aDZOYVA0T01lYWVOVDZV?oc=5" style="color:inherit; text-decoration:none;" target="_blank">Iran says Ukrainian attack on vessel in Caspian Sea killed sailor - Reuters</a></h3>
                 
               </td>
               
@@ -1203,7 +1330,7 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
           </table>
           
                 <div style="margin-top:10px; padding:10px 14px; background:var(--bg3); border-left:3px solid var(--gold2); border-radius:0 4px 4px 0; font-size:11.5px; color:var(--dim); line-height:1.6;">
-                  <strong style="color:var(--gold2);">AI Insight:</strong> The growing probability of Yemen sliding back into full-scale war deepens the risk of Iran's regional conflict spilling over, representing a significant tail risk for global energy supply and supporting demand for safe-haven assets like gold and oil.
+                  <strong style="color:var(--gold2);">AI Insight:</strong> Ukraine's reported strike on an Iranian vessel in the Caspian Sea signals a broadening of the conflict in both geography and participating actors, introducing additional volatility risk to energy markets. The deepening geopolitical tension is compounded by SMH's sharp selloff and Nasdaq 100 futures declining <span class='highlight'>-1.18%</span>, reinforcing broad pressure on risk assets.
                 </div>
         </div>
 
@@ -1211,8 +1338,8 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
           <table width="100%" cellpadding="0" cellspacing="0">
             <tr>
               <td style="vertical-align:top;">
-                <div style="font-size:9px; text-transform:uppercase; color:var(--gold2); font-weight:600; margin-bottom:6px; letter-spacing:0.5px;">Reuters · 20:37</div>
-                <h3 style="font-size:14px; font-weight:600; color:var(--text); margin:0 0 6px 0; line-height:1.45;"><a href="https://news.google.com/rss/articles/CBMiowFBVV95cUxNUFNIbkVHRDFha2pQZ0ZQeGpKUnNPRnJyTGZYVmdRMlpuOW1hXy1kT2UtenhSSVNnd01lLWJXNFZVWVdrWVAtSlFtQmItekowMnFEUUhwbWNzUmh3NE9kMGE4LURxTGtUaF95dlp3T25yQm9FUlY0UUlUczNfNE9vUmIzUm5OUE1Fd2VWSVNud0V1ZVRtZFZxbm12SVBDSDJpMzZn?oc=5" style="color:inherit; text-decoration:none;" target="_blank">Trump says he trusts Russia and China's leaders not to enable Iran - Reuters</a></h3>
+                <div style="font-size:9px; text-transform:uppercase; color:var(--gold2); font-weight:600; margin-bottom:6px; letter-spacing:0.5px;">Reuters · 20:21</div>
+                <h3 style="font-size:14px; font-weight:600; color:var(--text); margin:0 0 6px 0; line-height:1.45;"><a href="https://news.google.com/rss/articles/CBMivgFBVV95cUxPMTJYU1ZqWjdXVXRveUJLd1BsbFVvd2s0RFJMQU1hd0xwOGxKWW90VmxNOUxkVnlsLTZMa1JEaXNtTE40ZWZaV0llNUx5SGhQY3RpeFBIMHRMRmJXQmZrNUFIdEg1TzhjQ196dTNqVFFVLVFWMVpBWjY3UVdpT29QZjBkSnpRNHJJbWwtdjdNZm9CeE51cm9McVpBZWxiMVlsQXdVSzFjQ1pmNzNhOXFQeE9SX3ZUR1JfZHA0UF9n?oc=5" style="color:inherit; text-decoration:none;" target="_blank">Britain would be target if it supports US in war, Iran's Revolutionary Guards say - Reuters</a></h3>
                 
               </td>
               
@@ -1220,7 +1347,7 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
           </table>
           
                 <div style="margin-top:10px; padding:10px 14px; background:var(--bg3); border-left:3px solid var(--gold2); border-radius:0 4px 4px 0; font-size:11.5px; color:var(--dim); line-height:1.6;">
-                  <strong style="color:var(--gold2);">AI Insight:</strong> Trump's statement that he trusts Russia and China not to enable Iran offers a short-term de-escalation signal; however, markets remain cautious about pricing in this rhetoric without concrete diplomatic follow-through.
+                  <strong style="color:var(--gold2);">AI Insight:</strong> Iran's Revolutionary Guards designating Britain as a potential target raises the prospect of the conflict escalating to directly involve NATO allies. This development deepens the macro uncertainty that is keeping VIX elevated at <span class='highlight'>18.58</span> and sustaining the ETF outflow streak observed over the past two sessions.
                 </div>
         </div>
             
@@ -1228,7 +1355,7 @@ h1{font-size:34px !important;letter-spacing:-1px !important;}
     <div style="margin-top:40px; border-top:1px solid var(--border); padding-top:20px; text-align:center; font-family:var(--sans); font-size:10px; color:var(--dim); line-height:1.75; page-break-inside:avoid; break-inside:avoid;">
       <p style="margin:0 0 10px 0; font-weight:600; color:var(--text); letter-spacing:1px;">NOCASHFLOW bulletin.</p>
       <p style="margin:0 0 15px 0;">
-        <a href="https://nocashflow.net/bulletins/daily/2026-07-25.en.html" style="color:var(--accent); text-decoration:none;" target="_blank">Read on Web</a>
+        <a href="https://nocashflow.net/bulletins/daily/2026-07-26.en.html" style="color:var(--accent); text-decoration:none;" target="_blank">Read on Web</a>
       </p>
       <p style="margin:0 0 10px 0; max-width: 580px; margin-left: auto; margin-right: auto;">This document is for informational purposes only and does not constitute financial, investment, or legal advice. All investment decisions carry risks.</p>
       <p style="margin:0;">&copy; 2026 nocashflow.net. All rights reserved.</p>
