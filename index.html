@@ -80,7 +80,7 @@
 
 <!-- TICKER -->
 <div class="ticker">
-  <div class="ticker-label"><span class="dot"></span> Live</div>
+  <div class="ticker-label"><span class="dot"></span> <span data-live-label hidden>Live</span></div>
   <div class="ticker-track" id="ticker-track"></div>
 </div>
 
@@ -117,11 +117,12 @@
 </div>
 
       <div class="bs-kpis">
-        <div class="bs-kpi"><span class="k">Bitcoin</span><span class="v" data-px="btc">$64,290</span><span class="c dn" data-chg="btc">-0.75%</span></div>
-        <div class="bs-kpi"><span class="k">US 10Y</span><span class="v" data-px="us10y">4.67%</span><span class="c up" data-chg="us10y">+1.15%</span></div>
-        <div class="bs-kpi"><span class="k">Fear &amp; Greed</span><span class="v" data-px="fg">29</span><span class="c dn" data-chg="fg">Fear</span></div>
+        <div class="bs-kpi"><span class="k">Bitcoin</span><span class="v" data-px="btc">—</span><span class="c neu" data-chg="btc">—</span></div>
+        <div class="bs-kpi"><span class="k">US 10Y</span><span class="v" data-px="us10y">—</span><span class="c neu" data-chg="us10y">—</span></div>
+        <div class="bs-kpi"><span class="k">Fear &amp; Greed</span><span class="v" data-px="fg">—</span><span class="c neu" data-chg="fg">—</span></div>
       </div>
-      <div class="mood-pill" data-m="fear"><span class="mp-dot"></span><span class="mp-k">Market mood</span><span class="mp-w">fearful</span><span class="mp-v">F&amp;G 29</span></div>
+      <div class="live-stamp" data-live-stamp data-tpl="as of {stamp}" data-stale="stale" data-fail="Live data unavailable right now."></div>
+      <div class="mood-pill" data-m="neu" data-mood-pill data-words="fearful|undecided|greedy"><span class="mp-dot"></span><span class="mp-k">Market mood</span><span class="mp-w" data-mood-word>—</span><span class="mp-v">F&amp;G <span data-px="fg">—</span></span></div>
     </aside>
   </div>
 </section>
@@ -134,12 +135,13 @@
   </div>
   <div class="bs-pulse-grid">
     <div class="bs-quotes">
-      <div class="bs-q"><span class="nm">Crypto Fear &amp; Greed</span><span class="vl" data-px="fg">29</span><span class="cg dn" data-chg="fg">Fear</span></div>
-      <div class="bs-q"><span class="nm">Bitcoin</span><span class="vl" data-px="btc">$64,290</span><span class="cg dn" data-chg="btc">-0.75%</span></div>
-      <div class="bs-q"><span class="nm">VIX · Volatility</span><span class="vl" data-px="vix">15.15</span><span class="cg up" data-chg="vix">-4.17%</span></div>
-      <div class="bs-q"><span class="nm">Dollar Index · DXY</span><span class="vl" data-px="dxy">99.94</span><span class="cg dn" data-chg="dxy">-0.03%</span></div>
-      <div class="bs-q"><span class="nm">US 10Y Yield</span><span class="vl" data-px="us10y">4.67%</span><span class="cg up" data-chg="us10y">+1.15%</span></div>
-      <div class="bs-q"><span class="nm">Brent Crude</span><span class="vl" data-px="brent">$83.6</span><span class="cg up" data-chg="brent">+1.30%</span></div>
+      <div class="bs-q"><span class="nm">Crypto Fear &amp; Greed</span><span class="vl" data-px="fg">—</span><span class="cg neu" data-chg="fg">—</span></div>
+      <div class="bs-q"><span class="nm">Bitcoin</span><span class="vl" data-px="btc">—</span><span class="cg neu" data-chg="btc">—</span></div>
+      <div class="bs-q"><span class="nm">VIX · Volatility</span><span class="vl" data-px="vix">—</span><span class="cg neu" data-chg="vix">—</span></div>
+      <div class="bs-q"><span class="nm">Dollar Index · DXY</span><span class="vl" data-px="dxy">—</span><span class="cg neu" data-chg="dxy">—</span></div>
+      <div class="bs-q"><span class="nm">US 10Y Yield</span><span class="vl" data-px="us10y">—</span><span class="cg neu" data-chg="us10y">—</span></div>
+      <div class="bs-q"><span class="nm">Brent Crude</span><span class="vl" data-px="brent">—</span><span class="cg neu" data-chg="brent">—</span></div>
+      <div class="live-stamp" data-live-stamp data-tpl="as of {stamp}" data-stale="stale" data-fail="Live data unavailable right now."></div>
     </div>
     
 <figure class="pc-fig">
@@ -278,7 +280,7 @@
     <div class="footer-top">
       <div>
         <div class="footer-brand-title">NO<span style="color:var(--amber)">/</span>CASHFLOW</div>
-        <p class="footer-brand-desc">Independent macro &amp; markets, published daily. Sourced data, no fabrication.</p>
+        <p class="footer-brand-desc">Independent macro &amp; markets. Sourced data, no fabrication.</p>
       </div>
       <div class="footer-col">
         <h4>Pages</h4>
@@ -315,7 +317,7 @@
       <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona</span>
       <span><a href="/about.html">About</a> · <a href="/bulletin_page.html">Subscribe</a></span>
     </div>
-    <div class="mood-line"><span class="mood-dot"></span>Today the market is fearful — Fear &amp; Greed 29/100.</div>
+    <div class="mood-line" data-mood-line data-tpl="Today the market is {mood} — Fear &amp; Greed {v}/100." data-words="fearful|undecided|greedy" data-fail="Live data unavailable right now." data-asof="as of {stamp}" data-stale="stale"></div>
     <div class="disclaimer">
       This site is for information only and does not provide investment advice.<br/>
       <a href="/privacy.html">Privacy</a> · <a href="/legal.html">Legal Notice</a> · <a href="/disclaimer.html">Disclaimer</a>

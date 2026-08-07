@@ -70,12 +70,12 @@
 
 <!-- TICKER -->
 <div class="ticker">
-  <div class="ticker-label"><span class="dot"></span> Live</div>
+  <div class="ticker-label"><span class="dot"></span> <span data-live-label hidden>Live</span></div>
   <div class="ticker-track" id="ticker-track"></div>
 </div>
 
 
-<div class="masthead"><div class="masthead-inner"><span>Sabah Baskısı</span><span class="mh-date">Cuma, 7 Ağustos 2026</span><span>Barcelona</span></div></div>
+<div class="masthead"><div class="masthead-inner"><span>Barcelona</span></div></div>
 
 <section class="fe-page">
 
@@ -212,7 +212,7 @@
     <div class="footer-top">
       <div>
         <div class="footer-brand-title">NO<span style="color:var(--amber)">/</span>CASHFLOW</div>
-        <p class="footer-brand-desc">Bağımsız makro &amp; piyasa, her gün yayımlanır. Kaynaklı veri, uydurma yok.</p>
+        <p class="footer-brand-desc">Bağımsız makro &amp; piyasa. Kaynaklı veri, uydurma yok.</p>
       </div>
       <div class="footer-col">
         <h4>Sayfalar</h4>
@@ -249,7 +249,7 @@
       <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona</span>
       <span><a href="/tr/hakkinda.html">Hakkında</a> · <a href="/tr/bulletin_page.html">Abone Ol</a></span>
     </div>
-    <div class="mood-line"><span class="mood-dot"></span>Bugün piyasa korkuyor — Fear &amp; Greed 29/100.</div>
+    <div class="mood-line" data-mood-line data-tpl="Bugün piyasa {mood} — Fear &amp; Greed {v}/100." data-words="korkuyor|kararsız|açgözlü" data-fail="Canlı veri şu an alınamıyor." data-asof="{stamp} itibarıyla" data-stale="bayat"></div>
     <div class="disclaimer">
       Bu site yalnızca bilgilendirme amaçlıdır ve yatırım tavsiyesi içermez.<br/>
       <a href="/tr/privacy.html">Gizlilik</a> · <a href="/tr/legal.html">Yasal Bildirim</a> · <a href="/tr/disclaimer.html">Feragatname</a>

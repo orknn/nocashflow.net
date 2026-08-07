@@ -326,7 +326,21 @@ body[data-mood="fear"] .ticker-label .dot { background: var(--red); animation: p
   text-transform: uppercase; color: var(--text-mute);
   display: flex; align-items: center; gap: 8px;
 }
+/* the sentence is written by app.js once a real reading lands — until then
+   there is nothing to say, so the row collapses instead of showing a lone dot */
+.mood-line:empty { display: none; }
+.mood-line .mood-asof { color: var(--text-mute); opacity: 0.75; }
+.mood-line.is-stale .mood-asof { color: var(--red); opacity: 1; }
 .mood-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--amber); display: inline-block; }
+
+/* provenance stamp under a live block */
+.live-stamp {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--text-mute); opacity: 0.8;
+  margin-top: 8px;
+}
+.live-stamp:empty { display: none; }
+.live-stamp.is-stale { color: var(--red); opacity: 1; }
 body[data-mood="fear"] .mood-dot { background: var(--red); }
 body[data-mood="greed"] .mood-dot { background: var(--green); }
 

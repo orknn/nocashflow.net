@@ -147,6 +147,17 @@ def fetch_fear_greed():
         return None
 
 
+# Which upstream each published number came from. Written into the snapshot so
+# the provenance travels with the data instead of living only in this file.
+SOURCE_MAP = {
+    "btc": "coingecko", "eth": "coingecko",
+    "gold": "yahoo-finance", "brent": "yahoo-finance", "dxy": "yahoo-finance",
+    "us10y": "yahoo-finance", "vix": "yahoo-finance", "spx": "yahoo-finance",
+    "eurusd": "yahoo-finance",
+    "fg": "alternative.me",
+}
+
+
 def build_market():
     prev = load_json("market.json", {"instruments": {}})
     inst = dict(prev.get("instruments", {}))  # start from last-good
@@ -177,7 +188,11 @@ def build_market():
         d = "up" if val > 55 else "dn" if val < 35 else "neu"
         inst["fg"] = {"px": str(val), "chg": label, "dir": d, "asof": stamp}
 
-    return {"asof": stamp, "instruments": inst}
+    # generated_at is the run; each instrument keeps the asof of the last run
+    # that actually reached its source, so a feed that stayed down is visible
+    # in the data rather than hidden behind a fresh top-level timestamp.
+    return {"generated_at": stamp, "asof": stamp,
+            "source_map": SOURCE_MAP, "instruments": inst}
 
 
 # ── economic calendar (ForexFactory weekly JSON, free, no API key) ────────────

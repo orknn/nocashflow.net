@@ -79,32 +79,57 @@ MOOD_LABEL = {
     "tr": {"fear": "korkuyor", "neutral": "kararsız", "greed": "açgözlü"},
 }
 
+# Copy for every client-filled live element. Kept here so the strings stay in
+# one place per language; app.js only reads them off data-attributes and never
+# hardcodes user-visible text.
+LIVE_STRINGS = {
+    "en": {
+        "mood_tpl": "Today the market is {mood} — Fear &amp; Greed {v}/100.",
+        "mood_head": "Market mood",
+        "unavailable": "Live data unavailable right now.",
+        "asof": "as of {stamp}",
+        "stale": "stale",
+    },
+    "tr": {
+        "mood_tpl": "Bugün piyasa {mood} — Fear &amp; Greed {v}/100.",
+        "mood_head": "Piyasa modu",
+        "unavailable": "Canlı veri şu an alınamıyor.",
+        "asof": "{stamp} itibarıyla",
+        "stale": "bayat",
+    },
+}
+
 
 def _mood_line(lang):
-    """One honest sentence in the footer: how the market feels today (real F&G)."""
-    v, _ = _fg_value()
-    if v is None:
-        return ""
-    m = _mood()
-    if lang == "en":
-        txt = f"Today the market is {MOOD_LABEL['en'][m]} — Fear &amp; Greed {v}/100."
-    else:
-        txt = f"Bugün piyasa {MOOD_LABEL['tr'][m]} — Fear &amp; Greed {v}/100."
-    return f'<div class="mood-line"><span class="mood-dot"></span>{txt}</div>'
+    """Footer's one honest sentence about how the market feels.
+
+    Emitted EMPTY and filled by app.js from the same snapshot it already
+    paints. Printing the number at build time is what let a page cached from
+    an older build keep asserting that build's Fear & Greed reading with no
+    way to correct itself — the number is a claim, so it has to be bound to a
+    live source or not shown at all. `.mood-line:empty` hides the container
+    until a value actually arrives.
+    """
+    s = LIVE_STRINGS[lang]
+    words = "|".join(MOOD_LABEL[lang][k] for k in ("fear", "neutral", "greed"))
+    return (f'<div class="mood-line" data-mood-line data-tpl="{s["mood_tpl"]}"'
+            f' data-words="{words}" data-fail="{s["unavailable"]}"'
+            f' data-asof="{s["asof"]}" data-stale="{s["stale"]}"></div>')
 
 
 def _mood_pill(lang):
-    """Compact badge above the hero title — real F&G, mood-coloured."""
-    v, label = _fg_value()
-    if v is None:
-        return ""
-    m = _mood()
-    head = "Market mood" if lang == "en" else "Piyasa modu"
-    word = MOOD_LABEL[lang][m]
-    return (f'<div class="mood-pill" data-m="{m}"><span class="mp-dot"></span>'
-            f'<span class="mp-k">{head}</span>'
-            f'<span class="mp-w">{word}</span>'
-            f'<span class="mp-v">F&amp;G {v}</span></div>')
+    """Compact badge above the hero title — bound to the live Fear & Greed.
+
+    The reading itself rides on data-px="fg", which app.js already fills, so
+    it shows an em dash until the value lands rather than a stale number.
+    """
+    s = LIVE_STRINGS[lang]
+    words = "|".join(MOOD_LABEL[lang][k] for k in ("fear", "neutral", "greed"))
+    return (f'<div class="mood-pill" data-m="neu" data-mood-pill data-words="{words}">'
+            '<span class="mp-dot"></span>'
+            f'<span class="mp-k">{s["mood_head"]}</span>'
+            '<span class="mp-w" data-mood-word>—</span>'
+            '<span class="mp-v">F&amp;G <span data-px="fg">—</span></span></div>')
 
 
 # ── generative hero frieze: the real US yield curve, redrawn on every build ──
@@ -366,7 +391,7 @@ SUBSCRIBE = {"en": ("Subscribe", "/bulletin_page.html"),
 
 FOOTER = {
     "en": {
-        "brand_desc": "Independent macro &amp; markets, published daily. Sourced data, no fabrication.",
+        "brand_desc": "Independent macro &amp; markets. Sourced data, no fabrication.",
         "col_pages": "Pages", "col_content": "Content", "col_social": "Social",
         "l_home": "Home", "l_articles": "Articles", "l_macro": "Macro", "l_dashboard": "Dashboard",
         "l_bulletin": "Bulletin", "l_about": "About", "l_glossary": "Glossary",
@@ -377,7 +402,7 @@ FOOTER = {
         "disclaimer": "This site is for information only and does not provide investment advice.",
     },
     "tr": {
-        "brand_desc": "Bağımsız makro &amp; piyasa, her gün yayımlanır. Kaynaklı veri, uydurma yok.",
+        "brand_desc": "Bağımsız makro &amp; piyasa. Kaynaklı veri, uydurma yok.",
         "col_pages": "Sayfalar", "col_content": "İçerik", "col_social": "Sosyal",
         "l_home": "Ana Sayfa", "l_articles": "Yazılar", "l_macro": "Makro", "l_dashboard": "Panel",
         "l_bulletin": "Bülten", "l_about": "Hakkında", "l_glossary": "Sözlük",
@@ -440,10 +465,10 @@ PAGES = {
         "out":   {"en": "articles.html", "tr": "tr/yazilar.html"},
         "title": {"en": "Articles — NoCashFlow | Macro &amp; Market Essays",
                   "tr": "Yazılar — NoCashFlow | Makro &amp; Piyasa Yazıları"},
-        "desc":  {"en": "Macro analysis essays — oil, copper, nuclear energy, Fed policy, smart money. Sharp macro &amp; market takes, published regularly.",
-                  "tr": "Makro analiz yazıları — petrol, bakır, nükleer enerji, Fed politikası, akıllı para. Keskin makro &amp; piyasa yorumları, düzenli yayımlanır."},
-        "og_desc": {"en": "Data-driven macro analysis essays. Sharp macro &amp; market takes, published regularly.",
-                    "tr": "Veri odaklı makro analiz yazıları. Keskin makro &amp; piyasa yorumları, düzenli yayımlanır."},
+        "desc":  {"en": "Macro analysis essays — oil, copper, nuclear energy, Fed policy, smart money. Sharp macro &amp; market takes, sourced from primary data.",
+                  "tr": "Makro analiz yazıları — petrol, bakır, nükleer enerji, Fed politikası, akıllı para. Keskin makro &amp; piyasa yorumları, birincil kaynaklardan."},
+        "og_desc": {"en": "Data-driven macro analysis essays. Sharp macro &amp; market takes, sourced from primary data.",
+                    "tr": "Veri odaklı makro analiz yazıları. Keskin makro &amp; piyasa yorumları, birincil kaynaklardan."},
     },
     "dashboard": {
         "nav_key": "dashboard",
@@ -567,15 +592,21 @@ CAL_MAX_ROWS = 12  # keep the table readable; calendar.json keeps the full set
 
 
 def inject_market(html):
-    """Fill data-px / data-chg placeholders with the build-time snapshot so the
-    page is never blank if client-side JS or live APIs fail. app.js refreshes."""
-    for key, d in MARKET.get("instruments", {}).items():
-        px, chg, dirc = d.get("px", "—"), d.get("chg", "—"), d.get("dir", "neu")
-        html = re.sub(r'(data-px="' + re.escape(key) + r'"\s*>)—',
-                      lambda m, px=px: m.group(1) + px, html)
-        html = re.sub(r'class="([^"]*?) neu"(\s+data-chg="' + re.escape(key) + r'"\s*>)—',
-                      lambda m, chg=chg, dirc=dirc: f'class="{m.group(1)} {dirc}"{m.group(2)}{chg}',
-                      html)
+    """Build-time fill for market values that have no client-side source.
+
+    data-px / data-chg are deliberately NOT filled here any more. They used to
+    be baked in so the page was never blank, but that is what let a cached or
+    unrebuilt page keep presenting an old reading as current, with nothing able
+    to correct it. app.js now paints them from the same snapshot over a
+    same-origin fetch of /data/market.json, so the value still lands
+    immediately — but it always arrives with the timestamp that belongs to it,
+    and shows an em dash instead of a wrong number when the fetch fails.
+
+    Fed funds and funding stay build-time: neither has a browser-reachable
+    source (FRED CSV and Deribit are fetched server-side), so leaving them to
+    the client would mean permanent em dashes. Both are stamped where they are
+    rendered.
+    """
     # Fed funds target (real, FRED DFEDTARU) — fills the data-fed cell on Articles
     fed = MACRO.get("fed_rate", {}).get("value")
     if fed is not None:
@@ -649,6 +680,19 @@ def _fmt_stamp(iso, lang):
     except Exception:
         dt = dt.astimezone(timezone(timedelta(hours=1)))
     return f"{dt.day} {MONTHS[lang][dt.month - 1]} {dt.year}, {dt:%H:%M} CET"
+
+
+def live_stamp(lang, cls="live-stamp"):
+    """Timestamp slot under a live block.
+
+    Left empty on purpose and filled by app.js from the snapshot's own
+    generated_at, so the stamp always describes the data actually on screen
+    rather than the moment the page was generated. app.js adds `.is-stale`
+    when that timestamp is more than 24h old.
+    """
+    s = LIVE_STRINGS[lang]
+    return (f'<div class="{cls}" data-live-stamp data-tpl="{s["asof"]}"'
+            f' data-stale="{s["stale"]}" data-fail="{s["unavailable"]}"></div>')
 
 
 def _is_stale(iso, hours=48):
@@ -900,9 +944,57 @@ WEEKDAYS_LONG = {"en": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", 
                  "tr": ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"]}
 
 
-def masthead(page, lang):
+def _disp_date(iso, lang):
+    """'2026-07-14' -> 'Jul 14, 2026' / '14 Tem 2026'."""
+    try:
+        y, m, d = (int(x) for x in iso.split("-"))
+    except Exception:
+        return iso
+    mon = MONTHS[lang][m - 1]
+    return f"{mon} {d}, {y}" if lang == "en" else f"{d} {mon} {y}"
+
+
+def _article_dateline(lang, meta):
+    """Dateline for essays: when it was published, and when it was last revised.
+
+    An essay is not an edition — it carries its own dates instead of the build
+    date, so a piece from June no longer presents itself as this morning's.
+    """
+    if not meta:
+        return ('\n<div class="masthead"><div class="masthead-inner">'
+                '<span>Barcelona</span></div></div>\n')
+    pub_lbl = "Published" if lang == "en" else "Yayımlandı"
+    upd_lbl = "Updated" if lang == "en" else "Güncellendi"
+    pub = meta.get("date_disp", {}).get(lang) or _disp_date(meta.get("date", ""), lang)
+    upd = ""
+    if meta.get("updated") and meta["updated"] != meta.get("date"):
+        upd = f'{upd_lbl} {_disp_date(meta["updated"], lang)}'
+    return (f'\n<div class="masthead"><div class="masthead-inner">'
+            f'<span>{pub_lbl} {pub}</span>'
+            f'<span class="mh-date">{upd}</span>'
+            f'<span>Barcelona</span></div></div>\n')
+
+
+# Pages whose content genuinely changes with the market day. Only these carry
+# the edition line and a dateline; everywhere else "Morning Edition · <today>"
+# was dating an evergreen essay to whenever the last cron happened to run.
+# /now/ indicator pages are live by definition and are handled by their own
+# renderer, which already prints the snapshot timestamp.
+LIVE_PAGES = {"index", "macro", "dashboard", "calendar"}
+
+
+def masthead(page, lang, meta=None):
     """Broadsheet nameplate on the home page; thin dateline elsewhere.
-    Re-typeset on every build (the dateline is the live build date)."""
+
+    Live pages get the edition line and today's date. Evergreen pages get a
+    place line only, and articles get their own publication dates, so nothing
+    outside the live set claims to be today's edition.
+    """
+    if page == "article":
+        return _article_dateline(lang, meta)
+    if page not in LIVE_PAGES:
+        return ('\n<div class="masthead"><div class="masthead-inner">'
+                '<span>Barcelona</span></div></div>\n')
     try:
         from zoneinfo import ZoneInfo
         now = datetime.now(ZoneInfo("Europe/Madrid"))
@@ -936,8 +1028,12 @@ def masthead(page, lang):
 
 # Global ticker — dark bar, mounted directly under the header (demo position).
 # Data source unchanged: app.js fills #ticker-track from the existing feed.
+# "Live" is a claim about the data, not about the page, so it stays hidden until
+# app.js has actually painted a value — a ticker sitting on em dashes must not
+# advertise itself as live.
 TICKER_HTML = ('<!-- TICKER -->\n<div class="ticker">\n'
-               '  <div class="ticker-label"><span class="dot"></span> Live</div>\n'
+               '  <div class="ticker-label"><span class="dot"></span> '
+               '<span data-live-label hidden>Live</span></div>\n'
                '  <div class="ticker-track" id="ticker-track"></div>\n</div>\n')
 
 
@@ -1060,6 +1156,24 @@ def scripts(page, lang):
 
 
 # ── assembly ─────────────────────────────────────────────────────────────────
+def _article_meta(lang):
+    """Essay count and the real date of the latest one.
+
+    Replaces the old "Published regularly" eyebrow. Essays do not run to a
+    schedule — the gaps between them range from days to months — so the page
+    states what is actually true and derives it from the registry, which means
+    it cannot drift out of date the way a written cadence promise does.
+    """
+    if not ARTICLES:
+        return ""
+    latest = max(ARTICLES.values(), key=lambda a: a["date"])
+    when = latest["date_disp"][lang]
+    n = len(ARTICLES)
+    if lang == "en":
+        return f"{n} essays · latest {when}"
+    return f"{n} yazı · son {when}"
+
+
 def inject_article_list(html, lang):
     """Replace the placeholder in yazilar with teaser cards generated from the
     ARTICLES registry, each linking to its own article page."""
@@ -1431,6 +1545,8 @@ def render(page, lang):
     # fill build-time snapshots (market values + macro KPIs + economic calendar)
     html = html.replace("<!--NCF:HERO-->", hero_frieze(lang))
     html = html.replace("<!--NCF:MOOD-->", _mood_pill(lang))
+    html = html.replace("<!--NCF:STAMP-->", live_stamp(lang))
+    html = html.replace("<!--NCF:ART_META-->", _article_meta(lang))
     html = html.replace("<!--NCF:PULSECHART-->", pulse_chart(lang))
     html = inject_calendar(html, lang)
     html = inject_calendar_full(html, lang)
@@ -1721,7 +1837,7 @@ def render_article(slug, lang):
     )
 
     html = "\n".join([head_html, overlays, _nav_html("articles", lang, sw_href),
-                      TICKER_HTML, masthead("article", lang), body, footer(lang), scripts_html,
+                      TICKER_HTML, masthead("article", lang, a), body, footer(lang), scripts_html,
                       "</body>", "</html>", ""])
     return inject_market(html)
 
@@ -1838,7 +1954,7 @@ def render_fe_essay(key, lang):
     )
 
     html = "\n".join([head_html, overlays, _nav_html("finance-eng", lang, sw_href),
-                      TICKER_HTML, masthead("article", lang), body, footer(lang), scripts_html,
+                      TICKER_HTML, masthead("article", lang, a), body, footer(lang), scripts_html,
                       "</body>", "</html>", ""])
     return inject_market(html)
 

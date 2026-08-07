@@ -27,15 +27,13 @@
   NCF.fmtPct = fmtPct;
   NCF.fmtNum = fmtNum;
 
-  /* ---------- last-good cache (localStorage) ---------- */
-  const CACHE_KEY = 'ncf-market-cache';
-  function readCache() {
-    try { return JSON.parse(localStorage.getItem(CACHE_KEY)) || {}; }
-    catch (e) { return {}; }
-  }
-  function writeCache(obj) {
-    try { localStorage.setItem(CACHE_KEY, JSON.stringify(obj)); } catch (e) {}
-  }
+  /* ---------- in-session store ----------
+     Holds close series for sparklines within the page's lifetime. It is NOT
+     persisted and is NOT a display fallback: a value from an earlier visit has
+     no timestamp on screen, so painting it would state a number the page
+     cannot stand behind. When a live source fails we keep whatever the stamped
+     snapshot painted, and when that fails too we show em dashes. */
+  const store = {};
 
   /* ---------- proxy fallback for Yahoo Finance ---------- */
   const PROXIES = [
@@ -109,15 +107,115 @@
     });
   }
 
+  /* ---------- provenance: every painted number carries its timestamp ----------
+     The page ships with no numbers baked in, so nothing on screen can be older
+     than the snapshot these stamps describe. */
+  const STALE_AFTER_MS = 24 * 60 * 60 * 1000;
+  const MOOD_INDEX = { fear: 0, neutral: 1, greed: 2 };
+
+  /* ISO -> "2026-08-07 06:11 UTC". UTC on purpose: unambiguous year-round, and
+     it matches the timestamp the pipeline writes. */
+  function fmtStamp(iso) {
+    const d = new Date(iso);
+    if (!iso || isNaN(d.getTime())) return null;
+    const p = (n) => String(n).padStart(2, '0');
+    return d.getUTCFullYear() + '-' + p(d.getUTCMonth() + 1) + '-' + p(d.getUTCDate()) +
+      ' ' + p(d.getUTCHours()) + ':' + p(d.getUTCMinutes()) + ' UTC';
+  }
+
+  function isStale(iso) {
+    const d = new Date(iso);
+    if (!iso || isNaN(d.getTime())) return false;
+    return (Date.now() - d.getTime()) > STALE_AFTER_MS;
+  }
+
+  /* Text for a stamp slot, e.g. "as of 2026-08-07 06:11 UTC · stale".
+     `attr` names the template to use: standalone stamps carry it on data-tpl,
+     while the footer sentence keeps data-tpl for its own copy and puts the
+     timestamp template on data-asof. */
+  function stampText(el, iso, attr) {
+    const stamp = fmtStamp(iso);
+    if (!stamp) return '';
+    const tpl = el.getAttribute(attr || 'data-tpl') || '{stamp}';
+    let out = tpl.replace('{stamp}', stamp);
+    if (isStale(iso)) {
+      const word = el.getAttribute('data-stale');
+      if (word) out += ' · ' + word;
+    }
+    return out;
+  }
+
+  function paintStamps(iso) {
+    $$('[data-live-stamp]').forEach((el) => {
+      const txt = stampText(el, iso);
+      el.textContent = txt;
+      el.classList.toggle('is-stale', !!txt && isStale(iso));
+    });
+  }
+
+  /* Footer sentence + hero badge. Both are composed here from copy the build
+     put on data-attributes, so no user-visible string is hardcoded in JS. */
+  function paintMood(value, iso) {
+    const v = parseInt(value, 10);
+    if (isNaN(v)) return;
+    const mood = v < 35 ? 'fear' : v > 55 ? 'greed' : 'neutral';
+    const i = MOOD_INDEX[mood];
+    document.body.setAttribute('data-mood', mood);
+
+    $$('[data-mood-pill]').forEach((el) => {
+      el.setAttribute('data-m', mood === 'neutral' ? 'neu' : mood);
+      const words = (el.getAttribute('data-words') || '').split('|');
+      const w = el.querySelector('[data-mood-word]');
+      if (w && words.length === 3) w.textContent = words[i];
+    });
+
+    $$('[data-mood-line]').forEach((el) => {
+      const words = (el.getAttribute('data-words') || '').split('|');
+      const tpl = el.getAttribute('data-tpl');
+      if (!tpl || words.length !== 3) return;
+      const sentence = tpl.replace('{mood}', words[i]).replace('{v}', v);
+      const stamp = stampText(el, iso, 'data-asof');
+      el.innerHTML = '<span class="mood-dot"></span>' +
+        sentence + (stamp ? ' <span class="mood-asof">· ' + stamp + '</span>' : '');
+      el.classList.toggle('is-stale', isStale(iso));
+    });
+  }
+
+  /* Nothing reached us: say so rather than leaving a bare dash the reader has
+     to interpret, and drop the "Live" claim on the ticker. */
+  function markLiveUnavailable() {
+    $$('[data-live-label]').forEach((el) => { el.hidden = true; });
+    $$('[data-mood-line]').forEach((el) => {
+      const msg = el.getAttribute('data-fail');
+      if (msg) el.innerHTML = '<span class="mood-dot"></span>' + msg;
+    });
+    $$('[data-live-stamp]').forEach((el) => {
+      const msg = el.getAttribute('data-fail');
+      if (msg) el.textContent = msg;
+    });
+  }
+
   /* Paint every instrument the snapshot carries. Pages that opt out of the
      live loader (market:false — macro, dashboard) still call this, otherwise
      their ticker would sit on "—" forever. */
   async function paintSnapshotAll() {
     const snap = await fetchSnapshot();
-    if (!snap || !snap.instruments) return null;
+    if (!snap || !snap.instruments) {
+      markLiveUnavailable();
+      return null;
+    }
     Object.keys(snap.instruments).forEach((key) => {
       if (INSTRUMENTS[key]) paintSnapshot(key, snap.instruments[key]);
     });
+    const iso = snap.generated_at || snap.asof;
+    paintStamps(iso);
+    if (snap.instruments.fg) {
+      /* the Fear & Greed reading carries its own asof when the source was
+         reachable on the last run; fall back to the snapshot's */
+      paintSnapshot('fg', snap.instruments.fg);
+      paintMood(snap.instruments.fg.px, snap.instruments.fg.asof || iso);
+    }
+    $$('[data-live-label]').forEach((el) => { el.hidden = false; });
     return snap;
   }
   NCF.paintSnapshotAll = paintSnapshotAll;
@@ -205,7 +303,6 @@
   /* Fetches everything needed and paints any present nodes. Resilient:
      uses cached last-good value when a source fails. */
   async function loadMarket(opts = {}) {
-    const cache = readCache();
     const updated = {};
 
     /* instant paint from this morning's snapshot — same-origin, no proxy
@@ -213,14 +310,14 @@
        function fetches live values in the background */
     await paintSnapshotAll();
 
+    /* A failed live call is a no-op: the stamped snapshot value stays on
+       screen with its timestamp intact. Repainting an older reading here
+       would put a number on the page that no visible stamp accounts for. */
     const apply = (key, price, pct, extra) => {
-      if (price != null) {
-        cache[key] = { price, pct, t: Date.now() };
-        paint(key, price, pct, extra);
-        updated[key] = true;
-      } else if (cache[key]) {
-        paint(key, cache[key].price, cache[key].pct, extra);
-      }
+      if (price == null) return;
+      store[key] = { price, pct, t: Date.now() };
+      paint(key, price, pct, extra);
+      updated[key] = true;
     };
 
     /* crypto first (fast + reliable) */
@@ -228,23 +325,20 @@
     if (cg) {
       if (cg.bitcoin)  apply('btc', cg.bitcoin.usd, cg.bitcoin.usd_24h_change);
       if (cg.ethereum) apply('eth', cg.ethereum.usd, cg.ethereum.usd_24h_change);
-    } else {
-      apply('btc'); apply('eth');
     }
 
-    /* Fear & Greed */
+    /* Fear & Greed — also re-stamps the footer sentence and the hero badge to
+       now, since this reading came in live rather than from the snapshot. */
     const fg = await fetchFearGreed();
     if (fg) {
-      cache.fg = { value: fg.value, label: fg.label, t: Date.now() };
+      store.fg = { value: fg.value, label: fg.label, t: Date.now() };
       $$('[data-px="fg"]').forEach((el) => { el.textContent = fg.value; });
       $$('[data-chg="fg"]').forEach((el) => {
         el.textContent = fg.label;
         el.classList.remove('up', 'dn', 'neu');
         el.classList.add(fg.value > 55 ? 'up' : fg.value < 35 ? 'dn' : 'neu');
       });
-    } else if (cache.fg) {
-      $$('[data-px="fg"]').forEach((el) => { el.textContent = cache.fg.value; });
-      $$('[data-chg="fg"]').forEach((el) => { el.textContent = cache.fg.label; });
+      paintMood(fg.value, new Date().toISOString());
     }
 
     /* Yahoo instruments (sequential to be gentle on proxies) */
@@ -264,15 +358,12 @@
       const d = await fetchYahoo(sym, '10d');
       if (d) {
         apply(key, d.last, d.pct, key === 'vix' ? { invert: true } : {});
-        cache[key].closes = d.closes; // keep for sparklines
-      } else {
-        apply(key);
+        store[key].closes = d.closes; // keep for sparklines
       }
     }
 
-    writeCache(cache);
-    if (typeof opts.onDone === 'function') opts.onDone(cache, updated);
-    return cache;
+    if (typeof opts.onDone === 'function') opts.onDone(store, updated);
+    return store;
   }
   NCF.loadMarket = loadMarket;
 
