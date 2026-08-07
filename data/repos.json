@@ -1,0 +1,60 @@
+{
+  "repos": [
+    {
+      "name": "nocashflow.net",
+      "full_name": "orknn/nocashflow.net",
+      "url": "https://github.com/orknn/nocashflow.net",
+      "description": "",
+      "stars": 0,
+      "language": "HTML",
+      "pushed_at": "2026-08-07",
+      "status": "live",
+      "key": "nocashflow.net",
+      "stack": [
+        "Python",
+        "GitHub Actions",
+        "Cloudflare"
+      ]
+    },
+    {
+      "name": "Crypto_Macro_Newsletter",
+      "full_name": "orknn/Crypto_Macro_Newsletter",
+      "url": "https://github.com/orknn/Crypto_Macro_Newsletter",
+      "description": "Daily Financial Bulletin",
+      "stars": 0,
+      "language": "HTML",
+      "pushed_at": "2026-07-25",
+      "status": "live",
+      "key": "Crypto_Macro_Newsletter",
+      "stack": [
+        "Python",
+        "Anthropic API",
+        "GitHub Actions"
+      ]
+    },
+    {
+      "name": "Job-Hunter",
+      "full_name": "orknn/Job-Hunter",
+      "url": "https://github.com/orknn/Job-Hunter",
+      "description": "Job Hunter Search",
+      "stars": 0,
+      "language": "Python",
+      "pushed_at": "2026-07-03",
+      "status": "live",
+      "key": "Job-Hunter",
+      "stack": [
+        "Python",
+        "GitHub Actions"
+      ]
+    },
+    {
+      "key": "stock-analyzer",
+      "name": "stock-analyzer",
+      "status": "pending",
+      "stack": [
+        "Python",
+        "Anthropic API"
+      ]
+    }
+  ]
+}

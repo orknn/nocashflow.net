@@ -156,3 +156,110 @@ Gizlenme sebebi kaynakta yorum olarak yazılı: bir kart Ağustos'ta hâlâ *"Co
 - Eski kimlik ifadeleri taraması (`Supply-chain executive`, `Finance Business Partner by day`, TR karşılıkları) → sıfır kalıntı
 - Çözülmemiş `NCF:` marker'ı → yok
 - `Coming next` üretilen sayfalarda → yok; `content/` içinde → duruyor
+
+---
+
+## Faz 3 — Finance Engineering: iki hat (2026-08-07)
+
+Bu fazda **hiçbir metin yazılmadı** — istisna, mevcut hardcoded kartlardan registry'ye taşınan blurb'ler (harfi harfine aynı) ve iskeletlerin içindeki TODO/yorum satırları.
+
+### Yayımlanmamış olanı yayımlamama disiplini
+
+Bu fazda eklenen her şey iskelet. Boş bir sayfayı canlıymış gibi göstermemek için üç kademe kuruldu:
+
+| Durum | Sayfa üretilir mi | Listelenir mi | Sitemap | robots |
+|---|---|---|---|---|
+| `status: "live"` (Reference, FE) | ✅ | ✅ | ✅ | index |
+| `status: "draft"` | ❌ | ❌ | ❌ | — |
+| `status: "planned"` + `target_date` yok | ❌ | ❌ | ❌ | — |
+| `status: "planned"` + tarih var | ❌ | ✅ (`Planned · Eylül 2026`) | ❌ | — |
+| `PAGES[...]["draft"]: True` (checklist, toolkit) | ✅ | ❌ | ❌ | **noindex, nofollow** |
+
+Reference hub'ı da canlı madde yokken `noindex` ve sitemap dışı.
+
+### 3.1 Placeholder repo linki
+
+| Dosya | Eski | Yeni |
+|---|---|---|
+| `content/fe/mesele-hiz-degildi/{en,tr}.html:49` | `Code: <a href="https://github.com/orknn">github.com/&lt;repo&gt;</a> — …` | satır kaldırıldı, yerine `TODO(repo-link)` yorumu |
+
+Metin var olmayan bir repoyu adlandırıp linki profil sayfasına götürüyordu. Tam FE yüzeyi tarandı (`<repo>`, `TODO`, `lorem`, `placeholder`, `Coming soon`) — başka kalıntı yok.
+
+### 3.2 Repo vitrini
+
+- `scripts/fetch_repos.py` → `data/repos.json` (build anı, GitHub API). Rate-limit (403) durumunda önceki snapshot korunur; 404/private → `status: "pending"`.
+- `data.yml` cron'una eklendi (`continue-on-error`).
+- `inject_repos()` kartları basar; blurb'ler `build.py:REPO_BLURB`'de **elle yazılı** (GitHub description'ı kısa ve habersiz değişebiliyor), metrikler API'den (yıldız, son commit tarihi, stack rozetleri).
+
+> **Görevdeki varsayım hatalıydı.** Görev "Repolar public olmadığı için hepsi `data-status="pending"` ile gizli render edilsin" diyordu. API'ye sordum: **üçü public.** Şu an canlı ve görünür: `nocashflow.net`, `Crypto_Macro_Newsletter`, `Job-Hunter`. Yalnızca `stock-analyzer` public değil → `pending`, gizli. Kartlar artık varsayımdan değil API'den sürülüyor, yani repo public olduğu gün kart kendiliğinden görünür.
+
+### 3.3 "Planned" kartları
+
+FE hub index'i partial'da elle yazılmış 6 karttı; artık `FE_ESSAYS` registry'sinden üretiliyor (`<!--NCF:FE_INDEX-->` + `inject_fe_index`). Kayıtlara `status` ve `target_date` eklendi.
+
+Üç "— Planned" kartı (`Anatomy of a Finance Agent`, `Newsletter Pipeline`, `Job-Hunter`) registry'ye taşındı ve **tarihsiz oldukları için render edilmiyor**. Metinleri kayıtlarda duruyor; `target_date` girildiği an `Planned · Sept 2026` biçiminde geri gelirler. Hub'da şu an yalnızca 3 canlı deneme var.
+
+### 3.4 HAT A — teardown iskeletleri
+
+Dört yeni kayıt (`status: "draft"`) + `content/fe/<key>/{en,tr}.html` iskeletleri:
+
+`month-end-close-agent-architecture` · `variance-commentary-llm` · `forecast-data-quality-layer` · `excel-powerbi-llm-integration`
+
+İskelet, mevcut teardown şeklini izliyor: hook → problem → what I built → where it breaks → principle → disclaimer. Her bölüm `<h2><!-- TODO: … --></h2>` + boş `<p>`. Byline mevcut `<!--NCF:BYLINE-->` marker'ından geliyor. Yayın öncesi doldurulacak registry alanları dosyanın başındaki yorumda listeli.
+
+### 3.5 HAT B — Controlling Reference
+
+Yeni bölüm: `/finance-engineering/reference/` · `/tr/finance-engineering/referans/`
+
+- **Şablon bir kere yazıldı** (`REF_SECTIONS` + `render_reference`). Sekiz bölümün sırası, başlıkları ve numaralandırması burada; madde dosyası yalnızca 1–6'nın metnini verir.
+- **Bölüm 7 (KPI) ve 8 (ilgili maddeler) registry'den üretilir** — çapraz linkler elle konmuyor, `related[]`/`articles[]` alanlarından türüyor, dolayısıyla registry ile asla tutarsızlaşamaz.
+- Madde partial'ı `content/reference/<slug>/<lang>.html`, bölümler `<!--NCF:SEC <key>-->` yorumlarıyla ayrılır.
+- Frontmatter alanları registry kaydında: `slug` (dile göre), `title`, `cat`, `status`, `updated`, `related[]`, `articles[]`, `kpis[]`, `sap_objects[]`, `audience[]`.
+- **İndeks sayfası:** kategoriye göre gruplu, istemci tarafı arama kutusu (başlık + kategori üzerinde alt dizi eşleşmesi, boş sonuçta grup gizlenir), `draft` maddeler gizli.
+- **Schema:** madde başına `DefinedTerm`, hub'da `DefinedTermSet` + `hasDefinedTerm` listesi.
+- **Formül:** matematik kütüphanesi **yok**. `.rf-formula` + `<var>` ile düz metin; seçilebilir, çevrilebilir, ekran okuyucuya okunabilir. İskeletlerde örnek kalıp yorum olarak var.
+
+Sekiz madde iskeleti (hepsi `draft`): `standard-cost`, `purchase-price-variance`, `working-capital`, `cash-conversion-cycle`, `inventory-accounting`, `factory-controlling`, `absorption-vs-variable-costing`, `overhead-allocation`.
+
+> Şablon, canlı bir madde simüle edilerek uçtan uca test edildi (dosyaya dokunmadan). Test **gerçek bir hata yakaladı:** `related[]` taslak maddelere de link üretiyordu, o sayfalar üretilmediği için 404 olacaktı. Artık yalnızca canlı maddeler linklenir; taslaklar yayına girdiklerinde kendiliğinden görünür.
+
+### 3.6 "Who should care"
+
+`audience[]` alanı + `audience_html()`. Makale, FE denemesi ve Reference maddesi şablonlarının üçünde de başlığın altında render edilir; **`audience[]` boşsa blok hiç basılmaz**.
+
+Etiketler tıklanabilir ve `/audience/<tag>.html` · `/tr/kitle/<tag>.html` filtrelenmiş liste sayfasına gider. Bu sayfalar **yalnızca en az bir içerik o etiketi taşıyorsa** üretilir.
+
+Etiket kümesi: `investors`, `cfo`, `fpa`, `treasury`, `crypto`.
+
+> **Şu an hiçbir içerik etiketli değil, dolayısıyla hiç kitle sayfası üretilmiyor ve hiçbir yerde blok görünmüyor.** Mevcut 9 makaleye kitle atamak editoryal bir karar — tahmin etmedim. Registry kayıtlarına `audience` alanı boş olarak eklendi; doldurduğun an sayfalar ve bloklar kendiliğinden çıkar. Mekanizma simüle edilmiş etiketle test edildi (çipler, filtre sayfası, schema).
+
+### 3.7 Governance kontrol listesi
+
+Yeni sayfa: `/finance-engineering/governance-checklist.html` · `/tr/finance-engineering/yonetisim-kontrol-listesi.html`
+
+- Beş grup iskeleti (Veri ve erişim · Model davranışı · İnceleme ve onay · Denetim izi · Hata ve geri alma), maddeler `<!-- TODO -->`.
+- Bileşen **tam çalışır durumda**: canlı sayaç + ilerleme çubuğu, sıfırlama, ve "Markdown olarak indir" (istemci tarafı `Blob`, backend yok, dosya tarayıcıdan çıkmaz).
+- Script listeyi her seferinde DOM'dan okur → madde eklemek JS değişikliği gerektirmez.
+- **Tik'ler saklanmıyor** (bilinçli): önceki oturumun işaretlerini sessizce geri yükleyen bir kontrol listesi, neyi iddia ettiğini gizler.
+- Yazılmamış placeholder maddeler ve tamamen boş gruplar indirilen Markdown'a girmez.
+
+### 3.8 Toolkit dizini
+
+Yeni sayfa: `/finance-engineering/toolkit/` · `/tr/finance-engineering/arac-seti/`. Kart şablonu yorumda; kart yokken "henüz bir şey yok" notu görünür, ilk `.tk-card` eklendiğinde not `:has()` ile kendiliğinden çekilir. Kartlar üretilmiyor — yani var olmayan bir dosyayı ilan edemez.
+
+### Diğer
+
+- `PAGES` kayıtları artık `theme: "fe"` destekliyor (Machine Room teması yalnız hub'a değil, isteyen sayfaya).
+- `_ind_head()` `extra_css`, `body_cls` ve `noindex` parametreleri aldı.
+- RSS feed açıklamasındaki kadans iddiası düzeltildi (Faz 1'de gözden kaçmıştı): `Daily macro & market analysis…` → `Macro & market analysis…`, TR'de `günlük makro…` → `makro…`.
+- `finance-eng.css` cache-bust sürümü `?v=mx1`/`?v=mx2` karışıklığından `?v=mx3`'e tekleştirildi.
+
+### Doğrulama
+
+- `python3 build.py` → 72 çıktı (68 → +4); iki ardışık build byte-eş
+- `python3 scripts/check_jsonld.py` → 72 blok, sorun yok
+- FE hub: 3 canlı kart, 0 tarihsiz "Planned" kartı, 3 görünür + 1 gizli repo kartı
+- Governance: Markdown indirme tarayıcıda doğrulandı — grup başlıkları, `- [x]`/`- [ ]` durumu, kaynak URL doğru; boş gruplar çıktıya girmiyor
+- Reference: canlı madde simülasyonuyla 8 bölüm, otomatik çapraz link, SAP nesneleri, KPI'lar, audience çipleri, metin-formül doğrulandı
+- `noindex` üç iskelet sayfada var, gerçek sayfalarda yok; sitemap'te iskelet sayfa yok
+- Yatay taşma: yeni öğelerin hiçbiri taşmıyor (mevcut `.nav-right` / `.ticker-track` taşması Faz 1 öncesinden)

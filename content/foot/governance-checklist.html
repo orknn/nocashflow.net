@@ -1,0 +1,67 @@
+<script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>
+<script>
+/* Checklist behaviour. Reads the list off the DOM every time, so adding items
+   to the markup needs no change here. Nothing is stored: a checklist that
+   silently remembers a previous session's ticks would be worse than one that
+   starts clean, because you cannot see what it is remembering. */
+(function () {
+  var list = document.querySelector('[data-gv-list]');
+  if (!list) return;
+
+  var boxes = function () {
+    return [].slice.call(list.querySelectorAll('.gv-item input[type=checkbox]'));
+  };
+  var countEl = document.querySelector('[data-gv-count]');
+  var fillEl = document.querySelector('[data-gv-fill]');
+
+  function paint() {
+    var all = boxes();
+    var done = all.filter(function (b) { return b.checked; }).length;
+    if (countEl) countEl.textContent = done + ' / ' + all.length;
+    if (fillEl) fillEl.style.width = all.length ? (done / all.length * 100) + '%' : '0%';
+  }
+
+  list.addEventListener('change', paint);
+  paint();
+
+  var reset = document.querySelector('[data-gv-reset]');
+  if (reset) reset.addEventListener('click', function () {
+    boxes().forEach(function (b) { b.checked = false; });
+    paint();
+  });
+
+  /* Build the Markdown from what is actually on the page, then hand it over as
+     a blob. No backend, no upload — the file never leaves the browser. */
+  var dl = document.querySelector('[data-gv-download]');
+  if (dl) dl.addEventListener('click', function () {
+    var title = list.getAttribute('data-gv-title') || document.title;
+    var lines = ['# ' + title, ''];
+    [].slice.call(list.querySelectorAll('.gv-group')).forEach(function (g) {
+      var name = g.getAttribute('data-gv-group') ||
+                 (g.querySelector('h2') || {}).textContent || '';
+      var rows = [];
+      [].slice.call(g.querySelectorAll('.gv-item')).forEach(function (it) {
+        var box = it.querySelector('input[type=checkbox]');
+        var text = ((it.querySelector('span') || {}).textContent || '').trim();
+        if (!text) return;   // an unwritten placeholder is not an item
+        rows.push('- [' + (box && box.checked ? 'x' : ' ') + '] ' + text);
+      });
+      if (!rows.length) return;   // and a group of them is not a section
+      lines.push('## ' + name.trim(), '');
+      lines.push.apply(lines, rows);
+      lines.push('');
+    });
+    lines.push('---', '', 'Source: ' + location.href);
+
+    var blob = new Blob([lines.join('\n')], { type: 'text/markdown;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '.md';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  });
+})();
+</script>

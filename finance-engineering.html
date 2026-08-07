@@ -33,7 +33,7 @@
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebSite", "@id": "https://nocashflow.net/#website", "name": "NoCashFlow", "url": "https://nocashflow.net", "description": "Macro, markets and finance engineering — written by a finance engineer, sourced from primary data.", "inLanguage": "en", "publisher": {"@id": "https://nocashflow.net/#organization"}}, {"@type": "Organization", "@id": "https://nocashflow.net/#organization", "name": "NoCashFlow", "url": "https://nocashflow.net/", "logo": {"@type": "ImageObject", "url": "https://nocashflow.net/logo.png", "width": 512, "height": 512}, "founder": {"@id": "https://nocashflow.net/#orkun"}, "sameAs": ["https://twitter.com/No_CashFlow", "https://www.linkedin.com/in/orkunbicen/", "https://github.com/orknn"]}, {"@type": "Person", "@id": "https://nocashflow.net/#orkun", "name": "Orkun Biçen", "url": "https://nocashflow.net/about.html", "jobTitle": "Finance Engineer", "description": "Orkun Biçen — finance engineer. Fourteen years in FP&A and controlling; now building AI-accelerated finance systems, data pipelines and market tooling. Based in Barcelona.", "worksFor": {"@id": "https://nocashflow.net/#organization"}, "sameAs": ["https://www.linkedin.com/in/orkunbicen/", "https://twitter.com/No_CashFlow", "https://github.com/orknn"], "knowsAbout": ["Financial planning and analysis", "Controlling", "Macroeconomics", "Financial markets", "Finance automation", "Data pipelines"], "address": {"@type": "PostalAddress", "addressLocality": "Barcelona"}}]}</script>
-<link rel="stylesheet" href="/finance-eng.css?v=mx1"/>
+<link rel="stylesheet" href="/finance-eng.css?v=mx3"/>
 <link rel="stylesheet" href="/broadsheet.css"/>
 </head>
 <body data-mood="fear" class="bs fe-matrix">
@@ -124,60 +124,13 @@
   <div class="fe-index">
     <div class="ihead"><h2>Index</h2><span class="fe-eyebrow">Live · Planned</span></div>
 
-    <article class="fe-entry">
-      <a class="fe-link" href="/finance-engineering/not-about-speed.html">
-        <span class="fe-cat">01 · Teardown</span>
-        <h3>It Was Never About Speed<span class="en">Stock Analyzer teardown</span></h3>
-        <p>The first field note that names exactly where the tool broke while building a stock-analysis pipeline.</p>
-      </a>
-      <span class="fe-status live">● Live</span>
-    </article>
-
-    <article class="fe-entry">
-      <a class="fe-link" href="/finance-engineering/when-data-lies.html">
-        <span class="fe-cat">01 · Teardown</span>
-        <h3>When the Data Lies<span class="en">tearing fabricated numbers out of the bulletin</span></h3>
-        <p>How we caught "made-up" ETF-flow, funding-rate and open-interest numbers, and rebuilt data integrity.</p>
-      </a>
-      <span class="fe-status live">● Live</span>
-    </article>
-
-    <article class="fe-entry">
-      <a class="fe-link" href="/finance-engineering/finance-ai-landscape-2026.html">
-        <span class="fe-cat">03 · Tooling Radar</span>
-        <h3>The 2026 Finance-AI Landscape<span class="en">Claude vs Gemini vs OpenAI vs specialists</span></h3>
-        <p>Vals AI and Forrester benchmarks, MNPI and governance notes — an architect's read, not a vendor pitch.</p>
-      </a>
-      <span class="fe-status live">● Live</span>
-    </article>
-
-    <article class="fe-entry">
-      <div>
-        <span class="fe-cat">02 · Agent Stack</span>
-        <h3>Anatomy of a Finance Agent<span class="en">Skill · Connector · Subagent</span></h3>
-        <p>The reference architecture is three parts. We open each one with examples from our own pipeline.</p>
-      </div>
-      <span class="fe-status planned">— Planned</span>
-    </article>
-
-    <article class="fe-entry">
-      <div>
-        <span class="fe-cat">04 · Workflows</span>
-        <h3>Newsletter Pipeline<span class="en">Cloudflare Workers + D1 + Resend, double opt-in</span></h3>
-        <p>Building the subscriber system from scratch: architecture, the double opt-in flow, and shipping it live.</p>
-      </div>
-      <span class="fe-status planned">— Planned</span>
-    </article>
-
-    <article class="fe-entry">
-      <div>
-        <span class="fe-cat">04 · Workflows</span>
-        <h3>Job-Hunter<span class="en">a GitHub Actions pipeline scanning 40+ companies via ATS</span></h3>
-        <p>Wiring multi-source ATS polling to a cron: design decisions and maintenance cost.</p>
-      </div>
-      <span class="fe-status planned">— Planned</span>
-    </article>
+    <article class="fe-entry"><a class="fe-link" href="/finance-engineering/not-about-speed.html"><span class="fe-cat">01 · Teardown</span><h3>It Was Never About Speed<span class="en">Stock Analyzer teardown</span></h3><p>The first field note that names exactly where the tool broke while building a stock-analysis pipeline.</p></a><span class="fe-status live">● Live</span></article>
+<article class="fe-entry"><a class="fe-link" href="/finance-engineering/when-data-lies.html"><span class="fe-cat">02 · Teardown</span><h3>When the Data Lied<span class="en">tearing fabricated numbers out of the bulletin</span></h3><p>How we caught "made-up" ETF-flow, funding-rate and open-interest numbers, and rebuilt data integrity.</p></a><span class="fe-status live">● Live</span></article>
+<article class="fe-entry"><a class="fe-link" href="/finance-engineering/finance-ai-landscape-2026.html"><span class="fe-cat">03 · Tooling Radar</span><h3>The 2026 Finance-AI Landscape<span class="en">Claude vs Gemini vs OpenAI vs specialists</span></h3><p>Vals AI and Forrester benchmarks, MNPI and governance notes — an architect's read, not a vendor pitch.</p></a><span class="fe-status live">● Live</span></article>
   </div>
+
+  <!-- OPEN SOURCE -->
+  <div class="fe-repos"><div class="ihead"><h2>Open Source</h2><span class="fe-eyebrow">The tools this site talks about, as they actually are.</span></div><div class="rp-grid"><article class="rp-card" data-status="live"><h3><a href="https://github.com/orknn/nocashflow.net" target="_blank" rel="noopener">nocashflow.net</a></h3><p>This site: a stdlib-only static generator, a daily data cron and the bilingual page tree it emits.</p><div class="rp-stack"><span class="rp-chip">Python</span><span class="rp-chip">GitHub Actions</span><span class="rp-chip">Cloudflare</span></div><div class="rp-meta"><span>last commit 2026-08-07</span></div></article><article class="rp-card" data-status="live"><h3><a href="https://github.com/orknn/Crypto_Macro_Newsletter" target="_blank" rel="noopener">Crypto_Macro_Newsletter</a></h3><p>The bulletin pipeline — data fetchers, an LLM editor pass with a schema validator, HTML/PDF render and delivery.</p><div class="rp-stack"><span class="rp-chip">Python</span><span class="rp-chip">Anthropic API</span><span class="rp-chip">GitHub Actions</span></div><div class="rp-meta"><span>last commit 2026-07-25</span></div></article><article class="rp-card" data-status="live"><h3><a href="https://github.com/orknn/Job-Hunter" target="_blank" rel="noopener">Job-Hunter</a></h3><p>A scheduled ATS scanner across a fixed company list, filtered to a weekly digest.</p><div class="rp-stack"><span class="rp-chip">Python</span><span class="rp-chip">GitHub Actions</span></div><div class="rp-meta"><span>last commit 2026-07-03</span></div></article><article class="rp-card" data-status="pending" hidden><h3>stock-analyzer</h3><p>The stock-analysis pipeline the first teardown is about.</p><div class="rp-stack"><span class="rp-chip">Python</span><span class="rp-chip">Anthropic API</span></div><div class="rp-meta">not public yet</div></article></div></div>
 
   <!-- TOOLING RADAR -->
   <div class="fe-radar">

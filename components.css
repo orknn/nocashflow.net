@@ -665,3 +665,30 @@ pre.embed-code code {
   font-family: var(--mono); font-size: 0.86em; background: var(--bg-elev-2);
   padding: 1px 6px; border-radius: 2px; border: 1px solid var(--border-soft);
 }
+
+/* "Who should care" — reader tags under a headline, fed from audience[].
+   Renders nothing when a piece has no tags. */
+.audience-row {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  margin: 16px 0 0;
+}
+.audience-row .aud-k {
+  font-family: var(--mono); font-size: 9px; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--text-mute); margin-right: 4px;
+}
+.aud-chip {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .1em;
+  padding: 5px 10px; border: 1px solid var(--border-soft);
+  color: var(--text-dim); text-decoration: none; white-space: nowrap;
+}
+.aud-chip:hover { border-color: var(--amber); color: var(--amber); }
+
+.aud-list { list-style: none; margin: 0; padding: 0; }
+.aud-row { padding: 20px 0; border-bottom: 1px solid var(--border-soft); }
+.aud-row a { font-size: 19px; color: var(--text); text-decoration: none; }
+.aud-row a:hover { color: var(--amber); }
+.aud-row .aud-cat {
+  font-family: var(--mono); font-size: 9px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--text-mute); margin-left: 12px;
+}
+.aud-row p { margin: 8px 0 0; color: var(--text-dim); font-size: 15px; }

@@ -30,7 +30,7 @@
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
 <link rel="stylesheet" href="/broadsheet.css"/>
-<link rel="stylesheet" href="/finance-eng.css?v=mx2"/>
+<link rel="stylesheet" href="/finance-eng.css?v=mx3"/>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"It Was Never About Speed","description":"I built a stock-analysis tool. Everyone assumes it's about speed — but speed was never the problem. The real problem was comparison: a raw ratio says nothing without the right peer set.","image":["https://nocashflow.net/assets/cards/mesele-hiz-degildi-en.png"],"datePublished":"2026-06-24T08:00:00+02:00","dateModified":"2026-06-24T08:00:00+02:00","author":{"@id":"https://nocashflow.net/#orkun"},"publisher":{"@id":"https://nocashflow.net/#organization"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://nocashflow.net/finance-engineering/not-about-speed.html"},"articleSection":"Teardown","inLanguage":"en"},{"@type":"Person","@id":"https://nocashflow.net/#orkun","name":"Orkun Biçen","url":"https://nocashflow.net/about.html","jobTitle":"Finance Engineer","description":"Orkun Biçen — finance engineer. Fourteen years in FP&A and controlling; now building AI-accelerated finance systems, data pipelines and market tooling. Based in Barcelona.","worksFor":{"@id":"https://nocashflow.net/#organization"},"sameAs":["https://www.linkedin.com/in/orkunbicen/","https://twitter.com/No_CashFlow","https://github.com/orknn"],"knowsAbout":["Financial planning and analysis","Controlling","Macroeconomics","Financial markets","Finance automation","Data pipelines"],"address":{"@type":"PostalAddress","addressLocality":"Barcelona"}},{"@type":"Organization","@id":"https://nocashflow.net/#organization","name":"NoCashFlow","url":"https://nocashflow.net/","logo":{"@type":"ImageObject","url":"https://nocashflow.net/logo.png","width":512,"height":512},"founder":{"@id":"https://nocashflow.net/#orkun"},"sameAs":["https://twitter.com/No_CashFlow","https://www.linkedin.com/in/orkunbicen/","https://github.com/orknn"]}]}</script>
 </head>
 <body data-mood="fear" class="bs fe-matrix">
@@ -124,7 +124,11 @@
       <p>Knowing a tool's limits isn't the cost of using it; it's the license to use it. Choose the right comparison first, know what the data rests on underneath — the rest is just speed.</p>
     </div>
 
-    <p class="repo">Code: <a href="https://github.com/orknn">github.com/&lt;repo&gt;</a> — assumptions and limits written plainly in the README.</p>
+    <!-- TODO(repo-link): the stock-analyzer repo is not public yet — check
+         api.github.com/repos/orknn/stock-analyzer. When it is, restore this
+         line pointing at the real URL. The previous version linked the text
+         "github.com/<repo>" to the profile page, which promised a repository
+         that did not exist. -->
 
     <p class="disclaimer">This is a financial/technical educational note, not investment advice. The ratios and thresholds mentioned are illustrative.</p>
   <a class="fe-back" href="/finance-engineering.html">← Finance Engineering</a>

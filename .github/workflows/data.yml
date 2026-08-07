@@ -39,6 +39,13 @@ jobs:
         run: python scripts/fetch_macro2.py
         continue-on-error: true
 
+      # Open Source cards on the Finance Engineering hub. Unauthenticated and
+      # rate-limited, so a 403 keeps the previous snapshot rather than blanking
+      # the section.
+      - name: Fetch repo snapshot (GitHub API)
+        run: python scripts/fetch_repos.py
+        continue-on-error: true
+
       - name: Rebuild pages with the fresh snapshot
         run: python build.py
 

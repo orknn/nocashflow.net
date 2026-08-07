@@ -602,6 +602,28 @@ PAGES = {
         "desc":  {"en": "How NoCashFlow is engineered — the data pipeline, the automation, and the rule that every number is sourced, never fabricated.",
                   "tr": "NoCashFlow nasıl mühendislik edildi — veri pipeline'ı, otomasyon ve her rakamın kaynaklı, asla uydurma olmaması ilkesi."},
     },
+    "governance-checklist": {
+        "nav_key": "finance-eng", "theme": "fe", "draft": True,
+        "paths": {"en": "/finance-engineering/governance-checklist.html",
+                  "tr": "/tr/finance-engineering/yonetisim-kontrol-listesi.html"},
+        "out":   {"en": "finance-engineering/governance-checklist.html",
+                  "tr": "tr/finance-engineering/yonetisim-kontrol-listesi.html"},
+        "title": {"en": "AI Governance Checklist — NoCashFlow | Finance Engineering",
+                  "tr": "AI Yönetişim Kontrol Listesi — NoCashFlow | Finance Engineering"},
+        "desc":  {"en": "A working checklist for putting an AI agent into a corporate finance process — tick it off, then download your copy.",
+                  "tr": "Kurumsal bir finans sürecine AI ajanı koyarken kullanılacak kontrol listesi — işaretle, sonra kopyanı indir."},
+    },
+    "toolkit": {
+        "nav_key": "finance-eng", "theme": "fe", "draft": True,
+        "paths": {"en": "/finance-engineering/toolkit/index.html",
+                  "tr": "/tr/finance-engineering/arac-seti/index.html"},
+        "out":   {"en": "finance-engineering/toolkit/index.html",
+                  "tr": "tr/finance-engineering/arac-seti/index.html"},
+        "title": {"en": "Toolkit — NoCashFlow | Finance Engineering",
+                  "tr": "Araç Seti — NoCashFlow | Finance Engineering"},
+        "desc":  {"en": "Downloadable pieces from the Finance Engineering desk — skill files, MCP configs and prompt templates.",
+                  "tr": "Finance Engineering masasından indirilebilir parçalar — skill dosyaları, MCP yapılandırmaları ve prompt şablonları."},
+    },
     "disclaimer": {
         "nav_key": None,
         "paths": {"en": "/disclaimer.html", "tr": "/tr/disclaimer.html"},
@@ -916,6 +938,8 @@ def head(page, lang):
     alts.append(f'<link rel="alternate" hreflang="x-default" href="{alt_en}"/>')
     alt_html = "\n".join(alts)
 
+    robots = ("noindex, nofollow" if p.get("draft")
+              else "max-image-preview:large")
     og_desc = p.get("og_desc", p["desc"])[lang]
     feed = "/feed-en.xml" if lang == "en" else "/feed-tr.xml"
     head_extra = _read(f"head/{page}.html")
@@ -940,8 +964,10 @@ def head(page, lang):
     # Broadsheet redesign — now applied site-wide
     bs_css = '<link rel="stylesheet" href="/broadsheet.css"/>\n'
     # Finance Engineering lives in the dark "machine room" theme
-    body_cls = ' class="bs fe-matrix"' if page == "finance-eng" else ' class="bs"'
-    theme_color = "#040A06" if page == "finance-eng" else "#ffffff"
+    # any page that opts into the Finance Engineering room, not just the hub
+    fe_theme = p.get("theme") == "fe" or page == "finance-eng"
+    body_cls = ' class="bs fe-matrix"' if fe_theme else ' class="bs"'
+    theme_color = "#040A06" if fe_theme else "#ffffff"
     # masthead ambient tint (home only — that's the only page with .bs-mast)
     daypart_script = (
         "\n<script>(function(){var h=new Date().getHours();"
@@ -956,7 +982,7 @@ def head(page, lang):
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>{p["title"][lang]}</title>
 <meta name="description" content="{p["desc"][lang]}"/>
-<meta name="robots" content="max-image-preview:large"/>
+<meta name="robots" content="{robots}"/>
 <link rel="canonical" href="{canonical}"/>
 {alt_html}
 <meta property="og:title" content="{p["title"][lang]}"/>
@@ -1673,6 +1699,8 @@ def render(page, lang):
     html = inject_macro2(html, lang)
     html = inject_article_list(html, lang)
     html = inject_dashboard(html, lang)
+    html = inject_fe_index(html, lang)
+    html = inject_repos(html, lang)
     html = inject_market(html)
     return html
 
@@ -1970,7 +1998,7 @@ def render_article(slug, lang):
 # ── Finance Engineering essays (own section; bodies in content/fe/<key>/) ──────
 FE_ESSAYS = {
     "veri-yalan-soyleyince": {
-        "num": "02", "date": "2026-06-27", "en_slug": "when-data-lies",
+        "status": "live", "num": "02", "date": "2026-06-27", "en_slug": "when-data-lies",
         "cat": {"en": "Teardown", "tr": "Teardown"},
         "date_disp": {"en": "Jun 27, 2026", "tr": "27 Haz 2026"},
         "read": {"en": "6 min read", "tr": "6 dk okuma"},
@@ -1979,7 +2007,7 @@ FE_ESSAYS = {
                 "tr": "Her sabah doğrulanmış abonelere bir bülten gidiyordu. Bir satır kod yüzünden içindeki ETF akış rakamları gerçek değildi. Tahmin değil — uydurma."},
     },
     "finans-ai-manzarasi-2026": {
-        "num": "03", "date": "2026-06-29", "en_slug": "finance-ai-landscape-2026",
+        "status": "live", "num": "03", "date": "2026-06-29", "en_slug": "finance-ai-landscape-2026",
         "cat": {"en": "Tooling Radar", "tr": "Araç Radarı"},
         "date_disp": {"en": "Jun 29, 2026", "tr": "29 Haz 2026"},
         "read": {"en": "6 min read", "tr": "6 dk okuma"},
@@ -1988,7 +2016,7 @@ FE_ESSAYS = {
                 "tr": "Finans, kodlamadan altı ay-bir yıl geride; aynı yola giriyor. Claude, Gemini, OpenAI ve uzman ajanlar nereye oturuyor — vendor değil, mimari gözüyle."},
     },
     "mesele-hiz-degildi": {
-        "num": "01", "date": "2026-06-24", "en_slug": "not-about-speed",
+        "status": "live", "num": "01", "date": "2026-06-24", "en_slug": "not-about-speed",
         "cat": {"en": "Teardown", "tr": "Teardown"},
         "date_disp": {"en": "Jun 24, 2026", "tr": "24 Haz 2026"},
         "read": {"en": "5 min read", "tr": "5 dk okuma"},
@@ -1996,7 +2024,239 @@ FE_ESSAYS = {
         "dek": {"en": "I built a stock-analysis tool. Everyone assumes it's about speed — but speed was never the problem. The real problem was comparison: a raw ratio says nothing without the right peer set.",
                 "tr": "Bir hisse analiz tool'u kurdum. Herkes bunu hız sanıyor — oysa hız hiçbir zaman problem değildi. Asıl mesele kıyastı: ham bir oran, doğru peer set olmadan hiçbir şey söylemez."},
     },
+
+    # ── Track A skeletons ────────────────────────────────────────────────────
+    # Structure only: content/fe/<key>/{en,tr}.html hold the heading hierarchy
+    # and TODO blocks, no prose. Draft entries build no page and appear nowhere
+    # until status flips to "live".
+    "ay-sonu-kapanis-ajani": {
+        "status": "draft", "num": "04", "date": "", "en_slug": "month-end-close-agent-architecture",
+        "cat": {"en": "Teardown", "tr": "Teardown"},
+        "date_disp": {"en": "", "tr": ""},
+        "read": {"en": "", "tr": ""},
+        "title": {"en": "Month-End Close Agent Architecture",
+                  "tr": "Ay Sonu Kapanış Ajanı Mimarisi"},
+        "dek": {"en": "", "tr": ""},
+        "sub": {"en": "", "tr": ""}, "blurb": {"en": "", "tr": ""},
+        "audience": [],
+    },
+    "sapma-yorumu-llm": {
+        "status": "draft", "num": "05", "date": "", "en_slug": "variance-commentary-llm",
+        "cat": {"en": "Teardown", "tr": "Teardown"},
+        "date_disp": {"en": "", "tr": ""},
+        "read": {"en": "", "tr": ""},
+        "title": {"en": "Variance Commentary with an LLM",
+                  "tr": "LLM ile Sapma Yorumu"},
+        "dek": {"en": "", "tr": ""},
+        "sub": {"en": "", "tr": ""}, "blurb": {"en": "", "tr": ""},
+        "audience": [],
+    },
+    "tahmin-veri-kalitesi-katmani": {
+        "status": "draft", "num": "06", "date": "", "en_slug": "forecast-data-quality-layer",
+        "cat": {"en": "Agent Stack", "tr": "Agent Stack"},
+        "date_disp": {"en": "", "tr": ""},
+        "read": {"en": "", "tr": ""},
+        "title": {"en": "The Forecast Data-Quality Layer",
+                  "tr": "Tahmin Veri Kalitesi Katmanı"},
+        "dek": {"en": "", "tr": ""},
+        "sub": {"en": "", "tr": ""}, "blurb": {"en": "", "tr": ""},
+        "audience": [],
+    },
+    "excel-powerbi-llm": {
+        "status": "draft", "num": "07", "date": "", "en_slug": "excel-powerbi-llm-integration",
+        "cat": {"en": "Workflows", "tr": "Workflows"},
+        "date_disp": {"en": "", "tr": ""},
+        "read": {"en": "", "tr": ""},
+        "title": {"en": "Excel, Power BI and an LLM in One Loop",
+                  "tr": "Excel, Power BI ve LLM Tek Döngüde"},
+        "dek": {"en": "", "tr": ""},
+        "sub": {"en": "", "tr": ""}, "blurb": {"en": "", "tr": ""},
+        "audience": [],
+    },
+
+    # ── announced, not yet written ───────────────────────────────────────────
+    # These were the hardcoded "— Planned" cards on the hub. A planned card
+    # renders only once target_date is set: an open-ended promise is what left
+    # three of them sitting there since March.
+    "finans-ajani-anatomisi": {
+        "status": "planned", "target_date": "", "num": "02",
+        "en_slug": "anatomy-of-a-finance-agent",
+        "cat": {"en": "Agent Stack", "tr": "Agent Stack"},
+        "title": {"en": "Anatomy of a Finance Agent",
+                  "tr": "Bir Finans Ajanının Anatomisi"},
+        "sub": {"en": "Skill · Connector · Subagent",
+                "tr": "Skill · Connector · Subagent"},
+        "blurb": {"en": "The reference architecture is three parts. We open each one with examples from our own pipeline.",
+                  "tr": "Referans mimari üç parçadan oluşuyor. Her birini kendi pipeline'ımızdan örneklerle açıyoruz."},
+        "date": "", "date_disp": {"en": "", "tr": ""}, "read": {"en": "", "tr": ""},
+        "dek": {"en": "", "tr": ""}, "audience": [],
+    },
+    "bulten-pipeline": {
+        "status": "planned", "target_date": "", "num": "04",
+        "en_slug": "newsletter-pipeline",
+        "cat": {"en": "Workflows", "tr": "Workflows"},
+        "title": {"en": "Newsletter Pipeline", "tr": "Bülten Pipeline'ı"},
+        "sub": {"en": "Cloudflare Workers + D1 + Resend, double opt-in",
+                "tr": "Cloudflare Workers + D1 + Resend, çift onaylı"},
+        "blurb": {"en": "Building the subscriber system from scratch: architecture, the double opt-in flow, and shipping it live.",
+                  "tr": "Abone sistemini sıfırdan kurmak: mimari, çift onay akışı ve canlıya alma."},
+        "date": "", "date_disp": {"en": "", "tr": ""}, "read": {"en": "", "tr": ""},
+        "dek": {"en": "", "tr": ""}, "audience": [],
+    },
+    "job-hunter": {
+        "status": "planned", "target_date": "", "num": "04",
+        "en_slug": "job-hunter",
+        "cat": {"en": "Workflows", "tr": "Workflows"},
+        "title": {"en": "Job-Hunter", "tr": "Job-Hunter"},
+        "sub": {"en": "a GitHub Actions pipeline scanning 40+ companies via ATS",
+                "tr": "ATS üzerinden 40+ şirketi tarayan bir GitHub Actions pipeline'ı"},
+        "blurb": {"en": "Wiring multi-source ATS polling to a cron: design decisions and maintenance cost.",
+                  "tr": "Çok kaynaklı ATS taramasını bir cron'a bağlamak: tasarım kararları ve bakım maliyeti."},
+        "date": "", "date_disp": {"en": "", "tr": ""}, "read": {"en": "", "tr": ""},
+        "dek": {"en": "", "tr": ""}, "audience": [],
+    },
 }
+
+# Blurbs for the three published essays, shown on the hub index. Lifted
+# verbatim from the hardcoded cards this registry replaced.
+FE_HUB_COPY = {
+    "mesele-hiz-degildi": {
+        "sub": {"en": "Stock Analyzer teardown", "tr": "Stock Analyzer teardown"},
+        "blurb": {"en": "The first field note that names exactly where the tool broke while building a stock-analysis pipeline.",
+                  "tr": "Bir hisse analiz pipeline'ı kurarken aracın tam olarak nerede kırıldığını adıyla koyan ilk saha notu."},
+    },
+    "veri-yalan-soyleyince": {
+        "sub": {"en": "tearing fabricated numbers out of the bulletin",
+                "tr": "uydurma rakamları bültenden sökmek"},
+        "blurb": {"en": "How we caught \"made-up\" ETF-flow, funding-rate and open-interest numbers, and rebuilt data integrity.",
+                  "tr": "\"Uydurma\" ETF akışı, funding oranı ve açık pozisyon rakamlarını nasıl yakaladık ve veri bütünlüğünü nasıl yeniden kurduk."},
+    },
+    "finans-ai-manzarasi-2026": {
+        "sub": {"en": "Claude vs Gemini vs OpenAI vs specialists",
+                "tr": "Claude vs Gemini vs OpenAI vs uzmanlar"},
+        "blurb": {"en": "Vals AI and Forrester benchmarks, MNPI and governance notes — an architect's read, not a vendor pitch.",
+                  "tr": "Vals AI ve Forrester kıyasları, MNPI ve yönetişim notları — vendor sunumu değil, mimar okuması."},
+    },
+}
+for _k, _v in FE_HUB_COPY.items():
+    FE_ESSAYS[_k].update(_v)
+
+
+def fe_live(key):
+    return FE_ESSAYS[key].get("status", "live") == "live"
+
+
+def _fe_target_label(iso, lang):
+    """'2026-09-01' -> 'Sept 2026' / 'Eylül 2026'. Empty when no date is set."""
+    try:
+        y, m, _ = (int(x) for x in iso.split("-"))
+    except Exception:
+        return ""
+    return f"{MONTHS[lang][m - 1]} {y}" if lang == "en" else f"{MONTHS_LONG[lang][m - 1]} {y}"
+
+
+REPOS = _load_json("repos.json")
+
+# Authored one-liners. GitHub's own description field is terse and can change
+# without review, so what the card says is written here and only the metrics
+# come from the API.
+REPO_BLURB = {
+    "nocashflow.net": {
+        "en": "This site: a stdlib-only static generator, a daily data cron and the bilingual page tree it emits.",
+        "tr": "Bu site: yalnızca stdlib kullanan statik üretici, günlük veri cron'u ve ürettiği iki dilli sayfa ağacı.",
+    },
+    "Crypto_Macro_Newsletter": {
+        "en": "The bulletin pipeline — data fetchers, an LLM editor pass with a schema validator, HTML/PDF render and delivery.",
+        "tr": "Bülten pipeline'ı — veri çekiciler, şema doğrulayıcılı LLM editör turu, HTML/PDF render ve gönderim.",
+    },
+    "Job-Hunter": {
+        "en": "A scheduled ATS scanner across a fixed company list, filtered to a weekly digest.",
+        "tr": "Sabit bir şirket listesi üzerinde zamanlanmış ATS tarayıcı, haftalık digest'e filtrelenir.",
+    },
+    "stock-analyzer": {
+        "en": "The stock-analysis pipeline the first teardown is about.",
+        "tr": "İlk teardown'ın konusu olan hisse analiz pipeline'ı.",
+    },
+}
+REPO_STRINGS = {
+    "en": {"head": "Open Source", "lead": "The tools this site talks about, as they actually are.",
+           "last": "last commit", "pending": "not public yet", "none": "Nothing published here yet."},
+    "tr": {"head": "Açık Kaynak", "lead": "Bu sitenin anlattığı araçlar, gerçekte oldukları hâliyle.",
+           "last": "son commit", "pending": "henüz public değil", "none": "Burada henüz yayımlanmış bir şey yok."},
+}
+
+
+def inject_repos(html, lang):
+    """Open Source cards, from the build-time GitHub snapshot.
+
+    A repo that did not resolve renders with data-status="pending" and stays
+    hidden — the section shows what exists rather than promising what doesn't.
+    """
+    if "<!--NCF:REPOS-->" not in html:
+        return html
+    s = REPO_STRINGS[lang]
+    cards = []
+    for r in REPOS.get("repos", []):
+        key = r.get("key", "")
+        blurb = REPO_BLURB.get(key, {}).get(lang, "")
+        stack = "".join(f'<span class="rp-chip">{x}</span>' for x in r.get("stack", []))
+        if r.get("status") != "live":
+            cards.append(
+                f'<article class="rp-card" data-status="pending" hidden>'
+                f'<h3>{key}</h3><p>{blurb}</p><div class="rp-stack">{stack}</div>'
+                f'<div class="rp-meta">{s["pending"]}</div></article>')
+            continue
+        stars = r.get("stars", 0)
+        star_html = f'<span class="rp-stars">★ {stars}</span>' if stars else ""
+        cards.append(
+            f'<article class="rp-card" data-status="live">'
+            f'<h3><a href="{r["url"]}" target="_blank" rel="noopener">{r["name"]}</a></h3>'
+            f'<p>{blurb}</p><div class="rp-stack">{stack}</div>'
+            f'<div class="rp-meta">{star_html}'
+            f'<span>{s["last"]} {r.get("pushed_at", "—")}</span></div></article>')
+    visible = [c for c in cards if "hidden" not in c]
+    inner = ("".join(cards) if visible
+             else f'<p class="muted">{s["none"]}</p>' + "".join(cards))
+    block = (f'<div class="fe-repos"><div class="ihead"><h2>{s["head"]}</h2>'
+             f'<span class="fe-eyebrow">{s["lead"]}</span></div>'
+             f'<div class="rp-grid">{inner}</div></div>')
+    return html.replace("<!--NCF:REPOS-->", block)
+
+
+def inject_fe_index(html, lang):
+    """The Finance Engineering index, generated from FE_ESSAYS.
+
+    Was hardcoded in the partial, which is how three "— Planned" cards stayed
+    up for months with nothing behind them. Now a card appears only when it has
+    something to show: live essays link to their page; a planned essay renders
+    only once target_date is filled in; drafts never render.
+    """
+    if "<!--NCF:FE_INDEX-->" not in html:
+        return html
+    rows = []
+    for key in sorted(FE_ESSAYS, key=lambda k: FE_ESSAYS[k].get("num", "99")):
+        e = FE_ESSAYS[key]
+        status = e.get("status", "live")
+        if status == "draft":
+            continue
+        sub = e.get("sub", {}).get(lang, "")
+        sub_html = f'<span class="en">{sub}</span>' if sub else ""
+        blurb = e.get("blurb", {}).get(lang, "")
+        head = (f'<span class="fe-cat">{e.get("num", "")} · {e["cat"][lang]}</span>'
+                f'<h3>{e["title"][lang]}{sub_html}</h3>'
+                + (f"<p>{blurb}</p>" if blurb else ""))
+        if status == "live":
+            body = f'<a class="fe-link" href="{fe_path(key, lang)}">{head}</a>'
+            badge = f'<span class="fe-status live">● {"Live" if lang == "en" else "Yayında"}</span>'
+        else:
+            target = _fe_target_label(e.get("target_date", ""), lang)
+            if not target:
+                continue  # an undated promise is not a promise
+            body = f"<div>{head}</div>"
+            lbl = "Planned" if lang == "en" else "Planlandı"
+            badge = f'<span class="fe-status planned">— {lbl} · {target}</span>'
+        rows.append(f'<article class="fe-entry">{body}{badge}</article>')
+    return html.replace("<!--NCF:FE_INDEX-->", "\n".join(rows))
 
 
 def fe_path(key, lang):
@@ -2054,7 +2314,7 @@ def render_fe_essay(key, lang):
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
 <link rel="stylesheet" href="/broadsheet.css"/>
-<link rel="stylesheet" href="/finance-eng.css?v=mx2"/>
+<link rel="stylesheet" href="/finance-eng.css?v=mx3"/>
 {article_jsonld(a, lang, canonical, key, kind="TechArticle")}
 </head>
 <body data-mood="{_mood()}" class="bs fe-matrix">
@@ -2092,11 +2352,21 @@ def _xml_escape(s):
 
 def _indexable_pairs():
     """(en_url, tr_url) for every indexable page + article + indicator."""
-    out = [(SITE_URL + p["paths"]["en"], SITE_URL + p["paths"]["tr"]) for p in PAGES.values()]
+    # a page whose content is still TODO is built so it can be iterated on,
+    # but it is not advertised: no sitemap row, and noindex in the head
+    out = [(SITE_URL + p["paths"]["en"], SITE_URL + p["paths"]["tr"])
+           for p in PAGES.values() if not p.get("draft")]
     out += [(SITE_URL + article_path(s, "en"), SITE_URL + article_path(s, "tr")) for s in ARTICLE_ORDER]
-    out += [(SITE_URL + fe_path(k, "en"), SITE_URL + fe_path(k, "tr")) for k in FE_ESSAYS]
+    out += [(SITE_URL + fe_path(k, "en"), SITE_URL + fe_path(k, "tr"))
+            for k in FE_ESSAYS if fe_live(k)]
     out += [(SITE_URL + "/now/", SITE_URL + "/tr/simdi/")]
     out += [(SITE_URL + indicator_path(s, "en"), SITE_URL + indicator_path(s, "tr")) for s in INDICATOR_ORDER]
+    if any(ref_live(k) for k in REF_ORDER):
+        out += [(SITE_URL + REF_HUB["en"], SITE_URL + REF_HUB["tr"])]
+    out += [(SITE_URL + ref_path(k, "en"), SITE_URL + ref_path(k, "tr"))
+            for k in REF_ORDER if ref_live(k)]
+    out += [(SITE_URL + aud_path(t, "en"), SITE_URL + aud_path(t, "tr"))
+            for t in active_audiences()]
     return out
 
 
@@ -2123,8 +2393,8 @@ def _rfc822(date_str):
 
 def generate_feeds():
     for lang, fname, title, desc in (
-        ("en", "feed-en.xml", "NoCashFlow — Articles", "Daily macro &amp; market analysis from nocashflow.net"),
-        ("tr", "feed-tr.xml", "NoCashFlow — Yazılar", "nocashflow.net'ten günlük makro &amp; piyasa analizi"),
+        ("en", "feed-en.xml", "NoCashFlow — Articles", "Macro &amp; market analysis from nocashflow.net"),
+        ("tr", "feed-tr.xml", "NoCashFlow — Yazılar", "nocashflow.net'ten makro &amp; piyasa analizi"),
     ):
         items = []
         for slug in ARTICLE_ORDER:
@@ -2279,8 +2549,10 @@ def _ind_reading(slug, lang):
     return "—", "", "neu", None
 
 
-def _ind_head(lang, title, desc, canonical, alt_en, alt_tr, schema):
+def _ind_head(lang, title, desc, canonical, alt_en, alt_tr, schema,
+              extra_css="", body_cls="bs", noindex=False):
     feed = "/feed-en.xml" if lang == "en" else "/feed-tr.xml"
+    robots = "noindex, nofollow" if noindex else "max-image-preview:large"
     return f"""<!DOCTYPE html>
 <html lang="{lang}">
 <head>
@@ -2288,6 +2560,7 @@ def _ind_head(lang, title, desc, canonical, alt_en, alt_tr, schema):
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>{title} — NoCashFlow</title>
 <meta name="description" content="{desc}"/>
+<meta name="robots" content="{robots}"/>
 <link rel="canonical" href="{canonical}"/>
 <link rel="alternate" hreflang="en" href="{alt_en}"/>
 <link rel="alternate" hreflang="tr" href="{alt_tr}"/>
@@ -2314,9 +2587,9 @@ def _ind_head(lang, title, desc, canonical, alt_en, alt_tr, schema):
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
 <link rel="stylesheet" href="/broadsheet.css"/>
-<script type="application/ld+json">{schema}</script>
+{extra_css}<script type="application/ld+json">{schema}</script>
 </head>
-<body data-mood="{_mood()}" class="bs">
+<body data-mood="{_mood()}" class="{body_cls}">
 <div class="press-line"></div>"""
 
 
@@ -2415,6 +2688,457 @@ def render_indicator_hub(lang):
     return inject_market(html)
 
 
+# ── audience tags: "Who should care" ─────────────────────────────────────────
+# A piece declares its readers in its own audience[] list. Nothing is inferred:
+# an entry with no tags renders no block, and a tag with no entries produces no
+# page. The registries ship untagged on purpose — who a piece is for is an
+# editorial call, not something the build should guess.
+
+AUDIENCES = {
+    "investors": {"en": "Investors", "tr": "Yatırımcılar"},
+    "cfo":       {"en": "CFO", "tr": "CFO"},
+    "fpa":       {"en": "FP&amp;A", "tr": "FP&amp;A"},
+    "treasury":  {"en": "Treasury", "tr": "Hazine"},
+    "crypto":    {"en": "Crypto", "tr": "Kripto"},
+}
+AUD_HUB = {"en": "/audience/", "tr": "/tr/kitle/"}
+AUD_LABEL = {"en": "Who should care", "tr": "Kimi ilgilendirir"}
+
+
+def aud_path(tag, lang):
+    return f"{AUD_HUB[lang]}{tag}.html"
+
+
+def aud_out(tag, lang):
+    return aud_path(tag, lang).lstrip("/")
+
+
+def audience_html(tags, lang):
+    """The tag row under a headline. Empty audience[] renders nothing."""
+    tags = [t for t in (tags or []) if t in AUDIENCES]
+    if not tags:
+        return ""
+    chips = "".join(
+        f'<a class="aud-chip" href="{aud_path(t, lang)}">{AUDIENCES[t][lang]}</a>'
+        for t in tags)
+    return (f'<div class="audience-row"><span class="aud-k">{AUD_LABEL[lang]}</span>'
+            f'{chips}</div>')
+
+
+def _audience_items(tag):
+    """Everything tagged with `tag`, as (kind, key) — drafts excluded."""
+    out = []
+    out += [("article", s) for s in ARTICLE_ORDER
+            if tag in (ARTICLES[s].get("audience") or [])]
+    out += [("fe", k) for k in FE_ESSAYS
+            if fe_live(k) and tag in (FE_ESSAYS[k].get("audience") or [])]
+    out += [("ref", k) for k in REF_ORDER
+            if ref_live(k) and tag in (REFERENCE[k].get("audience") or [])]
+    return out
+
+
+def active_audiences():
+    return [t for t in AUDIENCES if _audience_items(t)]
+
+
+# ── Controlling Reference ────────────────────────────────────────────────────
+# Track B of Finance Engineering: a reference work on corporate controlling.
+#
+# Every entry follows the same eight-part shape, and that shape is written
+# once — here. An entry supplies only the prose for sections 1-6 through
+# content/reference/<slug>/<lang>.html, split on <!--NCF:SEC <key>--> markers.
+# Sections 7 and 8 are generated from the registry so the cross-links between
+# entries can never fall out of sync with it.
+#
+# Adding an entry = one record below + two partials. Nothing else.
+
+REF_SECTIONS = [
+    ("definition", {"en": "Definition", "tr": "Tanım"}),
+    ("formula",    {"en": "Formula", "tr": "Formül"}),
+    ("example",    {"en": "Worked example", "tr": "Gerçek örnek"}),
+    ("sap",        {"en": "How it looks in SAP", "tr": "SAP'de nasıl görünür"}),
+    ("why",        {"en": "Why it matters for FP&amp;A", "tr": "FP&amp;A açısından neden önemli"}),
+    ("mistakes",   {"en": "Common mistakes", "tr": "Sık yapılan hatalar"}),
+    ("kpis",       {"en": "Related KPIs", "tr": "İlgili KPI'lar"}),
+    ("related",    {"en": "Related entries", "tr": "İlgili maddeler"}),
+]
+# 1-6 come from the partial; 7-8 are generated from the registry
+REF_AUTHORED = [k for k, _ in REF_SECTIONS[:6]]
+
+REFERENCE = {
+    "standard-cost": {
+        "slug": {"en": "standard-cost", "tr": "standart-maliyet"},
+        "title": {"en": "Standard Cost", "tr": "Standart Maliyet"},
+        "cat": {"en": "Cost accounting", "tr": "Maliyet muhasebesi"},
+        "status": "draft", "updated": "2026-08-07",
+        "related": ["purchase-price-variance", "absorption-vs-variable-costing",
+                    "overhead-allocation"],
+        "kpis": [], "sap_objects": [], "audience": [],
+    },
+    "purchase-price-variance": {
+        "slug": {"en": "purchase-price-variance", "tr": "satinalma-fiyat-farki"},
+        "title": {"en": "Purchase Price Variance", "tr": "Satın Alma Fiyat Farkı"},
+        "cat": {"en": "Cost accounting", "tr": "Maliyet muhasebesi"},
+        "status": "draft", "updated": "2026-08-07",
+        "related": ["standard-cost", "inventory-accounting", "factory-controlling"],
+        "kpis": [], "sap_objects": [], "audience": [],
+    },
+    "working-capital": {
+        "slug": {"en": "working-capital", "tr": "isletme-sermayesi"},
+        "title": {"en": "Working Capital", "tr": "İşletme Sermayesi"},
+        "cat": {"en": "Liquidity", "tr": "Likidite"},
+        "status": "draft", "updated": "2026-08-07",
+        "related": ["cash-conversion-cycle", "inventory-accounting"],
+        "kpis": [], "sap_objects": [], "audience": [],
+    },
+    "cash-conversion-cycle": {
+        "slug": {"en": "cash-conversion-cycle", "tr": "nakit-donusum-dongusu"},
+        "title": {"en": "Cash Conversion Cycle", "tr": "Nakit Dönüşüm Döngüsü"},
+        "cat": {"en": "Liquidity", "tr": "Likidite"},
+        "status": "draft", "updated": "2026-08-07",
+        "related": ["working-capital", "inventory-accounting"],
+        "kpis": [], "sap_objects": [], "audience": [],
+    },
+    "inventory-accounting": {
+        "slug": {"en": "inventory-accounting", "tr": "stok-muhasebesi"},
+        "title": {"en": "Inventory Accounting", "tr": "Stok Muhasebesi"},
+        "cat": {"en": "Cost accounting", "tr": "Maliyet muhasebesi"},
+        "status": "draft", "updated": "2026-08-07",
+        "related": ["standard-cost", "working-capital", "purchase-price-variance"],
+        "kpis": [], "sap_objects": [], "audience": [],
+    },
+    "factory-controlling": {
+        "slug": {"en": "factory-controlling", "tr": "fabrika-kontrolorlugu"},
+        "title": {"en": "Factory Controlling", "tr": "Fabrika Kontrolörlüğü"},
+        "cat": {"en": "Controlling practice", "tr": "Kontrolörlük pratiği"},
+        "status": "draft", "updated": "2026-08-07",
+        "related": ["overhead-allocation", "standard-cost", "purchase-price-variance"],
+        "kpis": [], "sap_objects": [], "audience": [],
+    },
+    "absorption-vs-variable-costing": {
+        "slug": {"en": "absorption-vs-variable-costing",
+                 "tr": "tam-maliyet-vs-degisken-maliyet"},
+        "title": {"en": "Absorption vs Variable Costing",
+                  "tr": "Tam Maliyet vs Değişken Maliyet"},
+        "cat": {"en": "Cost accounting", "tr": "Maliyet muhasebesi"},
+        "status": "draft", "updated": "2026-08-07",
+        "related": ["standard-cost", "overhead-allocation"],
+        "kpis": [], "sap_objects": [], "audience": [],
+    },
+    "overhead-allocation": {
+        "slug": {"en": "overhead-allocation", "tr": "genel-gider-dagitimi"},
+        "title": {"en": "Overhead Allocation", "tr": "Genel Gider Dağıtımı"},
+        "cat": {"en": "Cost accounting", "tr": "Maliyet muhasebesi"},
+        "status": "draft", "updated": "2026-08-07",
+        "related": ["absorption-vs-variable-costing", "factory-controlling",
+                    "standard-cost"],
+        "kpis": [], "sap_objects": [], "audience": [],
+    },
+}
+REF_ORDER = list(REFERENCE.keys())
+
+REF_HUB = {"en": "/finance-engineering/reference/",
+           "tr": "/tr/finance-engineering/referans/"}
+REF_HUB_OUT = {"en": "finance-engineering/reference/index.html",
+               "tr": "tr/finance-engineering/referans/index.html"}
+
+
+def ref_live(key):
+    return REFERENCE[key].get("status") == "live"
+
+
+def ref_path(key, lang):
+    return REF_HUB[lang] + REFERENCE[key]["slug"][lang] + ".html"
+
+
+def ref_out(key, lang):
+    return REF_HUB_OUT[lang].replace("index.html",
+                                     REFERENCE[key]["slug"][lang] + ".html")
+
+
+def _ref_sections(key, lang):
+    """{section_key: html} from the entry's partial, split on marker comments."""
+    raw = _read(f"reference/{key}/{lang}.html")
+    out = {}
+    parts = re.split(r"<!--NCF:SEC\s+([a-z]+)\s*-->", raw)
+    for i in range(1, len(parts), 2):
+        out[parts[i]] = parts[i + 1].strip()
+    return out
+
+
+def _ref_related_html(key, lang):
+    """Cross-links, generated from related[] so they track the registry."""
+    rows = []
+    for other in REFERENCE[key].get("related", []):
+        # a draft has no page, so linking it would be a 404. related[] can name
+        # entries that are still being written; they appear once they go live.
+        if other not in REFERENCE or not ref_live(other):
+            continue
+        o = REFERENCE[other]
+        rows.append(f'<li><a href="{ref_path(other, lang)}">{o["title"][lang]}</a>'
+                    f'<span class="rf-cat">{o["cat"][lang]}</span></li>')
+    for slug in REFERENCE[key].get("articles", []):
+        if slug in ARTICLES:
+            rows.append(f'<li><a href="{article_path(slug, lang)}">'
+                        f'{ARTICLES[slug]["title"][lang]}</a>'
+                        f'<span class="rf-cat">{ARTICLES[slug]["cat"][lang]}</span></li>')
+        elif slug in FE_ESSAYS:
+            rows.append(f'<li><a href="{fe_path(slug, lang)}">'
+                        f'{FE_ESSAYS[slug]["title"][lang]}</a>'
+                        f'<span class="rf-cat">{FE_ESSAYS[slug]["cat"][lang]}</span></li>')
+    if not rows:
+        return ""
+    return f'<ul class="rf-related">{"".join(rows)}</ul>'
+
+
+def _ref_kpi_html(key, lang):
+    kpis = REFERENCE[key].get("kpis") or []
+    if not kpis:
+        return ""
+    return ('<ul class="rf-kpis">' +
+            "".join(f"<li>{k}</li>" for k in kpis) + "</ul>")
+
+
+def _ref_sap_objects(key, lang):
+    objs = REFERENCE[key].get("sap_objects") or []
+    if not objs:
+        return ""
+    lbl = "SAP objects" if lang == "en" else "SAP nesneleri"
+    return (f'<div class="rf-sap"><span class="rf-sap-k">{lbl}</span>'
+            + "".join(f'<code>{o}</code>' for o in objs) + "</div>")
+
+
+def ref_jsonld(key, lang, canonical):
+    e = REFERENCE[key]
+    body = _ref_sections(key, lang).get("definition", "")
+    term = {
+        "@type": "DefinedTerm", "@id": SITE_URL + ref_path(key, lang) + "#term",
+        "name": _plain(e["title"][lang]),
+        "url": canonical, "inLanguage": lang,
+        "termCode": key,
+        "inDefinedTermSet": {"@id": SITE_URL + REF_HUB[lang] + "#set"},
+    }
+    desc = _plain(body)
+    if desc:
+        term["description"] = " ".join(desc.split())[:300]
+    data = {"@context": "https://schema.org",
+            "@graph": [term,
+                       {"@type": "DefinedTermSet",
+                        "@id": SITE_URL + REF_HUB[lang] + "#set",
+                        "name": REF_SET_TITLE[lang],
+                        "url": SITE_URL + REF_HUB[lang],
+                        "publisher": {"@id": ORG_ID}},
+                       organization_schema(),
+                       person_schema(lang, standalone=False)]}
+    payload = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
+    return payload.replace("<", "\\u003c").replace(">", "\\u003e")
+
+
+REF_SET_TITLE = {"en": "Controlling Reference", "tr": "Kontrolörlük Başvuru Kaynağı"}
+REF_SET_LEAD = {
+    "en": "A working reference for corporate controlling — each entry defined, "
+          "formulated, worked through with numbers, and traced to where it shows "
+          "up in SAP.",
+    "tr": "Kurumsal kontrolörlük için çalışan bir başvuru kaynağı — her madde "
+          "tanımlanır, formülleştirilir, rakamla adım adım işlenir ve SAP'de "
+          "nerede göründüğüne kadar izlenir.",
+}
+
+
+def render_reference(key, lang):
+    e = REFERENCE[key]
+    title = e["title"][lang]
+    canonical = SITE_URL + ref_path(key, lang)
+    alt_en, alt_tr = SITE_URL + ref_path(key, "en"), SITE_URL + ref_path(key, "tr")
+    sw_href = ref_path(key, "tr") if lang == "en" else ref_path(key, "en")
+    sec = _ref_sections(key, lang)
+
+    blocks = []
+    for i, (skey, labels) in enumerate(REF_SECTIONS, start=1):
+        if skey == "related":
+            inner = _ref_related_html(key, lang)
+        elif skey == "kpis":
+            inner = _ref_kpi_html(key, lang)
+        elif skey == "sap":
+            inner = _ref_sap_objects(key, lang) + sec.get(skey, "")
+        else:
+            inner = sec.get(skey, "")
+        if not inner.strip():
+            continue  # an empty section says nothing — don't print a bare heading
+        blocks.append(
+            f'<section class="rf-sec" id="{skey}">'
+            f'<h2><span class="rf-num">{i}</span>{labels[lang]}</h2>\n{inner}\n</section>')
+
+    updated_lbl = "Updated" if lang == "en" else "Güncellendi"
+    back = "← Controlling Reference" if lang == "en" else "← Kontrolörlük Kaynağı"
+    body = f"""
+<article class="rf-entry">
+  <header class="page-head">
+    <div class="page-eyebrow">{REF_SET_TITLE[lang]} <span class="divider"></span> <span class="muted">{e['cat'][lang]}</span></div>
+    <h1 class="page-title">{title}</h1>
+    {audience_html(e.get('audience'), lang)}
+  </header>
+  {"".join(blocks)}
+  <div class="rf-foot">
+    <span>{updated_lbl} {_disp_date(e.get('updated', ''), lang)}</span>
+    <a href="{REF_HUB[lang]}">{back}</a>
+  </div>
+</article>
+"""
+    desc = " ".join(_plain(sec.get("definition", "")).split())[:160] or _plain(REF_SET_LEAD[lang])
+    head_html = _ind_head(lang, title, desc, canonical, alt_en, alt_tr,
+                          ref_jsonld(key, lang, canonical),
+                          extra_css='<link rel="stylesheet" href="/finance-eng.css?v=mx3"/>\n',
+                          body_cls="bs fe-matrix")
+    html = "\n".join([head_html, _ind_chrome_ticker(),
+                      _nav_html("finance-eng", lang, sw_href), TICKER_HTML,
+                      masthead("reference", lang), body, footer(lang), _ind_scripts(),
+                      "</body>", "</html>", ""])
+    return inject_market(html)
+
+
+def render_reference_hub(lang):
+    canonical = SITE_URL + REF_HUB[lang]
+    sw_href = REF_HUB["tr"] if lang == "en" else REF_HUB["en"]
+    live = [k for k in REF_ORDER if ref_live(k)]
+
+    groups = {}
+    for k in live:
+        groups.setdefault(REFERENCE[k]["cat"][lang], []).append(k)
+
+    sections = []
+    for cat in sorted(groups):
+        items = "".join(
+            f'<li class="rf-idx-row" data-ref-item data-title="{_plain(REFERENCE[k]["title"][lang]).lower()}" '
+            f'data-cat="{_plain(cat).lower()}">'
+            f'<a href="{ref_path(k, lang)}">{REFERENCE[k]["title"][lang]}</a></li>'
+            for k in groups[cat])
+        sections.append(f'<div class="rf-idx-group" data-ref-group>'
+                        f'<h2 class="rf-idx-cat">{cat}</h2>'
+                        f'<ul class="rf-idx-list">{items}</ul></div>')
+
+    if sections:
+        listing = "".join(sections)
+        search_lbl = "Filter entries" if lang == "en" else "Maddelerde ara"
+        empty = ("No entry matches that." if lang == "en"
+                 else "Bu aramaya uyan madde yok.")
+        search = (f'<div class="rf-search"><input type="search" data-ref-search '
+                  f'placeholder="{search_lbl}" aria-label="{search_lbl}"/></div>'
+                  f'<p class="rf-empty" data-ref-empty hidden>{empty}</p>')
+    else:
+        # nothing published yet — say so plainly rather than shipping an empty shell
+        listing = ""
+        search = ""
+        soon = ("The first entries are being written. Nothing is published yet."
+                if lang == "en" else
+                "İlk maddeler yazılıyor. Henüz yayımlanmış madde yok.")
+        listing = f'<p class="rf-idx-empty muted">{soon}</p>'
+
+    schema = json.dumps({
+        "@context": "https://schema.org",
+        "@graph": [
+            {"@type": "DefinedTermSet", "@id": SITE_URL + REF_HUB[lang] + "#set",
+             "name": REF_SET_TITLE[lang], "url": canonical,
+             "description": _plain(REF_SET_LEAD[lang]), "inLanguage": lang,
+             "publisher": {"@id": ORG_ID},
+             "hasDefinedTerm": [{"@id": SITE_URL + ref_path(k, lang) + "#term"}
+                                for k in live]},
+            organization_schema(),
+            person_schema(lang, standalone=False),
+        ]}, ensure_ascii=False)
+
+    body = f"""
+<header class="page-head" data-read>
+  <div class="page-eyebrow">Finance Engineering <span class="divider"></span> <span class="muted">{'Track B' if lang == 'en' else 'Hat B'}</span></div>
+  <h1 class="page-title">{REF_SET_TITLE[lang]}</h1>
+  <p class="page-dek">{REF_SET_LEAD[lang]}</p>
+</header>
+<div class="section rf-index">
+  {search}
+  {listing}
+</div>
+"""
+    head_html = _ind_head(lang, REF_SET_TITLE[lang], _plain(REF_SET_LEAD[lang]),
+                          canonical, SITE_URL + REF_HUB["en"], SITE_URL + REF_HUB["tr"],
+                          schema, noindex=not live,
+                          extra_css='<link rel="stylesheet" href="/finance-eng.css?v=mx3"/>\n',
+                          body_cls="bs fe-matrix")
+    html = "\n".join([head_html, _ind_chrome_ticker(),
+                      _nav_html("finance-eng", lang, sw_href), TICKER_HTML,
+                      masthead("reference", lang), body, footer(lang),
+                      _ind_scripts(), _ref_search_script(),
+                      "</body>", "</html>", ""])
+    return inject_market(html)
+
+
+def _ref_search_script():
+    """Client-side filter over the index. Plain substring match on title and
+    category; a group with no visible row hides itself."""
+    return (
+        "<script>(function(){"
+        "var q=document.querySelector('[data-ref-search]');if(!q)return;"
+        "var rows=[].slice.call(document.querySelectorAll('[data-ref-item]'));"
+        "var groups=[].slice.call(document.querySelectorAll('[data-ref-group]'));"
+        "var empty=document.querySelector('[data-ref-empty]');"
+        "q.addEventListener('input',function(){"
+        "var v=q.value.trim().toLowerCase();var n=0;"
+        "rows.forEach(function(r){"
+        "var hit=!v||r.getAttribute('data-title').indexOf(v)!==-1"
+        "||r.getAttribute('data-cat').indexOf(v)!==-1;"
+        "r.hidden=!hit;if(hit)n++;});"
+        "groups.forEach(function(g){"
+        "g.hidden=!g.querySelector('[data-ref-item]:not([hidden])');});"
+        "if(empty)empty.hidden=n>0;});"
+        "})();</script>"
+    )
+
+
+def render_audience(tag, lang):
+    """Everything written for one kind of reader, in one list."""
+    label = AUDIENCES[tag][lang]
+    title = (f"For {label}" if lang == "en" else f"{label} için")
+    canonical = SITE_URL + aud_path(tag, lang)
+    sw_href = aud_path(tag, "tr") if lang == "en" else aud_path(tag, "en")
+    lead = (f"Everything on NoCashFlow tagged for {label.lower()}."
+            if lang == "en" else
+            f"NoCashFlow'da {label.lower()} için etiketlenmiş her şey.")
+
+    rows = []
+    for kind, key in _audience_items(tag):
+        if kind == "article":
+            m, href, cat = ARTICLES[key], article_path(key, lang), ARTICLES[key]["cat"][lang]
+        elif kind == "fe":
+            m, href, cat = FE_ESSAYS[key], fe_path(key, lang), FE_ESSAYS[key]["cat"][lang]
+        else:
+            m, href, cat = REFERENCE[key], ref_path(key, lang), REFERENCE[key]["cat"][lang]
+        dek = m.get("dek", {}).get(lang, "")
+        rows.append(f'<li class="aud-row"><a href="{href}">{m["title"][lang]}</a>'
+                    f'<span class="aud-cat">{cat}</span>'
+                    + (f'<p>{dek}</p>' if dek else "") + "</li>")
+
+    schema = json.dumps({"@context": "https://schema.org", "@type": "CollectionPage",
+                         "name": title, "url": canonical, "inLanguage": lang,
+                         "isPartOf": {"@id": SITE_URL + "/#website"}},
+                        ensure_ascii=False)
+    body = f"""
+<header class="page-head" data-read>
+  <div class="page-eyebrow">{AUD_LABEL[lang]} <span class="divider"></span> <span class="muted">{label}</span></div>
+  <h1 class="page-title">{title}</h1>
+  <p class="page-dek">{lead}</p>
+</header>
+<div class="section">
+  <ul class="aud-list">{"".join(rows)}</ul>
+</div>
+"""
+    head_html = _ind_head(lang, title, lead, canonical,
+                          SITE_URL + aud_path(tag, "en"), SITE_URL + aud_path(tag, "tr"),
+                          schema)
+    html = "\n".join([head_html, _ind_chrome_ticker(), _nav_html(None, lang, sw_href),
+                      TICKER_HTML, masthead("audience", lang), body, footer(lang),
+                      _ind_scripts(), "</body>", "</html>", ""])
+    return inject_market(html)
+
+
 def build():
     written = []
     for page, p in PAGES.items():
@@ -2437,6 +3161,9 @@ def build():
             print(f"  build {article_out(slug, lang):28} [{lang}]")
     for key in FE_ESSAYS:                               # Finance Engineering essays
         for lang in LANGS:
+            # skeletons and announced-but-unwritten entries build no page
+            if not fe_live(key):
+                continue
             if not (CONTENT / "fe" / key / f"{lang}.html").exists():
                 continue
             out_path = ROOT / fe_out(key, lang)
@@ -2455,6 +3182,32 @@ def build():
             op.write_text(render_indicator(slug, lang), encoding="utf-8")
             written.append(indicator_out(slug, lang))
         print(f"  build now/ hub + {len(INDICATOR_ORDER)} indicators   [{lang}]")
+    for lang in LANGS:                                  # Controlling Reference
+        hub = ROOT / REF_HUB_OUT[lang]
+        hub.parent.mkdir(parents=True, exist_ok=True)
+        hub.write_text(render_reference_hub(lang), encoding="utf-8")
+        written.append(REF_HUB_OUT[lang])
+        n = 0
+        for key in REF_ORDER:
+            # draft entries stay unpublished: no page, no sitemap row, no link
+            if not ref_live(key):
+                continue
+            op = ROOT / ref_out(key, lang)
+            op.parent.mkdir(parents=True, exist_ok=True)
+            op.write_text(render_reference(key, lang), encoding="utf-8")
+            written.append(ref_out(key, lang))
+            n += 1
+        drafts = len(REF_ORDER) - n
+        print(f"  build reference/ hub + {n} live entr{'y' if n == 1 else 'ies'}"
+              f"{f' ({drafts} draft)' if drafts else ''}   [{lang}]")
+    for tag in active_audiences():                      # one page per used tag
+        for lang in LANGS:
+            op = ROOT / aud_out(tag, lang)
+            op.parent.mkdir(parents=True, exist_ok=True)
+            op.write_text(render_audience(tag, lang), encoding="utf-8")
+            written.append(aud_out(tag, lang))
+    if active_audiences():
+        print(f"  build {len(active_audiences())} audience page(s)   [en+tr]")
     generate_sitemap()
     generate_feeds()
     generate_robots()
@@ -2499,7 +3252,7 @@ def _render_article_cards():
                                        a["cat"][lang], a["date_disp"][lang],
                                        out / f"{slug}-{lang}.png")
                 n += 1
-        for key, a in FE_ESSAYS.items():
+        for key, a in ((k, v) for k, v in FE_ESSAYS.items() if fe_live(k)):
             for lang in ("en", "tr"):
                 mod.build_article_card(a["title"][lang], a["dek"][lang],
                                        "Finance Engineering", a["date_disp"][lang],

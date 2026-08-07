@@ -33,7 +33,7 @@
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebSite", "@id": "https://nocashflow.net/#website", "name": "NoCashFlow", "url": "https://nocashflow.net", "description": "Makro, piyasalar ve finance engineering — bir finance engineer tarafından, birincil kaynaklardan.", "inLanguage": "tr", "publisher": {"@id": "https://nocashflow.net/#organization"}}, {"@type": "Organization", "@id": "https://nocashflow.net/#organization", "name": "NoCashFlow", "url": "https://nocashflow.net/", "logo": {"@type": "ImageObject", "url": "https://nocashflow.net/logo.png", "width": 512, "height": 512}, "founder": {"@id": "https://nocashflow.net/#orkun"}, "sameAs": ["https://twitter.com/No_CashFlow", "https://www.linkedin.com/in/orkunbicen/", "https://github.com/orknn"]}, {"@type": "Person", "@id": "https://nocashflow.net/#orkun", "name": "Orkun Biçen", "url": "https://nocashflow.net/tr/hakkinda.html", "jobTitle": "Finance Engineer", "description": "Orkun Biçen — finance engineer. FP&A ve kontrolörlükte on dört yıl; bugün yapay zekâ destekli finans sistemleri, veri hatları ve piyasa araçları kuruyor. Barselona'dan.", "worksFor": {"@id": "https://nocashflow.net/#organization"}, "sameAs": ["https://www.linkedin.com/in/orkunbicen/", "https://twitter.com/No_CashFlow", "https://github.com/orknn"], "knowsAbout": ["Financial planning and analysis", "Controlling", "Macroeconomics", "Financial markets", "Finance automation", "Data pipelines"], "address": {"@type": "PostalAddress", "addressLocality": "Barcelona"}}]}</script>
-<link rel="stylesheet" href="/finance-eng.css?v=mx1"/>
+<link rel="stylesheet" href="/finance-eng.css?v=mx3"/>
 <link rel="stylesheet" href="/broadsheet.css"/>
 <script>(function(){try{var q=new URLSearchParams(location.search).get('lang');if(q==='en'){try{localStorage.setItem('ncf_lang','en');}catch(e){}location.replace('/');return;}if(q==='tr'){try{localStorage.setItem('ncf_lang','tr');}catch(e){}return;}var p=null;try{p=localStorage.getItem('ncf_lang');}catch(e){}if(p==='en'){location.replace('/');return;}}catch(e){}})();</script>
 </head>
@@ -125,60 +125,13 @@
   <div class="fe-index">
     <div class="ihead"><h2>Yazı Dizini</h2><span class="fe-eyebrow">Canlı · Planlı</span></div>
 
-    <article class="fe-entry">
-      <a class="fe-link" href="/tr/finance-engineering/mesele-hiz-degildi.html">
-        <span class="fe-cat">01 · Teardown</span>
-        <h3>Mesele Hız Değildi<span class="en">It Was Never About Speed — Stock Analyzer teardown</span></h3>
-        <p>Hisse analiz tool'unu kurarken aracın tam olarak nerede kırıldığını adıyla koyan ilk saha notu.</p>
-      </a>
-      <span class="fe-status live">● Canlı</span>
-    </article>
-
-    <article class="fe-entry">
-      <a class="fe-link" href="/tr/finance-engineering/veri-yalan-soyleyince.html">
-        <span class="fe-cat">01 · Teardown</span>
-        <h3>Veri Yalan Söyleyince<span class="en">When the Data Lies — bültende uydurma sayıları söküp atmak</span></h3>
-        <p>ETF akışı, funding rate ve OI için "uydurulan" sayıları nasıl yakaladık ve veri bütünlüğünü nasıl geri kazandık.</p>
-      </a>
-      <span class="fe-status live">● Canlı</span>
-    </article>
-
-    <article class="fe-entry">
-      <a class="fe-link" href="/tr/finance-engineering/finans-ai-manzarasi-2026.html">
-        <span class="fe-cat">03 · Araç Radarı</span>
-        <h3>2026 Finans-AI Manzarası<span class="en">The 2026 Finance-AI Landscape</span></h3>
-        <p>Claude vs Gemini vs OpenAI vs uzman ajanlar. Vals AI ve Forrester benchmark'ları, MNPI ve governance notları.</p>
-      </a>
-      <span class="fe-status live">● Canlı</span>
-    </article>
-
-    <article class="fe-entry">
-      <div>
-        <span class="fe-cat">02 · Ajan Yığını</span>
-        <h3>Bir Finans Ajanının Anatomisi<span class="en">Skill · Connector · Subagent</span></h3>
-        <p>Referans mimari üç parçadan oluşur. Üçünü de tek tek, kendi pipeline'ımızdan örneklerle açıyoruz.</p>
-      </div>
-      <span class="fe-status planned">— Planlı</span>
-    </article>
-
-    <article class="fe-entry">
-      <div>
-        <span class="fe-cat">04 · İş Akışları</span>
-        <h3>Newsletter Pipeline<span class="en">Cloudflare Workers + D1 + Resend, double opt-in</span></h3>
-        <p>Abone yönetim sistemini sıfırdan kurmak: mimari, double opt-in akışı ve canlıya alma.</p>
-      </div>
-      <span class="fe-status planned">— Planlı</span>
-    </article>
-
-    <article class="fe-entry">
-      <div>
-        <span class="fe-cat">04 · İş Akışları</span>
-        <h3>Job-Hunter<span class="en">40+ şirketi ATS üzerinden tarayan GitHub Actions hattı</span></h3>
-        <p>Çok kaynaklı ATS polling'i bir cron'a bağlamak: tasarım kararları ve sürdürme maliyeti.</p>
-      </div>
-      <span class="fe-status planned">— Planlı</span>
-    </article>
+    <article class="fe-entry"><a class="fe-link" href="/tr/finance-engineering/mesele-hiz-degildi.html"><span class="fe-cat">01 · Teardown</span><h3>Mesele Hız Değildi<span class="en">Stock Analyzer teardown</span></h3><p>Bir hisse analiz pipeline'ı kurarken aracın tam olarak nerede kırıldığını adıyla koyan ilk saha notu.</p></a><span class="fe-status live">● Yayında</span></article>
+<article class="fe-entry"><a class="fe-link" href="/tr/finance-engineering/veri-yalan-soyleyince.html"><span class="fe-cat">02 · Teardown</span><h3>Veri Yalan Söyleyince<span class="en">uydurma rakamları bültenden sökmek</span></h3><p>"Uydurma" ETF akışı, funding oranı ve açık pozisyon rakamlarını nasıl yakaladık ve veri bütünlüğünü nasıl yeniden kurduk.</p></a><span class="fe-status live">● Yayında</span></article>
+<article class="fe-entry"><a class="fe-link" href="/tr/finance-engineering/finans-ai-manzarasi-2026.html"><span class="fe-cat">03 · Araç Radarı</span><h3>2026 Finans-AI Manzarası<span class="en">Claude vs Gemini vs OpenAI vs uzmanlar</span></h3><p>Vals AI ve Forrester kıyasları, MNPI ve yönetişim notları — vendor sunumu değil, mimar okuması.</p></a><span class="fe-status live">● Yayında</span></article>
   </div>
+
+  <!-- OPEN SOURCE -->
+  <div class="fe-repos"><div class="ihead"><h2>Açık Kaynak</h2><span class="fe-eyebrow">Bu sitenin anlattığı araçlar, gerçekte oldukları hâliyle.</span></div><div class="rp-grid"><article class="rp-card" data-status="live"><h3><a href="https://github.com/orknn/nocashflow.net" target="_blank" rel="noopener">nocashflow.net</a></h3><p>Bu site: yalnızca stdlib kullanan statik üretici, günlük veri cron'u ve ürettiği iki dilli sayfa ağacı.</p><div class="rp-stack"><span class="rp-chip">Python</span><span class="rp-chip">GitHub Actions</span><span class="rp-chip">Cloudflare</span></div><div class="rp-meta"><span>son commit 2026-08-07</span></div></article><article class="rp-card" data-status="live"><h3><a href="https://github.com/orknn/Crypto_Macro_Newsletter" target="_blank" rel="noopener">Crypto_Macro_Newsletter</a></h3><p>Bülten pipeline'ı — veri çekiciler, şema doğrulayıcılı LLM editör turu, HTML/PDF render ve gönderim.</p><div class="rp-stack"><span class="rp-chip">Python</span><span class="rp-chip">Anthropic API</span><span class="rp-chip">GitHub Actions</span></div><div class="rp-meta"><span>son commit 2026-07-25</span></div></article><article class="rp-card" data-status="live"><h3><a href="https://github.com/orknn/Job-Hunter" target="_blank" rel="noopener">Job-Hunter</a></h3><p>Sabit bir şirket listesi üzerinde zamanlanmış ATS tarayıcı, haftalık digest'e filtrelenir.</p><div class="rp-stack"><span class="rp-chip">Python</span><span class="rp-chip">GitHub Actions</span></div><div class="rp-meta"><span>son commit 2026-07-03</span></div></article><article class="rp-card" data-status="pending" hidden><h3>stock-analyzer</h3><p>İlk teardown'ın konusu olan hisse analiz pipeline'ı.</p><div class="rp-stack"><span class="rp-chip">Python</span><span class="rp-chip">Anthropic API</span></div><div class="rp-meta">henüz public değil</div></article></div></div>
 
   <!-- ARAÇ RADARI -->
   <div class="fe-radar">
