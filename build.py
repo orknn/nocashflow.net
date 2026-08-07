@@ -32,6 +32,94 @@ CONTENT = ROOT / "content"
 SITE_URL = "https://nocashflow.net"
 LANGS = ("en", "tr")
 
+
+def _load_json(name):
+    p = ROOT / "data" / name
+    if p.exists():
+        try:
+            return json.loads(p.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    return {}
+
+
+# Hand-authored identity, loaded before the page registry so the positioning
+# line and the author bio can be written once and referenced everywhere. The
+# site used to describe itself differently in the title, the meta description,
+# the masthead and the footer; these two files are now the only place either is
+# written.
+SITE = _load_json("site.json")
+AUTHOR = _load_json("author.json")
+
+
+def positioning(lang, short=False):
+    key = "positioning_short" if short else "positioning"
+    return (SITE.get(key) or {}).get(lang, "")
+
+
+def author_field(field, lang=None):
+    v = AUTHOR.get(field, "")
+    return v.get(lang, "") if (lang and isinstance(v, dict)) else v
+
+
+# Stable identifiers so the Person and the Organization are declared once and
+# referenced by @id everywhere else. Articles used to inline a separate author
+# object per page, which search engines read as unrelated entities.
+ORG_ID = SITE_URL + "/#organization"
+PERSON_ID = SITE_URL + "/#orkun"
+ABOUT_PATH = {"en": "/about.html", "tr": "/tr/hakkinda.html"}
+
+
+def organization_schema():
+    return {
+        "@type": "Organization", "@id": ORG_ID,
+        "name": SITE.get("name", "NoCashFlow"), "url": SITE_URL + "/",
+        "logo": {"@type": "ImageObject", "url": SITE_URL + "/logo.png",
+                 "width": 512, "height": 512},
+        "founder": {"@id": PERSON_ID},
+        "sameAs": [u for u in (SITE.get("social") or {}).values() if u],
+    }
+
+
+def person_schema(lang, standalone=True):
+    """The one Person entity. Every article's author points here by @id."""
+    d = {
+        "@type": "Person", "@id": PERSON_ID,
+        "name": author_field("name"),
+        "url": SITE_URL + ABOUT_PATH[lang],
+        "jobTitle": author_field("job_title", lang),
+        "description": _plain(author_field("bio", lang)),
+        "worksFor": {"@id": ORG_ID},
+        "sameAs": author_field("same_as") or [],
+        "knowsAbout": author_field("knows_about") or [],
+        "address": {"@type": "PostalAddress",
+                    "addressLocality": author_field("location")},
+    }
+    if standalone:
+        d = dict({"@context": "https://schema.org"}, **d)
+    return d
+
+
+def _plain(s):
+    """Entity-decoded, tag-free text for JSON-LD string fields."""
+    s = re.sub(r"<[^>]+>", "", s or "")
+    return s.replace("&amp;", "&").replace("&quot;", '"').replace("&#39;", "'")
+
+
+def byline_html(lang, block=True):
+    """Who wrote this, and under whose masthead.
+
+    `block` renders the two-line form used above article prose; the inline form
+    slots into the Finance Engineering essays' existing byline rule.
+    """
+    by, desk = author_field("byline", lang), author_field("desk")
+    if not by:
+        return ""
+    if not block:
+        return f'{by} · {desk}' if desk else by
+    desk_html = f'<span class="role">{desk}</span>' if desk else ""
+    return f'<div class="byline art-byline"><span class="who">{by}</span>{desk_html}</div>'
+
 # Cloudflare Web Analytics is enabled via Cloudflare's Automatic Setup (the site
 # is proxied through Cloudflare, which injects the beacon at the edge). No manual
 # snippet here — adding one would double-count page views.
@@ -391,7 +479,7 @@ SUBSCRIBE = {"en": ("Subscribe", "/bulletin_page.html"),
 
 FOOTER = {
     "en": {
-        "brand_desc": "Independent macro &amp; markets. Sourced data, no fabrication.",
+        "brand_desc": positioning("en"),
         "col_pages": "Pages", "col_content": "Content", "col_social": "Social",
         "l_home": "Home", "l_articles": "Articles", "l_macro": "Macro", "l_dashboard": "Dashboard",
         "l_bulletin": "Bulletin", "l_about": "About", "l_glossary": "Glossary",
@@ -402,7 +490,7 @@ FOOTER = {
         "disclaimer": "This site is for information only and does not provide investment advice.",
     },
     "tr": {
-        "brand_desc": "Bağımsız makro &amp; piyasa. Kaynaklı veri, uydurma yok.",
+        "brand_desc": positioning("tr"),
         "col_pages": "Sayfalar", "col_content": "İçerik", "col_social": "Sosyal",
         "l_home": "Ana Sayfa", "l_articles": "Yazılar", "l_macro": "Makro", "l_dashboard": "Panel",
         "l_bulletin": "Bülten", "l_about": "Hakkında", "l_glossary": "Sözlük",
@@ -425,12 +513,12 @@ PAGES = {
         "nav_key": "home", "splash": True, "cursor": True,
         "paths": {"en": "/", "tr": "/tr/"},
         "out":   {"en": "index.html", "tr": "tr/index.html"},
-        "title": {"en": "NoCashFlow — Macro &amp; Market Analysis",
-                  "tr": "NoCashFlow — Makro &amp; Piyasa Analizi"},
-        "desc":  {"en": "Data-driven macro analysis every morning, with a deep dive every Sunday — oil shocks, smart money, nuclear energy, Fed policy. From Barcelona.",
-                  "tr": "Her sabah veri odaklı makro analiz, her pazar derin bir analiz — petrol şokları, akıllı para, nükleer enerji, Fed politikası. Barcelona'dan."},
-        "og_desc": {"en": "Data-driven macro analysis every morning, plus a deep dive every Sunday. Macro, crypto and commodities — primary source, always linked.",
-                    "tr": "Her sabah veri odaklı makro analiz, her pazar derin analiz. Makro, kripto ve emtia — birincil kaynak, her zaman bağlantılı."},
+        # the front door states the canonical positioning and nothing else —
+        # this is the one page whose subject is the site itself
+        "title": {"en": "NoCashFlow — Macro, Markets &amp; Finance Engineering",
+                  "tr": "NoCashFlow — Makro, Piyasalar &amp; Finance Engineering"},
+        "desc":  {"en": positioning("en"), "tr": positioning("tr")},
+        "og_desc": {"en": positioning("en"), "tr": positioning("tr")},
     },
     "macro": {
         "nav_key": "macro",
@@ -494,8 +582,7 @@ PAGES = {
         "out":   {"en": "about.html", "tr": "tr/hakkinda.html"},
         "title": {"en": "About — NoCashFlow | Orkun Biçen",
                   "tr": "Hakkında — NoCashFlow | Orkun Biçen"},
-        "desc":  {"en": "Orkun Biçen — Finance Business Partner (FP&amp;A &amp; controlling), macro analyst and trader. Founder of NoCashFlow.",
-                  "tr": "Orkun Biçen — Finance Business Partner (FP&amp;A &amp; controlling), makro analist ve trader. NoCashFlow'un kurucusu."},
+        "desc":  {"en": author_field("bio", "en"), "tr": author_field("bio", "tr")},
     },
     "sozluk": {
         "nav_key": None,  # glossary lives in the footer, not the primary nav
@@ -833,19 +920,21 @@ def head(page, lang):
     feed = "/feed-en.xml" if lang == "en" else "/feed-tr.xml"
     head_extra = _read(f"head/{page}.html")
     head_extra = (head_extra + "\n") if head_extra else ""
-    if page == "hakkinda":
-        site_schema = json.dumps({
-            "@context": "https://schema.org", "@type": "Person", "name": "Orkun Biçen",
-            "url": canonical, "jobTitle": "Finance Business Partner",
-            "worksFor": {"@type": "Organization", "name": "NoCashFlow", "url": SITE_URL},
-            "sameAs": ["https://twitter.com/No_CashFlow", "https://www.linkedin.com/in/orkunbicen/"],
-        }, ensure_ascii=False)
-    else:
-        site_schema = json.dumps({
-            "@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow",
-            "url": SITE_URL, "inLanguage": lang,
-            "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": SITE_URL},
-        }, ensure_ascii=False)
+    # Every page carries the same three-node graph: the site, the organisation
+    # publishing it, and the person writing it. They cross-reference each other
+    # by @id, so all three have to be declared wherever any one of them is —
+    # scripts/check_jsonld.py fails the build if a reference ever dangles.
+    site_schema = json.dumps({
+        "@context": "https://schema.org",
+        "@graph": [
+            {"@type": "WebSite", "@id": SITE_URL + "/#website",
+             "name": SITE.get("name", "NoCashFlow"), "url": SITE_URL,
+             "description": _plain(positioning(lang)), "inLanguage": lang,
+             "publisher": {"@id": ORG_ID}},
+            organization_schema(),
+            person_schema(lang, standalone=False),
+        ],
+    }, ensure_ascii=False)
     splash_css = '<link rel="stylesheet" href="/splash.css"/>\n' if (p.get("splash") and lang == "en") else ""
     early = _early_script(page, lang) if (p.get("splash") or lang == "tr") else ""
     # Broadsheet redesign — now applied site-wide
@@ -1002,16 +1091,17 @@ def masthead(page, lang, meta=None):
         now = datetime.now()
     wd = WEEKDAYS_LONG[lang][now.weekday()]
     mo = MONTHS_LONG[lang][now.month - 1]
+    # kicker and tagline both come from site.json — the nameplate is the most
+    # visible statement of what this is, so it says the same thing as the meta
+    # description and the footer instead of a third variation
+    kicker = positioning(lang, short=True)
+    tagline = positioning(lang)
     if lang == "en":
         datestr = f"{wd}, {mo} {now.day}, {now.year}"
         edition = "Morning Edition"
-        kicker = "Macro &amp; Markets, every morning"
-        tagline = "Make sense of the macro. Start your morning with data."
     else:
         datestr = f"{wd}, {now.day} {mo} {now.year}"
         edition = "Sabah Baskısı"
-        kicker = "Makro &amp; Piyasalar, her sabah"
-        tagline = "Makroyu anlamlandır. Gününe veriyle başla."
     home = "/" if lang == "en" else "/tr/"
     if page == "index":
         return (f'\n<div class="bs-mast">'
@@ -1156,6 +1246,28 @@ def scripts(page, lang):
 
 
 # ── assembly ─────────────────────────────────────────────────────────────────
+# Sections kept in the source but not published. Flip a flag to True to bring
+# one back; the markup stays in content/ untouched in the meantime.
+FLAGS = {
+    # Each "Coming next" card promised a piece that never shipped — one dated
+    # itself to "after March CPI" and was still up in August. Off until every
+    # card carries a real target date.
+    "COMING_NEXT": False,
+}
+
+
+def _apply_flags(html):
+    """Strip any <!--NCF:<FLAG>_START--> … <!--NCF:<FLAG>_END--> region whose
+    flag is off. Regions left in place when the flag is on."""
+    for name, on in FLAGS.items():
+        start, end = f"<!--NCF:{name}_START-->", f"<!--NCF:{name}_END-->"
+        while start in html and end in html:
+            i, j = html.index(start), html.index(end) + len(end)
+            html = html[:i] + ("" if not on else
+                               html[i + len(start):j - len(end)]) + html[j:]
+    return html
+
+
 def _article_meta(lang):
     """Essay count and the real date of the latest one.
 
@@ -1547,6 +1659,10 @@ def render(page, lang):
     html = html.replace("<!--NCF:MOOD-->", _mood_pill(lang))
     html = html.replace("<!--NCF:STAMP-->", live_stamp(lang))
     html = html.replace("<!--NCF:ART_META-->", _article_meta(lang))
+    html = _apply_flags(html)
+    html = html.replace("<!--NCF:POSITIONING-->", positioning(lang))
+    html = html.replace("<!--NCF:AUTHOR_BIO-->", author_field("bio", lang))
+    html = html.replace("<!--NCF:AUTHOR_DEK-->", author_field("dek", lang))
     html = html.replace("<!--NCF:PULSECHART-->", pulse_chart(lang))
     html = inject_calendar(html, lang)
     html = inject_calendar_full(html, lang)
@@ -1571,13 +1687,12 @@ try:
 except Exception:
     _TZ = None
 
-PUBLISHER = {
-    "@type": "Organization", "name": "NoCashFlow", "url": SITE_URL + "/",
-    "logo": {"@type": "ImageObject", "url": SITE_URL + "/logo.png", "width": 512, "height": 512},
-}
-AUTHOR_BASE = {"@type": "Person", "name": "Orkun Biçen",
-               "sameAs": ["https://www.linkedin.com/in/orkunbicen/"]}
-ABOUT_URL = {"en": SITE_URL + "/about.html", "tr": SITE_URL + "/tr/hakkinda.html"}
+# Articles reference the Person and the Organization declared on the front page
+# and the about page rather than restating them, so the whole site resolves to
+# one author entity instead of one per article.
+PUBLISHER = {"@id": ORG_ID}
+AUTHOR_REF = {"@id": PERSON_ID}
+ABOUT_URL = {lang: SITE_URL + p for lang, p in ABOUT_PATH.items()}
 def article_card_url(slug, lang):
     """Each article's generated social card (assets/cards/) — also its og:image."""
     return f"{SITE_URL}/assets/cards/{slug}-{lang}.png"
@@ -1590,18 +1705,27 @@ def _iso(date_str, hour=8):
     return f"{date_str}T{hour:02d}:00:00+02:00"
 
 
-def article_jsonld(meta, lang, canonical, slug):
-    data = {
-        "@context": "https://schema.org", "@type": "NewsArticle",
-        "headline": meta["title"][lang], "description": meta["dek"][lang],
+def article_jsonld(meta, lang, canonical, slug, kind="NewsArticle"):
+    """Article node plus the Person and Organization it refers to.
+
+    Both entities travel in the same @graph so the @id references resolve even
+    when a crawler only ever sees this one page.
+    """
+    article = {
+        "@type": kind,
+        "headline": _plain(meta["title"][lang]),
+        "description": _plain(meta["dek"][lang]),
         "image": [article_card_url(slug, lang)],
         "datePublished": _iso(meta["date"]),
         "dateModified": _iso(meta.get("updated", meta["date"])),
-        "author": dict(AUTHOR_BASE, url=ABOUT_URL[lang]),
+        "author": AUTHOR_REF,
         "publisher": PUBLISHER,
         "mainEntityOfPage": {"@type": "WebPage", "@id": canonical},
-        "articleSection": meta["cat"][lang], "inLanguage": lang,
+        "articleSection": _plain(meta["cat"][lang]), "inLanguage": lang,
     }
+    data = {"@context": "https://schema.org",
+            "@graph": [article, person_schema(lang, standalone=False),
+                       organization_schema()]}
     payload = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
     payload = payload.replace("<", "\\u003c").replace(">", "\\u003e")
     return f'<script type="application/ld+json">{payload}</script>'
@@ -1814,6 +1938,7 @@ def render_article(slug, lang):
   <div class="page-eyebrow">{a['cat'][lang]} · {a['num']} <span class="divider"></span> <span class="muted">{a['date_disp'][lang]} · {a['read'][lang]}</span></div>
   <h1 class="page-title">{title}</h1>
   <p class="page-dek">{dek}</p>
+  {byline_html(lang)}
 </header>
 <div class="section">
   <div class="prose article-prose" style="max-width:760px">
@@ -1890,6 +2015,7 @@ def render_fe_essay(key, lang):
     canonical = SITE_URL + fe_path(key, lang)
     alt_en, alt_tr = SITE_URL + fe_path(key, "en"), SITE_URL + fe_path(key, "tr")
     prose = _read(f"fe/{key}/{lang}.html")
+    prose = prose.replace("<!--NCF:BYLINE-->", byline_html(lang, block=False))
     feed = "/feed-en.xml" if lang == "en" else "/feed-tr.xml"
     hub = "/finance-engineering.html" if lang == "en" else "/tr/finance-engineering.html"
     back = "← Finance Engineering"
@@ -1929,7 +2055,7 @@ def render_fe_essay(key, lang):
 <link rel="stylesheet" href="/components.css"/>
 <link rel="stylesheet" href="/broadsheet.css"/>
 <link rel="stylesheet" href="/finance-eng.css?v=mx2"/>
-{article_jsonld(a, lang, canonical, key)}
+{article_jsonld(a, lang, canonical, key, kind="TechArticle")}
 </head>
 <body data-mood="{_mood()}" class="bs fe-matrix">
 <div class="press-line"></div>"""

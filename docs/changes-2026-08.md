@@ -74,3 +74,85 @@ Eyebrow artık yazılmış bir söz değil, registry'den türeyen bir olgu — b
 - Konsol hatası yok
 - Yatay taşma kontrolü: yeni öğelerin hiçbiri taşmıyor (mevcut `.nav-right` ve `.ticker-track` taşması Faz 1 öncesinden var, dokunulmadı)
 - Gömülü F&G taraması: hiçbir sayfada kalmadı
+
+---
+
+## Faz 2 — Kimlik: ürün + yazar (2026-08-07)
+
+### Yeni tek kaynaklar
+
+| Dosya | İçerik |
+|---|---|
+| `data/site.json` | Kanonik konumlandırma cümlesi (uzun + kısa, TR/EN), site adı, URL, sosyal hesaplar, e-posta |
+| `data/author.json` | Yazar adı, unvan, biyografi, sayfa deki, byline, masa adı, `same_as`, `knows_about`, konum |
+
+İkisi de elle yazılır, fetcher'lar dokunmaz. `build.py` bunları sayfa registry'sinden **önce** yüklüyor (`_load_json`), böylece `PAGES` ve `FOOTER` literal'leri içinden çağrılabiliyor.
+
+### 2.1 Ürün konumlandırma
+
+Kanonik cümle — artık yalnızca `data/site.json`'da yazılı:
+
+- **EN:** `Macro, markets and finance engineering — written by a finance engineer, sourced from primary data.`
+- **TR:** `Makro, piyasalar ve finance engineering — bir finance engineer tarafından, birincil kaynaklardan.`
+
+| Yüzey | Eski | Yeni |
+|---|---|---|
+| `<title>` (ana sayfa) | `NoCashFlow — Macro & Market Analysis` / `— Makro & Piyasa Analizi` | `NoCashFlow — Macro, Markets & Finance Engineering` / `— Makro, Piyasalar & Finance Engineering` |
+| Ana sayfa `meta description` | `Data-driven macro analysis every morning, with a deep dive every Sunday — oil shocks, smart money, nuclear energy, Fed policy. From Barcelona.` | kanonik cümle |
+| Ana sayfa `og:description` | `Data-driven macro analysis every morning, plus a deep dive every Sunday. Macro, crypto and commodities — primary source, always linked.` | kanonik cümle |
+| `twitter:description` | (ayrı tanımlı değildi, `og:description`'dan geliyor) | kanonik cümle |
+| Ana sayfa masthead kicker | `Macro & Markets, every morning` / `Makro & Piyasalar, her sabah` | kanonik kısa cümle |
+| Ana sayfa masthead tagline | `Make sense of the macro. Start your morning with data.` / `Makroyu anlamlandır. Gününe veriyle başla.` | kanonik cümle |
+| Footer tagline | `Independent macro & markets. Sourced data, no fabrication.` (Faz 1'de yazılmıştı) | kanonik cümle |
+| Abone formu üst metni (index + bülten sayfası, TR/EN) | yoktu | kanonik cümle (`.newsletter-positioning`) |
+
+**`<title>` suffix'i:** 28 başlığın tamamı denetlendi — hepsi zaten `— NoCashFlow` taşıyor, sapma yok. Site adını 28 literal'e template'lemek gürültü katacağı için başlıklar olduğu gibi bırakıldı; değişen tek başlık ana sayfanınki (konumlandırmayı yansıtsın diye).
+
+> **Sapma:** görev "meta description / og:description" için tek kaynak istiyordu. Bunu **site düzeyindeki** yüzeylere uyguladım. 52 sayfanın hepsine aynı cümleyi basmak, her sayfanın kendi açıklamasını (`Live global macro dashboard — VIX, DXY…` gibi) tek bir cümleye indirger ve aramada zarar verir. Sayfa açıklamaları zaten `PAGES` registry'sinde tek yerde toplu; sorun olan site tanımı tekleştirildi.
+
+### 2.2 Yazar kimliği
+
+| Dosya | Eski | Yeni |
+|---|---|---|
+| `content/{en,tr}/yazilar.html` yazar kutusu | `Supply-chain executive by day, macro analyst the rest of the time. Writing to make sense of the world's capital flows.` / `Gündüz tedarik zinciri yöneticisi, geri kalan zamanda makro analist…` | `author.json` → `bio` |
+| `content/{en,tr}/hakkinda.html` `page-dek` | `Finance Business Partner by day, macro analyst the rest of the time. NoCashFlow is the desk where the two meet.` / `Gündüz Finance Business Partner, kalan zamanda makro analist…` | `author.json` → `dek` |
+| `build.py` `PAGES["hakkinda"]["desc"]` | `Orkun Biçen — Finance Business Partner (FP&A & controlling), macro analyst and trader. Founder of NoCashFlow.` | `author.json` → `bio` |
+| `content/tr/finance-eng.html` lede | `Bu bölüm, bir "finans mühendisi"nin defteri.` | `Bu bölüm, bir finance engineer'ın defteri.` |
+
+**about.html gövde metni değiştirilmedi** — yalnızca açılış deki hizalandı. EN FE hub lede'si (`a finance engineer's notebook`) kanonikle zaten uyumlu, dokunulmadı; TR'si terimi çevirdiği için hizalandı.
+
+### 2.3 Byline ve schema
+
+**Byline** — `byline_html()`, `author.json`'dan besleniyor:
+- Makaleler: dek'in altında `By Orkun Biçen · NoCashFlow Research` / `Yazan Orkun Biçen · NoCashFlow Research` (`.byline.art-byline`, mevcut `.who`/`.role` stilleri)
+- FE denemeleri: mevcut byline şeridinin sol hücresi `nocashflow.net · Finance Engineering` yerine aynı byline'ı taşıyor (sayfa zaten nocashflow.net'te ve Finance Engineering altında — o etiket bilgi taşımıyordu). Sağ hücre (okuma süresi) korundu.
+
+**Schema** — üç düğüm, `@id` ile birbirine bağlı, **her sayfada** aynı `@graph` içinde:
+- `WebSite` `#website` → `publisher` = `#organization`
+- `Organization` `#organization` → `founder` = `#orkun`, `sameAs` = site.json sosyal hesapları
+- `Person` `#orkun` → `jobTitle`, `description`, `worksFor` = `#organization`, `sameAs` (LinkedIn + X + GitHub), `knowsAbout`, `address` (Barcelona)
+
+Makale JSON-LD'si artık yazarı tekrar tanımlamıyor, `{"@id": "…#orkun"}` ile referans veriyor; `publisher` de `#organization`'a. FE denemeleri `NewsArticle` yerine `TechArticle`.
+
+**Doğrulama scripti:** `scripts/check_jsonld.py` — her `<script type="application/ld+json">` bloğunu ayrıştırır, tipe göre zorunlu alanları kontrol eder ve **dangling `@id` referansı** arar. `python3 scripts/check_jsonld.py` (hata varsa exit 1, CI'a takılabilir).
+
+> Script yazılır yazılmaz gerçek bir hata yakaladı: ilk uygulamada `Organization` düğümü yalnızca ana sayfada tanımlıydı, ama 28 sayfa ona `@id` ile referans veriyordu — arama motorları yayıncıyı çözemezdi. Üç düğüm artık her sayfada birlikte gidiyor.
+
+### 2.4 "Coming next"
+
+`content/{en,tr}/yazilar.html` içindeki blok **silinmedi**, `<!--NCF:COMING_NEXT_START/END-->` işaretleri arasına alındı ve `build.py:FLAGS["COMING_NEXT"] = False` ile render dışı bırakıldı. Kartlar kaynakta harfi harfine duruyor; her karta gerçek hedef tarih girildiğinde bayrak `True` yapılıp geri açılır.
+
+Gizlenme sebebi kaynakta yorum olarak yazılı: bir kart Ağustos'ta hâlâ *"Coming after March CPI"* diyordu, ikisi Mart'tan beri *"Drafting"*.
+
+### Yeni CSS
+
+`components.css`: `.byline.art-byline` (+ `.role::before` ayracı), `.newsletter-positioning`, `.newsletter-positioning:empty`. Mevcut kurallar değiştirilmedi.
+
+### Doğrulama
+
+- `python3 build.py` → 66 çıktı; iki ardışık build byte-eş (HTML deterministik)
+- `python3 scripts/check_jsonld.py` → 66 blok, sorun yok
+- Tarayıcı: makale byline'ı broadsheet tipografisiyle uyumlu render ediyor; abone formu konumlandırma satırı 460×31px, taşma yok
+- Eski kimlik ifadeleri taraması (`Supply-chain executive`, `Finance Business Partner by day`, TR karşılıkları) → sıfır kalıntı
+- Çözülmemiş `NCF:` marker'ı → yok
+- `Coming next` üretilen sayfalarda → yok; `content/` içinde → duruyor

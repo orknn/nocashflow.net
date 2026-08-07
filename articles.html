@@ -32,7 +32,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,SOFT,WONK,wght@0,9..144,0..100,0..1,300..900;1,9..144,0..100,0..1,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Libre+Caslon+Display&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "en", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebSite", "@id": "https://nocashflow.net/#website", "name": "NoCashFlow", "url": "https://nocashflow.net", "description": "Macro, markets and finance engineering — written by a finance engineer, sourced from primary data.", "inLanguage": "en", "publisher": {"@id": "https://nocashflow.net/#organization"}}, {"@type": "Organization", "@id": "https://nocashflow.net/#organization", "name": "NoCashFlow", "url": "https://nocashflow.net/", "logo": {"@type": "ImageObject", "url": "https://nocashflow.net/logo.png", "width": 512, "height": 512}, "founder": {"@id": "https://nocashflow.net/#orkun"}, "sameAs": ["https://twitter.com/No_CashFlow", "https://www.linkedin.com/in/orkunbicen/", "https://github.com/orknn"]}, {"@type": "Person", "@id": "https://nocashflow.net/#orkun", "name": "Orkun Biçen", "url": "https://nocashflow.net/about.html", "jobTitle": "Finance Engineer", "description": "Orkun Biçen — finance engineer. Fourteen years in FP&A and controlling; now building AI-accelerated finance systems, data pipelines and market tooling. Based in Barcelona.", "worksFor": {"@id": "https://nocashflow.net/#organization"}, "sameAs": ["https://www.linkedin.com/in/orkunbicen/", "https://twitter.com/No_CashFlow", "https://github.com/orknn"], "knowsAbout": ["Financial planning and analysis", "Controlling", "Macroeconomics", "Financial markets", "Finance automation", "Data pipelines"], "address": {"@type": "PostalAddress", "addressLocality": "Barcelona"}}]}</script>
 <link rel="stylesheet" href="/broadsheet.css"/>
 </head>
 <body data-mood="fear" class="bs">
@@ -180,28 +180,11 @@
     </div>
   </div>
 
-      <!-- COMING NEXT -->
-      <div class="section-header" style="margin-bottom:24px"><div class="section-title" style="font-size:24px">Coming next</div></div>
-      <div class="card-grid">
-        <article class="acard soon">
-          <div class="series">Fed</div>
-          <h3>"Too Late Powell" — or Was He Right?</h3>
-          <p>Trump called him "Too Late Powell." But by not cutting, he may have shielded the economy from shocks. Coming after March CPI.</p>
-          <div class="meta">In progress</div>
-        </article>
-        <article class="acard soon">
-          <div class="series">Blockchain</div>
-          <h3>Smart Contracts &amp; Renewable Energy</h3>
-          <p>Peer-to-peer energy trading for Europe's energy independence. Can blockchain connect producers and consumers directly?</p>
-          <div class="meta">Drafting</div>
-        </article>
-        <article class="acard soon">
-          <div class="series">Crypto</div>
-          <h3>Bitcoin vs Gold — Asymmetry</h3>
-          <p>Gold has millennia of trust; Bitcoin is a technology layer. Why are the risk/return profiles so different?</p>
-          <div class="meta">Drafting</div>
-        </article>
-      </div>
+      <!-- COMING NEXT — hidden via SHOW_COMING_NEXT in build.py.
+           Every card here carried a stale promise ("Coming after March CPI"
+           in August, two cards "Drafting" since March). Kept verbatim so it
+           can be switched back on once each card has a real target date. -->
+      
 
       <!-- INLINE NEWSLETTER -->
       <div class="callout" style="margin-top:44px;border-left-color:var(--amber);display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap">
@@ -245,7 +228,7 @@
         <div class="brief">
           <div class="brief-head">The Author</div>
           <div class="brief-item">
-            <p>Supply-chain executive by day, macro analyst the rest of the time. Writing to make sense of the world's capital flows.</p>
+            <p>Orkun Biçen — finance engineer. Fourteen years in FP&amp;A and controlling; now building AI-accelerated finance systems, data pipelines and market tooling. Based in Barcelona.</p>
             <a href="about.html" class="section-link" style="display:inline-block;margin-top:10px">Full profile →</a>
           </div>
         </div>
@@ -260,7 +243,7 @@
     <div class="footer-top">
       <div>
         <div class="footer-brand-title">NO<span style="color:var(--amber)">/</span>CASHFLOW</div>
-        <p class="footer-brand-desc">Independent macro &amp; markets. Sourced data, no fabrication.</p>
+        <p class="footer-brand-desc">Macro, markets and finance engineering — written by a finance engineer, sourced from primary data.</p>
       </div>
       <div class="footer-col">
         <h4>Pages</h4>

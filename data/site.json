@@ -1,0 +1,19 @@
+{
+  "_note": "Hand-authored site identity — NOT written by the fetchers. The canonical positioning line is written once here and build.py feeds it to every site-level surface (title, meta description, og/twitter description, home masthead tagline, footer, subscribe form). Edit it here and nowhere else.",
+  "name": "NoCashFlow",
+  "url": "https://nocashflow.net",
+  "positioning": {
+    "en": "Macro, markets and finance engineering — written by a finance engineer, sourced from primary data.",
+    "tr": "Makro, piyasalar ve finance engineering — bir finance engineer tarafından, birincil kaynaklardan."
+  },
+  "positioning_short": {
+    "en": "Macro, markets and finance engineering",
+    "tr": "Makro, piyasalar ve finance engineering"
+  },
+  "social": {
+    "x": "https://twitter.com/No_CashFlow",
+    "linkedin": "https://www.linkedin.com/in/orkunbicen/",
+    "github": "https://github.com/orknn"
+  },
+  "email": "orkun@nocashflow.net"
+}

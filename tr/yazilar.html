@@ -32,7 +32,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,SOFT,WONK,wght@0,9..144,0..100,0..1,300..900;1,9..144,0..100,0..1,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Libre+Caslon+Display&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "tr", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebSite", "@id": "https://nocashflow.net/#website", "name": "NoCashFlow", "url": "https://nocashflow.net", "description": "Makro, piyasalar ve finance engineering — bir finance engineer tarafından, birincil kaynaklardan.", "inLanguage": "tr", "publisher": {"@id": "https://nocashflow.net/#organization"}}, {"@type": "Organization", "@id": "https://nocashflow.net/#organization", "name": "NoCashFlow", "url": "https://nocashflow.net/", "logo": {"@type": "ImageObject", "url": "https://nocashflow.net/logo.png", "width": 512, "height": 512}, "founder": {"@id": "https://nocashflow.net/#orkun"}, "sameAs": ["https://twitter.com/No_CashFlow", "https://www.linkedin.com/in/orkunbicen/", "https://github.com/orknn"]}, {"@type": "Person", "@id": "https://nocashflow.net/#orkun", "name": "Orkun Biçen", "url": "https://nocashflow.net/tr/hakkinda.html", "jobTitle": "Finance Engineer", "description": "Orkun Biçen — finance engineer. FP&A ve kontrolörlükte on dört yıl; bugün yapay zekâ destekli finans sistemleri, veri hatları ve piyasa araçları kuruyor. Barselona'dan.", "worksFor": {"@id": "https://nocashflow.net/#organization"}, "sameAs": ["https://www.linkedin.com/in/orkunbicen/", "https://twitter.com/No_CashFlow", "https://github.com/orknn"], "knowsAbout": ["Financial planning and analysis", "Controlling", "Macroeconomics", "Financial markets", "Finance automation", "Data pipelines"], "address": {"@type": "PostalAddress", "addressLocality": "Barcelona"}}]}</script>
 <link rel="stylesheet" href="/broadsheet.css"/>
 <script>(function(){try{var q=new URLSearchParams(location.search).get('lang');if(q==='en'){try{localStorage.setItem('ncf_lang','en');}catch(e){}location.replace('/');return;}if(q==='tr'){try{localStorage.setItem('ncf_lang','tr');}catch(e){}return;}var p=null;try{p=localStorage.getItem('ncf_lang');}catch(e){}if(p==='en'){location.replace('/');return;}}catch(e){}})();</script>
 </head>
@@ -181,28 +181,11 @@
     </div>
   </div>
 
-      <!-- COMING NEXT -->
-      <div class="section-header" style="margin-bottom:24px"><div class="section-title" style="font-size:24px">Sırada</div></div>
-      <div class="card-grid">
-        <article class="acard soon">
-          <div class="series">Fed</div>
-          <h3>"Too Late Powell" — Yoksa Haklı mıydı?</h3>
-          <p>Trump ona "Too Late Powell" dedi. Ama faizi indirmeyerek ekonomiyi şoklardan korumuş olabilir. Mart TÜFE'sinden sonra geliyor.</p>
-          <div class="meta">Hazırlanıyor</div>
-        </article>
-        <article class="acard soon">
-          <div class="series">Blockchain</div>
-          <h3>Akıllı Kontratlar &amp; Yenilenebilir Enerji</h3>
-          <p>Avrupa'nın enerji bağımsızlığı için eşler arası enerji ticareti. Blockchain üretici ve tüketicileri doğrudan bağlayabilir mi?</p>
-          <div class="meta">Taslak</div>
-        </article>
-        <article class="acard soon">
-          <div class="series">Kripto</div>
-          <h3>Bitcoin vs Altın — Asimetri</h3>
-          <p>Altının binlerce yıllık güveni var; Bitcoin bir teknoloji katmanı. Risk/getiri profilleri neden bu kadar farklı?</p>
-          <div class="meta">Taslak</div>
-        </article>
-      </div>
+      <!-- COMING NEXT — hidden via SHOW_COMING_NEXT in build.py.
+           Every card here carried a stale promise ("Coming after March CPI"
+           in August, two cards "Drafting" since March). Kept verbatim so it
+           can be switched back on once each card has a real target date. -->
+      
 
       <!-- INLINE NEWSLETTER -->
       <div class="callout" style="margin-top:44px;border-left-color:var(--amber);display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap">
@@ -246,7 +229,7 @@
         <div class="brief">
           <div class="brief-head">Yazar</div>
           <div class="brief-item">
-            <p>Gündüz tedarik zinciri yöneticisi, geri kalan zamanda makro analist. Dünyanın sermaye akışlarını anlamlandırmak için yazıyor.</p>
+            <p>Orkun Biçen — finance engineer. FP&amp;A ve kontrolörlükte on dört yıl; bugün yapay zekâ destekli finans sistemleri, veri hatları ve piyasa araçları kuruyor. Barselona'dan.</p>
             <a href="hakkinda.html" class="section-link" style="display:inline-block;margin-top:10px">Tam profil →</a>
           </div>
         </div>
@@ -261,7 +244,7 @@
     <div class="footer-top">
       <div>
         <div class="footer-brand-title">NO<span style="color:var(--amber)">/</span>CASHFLOW</div>
-        <p class="footer-brand-desc">Bağımsız makro &amp; piyasa. Kaynaklı veri, uydurma yok.</p>
+        <p class="footer-brand-desc">Makro, piyasalar ve finance engineering — bir finance engineer tarafından, birincil kaynaklardan.</p>
       </div>
       <div class="footer-col">
         <h4>Sayfalar</h4>

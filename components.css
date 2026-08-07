@@ -333,6 +333,22 @@ body[data-mood="fear"] .ticker-label .dot { background: var(--red); animation: p
 .mood-line.is-stale .mood-asof { color: var(--red); opacity: 1; }
 .mood-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--amber); display: inline-block; }
 
+/* article byline — who wrote it, under whose masthead */
+.byline.art-byline {
+  gap: 10px; margin: 18px 0 0; padding-top: 14px;
+  border-top: 1px solid var(--border-soft);
+}
+.byline.art-byline .role::before { content: "·"; margin-right: 10px; color: var(--text-mute); }
+
+/* what this site is, stated at the point of conversion — same sentence as the
+   masthead, the meta description and the footer, fed from data/site.json */
+.newsletter-positioning {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--text-mute);
+  margin: 0 0 14px; max-width: 46em;
+}
+.newsletter-positioning:empty { display: none; }
+
 /* provenance stamp under a live block */
 .live-stamp {
   font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em;

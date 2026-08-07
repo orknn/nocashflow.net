@@ -1,0 +1,35 @@
+{
+  "_note": "Hand-authored author identity — NOT written by the fetchers. Single source for the byline, the author box, the about-page opener and the Person schema. Every claim here is also stated on the about page; keep the two in step.",
+  "name": "Orkun Biçen",
+  "location": "Barcelona",
+  "job_title": {
+    "en": "Finance Engineer",
+    "tr": "Finance Engineer"
+  },
+  "bio": {
+    "en": "Orkun Biçen — finance engineer. Fourteen years in FP&amp;A and controlling; now building AI-accelerated finance systems, data pipelines and market tooling. Based in Barcelona.",
+    "tr": "Orkun Biçen — finance engineer. FP&amp;A ve kontrolörlükte on dört yıl; bugün yapay zekâ destekli finans sistemleri, veri hatları ve piyasa araçları kuruyor. Barselona'dan."
+  },
+  "dek": {
+    "en": "Finance engineer. Fourteen years in FP&amp;A and controlling; now building AI-accelerated finance systems, data pipelines and market tooling.",
+    "tr": "Finance engineer. FP&amp;A ve kontrolörlükte on dört yıl; bugün yapay zekâ destekli finans sistemleri, veri hatları ve piyasa araçları kuruyor."
+  },
+  "byline": {
+    "en": "By Orkun Biçen",
+    "tr": "Yazan Orkun Biçen"
+  },
+  "desk": "NoCashFlow Research",
+  "same_as": [
+    "https://www.linkedin.com/in/orkunbicen/",
+    "https://twitter.com/No_CashFlow",
+    "https://github.com/orknn"
+  ],
+  "knows_about": [
+    "Financial planning and analysis",
+    "Controlling",
+    "Macroeconomics",
+    "Financial markets",
+    "Finance automation",
+    "Data pipelines"
+  ]
+}
