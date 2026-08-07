@@ -692,3 +692,14 @@ pre.embed-code code {
   text-transform: uppercase; color: var(--text-mute); margin-left: 12px;
 }
 .aud-row p { margin: 8px 0 0; color: var(--text-dim); font-size: 15px; }
+
+/* under a subscribe form: what you would actually be getting, and when the
+   last one went out. Both are links; neither is social proof. */
+.nl-aside {
+  display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 14px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.nl-aside a { color: var(--text-mute); text-decoration: none; }
+.nl-aside a:hover { color: var(--amber); }
+.nl-aside .nl-sample { color: var(--amber); }

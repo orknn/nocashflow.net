@@ -52,6 +52,55 @@ SITE = _load_json("site.json")
 AUTHOR = _load_json("author.json")
 
 
+ANALYTICS_POLICY = {
+    "on": {
+        "en": "We use <strong>Cloudflare Web Analytics</strong>, a privacy-first "
+              "measurement tool that uses <strong>no cookies</strong>, does not "
+              "fingerprint you and does not track you across other sites. It reports "
+              "only aggregate, anonymous traffic (page views, referrers). It cannot "
+              "identify you.",
+        "tr": "<strong>Cloudflare Web Analytics</strong> kullanıyoruz; <strong>çerez "
+              "kullanmayan</strong>, seni parmak iziyle tanımlamayan ve başka sitelerde "
+              "takip etmeyen, gizlilik öncelikli bir ölçüm aracı. Yalnızca toplu, anonim "
+              "trafik (sayfa görüntüleme, yönlendiren) raporlar. Seni kimliklendiremez.",
+    },
+    "off": {
+        "en": "This site currently uses <strong>no analytics tool</strong>. Nothing "
+              "measures your visit, and no script on these pages reports it anywhere.",
+        "tr": "Bu site şu anda <strong>hiçbir analitik aracı</strong> kullanmıyor. "
+              "Ziyaretini ölçen bir şey yok ve bu sayfalardaki hiçbir script onu bir "
+              "yere raporlamıyor.",
+    },
+}
+
+
+def analytics_policy(lang):
+    """What the privacy policy says about measurement, driven by the same token
+    the beacon is. The policy previously stated Cloudflare Web Analytics was in
+    use while no beacon was served on any page — a legal document asserting a
+    data-processing activity that was not happening. It cannot drift again."""
+    state = "on" if analytics_token() else "off"
+    return f"<p>{ANALYTICS_POLICY[state][lang]}</p>"
+
+
+def analytics_token():
+    return ((SITE.get("analytics") or {}).get("token") or "").strip()
+
+
+def analytics_beacon():
+    """Cloudflare Web Analytics beacon, or nothing at all.
+
+    No token means no script: a half-wired beacon would report nothing while
+    the privacy policy claimed measurement was happening. The policy text is
+    driven off this same token so the two can never disagree.
+    """
+    token = analytics_token()
+    if not token:
+        return ""
+    return ('<script defer src="https://static.cloudflareinsights.com/beacon.min.js"'
+            f' data-cf-beacon=\'{{"token": "{token}"}}\'></script>\n')
+
+
 def positioning(lang, short=False):
     key = "positioning_short" if short else "positioning"
     return (SITE.get(key) or {}).get(lang, "")
@@ -120,9 +169,11 @@ def byline_html(lang, block=True):
     desk_html = f'<span class="role">{desk}</span>' if desk else ""
     return f'<div class="byline art-byline"><span class="who">{by}</span>{desk_html}</div>'
 
-# Cloudflare Web Analytics is enabled via Cloudflare's Automatic Setup (the site
-# is proxied through Cloudflare, which injects the beacon at the edge). No manual
-# snippet here — adding one would double-count page views.
+# Analytics: Cloudflare Web Analytics, JS beacon. The earlier comment here
+# claimed it was injected at the edge by Cloudflare's Automatic Setup — it was
+# not, and could not have been: nocashflow.net resolves straight to GitHub
+# Pages and is not proxied through Cloudflare, so the site shipped unmeasured.
+# The beacon is emitted only when data/site.json carries a token.
 
 # One consolidated Google Fonts request (Fraunces display · Newsreader body ·
 # IBM Plex Mono data) — replaces the extra render-blocking @import in site.css.
@@ -1008,7 +1059,7 @@ def head(page, lang):
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
 <script type="application/ld+json">{site_schema}</script>
-{head_extra}{splash_css}{bs_css}{early}</head>
+{head_extra}{splash_css}{bs_css}{early}{analytics_beacon()}</head>
 <body data-mood="{_mood()}"{body_cls}>
 <div class="press-line"></div>{daypart_script}"""
 
@@ -1292,6 +1343,37 @@ def _apply_flags(html):
             html = html[:i] + ("" if not on else
                                html[i + len(start):j - len(end)]) + html[j:]
     return html
+
+
+def _latest_issue(kind="daily"):
+    """(date_string, path) of the newest published issue, or (None, None).
+
+    Read off the archive directory rather than written down anywhere, so the
+    date under a subscribe form is always the real last publication.
+    """
+    import glob as _g
+    files = _g.glob(str(ROOT / "bulletins" / kind / "*.[et][nr].html"))
+    dates = sorted({Path(f).name.rsplit(".", 2)[0] for f in files
+                    if not Path(f).name.startswith("latest")}, reverse=True)
+    return (dates[0] if dates else None)
+
+
+def subscribe_aside(lang):
+    """Sample-issue link and the real date of the latest issue, under a form.
+
+    No subscriber count and no other social proof: the number is not something
+    this repo knows (the list lives in D1, deliberately not here), so any figure
+    printed would be invented.
+    """
+    latest = _latest_issue("daily")
+    archive = "/archive.html" if lang == "en" else "/tr/arsiv.html"
+    sample = "See a sample issue" if lang == "en" else "Örnek bülteni gör"
+    parts = [f'<a class="nl-sample" href="{archive}">{sample} →</a>']
+    if latest:
+        lbl = "Latest issue" if lang == "en" else "Son sayı"
+        parts.append(f'<a class="nl-latest" href="/bulletins/daily/{latest}.{lang}.html">'
+                     f'{lbl}: {_disp_date(latest, lang)}</a>')
+    return f'<div class="nl-aside">{"".join(parts)}</div>'
 
 
 def _article_meta(lang):
@@ -1687,6 +1769,8 @@ def render(page, lang):
     html = html.replace("<!--NCF:ART_META-->", _article_meta(lang))
     html = _apply_flags(html)
     html = html.replace("<!--NCF:POSITIONING-->", positioning(lang))
+    html = html.replace("<!--NCF:SUB_ASIDE-->", subscribe_aside(lang))
+    html = html.replace("<!--NCF:ANALYTICS_POLICY-->", analytics_policy(lang))
     html = html.replace("<!--NCF:AUTHOR_BIO-->", author_field("bio", lang))
     html = html.replace("<!--NCF:AUTHOR_DEK-->", author_field("dek", lang))
     html = html.replace("<!--NCF:PULSECHART-->", pulse_chart(lang))
@@ -1922,7 +2006,7 @@ def render_article(slug, lang):
 <link rel="stylesheet" href="/components.css"/>
 <link rel="stylesheet" href="/broadsheet.css"/>
 {article_jsonld(a, lang, canonical, slug)}
-</head>
+{analytics_beacon()}</head>
 <body data-mood="{_mood()}" class="bs">
 <div class="press-line"></div>"""
 
@@ -2316,7 +2400,7 @@ def render_fe_essay(key, lang):
 <link rel="stylesheet" href="/broadsheet.css"/>
 <link rel="stylesheet" href="/finance-eng.css?v=mx3"/>
 {article_jsonld(a, lang, canonical, key, kind="TechArticle")}
-</head>
+{analytics_beacon()}</head>
 <body data-mood="{_mood()}" class="bs fe-matrix">
 <div class="press-line"></div>"""
 
@@ -2368,6 +2452,76 @@ def _indexable_pairs():
     out += [(SITE_URL + aud_path(t, "en"), SITE_URL + aud_path(t, "tr"))
             for t in active_audiences()]
     return out
+
+
+def generate_publication_log():
+    """data/publications.json — did each stream actually publish?
+
+    Answered from the archive on disk rather than from anything self-reported,
+    and it needs no analytics provider: whether an issue shipped is a fact about
+    this repository. `weeks` is the last 12 ISO weeks with a shipped/missed flag,
+    which is the one number the cadence promises on the site depend on.
+    """
+    import glob as _g
+
+    def dates(kind):
+        files = _g.glob(str(ROOT / "bulletins" / kind / "*.[et][nr].html"))
+        return sorted({Path(f).name.rsplit(".", 2)[0] for f in files
+                       if not Path(f).name.startswith("latest")})
+
+    daily, weekly = dates("daily"), dates("weekly")
+    today = datetime.now(timezone.utc).date()
+
+    # daily: was there an issue on each of the last 30 days?
+    days = []
+    have_daily = set(daily)
+    for i in range(29, -1, -1):
+        d = str(today - timedelta(days=i))
+        days.append({"date": d, "shipped": d in have_daily})
+
+    # weekly: issues are named 2026-W31. Two windows do not count as misses —
+    # weeks before the stream existed, and the current one, whose issue is not
+    # due until Sunday. Counting either would report a gap that is not one.
+    have_weekly = set(weekly)
+    this_week = "{}-W{:02d}".format(*today.isocalendar()[:2])
+    first = weekly[0] if weekly else None
+    weeks = []
+    for i in range(11, -1, -1):
+        y, w, _ = (today - timedelta(weeks=i)).isocalendar()
+        tag = f"{y}-W{w:02d}"
+        if first and tag < first:
+            continue                       # predates the first issue
+        entry = {"week": tag, "shipped": tag in have_weekly}
+        if tag == this_week and not entry["shipped"]:
+            entry["due"] = False           # still in progress
+        weeks.append(entry)
+
+    log = {
+        "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "_note": "Generated by build.py from the bulletins/ archive and the "
+                 "article registries. Facts about what shipped, not traffic — "
+                 "traffic needs the analytics provider configured in site.json.",
+        "daily": {"total": len(daily), "latest": daily[-1] if daily else None,
+                  "last_30_days": days,
+                  "missed_in_30": [d["date"] for d in days if not d["shipped"]]},
+        "weekly": {"total": len(weekly), "latest": weekly[-1] if weekly else None,
+                   "last_12_weeks": weeks,
+                   "missed_in_12": [w["week"] for w in weeks
+                                    if not w["shipped"] and w.get("due", True)]},
+        "articles": {"total": len(ARTICLES),
+                     "latest": max((a["date"] for a in ARTICLES.values()), default=None),
+                     "dates": sorted((a["date"] for a in ARTICLES.values()), reverse=True)},
+        "finance_engineering": {
+            "live": sum(1 for k in FE_ESSAYS if fe_live(k)),
+            "drafts": sum(1 for k in FE_ESSAYS if FE_ESSAYS[k].get("status") == "draft"),
+            "dates": sorted((a["date"] for k, a in FE_ESSAYS.items()
+                             if fe_live(k) and a.get("date")), reverse=True),
+        },
+        "reference": {"live": sum(1 for k in REF_ORDER if ref_live(k)),
+                      "drafts": sum(1 for k in REF_ORDER if not ref_live(k))},
+    }
+    (ROOT / "data" / "publications.json").write_text(
+        json.dumps(log, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
 def generate_sitemap():
@@ -2587,7 +2741,7 @@ def _ind_head(lang, title, desc, canonical, alt_en, alt_tr, schema,
 <link rel="stylesheet" href="/site.css"/>
 <link rel="stylesheet" href="/components.css"/>
 <link rel="stylesheet" href="/broadsheet.css"/>
-{extra_css}<script type="application/ld+json">{schema}</script>
+{extra_css}{analytics_beacon()}<script type="application/ld+json">{schema}</script>
 </head>
 <body data-mood="{_mood()}" class="{body_cls}">
 <div class="press-line"></div>"""
@@ -3211,7 +3365,8 @@ def build():
     generate_sitemap()
     generate_feeds()
     generate_robots()
-    print("  + sitemap.xml · feed-en.xml · feed-tr.xml · robots.txt")
+    generate_publication_log()
+    print("  + sitemap.xml · feed-en.xml · feed-tr.xml · robots.txt · publications.json")
     # JSONP snapshot for the embeddable widget (cross-origin friendly)
     (ROOT / "data" / "market.js").write_text(
         "window.NCFMarket&&window.NCFMarket(" + json.dumps(MARKET, ensure_ascii=False) + ");",

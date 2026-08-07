@@ -15,5 +15,11 @@
     "linkedin": "https://www.linkedin.com/in/orkunbicen/",
     "github": "https://github.com/orknn"
   },
-  "email": "orkun@nocashflow.net"
+  "email": "orkun@nocashflow.net",
+
+  "analytics": {
+    "_note": "Cloudflare Web Analytics, JS beacon flavour — the site is served straight from GitHub Pages and is not proxied through Cloudflare, so the edge cannot inject it. Paste the token from Cloudflare dashboard → Web Analytics → Add a site → nocashflow.net. While token is empty NO beacon is emitted and the privacy policy says the site uses no analytics; both switch on together the moment it is filled in.",
+    "provider": "cloudflare",
+    "token": ""
+  }
 }

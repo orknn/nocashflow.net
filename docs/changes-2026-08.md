@@ -263,3 +263,85 @@ Yeni sayfa: `/finance-engineering/toolkit/` · `/tr/finance-engineering/arac-set
 - Reference: canlı madde simülasyonuyla 8 bölüm, otomatik çapraz link, SAP nesneleri, KPI'lar, audience çipleri, metin-formül doğrulandı
 - `noindex` üç iskelet sayfada var, gerçek sayfalarda yok; sitemap'te iskelet sayfa yok
 - Yatay taşma: yeni öğelerin hiçbiri taşmıyor (mevcut `.nav-right` / `.ticker-track` taşması Faz 1 öncesinden)
+
+---
+
+## Faz 4 — Dönüşüm ve ölçüm (2026-08-07)
+
+### 4.1 Abone dönüşümü
+
+Sitedeki **10 abone formunun tamamına** (5 sayfa × 2 dil) form altına bir satır eklendi (`subscribe_aside()`, `<!--NCF:SUB_ASIDE-->`):
+
+- `Örnek bülteni gör →` / `See a sample issue →` → arşiv sayfası
+- `Son sayı: 7 Ağu 2026` / `Latest issue: Aug 7, 2026` → o sayının kendisine link
+
+Tarih **arşiv dizininden okunuyor** (`_latest_issue()`), yazılı değil — yani her zaman gerçek son yayın tarihi, bayatlayamaz.
+
+**Sosyal kanıt eklenmedi.** Ayrıca mevcut durumu taradım: sitede uydurma abone sayısı veya testimonial **yok**. Ana sayfadaki üç `nl-stat` kutusu (`Günlük / Her Sabah`, `Pazar / Haftalık Derin Analiz`, `€0 / Hep Ücretsiz`) kadans ve fiyat beyanı — Faz 1'de arşivle doğrulandı, doğrular.
+
+### 4.2 Analytics
+
+**Faz 0 bulgusu netleşti ve büyüdü:** sitede analytics olmadığı gibi, **gizlilik politikası "Cloudflare Web Analytics kullanıyoruz" diyordu.** Yani yasal metin, gerçekleşmeyen bir veri işleme faaliyetini beyan ediyordu. `build.py`'deki yanlış yorum da aynı iddiayı taşıyordu.
+
+Kullanıcı seçimi: **Cloudflare Web Analytics** (ücretsiz, çerezsiz, rıza banner'ı gerekmez).
+
+| Değişiklik | Durum |
+|---|---|
+| `data/site.json` → `analytics.provider` + `analytics.token` | eklendi, **token boş** |
+| Beacon (`analytics_beacon()`) — tüm sayfa tiplerinin `<head>`'inde | token boşken **hiç basılmıyor** |
+| Gizlilik politikası metni (`analytics_policy()`) | token'a bağlı: boşken *"hiçbir analitik aracı kullanmıyor"*, doluyken Cloudflare metni |
+| `build.py`'deki yanlış yorum | düzeltildi |
+
+Beacon ve yasal metin **aynı token'dan sürülüyor**, yani bir daha ayrışamazlar. Her iki durum da test edildi (token girildi → beacon + Cloudflare metni; geri alındı → ikisi de kapandı).
+
+**→ Senin yapman gereken tek şey:** Cloudflare panosunda *Web Analytics → Add a site → nocashflow.net* ile token al, `data/site.json` içindeki `analytics.token` alanına yapıştır. Beacon ve gizlilik metni birlikte açılır.
+
+#### Hangi metrik ölçülebilir, hangisi ölçülemez
+
+Cloudflare Web Analytics **özel olay desteklemiyor**. İstenen 6 metriğin durumu — ölçülemeyenler için sahte event üretmedim:
+
+| # | Metrik | Durum |
+|---|---|---|
+| 1 | Haftalık yayın çıktı mı | ✅ **Yapıldı** — sağlayıcı gerekmiyor, aşağıya bak |
+| 2 | Newsletter form gösterimi + gönderimi | ❌ Özel olay gerekir — CF WA'da yok |
+| 3 | Geri dönen ziyaretçi oranı | ❌ CF WA bu metriği raporlamıyor |
+| 4 | FE sayfa bazlı görüntülenme | ✅ Sayfa görüntüleme var — **scroll depth ❌** |
+| 5 | Reference maddesi bazlı görüntülenme | ✅ Sayfa görüntüleme var |
+| 6 | Dış link tıklaması, toolkit indirmesi | ❌ Özel olay gerekir |
+
+Yani 6 metrikten **2,5'i** karşılanıyor. 2, 3, 6 ve scroll depth için Plausible/Umami gibi özel olay destekleyen bir araç gerekir — istersen sonradan geçilebilir, beacon tek bir fonksiyonda toplandığı için değişim ucuz.
+
+#### Yayın log'u (metrik 1)
+
+`generate_publication_log()` → `data/publications.json`, her build'de arşivden üretilir:
+
+- **günlük:** toplam sayı, son sayı, son 30 günün gün gün durumu, kaçırılan günler
+- **haftalık:** toplam, son sayı, son 12 ISO haftası, kaçırılan haftalar
+- **makale / FE / Reference:** sayı ve son tarih
+
+Bunun için analytics gerekmiyor — bir sayının çıkıp çıkmadığı bu deponun kendi bilgisi.
+
+> Log yazılır yazılmaz bir yanlış pozitif verdi: içinde bulunduğumuz haftayı (W32, pazar günü çıkacak) "kaçırılmış" sayıyordu. Ayrıca akışın başlamasından önceki haftaları da sayıyordu. İkisi de düzeltildi — şimdi: 8 haftanın 8'i çıkmış, W32 `due: false` ile beklemede.
+
+### 4.3 Yüzey alanı raporu
+
+`docs/surface-area-2026-08.md` — 18 sayfa için yol, son içerik güncellemesi, veri bağımlılığı, istemci-canlı olup olmadığı, nav/footer/editoryal erişilebilirlik ve öneri sütunu.
+
+**Trafik sütunu yok ve nedeni raporda açıkça yazılı:** analytics hiç kurulu olmadığı için trafik verisi mevcut değil, uydurulmadı. Yerine erişilebilirlik ölçüldü (bir sayfaya içerikten link var mı, yoksa sadece menüden mi bulunuyor).
+
+Öne çıkanlar:
+
+- **Silinmesi önerilen sayfa yok.** Tek yapısal öneri: **Panel → Makro birleştirmesi** (aynı vaat, iki ekran, Panel 23 Haziran'dan beri dokunulmamış). Ürün kararı olduğu için **uygulanmadı**, öneri olarak bırakıldı.
+- **Sözlük ↔ Reference çakışması: yok.** Görevdeki hipotezin aksine kesişim **sıfır** — Sözlük piyasa/kripto terimleri (VIX, DXY, Funding Rate), Reference kurumsal kontrolörlük (Standard Cost, PPV). Farklı okur, farklı derinlik; üstelik Sözlük makale gövdesinde tooltip motoru olarak **işlevsel** rol taşıyor. Öneri: ikisini de koru, temas noktalarında çapraz link.
+- **Sessiz build hatası yok**, çözülmemiş marker yok, kırık veri gösteren sayfa yok.
+- **İki açık madde raporlandı:**
+  - **B1:** gömülebilir widget (`embed.js`) sayıları **zaman damgasız** yayımlıyor — Faz 1'de sitede düzeltilen sorunun aynısı, ama başkasının sitesinde. Veri (`asof`) JSONP'de var, sadece render edilmiyor.
+  - **B2:** `macro2.json`'daki elle doldurulan üç alan (dot plot, ISM, global M2) cron'la tazelenmiyor ve bayatlık sinyali taşımıyor.
+
+### Doğrulama
+
+- `python3 build.py` → 72 çıktı; iki ardışık build byte-eş
+- `python3 scripts/check_jsonld.py` → 72 blok, sorun yok
+- Abone yan-metni 8 üretilen sayfada (5 içerik sayfası × 2 dil, bülten sayfasında 2 form)
+- Analytics: token boş → beacon 0 sayfada, gizlilik "kullanmıyoruz"; test token'ı → beacon her sayfada + doğru token + Cloudflare metni; geri alındı → ikisi de kapandı
+- `data/publications.json`: 56 günlük sayı / 30 günde eksik yok, 8 haftalık / kaçırılan yok, W32 beklemede
