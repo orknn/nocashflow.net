@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Zero Fabricated Data — Except the Ones I Wrote Myself — Finance Engineering — NoCashFlow</title>
+<meta name="description" content="I built an equity research pipeline so a language model could never invent a number. It worked. Then I found three fabricated numbers in it. All of them were mine."/>
+<meta name="robots" content="max-image-preview:large"/>
+<link rel="canonical" href="https://nocashflow.net/finance-engineering/zero-fabricated-data.html"/>
+<link rel="alternate" hreflang="en" href="https://nocashflow.net/finance-engineering/zero-fabricated-data.html"/>
+<link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/finance-engineering/sifir-uydurma-veri.html"/>
+<link rel="alternate" hreflang="x-default" href="https://nocashflow.net/finance-engineering/zero-fabricated-data.html"/>
+<meta property="og:title" content="Zero Fabricated Data — Except the Ones I Wrote Myself"/>
+<meta property="og:description" content="I built an equity research pipeline so a language model could never invent a number. It worked. Then I found three fabricated numbers in it. All of them were mine."/>
+<meta property="og:type" content="article"/>
+<meta property="og:url" content="https://nocashflow.net/finance-engineering/zero-fabricated-data.html"/>
+<meta property="og:image" content="https://nocashflow.net/assets/cards/sifir-uydurma-veri-en.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://nocashflow.net/assets/cards/sifir-uydurma-veri-en.png"/>
+<link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml"/>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=2"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2"/>
+<link rel="shortcut icon" href="/favicon.ico?v=2"/>
+<link rel="alternate" type="application/rss+xml" title="NoCashFlow" href="/feed-en.xml"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<meta name="theme-color" content="#040A06"/>
+<script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('theme');if(q==='dark'||q==='light'){try{localStorage.setItem('ncf_theme',q);}catch(e){}}var t=null;try{t=localStorage.getItem('ncf_theme');}catch(e){}if(!t){var h=new Date().getHours();t=(h>=21||h<7)?'dark':'light';}if(t==='dark')d.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,SOFT,WONK,wght@0,9..144,0..100,0..1,300..900;1,9..144,0..100,0..1,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Libre+Caslon+Display&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/site.css"/>
+<link rel="stylesheet" href="/components.css"/>
+<link rel="stylesheet" href="/broadsheet.css"/>
+<link rel="stylesheet" href="/finance-eng.css?v=mx2"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"NewsArticle","headline":"Zero Fabricated Data — Except the Ones I Wrote Myself","description":"I built an equity research pipeline so a language model could never invent a number. It worked. Then I found three fabricated numbers in it. All of them were mine.","image":["https://nocashflow.net/assets/cards/sifir-uydurma-veri-en.png"],"datePublished":"2026-08-09T08:00:00+02:00","dateModified":"2026-08-09T08:00:00+02:00","author":{"@type":"Person","name":"Orkun Biçen","sameAs":["https://www.linkedin.com/in/orkunbicen/"],"url":"https://nocashflow.net/about.html"},"publisher":{"@type":"Organization","name":"NoCashFlow","url":"https://nocashflow.net/","logo":{"@type":"ImageObject","url":"https://nocashflow.net/logo.png","width":512,"height":512}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://nocashflow.net/finance-engineering/zero-fabricated-data.html"},"articleSection":"Teardown","inLanguage":"en"}</script>
+</head>
+<body data-mood="fear" class="bs fe-matrix">
+<div class="press-line"></div>
+<div class="cursor-ring"><span class="c-label">Read</span></div>
+<div class="cursor-dot"></div>
+
+<div id="page-sweep"></div>
+<div id="read-progress" aria-hidden="true"></div>
+
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="logo">NO<span class="slash">/</span>CASHFLOW<span class="tag">MACRO × MARKETS</span></a>
+    <div class="nav-links" id="nav-links">
+      <a href="/">Home</a>
+      <a href="/articles.html">Articles</a>
+      <a href="/macro.html">Macro</a>
+      <a href="/calendar.html">Calendar</a>
+      <a href="/dashboard.html">Dashboard</a>
+      <a href="/bulletin_page.html">Bulletin</a>
+      <a href="/finance-engineering.html" class="active">Finance Engineering</a>
+      <a href="/about.html">About</a>
+    </div>
+    <div class="nav-right">
+      <a class="lang-switch" href="/tr/finance-engineering/sifir-uydurma-veri.html" data-set-lang="tr" aria-label="Türkçe'ye geç">TR</a>
+      <button class="nav-btn theme-toggle" data-theme-toggle aria-label="After Hours" title="After Hours">◐</button>
+      <a href="/bulletin_page.html" class="subscribe">Subscribe</a>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-label"><span class="dot"></span> Live</div>
+  <div class="ticker-track" id="ticker-track"></div>
+</div>
+
+
+<div class="masthead"><div class="masthead-inner"><span>Morning Edition</span><span class="mh-date">Monday, August 10, 2026</span><span>Barcelona</span></div></div>
+
+
+<article class="fe-essay">
+<span class="eyebrow tag">04 · Teardown</span>
+    <h1>Zero fabricated data — <em>except the ones I wrote myself</em></h1>
+    <p class="dek">I built an equity research pipeline so a language model could never invent a number. It worked. Then I found three fabricated numbers in it. All of them were mine.</p>
+    <div class="byline">
+      <span>nocashflow.net · Finance Engineering</span>
+      <span>~10 min · TR/EN · August 2026</span>
+    </div>
+
+    <h2>01 — What I was building</h2>
+    <p class="first">The NoCashFlow Stock Analyzer takes a ticker and returns a seven-page bilingual equity research report: structural trends, quarterly momentum, financial health, valuation against peers, price action and ownership, risks, and a synthesised verdict. Six specialist agents run in parallel; an editor agent synthesises their drafts.</p>
+
+    <p>The architecture has one rule, and everything else follows from it. I call it <b>API-First</b>: every number in the report is computed in Python from the data API. The models never see raw statements and never do arithmetic. They receive a JSON block of finished figures and are told, in the system prompt, what they may do with it:</p>
+
+    <div class="pull">Never recalculate, re-derive, or invent any number — use the provided figures verbatim. If a figure is null, say data is unavailable rather than estimating.</div>
+
+    <p>This is enforced twice: once in the prompt, once in the architecture. No agent has a calculator. The single place a model influences the numbers is peer selection — it returns a list of ticker symbols, and even then the multiples themselves are fetched and median'd in Python.</p>
+
+    <p>I was confident about this design. I still am. It does exactly what it claims.</p>
+
+    <p>It just doesn't cover what I thought it covered.</p>
+
+    <h2>02 — The three numbers</h2>
+
+    <div class="brk">
+      <span class="n">One</span>
+      <h3>A footer crediting a model that never ran</h3>
+      <p>Every report the system produced carried a footer crediting a model that had not produced it. The pipeline had been refactored onto a different provider; the footer string had not moved. It named the old one. In the same file, the message shown to a user with no API key told them to set a credential the code never reads — anyone following that instruction could not have started the system at all.</p>
+    </div>
+
+    <div class="brk">
+      <span class="n">Two</span>
+      <h3>Every company, the same three scenarios</h3>
+      <p>Every scenario valuation returned a bear case of −25%, a base case of 0%, and a bull case of +25%. For every company. Regardless of price, earnings, growth, sector, or anything else in the report.</p>
+    </div>
+
+    <div class="brk">
+      <span class="n">Three</span>
+      <h3>A verdict scale it could not reach</h3>
+      <p>The verdict score had five regimes. Two of them could never be reached.</p>
+    </div>
+
+    <p>Not one of these came from a language model. The guardrail held perfectly. Every figure the models touched was correct, sourced, and reproducible. The fabrications were in the Python.</p>
+
+    <h2>03 — Why they looked believable</h2>
+
+    <p><b>The footer was true when I wrote it.</b> That is the whole mechanism. A provider swap changes imports, environment variables, model identifiers — and every one of those changes announces itself, because the code stops running if you get it wrong. Prose doesn't. A sentence at the bottom of a generated report is read by the author exactly once, on the day it is written, and never again. It produced no error, no failed test, no degraded output. The one thing it did produce was a false claim about provenance, printed on every page, by a system whose entire purpose is provenance.</p>
+
+    <p><b>The scenario valuation was a tautology wearing a method name.</b> Here is the line, unedited:</p>
+
+    <div class="exhibit">
+      <div class="cap"><span>src/intelligence.py · <b>scenario_valuation()</b></span><span>exhibit</span></div>
+<pre><code><span class="c-com"># mult is the scenario multiplier: 0.75, 1.00, 1.25.</span>
+<span class="c-com"># The company never enters the calculation:</span>
+"upside_downside_pct": <span class="c-bad">round(((mult - 1) * 100), 1)</span>
+<span class="c-com"># → bear −25.0, base 0.0, bull +25.0. For every ticker, forever.</span></code></pre>
+    </div>
+
+    <p>The reason this survived is more interesting than the bug: the base multiple was the company's own forward P/E, and the fundamental was its own forward EPS. Multiply those together and you get the current share price <em>by construction</em>. The base case could not have been anything other than zero. Once the base is pinned to the present, the bear and bull cases are just the numbers I picked.</p>
+
+    <p>And it looked like analysis. It had a method name (<span class="mono">scenario_valuation</span>), a structured output, three named scenarios, and — decisively — it was computed in Python. It inherited the credibility of the API-First rule without doing any of the work.</p>
+
+    <p><b>The score never met its own scale.</b> Seven dimensions, each capped at 60–70 points, averaged. The maximum reachable value was 67. The threshold for the top verdict was 75. "Strongly Constructive" was unreachable code. So was "Negative" at the other end — the floor was 35. Every company the system had ever analysed landed in the middle three regimes, and that was not a finding about companies.</p>
+
+    <p>One dimension is worth its own sentence. The valuation score read:</p>
+
+    <div class="exhibit">
+      <div class="cap"><span>src/intelligence.py · <b>model_score()</b></span><span>exhibit</span></div>
+<pre><code>"valuation": <span class="c-bad">60 if v.get("pe_ttm") is not None else 45</span>,
+<span class="c-com"># Measures whether a P/E exists. Not whether it is high.</span></code></pre>
+    </div>
+
+    <p>A valuation dimension that scores data availability is a second data-quality metric wearing a different label.</p>
+
+    <h2>04 — How I caught them</h2>
+
+    <p>Not through monitoring — there wasn't any. Not through a failing test — there weren't any covering this. Not from a wrong output, because none of these produced one that looked wrong.</p>
+
+    <p>I caught them because I was writing a public build log entry for the project, and the card had a field labelled <span class="mono">Result</span>. To fill it honestly I had to read my own code closely enough to describe what it does, and describing it is a different act from writing it. Within an hour I had three defects that had been there since before the repository had a git history to date them by.</p>
+
+    <div class="pull">The intention to publish a claim about a system is a better auditor than running the system.</div>
+
+    <p>The lesson is uncomfortable and I think it generalises. Nothing surfaces a false assumption faster than having to state it in front of people who could check.</p>
+
+    <h2>05 — Root cause</h2>
+
+    <p>One sentence: <em>API-First governs where numbers come from. It says nothing about whether they mean anything.</em></p>
+
+    <p>The rule was designed against a specific threat — a model asserting a figure that does not exist in any source. It defeats that threat completely. But it silently created a second category, and I never named it: <b>figures that are deterministically computed and still empty of information.</b> These are more dangerous than hallucinations, for three reasons. They are stable, so they never look anomalous. They are reproducible, so they survive review. And they are protected by the very rule that was supposed to make the report trustworthy — the moment a number is computed in Python, I stopped interrogating it.</p>
+
+    <p>Underneath that, three concrete causes. <b>Provenance stored as prose:</b> the provider name appeared in several places, none of them derived from anything the code executes. <b>A valuation that used its answer as its input:</b> anchoring on the company's own multiple guarantees the base case is the status quo. <b>A composite score whose scale was never checked against its own thresholds:</b> nobody had asked whether the top band was achievable.</p>
+
+    <h2>06 — What I actually fixed</h2>
+
+    <p>Two of the three are rebuilt. One is not, and I am publishing that rather than quietly closing it first, because which one survived is the point.</p>
+
+    <p><b>The scenario valuation now produces prices.</b> Every scenario is <span class="mono">fundamental × multiple</span>, and the inputs are rounded <em>before</em> they are multiplied, so a reader who multiplies the two printed numbers lands on the printed fair value. Upside is always <span class="mono">fair_value / price − 1</span>. Both identities are asserted before anything renders; a valuation that disagrees with its own arithmetic raises and fails the stage instead of reaching the reader.</p>
+
+    <p>The tautology is not gone — it is disclosed. The base case is still, by construction, roughly today's price, because the base multiple is still the company's own. What changed is that the report now says so, labels it the market-anchored case, and puts the peer-anchored number beside it: one House Fair Value blending the scenario base and a peer-median relative value in fixed halves. When the peer set is too weak to trust, the relative leg is dropped outright rather than quietly down-weighted, and the report names the exclusion.</p>
+
+    <p>The engine also learned to refuse. No positive per-share fundamental with a matching multiple returns <span class="mono">unavailable</span> with a stated reason instead of a decorative number. An earnings multiple above 100× is a statement about a near-zero denominator, not about what the market pays for profits — the basis is skipped and the skip is reported.</p>
+
+    <p>Fixing it surfaced a fourth problem I hadn't seen. The valuation was computed at fetch time, before peer selection runs — so anything peer-anchored would have been computed against an empty peer set on every run, forever. The whole block is now rebuilt after the peers land, and re-checked for consistency there.</p>
+
+    <p><b>The score has a real scale — most of one.</b> Dimensions now span 25–85 instead of 25–70, and the valuation dimension measures premium or discount to the peer median rather than whether a P/E exists. With the current weights the reachable range is 26.8 to 83.1, so the top verdict is now achievable. The bottom one still is not: "Negative" needs a score below 25 and the floor is 26.8. Two other things I described to myself as done are not: a missing dimension is still filled with 50 rather than excluded from the mean, and nothing reports how many of the seven were actually scored.</p>
+
+    <div class="exhibit">
+      <div class="cap"><span>verdict scale · reachable range</span><span>exhibit</span></div>
+      <table>
+        <thead><tr><th>&nbsp;</th><th>Before</th><th>After</th></tr></thead>
+        <tbody>
+          <tr><td>Reachable score</td><td class="read">35 – 67</td><td class="v">26.8 – 83.1</td></tr>
+          <tr><td>"Strongly Constructive" (≥ 75)</td><td class="read">unreachable</td><td class="v">reachable</td></tr>
+          <tr><td>"Negative" (&lt; 25)</td><td class="read">unreachable</td><td class="read">still unreachable</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>The provenance footer is still a written sentence.</b> Half of that defect is closed: the message shown without a key now names the environment variable the loader actually reads, so the instruction is followable. The footer is not. It still credits the wrong provider, in both languages, in a literal string — the exact defect this article opens with, still live in the file while I write about it. The fix is designed and unwritten: read the provider from the client object that ran, collect model identifiers from the crew that ran, and fill the sentence from that state, so changing models changes the footer and there is no longer a string to forget.</p>
+
+    <p><b>The test suite is real, and it is not the twelve I claimed.</b> 127 tests pass, 32 of them on the valuation engine, each written to fail against the old code rather than merely pass against the new. The one I care about most is <span class="mono">test_scenario_output_is_never_a_ratio_around_one</span>. Next to it: <span class="mono">test_no_positive_fundamental_yields_an_unavailable_scenario</span>, <span class="mono">test_weak_peer_set_drops_the_relative_leg_rather_than_hiding_it</span>, and <span class="mono">test_inconsistent_valuation_fails_the_stage</span>. What no test asserts yet is the one thing this section is about: that every regime on the verdict scale is reachable.</p>
+
+    <h2>07 — What changed structurally</h2>
+
+    <p>Two rules came out of this, and they are broader than the three bugs.</p>
+
+    <p><b>Any user-facing claim about the system must be derived from runtime state, not written as a literal.</b> If the report says something about how it was made, that sentence has to be computed. Prose about a system is a cache with no invalidation. This is a rule I have stated and not yet enforced — see the footer.</p>
+
+    <p><b>Any deterministic figure must be able to say "unavailable."</b> A calculation that always returns something will eventually return something meaningless, and a meaningless number that never admits it is worse than a gap. The valuation engine now has that path on every block. The verdict score does not: its missing dimensions still resolve to 50.</p>
+
+    <p>One structural fix did land in full, and it was found by instrumenting rather than by reading. A single specialist agent raising an exception propagated out of the thread pool and killed the entire run, discarding five completed sections. One missing section is a warning. A lost run is an outage. They were the same event. Each specialist is now isolated: its failure is recorded, its section is left empty, and the gap is surfaced to the editor by the contradiction detector.</p>
+
+    <p>What is still missing is the instrumentation itself. The pipeline cannot answer basic questions about its own runs — how long one takes, how many model calls it makes, how many figures came back empty, which steps were skipped and why. Progress is still human-readable strings passed to a callback and discarded. Until that is a structured log with a status per step and per-phase durations, every performance claim I make about this system is a memory, not a measurement.</p>
+
+    <h2>08 — What I actually learned</h2>
+
+    <p><em>Deterministic</em> is not a synonym for <em>correct</em>. Moving a calculation out of the model and into Python removes one failure mode and introduces another: the unexamined formula. The model's output at least gets read — that is the whole point of a human review step. Python's output gets trusted, precisely because it came from Python.</p>
+
+    <p>The failure modes that matter in financial AI are not the loud ones. A model that produces an obviously wrong number is a solved problem; you notice, you fix it. A pipeline that produces a stable, plausible, reproducible, structurally meaningless number will pass every review you have, indefinitely, because nothing about it looks like a failure.</p>
+
+    <div class="principle">
+      <span class="k">Principle</span>
+      <p>A number computed in Python is not evidence. It is a claim with better manners — and the guardrail that made it trustworthy is the same one that stopped me from reading it.</p>
+    </div>
+
+    <h2>09 — What I still don't trust</h2>
+
+    <p><b>The data source.</b> Everything comes from one unofficial, rate-limited API. Retries and caching handle <em>absence</em>. Nothing in the pipeline handles <em>wrongness</em> — if a plausible but incorrect figure comes back, every downstream control passes it through, and every agent will faithfully interpret it. "The model didn't fabricate this" and "this is true" are different statements. I can currently only guarantee the first.</p>
+
+    <p><b>The peer set.</b> A model chooses the comparables. The multiples are Python's, but the comparison set is not — and it now anchors half of the House Fair Value, which raises the stakes on that choice. It is disclosed in the footer. It is not solved.</p>
+
+    <p><b>The composite score.</b> It is mathematically consistent now, and still has one regime nobody can reach. The thresholds are my judgement, and calling something "Constructive" because a number crossed a line I chose is exactly the kind of false precision this article is about. I have not decided whether it belongs in the report or should stay an internal ordering tool.</p>
+
+    <p><b>The provenance line.</b> Named above, still open, printed on every page.</p>
+
+    <p><b>Narrative causality.</b> Agents are instructed to label conclusions Observed, Inferred, or Speculative, and never to assert causality without supplied evidence. That is an instruction, not an enforcement. I have no mechanism that verifies compliance.</p>
+
+    <p><b>Any report nobody read.</b> Not one of these should leave the system without a human reading it. That is not a temporary limitation pending better models.</p>
+
+    <p>The pipeline was built to stop a language model from fabricating data. It does that. What it could not do was stop me — and I had spent so long designing the guardrail that I never thought to check the side of the wall I was standing on.</p>
+
+    <p class="repo">Stock Analyzer is a live build. <a href="/finance-engineering.html">Finance Engineering</a> carries the current architecture, stack and open issues.</p>
+
+    <p class="disclaimer">This is a financial/technical educational note, not investment advice. Code references describe this project at the time of writing; the repository moves.</p>
+  <a class="fe-back" href="/finance-engineering.html">← Finance Engineering</a>
+</article>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-title">NO<span style="color:var(--amber)">/</span>CASHFLOW</div>
+        <p class="footer-brand-desc">Independent macro &amp; markets, published daily. Sourced data, no fabrication.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Pages</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/articles.html">Articles</a></li>
+          <li><a href="/macro.html">Macro</a></li>
+          <li><a href="/now/">Live Indicators</a></li>
+          <li><a href="/calendar.html">Economic Calendar</a></li>
+          <li><a href="/dashboard.html">Dashboard</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/bulletin_page.html">Bulletin</a></li>
+          <li><a href="/archive.html">Archive</a></li>
+          <li><a href="/embed.html">Embed Widget</a></li>
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/glossary.html">Glossary</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Social</h4>
+        <ul>
+          <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
+          <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="/feed-en.xml">RSS</a></li>
+          <li><a href="mailto:orkun@nocashflow.net">Email</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona</span>
+      <span><a href="/about.html">About</a> · <a href="/bulletin_page.html">Subscribe</a></span>
+    </div>
+    <div class="mood-line"><span class="mood-dot"></span>Today the market is fearful — Fear &amp; Greed 31/100.</div>
+    <div class="disclaimer">
+      This site is for information only and does not provide investment advice.<br/>
+      <a href="/privacy.html">Privacy</a> · <a href="/legal.html">Legal Notice</a> · <a href="/disclaimer.html">Disclaimer</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/app.js?v=mx2"></script>
+<script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>
+<script>document.querySelectorAll('[data-set-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',a.getAttribute('data-set-lang'));}catch(e){}});});</script>
+</body>
+</html>

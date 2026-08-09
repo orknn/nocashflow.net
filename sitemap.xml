@@ -277,6 +277,18 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/articles/oil.html"/>
   </url>
   <url>
+    <loc>https://nocashflow.net/finance-engineering/zero-fabricated-data.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/finance-engineering/zero-fabricated-data.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/finance-engineering/sifir-uydurma-veri.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/finance-engineering/zero-fabricated-data.html"/>
+  </url>
+  <url>
+    <loc>https://nocashflow.net/tr/finance-engineering/sifir-uydurma-veri.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/finance-engineering/zero-fabricated-data.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/finance-engineering/sifir-uydurma-veri.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nocashflow.net/finance-engineering/zero-fabricated-data.html"/>
+  </url>
+  <url>
     <loc>https://nocashflow.net/finance-engineering/when-data-lies.html</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nocashflow.net/finance-engineering/when-data-lies.html"/>
     <xhtml:link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/finance-engineering/veri-yalan-soyleyince.html"/>

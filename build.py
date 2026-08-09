@@ -1728,6 +1728,17 @@ def render_article(slug, lang):
 
 # ── Finance Engineering essays (own section; bodies in content/fe/<key>/) ──────
 FE_ESSAYS = {
+    "sifir-uydurma-veri": {
+        "num": "04", "date": "2026-08-09", "en_slug": "zero-fabricated-data",
+        "cat": {"en": "Teardown", "tr": "Teardown"},
+        "date_disp": {"en": "Aug 9, 2026", "tr": "9 Ağu 2026"},
+        "read": {"en": "10 min read", "tr": "10 dk okuma"},
+        "title": {"en": "Zero Fabricated Data — Except the Ones I Wrote Myself",
+                  "tr": "Sıfır Uydurma Veri — Kendi Yazdıklarım Hariç"},
+        "dek": {"en": "I built an equity research pipeline so a language model could never invent a number. It worked. Then I found three fabricated numbers in it. All of them were mine.",
+                "tr": "Bir dil modeli asla rakam uyduramasın diye bir hisse araştırma hattı kurdum. İşe yaradı. Sonra içinde üç uydurma rakam buldum. Üçü de benimdi."},
+    },
+
     "veri-yalan-soyleyince": {
         "num": "02", "date": "2026-06-27", "en_slug": "when-data-lies",
         "cat": {"en": "Teardown", "tr": "Teardown"},

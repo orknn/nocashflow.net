@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sıfır Uydurma Veri — Kendi Yazdıklarım Hariç — Finance Engineering — NoCashFlow</title>
+<meta name="description" content="Bir dil modeli asla rakam uyduramasın diye bir hisse araştırma hattı kurdum. İşe yaradı. Sonra içinde üç uydurma rakam buldum. Üçü de benimdi."/>
+<meta name="robots" content="max-image-preview:large"/>
+<link rel="canonical" href="https://nocashflow.net/tr/finance-engineering/sifir-uydurma-veri.html"/>
+<link rel="alternate" hreflang="en" href="https://nocashflow.net/finance-engineering/zero-fabricated-data.html"/>
+<link rel="alternate" hreflang="tr" href="https://nocashflow.net/tr/finance-engineering/sifir-uydurma-veri.html"/>
+<link rel="alternate" hreflang="x-default" href="https://nocashflow.net/finance-engineering/zero-fabricated-data.html"/>
+<meta property="og:title" content="Sıfır Uydurma Veri — Kendi Yazdıklarım Hariç"/>
+<meta property="og:description" content="Bir dil modeli asla rakam uyduramasın diye bir hisse araştırma hattı kurdum. İşe yaradı. Sonra içinde üç uydurma rakam buldum. Üçü de benimdi."/>
+<meta property="og:type" content="article"/>
+<meta property="og:url" content="https://nocashflow.net/tr/finance-engineering/sifir-uydurma-veri.html"/>
+<meta property="og:image" content="https://nocashflow.net/assets/cards/sifir-uydurma-veri-tr.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://nocashflow.net/assets/cards/sifir-uydurma-veri-tr.png"/>
+<link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml"/>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=2"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2"/>
+<link rel="shortcut icon" href="/favicon.ico?v=2"/>
+<link rel="alternate" type="application/rss+xml" title="NoCashFlow" href="/feed-tr.xml"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<meta name="theme-color" content="#040A06"/>
+<script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('theme');if(q==='dark'||q==='light'){try{localStorage.setItem('ncf_theme',q);}catch(e){}}var t=null;try{t=localStorage.getItem('ncf_theme');}catch(e){}if(!t){var h=new Date().getHours();t=(h>=21||h<7)?'dark':'light';}if(t==='dark')d.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,SOFT,WONK,wght@0,9..144,0..100,0..1,300..900;1,9..144,0..100,0..1,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Libre+Caslon+Display&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/site.css"/>
+<link rel="stylesheet" href="/components.css"/>
+<link rel="stylesheet" href="/broadsheet.css"/>
+<link rel="stylesheet" href="/finance-eng.css?v=mx2"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"NewsArticle","headline":"Sıfır Uydurma Veri — Kendi Yazdıklarım Hariç","description":"Bir dil modeli asla rakam uyduramasın diye bir hisse araştırma hattı kurdum. İşe yaradı. Sonra içinde üç uydurma rakam buldum. Üçü de benimdi.","image":["https://nocashflow.net/assets/cards/sifir-uydurma-veri-tr.png"],"datePublished":"2026-08-09T08:00:00+02:00","dateModified":"2026-08-09T08:00:00+02:00","author":{"@type":"Person","name":"Orkun Biçen","sameAs":["https://www.linkedin.com/in/orkunbicen/"],"url":"https://nocashflow.net/tr/hakkinda.html"},"publisher":{"@type":"Organization","name":"NoCashFlow","url":"https://nocashflow.net/","logo":{"@type":"ImageObject","url":"https://nocashflow.net/logo.png","width":512,"height":512}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://nocashflow.net/tr/finance-engineering/sifir-uydurma-veri.html"},"articleSection":"Teardown","inLanguage":"tr"}</script>
+</head>
+<body data-mood="fear" class="bs fe-matrix">
+<div class="press-line"></div>
+<div class="cursor-ring"><span class="c-label">Read</span></div>
+<div class="cursor-dot"></div>
+
+<div id="page-sweep"></div>
+<div id="read-progress" aria-hidden="true"></div>
+
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/tr/" class="logo">NO<span class="slash">/</span>CASHFLOW<span class="tag">MACRO × MARKETS</span></a>
+    <div class="nav-links" id="nav-links">
+      <a href="/tr/">Ana Sayfa</a>
+      <a href="/tr/yazilar.html">Yazılar</a>
+      <a href="/tr/macro.html">Makro</a>
+      <a href="/tr/takvim.html">Takvim</a>
+      <a href="/tr/dashboard.html">Panel</a>
+      <a href="/tr/bulletin_page.html">Bülten</a>
+      <a href="/tr/finance-engineering.html" class="active">Finance Engineering</a>
+      <a href="/tr/hakkinda.html">Hakkında</a>
+    </div>
+    <div class="nav-right">
+      <a class="lang-switch" href="/finance-engineering/zero-fabricated-data.html" data-set-lang="en" aria-label="Switch to English">EN</a>
+      <button class="nav-btn theme-toggle" data-theme-toggle aria-label="After Hours" title="After Hours">◐</button>
+      <a href="/tr/bulletin_page.html" class="subscribe">Abone Ol</a>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-label"><span class="dot"></span> Live</div>
+  <div class="ticker-track" id="ticker-track"></div>
+</div>
+
+
+<div class="masthead"><div class="masthead-inner"><span>Sabah Baskısı</span><span class="mh-date">Pazartesi, 10 Ağustos 2026</span><span>Barcelona</span></div></div>
+
+
+<article class="fe-essay">
+<span class="eyebrow tag">04 · Teardown</span>
+    <h1>Sıfır uydurma veri — <em>kendi yazdıklarım hariç</em></h1>
+    <p class="dek">Bir dil modeli asla rakam uyduramasın diye bir hisse araştırma hattı kurdum. İşe yaradı. Sonra içinde üç uydurma rakam buldum. Üçü de benimdi.</p>
+    <div class="byline">
+      <span>nocashflow.net · Finance Engineering</span>
+      <span>~10 dk · TR/EN · Ağustos 2026</span>
+    </div>
+
+    <h2>01 — Ne inşa ediyordum</h2>
+    <p class="first">NoCashFlow Stock Analyzer bir hisse kodu alıyor ve yedi sayfalık iki dilli bir hisse araştırma raporu döndürüyor: yapısal trendler, çeyreklik momentum, finansal sağlık, emsallere karşı değerleme, fiyat hareketi ve ortaklık yapısı, riskler ve sentezlenmiş bir hüküm. Altı uzman ajan paralel çalışıyor; bir editör ajan onların taslaklarını sentezliyor.</p>
+
+    <p>Mimarinin tek bir kuralı var, geri kalan her şey ondan türüyor. Adı <b>API-First</b>: rapordaki her sayı, veri API'sinden Python'da hesaplanır. Modeller ham tabloları hiç görmez ve hiç aritmetik yapmaz. Ellerine bitmiş rakamlardan oluşan bir JSON bloğu geçer ve sistem prompt'unda onunla ne yapabilecekleri söylenir:</p>
+
+    <div class="pull">Hiçbir sayıyı yeniden hesaplama, yeniden türetme ya da uydurma — verilen rakamları olduğu gibi kullan. Bir rakam null ise tahmin etmek yerine verinin mevcut olmadığını söyle.</div>
+
+    <p>Bu iki kez uygulanıyor: bir kez prompt'ta, bir kez mimaride. Hiçbir ajanın hesap makinesi yok. Bir modelin sayıları etkilediği tek yer emsal seçimi — bir hisse kodu listesi döndürüyor, o kadar; çarpanların kendisi yine Python'da çekilip medyanlanıyor.</p>
+
+    <p>Bu tasarımdan emindim. Hâlâ eminim. İddia ettiği şeyi tam olarak yapıyor.</p>
+
+    <p>Sadece, kapsadığını sandığım şeyi kapsamıyormuş.</p>
+
+    <h2>02 — Üç rakam</h2>
+
+    <div class="brk">
+      <span class="n">Bir</span>
+      <h3>Hiç çalışmamış bir modele teşekkür eden künye</h3>
+      <p>Sistemin ürettiği her rapor, onu üretmemiş bir modeli künyesinde anıyordu. Hat başka bir sağlayıcıya taşınmıştı; künye metni yerinden kıpırdamamıştı. Eskisinin adını yazıyordu. Aynı dosyada, API anahtarı olmayan kullanıcıya gösterilen mesaj, kodun hiç okumadığı bir kimlik bilgisini ayarlamasını söylüyordu — o talimatı izleyen biri sistemi hiç başlatamazdı.</p>
+    </div>
+
+    <div class="brk">
+      <span class="n">İki</span>
+      <h3>Her şirkete aynı üç senaryo</h3>
+      <p>Her senaryo değerlemesi −%25 ayı, %0 baz ve +%25 boğa senaryosu döndürüyordu. Her şirket için. Fiyat, kâr, büyüme, sektör ya da raporun içindeki başka hiçbir şey fark etmeksizin.</p>
+    </div>
+
+    <div class="brk">
+      <span class="n">Üç</span>
+      <h3>Kendi ölçeğine erişemeyen bir hüküm</h3>
+      <p>Hüküm skorunun beş rejimi vardı. İkisine hiçbir zaman ulaşılamıyordu.</p>
+    </div>
+
+    <p>Bunların hiçbiri bir dil modelinden çıkmadı. Korkuluk kusursuz tuttu. Modellerin dokunduğu her rakam doğru, kaynaklı ve tekrar üretilebilirdi. Uydurmalar Python'ın içindeydi.</p>
+
+    <h2>03 — Neden inandırıcı görünüyorlardı</h2>
+
+    <p><b>Künye, onu yazdığım gün doğruydu.</b> Mekanizmanın tamamı bu. Bir sağlayıcı değişikliği import'ları, ortam değişkenlerini, model kimliklerini değiştirir — ve bunların her biri kendini duyurur, çünkü yanlış yaparsanız kod çalışmayı bırakır. Düzyazı bunu yapmaz. Üretilen bir raporun altındaki cümle, yazarı tarafından tam olarak bir kez okunur — yazıldığı gün — ve bir daha okunmaz. Hata üretmedi, düşen test üretmedi, bozuk çıktı üretmedi. Ürettiği tek şey, tüm varlık sebebi kaynak izlenebilirliği olan bir sistemin her sayfaya bastığı, kaynak hakkında yanlış bir iddiaydı.</p>
+
+    <p><b>Senaryo değerlemesi, metot adı takınmış bir totolojiydi.</b> Satır, olduğu gibi:</p>
+
+    <div class="exhibit">
+      <div class="cap"><span>src/intelligence.py · <b>scenario_valuation()</b></span><span>exhibit</span></div>
+<pre><code><span class="c-com"># mult senaryo çarpanı: 0.75, 1.00, 1.25.</span>
+<span class="c-com"># Şirket hesaba hiç girmiyor:</span>
+"upside_downside_pct": <span class="c-bad">round(((mult - 1) * 100), 1)</span>
+<span class="c-com"># → ayı −25.0, baz 0.0, boğa +25.0. Her hisse için, sonsuza kadar.</span></code></pre>
+    </div>
+
+    <p>Bunun hayatta kalma sebebi hatanın kendisinden daha ilginç: baz çarpan şirketin kendi forward F/K'sıydı, temel büyüklük de kendi forward hisse başı kârıydı. Bu ikisini çarpınca <em>tanımı gereği</em> güncel hisse fiyatını elde edersiniz. Baz senaryo sıfırdan başka bir şey olamazdı. Baz bugüne çivilendikten sonra ayı ve boğa senaryoları da benim seçtiğim sayılardan ibaret.</p>
+
+    <p>Ve analiz gibi görünüyordu. Bir metot adı vardı (<span class="mono">scenario_valuation</span>), yapılandırılmış bir çıktısı vardı, üç adlandırılmış senaryosu vardı ve — belirleyici olan — Python'da hesaplanıyordu. API-First kuralının güvenilirliğini, o işin hiçbirini yapmadan devraldı.</p>
+
+    <p><b>Skor kendi ölçeğiyle hiç buluşmadı.</b> Yedi boyut, her biri 60–70 puanla sınırlı, ortalaması alınıyor. Ulaşılabilir en yüksek değer 67'ydi. En üst hükmün eşiği 75'ti. "Strongly Constructive" erişilemeyen koddu. Diğer uçtaki "Negative" de öyle — taban 35'ti. Sistemin bugüne dek analiz ettiği her şirket ortadaki üç rejime düşüyordu ve bu, şirketler hakkında bir bulgu değildi.</p>
+
+    <p>Bir boyut kendi cümlesini hak ediyor. Değerleme skoru şöyleydi:</p>
+
+    <div class="exhibit">
+      <div class="cap"><span>src/intelligence.py · <b>model_score()</b></span><span>exhibit</span></div>
+<pre><code>"valuation": <span class="c-bad">60 if v.get("pe_ttm") is not None else 45</span>,
+<span class="c-com"># F/K var mı diye ölçüyor. Yüksek mi diye değil.</span></code></pre>
+    </div>
+
+    <p>Veri mevcudiyetini puanlayan bir değerleme boyutu, başka bir etiket takmış ikinci bir veri kalitesi metriğidir.</p>
+
+    <h2>04 — Onları nasıl yakaladım</h2>
+
+    <p>İzleme sayesinde değil — hiç yoktu. Düşen bir test sayesinde değil — bunları kapsayan test yoktu. Yanlış bir çıktıdan da değil, çünkü hiçbiri yanlış <em>görünen</em> bir çıktı üretmiyordu.</p>
+
+    <p>Onları yakaladım çünkü proje için herkese açık bir build log kaydı yazıyordum ve kartta <span class="mono">Result</span> etiketli bir alan vardı. Orayı dürüstçe doldurmak için kendi kodumu, ne yaptığını anlatabilecek kadar yakından okumak zorunda kaldım — ve bir şeyi anlatmak, onu yazmaktan başka bir eylem. Bir saat içinde elimde üç defekt vardı; depoda onları tarihleyecek bir git geçmişi oluşmadan önceden beri oradaydılar.</p>
+
+    <div class="pull">Bir sistem hakkında iddiayı yayımlama niyeti, o sistemi çalıştırmaktan daha iyi bir denetçidir.</div>
+
+    <p>Ders rahatsız edici ve bence genellenebilir. Yanlış bir varsayımı, onu kontrol edebilecek insanların önünde ifade etmek zorunda kalmaktan daha hızlı açığa çıkaran bir şey yok.</p>
+
+    <h2>05 — Kök neden</h2>
+
+    <p>Tek cümle: <em>API-First sayıların nereden geldiğini yönetir. Bir anlam taşıyıp taşımadıkları hakkında hiçbir şey söylemez.</em></p>
+
+    <p>Kural belirli bir tehdide karşı tasarlanmıştı: bir modelin, hiçbir kaynakta bulunmayan bir rakamı ileri sürmesi. O tehdidi tamamen bertaraf ediyor. Ama sessizce ikinci bir kategori yarattı ve ben ona hiç ad vermedim: <b>deterministik olarak hesaplanan ve yine de bilgiden yoksun rakamlar.</b> Bunlar halüsinasyonlardan daha tehlikeli, üç sebeple. İstikrarlılar, dolayısıyla hiç anormal görünmezler. Tekrar üretilebilirler, dolayısıyla incelemeden sağ çıkarlar. Ve tam olarak raporu güvenilir kılması gereken kural tarafından korunurlar — bir sayı Python'da hesaplandığı anda onu sorgulamayı bıraktım.</p>
+
+    <p>Bunun altında üç somut neden. <b>Kaynak bilgisinin düzyazı olarak saklanması:</b> sağlayıcı adı birkaç yerde geçiyordu, hiçbiri kodun çalıştırdığı bir şeyden türetilmiyordu. <b>Cevabını girdi olarak kullanan bir değerleme:</b> şirketin kendi çarpanına çapalanmak, baz senaryonun mevcut durum olmasını garantiler. <b>Ölçeği kendi eşikleriyle hiç kontrol edilmemiş bileşik bir skor:</b> en üst bandın ulaşılabilir olup olmadığını kimse sormamıştı.</p>
+
+    <h2>06 — Gerçekte ne düzelttim</h2>
+
+    <p>Üçünün ikisi yeniden inşa edildi. Biri edilmedi ve bunu yayımlamadan önce sessizce kapatmak yerine böyle yazıyorum, çünkü asıl mesele hangisinin hayatta kaldığı.</p>
+
+    <p><b>Senaryo değerlemesi artık fiyat üretiyor.</b> Her senaryo <span class="mono">temel büyüklük × çarpan</span>; girdiler çarpılmadan <em>önce</em> yuvarlanıyor, böylece basılı iki sayıyı çarpan okur, basılı gerçeğe değere varıyor. Getiri her zaman <span class="mono">gerçeğe değer / fiyat − 1</span>. Her iki özdeşlik de hiçbir şey render edilmeden önce doğrulanıyor; kendi aritmetiğiyle çelişen bir değerleme okura ulaşmak yerine hata fırlatıp aşamayı düşürüyor.</p>
+
+    <p>Totoloji ortadan kalkmadı — açığa çıkarıldı. Baz senaryo hâlâ, tanımı gereği, aşağı yukarı bugünün fiyatı; çünkü baz çarpan hâlâ şirketin kendisininki. Değişen şu: rapor artık bunu söylüyor, buna piyasaya çapalı senaryo diyor ve yanına emsale çapalı rakamı koyuyor — senaryo bazını ve emsal medyanına dayalı göreli değeri sabit yarı yarıya harmanlayan tek bir House Fair Value. Emsal seti güvenilecek kadar sağlam değilse göreli bacak sessizce ağırlığı azaltılmak yerine tamamen düşürülüyor ve rapor bu dışlamayı adıyla söylüyor.</p>
+
+    <p>Motor ayrıca reddetmeyi öğrendi. Eşleşen çarpanı olan pozitif bir hisse başı temel büyüklük yoksa, dekoratif bir sayı yerine gerekçesi belirtilmiş <span class="mono">unavailable</span> dönüyor. 100×'in üzerindeki bir kâr çarpanı, piyasanın kâra ne ödediği hakkında değil, sıfıra yakın bir paydanın hakkında bir ifadedir — o dayanak atlanıyor ve atlama raporlanıyor.</p>
+
+    <p>Düzeltirken görmediğim dördüncü bir sorun ortaya çıktı. Değerleme, veri çekme anında, yani emsal seçimi çalışmadan önce hesaplanıyordu — dolayısıyla emsale çapalı her şey, her çalıştırmada boş bir emsal setine karşı hesaplanacaktı, sonsuza kadar. Blok artık emsaller geldikten sonra yeniden kuruluyor ve tutarlılığı orada yeniden kontrol ediliyor.</p>
+
+    <p><b>Skorun gerçek bir ölçeği var — büyük ölçüde.</b> Boyutlar artık 25–70 yerine 25–85 aralığına yayılıyor ve değerleme boyutu F/K'nın var olup olmadığını değil, emsal medyanına göre primi ya da iskontoyu ölçüyor. Mevcut ağırlıklarla ulaşılabilir aralık 26,8 ile 83,1; yani en üst hüküm artık erişilebilir. Alttaki hâlâ değil: "Negative" için 25'in altında bir skor gerekiyor, taban ise 26,8. Kendime bitti diye anlattığım iki şey daha bitmemiş: eksik bir boyut hâlâ ortalamadan çıkarılmak yerine 50 ile dolduruluyor ve yedi boyuttan kaçının gerçekten puanlandığını hiçbir yer raporlamıyor.</p>
+
+    <div class="exhibit">
+      <div class="cap"><span>hüküm ölçeği · ulaşılabilir aralık</span><span>exhibit</span></div>
+      <table>
+        <thead><tr><th>&nbsp;</th><th>Önce</th><th>Sonra</th></tr></thead>
+        <tbody>
+          <tr><td>Ulaşılabilir skor</td><td class="read">35 – 67</td><td class="v">26,8 – 83,1</td></tr>
+          <tr><td>"Strongly Constructive" (≥ 75)</td><td class="read">erişilemez</td><td class="v">erişilebilir</td></tr>
+          <tr><td>"Negative" (&lt; 25)</td><td class="read">erişilemez</td><td class="read">hâlâ erişilemez</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>Kaynak künyesi hâlâ elle yazılmış bir cümle.</b> Defektin yarısı kapandı: anahtar yokken gösterilen mesaj artık yükleyicinin gerçekten okuduğu ortam değişkeninin adını veriyor, yani talimat izlenebilir. Künye izlenebilir değil. Hâlâ yanlış sağlayıcıyı anıyor, iki dilde de, düz bir metin sabiti olarak — bu yazının açılışındaki defektin ta kendisi, ben onun hakkında yazarken dosyada duruyor. Düzeltmesi tasarlandı, yazılmadı: sağlayıcıyı çalışan istemci nesnesinden oku, model kimliklerini gerçekten çalışan ekipten topla ve cümleyi bu durumdan doldur; böylece model değiştirmek künyeyi de değiştirir ve unutulacak bir metin kalmaz.</p>
+
+    <p><b>Test paketi gerçek, ve iddia ettiğim on iki test değil.</b> 127 test geçiyor, 32'si değerleme motorunda; her biri yeni kodda geçsin diye değil, eski kodda düşsün diye yazıldı. En çok önemsediğim <span class="mono">test_scenario_output_is_never_a_ratio_around_one</span>. Yanında: <span class="mono">test_no_positive_fundamental_yields_an_unavailable_scenario</span>, <span class="mono">test_weak_peer_set_drops_the_relative_leg_rather_than_hiding_it</span> ve <span class="mono">test_inconsistent_valuation_fails_the_stage</span>. Henüz hiçbir testin doğrulamadığı şey ise tam da bu bölümün konusu: hüküm ölçeğindeki her rejimin erişilebilir olduğu.</p>
+
+    <h2>07 — Yapısal olarak ne değişti</h2>
+
+    <p>Bundan iki kural çıktı ve ikisi de üç hatadan daha geniş.</p>
+
+    <p><b>Sistem hakkındaki kullanıcıya görünen her iddia, elle yazılmış bir sabit değil, çalışma anındaki durumdan türetilmelidir.</b> Rapor kendi nasıl üretildiği hakkında bir şey söylüyorsa, o cümlenin hesaplanmış olması gerekir. Bir sistem hakkındaki düzyazı, geçersiz kılma mekanizması olmayan bir cache'tir. Bu, ifade ettiğim ama henüz uygulamaya koymadığım bir kural — künyeye bakın.</p>
+
+    <p><b>Deterministik her rakam "mevcut değil" diyebilmelidir.</b> Her zaman bir şey döndüren bir hesap, er ya da geç anlamsız bir şey döndürür; ve bunu hiç itiraf etmeyen anlamsız bir sayı, boşluktan beterdir. Değerleme motorunda artık her blokta bu yol var. Hüküm skorunda yok: eksik boyutları hâlâ 50'ye çözülüyor.</p>
+
+    <p>Yapısal bir düzeltme tam olarak yerine oturdu ve o da okuyarak değil, ölçerek bulundu. Tek bir uzman ajanın fırlattığı istisna thread havuzundan dışarı yayılıyor ve tüm çalıştırmayı öldürüyordu — tamamlanmış beş bölümü çöpe atarak. Eksik bir bölüm bir uyarıdır. Kaybedilmiş bir çalıştırma bir kesintidir. İkisi aynı olaydı. Artık her uzman yalıtılmış durumda: hatası kaydediliyor, bölümü boş bırakılıyor ve boşluk, çelişki dedektörü aracılığıyla editöre bildiriliyor.</p>
+
+    <p>Hâlâ eksik olan, ölçümün kendisi. Hat, kendi çalıştırmaları hakkındaki temel soruları yanıtlayamıyor — bir tur ne kadar sürüyor, kaç model çağrısı yapıyor, kaç rakam boş döndü, hangi adımlar neden atlandı. İlerleme hâlâ bir callback'e geçirilip atılan, insan-okunur metinler. Bu, adım başına durum ve faz başına süre içeren yapılandırılmış bir log hâline gelene kadar, bu sistemin davranışı hakkında yaptığım her performans iddiası bir ölçüm değil, bir hatıradır.</p>
+
+    <h2>08 — Asıl öğrendiğim</h2>
+
+    <p><em>Deterministik</em>, <em>doğru</em> ile eşanlamlı değil. Bir hesabı modelden çıkarıp Python'a taşımak bir hata modunu kaldırır ve yerine bir yenisini koyar: incelenmemiş formül. Modelin çıktısı hiç değilse okunur — insan inceleme adımının tüm amacı budur. Python'ın çıktısına güvenilir; tam da Python'dan geldiği için.</p>
+
+    <p>Finansal yapay zekâda önemli olan hata modları gürültülü olanlar değil. Bariz biçimde yanlış bir sayı üreten bir model çözülmüş bir problemdir; fark edersiniz, düzeltirsiniz. İstikrarlı, makul, tekrar üretilebilir ve yapısal olarak anlamsız bir sayı üreten bir hat ise sahip olduğunuz her incelemeden süresiz olarak geçer — çünkü hiçbir yanı başarısızlığa benzemez.</p>
+
+    <div class="principle">
+      <span class="k">İlke</span>
+      <p>Python'da hesaplanmış bir sayı kanıt değildir. Görgüsü daha iyi bir iddiadır — ve onu güvenilir kılan korkuluk, tam olarak beni onu okumaktan alıkoyan korkuluktur.</p>
+    </div>
+
+    <h2>09 — Hâlâ güvenmediklerim</h2>
+
+    <p><b>Veri kaynağı.</b> Her şey tek bir resmî olmayan, oran-limitli API'den geliyor. Yeniden deneme ve cache <em>yokluğu</em> yönetiyor. Hattaki hiçbir şey <em>yanlışlığı</em> yönetmiyor — makul ama hatalı bir rakam gelirse aşağıdaki her kontrol onu geçirir ve her ajan onu sadakatle yorumlar. "Model bunu uydurmadı" ile "bu doğru" farklı ifadelerdir. Şu an yalnızca birincisini garanti edebiliyorum.</p>
+
+    <p><b>Emsal seti.</b> Karşılaştırılabilirleri bir model seçiyor. Çarpanlar Python'ın, ama karşılaştırma seti değil — ve artık House Fair Value'nun yarısını çapalıyor, bu da o seçimin bedelini yükseltiyor. Künyede açıklanıyor. Çözülmüş değil.</p>
+
+    <p><b>Bileşik skor.</b> Artık matematiksel olarak tutarlı ve hâlâ kimsenin ulaşamadığı bir rejimi var. Eşikler benim yargım ve bir şeye, benim seçtiğim bir çizgiyi bir sayı geçtiği için "Constructive" demek, tam da bu yazının konusu olan sahte kesinlik türü. Raporda mı kalmalı yoksa içeride bir sıralama aracı mı olmalı, karar vermiş değilim.</p>
+
+    <p><b>Kaynak satırı.</b> Yukarıda adı kondu, hâlâ açık, her sayfaya basılıyor.</p>
+
+    <p><b>Anlatısal nedensellik.</b> Ajanlara, sonuçları Observed, Inferred ya da Speculative olarak etiketlemeleri ve sunulmuş kanıt olmadan asla nedensellik iddia etmemeleri talimatı veriliyor. Bu bir talimat, bir zorlama değil. Uyumu doğrulayan bir mekanizmam yok.</p>
+
+    <p><b>Kimsenin okumadığı her rapor.</b> Bunların hiçbiri, bir insan okumadan sistemden çıkmamalı. Bu, daha iyi modeller beklenen geçici bir kısıt değil.</p>
+
+    <p>Hat, bir dil modelinin veri uydurmasını engellemek için kuruldu. Bunu yapıyor. Yapamadığı şey beni engellemekti — ve korkuluğu tasarlamaya o kadar uzun zaman ayırmıştım ki, duvarın kendi durduğum tarafına bakmak hiç aklıma gelmedi.</p>
+
+    <p class="repo">Stock Analyzer canlı bir yapım. Güncel mimari, stack ve açık konular <a href="/tr/finance-engineering.html">Finance Engineering</a> bölümünde.</p>
+
+    <p class="disclaimer">Bu yazı finansal/teknik bir eğitim notudur; yatırım tavsiyesi değildir. Kod referansları projeyi yazıldığı andaki haliyle anlatır; depo ilerler.</p>
+  <a class="fe-back" href="/tr/finance-engineering.html">← Finance Engineering</a>
+</article>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-title">NO<span style="color:var(--amber)">/</span>CASHFLOW</div>
+        <p class="footer-brand-desc">Bağımsız makro &amp; piyasa, her gün yayımlanır. Kaynaklı veri, uydurma yok.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Sayfalar</h4>
+        <ul>
+          <li><a href="/tr/">Ana Sayfa</a></li>
+          <li><a href="/tr/yazilar.html">Yazılar</a></li>
+          <li><a href="/tr/macro.html">Makro</a></li>
+          <li><a href="/tr/simdi/">Canlı Göstergeler</a></li>
+          <li><a href="/tr/takvim.html">Ekonomik Takvim</a></li>
+          <li><a href="/tr/dashboard.html">Panel</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>İçerik</h4>
+        <ul>
+          <li><a href="/tr/bulletin_page.html">Bülten</a></li>
+          <li><a href="/tr/arsiv.html">Arşiv</a></li>
+          <li><a href="/tr/embed.html">Widget Göm</a></li>
+          <li><a href="/tr/hakkinda.html">Hakkında</a></li>
+          <li><a href="/tr/sozluk.html">Sözlük</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Sosyal</h4>
+        <ul>
+          <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
+          <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="/feed-tr.xml">RSS</a></li>
+          <li><a href="mailto:orkun@nocashflow.net">E-posta</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona</span>
+      <span><a href="/tr/hakkinda.html">Hakkında</a> · <a href="/tr/bulletin_page.html">Abone Ol</a></span>
+    </div>
+    <div class="mood-line"><span class="mood-dot"></span>Bugün piyasa korkuyor — Fear &amp; Greed 31/100.</div>
+    <div class="disclaimer">
+      Bu site yalnızca bilgilendirme amaçlıdır ve yatırım tavsiyesi içermez.<br/>
+      <a href="/tr/privacy.html">Gizlilik</a> · <a href="/tr/legal.html">Yasal Bildirim</a> · <a href="/tr/disclaimer.html">Feragatname</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/app.js?v=mx2"></script>
+<script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>
+<script>document.querySelectorAll('[data-set-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',a.getAttribute('data-set-lang'));}catch(e){}});});</script>
+</body>
+</html>

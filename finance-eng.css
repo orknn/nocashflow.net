@@ -129,6 +129,14 @@
 .fe-essay .exhibit th { color: var(--text-mute); font-weight: 500; border-top: 0; text-transform: uppercase; letter-spacing: .1em; font-size: 11px; }
 .fe-essay .exhibit .v { color: var(--fe-oxide); }
 .fe-essay .exhibit .read { color: var(--text-mute); }
+/* Code, inline and block. Both were being written in the essays already —
+   .mono spans and <pre> inside an exhibit — with nothing styling them, so a
+   line of Python rendered as body serif. */
+.fe-essay .mono { font-family: var(--mono); font-size: .86em; }
+.fe-essay .exhibit pre { margin: 0; padding: 14px; overflow-x: auto; }
+.fe-essay .exhibit pre code { font-family: var(--mono); font-size: 13.5px; line-height: 1.6; white-space: pre; }
+.fe-essay .c-com { color: var(--text-mute); }
+.fe-essay .c-bad { color: var(--fe-oxide); }
 .fe-essay .brk { margin: 24px 0; border-left: 2px solid var(--fe-oxide); padding-left: 20px; }
 .fe-essay .brk .n { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--fe-oxide); }
 .fe-essay .brk h3 { font-size: 21px; font-weight: 500; margin: 6px 0 6px; }
