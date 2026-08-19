@@ -1,11 +1,23 @@
 {
-  "asof": "2026-08-18T05:34:34Z",
+  "asof": "2026-08-19T05:35:48Z",
   "events": [
     {
       "dt_utc": "2026-08-19 07:10:00",
       "cet_date": "2026-08-19",
       "wd": 2,
       "time": "09:10",
+      "event": "ECB President Lagarde Speaks",
+      "country": "EU",
+      "impact": "medium",
+      "prev": "—",
+      "est": "—",
+      "act": "—"
+    },
+    {
+      "dt_utc": "2026-08-19 10:15:00",
+      "cet_date": "2026-08-19",
+      "wd": 2,
+      "time": "12:15",
       "event": "ECB President Lagarde Speaks",
       "country": "EU",
       "impact": "medium",
@@ -21,6 +33,18 @@
       "event": "FOMC Meeting Minutes",
       "country": "US",
       "impact": "high",
+      "prev": "—",
+      "est": "—",
+      "act": "—"
+    },
+    {
+      "dt_utc": "2026-08-19 18:30:00",
+      "cet_date": "2026-08-19",
+      "wd": 2,
+      "time": "20:30",
+      "event": "President Trump Speaks",
+      "country": "US",
+      "impact": "medium",
       "prev": "—",
       "est": "—",
       "act": "—"
