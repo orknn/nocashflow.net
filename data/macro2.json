@@ -1,6 +1,6 @@
 {
   "_note": "Live: FRED + DefiLlama + Atlanta Fed + Polymarket (cut odds). Manual (no free API): dot plot, ISM, global M2.",
-  "updated": "2026-08-21T05:39:44Z",
+  "updated": "2026-08-22T05:34:20Z",
   "regime_tape": [
     {
       "k": "Fed Funds",
@@ -11,13 +11,13 @@
     {
       "k": "Next FOMC",
       "v": "Sep 16",
-      "d": "26d",
+      "d": "25d",
       "dir": "neu"
     },
     {
       "k": "Cut odds (Sep 16)",
-      "v": "1.5%",
-      "d": "implied",
+      "v": "1.3%",
+      "d": "▼ from 1.5%",
       "dir": "neu"
     },
     {
@@ -28,7 +28,7 @@
     },
     {
       "k": "US 10Y",
-      "v": "4.65",
+      "v": "4.69",
       "d": "",
       "dir": "neu"
     },
@@ -40,13 +40,13 @@
     },
     {
       "k": "DXY",
-      "v": "98.77",
+      "v": "98.80",
       "d": "",
       "dir": "neu"
     },
     {
       "k": "F&amp;G",
-      "v": "72",
+      "v": "71",
       "d": "Greed",
       "dir": "up"
     }
@@ -69,31 +69,31 @@
     },
     {
       "v": "2.34%",
-      "sub": "▲ +2bp",
-      "dir": "up"
+      "sub": "→ +0bp",
+      "dir": "neu"
     }
   ],
   "fed": {
     "cut_odds": [
       {
         "m": "Sep 16",
-        "p": 1.5,
-        "d": "implied"
+        "p": 1.3,
+        "d": "▼ from 1.5%"
       },
       {
         "m": "Oct 28",
-        "p": 5.0,
-        "d": "▼ from 5.2%"
+        "p": 5.2,
+        "d": "▲ from 5.0%"
       },
       {
         "m": "Dec 9",
-        "p": 9.3,
-        "d": "▲ from 9.0%"
+        "p": 8.9,
+        "d": "▼ from 9.3%"
       },
       {
         "m": "Jan 27",
         "p": 17,
-        "d": "▼ from 20%"
+        "d": "implied"
       }
     ],
     "stats": [
@@ -108,7 +108,7 @@
         "dir": "down"
       },
       {
-        "v": "$225M",
+        "v": "$200M",
         "sub": "▼ draining",
         "dir": "down"
       },
@@ -162,8 +162,8 @@
         "dir": "down"
       },
       {
-        "v": "$308B",
-        "sub": "USDC $73B",
+        "v": "$309B",
+        "sub": "USDC $74B",
         "dir": "up"
       }
     ]
@@ -194,11 +194,11 @@
     "curve": [
       {
         "tenor": "1M",
-        "y": 3.77
+        "y": 3.8
       },
       {
         "tenor": "3M",
-        "y": 3.86
+        "y": 3.87
       },
       {
         "tenor": "6M",
@@ -210,15 +210,15 @@
       },
       {
         "tenor": "5Y",
-        "y": 4.35
+        "y": 4.39
       },
       {
         "tenor": "10Y",
-        "y": 4.65
+        "y": 4.69
       },
       {
         "tenor": "30Y",
-        "y": 5.19
+        "y": 5.23
       }
     ],
     "stats": [
@@ -228,7 +228,7 @@
         "dir": "neu"
       },
       {
-        "v": "4.65",
+        "v": "4.69",
         "sub": "+1.3%",
         "dir": "neu"
       },
@@ -238,7 +238,7 @@
         "dir": "up"
       },
       {
-        "v": "273bp",
+        "v": "275bp",
         "sub": "→ calm",
         "dir": "neu"
       }
