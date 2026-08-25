@@ -1,11 +1,11 @@
 {
-  "asof": "2026-08-24T05:42:39Z",
+  "asof": "2026-08-25T05:36:38Z",
   "events": [
     {
-      "dt_utc": "2026-08-24 18:00:00",
+      "dt_utc": "2026-08-24 17:00:00",
       "cet_date": "2026-08-24",
       "wd": 0,
-      "time": "20:00",
+      "time": "19:00",
       "event": "Treasury Sec Bessent Speaks",
       "country": "US",
       "impact": "medium",
