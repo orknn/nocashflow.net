@@ -1,6 +1,6 @@
 {
   "_note": "Live: FRED + DefiLlama + Atlanta Fed + Polymarket (cut odds). Manual (no free API): dot plot, ISM, global M2.",
-  "updated": "2026-09-03T09:35:36Z",
+  "updated": "2026-09-04T09:27:20Z",
   "regime_tape": [
     {
       "k": "Fed Funds",
@@ -11,13 +11,13 @@
     {
       "k": "Next FOMC",
       "v": "Sep 16",
-      "d": "13d",
+      "d": "12d",
       "dir": "neu"
     },
     {
       "k": "Cut odds (Sep 16)",
-      "v": "0.7%",
-      "d": "implied",
+      "v": "0.8%",
+      "d": "▲ from 0.7%",
       "dir": "neu"
     },
     {
@@ -34,19 +34,19 @@
     },
     {
       "k": "2s10s",
-      "v": "+40",
+      "v": "+43",
       "d": "steepening",
       "dir": "up"
     },
     {
       "k": "DXY",
-      "v": "99.23",
+      "v": "99.07",
       "d": "",
       "dir": "neu"
     },
     {
       "k": "F&amp;G",
-      "v": "65",
+      "v": "74",
       "d": "Greed",
       "dir": "up"
     }
@@ -77,23 +77,23 @@
     "cut_odds": [
       {
         "m": "Sep 16",
-        "p": 0.7,
-        "d": "implied"
+        "p": 0.8,
+        "d": "▲ from 0.7%"
       },
       {
         "m": "Oct 28",
-        "p": 5.0,
-        "d": "▲ from 4.4%"
+        "p": 5.5,
+        "d": "▲ from 5.0%"
       },
       {
         "m": "Dec 9",
-        "p": 11,
-        "d": "▲ from 10%"
+        "p": 12,
+        "d": "▲ from 11%"
       },
       {
         "m": "Jan 27",
         "p": 17,
-        "d": "▼ from 19%"
+        "d": "implied"
       }
     ],
     "stats": [
@@ -108,7 +108,7 @@
         "dir": "down"
       },
       {
-        "v": "$525M",
+        "v": "$702M",
         "sub": "▼ draining",
         "dir": "down"
       },
@@ -121,7 +121,6 @@
   },
   "liquidity": {
     "net_liq_series": [
-      5.8,
       5.81,
       5.8,
       5.78,
@@ -146,7 +145,8 @@
       5.84,
       5.8,
       5.79,
-      5.78
+      5.78,
+      5.77
     ],
     "y_min": 5.6,
     "y_max": 6.1,
@@ -157,12 +157,12 @@
         "dir": "up"
       },
       {
-        "v": "$5.78T",
-        "sub": "▼ -0.9% 3m",
+        "v": "$5.77T",
+        "sub": "▼ -2.2% 3m",
         "dir": "down"
       },
       {
-        "v": "$310B",
+        "v": "$311B",
         "sub": "USDC $74B",
         "dir": "up"
       }
@@ -180,9 +180,9 @@
       "dir": "neu"
     },
     {
-      "v": "203K",
-      "sub": "▼ -4K",
-      "dir": "up"
+      "v": "206K",
+      "sub": "▲ +2K",
+      "dir": "down"
     },
     {
       "v": "1.9%",
@@ -194,7 +194,7 @@
     "curve": [
       {
         "tenor": "1M",
-        "y": 3.85
+        "y": 3.83
       },
       {
         "tenor": "3M",
@@ -210,7 +210,7 @@
       },
       {
         "tenor": "5Y",
-        "y": 4.55
+        "y": 4.54
       },
       {
         "tenor": "10Y",
@@ -233,12 +233,12 @@
         "dir": "neu"
       },
       {
-        "v": "+40bp",
+        "v": "+43bp",
         "sub": "steepening",
         "dir": "up"
       },
       {
-        "v": "265bp",
+        "v": "266bp",
         "sub": "→ calm",
         "dir": "neu"
       }
