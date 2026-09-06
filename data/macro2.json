@@ -1,6 +1,6 @@
 {
   "_note": "Live: FRED + DefiLlama + Atlanta Fed + Polymarket (cut odds). Manual (no free API): dot plot, ISM, global M2.",
-  "updated": "2026-09-05T08:55:48Z",
+  "updated": "2026-09-06T09:16:13Z",
   "regime_tape": [
     {
       "k": "Fed Funds",
@@ -11,13 +11,13 @@
     {
       "k": "Next FOMC",
       "v": "Sep 16",
-      "d": "11d",
+      "d": "10d",
       "dir": "neu"
     },
     {
       "k": "Cut odds (Sep 16)",
       "v": "0.5%",
-      "d": "▼ from 0.8%",
+      "d": "implied",
       "dir": "neu"
     },
     {
@@ -78,17 +78,17 @@
       {
         "m": "Sep 16",
         "p": 0.5,
-        "d": "▼ from 0.8%"
+        "d": "implied"
       },
       {
         "m": "Oct 28",
-        "p": 3.9,
-        "d": "▼ from 5.5%"
+        "p": 4.5,
+        "d": "▲ from 3.9%"
       },
       {
         "m": "Dec 9",
-        "p": 7.3,
-        "d": "▼ from 12%"
+        "p": 8.2,
+        "d": "▲ from 7.3%"
       },
       {
         "m": "Jan 27",
@@ -162,7 +162,7 @@
         "dir": "down"
       },
       {
-        "v": "$312B",
+        "v": "$311B",
         "sub": "USDC $75B",
         "dir": "up"
       }
