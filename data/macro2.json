@@ -1,6 +1,6 @@
 {
   "_note": "Live: FRED + DefiLlama + Atlanta Fed + Polymarket (cut odds). Manual (no free API): dot plot, ISM, global M2.",
-  "updated": "2026-09-07T10:05:29Z",
+  "updated": "2026-09-08T09:30:32Z",
   "regime_tape": [
     {
       "k": "Fed Funds",
@@ -11,13 +11,13 @@
     {
       "k": "Next FOMC",
       "v": "Sep 16",
-      "d": "9d",
+      "d": "8d",
       "dir": "neu"
     },
     {
       "k": "Cut odds (Sep 16)",
-      "v": "0.5%",
-      "d": "implied",
+      "v": "0.7%",
+      "d": "▲ from 0.5%",
       "dir": "neu"
     },
     {
@@ -40,13 +40,13 @@
     },
     {
       "k": "DXY",
-      "v": "98.95",
+      "v": "98.97",
       "d": "",
       "dir": "neu"
     },
     {
       "k": "F&amp;G",
-      "v": "71",
+      "v": "69",
       "d": "Greed",
       "dir": "up"
     }
@@ -77,18 +77,18 @@
     "cut_odds": [
       {
         "m": "Sep 16",
-        "p": 0.5,
-        "d": "implied"
+        "p": 0.7,
+        "d": "▲ from 0.5%"
       },
       {
         "m": "Oct 28",
-        "p": 3.7,
-        "d": "▼ from 4.5%"
+        "p": 3.1,
+        "d": "▼ from 3.7%"
       },
       {
         "m": "Dec 9",
-        "p": 8.2,
-        "d": "implied"
+        "p": 8.1,
+        "d": "▼ from 8.2%"
       },
       {
         "m": "Jan 27",
@@ -162,8 +162,8 @@
         "dir": "down"
       },
       {
-        "v": "$312B",
-        "sub": "USDC $75B",
+        "v": "$311B",
+        "sub": "USDC $74B",
         "dir": "up"
       }
     ]
