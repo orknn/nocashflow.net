@@ -59,5 +59,52 @@
       "",
       ""
     ]
+  },
+  "drivers": {
+    "_note": "Dashboard §02 'What's moving markets'. HUMAN-AUTHORED. t = headline, b = the one-line why. Rows with an empty t are skipped; all empty → the section shows its empty state rather than generated filler.",
+    "en": [
+      {
+        "t": "",
+        "b": ""
+      },
+      {
+        "t": "",
+        "b": ""
+      },
+      {
+        "t": "",
+        "b": ""
+      },
+      {
+        "t": "",
+        "b": ""
+      },
+      {
+        "t": "",
+        "b": ""
+      }
+    ],
+    "tr": [
+      {
+        "t": "",
+        "b": ""
+      },
+      {
+        "t": "",
+        "b": ""
+      },
+      {
+        "t": "",
+        "b": ""
+      },
+      {
+        "t": "",
+        "b": ""
+      },
+      {
+        "t": "",
+        "b": ""
+      }
+    ]
   }
 }

@@ -1,63 +1,161 @@
 <header class="page-head">
-  <div class="page-eyebrow">Panel · Canlı Şerit <span class="divider"></span> <span class="muted">Güncellendi: <!--NCF:DASH_UPD--></span></div>
+  <div class="page-eyebrow">Panel · Canlı Şerit <span class="divider"></span> <span class="muted"><!--NCF:DASH_EDITION--></span> <span class="divider"></span> <span class="muted"><!--NCF:DASH_STATUS--></span></div>
   <h1 class="page-title">Piyasalar, <em>tek ekranda.</em></h1>
-  <p class="page-dek">Canlı şerit — geniş endeksler, döngüye öncülük eden temalar, sektör rotasyonu ve kripto. Ne hareket ediyor, para nereye gidiyor.</p>
+  <p class="page-dek">Canlı şerit — piyasa ne yapıyor, hangi tema ve sektörler öne geçiyor, hangi varlıklar hareket ediyor ve takip ettiğim listeler nasıl gidiyor.</p>
+  <!--NCF:DASH_NOTICE-->
 </header>
 
-<!-- HERO STATS -->
-<div class="dsh-hero"><div class="dsh-hero-grid"><!--NCF:DASH_HERO--></div></div>
+<button type="button" class="dsh-toc-toggle" id="dsh-toc-toggle" aria-expanded="false" aria-controls="dsh-toc">Bölüme atla</button>
 
+
+<div class="dsh-body">
+  <div class="dsh-toc-col"><nav class="dsh-toc" id="dsh-toc" aria-label="Panel bölümleri">
+    <p class="dsh-toc-hd">Bu sayfada</p>
+    <ul>
+      <li class="grp">Makro bağlam</li>
+      <li><a href="#sec-macro">Makro özet</a></li>
+      <li class="grp">Piyasa nabzı</li>
+      <li><a href="#sec-overview">Piyasa görünümü</a></li>
+      <li><a href="#sec-chart">Ana grafik</a></li>
+      <li><a href="#sec-moving">Piyasayı hareket ettirenler</a></li>
+      <li class="grp">Piyasa bağlamı</li>
+      <li><a href="#sec-commodities">Emtia & Döviz</a></li>
+      <li class="grp">Piyasa istihbaratı</li>
+      <li><a href="#sec-themes">Döngüye öncülük eden temalar</a></li>
+      <li><a href="#sec-rotation">Sektör rotasyonu</a></li>
+      <li><a href="#sec-movers">En çok hareket edenler</a></li>
+      <li class="grp">Varlıklar</li>
+      <li><a href="#sec-leaders">Piyasa liderleri</a></li>
+      <li><a href="#sec-watchlists">İzleme listeleri</a></li>
+      <li><a href="#sec-crypto">Kripto & dijital varlıklar</a></li>
+    </ul>
+  </nav></div>
+
+<!-- ══ LAYER 1 · MACRO CONTEXT ═════════════════════════════════════════════ -->
 <div class="section">
-  <!-- §01 GENİŞ ENDEKSLER -->
-  <div class="section-header"><div class="section-title"><span class="num">§ 01</span>Geniş endeksler</div><div class="section-meta">ETF vekilleri · son kapanış</div></div>
-  <div class="dsh-grid dsh-g5"><!--NCF:DASH_INDICES--></div>
-  <!--NCF:DASH_NOTE_indices-->
+  <div class="dsh-layer"><h2>Makro bağlam</h2><span>her şeyden önce döngü nerede duruyor</span></div>
 
-  <!-- §02 TEMALAR -->
-  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 02</span>Döngüye öncülük eden temalar</div><div class="section-meta">tematik ETF'ler</div></div>
-  <div class="dsh-grid dsh-g3"><!--NCF:DASH_THEMATICS--></div>
-  <div class="dsh-miniread"><b>Frontier izleme · saf-oyun, spekülatif</b>Tekil isimler, yüksek volatilite — takip edilir, tavsiye edilmez:<span class="dsh-chips"><!--NCF:DASH_FRONTIER--></span></div>
+  <!-- §10 MACRO SNAPSHOT — compact; the full regime lives on macro.html -->
+  <div class="section-header" id="sec-macro"><h3 class="section-title"><span class="num">§ 01</span> Makro özet</h3><div class="section-meta"><a href="/tr/macro.html">Tüm rejim →</a></div></div>
+  <p class="dsh-sec-dek">Mevcut piyasa rejimini tanımlayan göstergeler — faiz, getiri eğrisi, likidite, büyüme ve risk iştahı.</p>
+  <div class="dsh-macro"><!--NCF:DASH_MACROSNAP--></div>
+</div>
 
-  <!-- §03 SEKTÖR ROTASYONU -->
-  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 03</span>Sektör rotasyonu</div><div class="section-meta">11 SPDR sektörü · 1G Δ%</div></div>
-  <div class="dsh-heat"><!--NCF:DASH_HEAT--></div>
-  <!--NCF:DASH_NOTE_sectors-->
+<!-- ══ LAYER 2 · MARKET PULSE ══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="dsh-layer"><h2>Piyasa nabzı</h2><span>piyasalar şu anda ne yapıyor</span></div>
 
-  <!-- §04 KRİPTO PANOSU -->
-  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 04</span>Kripto panosu</div><div class="section-meta">CoinGecko · DefiLlama</div></div>
-  <div class="dsh-grid dsh-g5"><!--NCF:DASH_CRYPTO--></div>
-  <!--NCF:DASH_NOTE_crypto-->
+  <!-- §01 MARKET OVERVIEW -->
+  <div class="section-header" id="sec-overview"><h3 class="section-title"><span class="num">§ 02</span> Piyasa görünümü</h3><div class="section-meta" id="dsh-live-status" data-state="loading">Canlı veri yükleniyor…</div></div>
+  <div class="dsh-ov"><!--NCF:DASH_OVERVIEW--></div>
+</div>
 
-  <!-- §05 PİYASA LİDERLERİ -->
-  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 05</span>Piyasa liderleri</div><div class="section-meta">piyasa değerine göre ilk 10 · çok-ufuk</div></div>
-  <div class="dsh-scroll">
-    <table class="dsh-table" style="margin-bottom:30px;min-width:680px">
-      <thead><tr><th>Nasdaq mega'lar</th><th class="num">Fiyat</th><th class="pc">1G</th><th class="pc">7G</th><th class="pc">30G</th><th class="pc">180G</th><th class="pc">1Y</th><th class="pc">5Y</th><th class="num">Piyasa değeri</th></tr></thead>
-      <tbody><!--NCF:DASH_LEADERS_EQ--></tbody>
-    </table>
+<div class="section" style="padding-top:0">
+  <!-- §02 THE CHART -->
+  <div class="section-header" id="sec-chart"><h3 class="section-title"><span class="num">§ 03</span> Ana grafik</h3><div class="section-meta"><!--NCF:DASH_PENDING--></div></div>
+  <div class="dsh-panel">
+    <div class="dsh-toolbar">
+      <div><h4 id="dsh-chart-title"><!--NCF:DASH_CHART_TITLE--></h4><div class="cap" id="dsh-chart-cap"><!--NCF:DASH_CHART_CAP--></div></div>
+      <div class="filters" id="dsh-ranges"><!--NCF:DASH_CHART_RANGES--></div>
+    </div>
+    <div class="dsh-toolbar2">
+      <div class="filters" id="dsh-instruments"><!--NCF:DASH_CHART_INSTRUMENTS--></div>
+      <div class="filters" id="dsh-types"><!--NCF:DASH_CHART_TYPES--></div>
+      <button type="button" class="filter-btn" id="dsh-compare"><!--NCF:DASH_CHART_COMPARE--></button>
+      <div class="dsh-legend" id="dsh-legend"><!--NCF:DASH_CHART_LEGEND--></div>
+    </div>
+    <div class="dsh-plot" id="dsh-plot"><!--NCF:DASH_CHART_SVG--></div>
+    <div class="dsh-axis" id="dsh-axis"><!--NCF:DASH_CHART_AXIS--></div>
+    <div class="dsh-metrics" id="dsh-chart-metrics"><!--NCF:DASH_CHART_METRICS--></div>
   </div>
-  <div class="dsh-scroll">
-    <table class="dsh-table" style="min-width:680px">
-      <thead><tr><th>Kripto ilk 10</th><th class="num">Fiyat</th><th class="pc">1G</th><th class="pc">7G</th><th class="pc">30G</th><th class="pc">180G</th><th class="pc">1Y</th><th class="pc">5Y</th><th class="num">Piyasa değeri</th></tr></thead>
-      <tbody><!--NCF:DASH_LEADERS_CRYPTO--></tbody>
-    </table>
-  </div>
-  <!--NCF:DASH_NOTE_leaders-->
+</div>
 
-  <!-- §06 EMTİA & DÖVİZ -->
-  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 06</span>Emtia &amp; Döviz</div><div class="section-meta">spot · son kapanış</div></div>
+<div class="section" style="padding-top:0">
+  <!-- §03 WHAT'S MOVING MARKETS -->
+  <div class="section-header" id="sec-moving"><h3 class="section-title"><span class="num">§ 04</span> Piyasayı hareket ettirenler</h3><div class="section-meta"><!--NCF:DASH_NEWS_META--></div></div>
+  <!--NCF:DASH_NEWS-->
+</div>
+
+<!-- ══ LAYER 3 · MARKET CONTEXT ════════════════════════════════════════ -->
+<div class="section" style="padding-top:0">
+  <div class="dsh-layer"><h2>Piyasa bağlamı</h2><span>şeridin geri kalanının karşısında işlem gördüğü arka plan</span></div>
+
+  <!-- §04 COMMODITIES & FX — energy, metals, gas and the dollar -->
+  <div class="section-header" id="sec-commodities"><h3 class="section-title"><span class="num">§ 05</span> Emtia &amp; Döviz</h3><div class="section-meta"><!--NCF:DASH_PENDING--></div></div>
   <div class="dsh-twocol">
     <div class="dsh-scroll">
       <table class="dsh-table">
-        <thead><tr><th>Emtia</th><th class="num">Fiyat</th><th class="pc">1G</th><th class="pc">7G</th><th class="pc">30G</th><th class="pc">1Y</th></tr></thead>
+        <thead><tr><th>Emtia</th><th class="num">Fiyat</th><th class="pc">1G</th></tr></thead>
         <tbody><!--NCF:DASH_COMMODITIES--></tbody>
       </table>
     </div>
     <div class="dsh-scroll">
       <table class="dsh-table">
-        <thead><tr><th>Döviz</th><th class="num">Kur</th><th class="pc">1G</th><th class="pc">7G</th><th class="pc">30G</th><th class="pc">1Y</th></tr></thead>
+        <thead><tr><th>Döviz</th><th class="num">Kur</th><th class="pc">1G</th></tr></thead>
         <tbody><!--NCF:DASH_FX--></tbody>
       </table>
     </div>
   </div>
+</div>
+
+<!-- ══ LAYER 4 · MARKET INTELLIGENCE ═══════════════════════════════════════ -->
+<div class="section" style="padding-top:0">
+  <div class="dsh-layer"><h2>Piyasa istihbaratı</h2><span>para nereye dönüyor</span></div>
+
+  <!-- §04 THEMES -->
+  <div class="section-header" id="sec-themes"><h3 class="section-title"><span class="num">§ 06</span> Döngüye öncülük eden temalar</h3><div class="section-meta"><!--NCF:DASH_PENDING--></div></div>
+  <div class="dsh-themes"><!--NCF:DASH_THEMES--></div>
+</div>
+
+<div class="section" style="padding-top:0">
+  <!-- §05 SECTOR ROTATION -->
+  <div class="section-header" id="sec-rotation"><h3 class="section-title"><span class="num">§ 07</span> Sektör rotasyonu</h3><div class="section-meta">11 SPDR sektörü · göreli güç</div></div>
+  <div class="dsh-scroll">
+    <table class="dsh-table" style="min-width:720px">
+      <thead><tr><th>Sektör</th><th class="pc">1G</th><th class="pc">1H</th><th class="pc">1A</th><th>Göreli güç</th><th>Rotasyon</th></tr></thead>
+      <tbody><!--NCF:DASH_ROTATION--></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section" style="padding-top:0">
+  <!-- §06 TOP MOVERS -->
+  <div class="section-header" id="sec-movers"><h3 class="section-title"><span class="num">§ 08</span> En çok hareket edenler</h3><div class="section-meta">yalnızca izleme listesi evreni — tam piyasa tarayıcısı değil</div></div>
+  <div class="dsh-scroll">
+    <table class="dsh-table" style="min-width:940px">
+      <thead><tr><th>Sembol</th><th>Tema / Sektör</th><th class="num">Fiyat</th><th class="pc">1G</th><th class="num">Hacim</th><th class="num">Gör. Hacim</th><th class="num">Piyasa değeri</th><th>Katalizör</th><th>Liste</th></tr></thead>
+      <tbody><!--NCF:DASH_MOVERS--></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══ LAYER 5 · ASSETS ════════════════════════════════════════════════════ -->
+<div class="section" style="padding-top:0">
+  <div class="dsh-layer"><h2>Varlıklar</h2><span>varlık sınıfına göre</span></div>
+
+  <!-- Equity markets groups the two equity sections so neither reads as a
+       standalone widget; §08 is broad leadership, §09 the thematic universe. -->
+  <div class="dsh-group"><h3>Hisse piyasaları</h3><span>liderlik &amp; tematik evren</span></div>
+
+  <div class="section-header" id="sec-leaders"><h4 class="section-title"><span class="num">§ 09</span> Piyasa liderleri</h4><div class="section-meta">geniş hisse liderliği · gruplara göre</div></div>
+  <!--NCF:DASH_LEADERS-->
+
+  <div class="section-header" id="sec-watchlists" style="margin-top:34px"><h4 class="section-title"><span class="num">§ 10</span> İzleme listeleri</h4><div class="section-meta"><!--NCF:DASH_WL_COUNT--></div></div>
+  <div class="filters dsh-tabs" id="dsh-wl-tabs"><!--NCF:DASH_WL_TABS--></div>
+  <div class="dsh-scroll">
+    <table class="dsh-table" style="min-width:680px">
+      <thead><tr><th>Varlık</th><th class="num">Fiyat</th><th class="pc">1G</th><th class="pc">1H</th><th class="pc">1A</th><th class="pc">YBB</th><th class="pc">1Y</th><th>Trend</th></tr></thead>
+      <!--NCF:DASH_WL_TABLE-->
+    </table>
+  </div>
+  <div class="dsh-wl-meta"><!--NCF:DASH_WL_META--></div>
+</div>
+
+<div class="section" style="padding-top:0">
+  <!-- §08 CRYPTO & DIGITAL ASSETS -->
+  <div class="section-header" id="sec-crypto"><h3 class="section-title"><span class="num">§ 11</span> Kripto &amp; dijital varlıklar</h3><div class="section-meta"><!--NCF:DASH_PENDING--></div></div>
+  <div class="dsh-cr"><!--NCF:DASH_CRYPTO--></div>
+  <div class="dsh-sub" style="margin-top:26px"><h4>Piyasa metrikleri</h4><span class="meta">piyasa değeri · hakimiyet · stablecoin · fonlama</span></div>
+  <div class="dsh-metrics"><!--NCF:DASH_CRYPTO_STATS--></div>
+</div>
 </div>

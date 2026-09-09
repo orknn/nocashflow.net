@@ -1,19 +1,445 @@
 <script>
-  /* Dashboard is build-time rendered from data/markets.json (server-side, see
-     build.py inject_dashboard). Only the shared ticker stays client-side, on the
-     existing data source. Phase 4 will add a client-side markets.json refresh. */
+  /* The shared ticker is the one live thing on this page and stays on its own
+     existing data source. Every dashboard section below is prototype content
+     rendered at build time from data/dashboard-mock.json. */
   window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx','eurusd'], market: false });
 </script>
+
+<script>
+  /* ── §02 live market data ─────────────────────────────────────────────────
+     Reads the NoCashFlow market API (a Cloudflare Worker that calls the
+     providers server-side, so no CORS proxy and no key in this file) and
+     repaints the cards bound with data-live-px / data-live-chg. Those names are
+     deliberate: the shared app.js paints [data-px]/[data-chg] from the daily
+     snapshot and would otherwise overwrite live values on the same nodes.
+
+     The build-time values already in the DOM are the snapshot: they show
+     instantly, get replaced on the first good response, and stay — explicitly
+     marked stale — if the endpoint is unreachable. A failed request never
+     produces a number.
+  ------------------------------------------------------------------------- */
+  (function () {
+    var host = location.hostname;
+    var DEV = host === 'localhost' || host === '127.0.0.1';
+    var API = DEV ? 'http://127.0.0.1:8787/market/overview'
+                  : 'https://api.nocashflow.net/market/overview';
+    var TR = document.documentElement.lang === 'tr';
+    var REFRESH_MS = 60000;
+    var TIMEOUT_MS = 8000;
+
+    var statusEl = document.getElementById('dsh-live-status');
+    var cards = [].slice.call(document.querySelectorAll('.dsh-ovc[data-inst]'))
+                  .filter(function (c) { return c.dataset.inst; });
+    if (!statusEl || !cards.length) return;
+
+    var T = TR ? {
+      loading: 'Canlı veri yükleniyor…',
+      ok: 'Canlı · {n} enstrüman · {status} · {time}',
+      stale: 'Bağlantı yok — gösterilen değerler bayat ({time} denemesi)',
+      err: 'Veri alınamadı',
+      status: { open: 'piyasa açık', closed: 'piyasa kapalı', pre_market: 'açılış öncesi',
+                after_hours: 'kapanış sonrası', weekend: 'hafta sonu', always_open: '7/24' }
+    } : {
+      loading: 'Loading live data…',
+      ok: 'Live · {n} instruments · {status} · {time}',
+      stale: 'Offline — showing stale values (last try {time})',
+      err: 'Data unavailable',
+      status: { open: 'market open', closed: 'market closed', pre_market: 'pre-market',
+                after_hours: 'after hours', weekend: 'weekend', always_open: '24/7' }
+    };
+
+    var inFlight = false;   // guards against overlapping refreshes
+    var failures = 0;
+
+    function fmtTime(iso) {
+      try {
+        return new Date(iso).toLocaleTimeString(TR ? 'tr-TR' : 'en-GB',
+          { hour: '2-digit', minute: '2-digit' });
+      } catch (e) { return ''; }
+    }
+    function setStatus(state, text) {
+      statusEl.dataset.state = state;
+      statusEl.textContent = text;
+    }
+    function isNum(v) { return typeof v === 'number' && isFinite(v); }
+
+    /** Only a validated instrument object may touch the DOM. */
+    function paint(key, inst) {
+      if (!inst || inst.ok !== true || !isNum(inst.price)) return false;
+      var px = document.querySelector('[data-live-px="' + key + '"]');
+      var ch = document.querySelector('[data-live-chg="' + key + '"]');
+      if (px) {
+        px.textContent = inst.price.toLocaleString(TR ? 'tr-TR' : 'en-US',
+          { maximumFractionDigits: Math.abs(inst.price) < 100 ? 2 : 0 }) +
+          (inst.unit || '');
+      }
+      if (ch && isNum(inst.changePercent)) {
+        var p = inst.changePercent;
+        ch.textContent = (p > 0 ? '+' : p < 0 ? '\u2212' : '') + Math.abs(p).toFixed(2) + '%';
+        ch.classList.remove('up', 'down', 'neu');
+        ch.classList.add(p > 0 ? 'up' : p < 0 ? 'down' : 'neu');
+      }
+      return true;
+    }
+
+    async function fetchOnce() {
+      var ctrl = new AbortController();
+      var timer = setTimeout(function () { ctrl.abort(); }, TIMEOUT_MS);
+      try {
+        var res = await fetch(API, { signal: ctrl.signal, cache: 'no-store' });
+        if (!res.ok) throw new Error('http_' + res.status);
+        var data = await res.json();
+        if (!data || typeof data !== 'object' || !data.instruments) throw new Error('bad_payload');
+        return data;
+      } finally { clearTimeout(timer); }
+    }
+
+    /* `force` = a load the reader is waiting on (first paint, tab regains
+       focus). Only scheduled polling is suppressed while the tab is hidden —
+       otherwise a dashboard opened in a background tab would sit on
+       "Loading…" until it were focused. */
+    async function refresh(force) {
+      if (inFlight || (document.hidden && !force)) return;
+      inFlight = true;
+      try {
+        var data = null;
+        for (var attempt = 0; attempt < 2; attempt++) {
+          try { data = await fetchOnce(); break; }
+          catch (e) {
+            if (attempt === 0) {
+              await new Promise(function (r) { setTimeout(r, 1200); });  // backoff
+            } else { throw e; }
+          }
+        }
+        var painted = 0;
+        cards.forEach(function (c) {
+          if (paint(c.dataset.inst, data.instruments[c.dataset.inst])) painted++;
+        });
+        failures = 0;
+        if (painted === 0) {
+          setStatus('stale', T.stale.replace('{time}', fmtTime(new Date().toISOString())));
+        } else {
+          setStatus('live', T.ok
+            .replace('{n}', painted)
+            .replace('{status}', T.status[data.marketStatus] || data.marketStatus)
+            .replace('{time}', fmtTime(data.asOf)));
+        }
+      } catch (e) {
+        failures++;
+        if (DEV) console.warn('[NCF market]', e && e.message);
+        setStatus('stale', T.stale.replace('{time}', fmtTime(new Date().toISOString())));
+      } finally { inFlight = false; }
+    }
+
+    refresh(true);
+    setInterval(function () { refresh(false); }, REFRESH_MS);
+    // catch up immediately when the tab comes back rather than waiting a cycle
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) refresh(true);
+    });
+  })();
+</script>
+
+<script type="application/json" id="dsh-chart-data"><!--NCF:DASH_CHART_DATA--></script>
+<script>
+  /* §02 chart. Every series is already on the page, so switching instrument,
+     range or chart type is a redraw and never a request. The path geometry
+     mirrors build.py _plot_svg, so the server-rendered first view and every
+     later view are the same drawing. */
+  (function () {
+    var el = document.getElementById('dsh-chart-data');
+    var plot = document.getElementById('dsh-plot');
+    if (!el || !plot) return;
+    var D; try { D = JSON.parse(el.textContent || '{}'); } catch (e) { return; }
+    if (!D.instruments) return;
+
+    var X0 = 52, X1 = 706, Y0 = 18, Y1 = 214;
+    var S = { inst: D.first, range: D.range, type: 0, compare: false };
+    var CANDLES = 2;
+
+    function path(pts, lo, rng) {
+      var n = pts.length, out = [];
+      for (var i = 0; i < n; i++) {
+        out.push((X0 + i * (X1 - X0) / (n - 1)).toFixed(1) + ',' +
+                 (Y1 - (pts[i] - lo) / rng * (Y1 - Y0)).toFixed(1));
+      }
+      return out;
+    }
+
+    function draw() {
+      var inst = D.instruments[S.inst], r = inst.ranges[S.range];
+      if (!r) { S.range = Object.keys(inst.ranges)[0]; r = inst.ranges[S.range]; }
+      var pts = r.p;
+
+      if (S.type === CANDLES) {
+        plot.innerHTML = '<div class="empty">Candlestick view — data integration pending</div>';
+        return;
+      }
+      var all = pts.slice(), cmp = null;
+      if (S.compare) {
+        /* the comparison line is a placeholder shape, not a second instrument */
+        cmp = pts.map(function (v, i) { return v * (1 - 0.06 * i / pts.length); });
+        all = all.concat(cmp);
+      }
+      var lo = Math.min.apply(null, all), hi = Math.max.apply(null, all);
+      var rng = (hi - lo) || 1;
+      var main = path(pts, lo, rng), lab = [], g = [hi, (hi + lo) / 2, lo], i;
+      for (i = 0; i < 3; i++) {
+        lab.push('<text x="6" y="' + (Y1 - (g[i] - lo) / rng * (Y1 - Y0) + 4).toFixed(1) +
+                 '">' + Math.round(g[i]).toLocaleString('en-US') + '</text>');
+      }
+      var area = '';
+      if (S.type === 1) {
+        area = '<polygon fill="var(--amber)" opacity=".10" points="' + X0 + ',' + Y1 + ' ' +
+               main.join(' ') + ' ' + X1 + ',' + Y1 + '"/>';
+      }
+      var cmpLine = cmp ? '<polyline fill="none" stroke="var(--text-mute)" stroke-width="1.6" ' +
+        'stroke-dasharray="5 4" points="' + path(cmp, lo, rng).join(' ') + '"/>' : '';
+      var last = main[main.length - 1].split(',');
+
+      plot.innerHTML = '<svg viewBox="0 0 720 232" role="img" aria-label="price series">' +
+        '<line x1="' + X0 + '" y1="' + Y0 + '" x2="' + X0 + '" y2="' + Y1 + '" stroke="var(--border)"/>' +
+        '<line x1="' + X0 + '" y1="' + Y1 + '" x2="' + X1 + '" y2="' + Y1 + '" stroke="var(--border)"/>' +
+        '<g class="mono" font-size="10" fill="var(--text-mute)">' + lab.join('') + '</g>' + area +
+        '<polyline fill="none" stroke="var(--amber)" stroke-width="2.5" stroke-linejoin="round" points="' +
+        main.join(' ') + '"/>' + cmpLine +
+        '<circle cx="' + last[0] + '" cy="' + last[1] + '" r="3.5" fill="var(--amber)"/></svg>';
+    }
+
+    function render() {
+      var inst = D.instruments[S.inst], r = inst.ranges[S.range] || {};
+      draw();
+      document.getElementById('dsh-chart-title').textContent = inst.label;
+      document.getElementById('dsh-chart-cap').textContent =
+        inst.sym + ' · ' + S.range + ' ' + (r.chg || '');
+      var ax = D.axis[S.range] || [];
+      document.getElementById('dsh-axis').innerHTML =
+        ax.map(function (a) { return '<span>' + a + '</span>'; }).join('');
+      document.querySelectorAll('#dsh-chart-metrics .v').forEach(function (n, i) {
+        n.textContent = inst.values[i] !== undefined ? inst.values[i] : '—';
+        n.previousElementSibling.textContent = inst.metrics[i];
+      });
+      document.getElementById('dsh-legend-a').textContent = inst.sym;
+      var lg = document.getElementById('dsh-legend');
+      var extra = lg.querySelector('.cmp-item');
+      if (S.compare && !extra) {
+        lg.insertAdjacentHTML('beforeend',
+          '<span class="cmp-item" style="display:inline-flex;align-items:center;gap:8px;margin-left:6px">' +
+          '<i class="cmp"></i>Benchmark</span>');
+      } else if (!S.compare && extra) { extra.remove(); }
+      document.getElementById('dsh-compare').classList.toggle('active', S.compare);
+      sync('#dsh-instruments', 'inst', S.inst);
+      sync('#dsh-ranges', 'range', S.range);
+      sync('#dsh-types', 'type', String(S.type));
+    }
+
+    function sync(sel, key, val) {
+      document.querySelectorAll(sel + ' .filter-btn').forEach(function (b) {
+        b.classList.toggle('active', b.dataset[key] === val);
+      });
+    }
+
+    function bind(sel, key, cast) {
+      var host = document.querySelector(sel);
+      if (!host) return;
+      host.addEventListener('click', function (e) {
+        var b = e.target.closest('.filter-btn');
+        if (!b || b.dataset[key] === undefined) return;
+        S[key] = cast ? cast(b.dataset[key]) : b.dataset[key];
+        render();
+      });
+    }
+    bind('#dsh-instruments', 'inst');
+    bind('#dsh-ranges', 'range');
+    bind('#dsh-types', 'type', Number);
+    document.getElementById('dsh-compare').addEventListener('click', function () {
+      S.compare = !S.compare; render();
+    });
+    render();
+  })();
+</script>
+
+<script>
+  /* §03 editorial states and §07 watchlist tabs are both build-time rendered
+     and toggled by visibility, so the sections still read correctly with JS off
+     (every state visible rather than a blank panel). */
+  (function () {
+    /* the button's data attribute and the panel's need not be the same name:
+       news buttons carry data-news-state, the panels carry data-state. */
+    function tabs(hostId, btnAttr, targetSel, panelAttr) {
+      var host = document.getElementById(hostId);
+      if (!host) return;
+      panelAttr = panelAttr || btnAttr;
+      host.addEventListener('click', function (e) {
+        var b = e.target.closest('.filter-btn');
+        if (!b || b.dataset[btnAttr] === undefined) return;
+        host.querySelectorAll('.filter-btn').forEach(function (x) {
+          x.classList.toggle('active', x === b);
+        });
+        document.querySelectorAll(targetSel).forEach(function (n) {
+          n.hidden = n.dataset[panelAttr] !== b.dataset[btnAttr];
+        });
+      });
+    }
+    tabs('dsh-wl-tabs', 'list', 'tbody[data-list]');
+    tabs('dsh-news-states', 'newsState', '[data-state]', 'state');
+  })();
+</script>
+
+<script>
+  /* "On this page" scrollspy. One IntersectionObserver, no scroll listener and
+     no geometry reads per frame: the observer reports which section headers sit
+     in a band just under the sticky masthead, and the topmost one wins. The
+     compact strip also scrolls the active chip into view so the current section
+     is never off-screen on a phone. */
+  (function () {
+    var toc = document.querySelector('.dsh-toc');
+    if (!toc) return;
+
+    /* Below the rail breakpoint the list is a panel behind a toggle. The media
+       query owns the layout; JS only owns open/closed, and re-syncs when the
+       viewport crosses the breakpoint so the rail is never left hidden. */
+    var toggle = document.getElementById('dsh-toc-toggle');
+    /* Must match the rail breakpoint in dashboard.css. Rather than repeat the
+       number, read it off the toggle: the media query is what hides it, so a
+       hidden toggle means the rail layout is active. */
+    var wide = { get matches() {
+      return !toggle || getComputedStyle(toggle).display === 'none';
+    }, addEventListener: function (_, fn) { window.addEventListener('resize', fn); } };
+
+    function syncPanel() {
+      if (wide.matches) { toc.hidden = false; return; }
+      toc.hidden = toggle.getAttribute('aria-expanded') !== 'true';
+    }
+    if (toggle) {
+      toggle.addEventListener('click', function () {
+        var open = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', open ? 'false' : 'true');
+        syncPanel();
+      });
+      toc.addEventListener('click', function (e) {
+        if (!wide.matches && e.target.closest('a')) {
+          toggle.setAttribute('aria-expanded', 'false');
+          syncPanel();
+        }
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !wide.matches &&
+            toggle.getAttribute('aria-expanded') === 'true') {
+          toggle.setAttribute('aria-expanded', 'false');
+          syncPanel();
+          toggle.focus();
+        }
+      });
+      wide.addEventListener('change', syncPanel);
+      syncPanel();
+    }
+    var links = {}, order = [];
+    toc.querySelectorAll('a[href^="#"]').forEach(function (a) {
+      var id = a.getAttribute('href').slice(1);
+      var target = document.getElementById(id);
+      if (!target) return;
+      links[id] = a;
+      order.push(target);
+    });
+    if (!order.length) return;
+
+    var visible = new Set(), current = null;
+    var reduce = window.matchMedia &&
+                 window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function setActive(id) {
+      if (id === current) return;
+      current = id;
+      Object.keys(links).forEach(function (k) {
+        if (k === id) { links[k].setAttribute('aria-current', 'true'); }
+        else { links[k].removeAttribute('aria-current'); }
+      });
+      // the rail scrolls vertically when the list is taller than the viewport:
+      // keep the active item inside it
+      var a = links[id];
+      if (a && toc.scrollHeight > toc.clientHeight) {
+        var r = a.getBoundingClientRect(), b = toc.getBoundingClientRect();
+        if (r.top < b.top || r.bottom > b.bottom) {
+          toc.scrollTo({ top: a.offsetTop - toc.clientHeight / 2,
+                         behavior: reduce ? 'auto' : 'smooth' });
+        }
+      }
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { visible.add(en.target.id); }
+        else { visible.delete(en.target.id); }
+      });
+      // topmost section inside the band wins
+      for (var i = 0; i < order.length; i++) {
+        if (visible.has(order[i].id)) { setActive(order[i].id); return; }
+      }
+      // Nothing is in the band — which happens at the foot of the page, where
+      // the last heading has already scrolled above it. Fall back to the last
+      // heading the reader has passed, so the highlight cannot go stale.
+      var passed = null;
+      for (var j = 0; j < order.length; j++) {
+        if (order[j].getBoundingClientRect().top < 88) { passed = order[j].id; }
+      }
+      setActive(passed || order[0].id);
+    }, {
+      /* a band from just under the masthead down to 55% of the viewport, so a
+         section is "current" while its heading and opening rows are on screen */
+      rootMargin: '-88px 0px -45% 0px',
+      threshold: 0
+    });
+    order.forEach(function (el) { io.observe(el); });
+
+    /* Jumping straight to a section can outrun app.js's reveal observer, which
+       fades sections in on intersection — the reader would land on a blank
+       band. Reveal the target (and its neighbour) on the way in. */
+    function reveal(el) {
+      var sec = el && el.closest('.section');
+      if (!sec) return;
+      [sec, sec.nextElementSibling].forEach(function (n) {
+        if (n && n.classList && n.classList.contains('section')) {
+          n.style.opacity = '1';
+          n.style.transform = 'none';
+        }
+      });
+    }
+    toc.addEventListener('click', function (e) {
+      var a = e.target.closest('a[href^="#"]');
+      if (a) reveal(document.getElementById(a.getAttribute('href').slice(1)));
+    });
+    if (location.hash) reveal(document.getElementById(location.hash.slice(1)));
+
+    /* html{scroll-behavior:smooth} + scroll-padding-top already handle the
+       jump and the masthead offset; only the reduced-motion case needs help */
+    if (reduce) {
+      toc.addEventListener('click', function (e) {
+        var a = e.target.closest('a[href^="#"]');
+        if (!a) return;
+        var t = document.getElementById(a.getAttribute('href').slice(1));
+        if (!t) return;
+        e.preventDefault();
+        // same offset the CSS uses: masthead, plus the strip when it is pinned
+        var pad = parseInt(getComputedStyle(document.documentElement)
+                           .scrollPaddingTop, 10) || 88;
+        window.scrollTo(0, t.getBoundingClientRect().top + window.scrollY - pad);
+        history.replaceState(null, '', a.getAttribute('href'));
+      });
+    }
+  })();
+</script>
+
 <script>
   /* Magnetic tilt on dashboard cards — mouse-position based, skipped for
      prefers-reduced-motion. */
   if (!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
-    document.querySelectorAll('.dsh-tile, .dsh-hcell').forEach(function (card) {
+    document.querySelectorAll('.dsh-ovc, .dsh-crc, .dsh-th').forEach(function (card) {
       card.addEventListener('mousemove', function (e) {
         var r = card.getBoundingClientRect();
         var px = (e.clientX - r.left) / r.width - 0.5;
         var py = (e.clientY - r.top) / r.height - 0.5;
-        card.style.transform = 'perspective(500px) rotateX(' + (py * -6) + 'deg) rotateY(' + (px * 6) + 'deg)';
+        card.style.transform = 'perspective(560px) rotateX(' + (py * -4) + 'deg) rotateY(' + (px * 4) + 'deg)';
       });
       card.addEventListener('mouseleave', function () { card.style.transform = ''; });
     });

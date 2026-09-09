@@ -449,10 +449,12 @@ PAGES = {
         "nav_key": "dashboard",
         "paths": {"en": "/dashboard.html", "tr": "/tr/dashboard.html"},
         "out":   {"en": "dashboard.html", "tr": "tr/dashboard.html"},
-        "title": {"en": "Dashboard — NoCashFlow | Live Markets",
-                  "tr": "Panel — NoCashFlow | Canlı Piyasalar"},
-        "desc":  {"en": "Live market dashboard — crypto, indices, commodities and FX in one view, refreshed automatically.",
-                  "tr": "Canlı piyasa paneli — kripto, endeksler, emtia ve döviz tek ekranda, otomatik yenilenir."},
+        # the page renders prototype content: no "live", no "refreshed
+        # automatically", nothing that promises a freshness it does not have
+        "title": {"en": "Dashboard — NoCashFlow | Markets in One View",
+                  "tr": "Panel — NoCashFlow | Piyasalar Tek Ekranda"},
+        "desc":  {"en": "The market dashboard — macro backdrop, indices, themes, sector rotation, watchlists, crypto, commodities and FX in one view.",
+                  "tr": "Piyasa paneli — makro arka plan, endeksler, temalar, sektör rotasyonu, izleme listeleri, kripto, emtia ve döviz tek ekranda."},
     },
     "bulletin_page": {
         "nav_key": "bulletin",
@@ -549,6 +551,10 @@ MACRO = _load_data("macro.json")
 MARKETS = _load_data("markets.json")        # dashboard "the tape" feed (Phase 1)
 MACRO2 = _load_data("macro2.json")           # macro "the regime" page feed (Phase 2)
 MACRO_NOTES = _load_data("macro-notes.json")  # human-authored read/notes (Phase 2)
+WATCHLISTS = _load_data("watchlists.json")   # curated lists + movers (dashboard §06/§07)
+CHARTS = _load_data("charts.json")           # main-chart series (kept for the live feed)
+DASH_MOCK = _load_data("dashboard-mock.json")  # prototype dashboard content
+NEWS = _load_data("news.json")               # retrieved stories (scripts/fetch_news.py)
 
 WEEKDAYS = {"en": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
             "tr": ["Pzt", "Sal", "Çar", "Per", "Cum", "Cmt", "Paz"]}
@@ -936,9 +942,18 @@ def masthead(page, lang):
 
 # Global ticker — dark bar, mounted directly under the header (demo position).
 # Data source unchanged: app.js fills #ticker-track from the existing feed.
-TICKER_HTML = ('<!-- TICKER -->\n<div class="ticker">\n'
-               '  <div class="ticker-label"><span class="dot"></span> Live</div>\n'
-               '  <div class="ticker-track" id="ticker-track"></div>\n</div>\n')
+# The label said "Live". The track is filled client-side through a CORS-proxy
+# chain and falls back to the shipped data/market.json snapshot whenever that
+# chain does not deliver — which is what a reader sees today, so the badge was
+# promising a freshness the page could not guarantee. "Market board" is true in
+# both states. The data path itself is unchanged.
+TICKER_LABEL = {"en": "Market board", "tr": "Piyasa panosu"}
+
+
+def ticker_html(lang="en"):
+    return ('<!-- TICKER -->\n<div class="ticker">\n'
+            f'  <div class="ticker-label"><span class="dot"></span> {TICKER_LABEL.get(lang, TICKER_LABEL["en"])}</div>\n'
+            '  <div class="ticker-track" id="ticker-track"></div>\n</div>\n')
 
 
 def chrome_top(page=None):
@@ -1082,178 +1097,409 @@ def inject_article_list(html, lang):
     return html.replace("<!--NCF:ARTICLE_LIST-->", list_html)
 
 
-# ── dashboard "the tape" (data/markets.json → build-time render) ─────────────
-DASH_HERO_LABELS = {
-    "en": ["Bitcoin", "Ethereum", "S&amp;P 500", "Gold", "Crypto F&amp;G", "BTC Dominance"],
-    "tr": ["Bitcoin", "Ethereum", "S&amp;P 500", "Altın", "Kripto K&amp;A", "BTC Hakimiyeti"],
-}
+# ── dashboard shell (data/dashboard-mock.json → build-time render) ───────────
+# PROTOTYPE STAGE. Every figure the dashboard renders is mock content from
+# data/dashboard-mock.json and is labelled as demo data on the page. The
+# renderers below own the component structure; connecting a real feed later
+# means changing what fills these dicts, not the markup they produce.
+#
+# scripts/fetch_markets.py and scripts/fetch_watchlists.py still run in CI and
+# still write data/markets.json, watchlists.json and charts.json — they are the
+# feed this shell is designed to accept, kept warm for that day.
+DASH_MODE = "mock"          # "mock" → dashboard-mock.json (current stage)
 
 
-def _fmt_price(v):
-    if v is None:
-        return "—"
-    if v >= 1000:
-        return f"{v:,.0f}"
-    if v >= 100:
-        return f"{v:,.1f}"
-    if v >= 1:
-        return f"{v:.2f}"
-    return f"{v:.3f}"
+def _L(v, lang):
+    """Mock values are either a plain string or {"en": …, "tr": …}."""
+    if isinstance(v, dict):
+        return v.get(lang, v.get("en", ""))
+    return v
 
 
-def _signed_pct(v, dp=2):
-    sign = "+" if v > 0 else ("−" if v < 0 else "")
-    return f"{sign}{abs(v):.{dp}f}%"
+def _dir_of(txt):
+    """Direction from a printed change string — the sign on screen wins."""
+    t = str(txt).strip()
+    if t.startswith("−") or t.startswith("-"):
+        return "down"
+    if t.startswith("+"):
+        return "up"
+    return "neu"
 
 
-def _ud(v):
-    return "up" if v >= 0 else "down"
-
-
-def _pp(v):
-    return ("+" if v >= 0 else "−") + f"{abs(v):.1f}pp"
-
-
-def _pc_cell(v):
-    """Perf table cell: sign, ≥100% no-decimal formatting, and direction tint."""
-    if v is None:
+def _pc_cell(txt):
+    """Perf cell: the site's tinted percentage, keyed off the printed sign."""
+    if txt in (None, "", "—"):
         return '<td class="pc">—</td>'
-    av = abs(v)
-    txt = f"{round(av):,}" if av >= 100 else f"{av:.1f}"
-    sign = "+" if v > 0 else ("−" if v < 0 else "")
-    label = f"{sign}{txt}%"
-    if v == 0:
-        return f'<td class="pc" style="color:var(--text-mute)">{label}</td>'
-    pos = v > 0
+    d = _dir_of(txt)
+    if d == "neu":
+        return f'<td class="pc" style="color:var(--text-mute)">{txt}</td>'
+    try:
+        av = abs(float(str(txt).replace("−", "-").rstrip("%").replace(",", "")))
+    except ValueError:
+        av = 1.0
     a = min(0.24, 0.045 + av * 0.017)
-    rgb = "26,127,60" if pos else "179,18,43"
-    color = "var(--green)" if pos else "var(--red)"
-    return f'<td class="pc" style="color:{color};background:rgba({rgb},{a:.3f})">{label}</td>'
+    rgb, color = (("26,127,60", "var(--green)") if d == "up" else ("179,18,43", "var(--red)"))
+    return f'<td class="pc" style="color:{color};background:rgba({rgb},{a:.3f})">{txt}</td>'
 
 
-def _spark_svg(closes, up):
-    if not closes:
+def _spark_svg(vals, up, cls="dsh-spark", w=264, h=40):
+    if not vals:
         return ""
-    lo, hi = min(closes), max(closes)
+    lo, hi = min(vals), max(vals)
     rng = (hi - lo) or 1.0
-    n = len(closes)
-    W, H, pad = 264, 44, 4
+    n, pad = len(vals), 3
     pts = " ".join(
-        f"{round(i * W / (n - 1), 1)},{round(H - pad - (c - lo) / rng * (H - 2 * pad), 1)}"
-        for i, c in enumerate(closes))
+        f"{round(i * w / (n - 1), 1)},{round(h - pad - (v - lo) / rng * (h - 2 * pad), 1)}"
+        for i, v in enumerate(vals))
     stroke = "var(--green)" if up else "var(--red)"
-    return (f'<svg class="dsh-spark" viewBox="0 0 {W} {H}"><polyline fill="none" '
+    return (f'<svg class="{cls}" viewBox="0 0 {w} {h}" aria-hidden="true"><polyline fill="none" '
             f'stroke="{stroke}" stroke-width="1.4" points="{pts}"/></svg>')
 
 
-def _heat_color(d1):
-    m = max(-1.6, min(1.6, d1)) / 1.6
-    base = (116, 120, 127)
-    end = (26, 127, 60) if m >= 0 else (179, 18, 43)
-    t = abs(m)
-    r, g, b = (int(base[i] + (end[i] - base[i]) * t) for i in range(3))
-    return f"#{r:02X}{g:02X}{b:02X}"
+def _plot_svg(pts):
+    """Main chart line — same idiom as the macro page's curve/liquidity SVGs."""
+    if not pts or len(pts) < 2:
+        return ""
+    lo, hi = min(pts), max(pts)
+    rng = (hi - lo) or 1.0
+    x0, x1, y0, y1 = 52, 706, 18, 214
+    n = len(pts)
+
+    def yy(v):
+        return round(y1 - (v - lo) / rng * (y1 - y0), 1)
+
+    xs = [round(x0 + i * (x1 - x0) / (n - 1), 1) for i in range(n)]
+    poly = " ".join(f"{xs[i]},{yy(v)}" for i, v in enumerate(pts))
+    g1, g2, g3 = hi, (hi + lo) / 2, lo
+    return (f'<svg viewBox="0 0 720 232" role="img" aria-label="price series">'
+            f'<line x1="{x0}" y1="{y0}" x2="{x0}" y2="{y1}" stroke="var(--border)"/>'
+            f'<line x1="{x0}" y1="{y1}" x2="{x1}" y2="{y1}" stroke="var(--border)"/>'
+            f'<g class="mono" font-size="10" fill="var(--text-mute)">'
+            f'<text x="6" y="{yy(g1)+4}">{g1:,.0f}</text>'
+            f'<text x="6" y="{yy(g2)+4}">{g2:,.0f}</text>'
+            f'<text x="6" y="{yy(g3)+4}">{g3:,.0f}</text></g>'
+            f'<polyline fill="none" stroke="var(--amber)" stroke-width="2.5" '
+            f'stroke-linejoin="round" points="{poly}"/>'
+            f'<circle cx="{xs[-1]}" cy="{yy(pts[-1])}" r="3.5" fill="var(--amber)"/></svg>')
 
 
-def _dash_tile(it):
-    chg = it["d1"]
-    return (f'<div class="dsh-tile"><div class="sym">{it["sym"]}</div>'
-            f'<div class="name">{it["name"]}</div>'
-            f'<div class="px">{_fmt_price(it["price"])}</div>'
-            f'<div class="chg {_ud(chg)}">{_signed_pct(chg)}</div>'
-            f'{_spark_svg(it.get("spark30"), chg >= 0)}</div>')
-
-
-def _dash_leader_row(a):
-    p = a["perf"]
-    cells = "".join(_pc_cell(p.get(k)) for k in ("d1", "d7", "d30", "d180", "y1", "y5"))
-    return (f'<tr><td class="nm">{a["sym"]} <span class="full">{a["name"]}</span></td>'
-            f'<td class="num">{_fmt_price(a["price"])}</td>{cells}'
-            f'<td class="num">{a["mcap"]}</td></tr>')
-
-
-def _dash_perf_row(a, horizons):
-    cells = "".join(_pc_cell(a["perf"].get(k)) for k in horizons)
-    return (f'<tr><td class="nm">{a["name"]}</td>'
-            f'<td class="num">{_fmt_price(a["price"])}</td>{cells}</tr>')
+DASH_UI = {
+    "en": {"watch": "On list", "unwatch": "—", "research": "Research →",
+           "states": ["Editorial", "No content yet", "Major event"],
+           "empty": "No story cleared the relevance bar in the latest run. This "
+                    "section only shows stories retrieved from a named publisher "
+                    "and linked back to it — when nothing qualifies it stays "
+                    "empty rather than filled with generated text.",
+           "news_meta": "{n} stories · retrieved &amp; ranked · each links to its publisher · {stamp}",
+           "news_none": "No story cleared the relevance bar in the latest run · {stamp}",
+           "listcount": "{n} lists · {t} instruments",
+           "meta": "Curated thematic lists. Structure and columns are final; the "
+                   "figures are demo data.",
+           "mcap": "Mkt cap", "rev": "Revenue", "eps": "Earnings", "rel": "Rel. perf",
+           "theme": "Theme", "list": "List", "name": "Company"},
+    "tr": {"watch": "Listede", "unwatch": "—", "research": "Araştırma →",
+           "states": ["Editoryal", "Henüz içerik yok", "Büyük olay"],
+           "empty": "Son çalıştırmada hiçbir haber alaka eşiğini geçmedi. Bu bölüm "
+                    "yalnızca adı belli bir yayıncıdan derlenen ve kaynağına "
+                    "bağlanan haberleri gösterir — uygun haber yoksa üretilmiş "
+                    "metinle doldurulmaz, boş kalır.",
+           "news_meta": "{n} haber · derlendi &amp; sıralandı · her biri kaynağına bağlanır · {stamp}",
+           "news_none": "Son çalıştırmada hiçbir haber alaka eşiğini geçmedi · {stamp}",
+           "listcount": "{n} liste · {t} enstrüman",
+           "meta": "Küratör tematik listeleri. Yapı ve sütunlar nihai; değerler "
+                   "demo veridir.",
+           "mcap": "Piyasa değeri", "rev": "Gelir", "eps": "Kâr", "rel": "Gör. perf.",
+           "theme": "Tema", "list": "Liste", "name": "Şirket"},
+}
 
 
 def inject_dashboard(html, lang):
-    if "<!--NCF:DASH_HERO-->" not in html:
+    if "<!--NCF:DASH_OVERVIEW-->" not in html:
         return html
-    m = MARKETS or {}
-    html = html.replace("<!--NCF:DASH_UPD-->",
-                        _fmt_stamp(m.get("updated", ""), lang) if m.get("updated") else "—")
+    M = DASH_MOCK or {}
+    U = DASH_UI[lang]
+    lab = M.get("labels", {})
 
-    def hcell(label, v, d, cls):
-        return (f'<div class="dsh-hcell"><div class="k">{label}</div>'
-                f'<div class="v">{v}</div><div class="d {cls}">{d}</div></div>')
+    def T(key):
+        return _L(lab.get(key, ""), lang)
 
-    h = m.get("hero", {})
-    L = DASH_HERO_LABELS[lang]
-    btc, eth, spx, gold = h.get("btc", {}), h.get("eth", {}), h.get("spx", {}), h.get("gold", {})
-    fng, dom = h.get("fng", {}), h.get("btc_dom", {})
-    fv = fng.get("v")
-    fcls = "up" if (fv or 0) > 55 else ("down" if (fv or 0) < 35 else "neu")
-    hero = "".join([
-        hcell(L[0], f"${_fmt_price(btc.get('px'))}", _signed_pct(btc.get('chg', 0)), _ud(btc.get('chg', 0))),
-        hcell(L[1], f"${_fmt_price(eth.get('px'))}", _signed_pct(eth.get('chg', 0)), _ud(eth.get('chg', 0))),
-        hcell(L[2], _fmt_price(spx.get('px')), _signed_pct(spx.get('chg', 0)), _ud(spx.get('chg', 0))),
-        hcell(L[3], f"${_fmt_price(gold.get('px'))}", _signed_pct(gold.get('chg', 0)), _ud(gold.get('chg', 0))),
-        hcell(L[4], fv if fv is not None else "—", fng.get("label", "—"), fcls),
-        hcell(L[5], f"{dom.get('v', '—')}%", _pp(dom.get('chg_pp', 0)), _ud(dom.get('chg_pp', 0))),
-    ])
-    html = html.replace("<!--NCF:DASH_HERO-->", hero)
+    # ── header labelling: this page must never read as live ──────────────────
+    html = html.replace("<!--NCF:DASH_EDITION-->", T("edition"))
+    html = html.replace("<!--NCF:DASH_STATUS-->", T("status"))
+    html = html.replace("<!--NCF:DASH_PENDING-->", T("pending"))
+    html = html.replace("<!--NCF:DASH_NOTICE-->",
+                        f'<div class="dsh-notice"><b>{T("mode")}</b>'
+                        f'<span>{T("notice")}</span></div>')
 
-    html = html.replace("<!--NCF:DASH_INDICES-->", "".join(_dash_tile(x) for x in m.get("indices", [])))
-    html = html.replace("<!--NCF:DASH_THEMATICS-->", "".join(_dash_tile(x) for x in m.get("thematics", [])))
+    # ── §01 market overview ──────────────────────────────────────────────────
+    # Cards carry data-live-px / data-live-chg — deliberately NOT data-px, which
+    # the shared app.js snapshot painter owns and would overwrite; the
+    # build-time mock value is what shows until the first response lands, and
+    # what stays (marked stale) if the endpoint is unreachable.
+    LIVE_KEY = {"SPX": "sp500", "NDX": "nasdaq100", "DJI": "dowjones",
+                "RUT": "russell2000", "VIX": "vix", "US10Y": "us10y",
+                "DXY": "dxy", "BTC": "bitcoin"}
+    html = html.replace("<!--NCF:DASH_OVERVIEW-->", "".join(
+        f'<div class="dsh-ovc" data-inst="{LIVE_KEY.get(o["sym"], "")}">'
+        f'<div class="top"><span class="sym">{o["sym"]}</span>'
+        f'<span class="dsh-tag">{_L(o["status"], lang)}</span></div>'
+        f'<div class="name">{_L(o["name"], lang)}</div>'
+        f'<div class="v" data-live-px="{LIVE_KEY.get(o["sym"], "")}">{o["value"]}</div>'
+        f'<div class="d {o["dir"]}" data-live-chg="{LIVE_KEY.get(o["sym"], "")}">{o["chg"]}</div>'
+        f'{_spark_svg(o["spark"], o["dir"] == "up", "", 240, 34)}</div>'
+        for o in M.get("overview", [])))
 
-    html = html.replace("<!--NCF:DASH_FRONTIER-->", "".join(
-        f'<span class="dsh-chip"><b>{f["sym"]}</b>'
-        f'<span class="x {_ud(f["d1"])}">{_signed_pct(f["d1"], 1)}</span></span>'
-        for f in m.get("frontier", [])))
+    # ── §02 the chart ────────────────────────────────────────────────────────
+    html = inject_dash_chart(html, lang)
 
-    html = html.replace("<!--NCF:DASH_HEAT-->", "".join(
-        f'<div class="dsh-hc" style="background:{_heat_color(s["d1"])}">'
-        f'<div><div class="s">{s["sym"]}</div><div class="n">{s["name"]}</div></div>'
-        f'<div class="p">{_signed_pct(s["d1"], 1)}</div></div>'
-        for s in m.get("sectors", [])))
+    # ── §03 what's moving markets (three states, switchable) ─────────────────
+    html = inject_dash_news(html, lang)
 
-    cb = m.get("crypto_board", {})
-    en = lang == "en"
+    # ── §04 themes ───────────────────────────────────────────────────────────
+    html = html.replace("<!--NCF:DASH_THEMES-->", "".join(
+        f'<div class="dsh-th"><div class="nm">{_L(t["name"], lang)}</div>'
+        f'<div class="ds">{_L(t["desc"], lang)}</div>'
+        f'<div class="pf {t["dir"]}">{t["perf"]}</div>'
+        f'<div class="mo"><i class="{"" if t["dir"] == "up" else "neg"}" '
+        f'style="width:{t["momentum"]}%"></i></div>'
+        f'<div class="as">' + "".join(f'<span class="dsh-tag">{a}</span>' for a in t["assets"]) +
+        f'</div><div class="lk">{_L(t["status"], lang)} · {U["research"]}</div></div>'
+        for t in M.get("themes", [])))
 
-    def btile(sym, name, val, chg_txt, cls):
-        return (f'<div class="dsh-tile"><div class="sym">{sym}</div><div class="name">{name}</div>'
-                f'<div class="px">{val}</div><div class="chg {cls}">{chg_txt}</div></div>')
+    # ── §05 sector rotation ──────────────────────────────────────────────────
+    def rot_row(s):
+        lag = s["state"] in ("lag", "neutral")
+        return ('<tr><td class="nm">' + s["sym"] +
+                f'<div class="full">{_L(s["name"], lang)}</div></td>'
+                + _pc_cell(s["d1"]) + _pc_cell(s["d7"]) + _pc_cell(s["d30"]) +
+                f'<td><span class="dsh-rs"><span class="track">'
+                f'<i class="fill{" lag" if lag else ""}" style="width:{s["rs"]}%"></i>'
+                f'</span><b>{s["rs"]}</b></span></td>'
+                f'<td><span class="dsh-tag {"up" if s["state"] == "lead" else ("down" if s["state"] == "lag" else "")}">'
+                f'{_L(s["rotation"], lang)}</span></td></tr>')
+    html = html.replace("<!--NCF:DASH_ROTATION-->",
+                        "".join(rot_row(s) for s in M.get("sectors", [])))
 
-    tot, bd, st, uc, fu = (cb.get("total_mcap", {}), cb.get("btc_dom", {}),
-                           cb.get("stables", {}), cb.get("usdc_share", {}), cb.get("funding", {}))
-    board = "".join([
-        btile("TOTAL", "Market cap" if en else "Piyasa değeri", f"${tot.get('v', '—')}",
-              _signed_pct(tot.get('chg', 0), 1), _ud(tot.get('chg', 0))),
-        btile("BTC.D", "BTC dominance" if en else "BTC hakimiyeti", f"{bd.get('v', '—')}%",
-              _pp(bd.get('chg_pp', 0)), _ud(bd.get('chg_pp', 0))),
-        btile("STABLES", "Stablecoin supply" if en else "Stablecoin arzı", f"${st.get('v', '—')}",
-              _signed_pct(st.get('chg', 0), 1), _ud(st.get('chg', 0))),
-        btile("USDC.D", "USDC share" if en else "USDC payı", f"{uc.get('v', '—')}%",
-              _pp(uc.get('chg_pp', 0)), _ud(uc.get('chg_pp', 0))),
-        btile("FUND", "BTC funding", f"{'+' if fu.get('v', 0) >= 0 else ''}{fu.get('v', '—')}%",
-              "neutral" if en else "nötr", "neu"),
-    ])
-    html = html.replace("<!--NCF:DASH_CRYPTO-->", board)
+    # ── §06 top movers ───────────────────────────────────────────────────────
+    on_list = f'<span class="dsh-tag amber">{U["watch"]}</span>'
 
-    html = html.replace("<!--NCF:DASH_LEADERS_EQ-->", "".join(_dash_leader_row(a) for a in m.get("leaders_equity", [])))
-    html = html.replace("<!--NCF:DASH_LEADERS_CRYPTO-->", "".join(_dash_leader_row(a) for a in m.get("leaders_crypto", [])))
-    html = html.replace("<!--NCF:DASH_COMMODITIES-->", "".join(_dash_perf_row(a, ("d1", "d7", "d30", "y1")) for a in m.get("commodities", [])))
-    fx_rows = "".join(_dash_perf_row(a, ("d1", "d7", "d30", "y1")) for a in m.get("fx", []))
-    html = html.replace("<!--NCF:DASH_FX-->", fx_rows or
-                        '<tr><td colspan="6" class="num" style="color:var(--text-mute);'
-                        'text-align:center;padding:18px">—</td></tr>')
+    def mover_row(m):
+        return ('<tr><td class="nm">' + m["sym"] +
+                f'<div class="full">{m["name"]}</div></td>'
+                f'<td><span class="dsh-tag">{_L(m["theme"], lang)}</span></td>'
+                f'<td class="num">{m["price"]}</td>' + _pc_cell(m["chg"]) +
+                f'<td class="num">{m["vol"]}</td><td class="num">{m["rvol"]}</td>'
+                f'<td class="num">{m["mcap"]}</td>'
+                f'<td>{_L(m["catalyst"], lang)}</td>'
+                '<td>' + (on_list if m["watch"] else U["unwatch"]) + '</td></tr>')
+    html = html.replace("<!--NCF:DASH_MOVERS-->",
+                        "".join(mover_row(m) for m in M.get("movers", [])))
 
-    # editorial "read" notes — human-committed markets-notes.json (empty in Phase 1)
-    for key in ("indices", "sectors", "crypto", "leaders"):
-        html = html.replace(f"<!--NCF:DASH_NOTE_{key}-->", "")
+    # ── §07 watchlists ───────────────────────────────────────────────────────
+    html = inject_dash_lists(html, lang)
+
+    # ── §08 crypto board ─────────────────────────────────────────────────────
+    html = html.replace("<!--NCF:DASH_CRYPTO-->", "".join(
+        f'<div class="dsh-crc"><div class="sym">{c["sym"]}</div>'
+        f'<div class="name">{c["name"]}</div><div class="v">{c["price"]}</div>'
+        f'<div class="d {c["dir"]}">{c["chg"]}</div>'
+        f'<div class="kv"><span>{U["mcap"]}</span><span>{c["mcap"]}</span></div>'
+        f'<div class="kv"><span>Dom.</span><span>{c["dom"]}</span></div>'
+        f'{_spark_svg(c["spark"], c["dir"] == "up", "", 220, 30)}'
+        f'<div class="tg"><span class="dsh-tag">{_L(c["tag"], lang)}</span></div></div>'
+        for c in M.get("crypto", [])))
+    html = html.replace("<!--NCF:DASH_CRYPTO_STATS-->", "".join(
+        f'<div class="dsh-mini"><div class="k">{_L(s["k"], lang)}</div>'
+        f'<div class="v">{s["v"]}</div>'
+        f'<div class="d {s["dir"]}" style="font-family:var(--mono);font-size:12px;'
+        f'margin-top:3px">{_L(s["d"], lang)}</div></div>'
+        for s in M.get("crypto_stats", [])))
+
+    # ── §09 market leaders, grouped ──────────────────────────────────────────
+    groups = []
+    for g in M.get("leaders", []):
+        rows = "".join(
+            '<tr><td class="nm">' + r["sym"] + f'<div class="full">{r["name"]}</div></td>'
+            f'<td class="num">{r["mcap"]}</td>'
+            + _pc_cell(r["rev"]) + _pc_cell(r["eps"]) + _pc_cell(r["rel"]) +
+            f'<td><span class="dsh-tag">{_L(r["theme"], lang)}</span></td>'
+            '<td>' + (on_list if r["watch"] else U["unwatch"]) + '</td></tr>'
+            for r in g["rows"])
+        groups.append(
+            f'<div class="dsh-grp"><h5>{_L(g["group"], lang)}</h5><div class="dsh-scroll">'
+            f'<table class="dsh-table" style="min-width:660px"><thead><tr>'
+            f'<th>{U["name"]}</th><th class="num">{U["mcap"]}</th>'
+            f'<th class="pc">{U["rev"]}</th><th class="pc">{U["eps"]}</th>'
+            f'<th class="pc">{U["rel"]}</th><th>{U["theme"]}</th><th>{U["list"]}</th>'
+            f'</tr></thead><tbody>{rows}</tbody></table></div></div>')
+    html = html.replace("<!--NCF:DASH_LEADERS-->", "".join(groups))
+
+    # ── §10 commodities & FX ─────────────────────────────────────────────────
+    def quote_row(q):
+        return ('<tr><td class="nm">' + q["sym"] +
+                f'<div class="full">{_L(q["name"], lang)}</div></td>'
+                f'<td class="num">{q["price"]}</td>' + _pc_cell(q["chg"]) + '</tr>')
+    html = html.replace("<!--NCF:DASH_COMMODITIES-->",
+                        "".join(quote_row(q) for q in M.get("commodities", [])))
+    html = html.replace("<!--NCF:DASH_FX-->",
+                        "".join(quote_row(q) for q in M.get("fx", [])))
+
+    # ── §11 macro snapshot (compact — the full read lives on macro.html) ─────
+    html = html.replace("<!--NCF:DASH_MACROSNAP-->", "".join(
+        f'<div class="dsh-mc"><div class="k">{_L(m["label"], lang)}</div>'
+        f'<div class="v">{_L(m["value"], lang)}</div>'
+        f'<div class="s {m["dir"]}">{_L(m["sub"], lang)}</div></div>'
+        for m in M.get("macro", [])))
     return html
+
+
+def inject_dash_chart(html, lang):
+    """§02 — first view rendered server-side, every other view a client redraw."""
+    C = (DASH_MOCK or {}).get("chart", {})
+    insts = C.get("instruments", [])
+    if not insts:
+        return html
+    ranges = C.get("ranges", [])
+    axis = C.get("axis", {})
+    first, r0 = insts[0], ("1Y" if "1Y" in ranges else ranges[0])
+
+    payload = {"instruments": {}, "first": first["key"], "range": r0,
+               "axis": {k: _L(v, lang) for k, v in axis.items()}}
+    for i in insts:
+        payload["instruments"][i["key"]] = {
+            "label": i["label"], "sym": i["sym"],
+            "metrics": [_L(m, lang) for m in i["metrics"]],
+            "values": i["values"], "ranges": i["ranges"]}
+
+    rr = first["ranges"][r0]
+    ax = _L(axis.get(r0, []), lang)
+    html = html.replace("<!--NCF:DASH_CHART_TITLE-->", first["label"])
+    html = html.replace("<!--NCF:DASH_CHART_CAP-->", f'{first["sym"]} · {r0} {rr["chg"]}')
+    html = html.replace("<!--NCF:DASH_CHART_RANGES-->", "".join(
+        f'<button type="button" class="filter-btn{" active" if r == r0 else ""}" '
+        f'data-range="{r}">{r}</button>' for r in ranges))
+    html = html.replace("<!--NCF:DASH_CHART_INSTRUMENTS-->", "".join(
+        f'<button type="button" class="filter-btn{" active" if i is first else ""}" '
+        f'data-inst="{i["key"]}">{i["label"]}</button>' for i in insts))
+    html = html.replace("<!--NCF:DASH_CHART_TYPES-->", "".join(
+        f'<button type="button" class="filter-btn{" active" if n == 0 else ""}" '
+        f'data-type="{n}">{t}</button>'
+        for n, t in enumerate(_L(C.get("types", {"en": []}), lang))))
+    html = html.replace("<!--NCF:DASH_CHART_COMPARE-->",
+                        "+ " + _L(C.get("compare", ""), lang))
+    html = html.replace("<!--NCF:DASH_CHART_LEGEND-->",
+                        f'<i></i><span id="dsh-legend-a">{first["sym"]}</span>')
+    html = html.replace("<!--NCF:DASH_CHART_SVG-->", _plot_svg(rr["p"]))
+    html = html.replace("<!--NCF:DASH_CHART_AXIS-->",
+                        "".join(f"<span>{a}</span>" for a in ax))
+    html = html.replace("<!--NCF:DASH_CHART_METRICS-->", "".join(
+        f'<div class="dsh-mini"><div class="k">{_L(m, lang)}</div>'
+        f'<div class="v" data-metric="{n}">{first["values"][n]}</div></div>'
+        for n, m in enumerate(first["metrics"])))
+    return html.replace("<!--NCF:DASH_CHART_DATA-->",
+                        json.dumps(payload, ensure_ascii=False, separators=(",", ":")))
+
+
+def _news_when(iso, lang):
+    """Relative age from the publisher's own timestamp — never invented."""
+    if not iso:
+        return ""
+    try:
+        dt = datetime.strptime(iso, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+    except Exception:
+        return ""
+    h = (datetime.now(timezone.utc) - dt).total_seconds() / 3600
+    if h < 1:
+        return "just now" if lang == "en" else "az önce"
+    if h < 24:
+        return f"{int(h)}h ago" if lang == "en" else f"{int(h)} sa önce"
+    d = int(h // 24)
+    return f"{d}d ago" if lang == "en" else f"{d} gün önce"
+
+
+NEWS_CATS = {
+    "rates":      {"en": "Rates", "tr": "Faiz"},
+    "energy":     {"en": "Energy", "tr": "Enerji"},
+    "crypto":     {"en": "Crypto", "tr": "Kripto"},
+    "fx":         {"en": "FX", "tr": "Döviz"},
+    "technology": {"en": "Technology", "tr": "Teknoloji"},
+    "policy":     {"en": "Policy", "tr": "Politika"},
+    "equities":   {"en": "Equities", "tr": "Hisse"},
+    "markets":    {"en": "Markets", "tr": "Piyasa"},
+}
+
+
+def inject_dash_news(html, lang):
+    """§03 — retrieved stories, or the authored empty state. Never both, and
+    never a fabricated headline: every item below came off a publisher's feed
+    and links back to it."""
+    U = DASH_UI[lang]
+    stories = (NEWS or {}).get("stories") or []
+    ev = (DASH_MOCK or {}).get("news_event", {})
+
+    def item(i, n):
+        cat = _L(NEWS_CATS.get(n.get("category", "markets"), {"en": "Markets", "tr": "Piyasa"}), lang)
+        chips = "".join(f'<span class="dsh-tag">{a}</span>' for a in n.get("assets", []))
+        when = _news_when(n.get("published"), lang)
+        src = n.get("source", "")
+        meta = f"{src} · {when}" if when else src
+        summary = (f'<div class="b">{n["summary"]}</div>' if n.get("summary") else "")
+        return (f'<div class="dsh-item"><div class="n">{i:02d}</div><div>'
+                f'<div class="h"><a href="{n["url"]}" target="_blank" rel="noopener noreferrer">'
+                f'{n["headline"]}</a></div>{summary}'
+                f'<div class="meta"><span class="dsh-tag amber">{cat}</span>{chips}'
+                f'<span class="src">{meta}</span></div></div>'
+                f'<div class="dsh-imp {n.get("importance", "low")}"><i></i><i></i><i></i></div></div>')
+
+    listing = ("".join(item(i, n) for i, n in enumerate(stories, 1)))
+    empty = f'<div class="dsh-empty" data-state="1"{"" if not stories else " hidden"}>{U["empty"]}</div>'
+    event = (f'<div class="dsh-event" data-state="2" hidden>'
+             f'<span class="dsh-tag solid">{_L(ev.get("tag", ""), lang)}</span>'
+             f'<div class="h">{_L(ev.get("h", ""), lang)}</div>'
+             f'<div class="b">{_L(ev.get("b", ""), lang)}</div></div>')
+
+    blocks, buttons = "", []
+    if stories:
+        blocks = f'<div class="dsh-news" data-state="0">{listing}</div>'
+        buttons.append((0, U["states"][0]))
+    buttons.append((1, U["states"][1]))
+    buttons.append((2, U["states"][2]))
+    switch = ('<div class="filters dsh-tabs" id="dsh-news-states">' + "".join(
+        f'<button type="button" class="filter-btn{" active" if n == buttons[0][0] else ""}" '
+        f'data-news-state="{n}">{label}</button>' for n, label in buttons) + "</div>")
+
+    stamp = _fmt_stamp((NEWS or {}).get("updated", ""), lang) if (NEWS or {}).get("updated") else "—"
+    meta = (U["news_meta"].format(n=len(stories), stamp=stamp) if stories
+            else U["news_none"].format(stamp=stamp))
+    html = html.replace("<!--NCF:DASH_NEWS_META-->", meta)
+    return html.replace("<!--NCF:DASH_NEWS-->", switch + blocks + empty + event)
+
+
+def inject_dash_lists(html, lang):
+    """§07 — the twelve thematic lists, every table rendered at build time."""
+    W = (DASH_MOCK or {}).get("watchlists", {})
+    U = DASH_UI[lang]
+    lists, quotes = W.get("lists", []), W.get("quotes", {})
+    if not lists:
+        return html
+    html = html.replace("<!--NCF:DASH_WL_TABS-->", "".join(
+        f'<button type="button" class="filter-btn{" active" if i == 0 else ""}" '
+        f'data-list="{l["key"]}">{l["name"]}</button>' for i, l in enumerate(lists)))
+
+    def row(q):
+        return ('<tr><td class="nm">' + q["sym"] +
+                f'<div class="full">{q["name"]}</div></td>'
+                f'<td class="num">{q["price"]}</td>'
+                + "".join(_pc_cell(q[k]) for k in ("d1", "d7", "d30", "ytd", "y1")) +
+                f'<td class="sk">{_spark_svg(q["spark"], _dir_of(q["d1"]) != "down", "dsh-spark", 220, 34)}</td></tr>')
+
+    html = html.replace("<!--NCF:DASH_WL_TABLE-->", "".join(
+        f'<tbody data-list="{l["key"]}"{"" if i == 0 else " hidden"}>'
+        + "".join(row(quotes[t]) for t in l["tickers"] if t in quotes) + "</tbody>"
+        for i, l in enumerate(lists)))
+    html = html.replace("<!--NCF:DASH_WL_COUNT-->",
+                        U["listcount"].format(n=len(lists), t=len(quotes)))
+    return html.replace("<!--NCF:DASH_WL_META-->", U["meta"])
 
 
 # ── macro "the regime" (data/macro2.json + human macro-notes.json) ───────────
@@ -1419,7 +1665,7 @@ def render(page, lang):
         head(page, lang),
         splash_html + chrome_top(page),
         nav(page, lang),
-        TICKER_HTML,
+        ticker_html(lang),
         masthead(page, lang),
         body,
         footer(lang),
@@ -1721,7 +1967,7 @@ def render_article(slug, lang):
     )
 
     html = "\n".join([head_html, overlays, _nav_html("articles", lang, sw_href),
-                      TICKER_HTML, masthead("article", lang), body, footer(lang), scripts_html,
+                      ticker_html(lang), masthead("article", lang), body, footer(lang), scripts_html,
                       "</body>", "</html>", ""])
     return inject_market(html)
 
@@ -1849,7 +2095,7 @@ def render_fe_essay(key, lang):
     )
 
     html = "\n".join([head_html, overlays, _nav_html("finance-eng", lang, sw_href),
-                      TICKER_HTML, masthead("article", lang), body, footer(lang), scripts_html,
+                      ticker_html(lang), masthead("article", lang), body, footer(lang), scripts_html,
                       "</body>", "</html>", ""])
     return inject_market(html)
 
@@ -2142,7 +2388,7 @@ def render_indicator(slug, lang):
 </div>
 """
     html = "\n".join([head_html, _ind_chrome_ticker(), _nav_html(None, lang, sw_href),
-                      TICKER_HTML, masthead("indicator", lang), body, footer(lang), _ind_scripts(),
+                      ticker_html(lang), masthead("indicator", lang), body, footer(lang), _ind_scripts(),
                       "</body>", "</html>", ""])
     return inject_market(html)
 
@@ -2179,7 +2425,7 @@ def render_indicator_hub(lang):
 </div>
 """
     html = "\n".join([head_html, _ind_chrome_ticker(), _nav_html(None, lang, sw_href),
-                      TICKER_HTML, masthead("indicator", lang), body, footer(lang), _ind_scripts(),
+                      ticker_html(lang), masthead("indicator", lang), body, footer(lang), _ind_scripts(),
                       "</body>", "</html>", ""])
     return inject_market(html)
 
