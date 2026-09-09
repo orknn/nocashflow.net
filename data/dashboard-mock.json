@@ -2,20 +2,20 @@
  "_note": "PROTOTYPE CONTENT. Every figure in this file is invented to demonstrate layout — it is not market data and must never be presented as such. build.py renders the dashboard from here while DASH_MODE == 'mock'. Replace section by section when a real feed is connected; the component structure stays the same.",
  "labels": {
   "mode": {
-   "en": "Demo data",
-   "tr": "Demo veri"
+   "en": "Partly live",
+   "tr": "Kısmen canlı"
   },
   "notice": {
-   "en": "Prototype — every figure on this page is mock data. Data integration pending.",
-   "tr": "Prototip — bu sayfadaki her değer demo veridir. Veri entegrasyonu bekliyor."
+   "en": "Market overview is live from the NoCashFlow market API, and What's moving markets carries retrieved stories. Every other section still shows demo data — each one says so in its own header.",
+   "tr": "Piyasa görünümü NoCashFlow piyasa API'sinden canlı geliyor, Piyasayı hareket ettirenler ise derlenmiş gerçek haberleri gösteriyor. Diğer bölümler hâlâ demo veri — her biri kendi başlığında bunu yazıyor."
   },
   "status": {
-   "en": "Market status placeholder",
-   "tr": "Piyasa durumu yer tutucusu"
+   "en": "Market status from the live board",
+   "tr": "Piyasa durumu canlı panodan"
   },
   "edition": {
-   "en": "Dashboard mode · Prototype",
-   "tr": "Panel modu · Prototip"
+   "en": "Dashboard mode · Partly live",
+   "tr": "Panel modu · Kısmen canlı"
   },
   "pending": {
    "en": "Data integration pending",
