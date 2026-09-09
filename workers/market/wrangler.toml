@@ -1,0 +1,17 @@
+name = "ncf-market"
+main = "index.js"
+workers_dev = true
+compatibility_date = "2026-06-01"
+
+# Served from a Cloudflare-proxied subdomain. The apex (nocashflow.net) stays
+# DNS-only on GitHub Pages and is not touched by this Worker.
+#
+# custom_domain = true makes `wrangler deploy` provision the proxied DNS record
+# and the edge certificate for api.nocashflow.net itself — no manual CNAME. It
+# only touches that subdomain; the apex stays DNS-only on GitHub Pages.
+routes = [
+  { pattern = "api.nocashflow.net", custom_domain = true }
+]
+
+# No secrets today: both providers are keyless. When a licensed feed is added:
+#   wrangler secret put MARKET_API_KEY

@@ -6,3 +6,10 @@ backup_previous_design/
 PRODUCT.md
 __pycache__/
 *.pyc
+node_modules/
+.wrangler/
+!.env.example
+
+# local working copies of the dashboard (self-contained bundles for offline
+# review) — not site source, and Pages would serve them publicly
+New Macro/
