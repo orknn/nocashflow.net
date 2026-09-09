@@ -39,6 +39,23 @@ jobs:
         run: python scripts/fetch_macro2.py
         continue-on-error: true
 
+      # ~58 tickers + 7 chart instruments, one Nasdaq call each with a 0.4s
+      # courtesy pause — roughly 3 minutes. Non-fatal: on failure the previous
+      # snapshot stays live and rows are carried over flagged as stale.
+      - name: Fetch watchlists + chart series (Nasdaq / Kraken)
+        run: python scripts/fetch_watchlists.py
+        continue-on-error: true
+
+      # RSS is the primary source and needs no key; GDELT is best-effort and
+      # 429s often from CI ranges; Alpha Vantage only runs when the secret is
+      # set. A failure here leaves the previous news.json in place and the
+      # section falls back to its empty state — never to invented headlines.
+      - name: Retrieve What's Moving Markets stories (RSS / GDELT / Alpha Vantage)
+        run: python scripts/fetch_news.py
+        env:
+          ALPHAVANTAGE_API_KEY: ${{ secrets.ALPHAVANTAGE_API_KEY }}
+        continue-on-error: true
+
       - name: Rebuild pages with the fresh snapshot
         run: python build.py
 

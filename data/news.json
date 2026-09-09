@@ -1,0 +1,36 @@
+{
+ "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
+ "updated": "2026-09-09T09:08:19Z",
+ "sources": [
+  "CNBC",
+  "Yahoo Finance"
+ ],
+ "considered": 107,
+ "stories": [
+  {
+   "headline": "Canada's retaliatory tariffs worth CA$27.6 billion take effect as trade rift with U.S. deepens",
+   "summary": "Duties on Canadian imports of U.S. steel and aluminum products have doubled to 50% as a trade war between Washington and Ottawa intensifies.",
+   "category": "policy",
+   "importance": "high",
+   "assets": [],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/09/08/canada-retaliatory-tariffs.html",
+   "published": "2026-09-08T17:11:11Z",
+   "score": 4.2
+  },
+  {
+   "headline": "Broadcom’s AI Forecast Suggests Hyperscalers Want More Than Just Nvidia GPUs",
+   "summary": "",
+   "category": "technology",
+   "importance": "medium",
+   "assets": [
+    "NVDA",
+    "AVGO"
+   ],
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/technology/ai/articles/broadcom-ai-forecast-suggests-hyperscalers-211102090.html",
+   "published": "2026-09-07T21:11:02Z",
+   "score": 3.2
+  }
+ ]
+}
