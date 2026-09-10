@@ -1,6 +1,18 @@
 {
-  "asof": "2026-09-09T09:31:07Z",
+  "asof": "2026-09-10T09:30:21Z",
   "events": [
+    {
+      "dt_utc": "2026-09-10 01:15:00",
+      "cet_date": "2026-09-10",
+      "wd": 3,
+      "time": "03:15",
+      "event": "President Trump Speaks",
+      "country": "US",
+      "impact": "medium",
+      "prev": "—",
+      "est": "—",
+      "act": "—"
+    },
     {
       "dt_utc": "2026-09-10 12:15:00",
       "cet_date": "2026-09-10",
