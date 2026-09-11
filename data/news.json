@@ -1,73 +1,70 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-09-10T09:36:14Z",
+ "updated": "2026-09-11T09:32:43Z",
  "sources": [
   "CNBC",
-  "bssnews.net",
-  "economictimes.indiatimes.com",
-  "investors.com",
-  "moneycontrol.com"
+  "econotimes.com",
+  "fool.com",
+  "freemalaysiatoday.com"
  ],
- "considered": 141,
+ "considered": 138,
  "stories": [
   {
-   "headline": "Stocks sink as oil rally fans inflation and rate hike fears",
+   "headline": "Forget Today Inflation Report : Fed Chair Kevin Warsh and His Colleagues Have Likely Already Made Up Their Mind for the Sept . 16 FOMC Meeting",
    "summary": "",
    "category": "rates",
    "importance": "high",
    "assets": [],
-   "source": "bssnews.net",
-   "url": "https://www.bssnews.net/business/422996",
-   "published": "2026-09-10T04:45:00Z",
+   "source": "fool.com",
+   "url": "https://www.fool.com/investing/2026/09/11/forget-inflation-report-fed-chair-kevin-warsh-colleagues-made-up-mind-for-sept-16-fomc-meeting/?source=iedfolrf0000001",
+   "published": "2026-09-11T09:00:00Z",
    "score": 7.2
   },
   {
-   "headline": "Stock Market Falls As Oil Prices , Treasury Yields Continue To Rise ; Key Inflation Data Next",
+   "headline": "The likelihood of a Fed interest rate hike next week just got a lot higher",
+   "summary": "Traders pushed chances for a rate increase to 70% in morning action.",
+   "category": "rates",
+   "importance": "medium",
+   "assets": [],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/09/10/the-likelihood-of-a-fed-interest-rate-hike-next-week-just-got-a-lot-higher.html",
+   "published": "2026-09-10T16:55:17Z",
+   "score": 5.2
+  },
+  {
+   "headline": "S & P 500 ends down as Treasury yields rise and traders fret about inflation",
    "summary": "",
    "category": "rates",
    "importance": "medium",
    "assets": [
     "US10Y"
    ],
-   "source": "investors.com",
-   "url": "https://www.investors.com/market-trend/the-big-picture/stock-market-oil-prices-treasury-yields-inflation-data/",
-   "published": "2026-09-10T02:45:00Z",
+   "source": "freemalaysiatoday.com",
+   "url": "https://www.freemalaysiatoday.com/category/business/2026/09/11/s-p-500-ends-down-as-treasury-yields-rise-and-traders-fret-about-inflation",
+   "published": "2026-09-11T01:15:00Z",
    "score": 4.7
   },
   {
-   "headline": "Commodity Corner : Brent crude breaches $100 / bbl on supply concerns ; gold steady ahead of US inflation data",
+   "headline": "The Odds of a Rate Hike Are Soaring Ahead of the Sept . 16 FOMC Meeting",
    "summary": "",
    "category": "rates",
    "importance": "medium",
-   "assets": [
-    "BRN"
-   ],
-   "source": "moneycontrol.com",
-   "url": "https://www.moneycontrol.com/news/business/commodities/commodity-corner-brent-crude-breaches-100-bbl-on-supply-concerns-gold-steady-ahead-of-us-inflation-data-14026580.html",
-   "published": "2026-09-10T04:00:00Z",
-   "score": 4.7
+   "assets": [],
+   "source": "fool.com",
+   "url": "https://www.fool.com/investing/2026/09/10/the-odds-of-a-rate-hike-are-soaring-ahead-of-the-sept-16-fomc-meeting/?source=iedfolrf0000001",
+   "published": "2026-09-10T10:15:00Z",
+   "score": 4.6
   },
   {
-   "headline": "Currency markets subdued as oil shock lifts global yields ; ECB , U . S . inflation eyed",
+   "headline": "ECB Rate Hike in Focus as Oil Tops $100",
    "summary": "",
    "category": "rates",
-   "importance": "low",
+   "importance": "medium",
    "assets": [],
-   "source": "economictimes.indiatimes.com",
-   "url": "https://economictimes.indiatimes.com/markets/forex/forex-news/currency-markets-subdued-as-oil-shock-lifts-global-yields-ecb-u-s-inflation-eyed/articleshow/133990813.cms",
-   "published": "2026-09-10T03:00:00Z",
-   "score": 4.2
-  },
-  {
-   "headline": "Canada's retaliatory tariffs worth CA$27.6 billion take effect as trade rift with U.S. deepens",
-   "summary": "Duties on Canadian imports of U.S. steel and aluminum products have doubled to 50% as a trade war between Washington and Ottawa intensifies.",
-   "category": "policy",
-   "importance": "low",
-   "assets": [],
-   "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/09/08/canada-retaliatory-tariffs.html",
-   "published": "2026-09-08T17:11:11Z",
-   "score": 3.6
+   "source": "econotimes.com",
+   "url": "http://www.econotimes.com/ECB-Rate-Hike-in-Focus-as-Oil-Tops-100-1751701",
+   "published": "2026-09-10T10:15:00Z",
+   "score": 4.6
   }
  ]
 }
