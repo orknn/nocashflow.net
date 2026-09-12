@@ -1,70 +1,70 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-09-11T09:32:43Z",
+ "updated": "2026-09-12T09:14:52Z",
  "sources": [
   "CNBC",
-  "econotimes.com",
+  "Yahoo Finance",
   "fool.com",
-  "freemalaysiatoday.com"
+  "mpamag.com"
  ],
- "considered": 138,
+ "considered": 141,
  "stories": [
   {
-   "headline": "Forget Today Inflation Report : Fed Chair Kevin Warsh and His Colleagues Have Likely Already Made Up Their Mind for the Sept . 16 FOMC Meeting",
+   "headline": "Inflation persisted in August, potentially locking in a Fed interest rate hike",
+   "summary": "The all-items consumer price index was expected to rise 0.4% in August, with core, excluding food and energy, showing a 0.2% gain, according to the Dow Jones consensus.",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/09/11/cpi-inflation-report-august-2026.html",
+   "published": "2026-09-11T13:46:36Z",
+   "score": 7.2
+  },
+  {
+   "headline": "Hot inflation reading sets stage for possible Fed rate hike next week",
    "summary": "",
    "category": "rates",
    "importance": "high",
    "assets": [],
+   "source": "mpamag.com",
+   "url": "https://www.mpamag.com/us/mortgage-industry/industry-trends/hot-inflation-reading-sets-stage-for-possible-fed-rate-hike-next-week/589481",
+   "published": "2026-09-11T16:00:00Z",
+   "score": 6.6
+  },
+  {
+   "headline": "Forget Today Inflation Report : Fed Chair Kevin Warsh and His Colleagues Have Likely Already Made Up Their Mind for the Sept . 16 FOMC Meeting",
+   "summary": "",
+   "category": "rates",
+   "importance": "medium",
+   "assets": [],
    "source": "fool.com",
    "url": "https://www.fool.com/investing/2026/09/11/forget-inflation-report-fed-chair-kevin-warsh-colleagues-made-up-mind-for-sept-16-fomc-meeting/?source=iedfolrf0000001",
    "published": "2026-09-11T09:00:00Z",
-   "score": 7.2
+   "score": 6.0
   },
   {
-   "headline": "The likelihood of a Fed interest rate hike next week just got a lot higher",
-   "summary": "Traders pushed chances for a rate increase to 70% in morning action.",
+   "headline": "Consumer outlook plunges in September as inflation outlook worsens",
+   "summary": "The survey's headline index hit a level of 47.8, down 7.5% from the August reading and off 13.2% from a year ago.",
    "category": "rates",
    "importance": "medium",
    "assets": [],
    "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/09/10/the-likelihood-of-a-fed-interest-rate-hike-next-week-just-got-a-lot-higher.html",
-   "published": "2026-09-10T16:55:17Z",
+   "url": "https://www.cnbc.com/2026/09/11/consumer-outlook-plunges-in-september-as-inflation-outlook-worsens.html",
+   "published": "2026-09-11T16:53:23Z",
    "score": 5.2
   },
   {
-   "headline": "S & P 500 ends down as Treasury yields rise and traders fret about inflation",
+   "headline": "US Dollar Price Forecast: Fed Hike Bets Rise as CPI Takes Center Stage; EUR/USD and GBP/USD Key Levels to Watch",
    "summary": "",
    "category": "rates",
    "importance": "medium",
    "assets": [
-    "US10Y"
+    "DXY"
    ],
-   "source": "freemalaysiatoday.com",
-   "url": "https://www.freemalaysiatoday.com/category/business/2026/09/11/s-p-500-ends-down-as-treasury-yields-rise-and-traders-fret-about-inflation",
-   "published": "2026-09-11T01:15:00Z",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/markets/currencies/articles/us-dollar-price-forecast-fed-054013689.html",
+   "published": "2026-09-11T05:40:13Z",
    "score": 4.7
-  },
-  {
-   "headline": "The Odds of a Rate Hike Are Soaring Ahead of the Sept . 16 FOMC Meeting",
-   "summary": "",
-   "category": "rates",
-   "importance": "medium",
-   "assets": [],
-   "source": "fool.com",
-   "url": "https://www.fool.com/investing/2026/09/10/the-odds-of-a-rate-hike-are-soaring-ahead-of-the-sept-16-fomc-meeting/?source=iedfolrf0000001",
-   "published": "2026-09-10T10:15:00Z",
-   "score": 4.6
-  },
-  {
-   "headline": "ECB Rate Hike in Focus as Oil Tops $100",
-   "summary": "",
-   "category": "rates",
-   "importance": "medium",
-   "assets": [],
-   "source": "econotimes.com",
-   "url": "http://www.econotimes.com/ECB-Rate-Hike-in-Focus-as-Oil-Tops-100-1751701",
-   "published": "2026-09-10T10:15:00Z",
-   "score": 4.6
   }
  ]
 }
