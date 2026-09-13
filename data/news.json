@@ -1,13 +1,12 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-09-12T09:14:52Z",
+ "updated": "2026-09-13T10:11:16Z",
  "sources": [
   "CNBC",
-  "Yahoo Finance",
-  "fool.com",
+  "finance.yahoo.com",
   "mpamag.com"
  ],
- "considered": 141,
+ "considered": 121,
  "stories": [
   {
    "headline": "Inflation persisted in August, potentially locking in a Fed interest rate hike",
@@ -18,7 +17,7 @@
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/09/11/cpi-inflation-report-august-2026.html",
    "published": "2026-09-11T13:46:36Z",
-   "score": 7.2
+   "score": 6.6
   },
   {
    "headline": "Hot inflation reading sets stage for possible Fed rate hike next week",
@@ -29,17 +28,6 @@
    "source": "mpamag.com",
    "url": "https://www.mpamag.com/us/mortgage-industry/industry-trends/hot-inflation-reading-sets-stage-for-possible-fed-rate-hike-next-week/589481",
    "published": "2026-09-11T16:00:00Z",
-   "score": 6.6
-  },
-  {
-   "headline": "Forget Today Inflation Report : Fed Chair Kevin Warsh and His Colleagues Have Likely Already Made Up Their Mind for the Sept . 16 FOMC Meeting",
-   "summary": "",
-   "category": "rates",
-   "importance": "medium",
-   "assets": [],
-   "source": "fool.com",
-   "url": "https://www.fool.com/investing/2026/09/11/forget-inflation-report-fed-chair-kevin-warsh-colleagues-made-up-mind-for-sept-16-fomc-meeting/?source=iedfolrf0000001",
-   "published": "2026-09-11T09:00:00Z",
    "score": 6.0
   },
   {
@@ -51,20 +39,29 @@
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/09/11/consumer-outlook-plunges-in-september-as-inflation-outlook-worsens.html",
    "published": "2026-09-11T16:53:23Z",
-   "score": 5.2
+   "score": 4.6
   },
   {
-   "headline": "US Dollar Price Forecast: Fed Hike Bets Rise as CPI Takes Center Stage; EUR/USD and GBP/USD Key Levels to Watch",
+   "headline": "Trump proposal to tie trade policy to Federal Reserve rate cuts could face long - term economic challenges",
    "summary": "",
    "category": "rates",
    "importance": "medium",
-   "assets": [
-    "DXY"
-   ],
-   "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/markets/currencies/articles/us-dollar-price-forecast-fed-054013689.html",
-   "published": "2026-09-11T05:40:13Z",
-   "score": 4.7
+   "assets": [],
+   "source": "finance.yahoo.com",
+   "url": "https://finance.yahoo.com/economy/policy/articles/trumps-proposal-tie-trade-policy-104000172.html",
+   "published": "2026-09-12T12:30:00Z",
+   "score": 4.6
+  },
+  {
+   "headline": "Inflation is outpacing wage growth again, squeezing Americans’ paychecks",
+   "summary": "In August, consumer prices rose 3.4% over the past year while wages increased just 3.1%.",
+   "category": "rates",
+   "importance": "medium",
+   "assets": [],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/09/12/inflation-is-outpacing-wage-growth-again-squeezing-americans-paychecks.html",
+   "published": "2026-09-12T12:49:15Z",
+   "score": 4.2
   }
  ]
 }
