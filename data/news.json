@@ -1,56 +1,22 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-09-13T10:11:16Z",
+ "updated": "2026-09-14T10:35:05Z",
  "sources": [
   "CNBC",
-  "finance.yahoo.com",
-  "mpamag.com"
+  "Yahoo Finance"
  ],
- "considered": 121,
+ "considered": 108,
  "stories": [
   {
-   "headline": "Inflation persisted in August, potentially locking in a Fed interest rate hike",
-   "summary": "The all-items consumer price index was expected to rise 0.4% in August, with core, excluding food and energy, showing a 0.2% gain, according to the Dow Jones consensus.",
-   "category": "rates",
-   "importance": "high",
-   "assets": [],
-   "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/09/11/cpi-inflation-report-august-2026.html",
-   "published": "2026-09-11T13:46:36Z",
-   "score": 6.6
-  },
-  {
-   "headline": "Hot inflation reading sets stage for possible Fed rate hike next week",
+   "headline": "The market says a Fed rate hike is a done deal. Here's why it might hold steady.",
    "summary": "",
    "category": "rates",
    "importance": "high",
    "assets": [],
-   "source": "mpamag.com",
-   "url": "https://www.mpamag.com/us/mortgage-industry/industry-trends/hot-inflation-reading-sets-stage-for-possible-fed-rate-hike-next-week/589481",
-   "published": "2026-09-11T16:00:00Z",
-   "score": 6.0
-  },
-  {
-   "headline": "Consumer outlook plunges in September as inflation outlook worsens",
-   "summary": "The survey's headline index hit a level of 47.8, down 7.5% from the August reading and off 13.2% from a year ago.",
-   "category": "rates",
-   "importance": "medium",
-   "assets": [],
-   "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/09/11/consumer-outlook-plunges-in-september-as-inflation-outlook-worsens.html",
-   "published": "2026-09-11T16:53:23Z",
-   "score": 4.6
-  },
-  {
-   "headline": "Trump proposal to tie trade policy to Federal Reserve rate cuts could face long - term economic challenges",
-   "summary": "",
-   "category": "rates",
-   "importance": "medium",
-   "assets": [],
-   "source": "finance.yahoo.com",
-   "url": "https://finance.yahoo.com/economy/policy/articles/trumps-proposal-tie-trade-policy-104000172.html",
-   "published": "2026-09-12T12:30:00Z",
-   "score": 4.6
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/economy/policy/article/the-market-says-a-fed-rate-hike-is-a-done-deal-heres-why-it-might-hold-steady-100000374.html",
+   "published": "2026-09-14T10:00:00Z",
+   "score": 5.4
   },
   {
    "headline": "Inflation is outpacing wage growth again, squeezing Americans’ paychecks",
@@ -61,7 +27,7 @@
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/09/12/inflation-is-outpacing-wage-growth-again-squeezing-americans-paychecks.html",
    "published": "2026-09-12T12:49:15Z",
-   "score": 4.2
+   "score": 3.6
   }
  ]
 }
