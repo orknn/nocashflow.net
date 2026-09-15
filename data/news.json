@@ -1,33 +1,33 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-09-14T10:35:05Z",
+ "updated": "2026-09-15T09:59:47Z",
  "sources": [
   "CNBC",
   "Yahoo Finance"
  ],
- "considered": 108,
+ "considered": 107,
  "stories": [
   {
-   "headline": "The market says a Fed rate hike is a done deal. Here's why it might hold steady.",
-   "summary": "",
+   "headline": "Counting the votes: Warsh faces a tough battle as the Fed girds for expected interest rate hike",
+   "summary": "Traders were pricing in a better than 92% probability of a rate increase, as well as a more than 75% chance for another one in December.",
    "category": "rates",
    "importance": "high",
    "assets": [],
-   "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/economy/policy/article/the-market-says-a-fed-rate-hike-is-a-done-deal-heres-why-it-might-hold-steady-100000374.html",
-   "published": "2026-09-14T10:00:00Z",
-   "score": 5.4
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/09/14/counting-the-votes-warsh-faces-tough-battle-as-fed-girds-for-expected-rate-hike.html",
+   "published": "2026-09-14T19:47:42Z",
+   "score": 5.2
   },
   {
-   "headline": "Inflation is outpacing wage growth again, squeezing Americans’ paychecks",
-   "summary": "In August, consumer prices rose 3.4% over the past year while wages increased just 3.1%.",
-   "category": "rates",
+   "headline": "LNG Demand in China and India Could Surge When Prices Normalize",
+   "summary": "",
+   "category": "energy",
    "importance": "medium",
    "assets": [],
-   "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/09/12/inflation-is-outpacing-wage-growth-again-squeezing-americans-paychecks.html",
-   "published": "2026-09-12T12:49:15Z",
-   "score": 3.6
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/energy/articles/lng-demand-china-india-could-083000371.html",
+   "published": "2026-09-15T08:30:00Z",
+   "score": 3.4
   }
  ]
 }
