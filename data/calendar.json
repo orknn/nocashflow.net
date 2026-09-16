@@ -1,5 +1,5 @@
 {
-  "asof": "2026-09-15T09:54:36Z",
+  "asof": "2026-09-16T09:47:24Z",
   "events": [
     {
       "dt_utc": "2026-09-14 15:15:00",
@@ -14,6 +14,18 @@
       "act": "—"
     },
     {
+      "dt_utc": "2026-09-15 14:00:00",
+      "cet_date": "2026-09-15",
+      "wd": 1,
+      "time": "16:00",
+      "event": "Treasury Sec Bessent Speaks",
+      "country": "US",
+      "impact": "medium",
+      "prev": "—",
+      "est": "—",
+      "act": "—"
+    },
+    {
       "dt_utc": "2026-09-16 12:30:00",
       "cet_date": "2026-09-16",
       "wd": 2,
@@ -22,7 +34,7 @@
       "country": "US",
       "impact": "medium",
       "prev": "-0.3%",
-      "est": "0.5%",
+      "est": "0.6%",
       "act": "—"
     },
     {
@@ -106,7 +118,7 @@
       "country": "US",
       "impact": "medium",
       "prev": "206K",
-      "est": "208K",
+      "est": "207K",
       "act": "—"
     },
     {

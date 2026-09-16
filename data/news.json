@@ -1,12 +1,37 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-09-15T09:59:47Z",
+ "updated": "2026-09-16T09:53:01Z",
  "sources": [
   "CNBC",
   "Yahoo Finance"
  ],
- "considered": 107,
+ "considered": 108,
  "stories": [
+  {
+   "headline": "Dow Jones Futures: Nvidia, Micron, Sandisk Dive On AI Fears; Fed Rate Hike Looms",
+   "summary": "",
+   "category": "rates",
+   "importance": "high",
+   "assets": [
+    "NVDA",
+    "SNDK"
+   ],
+   "source": "Yahoo Finance",
+   "url": "https://www.investors.com/market-trend/stock-market-today/dow-jones-sp500-nasdaq-nvidia-nvda-micron-sandisk-ai-warning-fed-rate-hike/?src=A00220&yptr=yahoo",
+   "published": "2026-09-14T22:29:28Z",
+   "score": 5.2
+  },
+  {
+   "headline": "UK inflation jumps to 3.1% as energy costs soar",
+   "summary": "The reading comes a day before the Bank of England updates its monetary policy.",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/09/16/uk-august-inflation-energy-gasoline.html",
+   "published": "2026-09-16T07:18:23Z",
+   "score": 4.8
+  },
   {
    "headline": "Counting the votes: Warsh faces a tough battle as the Fed girds for expected interest rate hike",
    "summary": "Traders were pricing in a better than 92% probability of a rate increase, as well as a more than 75% chance for another one in December.",
@@ -16,18 +41,20 @@
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/09/14/counting-the-votes-warsh-faces-tough-battle-as-fed-girds-for-expected-rate-hike.html",
    "published": "2026-09-14T19:47:42Z",
-   "score": 5.2
+   "score": 4.6
   },
   {
-   "headline": "LNG Demand in China and India Could Surge When Prices Normalize",
-   "summary": "",
-   "category": "energy",
+   "headline": "Why de-dollarization discussions are more talk, less action",
+   "summary": "BRICS leaders have asserted the need to use local currencies in intra-BRICS trade to cut dependency on dollar.",
+   "category": "fx",
    "importance": "medium",
-   "assets": [],
-   "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/energy/articles/lng-demand-china-india-could-083000371.html",
-   "published": "2026-09-15T08:30:00Z",
-   "score": 3.4
+   "assets": [
+    "DXY"
+   ],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/09/16/de-dollarization-brics-china-russia-trump.html",
+   "published": "2026-09-15T23:28:01Z",
+   "score": 3.3
   }
  ]
 }
