@@ -1,13 +1,25 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-09-17T09:59:36Z",
+ "updated": "2026-09-18T09:38:27Z",
  "sources": [
   "CNBC",
-  "Federal Reserve",
-  "Yahoo Finance"
+  "Federal Reserve"
  ],
  "considered": 107,
  "stories": [
+  {
+   "headline": "Why Japan’s markets flipped the usual script after central bank rate hike",
+   "summary": "The yen weakened past 157 against the dollar, the yield on the 10-year Japanese Government Bond slipped, while the Nikkei 225 gained 1.5%.",
+   "category": "rates",
+   "importance": "high",
+   "assets": [
+    "DXY"
+   ],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/09/18/japan-rate-hike-stocks-rise-bond-yields-yen-fall.html",
+   "published": "2026-09-18T07:40:29Z",
+   "score": 6.3
+  },
   {
    "headline": "Federal Reserve issues FOMC statement",
    "summary": "Federal Reserve issues FOMC statement",
@@ -17,7 +29,7 @@
    "source": "Federal Reserve",
    "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
    "published": "2026-09-16T18:00:00Z",
-   "score": 6.6
+   "score": 6.0
   },
   {
    "headline": "Federal Reserve Board and Federal Open Market Committee release economic projections from the September 15-16 FOMC meeting",
@@ -28,42 +40,29 @@
    "source": "Federal Reserve",
    "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916b.htm",
    "published": "2026-09-16T18:00:00Z",
-   "score": 6.6
+   "score": 6.0
   },
   {
-   "headline": "Bank of England set to defy Fed’s rate-hike lead, despite rising inflation",
-   "summary": "The Bank of England is expected to keep rates steady Thursday, even after U.K. inflation rose to 3.1% and energy costs keep pressure on prices.",
+   "headline": "Bank of England defies Fed’s rate-hike lead, leaving rates unchanged",
+   "summary": "The Bank of England kept rates steady Thursday, even after U.K. inflation rose to 3.1% and energy costs put pressure on prices.",
    "category": "rates",
    "importance": "medium",
    "assets": [],
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/09/17/bank-of-england-interest-rate-decision-fed-rate-hike-uk-inflation.html",
-   "published": "2026-09-17T05:20:23Z",
-   "score": 4.8
+   "published": "2026-09-17T12:27:10Z",
+   "score": 4.2
   },
   {
    "headline": "UK inflation jumps to 3.1% as energy costs soar",
    "summary": "The reading comes a day before the Bank of England updates its monetary policy.",
    "category": "rates",
-   "importance": "medium",
+   "importance": "low",
    "assets": [],
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/09/16/uk-august-inflation-energy-gasoline.html",
    "published": "2026-09-17T07:36:04Z",
-   "score": 4.8
-  },
-  {
-   "headline": "Wall Street Bets on Fed Rate Hike: Here's What It Means for Bitcoin, Bonds and Trump",
-   "summary": "",
-   "category": "rates",
-   "importance": "medium",
-   "assets": [
-    "BTC"
-   ],
-   "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/economy/policy/articles/wall-street-bets-fed-rate-214603743.html",
-   "published": "2026-09-15T21:46:03Z",
-   "score": 4.7
+   "score": 3.6
   }
  ]
 }
