@@ -1,11 +1,10 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-09-18T09:38:27Z",
+ "updated": "2026-09-19T09:24:38Z",
  "sources": [
-  "CNBC",
-  "Federal Reserve"
+  "CNBC"
  ],
- "considered": 107,
+ "considered": 108,
  "stories": [
   {
    "headline": "Why Japan’s markets flipped the usual script after central bank rate hike",
@@ -18,29 +17,7 @@
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/09/18/japan-rate-hike-stocks-rise-bond-yields-yen-fall.html",
    "published": "2026-09-18T07:40:29Z",
-   "score": 6.3
-  },
-  {
-   "headline": "Federal Reserve issues FOMC statement",
-   "summary": "Federal Reserve issues FOMC statement",
-   "category": "rates",
-   "importance": "high",
-   "assets": [],
-   "source": "Federal Reserve",
-   "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
-   "published": "2026-09-16T18:00:00Z",
-   "score": 6.0
-  },
-  {
-   "headline": "Federal Reserve Board and Federal Open Market Committee release economic projections from the September 15-16 FOMC meeting",
-   "summary": "Federal Reserve Board and Federal Open Market Committee release economic projections from the September 15-16 FOMC meeting",
-   "category": "rates",
-   "importance": "high",
-   "assets": [],
-   "source": "Federal Reserve",
-   "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916b.htm",
-   "published": "2026-09-16T18:00:00Z",
-   "score": 6.0
+   "score": 5.1
   },
   {
    "headline": "Bank of England defies Fed’s rate-hike lead, leaving rates unchanged",
@@ -51,17 +28,6 @@
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/09/17/bank-of-england-interest-rate-decision-fed-rate-hike-uk-inflation.html",
    "published": "2026-09-17T12:27:10Z",
-   "score": 4.2
-  },
-  {
-   "headline": "UK inflation jumps to 3.1% as energy costs soar",
-   "summary": "The reading comes a day before the Bank of England updates its monetary policy.",
-   "category": "rates",
-   "importance": "low",
-   "assets": [],
-   "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/09/16/uk-august-inflation-energy-gasoline.html",
-   "published": "2026-09-17T07:36:04Z",
    "score": 3.6
   }
  ]
