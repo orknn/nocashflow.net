@@ -1,34 +1,21 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-09-19T09:24:38Z",
+ "updated": "2026-09-20T09:47:01Z",
  "sources": [
   "CNBC"
  ],
  "considered": 108,
  "stories": [
   {
-   "headline": "Why Japan’s markets flipped the usual script after central bank rate hike",
-   "summary": "The yen weakened past 157 against the dollar, the yield on the 10-year Japanese Government Bond slipped, while the Nikkei 225 gained 1.5%.",
-   "category": "rates",
+   "headline": "France’s wine production nears a 70-year low, leaving winemakers with tough choices",
+   "summary": "As the French wine industry reaches a crisis point, key players are considering new markets, products and generations.",
+   "category": "markets",
    "importance": "high",
-   "assets": [
-    "DXY"
-   ],
-   "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/09/18/japan-rate-hike-stocks-rise-bond-yields-yen-fall.html",
-   "published": "2026-09-18T07:40:29Z",
-   "score": 5.1
-  },
-  {
-   "headline": "Bank of England defies Fed’s rate-hike lead, leaving rates unchanged",
-   "summary": "The Bank of England kept rates steady Thursday, even after U.K. inflation rose to 3.1% and energy costs put pressure on prices.",
-   "category": "rates",
-   "importance": "medium",
    "assets": [],
    "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/09/17/bank-of-england-interest-rate-decision-fed-rate-hike-uk-inflation.html",
-   "published": "2026-09-17T12:27:10Z",
-   "score": 3.6
+   "url": "https://www.cnbc.com/2026/09/20/france-wine-production-70-year-low-heatwaves-drought.html",
+   "published": "2026-09-20T05:00:01Z",
+   "score": 3.8
   }
  ]
 }
