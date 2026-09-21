@@ -1,21 +1,71 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-09-20T09:47:01Z",
+ "updated": "2026-09-21T10:39:20Z",
  "sources": [
-  "CNBC"
+  "CNBC",
+  "chicagotribune.com",
+  "economictimes.indiatimes.com",
+  "finance.yahoo.com",
+  "winnipegfreepress.com"
  ],
- "considered": 108,
+ "considered": 127,
  "stories": [
   {
-   "headline": "France’s wine production nears a 70-year low, leaving winemakers with tough choices",
-   "summary": "As the French wine industry reaches a crisis point, key players are considering new markets, products and generations.",
-   "category": "markets",
+   "headline": "Federal Reserve rate hike reflects new world of sticky inflation and faster growth – Winnipeg Free Press",
+   "summary": "",
+   "category": "rates",
    "importance": "high",
    "assets": [],
+   "source": "winnipegfreepress.com",
+   "url": "https://www.winnipegfreepress.com/business/2026/09/20/federal-reserve-rate-hike-reflects-new-world-of-sticky-inflation-and-faster-growth",
+   "published": "2026-09-20T12:45:00Z",
+   "score": 6.6
+  },
+  {
+   "headline": "Federal Reserve rate hike reflects inflation and faster growth",
+   "summary": "",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "chicagotribune.com",
+   "url": "https://www.chicagotribune.com/2026/09/20/federal-reserve-rate-hike/",
+   "published": "2026-09-20T17:45:00Z",
+   "score": 6.6
+  },
+  {
+   "headline": "Why Japan’s markets flipped the usual script after central bank rate hike",
+   "summary": "The yen weakened past 157 against the dollar, the yield on the 10-year Japanese Government Bond slipped, while the Nikkei 225 gained 1.5%.",
+   "category": "rates",
+   "importance": "high",
+   "assets": [
+    "DXY"
+   ],
    "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/09/20/france-wine-production-70-year-low-heatwaves-drought.html",
-   "published": "2026-09-20T05:00:01Z",
-   "score": 3.8
+   "url": "https://www.cnbc.com/2026/09/18/japan-rate-hike-stocks-rise-bond-yields-yen-fall.html",
+   "published": "2026-09-21T01:02:25Z",
+   "score": 6.3
+  },
+  {
+   "headline": "Fed Chair Kevin Warsh and the FOMC Just Hiked Interest Rates , and 36 Years of History Make Clear What Comes Next for Stocks",
+   "summary": "",
+   "category": "rates",
+   "importance": "medium",
+   "assets": [],
+   "source": "finance.yahoo.com",
+   "url": "https://finance.yahoo.com/economy/policy/articles/fed-chair-kevin-warsh-fomc-132601621.html",
+   "published": "2026-09-21T00:30:00Z",
+   "score": 5.2
+  },
+  {
+   "headline": "US economy enters higher - rate era as inflation , AI boom persist",
+   "summary": "",
+   "category": "rates",
+   "importance": "medium",
+   "assets": [],
+   "source": "economictimes.indiatimes.com",
+   "url": "https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/us-economy-enters-higher-rate-era-as-inflation-ai-boom-persist/articleshow/134380268.cms",
+   "published": "2026-09-21T06:00:00Z",
+   "score": 4.2
   }
  ]
 }
