@@ -1,46 +1,21 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-09-22T09:51:47Z",
+ "updated": "2026-09-23T09:55:54Z",
  "sources": [
-  "CNBC",
-  "Yahoo Finance"
+  "EIA"
  ],
- "considered": 108,
+ "considered": 109,
  "stories": [
   {
-   "headline": "Why Japan’s markets flipped the usual script after central bank rate hike",
-   "summary": "The yen weakened past 157 against the dollar, the yield on the 10-year Japanese Government Bond slipped, while the Nikkei 225 gained 1.5%.",
-   "category": "rates",
-   "importance": "high",
-   "assets": [
-    "DXY"
-   ],
-   "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/09/18/japan-rate-hike-stocks-rise-bond-yields-yen-fall.html",
-   "published": "2026-09-21T01:02:25Z",
-   "score": 5.1
-  },
-  {
-   "headline": "Soaring Oil and Gas Prices Push Europe’s Inflation Fight Into 2027",
-   "summary": "",
-   "category": "rates",
+   "headline": "Public companies produce most U.S. crude oil and natural gas",
+   "summary": "Publicly traded companies represent a tiny share of the total number of companies producing crude oil and natural gas in the United States, but they make up a large share of U.S. production. In 2025, publicly traded companies accounted for…",
+   "category": "energy",
    "importance": "high",
    "assets": [],
-   "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/energy/articles/soaring-oil-gas-prices-push-080000656.html",
-   "published": "2026-09-22T08:00:00Z",
-   "score": 4.4
-  },
-  {
-   "headline": "Clean Harbors (CLH): $600 Million in New Debt Raises the Stakes on Acquisition Execution",
-   "summary": "",
-   "category": "markets",
-   "importance": "medium",
-   "assets": [],
-   "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/markets/stocks/articles/clean-harbors-clh-600-million-071611487.html",
-   "published": "2026-09-22T07:16:11Z",
-   "score": 3.4
+   "source": "EIA",
+   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68184",
+   "published": "2026-09-22T09:00:00-05:00",
+   "score": 3.6
   }
  ]
 }

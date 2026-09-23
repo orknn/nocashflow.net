@@ -1,5 +1,5 @@
 {
-  "asof": "2026-09-22T09:46:05Z",
+  "asof": "2026-09-23T09:50:22Z",
   "events": [
     {
       "dt_utc": "2026-09-21 15:00:00",
@@ -20,6 +20,18 @@
       "time": "13:00",
       "event": "ECB President Lagarde Speaks",
       "country": "EU",
+      "impact": "medium",
+      "prev": "—",
+      "est": "—",
+      "act": "—"
+    },
+    {
+      "dt_utc": "2026-09-22 13:55:00",
+      "cet_date": "2026-09-22",
+      "wd": 1,
+      "time": "15:55",
+      "event": "President Trump Speaks",
+      "country": "US",
       "impact": "medium",
       "prev": "—",
       "est": "—",
