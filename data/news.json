@@ -1,21 +1,70 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-09-23T09:55:54Z",
+ "updated": "2026-09-24T09:54:14Z",
  "sources": [
-  "EIA"
+  "aol.com",
+  "economictimes.indiatimes.com",
+  "finance.yahoo.com",
+  "jamaica-gleaner.com"
  ],
- "considered": 109,
+ "considered": 145,
  "stories": [
   {
-   "headline": "Public companies produce most U.S. crude oil and natural gas",
-   "summary": "Publicly traded companies represent a tiny share of the total number of companies producing crude oil and natural gas in the United States, but they make up a large share of U.S. production. In 2025, publicly traded companies accounted for…",
-   "category": "energy",
+   "headline": "BofA forecasts two BoE rate hikes as energy prices stoke inflation concerns",
+   "summary": "",
+   "category": "rates",
    "importance": "high",
    "assets": [],
-   "source": "EIA",
-   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68184",
-   "published": "2026-09-22T09:00:00-05:00",
-   "score": 3.6
+   "source": "aol.com",
+   "url": "https://www.aol.com/articles/bofa-forecasts-two-boe-rate-113626000.html",
+   "published": "2026-09-23T12:30:00Z",
+   "score": 7.6
+  },
+  {
+   "headline": "Fed Collins Says Rate Hike Will Help Return Inflation to Goal",
+   "summary": "",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "finance.yahoo.com",
+   "url": "https://finance.yahoo.com/economy/policy/articles/fed-collins-says-rate-hike-141034489.html",
+   "published": "2026-09-23T22:30:00Z",
+   "score": 7.2
+  },
+  {
+   "headline": "US Market : Fed Collins backs rate hike , flags persistent inflation risks",
+   "summary": "",
+   "category": "rates",
+   "importance": "medium",
+   "assets": [],
+   "source": "economictimes.indiatimes.com",
+   "url": "https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/us-market-feds-collins-backs-rate-hike-flags-persistent-inflation-risks/articleshow/134428142.cms",
+   "published": "2026-09-23T08:15:00Z",
+   "score": 6.0
+  },
+  {
+   "headline": "Federal Reserve rate hike reflects new world of sticky inflation and faster growth",
+   "summary": "",
+   "category": "rates",
+   "importance": "medium",
+   "assets": [],
+   "source": "jamaica-gleaner.com",
+   "url": "https://jamaica-gleaner.com/article/business/20260923/federal-reserve-rate-hike-reflects-new-world-sticky-inflation-and-faster",
+   "published": "2026-09-23T06:45:00Z",
+   "score": 6.0
+  },
+  {
+   "headline": "10 - year Treasury yield hits highest level since 2007 as market prices in another Fed rate hike",
+   "summary": "",
+   "category": "rates",
+   "importance": "medium",
+   "assets": [
+    "US10Y"
+   ],
+   "source": "aol.com",
+   "url": "https://www.aol.com/articles/10-treasury-yield-hits-highest-152744000.html",
+   "published": "2026-09-23T16:15:00Z",
+   "score": 5.1
   }
  ]
 }

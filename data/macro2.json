@@ -1,6 +1,6 @@
 {
   "_note": "Live: FRED + DefiLlama + Atlanta Fed + Polymarket (cut odds). Manual (no free API): dot plot, ISM, global M2.",
-  "updated": "2026-09-23T09:52:13Z",
+  "updated": "2026-09-24T09:50:41Z",
   "regime_tape": [
     {
       "k": "Fed Funds",
@@ -11,7 +11,7 @@
     {
       "k": "Next FOMC",
       "v": "Oct 28",
-      "d": "35d",
+      "d": "34d",
       "dir": "neu"
     },
     {
@@ -28,13 +28,13 @@
     },
     {
       "k": "2s10s",
-      "v": "+25",
+      "v": "+26",
       "d": "steepening",
       "dir": "up"
     },
     {
       "k": "DXY",
-      "v": "100.86",
+      "v": "101.24",
       "d": "",
       "dir": "neu"
     },
@@ -62,9 +62,9 @@
       "dir": "neu"
     },
     {
-      "v": "2.34%",
-      "sub": "▼ -1bp",
-      "dir": "down"
+      "v": "2.36%",
+      "sub": "▲ +2bp",
+      "dir": "up"
     }
   ],
   "fed": {
@@ -97,7 +97,7 @@
         "dir": "down"
       },
       {
-        "v": "$453M",
+        "v": "$461M",
         "sub": "▼ draining",
         "dir": "down"
       },
@@ -151,8 +151,8 @@
         "dir": "up"
       },
       {
-        "v": "$312B",
-        "sub": "USDC $75B",
+        "v": "$313B",
+        "sub": "USDC $77B",
         "dir": "up"
       }
     ]
@@ -183,19 +183,19 @@
     "curve": [
       {
         "tenor": "1M",
-        "y": 3.96
+        "y": 3.97
       },
       {
         "tenor": "3M",
-        "y": 4.17
+        "y": 4.16
       },
       {
         "tenor": "6M",
-        "y": 4.27
+        "y": 4.26
       },
       {
         "tenor": "2Y",
-        "y": 4.76
+        "y": 4.71
       },
       {
         "tenor": "5Y",
@@ -212,7 +212,7 @@
     ],
     "stats": [
       {
-        "v": "4.76",
+        "v": "4.71",
         "sub": "+0.8%",
         "dir": "neu"
       },
@@ -222,12 +222,12 @@
         "dir": "neu"
       },
       {
-        "v": "+25bp",
+        "v": "+26bp",
         "sub": "steepening",
         "dir": "up"
       },
       {
-        "v": "266bp",
+        "v": "268bp",
         "sub": "→ calm",
         "dir": "neu"
       }
