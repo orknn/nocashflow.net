@@ -1,70 +1,46 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-09-24T09:54:14Z",
+ "updated": "2026-09-25T10:12:00Z",
  "sources": [
-  "aol.com",
-  "economictimes.indiatimes.com",
-  "finance.yahoo.com",
-  "jamaica-gleaner.com"
+  "CNBC",
+  "ECB"
  ],
- "considered": 145,
+ "considered": 107,
  "stories": [
   {
-   "headline": "BofA forecasts two BoE rate hikes as energy prices stoke inflation concerns",
-   "summary": "",
+   "headline": "Surging Treasury yields pose a brand new problem for Kevin Warsh and the Fed",
+   "summary": "Markets expect the central bank will take a firmer hand on inflation. It's not that easy.",
    "category": "rates",
    "importance": "high",
-   "assets": [],
-   "source": "aol.com",
-   "url": "https://www.aol.com/articles/bofa-forecasts-two-boe-rate-113626000.html",
-   "published": "2026-09-23T12:30:00Z",
-   "score": 7.6
-  },
-  {
-   "headline": "Fed Collins Says Rate Hike Will Help Return Inflation to Goal",
-   "summary": "",
-   "category": "rates",
-   "importance": "high",
-   "assets": [],
-   "source": "finance.yahoo.com",
-   "url": "https://finance.yahoo.com/economy/policy/articles/fed-collins-says-rate-hike-141034489.html",
-   "published": "2026-09-23T22:30:00Z",
-   "score": 7.2
-  },
-  {
-   "headline": "US Market : Fed Collins backs rate hike , flags persistent inflation risks",
-   "summary": "",
-   "category": "rates",
-   "importance": "medium",
-   "assets": [],
-   "source": "economictimes.indiatimes.com",
-   "url": "https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/us-market-feds-collins-backs-rate-hike-flags-persistent-inflation-risks/articleshow/134428142.cms",
-   "published": "2026-09-23T08:15:00Z",
-   "score": 6.0
-  },
-  {
-   "headline": "Federal Reserve rate hike reflects new world of sticky inflation and faster growth",
-   "summary": "",
-   "category": "rates",
-   "importance": "medium",
-   "assets": [],
-   "source": "jamaica-gleaner.com",
-   "url": "https://jamaica-gleaner.com/article/business/20260923/federal-reserve-rate-hike-reflects-new-world-sticky-inflation-and-faster",
-   "published": "2026-09-23T06:45:00Z",
-   "score": 6.0
-  },
-  {
-   "headline": "10 - year Treasury yield hits highest level since 2007 as market prices in another Fed rate hike",
-   "summary": "",
-   "category": "rates",
-   "importance": "medium",
    "assets": [
     "US10Y"
    ],
-   "source": "aol.com",
-   "url": "https://www.aol.com/articles/10-treasury-yield-hits-highest-152744000.html",
-   "published": "2026-09-23T16:15:00Z",
-   "score": 5.1
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/09/24/surging-treasury-yields-are-posing-a-brand-new-problem-for-kevin-warsh-and-the-fed.html",
+   "published": "2026-09-25T02:38:53Z",
+   "score": 5.3
+  },
+  {
+   "headline": "Switzerland is keeping rates at 0% — for now",
+   "summary": "The Swiss National Bank held rates at 0% as low inflation and a strong franc enable it to diverge from other central banks, though markets expect hikes ahead.",
+   "category": "rates",
+   "importance": "medium",
+   "assets": [],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/09/24/swiss-national-bank-interest-rates-inflation.html",
+   "published": "2026-09-24T11:34:56Z",
+   "score": 4.2
+  },
+  {
+   "headline": "Philip R. Lane: The outlook for the euro area economy",
+   "summary": "",
+   "category": "fx",
+   "importance": "medium",
+   "assets": [],
+   "source": "ECB",
+   "url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260924~e0eceef02c.en.pdf",
+   "published": "2026-09-24T11:00:00+02:00",
+   "score": 3.6
   }
  ]
 }
