@@ -1,11 +1,10 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-09-25T10:12:00Z",
+ "updated": "2026-09-26T09:52:10Z",
  "sources": [
-  "CNBC",
-  "ECB"
+  "CNBC"
  ],
- "considered": 107,
+ "considered": 104,
  "stories": [
   {
    "headline": "Surging Treasury yields pose a brand new problem for Kevin Warsh and the Fed",
@@ -17,8 +16,8 @@
    ],
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/09/24/surging-treasury-yields-are-posing-a-brand-new-problem-for-kevin-warsh-and-the-fed.html",
-   "published": "2026-09-25T02:38:53Z",
-   "score": 5.3
+   "published": "2026-09-25T11:08:05Z",
+   "score": 4.7
   },
   {
    "headline": "Switzerland is keeping rates at 0% — for now",
@@ -29,17 +28,6 @@
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/09/24/swiss-national-bank-interest-rates-inflation.html",
    "published": "2026-09-24T11:34:56Z",
-   "score": 4.2
-  },
-  {
-   "headline": "Philip R. Lane: The outlook for the euro area economy",
-   "summary": "",
-   "category": "fx",
-   "importance": "medium",
-   "assets": [],
-   "source": "ECB",
-   "url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260924~e0eceef02c.en.pdf",
-   "published": "2026-09-24T11:00:00+02:00",
    "score": 3.6
   }
  ]
