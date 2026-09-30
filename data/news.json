@@ -1,25 +1,15 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-09-29T11:18:51Z",
+ "updated": "2026-09-30T11:07:22Z",
  "sources": [
+  "businesstimes.com.sg",
   "dailynews.co.tz",
   "econotimes.com",
   "nationalmortgagenews.com",
-  "timesofindia.indiatimes.com"
+  "retail.economictimes.indiatimes.com"
  ],
- "considered": 139,
+ "considered": 141,
  "stories": [
-  {
-   "headline": "US Stocks Face Jobs , Inflation Test as Fed Rate Hike Bets Rise",
-   "summary": "",
-   "category": "rates",
-   "importance": "high",
-   "assets": [],
-   "source": "econotimes.com",
-   "url": "http://www.econotimes.com/US-Stocks-Face-Jobs-Inflation-Test-as-Fed-Rate-Hike-Bets-Rise-1753165",
-   "published": "2026-09-27T15:15:00Z",
-   "score": 6.0
-  },
   {
    "headline": "Gold Plunges 4 % as Treasury Yields Surge and Fed Rate Hike Bets Rise",
    "summary": "",
@@ -31,7 +21,40 @@
    "source": "econotimes.com",
    "url": "http://www.econotimes.com/Gold-Plunges-4-as-Treasury-Yields-Surge-and-Fed-Rate-Hike-Bets-Rise-1753338",
    "published": "2026-09-29T06:00:00Z",
-   "score": 5.7
+   "score": 4.5
+  },
+  {
+   "headline": "Gold on track for monthly decline as investors brace for US inflation data",
+   "summary": "",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "businesstimes.com.sg",
+   "url": "https://www.businesstimes.com.sg/companies-markets/energy-commodities/gold-track-monthly-decline-investors-brace-us-inflation-data",
+   "published": "2026-09-30T07:15:00Z",
+   "score": 4.2
+  },
+  {
+   "headline": "Gold Prices Set for Monthly Decline Amid Rising US Interest Rate Expectations and Upcoming Inflation Data , ETRetail",
+   "summary": "",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "retail.economictimes.indiatimes.com",
+   "url": "https://retail.economictimes.indiatimes.com/news/apparel-fashion/jewellery/gold-heads-for-monthly-decline-us-inflation-data-looms/134578954",
+   "published": "2026-09-30T08:00:00Z",
+   "score": 4.2
+  },
+  {
+   "headline": "Data this week seen bolstering case for October rate hike",
+   "summary": "",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "nationalmortgagenews.com",
+   "url": "https://www.nationalmortgagenews.com/articles/data-this-week-seen-bolstering-case-for-october-rate-hike",
+   "published": "2026-09-28T18:15:00Z",
+   "score": 4.0
   },
   {
    "headline": "Fed rate hike sends ripples through Tanzania",
@@ -42,28 +65,6 @@
    "source": "dailynews.co.tz",
    "url": "https://dailynews.co.tz/fed-rate-hike-sends-ripples-through-tanzania/",
    "published": "2026-09-29T09:15:00Z",
-   "score": 5.2
-  },
-  {
-   "headline": "Data this week seen bolstering case for October rate hike",
-   "summary": "",
-   "category": "rates",
-   "importance": "medium",
-   "assets": [],
-   "source": "nationalmortgagenews.com",
-   "url": "https://www.nationalmortgagenews.com/articles/data-this-week-seen-bolstering-case-for-october-rate-hike",
-   "published": "2026-09-28T18:15:00Z",
-   "score": 4.6
-  },
-  {
-   "headline": "Gold , Silver rate today live updates : Gold drops more than 2 % as oil surge boosts US rate hike bets",
-   "summary": "",
-   "category": "rates",
-   "importance": "medium",
-   "assets": [],
-   "source": "timesofindia.indiatimes.com",
-   "url": "https://timesofindia.indiatimes.com/business/india-business/gold-silver-rate-today-live-updates-18k-22-carat-24k-gold-price-10g-silver-cost-per-kg-mcx-comex-etf-stock-precious-metal-gold-prediction-city-wise-cost-latest-gold-news/articleshow/134531484.cms",
-   "published": "2026-09-28T05:00:00Z",
    "score": 4.0
   }
  ]
