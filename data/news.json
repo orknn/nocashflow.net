@@ -1,7 +1,69 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-10-01T11:34:38Z",
- "sources": [],
- "considered": 107,
- "stories": []
+ "updated": "2026-10-02T11:04:17Z",
+ "sources": [
+  "aol.com",
+  "businesstimes.com.sg",
+  "econotimes.com"
+ ],
+ "considered": 141,
+ "stories": [
+  {
+   "headline": "Bill Ackman Just Said 4 Words Blasting the Fed Latest Rate Hike : Just Made a Mistake . Here Why He Thinks Higher Rates Could Backfire on AI - Driven Inflation…",
+   "summary": "",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "aol.com",
+   "url": "https://www.aol.com/articles/bill-ackman-just-said-4-144300000.html",
+   "published": "2026-09-30T15:15:00Z",
+   "score": 6.0
+  },
+  {
+   "headline": "Fed Logan Signals 50 Basis Points More in Rate Hikes",
+   "summary": "",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "econotimes.com",
+   "url": "http://www.econotimes.com/Feds-Logan-Signals-50-Basis-Points-More-in-Rate-Hikes-1753780",
+   "published": "2026-10-02T08:45:00Z",
+   "score": 5.2
+  },
+  {
+   "headline": "Fed policymakers lean against October rate hike",
+   "summary": "",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "businesstimes.com.sg",
+   "url": "https://www.businesstimes.com.sg/companies-markets/banking-finance/fed-policymakers-lean-against-october-rate-hike",
+   "published": "2026-10-02T08:00:00Z",
+   "score": 5.2
+  },
+  {
+   "headline": "Goldman Sachs pushes Fed rate hike forecast to December",
+   "summary": "",
+   "category": "rates",
+   "importance": "medium",
+   "assets": [],
+   "source": "aol.com",
+   "url": "https://www.aol.com/articles/goldman-sachs-pushes-fed-rate-034843000.html",
+   "published": "2026-10-01T05:30:00Z",
+   "score": 5.0
+  },
+  {
+   "headline": "Ethereum Price Eyes $3 , 000 as Fed Rate Hike Odds Drop",
+   "summary": "",
+   "category": "rates",
+   "importance": "medium",
+   "assets": [
+    "ETH"
+   ],
+   "source": "econotimes.com",
+   "url": "http://www.econotimes.com/Ethereum-Price-Eyes-3000-as-Fed-Rate-Hike-Odds-Drop-1753591",
+   "published": "2026-09-30T22:15:00Z",
+   "score": 4.5
+  }
+ ]
 }
