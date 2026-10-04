@@ -1,6 +1,6 @@
 {
   "_note": "Curated watchlists. Quotes: Nasdaq historical (last close, daily). Movers are ranked over this list universe only — not the whole market.",
-  "updated": "2026-10-03T10:22:43Z",
+  "updated": "2026-10-04T11:06:23Z",
   "lists": [
     {
       "key": "main",
@@ -151,7 +151,7 @@
       "vol": 19865310,
       "day_lo": 628.55,
       "day_hi": 645.46,
-      "w52_lo": 163.14,
+      "w52_lo": 188.22,
       "w52_hi": 645.46,
       "asof": "2026-10-02",
       "spark30": [
@@ -392,7 +392,7 @@
       "day_lo": 105.0,
       "day_hi": 106.98,
       "w52_lo": 91.99,
-      "w52_hi": 191.07,
+      "w52_hi": 189.61,
       "asof": "2026-10-02",
       "spark30": [
         119.34,

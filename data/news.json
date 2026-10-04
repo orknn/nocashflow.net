@@ -1,26 +1,12 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-10-03T10:23:33Z",
+ "updated": "2026-10-04T11:07:33Z",
  "sources": [
   "CNBC",
-  "aninews.in",
-  "businesstimes.com.sg",
-  "econotimes.com",
-  "livemint.com"
+  "EIA"
  ],
- "considered": 145,
+ "considered": 108,
  "stories": [
-  {
-   "headline": "RBI rate hike may have limited justification amid benign core inflation , subdued growth : Nuvama",
-   "summary": "",
-   "category": "rates",
-   "importance": "high",
-   "assets": [],
-   "source": "aninews.in",
-   "url": "https://aninews.in/news/business/rbi-rate-hike-may-have-limited-justification-amid-benign-core-inflation-subdued-growth-nuvama20261002092752/",
-   "published": "2026-10-02T05:30:00Z",
-   "score": 6.0
-  },
   {
    "headline": "Labor market faltered in September as jobs increased by just 29,000, unemployment rate rose to 4.2%",
    "summary": "Nonfarm payrolls rose by just 29,000 in September, well below the 84,000 forecast, and the unemployment rate rose to 4.2%, the Bureau of Labor Statistics said.",
@@ -30,40 +16,18 @@
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/10/02/jobs-report-september-2026.html",
    "published": "2026-10-02T13:45:58Z",
-   "score": 5.2
+   "score": 4.6
   },
   {
-   "headline": "Fed Logan Signals 50 Basis Points More in Rate Hikes",
-   "summary": "",
-   "category": "rates",
+   "headline": "U.S. natural gas production reached a record high in July 2026",
+   "summary": "U.S. natural gas production hit an all-time high in July 2026, driven primarily by increased output in the Permian Basin, according to our latest Natural Gas Monthly.",
+   "category": "energy",
    "importance": "medium",
    "assets": [],
-   "source": "econotimes.com",
-   "url": "http://www.econotimes.com/Feds-Logan-Signals-50-Basis-Points-More-in-Rate-Hikes-1753780",
-   "published": "2026-10-02T08:45:00Z",
-   "score": 4.0
-  },
-  {
-   "headline": "Fed policymakers lean against October rate hike",
-   "summary": "",
-   "category": "rates",
-   "importance": "medium",
-   "assets": [],
-   "source": "businesstimes.com.sg",
-   "url": "https://www.businesstimes.com.sg/companies-markets/banking-finance/fed-policymakers-lean-against-october-rate-hike",
-   "published": "2026-10-02T08:00:00Z",
-   "score": 4.0
-  },
-  {
-   "headline": "RBI rate hike expected in October ? What it means for Sensex , Nifty | Experts decode",
-   "summary": "",
-   "category": "rates",
-   "importance": "medium",
-   "assets": [],
-   "source": "livemint.com",
-   "url": "https://www.livemint.com/market/stock-market-news/rbi-rate-hike-expected-in-october-what-it-mean-for-sensex-nifty-experts-decode-11790847271851.html",
-   "published": "2026-10-01T11:00:00Z",
-   "score": 4.0
+   "source": "EIA",
+   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68225",
+   "published": "2026-10-02T09:00:00-05:00",
+   "score": 3.0
   }
  ]
 }
