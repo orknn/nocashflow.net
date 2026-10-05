@@ -1,6 +1,6 @@
 {
   "_note": "Main-chart series. Equity/ETF: Nasdaq historical daily closes. Bitcoin: Kraken XBT/USD. Index instruments are ETF proxies, labelled as such — no synthetic index level.",
-  "updated": "2026-10-04T11:06:40Z",
+  "updated": "2026-10-05T12:14:57Z",
   "instruments": [
     {
       "key": "spx",
@@ -4160,18 +4160,17 @@
       "proxy": "BTC",
       "note": "Kraken · XBT/USD spot",
       "stats": {
-        "price": 85258,
-        "d1": 0.61,
+        "price": 86117,
+        "d1": -0.45,
         "day_lo": null,
         "day_hi": null,
         "w52_lo": 58532,
         "w52_hi": 124766,
         "vol": null,
-        "asof": "2026-10-04"
+        "asof": "2026-10-05"
       },
       "daily": {
         "dates": [
-          "2026-01-26",
           "2026-01-27",
           "2026-01-28",
           "2026-01-29",
@@ -4422,10 +4421,10 @@
           "2026-10-01",
           "2026-10-02",
           "2026-10-03",
-          "2026-10-04"
+          "2026-10-04",
+          "2026-10-05"
         ],
         "closes": [
-          88247.4,
           89124.1,
           89159.6,
           84515.1,
@@ -4676,7 +4675,8 @@
           84849.1,
           84503.7,
           84740.0,
-          85258.3
+          86510.4,
+          86117.2
         ]
       },
       "weekly": {
@@ -5204,7 +5204,7 @@
           76146.1,
           84384.6,
           83564.7,
-          85258.2
+          86117.2
         ]
       }
     },
