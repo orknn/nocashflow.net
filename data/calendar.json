@@ -1,5 +1,5 @@
 {
-  "asof": "2026-10-05T12:09:51Z",
+  "asof": "2026-10-06T11:53:35Z",
   "events": [
     {
       "dt_utc": "2026-10-05 14:00:00",
@@ -21,6 +21,18 @@
       "event": "FOMC Meeting Minutes",
       "country": "US",
       "impact": "high",
+      "prev": "—",
+      "est": "—",
+      "act": "—"
+    },
+    {
+      "dt_utc": "2026-10-08 08:30:00",
+      "cet_date": "2026-10-08",
+      "wd": 3,
+      "time": "10:30",
+      "event": "FOMC Member Waller Speaks",
+      "country": "US",
+      "impact": "medium",
       "prev": "—",
       "est": "—",
       "act": "—"
