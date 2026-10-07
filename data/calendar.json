@@ -1,5 +1,5 @@
 {
-  "asof": "2026-10-06T11:53:35Z",
+  "asof": "2026-10-07T11:38:24Z",
   "events": [
     {
       "dt_utc": "2026-10-05 14:00:00",
@@ -11,6 +11,18 @@
       "impact": "medium",
       "prev": "55.4",
       "est": "55.1",
+      "act": "—"
+    },
+    {
+      "dt_utc": "2026-10-07 17:00:00",
+      "cet_date": "2026-10-07",
+      "wd": 2,
+      "time": "19:00",
+      "event": "President Trump Speaks",
+      "country": "US",
+      "impact": "medium",
+      "prev": "—",
+      "est": "—",
       "act": "—"
     },
     {
@@ -58,7 +70,7 @@
       "country": "US",
       "impact": "medium",
       "prev": "47.8",
-      "est": "47.6",
+      "est": "47.5",
       "act": "—"
     },
     {

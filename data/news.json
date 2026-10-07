@@ -1,20 +1,53 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-10-06T11:59:13Z",
+ "updated": "2026-10-07T11:44:05Z",
  "sources": [
   "CNBC"
  ],
- "considered": 82,
+ "considered": 83,
  "stories": [
+  {
+   "headline": "Why AI is both the hope and the hazard for world leaders, according to IMF chief Georgieva",
+   "summary": "Kristalina Georgieva warns that the technology lifting growth hopes is also pushing up inflation and yields, just as public debt levels rose.",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/10/07/economy-inflation-ai-trade-imf-iran-hormuz-trump-.html",
+   "published": "2026-10-07T06:16:39Z",
+   "score": 4.8
+  },
+  {
+   "headline": "India’s central bank hikes rates for the first time since 2023 as inflation risks build",
+   "summary": "HSBC and Goldman Sachs expect the RBI to raise interest rates in December as well.",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/10/07/india-rbi-interest-rates-inflation.html",
+   "published": "2026-10-07T05:11:55Z",
+   "score": 4.8
+  },
+  {
+   "headline": "Trade deficit hits $105.6 billion, widest since just before Trump tariffs enacted last year",
+   "summary": "That marked a 13.7% jump from July and was ahead of the Dow Jones consensus estimate for $102 billion.",
+   "category": "policy",
+   "importance": "high",
+   "assets": [],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/10/06/trade-deficit-hits-105point6-billion-widest-since-just-before-trump-tariffs-enacted-last-year.html",
+   "published": "2026-10-06T15:52:22Z",
+   "score": 4.2
+  },
   {
    "headline": "World Bank warns of AI concentration risks as it lifts East Asia and Pacific growth outlook to 4.5%",
    "summary": "The World Bank now expects the region to grow 4.5% this year, but flagged that trade growth outside AI-related goods has been \"weak or negative.\"",
    "category": "technology",
-   "importance": "high",
+   "importance": "medium",
    "assets": [],
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/10/06/world-bank-east-asia-growth-inflation-ai-exports-.html",
-   "published": "2026-10-06T04:07:24Z",
+   "published": "2026-10-07T03:00:22Z",
    "score": 3.8
   }
  ]
