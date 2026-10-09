@@ -1,11 +1,11 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-10-08T11:59:08Z",
+ "updated": "2026-10-09T11:50:06Z",
  "sources": [
   "CNBC",
   "EIA"
  ],
- "considered": 83,
+ "considered": 88,
  "stories": [
   {
    "headline": "Inflation fears on the rise as one-year outlook in Fed survey hits highest level since May 2023",
@@ -16,29 +16,18 @@
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/10/07/inflation-fears-on-the-rise-as-one-year-outlook-in-fed-survey-hits-highest-since-may-2023.html",
    "published": "2026-10-07T18:44:36Z",
-   "score": 5.2
+   "score": 4.6
   },
   {
-   "headline": "Mixed outlook for energy expenditures this winter",
-   "summary": "We expect energy expenditures this winter to vary because of diverging trends in energy prices among fuels and regional variation in forecast temperatures. We expect that lower prices for natural gas and propane will drive decreases in…",
-   "category": "energy",
-   "importance": "medium",
-   "assets": [],
-   "source": "EIA",
-   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68264",
-   "published": "2026-10-07T09:00:00-05:00",
-   "score": 3.6
-  },
-  {
-   "headline": "Why AI is both the hope and the hazard for world leaders, according to IMF chief Georgieva",
-   "summary": "Kristalina Georgieva warns that the technology lifting growth hopes is also pushing up inflation and yields, just as public debt levels rose.",
+   "headline": "Inflation on many everyday items was entirely due to tariffs, NY Fed says",
+   "summary": "Tariffs added 2.9 percentage points to inflation in 67 categories of goods by February 2026, researchers at the New York Federal Reserve found.",
    "category": "rates",
-   "importance": "medium",
+   "importance": "high",
    "assets": [],
    "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/10/07/economy-inflation-ai-trade-imf-iran-hormuz-trump-.html",
-   "published": "2026-10-07T06:16:39Z",
-   "score": 3.6
+   "url": "https://www.cnbc.com/2026/10/08/inflation-tariffs-trump-fed-consumer-goods.html",
+   "published": "2026-10-08T17:31:03Z",
+   "score": 4.2
   },
   {
    "headline": "India’s central bank hikes rates for the first time since 2023 as inflation risks build",
@@ -52,15 +41,15 @@
    "score": 3.6
   },
   {
-   "headline": "Trade deficit hits $105.6 billion, widest since just before Trump tariffs enacted last year",
-   "summary": "That marked a 13.7% jump from July and was ahead of the Dow Jones consensus estimate for $102 billion.",
-   "category": "policy",
+   "headline": "Mixed outlook for energy expenditures this winter",
+   "summary": "We expect energy expenditures this winter to vary because of diverging trends in energy prices among fuels and regional variation in forecast temperatures. We expect that lower prices for natural gas and propane will drive decreases in…",
+   "category": "energy",
    "importance": "medium",
    "assets": [],
-   "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/10/06/trade-deficit-hits-105point6-billion-widest-since-just-before-trump-tariffs-enacted-last-year.html",
-   "published": "2026-10-06T15:52:22Z",
-   "score": 3.6
+   "source": "EIA",
+   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68264",
+   "published": "2026-10-07T09:00:00-05:00",
+   "score": 3.0
   }
  ]
 }
