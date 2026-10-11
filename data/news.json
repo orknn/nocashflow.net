@@ -1,11 +1,12 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-10-10T11:08:47Z",
+ "updated": "2026-10-11T11:25:09Z",
  "sources": [
   "CNBC",
-  "EIA"
+  "EIA",
+  "timesofoman.com"
  ],
- "considered": 83,
+ "considered": 113,
  "stories": [
   {
    "headline": "Americans' debt problems are flashing a warning not seen since the Great Recession",
@@ -16,24 +17,24 @@
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/10/09/american-debt-delinquency.html",
    "published": "2026-10-09T19:18:24Z",
-   "score": 5.2
+   "score": 4.6
   },
   {
-   "headline": "Inflation on many everyday items was entirely due to tariffs, NY Fed says",
-   "summary": "Tariffs added 2.9 percentage points to inflation in 67 categories of goods by February 2026, researchers at the New York Federal Reserve found.",
+   "headline": "RBI rate hikes of 50 bps expected in next two policies , terminal repo rate to reach 6 . 0 %: Kotak report",
+   "summary": "",
    "category": "rates",
-   "importance": "medium",
+   "importance": "high",
    "assets": [],
-   "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/10/08/inflation-tariffs-trump-fed-consumer-goods.html",
-   "published": "2026-10-08T17:31:03Z",
-   "score": 3.6
+   "source": "timesofoman.com",
+   "url": "https://timesofoman.com/article/177844-rbi-rate-hikes-of-50-bps-expected-in-next-two-policies-kotak-report",
+   "published": "2026-10-10T06:45:00Z",
+   "score": 4.0
   },
   {
    "headline": "Category 2 Hurricane Isaias nears landfall, leading to production shut-ins",
    "summary": "As of 4:00 a.m. central time on October 9, the National Oceanic and Atmospheric Administration expects Hurricane Isaias to make landfall on the Gulf Coast late Friday or early Saturday, creating the potential for significant disruptions to…",
    "category": "energy",
-   "importance": "low",
+   "importance": "medium",
    "assets": [],
    "source": "EIA",
    "url": "https://www.eia.gov/todayinenergy/detail.php?id=68284",
