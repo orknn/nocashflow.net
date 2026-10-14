@@ -1,6 +1,6 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-10-13T12:39:14Z",
+ "updated": "2026-10-14T10:06:25Z",
  "sources": [
   "CNBC",
   "EIA"
@@ -19,26 +19,37 @@
    "score": 6.6
   },
   {
-   "headline": "IMF warns bond yields could see a 'disorderly' spike as debt, inflation risks worsen",
-   "summary": "The IMF says risks in the government bond market have worsened and that yields could jump sharply and disorderly.",
+   "headline": "'Godzilla El Niño' is wreaking havoc with Philippine central bank's inflation forecasts",
+   "summary": "The Philippine central bank is running policy scenarios for a severe El Niño on top of the oil shock, with inflation at a three-year high.",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/10/14/godzilla-el-nino-asia-inflation-philippines.html",
+   "published": "2026-10-14T04:24:28Z",
+   "score": 5.8
+  },
+  {
+   "headline": "The latest inflation data is expected to show price increases are accelerating",
+   "summary": "Economists expect the consumer price index for September to rise 0.6% on the month and 3.6% year over year.",
    "category": "rates",
    "importance": "medium",
    "assets": [],
    "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/10/13/treasury-yields-imf-debt-inflation-.html",
-   "published": "2026-10-13T04:54:07Z",
-   "score": 4.8
+   "url": "https://www.cnbc.com/2026/10/13/september-consumer-price-index-inflation.html",
+   "published": "2026-10-13T18:05:57Z",
+   "score": 4.2
   },
   {
-   "headline": "IMF sees milder global slowdown as AI boom offsets war hit — warns resilience is nearing limits",
-   "summary": "The IMF raised its 2026 global growth forecast to 3.1%, warning that resilience is tested by energy constraints and looming fiscal risks.",
-   "category": "technology",
+   "headline": "IMF warns bond yields could see a 'disorderly' spike as debt, inflation risks worsen",
+   "summary": "The IMF says risks in the government bond market have worsened and that yields could jump sharply and disorderly.",
+   "category": "rates",
    "importance": "low",
    "assets": [],
    "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/10/12/imf-world-bank-annual-meetings-october-bangkok-asia-.html",
-   "published": "2026-10-13T04:10:49Z",
-   "score": 3.8
+   "url": "https://www.cnbc.com/2026/10/13/treasury-yields-imf-debt-inflation-.html",
+   "published": "2026-10-13T04:54:07Z",
+   "score": 3.6
   },
   {
    "headline": "Category 2 Hurricane Isaias nears landfall, leading to production shut-ins",
