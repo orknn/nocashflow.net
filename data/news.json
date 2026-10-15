@@ -1,22 +1,21 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-10-14T10:06:25Z",
+ "updated": "2026-10-15T09:48:27Z",
  "sources": [
-  "CNBC",
-  "EIA"
+  "CNBC"
  ],
  "considered": 83,
  "stories": [
   {
-   "headline": "India’s retail inflation jumps to 5.54% in September, above estimates",
-   "summary": "India inflations jumps for the 11-straight month, raising prospects of a further interest rate hike",
+   "headline": "UK economy grew 0.1% in August, beating expectations",
+   "summary": "The U.K. is grappling with a cost-of-living crisis sparked by sticky inflation and surging energy costs.",
    "category": "rates",
    "importance": "high",
    "assets": [],
    "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/10/12/india-inflation-oil-energy-iran-war.html",
-   "published": "2026-10-12T10:49:24Z",
-   "score": 6.6
+   "url": "https://www.cnbc.com/2026/10/15/uk-gdp-august-2026-economy.html",
+   "published": "2026-10-15T08:44:17Z",
+   "score": 4.8
   },
   {
    "headline": "'Godzilla El Niño' is wreaking havoc with Philippine central bank's inflation forecasts",
@@ -27,7 +26,29 @@
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/10/14/godzilla-el-nino-asia-inflation-philippines.html",
    "published": "2026-10-14T04:24:28Z",
-   "score": 5.8
+   "score": 4.6
+  },
+  {
+   "headline": "How high inflation became a 'fact of life' in the U.S.",
+   "summary": "U.S. inflation has stayed elevated for years, raising concern at the Federal Reserve that consumers may come to expect stubbornly high prices.",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/10/14/high-inflation-fed-expectations.html",
+   "published": "2026-10-14T17:20:23Z",
+   "score": 4.2
+  },
+  {
+   "headline": "IMF sees milder global slowdown as AI boom offsets war hit — warns resilience is nearing limits",
+   "summary": "The IMF raised its 2026 global growth forecast to 3.1%, warning that resilience is tested by energy constraints and looming fiscal risks.",
+   "category": "technology",
+   "importance": "medium",
+   "assets": [],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/10/12/imf-world-bank-annual-meetings-october-bangkok-asia-.html",
+   "published": "2026-10-15T06:35:31Z",
+   "score": 3.8
   },
   {
    "headline": "The latest inflation data is expected to show price increases are accelerating",
@@ -38,29 +59,7 @@
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/10/13/september-consumer-price-index-inflation.html",
    "published": "2026-10-13T18:05:57Z",
-   "score": 4.2
-  },
-  {
-   "headline": "IMF warns bond yields could see a 'disorderly' spike as debt, inflation risks worsen",
-   "summary": "The IMF says risks in the government bond market have worsened and that yields could jump sharply and disorderly.",
-   "category": "rates",
-   "importance": "low",
-   "assets": [],
-   "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/10/13/treasury-yields-imf-debt-inflation-.html",
-   "published": "2026-10-13T04:54:07Z",
    "score": 3.6
-  },
-  {
-   "headline": "Category 2 Hurricane Isaias nears landfall, leading to production shut-ins",
-   "summary": "As of 4:00 a.m. central time on October 9, the National Oceanic and Atmospheric Administration expects Hurricane Isaias to make landfall on the Gulf Coast late Friday or early Saturday, creating the potential for significant disruptions to…",
-   "category": "energy",
-   "importance": "low",
-   "assets": [],
-   "source": "EIA",
-   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68284",
-   "published": null,
-   "score": 3.0
   }
  ]
 }
