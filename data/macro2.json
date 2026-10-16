@@ -1,6 +1,6 @@
 {
   "_note": "Live: FRED + DefiLlama + Atlanta Fed + Polymarket (cut odds). Manual (no free API): dot plot, ISM, global M2.",
-  "updated": "2026-10-15T09:44:25Z",
+  "updated": "2026-10-16T09:38:14Z",
   "regime_tape": [
     {
       "k": "Fed Funds",
@@ -11,7 +11,7 @@
     {
       "k": "Next FOMC",
       "v": "Oct 28",
-      "d": "13d",
+      "d": "12d",
       "dir": "neu"
     },
     {
@@ -22,34 +22,34 @@
     },
     {
       "k": "US 10Y",
-      "v": "5.21",
+      "v": "5.19",
       "d": "",
       "dir": "neu"
     },
     {
       "k": "2s10s",
-      "v": "+37",
+      "v": "+33",
       "d": "steepening",
       "dir": "up"
     },
     {
       "k": "DXY",
-      "v": "101.97",
+      "v": "101.71",
       "d": "",
       "dir": "neu"
     },
     {
       "k": "F&amp;G",
-      "v": "53",
-      "d": "Neutral",
-      "dir": "neu"
+      "v": "63",
+      "d": "Greed",
+      "dir": "up"
     }
   ],
   "inflation": [
     {
       "v": "4.0%",
-      "sub": "▲ from 3.7%",
-      "dir": "down"
+      "sub": "→ from 4.0%",
+      "dir": "neu"
     },
     {
       "v": "2.8%",
@@ -62,9 +62,9 @@
       "dir": "neu"
     },
     {
-      "v": "2.34%",
-      "sub": "▲ +1bp",
-      "dir": "up"
+      "v": "2.31%",
+      "sub": "▼ -3bp",
+      "dir": "down"
     }
   ],
   "fed": {
@@ -92,12 +92,12 @@
         "dir": "neu"
       },
       {
-        "v": "$6.7T",
+        "v": "$6.8T",
         "sub": "▼ QT ongoing",
         "dir": "down"
       },
       {
-        "v": "$201M",
+        "v": "$1B",
         "sub": "▼ draining",
         "dir": "down"
       },
@@ -110,7 +110,6 @@
   },
   "liquidity": {
     "net_liq_series": [
-      5.95,
       5.7,
       5.72,
       5.83,
@@ -135,7 +134,8 @@
       5.86,
       5.77,
       5.78,
-      5.86
+      5.86,
+      5.87
     ],
     "y_min": 5.6,
     "y_max": 6.1,
@@ -146,12 +146,12 @@
         "dir": "up"
       },
       {
-        "v": "$5.86T",
-        "sub": "▼ -2.2% 3m",
+        "v": "$5.87T",
+        "sub": "▼ -0.8% 3m",
         "dir": "down"
       },
       {
-        "v": "$307B",
+        "v": "$306B",
         "sub": "USDC $73B",
         "dir": "up"
       }
@@ -159,7 +159,7 @@
   },
   "growth": [
     {
-      "v": "+7.6",
+      "v": "+25.5",
       "sub": "Empire State · NY Fed",
       "dir": "up"
     },
@@ -169,9 +169,9 @@
       "dir": "neu"
     },
     {
-      "v": "197K",
-      "sub": "▼ -2K",
-      "dir": "up"
+      "v": "199K",
+      "sub": "▲ +1K",
+      "dir": "down"
     },
     {
       "v": "1.9%",
@@ -183,19 +183,19 @@
     "curve": [
       {
         "tenor": "1M",
-        "y": 4.1
+        "y": 4.11
       },
       {
         "tenor": "3M",
-        "y": 4.26
+        "y": 4.28
       },
       {
         "tenor": "6M",
-        "y": 4.34
+        "y": 4.37
       },
       {
         "tenor": "2Y",
-        "y": 4.79
+        "y": 4.82
       },
       {
         "tenor": "5Y",
@@ -203,31 +203,31 @@
       },
       {
         "tenor": "10Y",
-        "y": 5.21
+        "y": 5.19
       },
       {
         "tenor": "30Y",
-        "y": 5.56
+        "y": 5.52
       }
     ],
     "stats": [
       {
-        "v": "4.79",
+        "v": "4.82",
         "sub": "+0.8%",
         "dir": "neu"
       },
       {
-        "v": "5.21",
+        "v": "5.19",
         "sub": "+1.3%",
         "dir": "neu"
       },
       {
-        "v": "+37bp",
+        "v": "+33bp",
         "sub": "steepening",
         "dir": "up"
       },
       {
-        "v": "316bp",
+        "v": "325bp",
         "sub": "→ calm",
         "dir": "neu"
       }
