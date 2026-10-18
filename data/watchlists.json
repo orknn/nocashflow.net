@@ -1,6 +1,6 @@
 {
   "_note": "Curated watchlists. Quotes: Nasdaq historical (last close, daily). Movers are ranked over this list universe only — not the whole market.",
-  "updated": "2026-10-17T09:11:53Z",
+  "updated": "2026-10-18T09:29:33Z",
   "lists": [
     {
       "key": "main",
@@ -1208,7 +1208,7 @@
       "day_lo": 112.61,
       "day_hi": 126.47,
       "w52_lo": 112.61,
-      "w52_hi": 411.51,
+      "w52_hi": 408.99,
       "asof": "2026-10-16",
       "spark30": [
         173.89,
@@ -1352,7 +1352,7 @@
       "day_lo": 39.88,
       "day_hi": 42.52,
       "w52_lo": 37.81,
-      "w52_hi": 84.15,
+      "w52_hi": 83.99,
       "asof": "2026-10-16",
       "spark30": [
         54.53,
@@ -1736,7 +1736,7 @@
       "day_lo": 27.59,
       "day_hi": 30.23,
       "w52_lo": 27.52,
-      "w52_hi": 171.65,
+      "w52_hi": 170.0,
       "asof": "2026-10-16",
       "spark30": [
         41.27,
@@ -2119,7 +2119,7 @@
       "vol": 1351646,
       "day_lo": 421.5,
       "day_hi": 434.37,
-      "w52_lo": 343.81,
+      "w52_lo": 347.53,
       "w52_hi": 497.36,
       "asof": "2026-10-16",
       "spark30": [
@@ -2216,7 +2216,7 @@
       "day_lo": 5.76,
       "day_hi": 6.2,
       "w52_lo": 5.44,
-      "w52_hi": 48.67,
+      "w52_hi": 46.4,
       "asof": "2026-10-16",
       "spark30": [
         9.7,
@@ -2263,7 +2263,7 @@
       "vol": 8954661,
       "day_lo": 1296,
       "day_hi": 1362,
-      "w52_lo": 136.29,
+      "w52_lo": 142.76,
       "w52_hi": 2354,
       "asof": "2026-10-16",
       "spark30": [
