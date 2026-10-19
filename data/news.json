@@ -1,21 +1,68 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-10-18T09:30:44Z",
+ "updated": "2026-10-19T10:43:28Z",
  "sources": [
-  "CNBC"
+  "armstrongeconomics.com",
+  "econotimes.com",
+  "koaa.com",
+  "theglobeandmail.com"
  ],
- "considered": 83,
+ "considered": 117,
  "stories": [
   {
-   "headline": "Analysis: Everyone expects the Fed to hold rates in October. Kevin Warsh could surprise us all",
-   "summary": "Investors expect the Fed to pause rate hikes in October, but Kevin Warsh's rejection of traditional communications practices and continued concern about inflation leave the decision uncertain.",
+   "headline": "Another interest rate hike may be ahead as Fed battles inflation",
+   "summary": "",
    "category": "rates",
    "importance": "high",
    "assets": [],
-   "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/10/16/kevin-warsh-fed-october-rate-hike-interest-rates-markets.html",
-   "published": "2026-10-16T16:27:31Z",
-   "score": 6.6
+   "source": "koaa.com",
+   "url": "https://www.koaa.com/politics/economy/another-interest-rate-hike-may-be-ahead-as-fed-battles-inflation",
+   "published": "2026-10-18T00:00:00Z",
+   "score": 6.0
+  },
+  {
+   "headline": "Gold Prices Rise as Fed Rate Hike Bets Fade , ANZ Sees $5 , 000 in 2027",
+   "summary": "",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "econotimes.com",
+   "url": "https://econotimes.com/Gold-Prices-Rise-as-Fed-Rate-Hike-Bets-Fade-ANZ-Sees-5-000-in-2027-1756234",
+   "published": "2026-10-19T03:30:00Z",
+   "score": 5.2
+  },
+  {
+   "headline": "Wholesale Inflation Is A Problem | Armstrong Economics",
+   "summary": "",
+   "category": "rates",
+   "importance": "medium",
+   "assets": [],
+   "source": "armstrongeconomics.com",
+   "url": "https://www.armstrongeconomics.com/armstrongeconomics101/inflation/wholesale-inflation-is-a-problem/",
+   "published": "2026-10-19T05:30:00Z",
+   "score": 4.2
+  },
+  {
+   "headline": "Bank of Canada Macklem expects higher inflation outlook as oil prices remain elevated",
+   "summary": "",
+   "category": "rates",
+   "importance": "medium",
+   "assets": [],
+   "source": "theglobeandmail.com",
+   "url": "https://www.theglobeandmail.com/business/article-bank-of-canada-interest-rate-macklem-inflation-oil-prices-imf/",
+   "published": "2026-10-17T15:15:00Z",
+   "score": 4.0
+  },
+  {
+   "headline": "Bank of Canada Signals Higher Inflation Forecast as Oil Prices Surge",
+   "summary": "",
+   "category": "rates",
+   "importance": "medium",
+   "assets": [],
+   "source": "econotimes.com",
+   "url": "https://econotimes.com/Bank-of-Canada-Signals-Higher-Inflation-Forecast-as-Oil-Prices-Surge-1756048",
+   "published": "2026-10-17T21:00:00Z",
+   "score": 4.0
   }
  ]
 }
