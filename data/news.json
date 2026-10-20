@@ -1,13 +1,13 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-10-19T10:43:28Z",
+ "updated": "2026-10-20T09:59:47Z",
  "sources": [
-  "armstrongeconomics.com",
+  "abc15.com",
+  "aol.com",
   "econotimes.com",
-  "koaa.com",
-  "theglobeandmail.com"
+  "fool.com"
  ],
- "considered": 117,
+ "considered": 104,
  "stories": [
   {
    "headline": "Another interest rate hike may be ahead as Fed battles inflation",
@@ -15,54 +15,54 @@
    "category": "rates",
    "importance": "high",
    "assets": [],
-   "source": "koaa.com",
-   "url": "https://www.koaa.com/politics/economy/another-interest-rate-hike-may-be-ahead-as-fed-battles-inflation",
-   "published": "2026-10-18T00:00:00Z",
-   "score": 6.0
+   "source": "abc15.com",
+   "url": "https://www.abc15.com/politics/economy/another-interest-rate-hike-may-be-ahead-as-fed-battles-inflation",
+   "published": "2026-10-19T12:30:00Z",
+   "score": 6.6
+  },
+  {
+   "headline": "Gold Prices Fall for Third Day as Oil Surge Fuels Fed Rate Hike Fears",
+   "summary": "",
+   "category": "rates",
+   "importance": "medium",
+   "assets": [],
+   "source": "econotimes.com",
+   "url": "https://econotimes.com/Gold-Prices-Fall-for-Third-Day-as-Oil-Surge-Fuels-Fed-Rate-Hike-Fears-1757301",
+   "published": "2026-10-20T04:00:00Z",
+   "score": 5.2
+  },
+  {
+   "headline": "President Donald Trump Claims , We Dont Have Inflation , and Tariffs Dont Cause Inflation , but a New Report Strongly Disagrees",
+   "summary": "",
+   "category": "rates",
+   "importance": "medium",
+   "assets": [],
+   "source": "fool.com",
+   "url": "https://www.fool.com/investing/2026/10/20/donald-trump-claims-we-dont-have-inflation-tariffs-dont-cause-inflation-report-disagrees/?source=iedfolrf0000001",
+   "published": "2026-10-20T09:00:00Z",
+   "score": 4.2
   },
   {
    "headline": "Gold Prices Rise as Fed Rate Hike Bets Fade , ANZ Sees $5 , 000 in 2027",
    "summary": "",
    "category": "rates",
-   "importance": "high",
+   "importance": "medium",
    "assets": [],
    "source": "econotimes.com",
    "url": "https://econotimes.com/Gold-Prices-Rise-as-Fed-Rate-Hike-Bets-Fade-ANZ-Sees-5-000-in-2027-1756234",
    "published": "2026-10-19T03:30:00Z",
-   "score": 5.2
-  },
-  {
-   "headline": "Wholesale Inflation Is A Problem | Armstrong Economics",
-   "summary": "",
-   "category": "rates",
-   "importance": "medium",
-   "assets": [],
-   "source": "armstrongeconomics.com",
-   "url": "https://www.armstrongeconomics.com/armstrongeconomics101/inflation/wholesale-inflation-is-a-problem/",
-   "published": "2026-10-19T05:30:00Z",
-   "score": 4.2
-  },
-  {
-   "headline": "Bank of Canada Macklem expects higher inflation outlook as oil prices remain elevated",
-   "summary": "",
-   "category": "rates",
-   "importance": "medium",
-   "assets": [],
-   "source": "theglobeandmail.com",
-   "url": "https://www.theglobeandmail.com/business/article-bank-of-canada-interest-rate-macklem-inflation-oil-prices-imf/",
-   "published": "2026-10-17T15:15:00Z",
    "score": 4.0
   },
   {
-   "headline": "Bank of Canada Signals Higher Inflation Forecast as Oil Prices Surge",
+   "headline": "Inflation Just Spooked the Market -- But There Still Good News for Patient Investors",
    "summary": "",
    "category": "rates",
-   "importance": "medium",
+   "importance": "low",
    "assets": [],
-   "source": "econotimes.com",
-   "url": "https://econotimes.com/Bank-of-Canada-Signals-Higher-Inflation-Forecast-as-Oil-Prices-Surge-1756048",
-   "published": "2026-10-17T21:00:00Z",
-   "score": 4.0
+   "source": "aol.com",
+   "url": "https://www.aol.com/articles/inflation-just-spooked-market-theres-205300000.html",
+   "published": "2026-10-19T21:30:00Z",
+   "score": 3.6
   }
  ]
 }

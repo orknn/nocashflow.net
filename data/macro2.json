@@ -1,6 +1,6 @@
 {
   "_note": "Live: FRED + DefiLlama + Atlanta Fed + Polymarket (cut odds). Manual (no free API): dot plot, ISM, global M2.",
-  "updated": "2026-10-19T10:39:43Z",
+  "updated": "2026-10-20T09:56:37Z",
   "regime_tape": [
     {
       "k": "Fed Funds",
@@ -11,7 +11,7 @@
     {
       "k": "Next FOMC",
       "v": "Oct 28",
-      "d": "9d",
+      "d": "8d",
       "dir": "neu"
     },
     {
@@ -22,27 +22,27 @@
     },
     {
       "k": "US 10Y",
-      "v": "5.10",
+      "v": "5.09",
       "d": "",
       "dir": "neu"
     },
     {
       "k": "2s10s",
-      "v": "+35",
+      "v": "+38",
       "d": "steepening",
       "dir": "up"
     },
     {
       "k": "DXY",
-      "v": "101.94",
+      "v": "101.85",
       "d": "",
       "dir": "neu"
     },
     {
       "k": "F&amp;G",
-      "v": "59",
+      "v": "55",
       "d": "Greed",
-      "dir": "up"
+      "dir": "neu"
     }
   ],
   "inflation": [
@@ -62,9 +62,9 @@
       "dir": "neu"
     },
     {
-      "v": "2.33%",
-      "sub": "→ +0bp",
-      "dir": "neu"
+      "v": "2.32%",
+      "sub": "▼ -1bp",
+      "dir": "down"
     }
   ],
   "fed": {
@@ -97,7 +97,7 @@
         "dir": "down"
       },
       {
-        "v": "$100M",
+        "v": "$330M",
         "sub": "▼ draining",
         "dir": "down"
       },
@@ -151,7 +151,7 @@
         "dir": "down"
       },
       {
-        "v": "$306B",
+        "v": "$305B",
         "sub": "USDC $72B",
         "dir": "up"
       }
@@ -183,27 +183,27 @@
     "curve": [
       {
         "tenor": "1M",
-        "y": 4.17
+        "y": 4.12
       },
       {
         "tenor": "3M",
-        "y": 4.28
+        "y": 4.26
       },
       {
         "tenor": "6M",
-        "y": 4.35
+        "y": 4.34
       },
       {
         "tenor": "2Y",
-        "y": 4.77
+        "y": 4.74
       },
       {
         "tenor": "5Y",
-        "y": 4.91
+        "y": 4.89
       },
       {
         "tenor": "10Y",
-        "y": 5.1
+        "y": 5.09
       },
       {
         "tenor": "30Y",
@@ -212,22 +212,22 @@
     ],
     "stats": [
       {
-        "v": "4.77",
+        "v": "4.74",
         "sub": "+0.8%",
         "dir": "neu"
       },
       {
-        "v": "5.10",
+        "v": "5.09",
         "sub": "+1.3%",
         "dir": "neu"
       },
       {
-        "v": "+35bp",
+        "v": "+38bp",
         "sub": "steepening",
         "dir": "up"
       },
       {
-        "v": "323bp",
+        "v": "331bp",
         "sub": "→ calm",
         "dir": "neu"
       }
