@@ -1,68 +1,68 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-10-20T09:59:47Z",
+ "updated": "2026-10-21T10:02:09Z",
  "sources": [
+  "CNBC",
   "abc15.com",
   "aol.com",
-  "econotimes.com",
   "fool.com"
  ],
- "considered": 104,
+ "considered": 115,
  "stories": [
   {
-   "headline": "Another interest rate hike may be ahead as Fed battles inflation",
-   "summary": "",
+   "headline": "UK inflation jumps to 3.5% — cementing rate hike expectations",
+   "summary": "U.K. inflation rose by a hotter-than-expected 3.5% in the 12 months to September, driven by the surging cost of motor fuels.",
    "category": "rates",
    "importance": "high",
    "assets": [],
-   "source": "abc15.com",
-   "url": "https://www.abc15.com/politics/economy/another-interest-rate-hike-may-be-ahead-as-fed-battles-inflation",
-   "published": "2026-10-19T12:30:00Z",
-   "score": 6.6
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/10/21/inflation-uk-cpi-interest-rates.html",
+   "published": "2026-10-21T07:50:10Z",
+   "score": 7.8
   },
   {
-   "headline": "Gold Prices Fall for Third Day as Oil Surge Fuels Fed Rate Hike Fears",
-   "summary": "",
-   "category": "rates",
-   "importance": "medium",
-   "assets": [],
-   "source": "econotimes.com",
-   "url": "https://econotimes.com/Gold-Prices-Fall-for-Third-Day-as-Oil-Surge-Fuels-Fed-Rate-Hike-Fears-1757301",
-   "published": "2026-10-20T04:00:00Z",
-   "score": 5.2
-  },
-  {
-   "headline": "President Donald Trump Claims , We Dont Have Inflation , and Tariffs Dont Cause Inflation , but a New Report Strongly Disagrees",
+   "headline": "Fed Minutes Show Another Rate Hike Is Likely This Year as Kevin Warsh FOMC Battles Persistent Inflation . Here Why That Signal Matters for Stocks and Bonds…",
    "summary": "",
    "category": "rates",
    "importance": "medium",
    "assets": [],
    "source": "fool.com",
-   "url": "https://www.fool.com/investing/2026/10/20/donald-trump-claims-we-dont-have-inflation-tariffs-dont-cause-inflation-report-disagrees/?source=iedfolrf0000001",
-   "published": "2026-10-20T09:00:00Z",
-   "score": 4.2
+   "url": "https://www.fool.com/investing/2026/10/20/fed-minutes-show-another-rate-hike-is-likely-this/?source=iedfolrf0000001",
+   "published": "2026-10-20T11:30:00Z",
+   "score": 6.6
   },
   {
-   "headline": "Gold Prices Rise as Fed Rate Hike Bets Fade , ANZ Sees $5 , 000 in 2027",
+   "headline": "Another interest rate hike may be ahead as Fed battles inflation",
    "summary": "",
    "category": "rates",
    "importance": "medium",
    "assets": [],
-   "source": "econotimes.com",
-   "url": "https://econotimes.com/Gold-Prices-Rise-as-Fed-Rate-Hike-Bets-Fade-ANZ-Sees-5-000-in-2027-1756234",
-   "published": "2026-10-19T03:30:00Z",
-   "score": 4.0
+   "source": "abc15.com",
+   "url": "https://www.abc15.com/politics/economy/another-interest-rate-hike-may-be-ahead-as-fed-battles-inflation",
+   "published": "2026-10-19T12:30:00Z",
+   "score": 6.0
   },
   {
-   "headline": "Inflation Just Spooked the Market -- But There Still Good News for Patient Investors",
+   "headline": "Housing is flashing warning signs just as the Fed weighs more interest rate hikes",
+   "summary": "Housing data deteriorated further in September, according to separate reports Tuesday.",
+   "category": "rates",
+   "importance": "medium",
+   "assets": [],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/10/20/housing-mortgage-rates-real-estate-federal-reserve.html",
+   "published": "2026-10-20T19:28:43Z",
+   "score": 5.2
+  },
+  {
+   "headline": "The Federal Reserve Just Warned More Rate Hikes Are Likely Coming . History Has Good and Bad News for Investors",
    "summary": "",
    "category": "rates",
    "importance": "low",
    "assets": [],
    "source": "aol.com",
-   "url": "https://www.aol.com/articles/inflation-just-spooked-market-theres-205300000.html",
-   "published": "2026-10-19T21:30:00Z",
-   "score": 3.6
+   "url": "https://www.aol.com/articles/federal-just-warned-more-rate-102200000.html",
+   "published": "2026-10-20T11:30:00Z",
+   "score": 4.6
   }
  ]
 }
