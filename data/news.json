@@ -1,13 +1,13 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-10-21T10:02:09Z",
+ "updated": "2026-10-22T10:02:47Z",
  "sources": [
   "CNBC",
-  "abc15.com",
   "aol.com",
-  "fool.com"
+  "fool.com",
+  "ksat.com"
  ],
- "considered": 115,
+ "considered": 100,
  "stories": [
   {
    "headline": "UK inflation jumps to 3.5% — cementing rate hike expectations",
@@ -18,28 +18,17 @@
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/10/21/inflation-uk-cpi-interest-rates.html",
    "published": "2026-10-21T07:50:10Z",
-   "score": 7.8
+   "score": 6.6
   },
   {
    "headline": "Fed Minutes Show Another Rate Hike Is Likely This Year as Kevin Warsh FOMC Battles Persistent Inflation . Here Why That Signal Matters for Stocks and Bonds…",
    "summary": "",
    "category": "rates",
-   "importance": "medium",
+   "importance": "high",
    "assets": [],
    "source": "fool.com",
    "url": "https://www.fool.com/investing/2026/10/20/fed-minutes-show-another-rate-hike-is-likely-this/?source=iedfolrf0000001",
    "published": "2026-10-20T11:30:00Z",
-   "score": 6.6
-  },
-  {
-   "headline": "Another interest rate hike may be ahead as Fed battles inflation",
-   "summary": "",
-   "category": "rates",
-   "importance": "medium",
-   "assets": [],
-   "source": "abc15.com",
-   "url": "https://www.abc15.com/politics/economy/another-interest-rate-hike-may-be-ahead-as-fed-battles-inflation",
-   "published": "2026-10-19T12:30:00Z",
    "score": 6.0
   },
   {
@@ -50,19 +39,30 @@
    "assets": [],
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/10/20/housing-mortgage-rates-real-estate-federal-reserve.html",
-   "published": "2026-10-20T19:28:43Z",
+   "published": "2026-10-21T11:20:58Z",
    "score": 5.2
   },
   {
    "headline": "The Federal Reserve Just Warned More Rate Hikes Are Likely Coming . History Has Good and Bad News for Investors",
    "summary": "",
    "category": "rates",
-   "importance": "low",
+   "importance": "medium",
    "assets": [],
    "source": "aol.com",
    "url": "https://www.aol.com/articles/federal-just-warned-more-rate-102200000.html",
    "published": "2026-10-20T11:30:00Z",
-   "score": 4.6
+   "score": 4.0
+  },
+  {
+   "headline": "UK inflation rises to highest in almost a year as Iran war drives fuel prices higher",
+   "summary": "",
+   "category": "rates",
+   "importance": "low",
+   "assets": [],
+   "source": "ksat.com",
+   "url": "https://www.ksat.com/business/2026/10/21/uk-inflation-rises-to-highest-in-almost-a-year-as-iran-war-drives-fuel-prices-higher/",
+   "published": "2026-10-21T20:30:00Z",
+   "score": 3.6
   }
  ]
 }
