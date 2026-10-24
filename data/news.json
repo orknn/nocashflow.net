@@ -1,21 +1,7 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-10-23T10:00:57Z",
- "sources": [
-  "CNBC"
- ],
+ "updated": "2026-10-24T09:28:15Z",
+ "sources": [],
  "considered": 83,
- "stories": [
-  {
-   "headline": "Housing is flashing warning signs just as the Fed weighs more interest rate hikes",
-   "summary": "Housing data deteriorated further in September, according to separate reports Tuesday.",
-   "category": "rates",
-   "importance": "high",
-   "assets": [],
-   "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/10/20/housing-mortgage-rates-real-estate-federal-reserve.html",
-   "published": "2026-10-21T11:20:58Z",
-   "score": 4.6
-  }
- ]
+ "stories": []
 }
