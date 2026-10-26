@@ -1,7 +1,70 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-10-25T09:46:20Z",
- "sources": [],
- "considered": 83,
- "stories": []
+ "updated": "2026-10-26T10:59:35Z",
+ "sources": [
+  "aol.com",
+  "econotimes.com",
+  "fool.com",
+  "idahostatejournal.com"
+ ],
+ "considered": 115,
+ "stories": [
+  {
+   "headline": "Inflation , earnings reports and the mood of consumers and the Federal Reserve fill out a busy week",
+   "summary": "",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "idahostatejournal.com",
+   "url": "http://www.idahostatejournal.com/news/national/inflation-earnings-reports-and-the-mood-of-consumers-and-the-federal-reserve-fill-out-a/article_c6bfe07e-b9fb-5695-b36d-b762a28ea441.html",
+   "published": "2026-10-24T18:00:00Z",
+   "score": 4.0
+  },
+  {
+   "headline": "America farmers are flashing warning signals about inflation , and the Fed is paying attention . Protect yourself now",
+   "summary": "",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "aol.com",
+   "url": "https://www.aol.com/articles/america-farmers-flashing-warning-signals-114500000.html",
+   "published": "2026-10-25T12:45:00Z",
+   "score": 3.6
+  },
+  {
+   "headline": "Krugman Outlines AI , Inflation and Debt Risks to U . S . Economy",
+   "summary": "",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "econotimes.com",
+   "url": "https://econotimes.com/Krugman-Outlines-AI-Inflation-and-Debt-Risks-to-U-S-Economy-1762931",
+   "published": "2026-10-25T11:15:00Z",
+   "score": 3.6
+  },
+  {
+   "headline": "Inflation Is Running Hotter Than Expected . That Could Be Bullish for Bitcoin .",
+   "summary": "",
+   "category": "rates",
+   "importance": "high",
+   "assets": [
+    "BTC"
+   ],
+   "source": "fool.com",
+   "url": "https://www.fool.com/investing/2026/10/24/inflation-is-running-hotter-than-expected-that-cou/?source=iedfolrf0000001",
+   "published": "2026-10-24T18:00:00Z",
+   "score": 3.5
+  },
+  {
+   "headline": "President Donald Trump Just Proclaimed , Tariffs Dont Cause Inflation , They Cause Wealth , but Data From Federal Reserve Economists Show Otherwise",
+   "summary": "",
+   "category": "rates",
+   "importance": "medium",
+   "assets": [],
+   "source": "fool.com",
+   "url": "https://www.fool.com/investing/2026/10/25/donald-trump-proclaimed-tariffs-dont-cause-inflation-they-cause-wealth-federal-reserve-economists/?source=iedfolrf0000001",
+   "published": "2026-10-25T08:30:00Z",
+   "score": 3.0
+  }
+ ]
 }
