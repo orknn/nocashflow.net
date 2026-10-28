@@ -1,45 +1,32 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-10-27T10:23:47Z",
+ "updated": "2026-10-28T11:16:12Z",
  "sources": [
-  "aol.com",
-  "econotimes.com",
-  "myanmarnews.net"
+  "CNBC"
  ],
- "considered": 117,
+ "considered": 83,
  "stories": [
   {
-   "headline": "US consumer sentiment near record low as inflation fears persist",
-   "summary": "",
+   "headline": "Fed rate hikes are coming, but not this week: CNBC survey",
+   "summary": "The CNBC Fed Survey shows that 93% of respondent expect a pause at the Federal Reserve meeting taking place this week.",
    "category": "rates",
    "importance": "high",
    "assets": [],
-   "source": "myanmarnews.net",
-   "url": "http://www.myanmarnews.net/news/279395118/us-consumer-sentiment-near-record-low-as-inflation-fears-persist",
-   "published": "2026-10-27T05:15:00Z",
-   "score": 4.2
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/10/27/federal-reserve-rate-hike-timing-expectations.html",
+   "published": "2026-10-27T15:51:00Z",
+   "score": 5.2
   },
   {
-   "headline": "America farmers are flashing warning signals about inflation , and the Fed is paying attention . Protect yourself now",
-   "summary": "",
-   "category": "rates",
+   "headline": "World Bank's Banga: Availability of capital 'not really an issue' as AI demand drives up borrowing costs",
+   "summary": "World Bank President Ajay Banga came on CNBC's \"Squawk Box\" on Oct. 27, 2026.",
+   "category": "technology",
    "importance": "medium",
    "assets": [],
-   "source": "aol.com",
-   "url": "https://www.aol.com/articles/america-farmers-flashing-warning-signals-114500000.html",
-   "published": "2026-10-25T12:45:00Z",
-   "score": 3.0
-  },
-  {
-   "headline": "Krugman Outlines AI , Inflation and Debt Risks to U . S . Economy",
-   "summary": "",
-   "category": "rates",
-   "importance": "medium",
-   "assets": [],
-   "source": "econotimes.com",
-   "url": "https://econotimes.com/Krugman-Outlines-AI-Inflation-and-Debt-Risks-to-U-S-Economy-1762931",
-   "published": "2026-10-25T11:15:00Z",
-   "score": 3.0
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/10/27/world-bank-president-ajay-banga.html",
+   "published": "2026-10-27T16:15:35Z",
+   "score": 3.2
   }
  ]
 }

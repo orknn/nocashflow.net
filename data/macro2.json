@@ -1,6 +1,6 @@
 {
   "_note": "Live: FRED + DefiLlama + Atlanta Fed + Polymarket (cut odds). Manual (no free API): dot plot, ISM, global M2.",
-  "updated": "2026-10-27T10:20:12Z",
+  "updated": "2026-10-28T11:12:17Z",
   "regime_tape": [
     {
       "k": "Fed Funds",
@@ -10,8 +10,8 @@
     },
     {
       "k": "Next FOMC",
-      "v": "Oct 28",
-      "d": "1d",
+      "v": "Dec 9",
+      "d": "42d",
       "dir": "neu"
     },
     {
@@ -28,19 +28,19 @@
     },
     {
       "k": "2s10s",
-      "v": "+32",
+      "v": "+29",
       "d": "steepening",
       "dir": "up"
     },
     {
       "k": "DXY",
-      "v": "102.24",
+      "v": "102.42",
       "d": "",
       "dir": "neu"
     },
     {
       "k": "F&amp;G",
-      "v": "48",
+      "v": "51",
       "d": "Neutral",
       "dir": "neu"
     }
@@ -62,8 +62,8 @@
       "dir": "neu"
     },
     {
-      "v": "2.21%",
-      "sub": "▲ +1bp",
+      "v": "2.25%",
+      "sub": "▲ +4bp",
       "dir": "up"
     }
   ],
@@ -97,7 +97,7 @@
         "dir": "down"
       },
       {
-        "v": "$200M",
+        "v": "$226M",
         "sub": "▼ draining",
         "dir": "down"
       },
@@ -141,7 +141,7 @@
     "y_max": 6.1,
     "stats": [
       {
-        "v": "$23.3T",
+        "v": "$23.4T",
         "sub": "▲ +5.7% YoY",
         "dir": "up"
       },
@@ -151,7 +151,7 @@
         "dir": "down"
       },
       {
-        "v": "$303B",
+        "v": "$302B",
         "sub": "USDC $71B",
         "dir": "up"
       }
@@ -191,15 +191,15 @@
       },
       {
         "tenor": "6M",
-        "y": 4.3
+        "y": 4.35
       },
       {
         "tenor": "2Y",
-        "y": 4.69
+        "y": 4.68
       },
       {
         "tenor": "5Y",
-        "y": 4.82
+        "y": 4.84
       },
       {
         "tenor": "10Y",
@@ -207,12 +207,12 @@
       },
       {
         "tenor": "30Y",
-        "y": 5.33
+        "y": 5.31
       }
     ],
     "stats": [
       {
-        "v": "4.69",
+        "v": "4.68",
         "sub": "+0.8%",
         "dir": "neu"
       },
@@ -222,12 +222,12 @@
         "dir": "neu"
       },
       {
-        "v": "+32bp",
+        "v": "+29bp",
         "sub": "steepening",
         "dir": "up"
       },
       {
-        "v": "338bp",
+        "v": "330bp",
         "sub": "→ calm",
         "dir": "neu"
       }
