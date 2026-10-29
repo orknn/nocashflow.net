@@ -1,32 +1,33 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-10-28T11:16:12Z",
+ "updated": "2026-10-29T11:29:33Z",
  "sources": [
-  "CNBC"
+  "CNBC",
+  "Federal Reserve"
  ],
- "considered": 83,
+ "considered": 82,
  "stories": [
+  {
+   "headline": "Federal Reserve issues FOMC statement",
+   "summary": "Federal Reserve issues FOMC statement",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "Federal Reserve",
+   "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+   "published": "2026-10-28T18:00:00Z",
+   "score": 6.6
+  },
   {
    "headline": "Fed rate hikes are coming, but not this week: CNBC survey",
    "summary": "The CNBC Fed Survey shows that 93% of respondent expect a pause at the Federal Reserve meeting taking place this week.",
    "category": "rates",
-   "importance": "high",
+   "importance": "medium",
    "assets": [],
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/10/27/federal-reserve-rate-hike-timing-expectations.html",
    "published": "2026-10-27T15:51:00Z",
-   "score": 5.2
-  },
-  {
-   "headline": "World Bank's Banga: Availability of capital 'not really an issue' as AI demand drives up borrowing costs",
-   "summary": "World Bank President Ajay Banga came on CNBC's \"Squawk Box\" on Oct. 27, 2026.",
-   "category": "technology",
-   "importance": "medium",
-   "assets": [],
-   "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/10/27/world-bank-president-ajay-banga.html",
-   "published": "2026-10-27T16:15:35Z",
-   "score": 3.2
+   "score": 4.6
   }
  ]
 }
