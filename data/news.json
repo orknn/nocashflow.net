@@ -1,8 +1,10 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-10-29T11:29:33Z",
+ "updated": "2026-10-30T11:21:27Z",
  "sources": [
   "CNBC",
+  "ECB",
+  "EIA",
   "Federal Reserve"
  ],
  "considered": 82,
@@ -16,18 +18,51 @@
    "source": "Federal Reserve",
    "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
    "published": "2026-10-28T18:00:00Z",
-   "score": 6.6
+   "score": 6.0
   },
   {
-   "headline": "Fed rate hikes are coming, but not this week: CNBC survey",
-   "summary": "The CNBC Fed Survey shows that 93% of respondent expect a pause at the Federal Reserve meeting taking place this week.",
+   "headline": "European Central Bank keeps key interest rate on hold at 2.5%",
+   "summary": "Markets saw the decision as a hawkish pause and were last pricing in a 67% chance of a December rate hike.",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/10/29/european-central-bank-interest-rates.html",
+   "published": "2026-10-29T14:48:01Z",
+   "score": 5.2
+  },
+  {
+   "headline": "Results of the ECB Survey of Professional Forecasters for the fourth quarter of 2026",
+   "summary": "",
+   "category": "rates",
+   "importance": "medium",
+   "assets": [],
+   "source": "ECB",
+   "url": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.pr261030~e92c3c838c.en.html",
+   "published": "2026-10-30T10:00:00+01:00",
+   "score": 4.8
+  },
+  {
+   "headline": "Third-quarter U.S. GDP increases a better-than-expected 3.4% as September inflation accelerates",
+   "summary": "The personal consumption expenditures price index was projected to increase 0.5% in September for an annual rate of 3.7%, according to the Dow Jones consensus.",
    "category": "rates",
    "importance": "medium",
    "assets": [],
    "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/10/27/federal-reserve-rate-hike-timing-expectations.html",
-   "published": "2026-10-27T15:51:00Z",
-   "score": 4.6
+   "url": "https://www.cnbc.com/2026/10/29/pce-inflation-report-september-2026-.html",
+   "published": "2026-10-29T18:06:31Z",
+   "score": 4.2
+  },
+  {
+   "headline": "LNG imports make up increasing share of Colombia's natural gas supply",
+   "summary": "Colombia is importing more liquefied natural gas (LNG) as domestic production continues to fall. A potential drought this fall and winter could limit the availability of hydroelectric generation and boost the country's demand for natural…",
+   "category": "energy",
+   "importance": "medium",
+   "assets": [],
+   "source": "EIA",
+   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68364",
+   "published": "2026-10-29T09:00:00-05:00",
+   "score": 3.6
   }
  ]
 }
