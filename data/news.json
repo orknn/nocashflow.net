@@ -1,58 +1,7 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-10-31T10:54:10Z",
- "sources": [
-  "CNBC",
-  "ECB",
-  "SEC"
- ],
+ "updated": "2026-11-01T11:51:05Z",
+ "sources": [],
  "considered": 82,
- "stories": [
-  {
-   "headline": "European Central Bank keeps key interest rate on hold at 2.5%",
-   "summary": "Markets saw the decision as a hawkish pause and were last pricing in a 67% chance of a December rate hike.",
-   "category": "rates",
-   "importance": "high",
-   "assets": [],
-   "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/10/29/european-central-bank-interest-rates.html",
-   "published": "2026-10-29T14:48:01Z",
-   "score": 4.6
-  },
-  {
-   "headline": "Results of the ECB Survey of Professional Forecasters for the fourth quarter of 2026",
-   "summary": "",
-   "category": "rates",
-   "importance": "medium",
-   "assets": [],
-   "source": "ECB",
-   "url": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.pr261030~e92c3c838c.en.html",
-   "published": "2026-10-30T10:00:00+01:00",
-   "score": 3.6
-  },
-  {
-   "headline": "Third-quarter U.S. GDP increases a better-than-expected 3.4% as September inflation accelerates",
-   "summary": "The personal consumption expenditures price index was projected to increase 0.5% in September for an annual rate of 3.7%, according to the Dow Jones consensus.",
-   "category": "rates",
-   "importance": "medium",
-   "assets": [],
-   "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/10/29/pce-inflation-report-september-2026-.html",
-   "published": "2026-10-29T18:06:31Z",
-   "score": 3.6
-  },
-  {
-   "headline": "SEC Issues Exemptive Relief from Treasury Clearing Requirements for Certain Inter-Affiliate and Non-U.S. Repo Transactions",
-   "summary": "The Securities and Exchange Commission took another step forward today to assist broker-dealers and other market participants on the path to central clearing of U.S. Treasury securities by issuing exemptive relief related to…",
-   "category": "policy",
-   "importance": "medium",
-   "assets": [
-    "US10Y"
-   ],
-   "source": "SEC",
-   "url": "https://www.sec.gov/newsroom/press-releases/2026-111-sec-issues-exemptive-relief-treasury-clearing-requirements-certain-inter-affiliate-non-us-repo",
-   "published": "2026-10-30T15:30:00-04:00",
-   "score": 3.3
-  }
- ]
+ "stories": []
 }
