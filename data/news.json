@@ -1,7 +1,21 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-11-02T13:23:27Z",
- "sources": [],
+ "updated": "2026-11-03T12:47:17Z",
+ "sources": [
+  "CNBC"
+ ],
  "considered": 82,
- "stories": []
+ "stories": [
+  {
+   "headline": "Australia hikes rates to 18-year high to fight inflation",
+   "summary": "The Reserve Bank of Australia's decision was in line with expectations from economists polled by Reuters, and marked its fifth rate increase this year.",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/11/03/australia-hikes-rates-18-year-high-finflation.html",
+   "published": "2026-11-03T03:46:20Z",
+   "score": 4.8
+  }
+ ]
 }
