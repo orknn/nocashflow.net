@@ -1,12 +1,11 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-11-04T12:57:59Z",
+ "updated": "2026-11-05T13:05:39Z",
  "sources": [
   "CNBC",
-  "econotimes.com",
-  "northbaynipissing.com"
+  "livemint.com"
  ],
- "considered": 110,
+ "considered": 111,
  "stories": [
   {
    "headline": "Euro zone inflation hits 4% for first time in three years as interest rate hike looms",
@@ -17,7 +16,29 @@
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/11/04/euro-zone-cpi-inflation-october-ecb-rate-hike.html",
    "published": "2026-11-04T10:47:30Z",
-   "score": 7.8
+   "score": 6.6
+  },
+  {
+   "headline": "Analysis: The Democrats have one chance to extract concessions from Trump. Markets will hate it",
+   "summary": "The next debt-ceiling confrontation could reverse Washington's traditional political roles, raising the possibility of spending concessions, market volatility and a damaging default.",
+   "category": "markets",
+   "importance": "medium",
+   "assets": [],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/11/04/democrats-trump-debt-ceiling-fight.html",
+   "published": "2026-11-04T22:46:43Z",
+   "score": 5.2
+  },
+  {
+   "headline": "Bank of England hikes interest rate for the first time since Iran war, warns inflation will near 5%",
+   "summary": "One policymaker voted to raise the bank's key interest rate to 4.25%.",
+   "category": "rates",
+   "importance": "medium",
+   "assets": [],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/11/05/interest-rates-inflation-uk.html",
+   "published": "2026-11-05T12:37:57Z",
+   "score": 4.8
   },
   {
    "headline": "Job openings posted big September gain in positive sign for labor market ahead of payrolls report",
@@ -28,40 +49,18 @@
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/11/03/job-openings-posted-big-september-gain-in-positive-sign-for-labor-market-ahead-of-payrolls-report.html",
    "published": "2026-11-03T19:15:21Z",
-   "score": 5.2
+   "score": 4.6
   },
   {
-   "headline": "France 24 Links Trump Tariffs to Rising U . S . Small - Business Bankruptcies",
+   "headline": "Client demand for shorter AI deals reshapes Google cloud market battle",
    "summary": "",
-   "category": "policy",
+   "category": "technology",
    "importance": "low",
    "assets": [],
-   "source": "econotimes.com",
-   "url": "https://econotimes.com/France-24-Links-Trump-Tariffs-to-Rising-U-S-Small-Business-Bankruptcies-1770383",
-   "published": "2026-11-04T01:30:00Z",
-   "score": 4.2
-  },
-  {
-   "headline": "Bank rate hike 2026 : Why real estate pros see opportunity",
-   "summary": "",
-   "category": "rates",
-   "importance": "low",
-   "assets": [],
-   "source": "northbaynipissing.com",
-   "url": "https://www.northbaynipissing.com/business/real-estate/lindsay-smith-real-estate-columnrate-hike/article_01262e5f-08ab-59fe-bd99-62754dbb7423.html",
-   "published": "2026-11-03T02:15:00Z",
-   "score": 4.0
-  },
-  {
-   "headline": "Australia hikes rates to 18-year high to fight inflation",
-   "summary": "The Reserve Bank of Australia's decision was in line with expectations from economists polled by Reuters, and marked its fifth rate increase this year.",
-   "category": "rates",
-   "importance": "low",
-   "assets": [],
-   "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/11/03/australia-hikes-rates-18-year-high-finflation.html",
-   "published": "2026-11-03T03:46:20Z",
-   "score": 3.6
+   "source": "livemint.com",
+   "url": "https://www.livemint.com/companies/news/google-cloud-ai-demand-short-term-deals-enterprises-11793847822510.html",
+   "published": "2026-11-05T07:15:00Z",
+   "score": 3.2
   }
  ]
 }
