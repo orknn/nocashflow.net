@@ -1,66 +1,55 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-11-05T13:05:39Z",
+ "updated": "2026-11-06T12:54:14Z",
  "sources": [
   "CNBC",
-  "livemint.com"
+  "EIA"
  ],
- "considered": 111,
+ "considered": 83,
  "stories": [
-  {
-   "headline": "Euro zone inflation hits 4% for first time in three years as interest rate hike looms",
-   "summary": "It was driven by energy inflation, which surged above 20% in October.",
-   "category": "rates",
-   "importance": "high",
-   "assets": [],
-   "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/11/04/euro-zone-cpi-inflation-october-ecb-rate-hike.html",
-   "published": "2026-11-04T10:47:30Z",
-   "score": 6.6
-  },
   {
    "headline": "Analysis: The Democrats have one chance to extract concessions from Trump. Markets will hate it",
    "summary": "The next debt-ceiling confrontation could reverse Washington's traditional political roles, raising the possibility of spending concessions, market volatility and a damaging default.",
    "category": "markets",
-   "importance": "medium",
+   "importance": "high",
    "assets": [],
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/11/04/democrats-trump-debt-ceiling-fight.html",
    "published": "2026-11-04T22:46:43Z",
-   "score": 5.2
+   "score": 4.6
+  },
+  {
+   "headline": "The October jobs report is out Friday. Here's everything to expect",
+   "summary": "The Bureau of Labor Statistics releases the October nonfarm payrolls report Friday at 8:30 a.m. ET.",
+   "category": "markets",
+   "importance": "high",
+   "assets": [],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/11/05/october-jobs-report-preview.html",
+   "published": "2026-11-05T21:32:52Z",
+   "score": 4.2
   },
   {
    "headline": "Bank of England hikes interest rate for the first time since Iran war, warns inflation will near 5%",
    "summary": "One policymaker voted to raise the bank's key interest rate to 4.25%.",
    "category": "rates",
-   "importance": "medium",
+   "importance": "high",
    "assets": [],
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/11/05/interest-rates-inflation-uk.html",
-   "published": "2026-11-05T12:37:57Z",
-   "score": 4.8
+   "published": "2026-11-05T16:01:47Z",
+   "score": 4.2
   },
   {
-   "headline": "Job openings posted big September gain in positive sign for labor market ahead of payrolls report",
-   "summary": "The BLS reported job openings at 7.52 million, up 333,000 from August and well above the Dow Jones consensus outlook for 7.15 million",
-   "category": "markets",
+   "headline": "Refineries have shifted production away from gasoline to middle distillates",
+   "summary": "Particularly high refinery margins for distillate fuel oil and jet fuel have contributed to shifts in the refinery yields of major products in 2026. Data from our latest Petroleum Supply Monthly—which includes data through August…",
+   "category": "energy",
    "importance": "medium",
    "assets": [],
-   "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/11/03/job-openings-posted-big-september-gain-in-positive-sign-for-labor-market-ahead-of-payrolls-report.html",
-   "published": "2026-11-03T19:15:21Z",
-   "score": 4.6
-  },
-  {
-   "headline": "Client demand for shorter AI deals reshapes Google cloud market battle",
-   "summary": "",
-   "category": "technology",
-   "importance": "low",
-   "assets": [],
-   "source": "livemint.com",
-   "url": "https://www.livemint.com/companies/news/google-cloud-ai-demand-short-term-deals-enterprises-11793847822510.html",
-   "published": "2026-11-05T07:15:00Z",
-   "score": 3.2
+   "source": "EIA",
+   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68424",
+   "published": "2026-11-05T09:00:00-05:00",
+   "score": 3.6
   }
  ]
 }
