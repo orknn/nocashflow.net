@@ -1,22 +1,21 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-11-06T12:54:14Z",
+ "updated": "2026-11-07T11:42:03Z",
  "sources": [
-  "CNBC",
-  "EIA"
+  "CNBC"
  ],
  "considered": 83,
  "stories": [
   {
-   "headline": "Analysis: The Democrats have one chance to extract concessions from Trump. Markets will hate it",
-   "summary": "The next debt-ceiling confrontation could reverse Washington's traditional political roles, raising the possibility of spending concessions, market volatility and a damaging default.",
+   "headline": "U.S. economy added 165,000 jobs in October, way more than expected; unemployment rate slips to 4.1%",
+   "summary": "Nonfarm payrolls were expected to increase by 59,000 in October as the unemployment rate was expected to hold steady at 4.2%.",
    "category": "markets",
    "importance": "high",
    "assets": [],
    "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/11/04/democrats-trump-debt-ceiling-fight.html",
-   "published": "2026-11-04T22:46:43Z",
-   "score": 4.6
+   "url": "https://www.cnbc.com/2026/11/06/jobs-report-october-2026.html",
+   "published": "2026-11-06T16:06:59Z",
+   "score": 4.2
   },
   {
    "headline": "The October jobs report is out Friday. Here's everything to expect",
@@ -27,7 +26,7 @@
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/11/05/october-jobs-report-preview.html",
    "published": "2026-11-05T21:32:52Z",
-   "score": 4.2
+   "score": 3.6
   },
   {
    "headline": "Bank of England hikes interest rate for the first time since Iran war, warns inflation will near 5%",
@@ -38,17 +37,6 @@
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/11/05/interest-rates-inflation-uk.html",
    "published": "2026-11-05T16:01:47Z",
-   "score": 4.2
-  },
-  {
-   "headline": "Refineries have shifted production away from gasoline to middle distillates",
-   "summary": "Particularly high refinery margins for distillate fuel oil and jet fuel have contributed to shifts in the refinery yields of major products in 2026. Data from our latest Petroleum Supply Monthly—which includes data through August…",
-   "category": "energy",
-   "importance": "medium",
-   "assets": [],
-   "source": "EIA",
-   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68424",
-   "published": "2026-11-05T09:00:00-05:00",
    "score": 3.6
   }
  ]
