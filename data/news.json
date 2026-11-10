@@ -1,21 +1,43 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-11-09T13:49:30Z",
+ "updated": "2026-11-10T13:27:53Z",
  "sources": [
   "CNBC"
  ],
  "considered": 83,
  "stories": [
   {
-   "headline": "China wholesale inflation hits highest in more than four years as consumer measure slows",
-   "summary": "The PPI for October came in at 5.7%, compared to the 5.3% expected by economists polled by Reuters.",
+   "headline": "A key report for where inflation stood in October comes out Tuesday. Here's what to expect",
+   "summary": "The CPI headline reading is expected to show an increase of 0.3% while the core is forecast to increase 0.2%.",
    "category": "rates",
    "importance": "high",
    "assets": [],
    "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/11/09/october-cpi-report-2026-inflation.html",
+   "published": "2026-11-09T21:03:55Z",
+   "score": 5.2
+  },
+  {
+   "headline": "China wholesale inflation hits highest in more than four years as consumer measure slows",
+   "summary": "The PPI for October came in at 5.7%, compared to the 5.3% expected by economists polled by Reuters.",
+   "category": "rates",
+   "importance": "medium",
+   "assets": [],
+   "source": "CNBC",
    "url": "https://www.cnbc.com/2026/11/09/china-wholesale-inflation-rises-consumer.html",
    "published": "2026-11-09T02:50:22Z",
-   "score": 4.8
+   "score": 3.6
+  },
+  {
+   "headline": "3 unexpected reasons the October jobs report was so strong",
+   "summary": "October's jobs report blew past economist forecasts. Here are three reasons.",
+   "category": "markets",
+   "importance": "medium",
+   "assets": [],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/11/09/october-jobs-report-hiring-by-sector.html",
+   "published": "2026-11-09T22:23:56Z",
+   "score": 3.2
   }
  ]
 }
