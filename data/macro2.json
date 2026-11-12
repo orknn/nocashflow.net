@@ -1,6 +1,6 @@
 {
   "_note": "Live: FRED + DefiLlama + Atlanta Fed + Polymarket (cut odds). Manual (no free API): dot plot, ISM, global M2.",
-  "updated": "2026-11-11T12:35:05Z",
+  "updated": "2026-11-12T13:39:09Z",
   "regime_tape": [
     {
       "k": "Fed Funds",
@@ -11,14 +11,14 @@
     {
       "k": "Next FOMC",
       "v": "Dec 9",
-      "d": "28d",
+      "d": "27d",
       "dir": "neu"
     },
     {
       "k": "Core CPI",
       "v": "2.9%",
       "d": "core",
-      "dir": "down"
+      "dir": "neu"
     },
     {
       "k": "US 10Y",
@@ -34,13 +34,13 @@
     },
     {
       "k": "DXY",
-      "v": "102.52",
+      "v": "102.95",
       "d": "",
       "dir": "neu"
     },
     {
       "k": "F&amp;G",
-      "v": "29",
+      "v": "28",
       "d": "Fear",
       "dir": "down"
     }
@@ -48,13 +48,13 @@
   "inflation": [
     {
       "v": "4.1%",
-      "sub": "▲ from 4.0%",
-      "dir": "down"
+      "sub": "→ from 4.1%",
+      "dir": "neu"
     },
     {
       "v": "2.9%",
-      "sub": "▲ from 2.8%",
-      "dir": "down"
+      "sub": "→ from 2.9%",
+      "dir": "neu"
     },
     {
       "v": "3.1%",
@@ -63,8 +63,8 @@
     },
     {
       "v": "2.15%",
-      "sub": "▼ -4bp",
-      "dir": "down"
+      "sub": "→ +0bp",
+      "dir": "neu"
     }
   ],
   "fed": {
@@ -151,7 +151,7 @@
         "dir": "down"
       },
       {
-        "v": "$292B",
+        "v": "$289B",
         "sub": "USDC $70B",
         "dir": "up"
       }
@@ -169,9 +169,9 @@
       "dir": "neu"
     },
     {
-      "v": "189K",
-      "sub": "▼ -6K",
-      "dir": "up"
+      "v": "200K",
+      "sub": "▲ +9K",
+      "dir": "down"
     },
     {
       "v": "1.9%",
