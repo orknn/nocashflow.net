@@ -1,20 +1,32 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-11-12T13:43:09Z",
+ "updated": "2026-11-13T13:02:33Z",
  "sources": [
-  "CNBC"
+  "CNBC",
+  "EIA"
  ],
- "considered": 83,
+ "considered": 84,
  "stories": [
   {
-   "headline": "Consumer prices rose 0.4% in October, more than expected, complicating Fed's inflation fight",
-   "summary": "The report comes at a critical juncture for the Federal Reserve as it considers its next move regarding interest rates.",
+   "headline": "The Fed expected rate cuts this year. Now it’s bracing for another inflation fight",
+   "summary": "The most recent inflation reading for October was higher than expected, coming in at 0.4% for the month.",
    "category": "rates",
    "importance": "high",
    "assets": [],
    "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/11/10/cpi-inflation-report-october-2026.html",
-   "published": "2026-11-10T23:53:58Z",
+   "url": "https://www.cnbc.com/2026/11/13/us-inflation-outlook-federal-reserve-rate-hike.html",
+   "published": "2026-11-13T12:59:36Z",
+   "score": 7.8
+  },
+  {
+   "headline": "EIA forecasts Alaskan crude oil production to grow 13% in 2027",
+   "summary": "After decades of decline, crude oil production in Alaska is growing, driven by two projects on Alaska's North Slope. In our latest Short-Term Energy Outlook, we expect a 23,000 barrels per day (b/d) (6%) increase in 2026, followed by a…",
+   "category": "energy",
+   "importance": "low",
+   "assets": [],
+   "source": "EIA",
+   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68444",
+   "published": "2026-11-12T09:00:00-05:00",
    "score": 3.6
   }
  ]
