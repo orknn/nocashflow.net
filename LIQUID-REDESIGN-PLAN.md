@@ -1,6 +1,6 @@
 # NoCashFlow — "Liquid" yeniden tasarım planı
 
-Durum (2026-11-15): **Faz 0–6b tamam** (`feat-liquid`). `embed` widget'ı dışında bütün sayfalar (EN+TR) Liquid'de. Sıradaki: **Faz 7 `[OPUS]`** (kalite turu), sonra Faz 8 (yayın, onayla). Bölüm 6'daki kararların hepsi 2026-11-15'te kullanıcı tarafından önerildiği gibi onaylandı.
+Durum (2026-11-16): **Faz 0–7 tamam** (`feat-liquid`). `embed` widget'ı dışında bütün sayfalar (EN+TR) Liquid'de. Sıradaki: **Faz 8** (yayın — yalnızca kullanıcı onayıyla). Bölüm 6'daki kararların hepsi 2026-11-15'te kullanıcı tarafından önerildiği gibi onaylandı.
 
 ## 0. Eski tasarımın yedeği (Broadsheet)
 
@@ -187,7 +187,14 @@ Doğrulandı: üç demo 1440 ve 390'da yatay taşma 0, JS hatası yok; okuma say
 - After Hours: nav'da `.nav-theme` (app.js `initTheme`), `html[data-theme=dark] body.lq` token'ları; her zaman koyu yüzeyler aynı kalır; FE Matrix'te düğme gizli. LIQUID_ASSET_V=4.
 - Mailer bu fazda **değiştirilmedi** (başka repo, kirli ağaç, `main`'den koşuyor) → Faz 8'e taşındı.
 
-### Faz 7 — Kalite turu `[OPUS]`
+### Faz 7 — Kalite turu `[OPUS]` ✅
+**Sonuçlar (2026-11-16):**
+- `tools/shoot.py`: 31 sayfa (EN+TR) × 3 genişlik (1440/834/390); taşma ve JS hatası raporlar; tema sabit (`--dark` ile After Hours; site 21:00–07:00 arası kendiliğinden koyu açılır). 93 görüntüde taşma/JS hatası yok.
+- SEO diff (`origin/main`'e karşı): 363 HTML'de title/canonical/hreflang/JSON-LD/OG aynı; sitemap, feed-en/tr, robots aynı; silinen URL yok.
+- Lighthouse (mobil): performans ana sayfa 86 (eski 65, splash'lı), makale 88, macro 89, dashboard 78. Erişilebilirlik koyu 100, açık 96.
+- Düzeltilenler: koyu modda turuncu yüzeylerde açık yazı; açık temada `--mute` #6E6C66→#5F5D58, küçük yükseliş/düşüş yazısı `--up-t` #14713F / `--dn-t` #AD2B11 (koyu yüzeylerde parlak tonlar); logo/dil bağlantısı aria-label; ana sayfada başlık sırası (kart/istatistik h3, footer h2); JS'siz ana sayfa getiri eğrisi (`.ch` yedeği) + okuma göstergesi gizli; `macro.css` emekli (Broadsheet `site/components/broadsheet.css` embed için kalıyor).
+- **Açık kalan (kullanıcı kararı):** turuncu #FF4B26 açık zeminde küçük yazı olarak (eyebrow'lar, şerit başlığı) 2.77:1 — AA altı ama marka. Takvim/sözlük/bülten/hakkında içerik dosyalarında başlık seviyesi atlamaları (Broadsheet'ten miras, görsel etkisi yok).
+
 - Her sayfa tipi × 2 dil × 3 genişlik ekran görüntüsü.
 - Önce/sonra diff: URL listesi, `sitemap.xml`, `feed-*.xml`, her sayfanın `<link rel=canonical|alternate>` ve JSON-LD'si.
 - Lighthouse (performans, erişilebilirlik), kontrast (`--mute` zemin üzerinde AA), JS kapalı görünüm, reduced-motion.

@@ -6,6 +6,7 @@ desktop (1440) and phone (390) width with Playwright/Chromium.
 
     python3 tools/shoot.py OUT_DIR            # all page types
     python3 tools/shoot.py OUT_DIR --static   # append ?static (Liquid pages: no motion)
+    python3 tools/shoot.py OUT_DIR --dark     # After Hours (default: light, pinned)
 
 Animations are given time to settle; the language splash is suppressed by
 seeding localStorage, so the root page renders as a returning EN visitor.
@@ -40,8 +41,24 @@ PAGES = [
     ("fe-hub-en", "/finance-engineering.html"),
     ("fe-essay-en", "/finance-engineering/when-data-lies.html"),
     ("404", "/404.html"),
+    # Faz 7: the TR side of every page type
+    ("articles-tr", "/tr/yazilar.html"),
+    ("macro-tr", "/tr/macro.html"),
+    ("dashboard-tr", "/tr/dashboard.html"),
+    ("calendar-tr", "/tr/takvim.html"),
+    ("bulletin-tr", "/tr/bulletin_page.html"),
+    ("archive-tr", "/tr/arsiv.html"),
+    ("glossary-tr", "/tr/sozluk.html"),
+    ("about-tr", "/tr/hakkinda.html"),
+    ("privacy-tr", "/tr/privacy.html"),
+    ("indicators-tr", "/tr/simdi/"),
+    ("indicator-tr", "/tr/simdi/dxy-dolar-endeksi.html"),
+    ("fe-hub-tr", "/tr/finance-engineering.html"),
+    ("subscribed-tr", "/tr/subscribed.html"),
+    ("subscribed-en", "/subscribed.html"),
 ]
-WIDTHS = [("desktop", 1440, 900), ("phone", 390, 844)]
+WIDTHS = [("desktop", 1440, 900), ("tablet", 834, 1112), ("phone", 390, 844)]
+# QA: python3 tools/shoot.py OUT --only desktop  (comma list of width names)
 
 
 class Quiet(http.server.SimpleHTTPRequestHandler):
@@ -59,12 +76,21 @@ def main():
     try:
         with sync_playwright() as pw:
             br = pw.chromium.launch()
+            only = sys.argv[sys.argv.index("--only") + 1].split(",") if "--only" in sys.argv else None
             for wname, w, h in WIDTHS:
+                if only and wname not in only:
+                    continue
                 ctx = br.new_context(viewport={"width": w, "height": h}, device_scale_factor=1,
                                      reduced_motion="no-preference")
                 ctx.add_init_script("try{localStorage.setItem('ncf_lang','en')}catch(e){}")
+                # pin the theme: the site turns After Hours on by itself 21:00-07:00 local
+                theme = "dark" if "--dark" in sys.argv else "light"
+                ctx.add_init_script("try{localStorage.setItem('ncf_theme','%s')}catch(e){}" % theme)
                 pg = ctx.new_page()
+                errs = []
+                pg.on("pageerror", lambda e: errs.append(str(e)[:120]))
                 for name, path in PAGES:
+                    errs.clear()
                     if name.endswith("-tr"):
                         pg.add_init_script("try{localStorage.setItem('ncf_lang','tr')}catch(e){}")
                     # "load", not "networkidle": app.js keeps polling live proxies, so the
@@ -79,7 +105,9 @@ def main():
                     pg.wait_for_timeout(1500)
                     f = out / f"{name}-{wname}.png"
                     pg.screenshot(path=str(f), full_page=True)
-                    print(f.relative_to(ROOT) if f.is_relative_to(ROOT) else f)
+                    over = pg.evaluate("document.documentElement.scrollWidth-innerWidth")
+                    flag = ("  OVERFLOW %dpx" % over if over > 0 else "") + ("  JS: " + " | ".join(errs) if errs else "")
+                    print((f.relative_to(ROOT) if f.is_relative_to(ROOT) else f), flag)
                 ctx.close()
             br.close()
     finally:

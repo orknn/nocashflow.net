@@ -31,7 +31,7 @@
 <meta name="theme-color" content="#ECEAE3"/>
 <script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('theme');if(q==='dark'||q==='light'){try{localStorage.setItem('ncf_theme',q);}catch(e){}}var t=null;try{t=localStorage.getItem('ncf_theme');}catch(e){}if(!t){var h=new Date().getHours();t=(h>=21||h<7)?'dark':'light';}if(t==='dark')d.setAttribute('data-theme','dark');}catch(e){}})();</script>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="/liquid.css?v=4"/>
+<link rel="stylesheet" href="/liquid.css?v=5"/>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "en", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
 <style>
 .perks { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -54,7 +54,7 @@
 
 <!-- NAV -->
 <nav class="nav" aria-label="Main">
-  <a class="logo" href="/" aria-label="NoCashFlow — Home">NO<i>/</i>CASHFLOW</a>
+  <a class="logo" href="/" aria-label="NO/CASHFLOW — Home">NO<i>/</i>CASHFLOW</a>
   <div class="nav-links">
     <a href="/articles.html"><span>Articles</span></a>
     <a href="/macro.html"><span>Macro</span></a>
@@ -65,7 +65,7 @@
     <a href="/about.html"><span>About</span></a>
   </div>
   <span class="clock mono" data-lq-clock>—</span>
-  <a class="nav-lang mono" href="/tr/bulletin_page.html" data-set-lang="tr" aria-label="Türkçe'ye geç">TR</a>
+  <a class="nav-lang mono" href="/tr/bulletin_page.html" data-set-lang="tr" aria-label="TR — Türkçe'ye geç">TR</a>
   <button class="nav-theme" type="button" data-theme-toggle aria-label="After Hours" title="After Hours"><i aria-hidden="true"></i></button>
   <a class="btn" href="/bulletin_page.html" data-magnet><span>Subscribe</span><span class="ar" aria-hidden="true">→</span></a>
   <button class="nav-menu mono" type="button" aria-expanded="false" aria-controls="lq-menu" data-open="Menu" data-close="Close">Menu</button>
@@ -84,7 +84,7 @@
     </ol>
   </nav>
   <div class="lq-menu-foot mono">
-    <a href="/tr/bulletin_page.html" data-set-lang="tr" aria-label="Türkçe'ye geç">Türkçe →</a>
+    <a href="/tr/bulletin_page.html" data-set-lang="tr" aria-label="TR — Türkçe'ye geç">Türkçe →</a>
     <span data-lq-clock>—</span>
   </div>
 </div>
@@ -237,7 +237,7 @@
       <p>Independent macro &amp; markets, published daily. Sourced data, no fabrication.</p>
       <div class="mood-line"><span class="mood-dot"></span>Today the market is fearful — Fear &amp; Greed 10/100.</div>
     </div>
-    <div class="lq-fcol"><h4 class="mono">Pages</h4><ul>
+    <div class="lq-fcol"><h2 class="mono">Pages</h2><ul>
       <li><a href="/">Home</a></li>
       <li><a href="/articles.html">Articles</a></li>
       <li><a href="/macro.html">Macro</a></li>
@@ -245,14 +245,14 @@
       <li><a href="/calendar.html">Economic Calendar</a></li>
       <li><a href="/dashboard.html">Dashboard</a></li>
     </ul></div>
-    <div class="lq-fcol"><h4 class="mono">Content</h4><ul>
+    <div class="lq-fcol"><h2 class="mono">Content</h2><ul>
       <li><a href="/bulletin_page.html">Bulletin</a></li>
       <li><a href="/archive.html">Archive</a></li>
       <li><a href="/embed.html">Embed Widget</a></li>
       <li><a href="/about.html">About</a></li>
       <li><a href="/glossary.html">Glossary</a></li>
     </ul></div>
-    <div class="lq-fcol"><h4 class="mono">Social</h4><ul>
+    <div class="lq-fcol"><h2 class="mono">Social</h2><ul>
       <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
       <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
       <li><a href="/feed-en.xml">RSS</a></li>
@@ -266,7 +266,7 @@
   </div>
 </footer>
 
-<script src="/app.js?v=lq4"></script>
+<script src="/app.js?v=lq5"></script>
 <script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>
 <script>
   /* Stamp each card with the issue date pulled straight out of the bulletin's
@@ -300,6 +300,6 @@
   })();
 </script>
 <script>document.querySelectorAll('[data-set-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',a.getAttribute('data-set-lang'));}catch(e){}});});</script>
-<script src="/liquid.js?v=4"></script>
+<script src="/liquid.js?v=5"></script>
 </body>
 </html>

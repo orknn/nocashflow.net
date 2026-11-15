@@ -31,7 +31,7 @@
 <meta name="theme-color" content="#ECEAE3"/>
 <script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('theme');if(q==='dark'||q==='light'){try{localStorage.setItem('ncf_theme',q);}catch(e){}}var t=null;try{t=localStorage.getItem('ncf_theme');}catch(e){}if(!t){var h=new Date().getHours();t=(h>=21||h<7)?'dark':'light';}if(t==='dark')d.setAttribute('data-theme','dark');}catch(e){}})();</script>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="/liquid.css?v=4"/>
+<link rel="stylesheet" href="/liquid.css?v=5"/>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "en", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
 <link rel="stylesheet" href="/splash.css"/>
 <script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('lang');if(q==='tr'||q==='en'){try{localStorage.setItem('ncf_lang',q);}catch(e){}if(q==='tr'){location.replace('/tr/');return;}return;}var p=null;try{p=localStorage.getItem('ncf_lang');}catch(e){}if(p==='tr'){location.replace('/tr/');return;}if(p==='en'){return;}d.setAttribute('data-ncf-splash','on');}catch(e){d.setAttribute('data-ncf-splash','on');}})();</script>
@@ -53,7 +53,7 @@
 
 <!-- NAV -->
 <nav class="nav" aria-label="Main">
-  <a class="logo" href="/" aria-current="page" aria-label="NoCashFlow — Home">NO<i>/</i>CASHFLOW</a>
+  <a class="logo" href="/" aria-current="page" aria-label="NO/CASHFLOW — Home">NO<i>/</i>CASHFLOW</a>
   <div class="nav-links">
     <a href="/articles.html"><span>Articles</span></a>
     <a href="/macro.html"><span>Macro</span></a>
@@ -64,7 +64,7 @@
     <a href="/about.html"><span>About</span></a>
   </div>
   <span class="clock mono" data-lq-clock>—</span>
-  <a class="nav-lang mono" href="/tr/" data-set-lang="tr" aria-label="Türkçe'ye geç">TR</a>
+  <a class="nav-lang mono" href="/tr/" data-set-lang="tr" aria-label="TR — Türkçe'ye geç">TR</a>
   <button class="nav-theme" type="button" data-theme-toggle aria-label="After Hours" title="After Hours"><i aria-hidden="true"></i></button>
   <a class="btn" href="/bulletin_page.html" data-magnet><span>Subscribe</span><span class="ar" aria-hidden="true">→</span></a>
   <button class="nav-menu mono" type="button" aria-expanded="false" aria-controls="lq-menu" data-open="Menu" data-close="Close">Menu</button>
@@ -83,7 +83,7 @@
     </ol>
   </nav>
   <div class="lq-menu-foot mono">
-    <a href="/tr/" data-set-lang="tr" aria-label="Türkçe'ye geç">Türkçe →</a>
+    <a href="/tr/" data-set-lang="tr" aria-label="TR — Türkçe'ye geç">Türkçe →</a>
     <span data-lq-clock>—</span>
   </div>
 </div>
@@ -111,6 +111,7 @@
 <div class="stage-wrap">
   <section class="stage" aria-label="US Treasury yield curve">
     <canvas data-curve='[{"l":"1M","v":4.12},{"l":"3M","v":4.32},{"l":"6M","v":4.42},{"l":"2Y","v":4.86},{"l":"5Y","v":4.95},{"l":"10Y","v":5.1},{"l":"30Y","v":5.43}]' role="img" aria-label="US Treasury yield curve"></canvas>
+    <div class="ch"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="lq-area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(255,75,38,.28)"/><stop offset="1" stop-color="rgba(255,75,38,0)"/></linearGradient></defs><line class="grid" x1="0" x2="100" y1="0" y2="0"/><line class="grid" x1="0" x2="100" y1="50" y2="50"/><line class="grid" x1="0" x2="100" y1="100" y2="100"/><path class="area" d="M0.00 88.30 C2.78 86.35 11.11 79.53 16.67 76.61 C22.22 73.68 27.78 76.02 33.33 70.76 C38.89 65.50 44.44 50.19 50.00 45.03 C55.56 39.86 61.11 42.11 66.67 39.77 C72.22 37.43 77.78 35.67 83.33 30.99 C88.89 26.32 97.22 14.91 100.00 11.70 L100 100 L0 100 Z"/><path class="line" pathLength="1" d="M0.00 88.30 C2.78 86.35 11.11 79.53 16.67 76.61 C22.22 73.68 27.78 76.02 33.33 70.76 C38.89 65.50 44.44 50.19 50.00 45.03 C55.56 39.86 61.11 42.11 66.67 39.77 C72.22 37.43 77.78 35.67 83.33 30.99 C88.89 26.32 97.22 14.91 100.00 11.70"/></svg><span class="yl" style="top:0%">5.6%</span><span class="yl" style="top:50%">4.8%</span><span class="yl" style="top:100%">3.9%</span><span class="xl" style="left:0.00%">1M</span><span class="xl" style="left:16.67%">3M</span><span class="xl" style="left:33.33%">6M</span><span class="xl" style="left:50.00%">2Y</span><span class="xl" style="left:66.67%">5Y</span><span class="xl" style="left:83.33%">10Y</span><span class="xl" style="left:100.00%">30Y</span><span class="pt" style="left:0.00%;top:88.30%"></span><span class="vl" style="left:0.00%;top:88.30%">4.12</span><span class="pt" style="left:16.67%;top:76.61%"></span><span class="vl alt" style="left:16.67%;top:76.61%">4.32</span><span class="pt" style="left:33.33%;top:70.76%"></span><span class="vl" style="left:33.33%;top:70.76%">4.42</span><span class="pt" style="left:50.00%;top:45.03%"></span><span class="vl alt" style="left:50.00%;top:45.03%">4.86</span><span class="pt" style="left:66.67%;top:39.77%"></span><span class="vl" style="left:66.67%;top:39.77%">4.95</span><span class="pt" style="left:83.33%;top:30.99%"></span><span class="vl alt" style="left:83.33%;top:30.99%">5.10</span><span class="pt last" style="left:100.00%;top:11.70%"></span><span class="vl" style="left:100.00%;top:11.70%">5.43</span></div>
     <div class="st-row st-top mono">
       <div>US Treasury curve · FRED<strong>12 Nov 2026</strong></div>
       <div class="r">2s10s spread<strong>+24 bp</strong></div>
@@ -149,8 +150,8 @@
   <div class="mood-grid rv">
     <div class="gauge" data-value="10" role="img" aria-label="Fear &amp; Greed 10/100"><svg viewBox="0 0 400 215" aria-hidden="true"><defs><linearGradient id="lq-gg" x1="0" x2="1"><stop offset="0" stop-color="#6FB2FF"/><stop offset=".5" stop-color="#ECEAE3"/><stop offset="1" stop-color="#2FBF71"/></linearGradient></defs><path class="arc" d="M20 200 A180 180 0 0 1 380 200" stroke="rgba(236,234,227,.12)"/><path class="arc arc-val" d="M20 200 A180 180 0 0 1 380 200" stroke="url(#lq-gg)" pathLength="100" stroke-dasharray="10 100"/><g stroke="rgba(236,234,227,.3)"><line x1="12.0" y1="200.0" x2="0.0" y2="200.0"/><line x1="14.3" y1="170.6" x2="9.4" y2="169.8"/><line x1="21.2" y1="141.9" x2="16.4" y2="140.4"/><line x1="32.5" y1="114.6" x2="28.0" y2="112.4"/><line x1="47.9" y1="89.5" x2="43.9" y2="86.6"/><line x1="67.1" y1="67.1" x2="58.6" y2="58.6"/><line x1="89.5" y1="47.9" x2="86.6" y2="43.9"/><line x1="114.6" y1="32.5" x2="112.4" y2="28.0"/><line x1="141.9" y1="21.2" x2="140.4" y2="16.4"/><line x1="170.6" y1="14.3" x2="169.8" y2="9.4"/><line x1="200.0" y1="12.0" x2="200.0" y2="0.0"/><line x1="229.4" y1="14.3" x2="230.2" y2="9.4"/><line x1="258.1" y1="21.2" x2="259.6" y2="16.4"/><line x1="285.4" y1="32.5" x2="287.6" y2="28.0"/><line x1="310.5" y1="47.9" x2="313.4" y2="43.9"/><line x1="332.9" y1="67.1" x2="341.4" y2="58.6"/><line x1="352.1" y1="89.5" x2="356.1" y2="86.6"/><line x1="367.5" y1="114.6" x2="372.0" y2="112.4"/><line x1="378.8" y1="141.9" x2="383.6" y2="140.4"/><line x1="385.7" y1="170.6" x2="390.6" y2="169.8"/><line x1="388.0" y1="200.0" x2="400.0" y2="200.0"/></g><g class="needle" style="--deg:-72.0deg"><line x1="200" y1="200" x2="200" y2="34" stroke="#FF4B26" stroke-width="2"/><circle cx="200" cy="34" r="5" fill="#FF4B26"/></g></svg><div class="num"><b data-scr>10</b><em>Extreme Fear</em></div></div>
     <div>
-      <div class="odds"><h5>Fed cut odds · Polymarket</h5><div class="odd"><span class="mono">Dec 9</span><span class="bar"><i data-w="22.0" style="--w:22.0%"></i></span><span class="p">2.2%</span></div><div class="odd"><span class="mono">Jan 27</span><span class="bar"><i data-w="79.0" style="--w:79.0%"></i></span><span class="p">7.9%</span></div></div>
-      <div class="stats"><div class="stat"><h5 lang="en">VIX</h5><b data-scr data-px="vix">19.30</b><span class="c dn" data-chg="vix">+3.21%</span></div><div class="stat"><h5 lang="en">DXY</h5><b data-scr data-px="dxy">103.41</b><span class="c up" data-chg="dxy">+0.23%</span></div><div class="stat"><h5 lang="en">Ether</h5><b data-scr data-px="eth">$1,830</b><span class="c dn" data-chg="eth">-3.95%</span></div></div>
+      <div class="odds"><h3>Fed cut odds · Polymarket</h3><div class="odd"><span class="mono">Dec 9</span><span class="bar"><i data-w="22.0" style="--w:22.0%"></i></span><span class="p">2.2%</span></div><div class="odd"><span class="mono">Jan 27</span><span class="bar"><i data-w="79.0" style="--w:79.0%"></i></span><span class="p">7.9%</span></div></div>
+      <div class="stats"><div class="stat"><h3 lang="en">VIX</h3><b data-scr data-px="vix">19.30</b><span class="c dn" data-chg="vix">+3.21%</span></div><div class="stat"><h3 lang="en">DXY</h3><b data-scr data-px="dxy">103.41</b><span class="c up" data-chg="dxy">+0.23%</span></div><div class="stat"><h3 lang="en">Ether</h3><b data-scr data-px="eth">$1,830</b><span class="c dn" data-chg="eth">-3.95%</span></div></div>
     </div>
   </div>
 </section>
@@ -162,12 +163,12 @@
     <a class="more" href="bulletin_page.html">Read the Bulletin →</a>
   </div>
   <div class="strip rv" data-cur-label="Drag" aria-label="Inside the Bulletin">
-    <div class="card"><div class="mono">01 · Daily</div><div class="big">01</div><div><h4>Morning Macro Snapshot</h4><p>VIX, DXY, yields, Fear &amp; Greed and the key assets. Everything you need in 60 seconds.</p></div></div>
-    <div class="card"><div class="mono">02 · Daily</div><div class="big">02</div><div><h4>Crypto Signal Board</h4><p>BTC dominance, funding rates, the Coinbase Premium Index and on-chain flows.</p></div></div>
-    <div class="card"><div class="mono">03 · Daily</div><div class="big">03</div><div><h4>Fed Watch</h4><p>Rate probabilities from CME FedWatch, dot-plot updates and Powell speech analysis.</p></div></div>
-    <div class="card"><div class="mono">04 · Daily</div><div class="big">04</div><div><h4>Economic Calendar</h4><p>The day's key releases with previous, consensus and a significance flag.</p></div></div>
-    <div class="card"><div class="mono">05 · Weekly</div><div class="big">05</div><div><h4>Sunday Deep Dive</h4><p>Long-form macro analysis, 1,500–3,000 words. Primary source, always linked.</p></div></div>
-    <div class="card"><div class="mono">06 · Always</div><div class="big">06</div><div><h4>No Paywall</h4><p>Every analysis is free, forever. No credit card, no upsell — just the data.</p></div></div>
+    <div class="card"><div class="mono">01 · Daily</div><div class="big">01</div><div><h3>Morning Macro Snapshot</h3><p>VIX, DXY, yields, Fear &amp; Greed and the key assets. Everything you need in 60 seconds.</p></div></div>
+    <div class="card"><div class="mono">02 · Daily</div><div class="big">02</div><div><h3>Crypto Signal Board</h3><p>BTC dominance, funding rates, the Coinbase Premium Index and on-chain flows.</p></div></div>
+    <div class="card"><div class="mono">03 · Daily</div><div class="big">03</div><div><h3>Fed Watch</h3><p>Rate probabilities from CME FedWatch, dot-plot updates and Powell speech analysis.</p></div></div>
+    <div class="card"><div class="mono">04 · Daily</div><div class="big">04</div><div><h3>Economic Calendar</h3><p>The day's key releases with previous, consensus and a significance flag.</p></div></div>
+    <div class="card"><div class="mono">05 · Weekly</div><div class="big">05</div><div><h3>Sunday Deep Dive</h3><p>Long-form macro analysis, 1,500–3,000 words. Primary source, always linked.</p></div></div>
+    <div class="card"><div class="mono">06 · Always</div><div class="big">06</div><div><h3>No Paywall</h3><p>Every analysis is free, forever. No credit card, no upsell — just the data.</p></div></div>
   </div>
 </section>
 
@@ -202,7 +203,7 @@
       <p>Independent macro &amp; markets, published daily. Sourced data, no fabrication.</p>
       <div class="mood-line"><span class="mood-dot"></span>Today the market is fearful — Fear &amp; Greed 10/100.</div>
     </div>
-    <div class="lq-fcol"><h4 class="mono">Pages</h4><ul>
+    <div class="lq-fcol"><h2 class="mono">Pages</h2><ul>
       <li><a href="/">Home</a></li>
       <li><a href="/articles.html">Articles</a></li>
       <li><a href="/macro.html">Macro</a></li>
@@ -210,14 +211,14 @@
       <li><a href="/calendar.html">Economic Calendar</a></li>
       <li><a href="/dashboard.html">Dashboard</a></li>
     </ul></div>
-    <div class="lq-fcol"><h4 class="mono">Content</h4><ul>
+    <div class="lq-fcol"><h2 class="mono">Content</h2><ul>
       <li><a href="/bulletin_page.html">Bulletin</a></li>
       <li><a href="/archive.html">Archive</a></li>
       <li><a href="/embed.html">Embed Widget</a></li>
       <li><a href="/about.html">About</a></li>
       <li><a href="/glossary.html">Glossary</a></li>
     </ul></div>
-    <div class="lq-fcol"><h4 class="mono">Social</h4><ul>
+    <div class="lq-fcol"><h2 class="mono">Social</h2><ul>
       <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
       <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
       <li><a href="/feed-en.xml">RSS</a></li>
@@ -231,7 +232,7 @@
   </div>
 </footer>
 
-<script src="/app.js?v=lq4"></script>
+<script src="/app.js?v=lq5"></script>
 <script>
   window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx','eurusd'] });
 </script>
@@ -279,6 +280,6 @@
 </script>
 <script>document.querySelectorAll('[data-set-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',a.getAttribute('data-set-lang'));}catch(e){}});});</script>
 <script src="/splash.js"></script>
-<script src="/liquid.js?v=4"></script>
+<script src="/liquid.js?v=5"></script>
 </body>
 </html>

@@ -59,7 +59,7 @@ LIQUID_FONTS_URL = ("https://fonts.googleapis.com/css2"
                     "?family=Bricolage+Grotesque:opsz,wght@12..96,300..700"
                     "&family=Geist+Mono:wght@400;500"
                     "&family=Instrument+Serif:ital@0;1&display=swap")
-LIQUID_ASSET_V = "4"   # bump to bust caches when liquid.css / liquid.js change
+LIQUID_ASSET_V = "5"   # bump to bust caches when liquid.css / liquid.js change
 DESIGN_KINDS = {"article": "liquid", "fe-essay": "liquid", "indicator": "liquid"}
 
 
@@ -98,9 +98,8 @@ def _apply_design(html, kind):
                         f'<link href="{LIQUID_FONTS_URL}" rel="stylesheet"/>\n'
                         f'<link rel="stylesheet" href="/liquid.css?v={LIQUID_ASSET_V}"/>', 1)
     html = _BROADSHEET_ONLY.sub("", html)
-    # macro.css is fully replaced by liquid.css (_lq_macro2 + data-page layer);
+    # macro.css was retired in Faz 7 (liquid.css covers the macro page);
     # dashboard.css stays — the tape keeps its own layout on the variable bridge
-    html = html.replace('<link rel="stylesheet" href="/macro.css"/>\n', "")
     # JS present → let liquid.css hide entrance states (content stays visible without JS)
     html = html.replace('<meta charset="UTF-8"/>',
                         '<meta charset="UTF-8"/>\n'
@@ -1169,9 +1168,9 @@ def footer(lang):
 # unless _design(kind) == "liquid", so Broadsheet output stays byte-identical.
 LQ_UI = {
     "en": {"menu": "Menu", "close": "Close", "nav": "Main", "sw": "TR", "sw_long": "Türkçe",
-           "sw_aria": "Türkçe'ye geç", "board": "Market board", "home": "Home"},
+           "sw_aria": "TR — Türkçe'ye geç", "board": "Market board", "home": "Home"},
     "tr": {"menu": "Menü", "close": "Kapat", "nav": "Ana menü", "sw": "EN", "sw_long": "English",
-           "sw_aria": "Switch to English", "board": "Piyasa panosu", "home": "Ana Sayfa"},
+           "sw_aria": "EN — Switch to English", "board": "Piyasa panosu", "home": "Ana Sayfa"},
 }
 # thin market line on inner pages (decision #3 default: no dark ticker bar)
 LQ_TAPE = [("btc", "BTC"), ("spx", "S&amp;P 500"), ("us10y", "US 10Y"), ("dxy", "DXY"),
@@ -1195,7 +1194,7 @@ def _lq_nav(active_key, lang, sw_href):
     return f"""
 <!-- NAV -->
 <nav class="nav" aria-label="{ui['nav']}">
-  <a class="logo" href="{home_href}"{home_cur} aria-label="NoCashFlow — {ui['home']}">NO<i>/</i>CASHFLOW</a>
+  <a class="logo" href="{home_href}"{home_cur} aria-label="NO/CASHFLOW — {ui['home']}">NO<i>/</i>CASHFLOW</a>
   <div class="nav-links">
 {chr(10).join(links)}
   </div>
@@ -1231,7 +1230,7 @@ def _lq_tape(lang):
 def _lq_footer(lang):
     f = FOOTER[lang]
     fl = lambda en_h, tr_h: _flink(lang, en_h, tr_h)
-    col = lambda title, rows: (f'    <div class="lq-fcol"><h4 class="mono">{title}</h4><ul>\n'
+    col = lambda title, rows: (f'    <div class="lq-fcol"><h2 class="mono">{title}</h2><ul>\n'
                                + "\n".join(f'      <li><a href="{h}"{x}>{t}</a></li>' for t, h, x in rows)
                                + '\n    </ul></div>')
     ext = ' target="_blank" rel="noopener"'
@@ -2120,6 +2119,10 @@ def inject_liquid_home(html, lang):
 
     curve = [{"l": c["l"], "v": c["v"]} for c in (MACRO.get("curve") or []) if c.get("v") is not None]
     fill["CURVE"] = "data-curve='" + json.dumps(curve, separators=(",", ":")) + "'" if len(curve) >= 2 else ""
+    # no-JS fallback: the same curve as a plain line chart (hidden once JS runs)
+    ys = [c["v"] for c in curve]
+    fill["CURVEFB"] = (_lq_chart(ys, min(ys) - .2, max(ys) + .2, "{:.1f}%", [c["l"] for c in curve], True, "{:.2f}", True)
+                       if len(curve) >= 2 else "")
     fill["CURVEDATE"] = _lq_date(MACRO.get("us10y", {}).get("date", ""), lang)
     sp = MACRO.get("spread")
     fill["SPREAD"] = f'{"+" if sp >= 0 else "−"}{abs(round(sp * 100))} bp' if isinstance(sp, (int, float)) else "—"
@@ -2180,7 +2183,7 @@ def inject_liquid_home(html, lang):
             f'style="--w:{o["p"] / top * 100:.1f}%"></i></span><span class="p">{o["p"]}%</span></div>' for o in odds)
     else:   # same honest empty state as the macro page — nothing printed from memory
         fill["ODDS"] = ('<p class="mono dim">—</p>')
-    fill["STATS"] = "".join(f'<div class="stat"><h5 lang="en">{T["names"][k]}</h5><b data-scr data-px="{k}">—</b>'
+    fill["STATS"] = "".join(f'<div class="stat"><h3 lang="en">{T["names"][k]}</h3><b data-scr data-px="{k}">—</b>'
                             f'<span class="c neu" data-chg="{k}">—</span></div>' for k in LQ_STATS if k in inst)
 
     for k, val in fill.items():
