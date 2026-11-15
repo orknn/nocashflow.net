@@ -47,6 +47,7 @@ FONTS_URL = ("https://fonts.googleapis.com/css2"
              "&family=IBM+Plex+Mono:wght@400;500;600&display=swap")
 
 # ── "Liquid" redesign (feat-liquid, LIQUID-REDESIGN-PLAN.md) ─────────────────
+# Faz 5 (text pages) and Faz 3 (home) are on; data pages follow in Faz 6.
 # Pages opt in one at a time: PAGES[key]["design"] = "liquid", or DESIGN_KINDS
 # for the page families rendered outside PAGES (articles, FE essays, /now/).
 # Broadsheet stays the default and its output is byte-identical to the
@@ -57,8 +58,8 @@ LIQUID_FONTS_URL = ("https://fonts.googleapis.com/css2"
                     "?family=Bricolage+Grotesque:opsz,wght@12..96,300..700"
                     "&family=Geist+Mono:wght@400;500"
                     "&family=Instrument+Serif:ital@0;1&display=swap")
-LIQUID_ASSET_V = "1"   # bump to bust caches when liquid.css / liquid.js change
-DESIGN_KINDS = {"article": "broadsheet", "fe-essay": "broadsheet", "indicator": "broadsheet"}
+LIQUID_ASSET_V = "2"   # bump to bust caches when liquid.css / liquid.js change
+DESIGN_KINDS = {"article": "liquid", "fe-essay": "broadsheet", "indicator": "broadsheet"}
 
 
 def _design(kind):
@@ -493,7 +494,7 @@ PAGES = {
                   "tr": "Sitene ücretsiz canlı piyasa widget'ı göm — Kripto Korku & Açgözlülük, Bitcoin, altın ve ABD getirileri, her gün güncel. Tek satır HTML."},
     },
     "yazilar": {
-        "nav_key": "articles",
+        "nav_key": "articles", "design": "liquid",
         "paths": {"en": "/articles.html", "tr": "/tr/yazilar.html"},
         "out":   {"en": "articles.html", "tr": "tr/yazilar.html"},
         "title": {"en": "Articles — NoCashFlow | Macro &amp; Market Essays",
@@ -524,7 +525,7 @@ PAGES = {
                   "tr": "NoCashFlow Bülteni — sabah makro özeti, kripto sinyalleri, Fed takibi ve ekonomik takvim. Ücretsiz, her sabah."},
     },
     "hakkinda": {
-        "nav_key": "about",
+        "nav_key": "about", "design": "liquid",
         "paths": {"en": "/about.html", "tr": "/tr/hakkinda.html"},
         "out":   {"en": "about.html", "tr": "tr/hakkinda.html"},
         "title": {"en": "About — NoCashFlow | Orkun Biçen",
@@ -533,7 +534,7 @@ PAGES = {
                   "tr": "Orkun Biçen — Finance Business Partner (FP&amp;A &amp; controlling), makro analist ve trader. NoCashFlow'un kurucusu."},
     },
     "sozluk": {
-        "nav_key": None,  # glossary lives in the footer, not the primary nav
+        "nav_key": None, "design": "liquid",  # glossary lives in the footer, not the primary nav
         "paths": {"en": "/glossary.html", "tr": "/tr/sozluk.html"},
         "out":   {"en": "glossary.html", "tr": "tr/sozluk.html"},
         "title": {"en": "Glossary — NoCashFlow | Financial Terms",
@@ -551,7 +552,7 @@ PAGES = {
                   "tr": "NoCashFlow nasıl mühendislik edildi — veri pipeline'ı, otomasyon ve her rakamın kaynaklı, asla uydurma olmaması ilkesi."},
     },
     "disclaimer": {
-        "nav_key": None,
+        "nav_key": None, "design": "liquid",
         "paths": {"en": "/disclaimer.html", "tr": "/tr/disclaimer.html"},
         "out":   {"en": "disclaimer.html", "tr": "tr/disclaimer.html"},
         "title": {"en": "Disclaimer — NoCashFlow", "tr": "Feragatname — NoCashFlow"},
@@ -559,7 +560,7 @@ PAGES = {
                   "tr": "NoCashFlow yalnızca bilgilendirme amaçlıdır ve yatırım tavsiyesi içermez."},
     },
     "privacy": {
-        "nav_key": None,
+        "nav_key": None, "design": "liquid",
         "paths": {"en": "/privacy.html", "tr": "/tr/privacy.html"},
         "out":   {"en": "privacy.html", "tr": "tr/privacy.html"},
         "title": {"en": "Privacy Policy — NoCashFlow", "tr": "Gizlilik Politikası — NoCashFlow"},
@@ -567,7 +568,7 @@ PAGES = {
                   "tr": "NoCashFlow verilerini AB GDPR'ına uygun olarak nasıl işler."},
     },
     "legal": {
-        "nav_key": None,
+        "nav_key": None, "design": "liquid",
         "paths": {"en": "/legal.html", "tr": "/tr/legal.html"},
         "out":   {"en": "legal.html", "tr": "tr/legal.html"},
         "title": {"en": "Legal Notice — NoCashFlow", "tr": "Yasal Bildirim — NoCashFlow"},
@@ -575,7 +576,7 @@ PAGES = {
                   "tr": "Aviso Legal — site sahipliği ve kullanım koşulları."},
     },
     "archive": {
-        "nav_key": "bulletin",
+        "nav_key": "bulletin", "design": "liquid",
         "paths": {"en": "/archive.html", "tr": "/tr/arsiv.html"},
         "out":   {"en": "archive.html", "tr": "tr/arsiv.html"},
         "title": {"en": "Archive — NoCashFlow Bulletins", "tr": "Arşiv — NoCashFlow Bültenleri"},
@@ -1241,6 +1242,42 @@ def _chrome_foot(kind, lang):
     return _lq_footer(lang) if _lq(kind) else footer(lang)
 
 
+# ── Liquid inner-page head (Faz 5) ───────────────────────────────────────────
+def _lq_title(t):
+    """Article titles: 'A — B' → A in sans, B serif italic on its own line.
+    Titles that already carry <em> (page heads) keep their own emphasis."""
+    if " — " in t and "<" not in t:
+        a, b = t.split(" — ", 1)
+        return (f'<span class="ln"><span>{a} —</span></span>'
+                f'<span class="ln" style="--i:1"><span><em>{b}</em></span></span>')
+    return f'<span class="ln"><span>{t}</span></span>'
+
+
+def _lq_hero(meta_k, meta_rest, title_html, dek, aside=""):
+    k = f"<span><b>{meta_k}</b>{meta_rest}</span>" if meta_k else ""
+    aside = f'<div class="p-aside mono fade" style="--i:5">{aside}</div>' if aside else ""
+    return (f'<header class="p-hero rv" data-rv-now>\n'
+            f'  <div class="p-meta mono fade">{k}</div>\n'
+            f'  <h1 class="p-title">{title_html}</h1>\n'
+            f'  <div class="p-sub"><p class="p-dek fade" style="--i:4">{dek}</p>{aside}</div>\n'
+            f'</header>')
+
+
+_PAGE_HEAD = re.compile(
+    r'<header class="page-head">\s*'
+    r'<div class="page-eyebrow">(?P<k>.*?)\s*<span class="divider"></span>\s*<span class="muted">(?P<m>.*?)</span></div>\s*'
+    r'<h1 class="page-title">(?P<t>.*?)</h1>\s*'
+    r'<p class="page-dek">(?P<d>.*?)</p>\s*</header>', re.S)
+
+
+def _lq_page_head(html):
+    """Rewrite the shared Broadsheet page head (content/<lang>/<page>.html) into
+    the Liquid hero. Same strings, new markup — content files stay single-source."""
+    def sub(m):
+        return _lq_hero(m["k"].strip(), "", _lq_title(m["t"].strip()), m["d"].strip(), m["m"].strip())
+    return _PAGE_HEAD.sub(sub, html, count=1)
+
+
 def scripts(page, lang):
     p = PAGES[page]
     out = ['<script src="/app.js?v=mx2"></script>']
@@ -1260,11 +1297,22 @@ def scripts(page, lang):
 
 
 # ── assembly ─────────────────────────────────────────────────────────────────
-def inject_article_list(html, lang):
+def inject_article_list(html, lang, liquid=False):
     """Replace the placeholder in yazilar with teaser cards generated from the
     ARTICLES registry, each linking to its own article page."""
     if "<!--NCF:ARTICLE_LIST-->" not in html:
         return html
+    if liquid:   # same rows as the Liquid home: whole row is the link
+        rows = []
+        for slug in ARTICLE_ORDER:
+            a = ARTICLES[slug]
+            rows.append(
+                f'<a class="row lq-art" href="{article_path(slug, lang)}" data-cur-label="{"Read" if lang == "en" else "Oku"}">'
+                f'<span class="n">{a["num"]}</span>'
+                f'<span class="b"><h4>{a["title"][lang]}</h4><p>{a["dek"][lang]}</p></span>'
+                f'<span class="meta mono">{a["cat"][lang]}<br/>{a["date_disp"][lang]} · {a["read"][lang]}</span>'
+                f'<span class="ar" aria-hidden="true">→</span></a>')
+        return html.replace("<!--NCF:ARTICLE_LIST-->", '<div class="rows">' + "".join(rows) + "</div>")
     rows = []
     for slug in ARTICLE_ORDER:
         a = ARTICLES[slug]
@@ -2002,9 +2050,11 @@ def render(page, lang):
     html = inject_archive(html, lang)
     html = inject_macro(html, lang)
     html = inject_macro2(html, lang)
-    html = inject_article_list(html, lang)
+    html = inject_article_list(html, lang, liquid=_lq(page))
     html = inject_dashboard(html, lang)
     html = inject_liquid_home(html, lang)   # before inject_market: it emits data-px/data-chg slots
+    if _lq(page):
+        html = _lq_page_head(html)
     html = inject_market(html)
     return html
 
@@ -2274,6 +2324,28 @@ def render_article(slug, lang):
     {_pn_card(older, lbl_old, False)}
   </div>
   <a href="{yazilar_url}" class="section-link" style="display:inline-block;margin-top:28px">{back}</a>
+</div>
+"""
+    if _lq("article"):   # Faz 5: demos/d-liquid/gen.py article() is the reference
+        body = f"""
+{_lq_hero(a['cat'][lang], f" · {a['num']}</span><span>{a['date_disp'][lang]} · {a['read'][lang]}", _lq_title(title), dek)}
+<div class="a-wrap">
+  <aside class="a-rail mono" data-lq-read aria-hidden="true">
+    <span class="pct"><span data-read-pct>0</span><sup>%</sup></span>
+    <span class="track"><i></i></span>
+    <span>{a['read'][lang]}</span>
+  </aside>
+  <div class="a-main">
+    <div class="prose article-prose">
+{prose}
+    </div>
+{share_html}
+    <div class="pn-grid">
+      {_pn_card(newer, lbl_new, True)}
+      {_pn_card(older, lbl_old, False)}
+    </div>
+    <a href="{yazilar_url}" class="lk a-back">{back}</a>
+  </div>
 </div>
 """
 

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
+<script>document.documentElement.classList.add('js')</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Articles — NoCashFlow | Macro &amp; Market Essays</title>
 <meta name="description" content="Macro analysis essays — oil, copper, nuclear energy, Fed policy, smart money. Sharp macro &amp; market takes, published regularly."/>
@@ -27,59 +28,72 @@
 <link rel="alternate" type="application/rss+xml" title="NoCashFlow" href="/feed-en.xml"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<meta name="theme-color" content="#ffffff"/>
+<meta name="theme-color" content="#ECEAE3"/>
 <script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('theme');if(q==='dark'||q==='light'){try{localStorage.setItem('ncf_theme',q);}catch(e){}}var t=null;try{t=localStorage.getItem('ncf_theme');}catch(e){}if(!t){var h=new Date().getHours();t=(h>=21||h<7)?'dark':'light';}if(t==='dark')d.setAttribute('data-theme','dark');}catch(e){}})();</script>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,SOFT,WONK,wght@0,9..144,0..100,0..1,300..900;1,9..144,0..100,0..1,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Libre+Caslon+Display&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="/site.css"/>
-<link rel="stylesheet" href="/components.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/liquid.css?v=2"/>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "en", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
-<link rel="stylesheet" href="/broadsheet.css"/>
 </head>
-<body data-mood="fear" class="bs">
-<div class="press-line"></div>
-<div class="cursor-ring"><span class="c-label">Read</span></div>
-<div class="cursor-dot"></div>
+<body data-mood="fear" class="lq">
 
-<div id="page-sweep"></div>
+<div class="progress" aria-hidden="true"></div>
 
 
 <!-- NAV -->
-<nav class="nav">
-  <div class="nav-inner">
-    <a href="/" class="logo">NO<span class="slash">/</span>CASHFLOW<span class="tag">MACRO × MARKETS</span></a>
-    <div class="nav-links" id="nav-links">
-      <a href="/">Home</a>
-      <a href="/articles.html" class="active">Articles</a>
-      <a href="/macro.html">Macro</a>
-      <a href="/calendar.html">Calendar</a>
-      <a href="/dashboard.html">Dashboard</a>
-      <a href="/bulletin_page.html">Bulletin</a>
-      <a href="/finance-engineering.html">Finance Engineering</a>
-      <a href="/about.html">About</a>
-    </div>
-    <div class="nav-right">
-      <a class="lang-switch" href="/tr/yazilar.html" data-set-lang="tr" aria-label="Türkçe'ye geç">TR</a>
-      <button class="nav-btn theme-toggle" data-theme-toggle aria-label="After Hours" title="After Hours">◐</button>
-      <a href="/bulletin_page.html" class="subscribe">Subscribe</a>
-      <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
-    </div>
+<nav class="nav" aria-label="Main">
+  <a class="logo" href="/" aria-label="NoCashFlow — Home">NO<i>/</i>CASHFLOW</a>
+  <div class="nav-links">
+    <a href="/articles.html" aria-current="page"><span>Articles</span></a>
+    <a href="/macro.html"><span>Macro</span></a>
+    <a href="/calendar.html"><span>Calendar</span></a>
+    <a href="/dashboard.html"><span>Dashboard</span></a>
+    <a href="/bulletin_page.html"><span>Bulletin</span></a>
+    <a href="/finance-engineering.html"><span>Finance Engineering</span></a>
+    <a href="/about.html"><span>About</span></a>
   </div>
+  <span class="clock mono" data-lq-clock>—</span>
+  <a class="nav-lang mono" href="/tr/yazilar.html" data-set-lang="tr" aria-label="Türkçe'ye geç">TR</a>
+  <a class="btn" href="/bulletin_page.html" data-magnet><span>Subscribe</span><span class="ar" aria-hidden="true">→</span></a>
+  <button class="nav-menu mono" type="button" aria-expanded="false" aria-controls="lq-menu" data-open="Menu" data-close="Close">Menu</button>
 </nav>
-
-<!-- TICKER -->
-<div class="ticker">
-  <div class="ticker-label"><span class="dot"></span> Market board</div>
-  <div class="ticker-track" id="ticker-track"></div>
+<div class="lq-menu" id="lq-menu" hidden>
+  <nav aria-label="Main">
+    <ol>
+      <li><a href="/" style="--i:0"><span class="n mono">01</span><span class="t">Home</span></a></li>
+      <li><a href="/articles.html" aria-current="page" style="--i:1"><span class="n mono">02</span><span class="t">Articles</span></a></li>
+      <li><a href="/macro.html" style="--i:2"><span class="n mono">03</span><span class="t">Macro</span></a></li>
+      <li><a href="/calendar.html" style="--i:3"><span class="n mono">04</span><span class="t">Calendar</span></a></li>
+      <li><a href="/dashboard.html" style="--i:4"><span class="n mono">05</span><span class="t">Dashboard</span></a></li>
+      <li><a href="/bulletin_page.html" style="--i:5"><span class="n mono">06</span><span class="t">Bulletin</span></a></li>
+      <li><a href="/finance-engineering.html" style="--i:6"><span class="n mono">07</span><span class="t">Finance Engineering</span></a></li>
+      <li><a href="/about.html" style="--i:7"><span class="n mono">08</span><span class="t">About</span></a></li>
+    </ol>
+  </nav>
+  <div class="lq-menu-foot mono">
+    <a href="/tr/yazilar.html" data-set-lang="tr" aria-label="Türkçe'ye geç">Türkçe →</a>
+    <span data-lq-clock>—</span>
+  </div>
 </div>
 
 
-<div class="masthead"><div class="masthead-inner"><span>Morning Edition</span><span class="mh-date">Sunday, November 15, 2026</span><span>Barcelona</span></div></div>
+
+<div class="lq-tape mono" role="region" aria-label="Market board">
+  <span class="lq-tape-k"><b class="dot"></b>Market board</span>
+  <span class="lq-tape-i"><b>BTC</b><span data-px="btc">$65,448</span><span class="c dn" data-chg="btc">-2.53%</span></span>
+  <span class="lq-tape-i"><b>S&amp;P 500</b><span data-px="spx">7,562</span><span class="c dn" data-chg="spx">-0.40%</span></span>
+  <span class="lq-tape-i"><b>US 10Y</b><span data-px="us10y">5.15%</span><span class="c up" data-chg="us10y">+1.00%</span></span>
+  <span class="lq-tape-i"><b>DXY</b><span data-px="dxy">103.41</span><span class="c up" data-chg="dxy">+0.23%</span></span>
+  <span class="lq-tape-i"><b>Gold</b><span data-px="gold">$3886</span><span class="c up" data-chg="gold">+0.03%</span></span>
+  <span class="lq-tape-i"><b>Brent</b><span data-px="brent">$95.8</span><span class="c up" data-chg="brent">+0.02%</span></span>
+  <span class="lq-tape-i"><b>VIX</b><span data-px="vix">19.30</span><span class="c dn" data-chg="vix">+3.21%</span></span>
+  <span class="lq-tape-i"><b>ETH</b><span data-px="eth">$1,830</span><span class="c dn" data-chg="eth">-3.95%</span></span>
+</div>
 
 <!-- PAGE HEAD -->
-<header class="page-head">
-  <div class="page-eyebrow">Macro &amp; Market Essays <span class="divider"></span> <span class="muted">Published regularly</span></div>
-  <h1 class="page-title">Macro <em>analysis.</em></h1>
-  <p class="page-dek">Data-driven views on oil, monetary policy, commodities and crypto. No filler — every claim linked to a primary source.</p>
+<header class="p-hero rv" data-rv-now>
+  <div class="p-meta mono fade"><span><b>Macro &amp; Market Essays</b></span></div>
+  <h1 class="p-title"><span class="ln"><span>Macro <em>analysis.</em></span></span></h1>
+  <div class="p-sub"><p class="p-dek fade" style="--i:4">Data-driven views on oil, monetary policy, commodities and crypto. No filler — every claim linked to a primary source.</p><div class="p-aside mono fade" style="--i:5">Published regularly</div></div>
 </header>
 
 <div class="section">
@@ -96,89 +110,7 @@
     <main>
       <!-- ARTICLE LIST (generated from the ARTICLES registry at build time) -->
       <div class="section-header" style="margin-bottom:24px"><div class="section-title" style="font-size:24px">Latest</div></div>
-      <div class="art-list">
-    <div class="art-row">
-      <div class="n">#09</div>
-      <div class="body">
-        <div class="tag-line">Macro · Jul 14, 2026 · 4 min read</div>
-        <h3><a href="/articles/core-inflation.html">The Core Cracked — And Almost Nobody Called It.</a></h3>
-        <p>Headline fell the most since April 2020 — but the real break was core at 0.0%, and it just took the Warsh hike off the table.</p>
-      </div>
-      <div class="arrow">→</div>
-    </div>
-    <div class="art-row">
-      <div class="n">#08</div>
-      <div class="body">
-        <div class="tag-line">Macro · Jun 28, 2026 · 6 min read</div>
-        <h3><a href="/articles/inflation.html">Warsh Raised the Bar.</a></h3>
-        <p>A hawkish first meeting, inflation at a three-year high, and the July prints that decide everything — along a single line of tension.</p>
-      </div>
-      <div class="arrow">→</div>
-    </div>
-    <div class="art-row">
-      <div class="n">#07</div>
-      <div class="body">
-        <div class="tag-line">Macro · Jun 22, 2026 · 8 min read</div>
-        <h3><a href="/articles/warsh.html">Powell Left. The Dots Went Up.</a></h3>
-        <p>The June meeting wasn't about the hold. A new chair, a shorter statement, and a dot plot that quietly priced out this year's cuts.</p>
-      </div>
-      <div class="arrow">→</div>
-    </div>
-    <div class="art-row">
-      <div class="n">#06</div>
-      <div class="body">
-        <div class="tag-line">Commodities · Jun 21, 2026 · 9 min read</div>
-        <h3><a href="/articles/hormuz.html">Closed, and Still Flowing</a></h3>
-        <p>In March we argued the 1970s oil analogy was misleading. Three months on, Iran calls the Strait of Hormuz closed again — and the crude is still moving. Time for the scorecard.</p>
-      </div>
-      <div class="arrow">→</div>
-    </div>
-    <div class="art-row">
-      <div class="n">#05</div>
-      <div class="body">
-        <div class="tag-line">Crypto · Jun 18, 2026 · 7 min read</div>
-        <h3><a href="/articles/circle.html">Circle Keeps Half. Coinbase Takes the Rest.</a></h3>
-        <p>USDC is a $77B business. Circle only keeps the half its distributors let it. The most important number at Circle isn't circulation — it's the split.</p>
-      </div>
-      <div class="arrow">→</div>
-    </div>
-    <div class="art-row">
-      <div class="n">#04</div>
-      <div class="body">
-        <div class="tag-line">Smart Money · Apr 6, 2026 · 9 min read</div>
-        <h3><a href="/articles/smart-money.html">What Is Smart Money, and Where Is It Going?</a></h3>
-        <p>JPMorgan said institutions would dominate 2026 crypto flows. Q1 came in at one-third of the estimate.</p>
-      </div>
-      <div class="arrow">→</div>
-    </div>
-    <div class="art-row">
-      <div class="n">#03</div>
-      <div class="body">
-        <div class="tag-line">Energy · Mar 30, 2026 · 6 min read</div>
-        <h3><a href="/articles/nuclear.html">AI Needs Electricity — The Answer Is Nuclear</a></h3>
-        <p>Data centers will consume 945 TWh by 2030 — equal to Japan's entire annual electricity use.</p>
-      </div>
-      <div class="arrow">→</div>
-    </div>
-    <div class="art-row">
-      <div class="n">#02</div>
-      <div class="body">
-        <div class="tag-line">Commodities · Mar 23, 2026 · 6 min read</div>
-        <h3><a href="/articles/copper.html">Dr. Copper — Wrong Diagnosis?</a></h3>
-        <p>Copper as a recession indicator is broken — AI data centers, EVs and renewables all demand it at once.</p>
-      </div>
-      <div class="arrow">→</div>
-    </div>
-    <div class="art-row">
-      <div class="n">#01</div>
-      <div class="body">
-        <div class="tag-line">Macro · Mar 16, 2026 · 7 min read</div>
-        <h3><a href="/articles/oil.html">Why the 1970s Comparison Is Misleading</a></h3>
-        <p>Brent up 40%, Hormuz closed — but oil intensity has more than halved since 1973.</p>
-      </div>
-      <div class="arrow">→</div>
-    </div>
-  </div>
+      <div class="rows"><a class="row lq-art" href="/articles/core-inflation.html" data-cur-label="Read"><span class="n">#09</span><span class="b"><h4>The Core Cracked — And Almost Nobody Called It.</h4><p>Headline fell the most since April 2020 — but the real break was core at 0.0%, and it just took the Warsh hike off the table.</p></span><span class="meta mono">Macro<br/>Jul 14, 2026 · 4 min read</span><span class="ar" aria-hidden="true">→</span></a><a class="row lq-art" href="/articles/inflation.html" data-cur-label="Read"><span class="n">#08</span><span class="b"><h4>Warsh Raised the Bar.</h4><p>A hawkish first meeting, inflation at a three-year high, and the July prints that decide everything — along a single line of tension.</p></span><span class="meta mono">Macro<br/>Jun 28, 2026 · 6 min read</span><span class="ar" aria-hidden="true">→</span></a><a class="row lq-art" href="/articles/warsh.html" data-cur-label="Read"><span class="n">#07</span><span class="b"><h4>Powell Left. The Dots Went Up.</h4><p>The June meeting wasn't about the hold. A new chair, a shorter statement, and a dot plot that quietly priced out this year's cuts.</p></span><span class="meta mono">Macro<br/>Jun 22, 2026 · 8 min read</span><span class="ar" aria-hidden="true">→</span></a><a class="row lq-art" href="/articles/hormuz.html" data-cur-label="Read"><span class="n">#06</span><span class="b"><h4>Closed, and Still Flowing</h4><p>In March we argued the 1970s oil analogy was misleading. Three months on, Iran calls the Strait of Hormuz closed again — and the crude is still moving. Time for the scorecard.</p></span><span class="meta mono">Commodities<br/>Jun 21, 2026 · 9 min read</span><span class="ar" aria-hidden="true">→</span></a><a class="row lq-art" href="/articles/circle.html" data-cur-label="Read"><span class="n">#05</span><span class="b"><h4>Circle Keeps Half. Coinbase Takes the Rest.</h4><p>USDC is a $77B business. Circle only keeps the half its distributors let it. The most important number at Circle isn't circulation — it's the split.</p></span><span class="meta mono">Crypto<br/>Jun 18, 2026 · 7 min read</span><span class="ar" aria-hidden="true">→</span></a><a class="row lq-art" href="/articles/smart-money.html" data-cur-label="Read"><span class="n">#04</span><span class="b"><h4>What Is Smart Money, and Where Is It Going?</h4><p>JPMorgan said institutions would dominate 2026 crypto flows. Q1 came in at one-third of the estimate.</p></span><span class="meta mono">Smart Money<br/>Apr 6, 2026 · 9 min read</span><span class="ar" aria-hidden="true">→</span></a><a class="row lq-art" href="/articles/nuclear.html" data-cur-label="Read"><span class="n">#03</span><span class="b"><h4>AI Needs Electricity — The Answer Is Nuclear</h4><p>Data centers will consume 945 TWh by 2030 — equal to Japan's entire annual electricity use.</p></span><span class="meta mono">Energy<br/>Mar 30, 2026 · 6 min read</span><span class="ar" aria-hidden="true">→</span></a><a class="row lq-art" href="/articles/copper.html" data-cur-label="Read"><span class="n">#02</span><span class="b"><h4>Dr. Copper — Wrong Diagnosis?</h4><p>Copper as a recession indicator is broken — AI data centers, EVs and renewables all demand it at once.</p></span><span class="meta mono">Commodities<br/>Mar 23, 2026 · 6 min read</span><span class="ar" aria-hidden="true">→</span></a><a class="row lq-art" href="/articles/oil.html" data-cur-label="Read"><span class="n">#01</span><span class="b"><h4>Why the 1970s Comparison Is Misleading</h4><p>Brent up 40%, Hormuz closed — but oil intensity has more than halved since 1973.</p></span><span class="meta mono">Macro<br/>Mar 16, 2026 · 7 min read</span><span class="ar" aria-hidden="true">→</span></a></div>
 
       <!-- COMING NEXT -->
       <div class="section-header" style="margin-bottom:24px"><div class="section-title" style="font-size:24px">Coming next</div></div>
@@ -254,57 +186,42 @@
 </div>
 
 <!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div>
-        <div class="footer-brand-title">NO<span style="color:var(--amber)">/</span>CASHFLOW</div>
-        <p class="footer-brand-desc">Independent macro &amp; markets, published daily. Sourced data, no fabrication.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Pages</h4>
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/articles.html">Articles</a></li>
-          <li><a href="/macro.html">Macro</a></li>
-          <li><a href="/now/">Live Indicators</a></li>
-          <li><a href="/calendar.html">Economic Calendar</a></li>
-          <li><a href="/dashboard.html">Dashboard</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Content</h4>
-        <ul>
-          <li><a href="/bulletin_page.html">Bulletin</a></li>
-          <li><a href="/archive.html">Archive</a></li>
-          <li><a href="/embed.html">Embed Widget</a></li>
-          <li><a href="/about.html">About</a></li>
-          <li><a href="/glossary.html">Glossary</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Social</h4>
-        <ul>
-          <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
-          <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
-          <li><a href="/feed-en.xml">RSS</a></li>
-          <li><a href="mailto:orkun@nocashflow.net">Email</a></li>
-        </ul>
-      </div>
+<footer class="lq-foot">
+  <div class="lq-fgrid">
+    <div class="lq-fbrand">
+      <p>Independent macro &amp; markets, published daily. Sourced data, no fabrication.</p>
+      <div class="mood-line"><span class="mood-dot"></span>Today the market is fearful — Fear &amp; Greed 10/100.</div>
     </div>
-    <div class="footer-bot">
-      <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona</span>
-      <span><a href="/about.html">About</a> · <a href="/bulletin_page.html">Subscribe</a></span>
-    </div>
-    <div class="mood-line"><span class="mood-dot"></span>Today the market is fearful — Fear &amp; Greed 10/100.</div>
-    <div class="disclaimer">
-      This site is for information only and does not provide investment advice.<br/>
-      <a href="/privacy.html">Privacy</a> · <a href="/legal.html">Legal Notice</a> · <a href="/disclaimer.html">Disclaimer</a>
-    </div>
+    <div class="lq-fcol"><h4 class="mono">Pages</h4><ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/articles.html">Articles</a></li>
+      <li><a href="/macro.html">Macro</a></li>
+      <li><a href="/now/">Live Indicators</a></li>
+      <li><a href="/calendar.html">Economic Calendar</a></li>
+      <li><a href="/dashboard.html">Dashboard</a></li>
+    </ul></div>
+    <div class="lq-fcol"><h4 class="mono">Content</h4><ul>
+      <li><a href="/bulletin_page.html">Bulletin</a></li>
+      <li><a href="/archive.html">Archive</a></li>
+      <li><a href="/embed.html">Embed Widget</a></li>
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/glossary.html">Glossary</a></li>
+    </ul></div>
+    <div class="lq-fcol"><h4 class="mono">Social</h4><ul>
+      <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
+      <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="/feed-en.xml">RSS</a></li>
+      <li><a href="mailto:orkun@nocashflow.net">Email</a></li>
+    </ul></div>
+  </div>
+  <div class="wm rv" aria-hidden="true"><span style="--i:0">N</span><span style="--i:1">O</span><span style="--i:2" class=s>/</span><span style="--i:3">C</span><span style="--i:4">A</span><span style="--i:5">S</span><span style="--i:6">H</span><span style="--i:7">F</span><span style="--i:8">L</span><span style="--i:9">O</span><span style="--i:10">W</span></div>
+  <div class="foot mono">
+    <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona · This site is for information only and does not provide investment advice.</span>
+    <span><a href="/privacy.html">Privacy</a> · <a href="/legal.html">Legal Notice</a> · <a href="/disclaimer.html">Disclaimer</a></span>
   </div>
 </footer>
 
-<script src="/app.js?v=mx2"></script>
+<script src="/app.js?v=lq2"></script>
 <script>
   /* Old anchor links (yazilar.html#smart-money) now live on their own pages.
      Redirect any incoming #slug to the dedicated article page. */
@@ -323,5 +240,6 @@
   }));
 </script>
 <script>document.querySelectorAll('[data-set-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',a.getAttribute('data-set-lang'));}catch(e){}});});</script>
+<script src="/liquid.js?v=2"></script>
 </body>
 </html>

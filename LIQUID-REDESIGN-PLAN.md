@@ -1,6 +1,6 @@
 # NoCashFlow — "Liquid" yeniden tasarım planı
 
-Durum (2026-11-15): **Faz 0–4 tamam** (`feat-liquid`). Ana sayfa (EN+TR) Liquid'de, diğer sayfalar Broadsheet; yazı ve veri sayfalarının tasarımı demo olarak hazır. Sıradaki: **Faz 5 `[OPUS]`**. Bölüm 6'daki kararların hepsi 2026-11-15'te kullanıcı tarafından önerildiği gibi onaylandı.
+Durum (2026-11-15): **Faz 0–5 tamam** (`feat-liquid`). Ana sayfa, makaleler ve tüm yazı sayfaları (EN+TR) Liquid'de; veri sayfaları (macro, dashboard, takvim, bülten, /now/, FE) hâlâ Broadsheet. Sıradaki: **Faz 6 `[OPUS]`**. Bölüm 6'daki kararların hepsi 2026-11-15'te kullanıcı tarafından önerildiği gibi onaylandı.
 
 ## 0. Eski tasarımın yedeği (Broadsheet)
 
@@ -161,12 +161,14 @@ Tasarım kuralları (demoda uygulanmış, taşırken korunacak):
 
 Doğrulandı: üç demo 1440 ve 390'da yatay taşma 0, JS hatası yok; okuma sayacı 0→100; ipucu görünür. Fare/animasyon hissi kullanıcı tarafından gerçek tarayıcıda onaylanacak.
 
-### Faz 5 — Yazı sayfaları `[OPUS]`
-- `inner.css` + `article.css` içeriği `liquid.css` sonuna **aynen** eklenir; `LIQUID_ASSET_V` artırılır.
-- `render_article` → `gen.py: article()` işaretlemesi (`DESIGN_KINDS`'teki `article` türü açılır). `gloss_wrap`, paylaşım, prev/next, JSON-LD korunur.
-- `yazilar` listesi, `archive`: ana sayfadaki `.rows/.row` + `.p-hero`. `sozluk`, `hakkinda`, hukuk sayfaları (privacy/legal/disclaimer): `.p-hero` + `.article-prose` (ray olmadan, `.a-wrap` tek sütun).
-- Elle yazılmış 4 statik sayfa (`subscribed`, `unsubscribed`, TR'leri) aynı çerçeveye elle çevrilir.
-- Makale figürleri (SVG/PNG) eski crimson'la çizili; karar #4'e bağlı, bu fazda dokunulmaz.
+### Faz 5 — Yazı sayfaları `[OPUS]` ✅
+- `inner.css` + `article.css` + yeni "legacy içerik sınıfları" katmanı `liquid.css`'e eklendi (reduced-motion bloğundan önce). `LIQUID_ASSET_V = "2"`.
+- `DESIGN_KINDS["article"] = "liquid"`; `render_article` Liquid gövdesi = `gen.py: article()` (okuma rayı, § numaralı h2, paylaşım, prev/next). Başlık kuralı `_lq_title()`.
+- `yazilar`, `archive`, `sozluk`, `hakkinda`, `privacy`, `legal`, `disclaimer` → `PAGES[...]["design"]="liquid"`. **İçerik dosyaları çoğaltılmadı:** `_lq_page_head()` Broadsheet `page-head` bloğunu build sırasında `.p-hero`'ya çevirir (aynı metinler), geri kalan mevcut sınıflar (`.with-aside`, `.brief`, `.minidata`, `.filters`, `.card-grid/.acard`, `.callout`, `.newsletter-form`, `section.newsletter`, `.glossary-grid/.term`, `.arch-*`) CSS ile giydirildi. Faz 6'da aynı yöntem kullanılabilir.
+- Yazılar listesi Liquid'de ana sayfanın `.row` satırı (+ özet) olarak üretilir (`inject_article_list(..., liquid=True)`).
+- Elle yazılmış 4 sayfa (`subscribed`, `unsubscribed`, TR'leri): yalnızca `<style>`, font linki ve theme-color değişti; `<body>` byte-byte aynı.
+- Doğrulandı: SEO etiketleri (title, description, canonical, hreflang, og/twitter, JSON-LD) değişen her sayfada öncekiyle aynı; sitemap/RSS değişmedi; Liquid dışı sayfalar byte-identical; 9 sayfa × 1440/390 taşma 0, JS hatası 0; okuma sayacı çalışıyor; yazılar sayfasındaki form sahte worker'a `{"email","lang","hp"}` gönderdi ve onay mesajını gösterdi; sözlük ipucu sayıları önceki build ile aynı.
+- Not: makale figürleri hâlâ eski crimson (Faz 6b, karar #4).
 
 ### Faz 6 — Veri sayfaları `[OPUS]`
 - `data.css` içeriği `liquid.css` sonuna aynen eklenir.

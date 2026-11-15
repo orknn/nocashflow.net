@@ -2,6 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8"/>
+<script>document.documentElement.classList.add('js')</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Yazılar — NoCashFlow | Makro &amp; Piyasa Yazıları</title>
 <meta name="description" content="Makro analiz yazıları — petrol, bakır, nükleer enerji, Fed politikası, akıllı para. Keskin makro &amp; piyasa yorumları, düzenli yayımlanır."/>
@@ -27,60 +28,73 @@
 <link rel="alternate" type="application/rss+xml" title="NoCashFlow" href="/feed-tr.xml"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<meta name="theme-color" content="#ffffff"/>
+<meta name="theme-color" content="#ECEAE3"/>
 <script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('theme');if(q==='dark'||q==='light'){try{localStorage.setItem('ncf_theme',q);}catch(e){}}var t=null;try{t=localStorage.getItem('ncf_theme');}catch(e){}if(!t){var h=new Date().getHours();t=(h>=21||h<7)?'dark':'light';}if(t==='dark')d.setAttribute('data-theme','dark');}catch(e){}})();</script>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,SOFT,WONK,wght@0,9..144,0..100,0..1,300..900;1,9..144,0..100,0..1,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Libre+Caslon+Display&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="/site.css"/>
-<link rel="stylesheet" href="/components.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/liquid.css?v=2"/>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "tr", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
-<link rel="stylesheet" href="/broadsheet.css"/>
 <script>(function(){try{var q=new URLSearchParams(location.search).get('lang');if(q==='en'){try{localStorage.setItem('ncf_lang','en');}catch(e){}location.replace('/');return;}if(q==='tr'){try{localStorage.setItem('ncf_lang','tr');}catch(e){}return;}var p=null;try{p=localStorage.getItem('ncf_lang');}catch(e){}if(p==='en'){location.replace('/');return;}}catch(e){}})();</script>
 </head>
-<body data-mood="fear" class="bs">
-<div class="press-line"></div>
-<div class="cursor-ring"><span class="c-label">Read</span></div>
-<div class="cursor-dot"></div>
+<body data-mood="fear" class="lq">
 
-<div id="page-sweep"></div>
+<div class="progress" aria-hidden="true"></div>
 
 
 <!-- NAV -->
-<nav class="nav">
-  <div class="nav-inner">
-    <a href="/tr/" class="logo">NO<span class="slash">/</span>CASHFLOW<span class="tag">MACRO × MARKETS</span></a>
-    <div class="nav-links" id="nav-links">
-      <a href="/tr/">Ana Sayfa</a>
-      <a href="/tr/yazilar.html" class="active">Yazılar</a>
-      <a href="/tr/macro.html">Makro</a>
-      <a href="/tr/takvim.html">Takvim</a>
-      <a href="/tr/dashboard.html">Panel</a>
-      <a href="/tr/bulletin_page.html">Bülten</a>
-      <a href="/tr/finance-engineering.html">Finance Engineering</a>
-      <a href="/tr/hakkinda.html">Hakkında</a>
-    </div>
-    <div class="nav-right">
-      <a class="lang-switch" href="/articles.html" data-set-lang="en" aria-label="Switch to English">EN</a>
-      <button class="nav-btn theme-toggle" data-theme-toggle aria-label="After Hours" title="After Hours">◐</button>
-      <a href="/tr/bulletin_page.html" class="subscribe">Abone Ol</a>
-      <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
-    </div>
+<nav class="nav" aria-label="Ana menü">
+  <a class="logo" href="/tr/" aria-label="NoCashFlow — Ana Sayfa">NO<i>/</i>CASHFLOW</a>
+  <div class="nav-links">
+    <a href="/tr/yazilar.html" aria-current="page"><span>Yazılar</span></a>
+    <a href="/tr/macro.html"><span>Makro</span></a>
+    <a href="/tr/takvim.html"><span>Takvim</span></a>
+    <a href="/tr/dashboard.html"><span>Panel</span></a>
+    <a href="/tr/bulletin_page.html"><span>Bülten</span></a>
+    <a href="/tr/finance-engineering.html"><span>Finance Engineering</span></a>
+    <a href="/tr/hakkinda.html"><span>Hakkında</span></a>
   </div>
+  <span class="clock mono" data-lq-clock>—</span>
+  <a class="nav-lang mono" href="/articles.html" data-set-lang="en" aria-label="Switch to English">EN</a>
+  <a class="btn" href="/tr/bulletin_page.html" data-magnet><span>Abone Ol</span><span class="ar" aria-hidden="true">→</span></a>
+  <button class="nav-menu mono" type="button" aria-expanded="false" aria-controls="lq-menu" data-open="Menü" data-close="Kapat">Menü</button>
 </nav>
-
-<!-- TICKER -->
-<div class="ticker">
-  <div class="ticker-label"><span class="dot"></span> Piyasa panosu</div>
-  <div class="ticker-track" id="ticker-track"></div>
+<div class="lq-menu" id="lq-menu" hidden>
+  <nav aria-label="Ana menü">
+    <ol>
+      <li><a href="/tr/" style="--i:0"><span class="n mono">01</span><span class="t">Ana Sayfa</span></a></li>
+      <li><a href="/tr/yazilar.html" aria-current="page" style="--i:1"><span class="n mono">02</span><span class="t">Yazılar</span></a></li>
+      <li><a href="/tr/macro.html" style="--i:2"><span class="n mono">03</span><span class="t">Makro</span></a></li>
+      <li><a href="/tr/takvim.html" style="--i:3"><span class="n mono">04</span><span class="t">Takvim</span></a></li>
+      <li><a href="/tr/dashboard.html" style="--i:4"><span class="n mono">05</span><span class="t">Panel</span></a></li>
+      <li><a href="/tr/bulletin_page.html" style="--i:5"><span class="n mono">06</span><span class="t">Bülten</span></a></li>
+      <li><a href="/tr/finance-engineering.html" style="--i:6"><span class="n mono">07</span><span class="t">Finance Engineering</span></a></li>
+      <li><a href="/tr/hakkinda.html" style="--i:7"><span class="n mono">08</span><span class="t">Hakkında</span></a></li>
+    </ol>
+  </nav>
+  <div class="lq-menu-foot mono">
+    <a href="/articles.html" data-set-lang="en" aria-label="Switch to English">English →</a>
+    <span data-lq-clock>—</span>
+  </div>
 </div>
 
 
-<div class="masthead"><div class="masthead-inner"><span>Sabah Baskısı</span><span class="mh-date">Pazar, 15 Kasım 2026</span><span>Barcelona</span></div></div>
+
+<div class="lq-tape mono" role="region" aria-label="Piyasa panosu">
+  <span class="lq-tape-k"><b class="dot"></b>Piyasa panosu</span>
+  <span class="lq-tape-i"><b>BTC</b><span data-px="btc">$65,448</span><span class="c dn" data-chg="btc">-2.53%</span></span>
+  <span class="lq-tape-i"><b>S&amp;P 500</b><span data-px="spx">7,562</span><span class="c dn" data-chg="spx">-0.40%</span></span>
+  <span class="lq-tape-i"><b>US 10Y</b><span data-px="us10y">5.15%</span><span class="c up" data-chg="us10y">+1.00%</span></span>
+  <span class="lq-tape-i"><b>DXY</b><span data-px="dxy">103.41</span><span class="c up" data-chg="dxy">+0.23%</span></span>
+  <span class="lq-tape-i"><b>Gold</b><span data-px="gold">$3886</span><span class="c up" data-chg="gold">+0.03%</span></span>
+  <span class="lq-tape-i"><b>Brent</b><span data-px="brent">$95.8</span><span class="c up" data-chg="brent">+0.02%</span></span>
+  <span class="lq-tape-i"><b>VIX</b><span data-px="vix">19.30</span><span class="c dn" data-chg="vix">+3.21%</span></span>
+  <span class="lq-tape-i"><b>ETH</b><span data-px="eth">$1,830</span><span class="c dn" data-chg="eth">-3.95%</span></span>
+</div>
 
 <!-- PAGE HEAD -->
-<header class="page-head">
-  <div class="page-eyebrow">Makro &amp; Piyasa Yazıları <span class="divider"></span> <span class="muted">Düzenli yayımlanır</span></div>
-  <h1 class="page-title">Makro <em>analiz.</em></h1>
-  <p class="page-dek">Petrol, para politikası, emtia ve kripto üzerine veri odaklı görüşler. Dolgu yok — her iddia birincil kaynağa bağlı.</p>
+<header class="p-hero rv" data-rv-now>
+  <div class="p-meta mono fade"><span><b>Makro &amp; Piyasa Yazıları</b></span></div>
+  <h1 class="p-title"><span class="ln"><span>Makro <em>analiz.</em></span></span></h1>
+  <div class="p-sub"><p class="p-dek fade" style="--i:4">Petrol, para politikası, emtia ve kripto üzerine veri odaklı görüşler. Dolgu yok — her iddia birincil kaynağa bağlı.</p><div class="p-aside mono fade" style="--i:5">Düzenli yayımlanır</div></div>
 </header>
 
 <div class="section">
@@ -97,89 +111,7 @@
     <main>
       <!-- ARTICLE LIST (build sırasında ARTICLES registry'den üretilir) -->
       <div class="section-header" style="margin-bottom:24px"><div class="section-title" style="font-size:24px">En son</div></div>
-      <div class="art-list">
-    <div class="art-row">
-      <div class="n">#09</div>
-      <div class="body">
-        <div class="tag-line">Makro · 14 Tem 2026 · 4 dk okuma</div>
-        <h3><a href="/tr/yazilar/cekirdek.html">Çekirdek Çöktü — Neredeyse Kimse Öngörmedi.</a></h3>
-        <p>Manşet Nisan 2020'den beri en sert düşüşünü yaptı — ama asıl kırılma %0,0'daki çekirdekti ve bu, Warsh'ın faiz artışını masadan kaldırdı.</p>
-      </div>
-      <div class="arrow">→</div>
-    </div>
-    <div class="art-row">
-      <div class="n">#08</div>
-      <div class="body">
-        <div class="tag-line">Makro · 28 Haz 2026 · 6 dk okuma</div>
-        <h3><a href="/tr/yazilar/enflasyon.html">Warsh Çıtayı Yükseltti.</a></h3>
-        <p>Şahin bir ilk toplantı, üç yılın zirvesindeki enflasyon ve her şeyi belirleyecek Temmuz verisi — tek bir gerilim hattında.</p>
-      </div>
-      <div class="arrow">→</div>
-    </div>
-    <div class="art-row">
-      <div class="n">#07</div>
-      <div class="body">
-        <div class="tag-line">Makro · 22 Haz 2026 · 8 dk okuma</div>
-        <h3><a href="/tr/yazilar/warsh.html">Powell Gitti. Noktalar Yükseldi.</a></h3>
-        <p>Haziran toplantısı faizin sabit tutulmasıyla ilgili değildi. Yeni bir başkan, daha kısa bir metin ve bu yılın indirimlerini sessizce fiyatlardan çıkaran bir dot plot.</p>
-      </div>
-      <div class="arrow">→</div>
-    </div>
-    <div class="art-row">
-      <div class="n">#06</div>
-      <div class="body">
-        <div class="tag-line">Emtia · 21 Haz 2026 · 9 dk okuma</div>
-        <h3><a href="/tr/yazilar/hormuz.html">Kapalı, Ama Hâlâ Akıyor</a></h3>
-        <p>Mart'ta 1970'ler petrol analojisinin yanıltıcı olduğunu savunmuştuk. Üç ay sonra İran Hürmüz Boğazı'nı yine kapalı ilan ediyor — ve ham petrol hâlâ akıyor. Karne zamanı.</p>
-      </div>
-      <div class="arrow">→</div>
-    </div>
-    <div class="art-row">
-      <div class="n">#05</div>
-      <div class="body">
-        <div class="tag-line">Kripto · 18 Haz 2026 · 7 dk okuma</div>
-        <h3><a href="/tr/yazilar/circle.html">Circle Yarısını Tutuyor. Gerisini Coinbase Alıyor.</a></h3>
-        <p>USDC 77 milyar dolarlık bir iş. Circle yalnızca dağıtımcılarının bıraktığı yarıyı elinde tutuyor. Circle'da en önemli rakam dolaşım değil — paylaşım.</p>
-      </div>
-      <div class="arrow">→</div>
-    </div>
-    <div class="art-row">
-      <div class="n">#04</div>
-      <div class="body">
-        <div class="tag-line">Smart Money · 6 Nis 2026 · 9 dk okuma</div>
-        <h3><a href="/tr/yazilar/smart-money.html">Smart Money Nedir ve Nereye Gidiyor?</a></h3>
-        <p>JPMorgan kurumların 2026 kripto akışlarını domine edeceğini söyledi. Q1 tahminin üçte biri geldi.</p>
-      </div>
-      <div class="arrow">→</div>
-    </div>
-    <div class="art-row">
-      <div class="n">#03</div>
-      <div class="body">
-        <div class="tag-line">Enerji · 30 Mar 2026 · 6 dk okuma</div>
-        <h3><a href="/tr/yazilar/nukleer.html">Yapay Zekânın Elektriğe İhtiyacı Var — Cevap Nükleer</a></h3>
-        <p>Veri merkezleri 2030'a kadar 945 TWh tüketecek — Japonya'nın tüm yıllık elektrik kullanımına eşit.</p>
-      </div>
-      <div class="arrow">→</div>
-    </div>
-    <div class="art-row">
-      <div class="n">#02</div>
-      <div class="body">
-        <div class="tag-line">Emtia · 23 Mar 2026 · 6 dk okuma</div>
-        <h3><a href="/tr/yazilar/bakir.html">Dr. Bakır — Yanlış Teşhis mi?</a></h3>
-        <p>Resesyon göstergesi olarak bakır bozuldu — yapay zekâ, elektrikli araçlar ve yenilenebilir enerji onu aynı anda talep ediyor.</p>
-      </div>
-      <div class="arrow">→</div>
-    </div>
-    <div class="art-row">
-      <div class="n">#01</div>
-      <div class="body">
-        <div class="tag-line">Makro · 16 Mar 2026 · 7 dk okuma</div>
-        <h3><a href="/tr/yazilar/petrol.html">1970'ler Karşılaştırması Neden Yanıltıcı</a></h3>
-        <p>Brent %40 yukarıda, Hürmüz kapalı — ama petrol yoğunluğu 1973'ten beri yarıdan fazla düştü.</p>
-      </div>
-      <div class="arrow">→</div>
-    </div>
-  </div>
+      <div class="rows"><a class="row lq-art" href="/tr/yazilar/cekirdek.html" data-cur-label="Oku"><span class="n">#09</span><span class="b"><h4>Çekirdek Çöktü — Neredeyse Kimse Öngörmedi.</h4><p>Manşet Nisan 2020'den beri en sert düşüşünü yaptı — ama asıl kırılma %0,0'daki çekirdekti ve bu, Warsh'ın faiz artışını masadan kaldırdı.</p></span><span class="meta mono">Makro<br/>14 Tem 2026 · 4 dk okuma</span><span class="ar" aria-hidden="true">→</span></a><a class="row lq-art" href="/tr/yazilar/enflasyon.html" data-cur-label="Oku"><span class="n">#08</span><span class="b"><h4>Warsh Çıtayı Yükseltti.</h4><p>Şahin bir ilk toplantı, üç yılın zirvesindeki enflasyon ve her şeyi belirleyecek Temmuz verisi — tek bir gerilim hattında.</p></span><span class="meta mono">Makro<br/>28 Haz 2026 · 6 dk okuma</span><span class="ar" aria-hidden="true">→</span></a><a class="row lq-art" href="/tr/yazilar/warsh.html" data-cur-label="Oku"><span class="n">#07</span><span class="b"><h4>Powell Gitti. Noktalar Yükseldi.</h4><p>Haziran toplantısı faizin sabit tutulmasıyla ilgili değildi. Yeni bir başkan, daha kısa bir metin ve bu yılın indirimlerini sessizce fiyatlardan çıkaran bir dot plot.</p></span><span class="meta mono">Makro<br/>22 Haz 2026 · 8 dk okuma</span><span class="ar" aria-hidden="true">→</span></a><a class="row lq-art" href="/tr/yazilar/hormuz.html" data-cur-label="Oku"><span class="n">#06</span><span class="b"><h4>Kapalı, Ama Hâlâ Akıyor</h4><p>Mart'ta 1970'ler petrol analojisinin yanıltıcı olduğunu savunmuştuk. Üç ay sonra İran Hürmüz Boğazı'nı yine kapalı ilan ediyor — ve ham petrol hâlâ akıyor. Karne zamanı.</p></span><span class="meta mono">Emtia<br/>21 Haz 2026 · 9 dk okuma</span><span class="ar" aria-hidden="true">→</span></a><a class="row lq-art" href="/tr/yazilar/circle.html" data-cur-label="Oku"><span class="n">#05</span><span class="b"><h4>Circle Yarısını Tutuyor. Gerisini Coinbase Alıyor.</h4><p>USDC 77 milyar dolarlık bir iş. Circle yalnızca dağıtımcılarının bıraktığı yarıyı elinde tutuyor. Circle'da en önemli rakam dolaşım değil — paylaşım.</p></span><span class="meta mono">Kripto<br/>18 Haz 2026 · 7 dk okuma</span><span class="ar" aria-hidden="true">→</span></a><a class="row lq-art" href="/tr/yazilar/smart-money.html" data-cur-label="Oku"><span class="n">#04</span><span class="b"><h4>Smart Money Nedir ve Nereye Gidiyor?</h4><p>JPMorgan kurumların 2026 kripto akışlarını domine edeceğini söyledi. Q1 tahminin üçte biri geldi.</p></span><span class="meta mono">Smart Money<br/>6 Nis 2026 · 9 dk okuma</span><span class="ar" aria-hidden="true">→</span></a><a class="row lq-art" href="/tr/yazilar/nukleer.html" data-cur-label="Oku"><span class="n">#03</span><span class="b"><h4>Yapay Zekânın Elektriğe İhtiyacı Var — Cevap Nükleer</h4><p>Veri merkezleri 2030'a kadar 945 TWh tüketecek — Japonya'nın tüm yıllık elektrik kullanımına eşit.</p></span><span class="meta mono">Enerji<br/>30 Mar 2026 · 6 dk okuma</span><span class="ar" aria-hidden="true">→</span></a><a class="row lq-art" href="/tr/yazilar/bakir.html" data-cur-label="Oku"><span class="n">#02</span><span class="b"><h4>Dr. Bakır — Yanlış Teşhis mi?</h4><p>Resesyon göstergesi olarak bakır bozuldu — yapay zekâ, elektrikli araçlar ve yenilenebilir enerji onu aynı anda talep ediyor.</p></span><span class="meta mono">Emtia<br/>23 Mar 2026 · 6 dk okuma</span><span class="ar" aria-hidden="true">→</span></a><a class="row lq-art" href="/tr/yazilar/petrol.html" data-cur-label="Oku"><span class="n">#01</span><span class="b"><h4>1970'ler Karşılaştırması Neden Yanıltıcı</h4><p>Brent %40 yukarıda, Hürmüz kapalı — ama petrol yoğunluğu 1973'ten beri yarıdan fazla düştü.</p></span><span class="meta mono">Makro<br/>16 Mar 2026 · 7 dk okuma</span><span class="ar" aria-hidden="true">→</span></a></div>
 
       <!-- COMING NEXT -->
       <div class="section-header" style="margin-bottom:24px"><div class="section-title" style="font-size:24px">Sırada</div></div>
@@ -255,57 +187,42 @@
 </div>
 
 <!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div>
-        <div class="footer-brand-title">NO<span style="color:var(--amber)">/</span>CASHFLOW</div>
-        <p class="footer-brand-desc">Bağımsız makro &amp; piyasa, her gün yayımlanır. Kaynaklı veri, uydurma yok.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Sayfalar</h4>
-        <ul>
-          <li><a href="/tr/">Ana Sayfa</a></li>
-          <li><a href="/tr/yazilar.html">Yazılar</a></li>
-          <li><a href="/tr/macro.html">Makro</a></li>
-          <li><a href="/tr/simdi/">Canlı Göstergeler</a></li>
-          <li><a href="/tr/takvim.html">Ekonomik Takvim</a></li>
-          <li><a href="/tr/dashboard.html">Panel</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>İçerik</h4>
-        <ul>
-          <li><a href="/tr/bulletin_page.html">Bülten</a></li>
-          <li><a href="/tr/arsiv.html">Arşiv</a></li>
-          <li><a href="/tr/embed.html">Widget Göm</a></li>
-          <li><a href="/tr/hakkinda.html">Hakkında</a></li>
-          <li><a href="/tr/sozluk.html">Sözlük</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Sosyal</h4>
-        <ul>
-          <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
-          <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
-          <li><a href="/feed-tr.xml">RSS</a></li>
-          <li><a href="mailto:orkun@nocashflow.net">E-posta</a></li>
-        </ul>
-      </div>
+<footer class="lq-foot">
+  <div class="lq-fgrid">
+    <div class="lq-fbrand">
+      <p>Bağımsız makro &amp; piyasa, her gün yayımlanır. Kaynaklı veri, uydurma yok.</p>
+      <div class="mood-line"><span class="mood-dot"></span>Bugün piyasa korkuyor — Fear &amp; Greed 10/100.</div>
     </div>
-    <div class="footer-bot">
-      <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona</span>
-      <span><a href="/tr/hakkinda.html">Hakkında</a> · <a href="/tr/bulletin_page.html">Abone Ol</a></span>
-    </div>
-    <div class="mood-line"><span class="mood-dot"></span>Bugün piyasa korkuyor — Fear &amp; Greed 10/100.</div>
-    <div class="disclaimer">
-      Bu site yalnızca bilgilendirme amaçlıdır ve yatırım tavsiyesi içermez.<br/>
-      <a href="/tr/privacy.html">Gizlilik</a> · <a href="/tr/legal.html">Yasal Bildirim</a> · <a href="/tr/disclaimer.html">Feragatname</a>
-    </div>
+    <div class="lq-fcol"><h4 class="mono">Sayfalar</h4><ul>
+      <li><a href="/tr/">Ana Sayfa</a></li>
+      <li><a href="/tr/yazilar.html">Yazılar</a></li>
+      <li><a href="/tr/macro.html">Makro</a></li>
+      <li><a href="/tr/simdi/">Canlı Göstergeler</a></li>
+      <li><a href="/tr/takvim.html">Ekonomik Takvim</a></li>
+      <li><a href="/tr/dashboard.html">Panel</a></li>
+    </ul></div>
+    <div class="lq-fcol"><h4 class="mono">İçerik</h4><ul>
+      <li><a href="/tr/bulletin_page.html">Bülten</a></li>
+      <li><a href="/tr/arsiv.html">Arşiv</a></li>
+      <li><a href="/tr/embed.html">Widget Göm</a></li>
+      <li><a href="/tr/hakkinda.html">Hakkında</a></li>
+      <li><a href="/tr/sozluk.html">Sözlük</a></li>
+    </ul></div>
+    <div class="lq-fcol"><h4 class="mono">Sosyal</h4><ul>
+      <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
+      <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="/feed-tr.xml">RSS</a></li>
+      <li><a href="mailto:orkun@nocashflow.net">E-posta</a></li>
+    </ul></div>
+  </div>
+  <div class="wm rv" aria-hidden="true"><span style="--i:0">N</span><span style="--i:1">O</span><span style="--i:2" class=s>/</span><span style="--i:3">C</span><span style="--i:4">A</span><span style="--i:5">S</span><span style="--i:6">H</span><span style="--i:7">F</span><span style="--i:8">L</span><span style="--i:9">O</span><span style="--i:10">W</span></div>
+  <div class="foot mono">
+    <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona · Bu site yalnızca bilgilendirme amaçlıdır ve yatırım tavsiyesi içermez.</span>
+    <span><a href="/tr/privacy.html">Gizlilik</a> · <a href="/tr/legal.html">Yasal Bildirim</a> · <a href="/tr/disclaimer.html">Feragatname</a></span>
   </div>
 </footer>
 
-<script src="/app.js?v=mx2"></script>
+<script src="/app.js?v=lq2"></script>
 <script>
   /* Old anchor links (yazilar.html#smart-money) now live on their own pages.
      Redirect any incoming #slug to the dedicated article page. */
@@ -324,5 +241,6 @@
   }));
 </script>
 <script>document.querySelectorAll('[data-set-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',a.getAttribute('data-set-lang'));}catch(e){}});});</script>
+<script src="/liquid.js?v=2"></script>
 </body>
 </html>
