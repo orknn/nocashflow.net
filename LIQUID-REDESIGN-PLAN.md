@@ -1,6 +1,6 @@
 # NoCashFlow — "Liquid" yeniden tasarım planı
 
-Durum (2026-11-15): **Faz 0–5 tamam** (`feat-liquid`). Ana sayfa, makaleler ve tüm yazı sayfaları (EN+TR) Liquid'de; veri sayfaları (macro, dashboard, takvim, bülten, /now/, FE) hâlâ Broadsheet. Sıradaki: **Faz 6 `[OPUS]`**. Bölüm 6'daki kararların hepsi 2026-11-15'te kullanıcı tarafından önerildiği gibi onaylandı.
+Durum (2026-11-15): **Faz 0–6 tamam** (`feat-liquid`). `embed` widget'ı dışında bütün sayfalar (EN+TR) Liquid'de. Sıradaki: **Faz 6b `[OPUS]`** (onaylanan küçük işler), sonra Faz 7 (kalite turu). Bölüm 6'daki kararların hepsi 2026-11-15'te kullanıcı tarafından önerildiği gibi onaylandı.
 
 ## 0. Eski tasarımın yedeği (Broadsheet)
 
@@ -170,15 +170,16 @@ Doğrulandı: üç demo 1440 ve 390'da yatay taşma 0, JS hatası yok; okuma say
 - Doğrulandı: SEO etiketleri (title, description, canonical, hreflang, og/twitter, JSON-LD) değişen her sayfada öncekiyle aynı; sitemap/RSS değişmedi; Liquid dışı sayfalar byte-identical; 9 sayfa × 1440/390 taşma 0, JS hatası 0; okuma sayacı çalışıyor; yazılar sayfasındaki form sahte worker'a `{"email","lang","hp"}` gönderdi ve onay mesajını gösterdi; sözlük ipucu sayıları önceki build ile aynı.
 - Not: makale figürleri hâlâ eski crimson (Faz 6b, karar #4).
 
-### Faz 6 — Veri sayfaları `[OPUS]`
-- `data.css` içeriği `liquid.css` sonuna aynen eklenir.
-- `macro` (`inject_macro2`) → `gen.py: data()` birebir. `macro.css` Liquid sayfada yüklenmez.
-- `dashboard` (`inject_dashboard`) → demodaki bileşenler (`.tiles`, `.dt` liderler, `.heat`, `.facts`). **Dikkat:** canlı dashboard `DASH_MODE="mock"` (`dashboard-mock.json`) ile çalışıyor; demo gerçek `markets.json` kullandı. Veri kaynağı değiştirilmez, yalnızca görünüm.
-- `calendar` → `.dt` (`tr.d0`, `.imp.hi`, `.act`). `/now/` gösterge sayfaları → `.p-hero` + `.panel/.ch` + `.kpis`. `bulletin_page` → `.p-hero` + liste.
-- `.read` (masanın yorumu) için yalnızca CSS var; `macro-notes.json` boş olduğu için demoda örnek yok. Not boşsa blok hiç basılmaz (mevcut davranış).
-- SVG üreticiler (`_curve_svg`, `_liq_svg`, `_spark_svg`, `pulse_chart`, `hero_frieze`) yeni palete geçer veya `.ch` ile değiştirilir.
-- TR sayfalarda rejim şeridi etiketleri ve "Extreme Fear" İngilizce kalıyor (mevcut sitede de öyle); metin değişikliği sayıldığı için dokunulmadı, kullanıcıya soruldu.
-- `embed.html` widget'ı ve bülten HTML'leri (`bulletins/`) kapsam dışı.
+### Faz 6 — Veri sayfaları `[OPUS]` ✅
+- **Değişken köprüsü** (`liquid.css`, `body.lq{...}`): eski sayfa-özel CSS'lerin ve içerikteki inline stillerin okuduğu `--bg/--text/--amber/--border/...` adları Liquid paletine bağlandı. `--serif` burada eski gövde fontu anlamına gelir → Bricolage; Liquid'in kendi serif italiği artık `--it` (liquid.css'teki tüm `var(--serif)` → `var(--it)`). Yeni CSS yazarken `--it` kullan.
+- `data.css` (demo ayracı hariç) + veri sayfası giydirme katmanı `liquid.css`'e eklendi. `LIQUID_ASSET_V = "3"`.
+- `macro`: `inject_macro2(..., liquid=True)` → `_lq_macro2()` kapları yeniden adlandırır (kpis/split/panel/odds/regime), § başlıklarını `.sec-h` yapar, KPI'lar `data-scr` ile; iki grafik **arazi** (`_lq_terrain` + `_lq_chart` JS'siz yedek). Oran olasılıkları ana sayfadaki gibi yalnızca gelecek toplantılar (`_lq_upcoming_odds`). `macro.css` Liquid'de yüklenmez.
+- `calendar`, `bulletin_page`, `/now/` hub + 6 gösterge (EN+TR): içerik/üretici aynı, CSS ile giydirildi. Gösterge sayfalarında grafik yok (geçmiş seri verisi yok — uydurulmadı); büyük değer koyu panelde.
+- `_apply_design` artık her Liquid sayfada `_lq_page_head()` çalıştırır (başlıktaki ek içerik `.p-extra`'ya, `id` korunur) ve tüm `.dtable`'ları `.dt-wrap/.dt`'ye sarar.
+- `dashboard`: prototip (mock veri) kendi düzeniyle `dashboard.css` + köprüyle çalışır; "bölüme atla" düğmesi 1420px altında sağ alta yüzen hap oldu. Sekmeler, TOC, grafik düğmeleri test edildi.
+- **Finance Engineering** (hub + 4 deneme): karar #2 gereği Matrix odası aynen; gövde sınıfı `lq bs fe-matrix` (finance-eng.css `body.bs.fe-matrix`'e bağlı), `body.lq.fe-matrix` Liquid token'larını fosfor paletine çevirir → menü/footer odaya uyar. Yağmur efekti hub'da çalışıyor.
+- `embed` Broadsheet'te kaldı (kapsam dışı). `pulse_chart`/`hero_frieze` yalnızca eski ana sayfada kullanılıyor; Liquid'de çağrılmıyor.
+- Doğrulandı: SEO etiketleri değişen her sayfada aynı; sitemap/RSS/embed değişmedi; 8 veri sayfası × 1440/390 taşma 0, JS hatası 0; macro'daki iki tuval çiziliyor; JS kapalıyken yedek grafikler ve KPI'lar görünüyor.
 
 ### Faz 6b — Onaylanan küçük işler `[OPUS]`
 - Karar #4: vurgu rengi `#B3122B` → `#FF4B26` sosyal kartlarda (`scripts/make_article_card.py`), watermark'ta, makale mailinde (`send_article.py`) ve makale figürlerinde.

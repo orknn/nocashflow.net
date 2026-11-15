@@ -27,6 +27,7 @@ import sys
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from urllib.parse import quote as _uq
+from html import escape as html_escape
 
 ROOT = Path(__file__).parent
 CONTENT = ROOT / "content"
@@ -58,8 +59,8 @@ LIQUID_FONTS_URL = ("https://fonts.googleapis.com/css2"
                     "?family=Bricolage+Grotesque:opsz,wght@12..96,300..700"
                     "&family=Geist+Mono:wght@400;500"
                     "&family=Instrument+Serif:ital@0;1&display=swap")
-LIQUID_ASSET_V = "2"   # bump to bust caches when liquid.css / liquid.js change
-DESIGN_KINDS = {"article": "liquid", "fe-essay": "broadsheet", "indicator": "broadsheet"}
+LIQUID_ASSET_V = "3"   # bump to bust caches when liquid.css / liquid.js change
+DESIGN_KINDS = {"article": "liquid", "fe-essay": "liquid", "indicator": "liquid"}
 
 
 def _design(kind):
@@ -87,17 +88,30 @@ def _apply_design(html, kind):
     """
     if _design(kind) != "liquid":
         return html
+    html = _lq_page_head(html)
+    # legacy data tables → the Liquid table (calendar, macro "This week")
+    html = re.sub(r'<table class="dtable([^"]*)">(.*?)</table>',
+                  r'<div class="dt-wrap rv"><table class="dt dtable\1">\2</table></div>', html, flags=re.S)
     html = html.replace(f'<link href="{FONTS_URL}" rel="stylesheet"/>',
                         f'<link href="{LIQUID_FONTS_URL}" rel="stylesheet"/>\n'
                         f'<link rel="stylesheet" href="/liquid.css?v={LIQUID_ASSET_V}"/>', 1)
     html = _BROADSHEET_ONLY.sub("", html)
+    # macro.css is fully replaced by liquid.css (_lq_macro2 + data-page layer);
+    # dashboard.css stays — the tape keeps its own layout on the variable bridge
+    html = html.replace('<link rel="stylesheet" href="/macro.css"/>\n', "")
     # JS present → let liquid.css hide entrance states (content stays visible without JS)
     html = html.replace('<meta charset="UTF-8"/>',
                         '<meta charset="UTF-8"/>\n'
                         "<script>document.documentElement.classList.add('js')</script>", 1)
     html = re.sub(r'<meta name="theme-color" content="[^"]*"/>',
                   '<meta name="theme-color" content="#ECEAE3"/>', html, count=1)
-    html = re.sub(r'(<body[^>]*\bclass=")bs\b', r"\1lq", html, count=1)
+    # Finance Engineering keeps its Machine Room theme (decision #2): finance-eng.css
+    # is scoped to body.bs.fe-matrix, so those pages keep .bs next to .lq and
+    # liquid.css re-maps its own tokens for the room (nav/footer follow).
+    if re.search(r'<body[^>]*\bclass="bs fe-matrix"', html):
+        html = re.sub(r'(<body[^>]*\bclass=")bs fe-matrix', r"\1lq bs fe-matrix", html, count=1)
+    else:
+        html = re.sub(r'(<body[^>]*\bclass=")bs\b', r"\1lq", html, count=1)
     # app.js learned to stand down on body.lq — make sure Liquid pages never get a cached copy
     html = html.replace('<script src="/app.js?v=mx2"></script>', f'<script src="/app.js?v=lq{LIQUID_ASSET_V}"></script>', 1)
     html = html.replace("</body>", f'<script src="/liquid.js?v={LIQUID_ASSET_V}"></script>\n</body>', 1)
@@ -467,7 +481,7 @@ PAGES = {
                     "tr": "Her sabah veri odaklı makro analiz, her pazar derin analiz. Makro, kripto ve emtia — birincil kaynak, her zaman bağlantılı."},
     },
     "macro": {
-        "nav_key": "macro",
+        "nav_key": "macro", "design": "liquid",
         "paths": {"en": "/macro.html", "tr": "/tr/macro.html"},
         "out":   {"en": "macro.html", "tr": "tr/macro.html"},
         "title": {"en": "Macro — NoCashFlow | Global Macro Indicators",
@@ -476,7 +490,7 @@ PAGES = {
                   "tr": "Canlı küresel makro panosu — VIX, DXY, ABD getirileri, getiri eğrisi, emtia ve ekonomik takvim."},
     },
     "calendar": {
-        "nav_key": "calendar",
+        "nav_key": "calendar", "design": "liquid",
         "paths": {"en": "/calendar.html", "tr": "/tr/takvim.html"},
         "out":   {"en": "calendar.html", "tr": "tr/takvim.html"},
         "title": {"en": "Economic Calendar This Week — NoCashFlow | CPI, Fed, Jobs",
@@ -505,7 +519,7 @@ PAGES = {
                     "tr": "Veri odaklı makro analiz yazıları. Keskin makro &amp; piyasa yorumları, düzenli yayımlanır."},
     },
     "dashboard": {
-        "nav_key": "dashboard",
+        "nav_key": "dashboard", "design": "liquid",
         "paths": {"en": "/dashboard.html", "tr": "/tr/dashboard.html"},
         "out":   {"en": "dashboard.html", "tr": "tr/dashboard.html"},
         # the page renders prototype content: no "live", no "refreshed
@@ -516,7 +530,7 @@ PAGES = {
                   "tr": "Piyasa paneli — makro arka plan, endeksler, temalar, sektör rotasyonu, izleme listeleri, kripto, emtia ve döviz tek ekranda."},
     },
     "bulletin_page": {
-        "nav_key": "bulletin",
+        "nav_key": "bulletin", "design": "liquid",
         "paths": {"en": "/bulletin_page.html", "tr": "/tr/bulletin_page.html"},
         "out":   {"en": "bulletin_page.html", "tr": "tr/bulletin_page.html"},
         "title": {"en": "Bulletin — NoCashFlow | The Daily Macro Brief",
@@ -543,7 +557,7 @@ PAGES = {
                   "tr": "Makro ekonomi, piyasa ve kripto terimlerinin sade açıklamaları — NoCashFlow finansal sözlüğü."},
     },
     "finance-eng": {
-        "nav_key": "finance-eng",
+        "nav_key": "finance-eng", "design": "liquid",
         "paths": {"en": "/finance-engineering.html", "tr": "/tr/finance-engineering.html"},
         "out":   {"en": "finance-engineering.html", "tr": "tr/finance-engineering.html"},
         "title": {"en": "Finance Engineering — NoCashFlow | How this is built",
@@ -1264,17 +1278,28 @@ def _lq_hero(meta_k, meta_rest, title_html, dek, aside=""):
 
 
 _PAGE_HEAD = re.compile(
-    r'<header class="page-head">\s*'
-    r'<div class="page-eyebrow">(?P<k>.*?)\s*<span class="divider"></span>\s*<span class="muted">(?P<m>.*?)</span></div>\s*'
+    r'<header class="page-head"(?P<attr>[^>]*)>\s*'
+    r'<div class="page-eyebrow">(?P<k>.*?)(?P<rest>\s*<span class="divider"></span>.*?)?</div>\s*'
     r'<h1 class="page-title">(?P<t>.*?)</h1>\s*'
-    r'<p class="page-dek">(?P<d>.*?)</p>\s*</header>', re.S)
+    r'<p class="page-dek">(?P<d>.*?)</p>(?P<x>.*?)</header>', re.S)
+_DIVIDER = re.compile(r'\s*<span class="divider"></span>\s*')
 
 
 def _lq_page_head(html):
-    """Rewrite the shared Broadsheet page head (content/<lang>/<page>.html) into
-    the Liquid hero. Same strings, new markup — content files stay single-source."""
+    """Rewrite the shared Broadsheet page head (content/<lang>/<page>.html,
+    indicator pages) into the Liquid hero. Same strings, new markup — content
+    files stay single-source. Extra head content (forms, notices) follows the
+    dek; an id on the header (anchors like #subscribe) is kept."""
     def sub(m):
-        return _lq_hero(m["k"].strip(), "", _lq_title(m["t"].strip()), m["d"].strip(), m["m"].strip())
+        aside = _DIVIDER.sub("<br/>", (m["rest"] or "").strip()).removeprefix("<br/>")
+        hero = _lq_hero(m["k"].strip(), "", _lq_title(m["t"].strip()), m["d"].strip(), aside.strip())
+        idm = re.search(r'\bid="[^"]+"', m["attr"] or "")
+        if idm:
+            hero = hero.replace('<header class="p-hero rv"', f'<header {idm.group(0)} class="p-hero rv"', 1)
+        x = m["x"].strip()
+        if x:
+            hero = hero.replace("\n</header>", f'\n  <div class="p-extra fade" style="--i:5">{x}</div>\n</header>', 1)
+        return hero
     return _PAGE_HEAD.sub(sub, html, count=1)
 
 
@@ -1833,10 +1858,116 @@ def _liq_svg(series, ymin, ymax):
             f'<circle cx="{lx}" cy="{ly}" r="3.5" fill="var(--amber)"/></svg>')
 
 
-def inject_macro2(html, lang):
+# ── Liquid charts (Faz 6): terrain canvas (liquid.js) + plain SVG line chart
+# fallback for no-JS. Markup reference: demos/d-liquid/gen.py chart()/terrain().
+def _lq_smooth(pts):
+    d = f"M{pts[0][0]:.2f} {pts[0][1]:.2f}"
+    for i in range(len(pts) - 1):
+        p0, p1, p2, p3 = pts[max(0, i - 1)], pts[i], pts[i + 1], pts[min(len(pts) - 1, i + 2)]
+        c1 = (p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6)
+        c2 = (p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6)
+        d += f" C{c1[0]:.2f} {c1[1]:.2f} {c2[0]:.2f} {c2[1]:.2f} {p2[0]:.2f} {p2[1]:.2f}"
+    return d
+
+
+def _lq_chart(vals, lo, hi, yfmt, xlabels=None, label_all=False, vfmt="{:.2f}", smooth=False):
+    n = len(vals)
+    if n < 2 or hi == lo:
+        return ""
+    pts = [(i / (n - 1) * 100, (1 - (v - lo) / (hi - lo)) * 100) for i, v in enumerate(vals)]
+    line = _lq_smooth(pts) if smooth else "M" + " L".join(f"{x:.2f} {y:.2f}" for x, y in pts)
+    grid = "".join(f'<line class="grid" x1="0" x2="100" y1="{y}" y2="{y}"/>' for y in (0, 50, 100))
+    yl = "".join(f'<span class="yl" style="top:{y}%">{yfmt.format(hi - (hi - lo) * y / 100)}</span>' for y in (0, 50, 100))
+    xl = "".join(f'<span class="xl" style="left:{pts[i][0]:.2f}%">{t}</span>' for i, t in enumerate(xlabels or []))
+    dots = ""
+    for i, (x, y) in enumerate(pts):
+        last = i == n - 1
+        if label_all or last:
+            dots += (f'<span class="pt{" last" if last else ""}" style="left:{x:.2f}%;top:{y:.2f}%"></span>'
+                     f'<span class="vl{" alt" if (label_all and i % 2 and not last) else ""}" style="left:{x:.2f}%;top:{y:.2f}%">{vfmt.format(vals[i])}</span>')
+    return (f'<div class="ch"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">'
+            '<defs><linearGradient id="lq-area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(255,75,38,.28)"/>'
+            '<stop offset="1" stop-color="rgba(255,75,38,0)"/></linearGradient></defs>'
+            f'{grid}<path class="area" d="{line} L100 100 L0 100 Z"/><path class="line" pathLength="1" d="{line}"/></svg>'
+            f'{yl}{xl}{dots}</div>')
+
+
+def _lq_terrain(vals, labels, fallback, pre="", suf="%", dec=2, key=False, aria=""):
+    pts = html_escape(json.dumps([{"l": l, "v": v} for l, v in zip(labels, vals)], separators=(",", ":")), quote=True)
+    lab = ' data-labels="key"' if key else ""
+    aria_attr = f' role="img" aria-label="{aria}"' if aria else ' aria-hidden="true"'
+    return (f'<div class="tr"><canvas data-curve="{pts}" data-pre="{pre}" data-suf="{suf}" data-dec="{dec}"'
+            f'{lab}{aria_attr}></canvas>{fallback}</div>')
+
+
+def _lq_macro_stats(section, lang):
+    labels = MACRO2_LABELS[section][lang]
+    stats = MACRO2.get(section) if section in ("inflation", "growth") else MACRO2.get(section, {}).get("stats", [])
+    notes = (MACRO_NOTES.get("stat_notes", {}) or {}).get(section, [])
+    out = []
+    for i, st in enumerate(stats):
+        sub = st.get("sub", "")
+        note = notes[i] if i < len(notes) else ""
+        out.append(f'<div class="kpi fade" style="--i:{i}"><div class="lab">{labels[i] if i < len(labels) else ""}</div>'
+                   f'<div><div class="big" data-scr>{st.get("v", "—")}</div>'
+                   + (f'<div class="sub {st.get("dir", "neu")}">{sub}</div>' if sub else "")
+                   + (f'<div class="note">{note}</div>' if note else "") + "</div></div>")
+    return "".join(out)
+
+
+def _lq_macro2(html, lang):
+    """Liquid layout of the same macro page: containers renamed, generators swapped."""
+    M = MACRO2 or {}
+    html = re.sub(r'<div class="section-header"(?: style="[^"]*")?><div class="section-title"><span class="num">§ (\d+)</span>(.*?)</div>'
+                  r'<div class="section-meta">(.*?)</div></div>',
+                  lambda m: (f'<div class="sec-h sm rv"><span class="mono">§ {m[1]}</span>'
+                             f'<h2><span class="ln"><span>{m[2]}</span></span></h2><span class="meta mono">{m[3]}</span></div>'),
+                  html)
+    for a, b in (('<div class="mcr-tape"><div class="mcr-tape-grid">', '<div class="sec tight nt mcr-tape"><div class="regime rv">'),
+                 ('<div class="mcr-grid mcr-g4">', '<div class="kpis rv">'),
+                 ('<div class="mcr-grid mcr-g2" style="align-content:start">', '<div class="kpis c2">'),
+                 ('<div class="mcr-layout2">', '<div class="split rv">'),
+                 ('<div class="mcr-chartwrap">', '<div class="panel">'),
+                 ('<div class="mcr-odds">', '<div class="odds">')):
+        html = html.replace(a, b)
+    html = html.replace("<!--NCF:MACRO2_TAPE-->", "".join(
+        f'<div class="rg fade" style="--i:{i}"><span class="k mono">{c["k"]}</span><div><div class="v" data-scr>{c["v"]}</div>'
+        f'<div class="d mono {c.get("dir", "neu")}">{c.get("d") or "&nbsp;"}</div></div></div>'
+        for i, c in enumerate(M.get("regime_tape", []))))
+    for key, sec in (("INFLATION", "inflation"), ("FED_STATS", "fed"), ("LIQ_STATS", "liquidity"),
+                     ("GROWTH", "growth"), ("RATES_STATS", "rates")):
+        html = html.replace(f"<!--NCF:MACRO2_{key}-->", _lq_macro_stats(sec, lang))
+    odds = _lq_upcoming_odds(M.get("fed", {}).get("cut_odds", []), M.get("updated", ""))
+    if odds:
+        top = max([o["p"] for o in odds] + [10])
+        html = html.replace("<!--NCF:MACRO2_FED_ODDS-->", "".join(
+            f'<div class="odd"><span class="mono">{o["m"]}</span><span class="bar"><i data-w="{o["p"] / top * 100:.1f}" style="--w:{o["p"] / top * 100:.1f}%"></i></span>'
+            f'<span class="p">{o["p"]}%</span><span class="mv">{o["d"] if o.get("d") and o["d"] != "implied" else ""}</span></div>'
+            for o in odds))
+    liq = M.get("liquidity", {})
+    ls = liq.get("net_liq_series") or []
+    if len(ls) > 1:
+        lo = liq.get("y_min") if liq.get("y_min") is not None else min(ls)
+        hi = liq.get("y_max") if liq.get("y_max") is not None else max(ls)
+        html = html.replace("<!--NCF:MACRO2_LIQ_CHART-->", _lq_terrain(
+            ls, [""] * len(ls), _lq_chart(ls, lo, hi, "${:.1f}T", vfmt="${:.2f}T"), pre="$", suf="T", key=True,
+            aria="Net liquidity" if lang == "en" else "Net likidite"))
+    cv = M.get("rates", {}).get("curve") or []
+    if len(cv) > 1:
+        ys = [c["y"] for c in cv]
+        html = html.replace("<!--NCF:MACRO2_RATES_CHART-->", _lq_terrain(
+            ys, [c["tenor"] for c in cv],
+            _lq_chart(ys, min(ys) - .2, max(ys) + .2, "{:.1f}%", [c["tenor"] for c in cv], True, "{:.2f}", True),
+            aria="US Treasury yield curve" if lang == "en" else "ABD Hazine getiri eğrisi"))
+    return html
+
+
+def inject_macro2(html, lang, liquid=False):
     if "<!--NCF:MACRO2_TAPE-->" not in html:
         return html
     M = MACRO2 or {}
+    if liquid:
+        html = _lq_macro2(html, lang)
 
     html = html.replace("<!--NCF:MACRO2_UPD-->",
                         _fmt_stamp(M.get("updated", ""), lang) if M.get("updated") else "—")
@@ -2049,12 +2180,10 @@ def render(page, lang):
     html = inject_snapshot_note(html, lang)
     html = inject_archive(html, lang)
     html = inject_macro(html, lang)
-    html = inject_macro2(html, lang)
+    html = inject_macro2(html, lang, liquid=_lq(page))
     html = inject_article_list(html, lang, liquid=_lq(page))
     html = inject_dashboard(html, lang)
     html = inject_liquid_home(html, lang)   # before inject_market: it emits data-px/data-chg slots
-    if _lq(page):
-        html = _lq_page_head(html)
     html = inject_market(html)
     return html
 

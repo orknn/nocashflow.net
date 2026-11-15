@@ -2,6 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8"/>
+<script>document.documentElement.classList.add('js')</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Makro — NoCashFlow | Küresel Makro Göstergeler</title>
 <meta name="description" content="Canlı küresel makro panosu — VIX, DXY, ABD getirileri, getiri eğrisi, emtia ve ekonomik takvim."/>
@@ -27,117 +28,128 @@
 <link rel="alternate" type="application/rss+xml" title="NoCashFlow" href="/feed-tr.xml"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<meta name="theme-color" content="#ffffff"/>
+<meta name="theme-color" content="#ECEAE3"/>
 <script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('theme');if(q==='dark'||q==='light'){try{localStorage.setItem('ncf_theme',q);}catch(e){}}var t=null;try{t=localStorage.getItem('ncf_theme');}catch(e){}if(!t){var h=new Date().getHours();t=(h>=21||h<7)?'dark':'light';}if(t==='dark')d.setAttribute('data-theme','dark');}catch(e){}})();</script>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,SOFT,WONK,wght@0,9..144,0..100,0..1,300..900;1,9..144,0..100,0..1,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Libre+Caslon+Display&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="/site.css"/>
-<link rel="stylesheet" href="/components.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/liquid.css?v=3"/>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "tr", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
-<link rel="stylesheet" href="/macro.css"/>
-<link rel="stylesheet" href="/broadsheet.css"/>
 <script>(function(){try{var q=new URLSearchParams(location.search).get('lang');if(q==='en'){try{localStorage.setItem('ncf_lang','en');}catch(e){}location.replace('/');return;}if(q==='tr'){try{localStorage.setItem('ncf_lang','tr');}catch(e){}return;}var p=null;try{p=localStorage.getItem('ncf_lang');}catch(e){}if(p==='en'){location.replace('/');return;}}catch(e){}})();</script>
 </head>
-<body data-mood="fear" class="bs">
-<div class="press-line"></div>
-<div class="cursor-ring"><span class="c-label">Read</span></div>
-<div class="cursor-dot"></div>
+<body data-mood="fear" class="lq">
 
-<div id="page-sweep"></div>
+<div class="progress" aria-hidden="true"></div>
 
 
 <!-- NAV -->
-<nav class="nav">
-  <div class="nav-inner">
-    <a href="/tr/" class="logo">NO<span class="slash">/</span>CASHFLOW<span class="tag">MACRO × MARKETS</span></a>
-    <div class="nav-links" id="nav-links">
-      <a href="/tr/">Ana Sayfa</a>
-      <a href="/tr/yazilar.html">Yazılar</a>
-      <a href="/tr/macro.html" class="active">Makro</a>
-      <a href="/tr/takvim.html">Takvim</a>
-      <a href="/tr/dashboard.html">Panel</a>
-      <a href="/tr/bulletin_page.html">Bülten</a>
-      <a href="/tr/finance-engineering.html">Finance Engineering</a>
-      <a href="/tr/hakkinda.html">Hakkında</a>
-    </div>
-    <div class="nav-right">
-      <a class="lang-switch" href="/macro.html" data-set-lang="en" aria-label="Switch to English">EN</a>
-      <button class="nav-btn theme-toggle" data-theme-toggle aria-label="After Hours" title="After Hours">◐</button>
-      <a href="/tr/bulletin_page.html" class="subscribe">Abone Ol</a>
-      <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
-    </div>
+<nav class="nav" aria-label="Ana menü">
+  <a class="logo" href="/tr/" aria-label="NoCashFlow — Ana Sayfa">NO<i>/</i>CASHFLOW</a>
+  <div class="nav-links">
+    <a href="/tr/yazilar.html"><span>Yazılar</span></a>
+    <a href="/tr/macro.html" aria-current="page"><span>Makro</span></a>
+    <a href="/tr/takvim.html"><span>Takvim</span></a>
+    <a href="/tr/dashboard.html"><span>Panel</span></a>
+    <a href="/tr/bulletin_page.html"><span>Bülten</span></a>
+    <a href="/tr/finance-engineering.html"><span>Finance Engineering</span></a>
+    <a href="/tr/hakkinda.html"><span>Hakkında</span></a>
   </div>
+  <span class="clock mono" data-lq-clock>—</span>
+  <a class="nav-lang mono" href="/macro.html" data-set-lang="en" aria-label="Switch to English">EN</a>
+  <a class="btn" href="/tr/bulletin_page.html" data-magnet><span>Abone Ol</span><span class="ar" aria-hidden="true">→</span></a>
+  <button class="nav-menu mono" type="button" aria-expanded="false" aria-controls="lq-menu" data-open="Menü" data-close="Kapat">Menü</button>
 </nav>
-
-<!-- TICKER -->
-<div class="ticker">
-  <div class="ticker-label"><span class="dot"></span> Piyasa panosu</div>
-  <div class="ticker-track" id="ticker-track"></div>
+<div class="lq-menu" id="lq-menu" hidden>
+  <nav aria-label="Ana menü">
+    <ol>
+      <li><a href="/tr/" style="--i:0"><span class="n mono">01</span><span class="t">Ana Sayfa</span></a></li>
+      <li><a href="/tr/yazilar.html" style="--i:1"><span class="n mono">02</span><span class="t">Yazılar</span></a></li>
+      <li><a href="/tr/macro.html" aria-current="page" style="--i:2"><span class="n mono">03</span><span class="t">Makro</span></a></li>
+      <li><a href="/tr/takvim.html" style="--i:3"><span class="n mono">04</span><span class="t">Takvim</span></a></li>
+      <li><a href="/tr/dashboard.html" style="--i:4"><span class="n mono">05</span><span class="t">Panel</span></a></li>
+      <li><a href="/tr/bulletin_page.html" style="--i:5"><span class="n mono">06</span><span class="t">Bülten</span></a></li>
+      <li><a href="/tr/finance-engineering.html" style="--i:6"><span class="n mono">07</span><span class="t">Finance Engineering</span></a></li>
+      <li><a href="/tr/hakkinda.html" style="--i:7"><span class="n mono">08</span><span class="t">Hakkında</span></a></li>
+    </ol>
+  </nav>
+  <div class="lq-menu-foot mono">
+    <a href="/macro.html" data-set-lang="en" aria-label="Switch to English">English →</a>
+    <span data-lq-clock>—</span>
+  </div>
 </div>
 
 
-<div class="masthead"><div class="masthead-inner"><span>Sabah Baskısı</span><span class="mh-date">Pazar, 15 Kasım 2026</span><span>Barcelona</span></div></div>
 
-<header class="page-head">
-  <div class="page-eyebrow">Makro · Rejim <span class="divider"></span> <span class="muted">Güncellendi: 15 Kas 2026, 13:37 CET</span></div>
-  <h1 class="page-title">Ekonomi <em>gerçekte</em> nerede duruyor.</h1>
-  <p class="page-dek">Bir fiyat panosu değil — rejimi belirleyen okumalar. Enflasyon, Fed, likidite ve eğri, her biri önemli okumayla. Veri açıklandıkça güncellenir.</p>
-  
+<div class="lq-tape mono" role="region" aria-label="Piyasa panosu">
+  <span class="lq-tape-k"><b class="dot"></b>Piyasa panosu</span>
+  <span class="lq-tape-i"><b>BTC</b><span data-px="btc">$65,448</span><span class="c dn" data-chg="btc">-2.53%</span></span>
+  <span class="lq-tape-i"><b>S&amp;P 500</b><span data-px="spx">7,562</span><span class="c dn" data-chg="spx">-0.40%</span></span>
+  <span class="lq-tape-i"><b>US 10Y</b><span data-px="us10y">5.15%</span><span class="c up" data-chg="us10y">+1.00%</span></span>
+  <span class="lq-tape-i"><b>DXY</b><span data-px="dxy">103.41</span><span class="c up" data-chg="dxy">+0.23%</span></span>
+  <span class="lq-tape-i"><b>Gold</b><span data-px="gold">$3886</span><span class="c up" data-chg="gold">+0.03%</span></span>
+  <span class="lq-tape-i"><b>Brent</b><span data-px="brent">$95.8</span><span class="c up" data-chg="brent">+0.02%</span></span>
+  <span class="lq-tape-i"><b>VIX</b><span data-px="vix">19.30</span><span class="c dn" data-chg="vix">+3.21%</span></span>
+  <span class="lq-tape-i"><b>ETH</b><span data-px="eth">$1,830</span><span class="c dn" data-chg="eth">-3.95%</span></span>
+</div>
+
+<header class="p-hero rv" data-rv-now>
+  <div class="p-meta mono fade"><span><b>Makro · Rejim</b></span></div>
+  <h1 class="p-title"><span class="ln"><span>Ekonomi <em>gerçekte</em> nerede duruyor.</span></span></h1>
+  <div class="p-sub"><p class="p-dek fade" style="--i:4">Bir fiyat panosu değil — rejimi belirleyen okumalar. Enflasyon, Fed, likidite ve eğri, her biri önemli okumayla. Veri açıklandıkça güncellenir.</p><div class="p-aside mono fade" style="--i:5"><span class="muted">Güncellendi: 15 Kas 2026, 13:37 CET</span></div></div>
 </header>
 
 <!-- REJİM ŞERİDİ -->
-<div class="mcr-tape"><div class="mcr-tape-grid"><div class="mcr-tcell"><div class="k">Fed Funds</div><div class="v">3.75–4.00</div><div class="d neu">held</div></div><div class="mcr-tcell"><div class="k">Next FOMC</div><div class="v">Dec 9</div><div class="d neu">24d</div></div><div class="mcr-tcell"><div class="k">Core CPI</div><div class="v">2.9%</div><div class="d neu">core</div></div><div class="mcr-tcell"><div class="k">US 10Y</div><div class="v">5.10</div><div class="d neu"></div></div><div class="mcr-tcell"><div class="k">2s10s</div><div class="v">+27</div><div class="d up">steepening</div></div><div class="mcr-tcell"><div class="k">DXY</div><div class="v">103.41</div><div class="d neu"></div></div><div class="mcr-tcell"><div class="k">F&amp;G</div><div class="v">10</div><div class="d down">Extreme Fear</div></div></div></div>
+<div class="sec tight nt mcr-tape"><div class="regime rv"><div class="rg fade" style="--i:0"><span class="k mono">Fed Funds</span><div><div class="v" data-scr>3.75–4.00</div><div class="d mono neu">held</div></div></div><div class="rg fade" style="--i:1"><span class="k mono">Next FOMC</span><div><div class="v" data-scr>Dec 9</div><div class="d mono neu">24d</div></div></div><div class="rg fade" style="--i:2"><span class="k mono">Core CPI</span><div><div class="v" data-scr>2.9%</div><div class="d mono neu">core</div></div></div><div class="rg fade" style="--i:3"><span class="k mono">US 10Y</span><div><div class="v" data-scr>5.10</div><div class="d mono neu">&nbsp;</div></div></div><div class="rg fade" style="--i:4"><span class="k mono">2s10s</span><div><div class="v" data-scr>+27</div><div class="d mono up">steepening</div></div></div><div class="rg fade" style="--i:5"><span class="k mono">DXY</span><div><div class="v" data-scr>103.41</div><div class="d mono neu">&nbsp;</div></div></div><div class="rg fade" style="--i:6"><span class="k mono">F&amp;G</span><div><div class="v" data-scr>10</div><div class="d mono down">Extreme Fear</div></div></div></div></div>
 
 <div class="section">
   <!-- §01 ENFLASYON -->
-  <div class="section-header"><div class="section-title"><span class="num">§ 01</span>Enflasyon &amp; Fiyatlar</div><div class="section-meta">FRED · son veri</div></div>
-  <div class="mcr-grid mcr-g4"><div class="mcr-stat"><div class="lab">Manşet TÜFE · YY</div><div class="big">4.1%</div><div class="sub neu">→ from 4.1%</div></div><div class="mcr-stat"><div class="lab">Çekirdek TÜFE · YY</div><div class="big">2.9%</div><div class="sub neu">→ from 2.9%</div></div><div class="mcr-stat"><div class="lab">Çekirdek PCE · YY</div><div class="big">3.1%</div><div class="sub neu">→ from 3.1%</div></div><div class="mcr-stat"><div class="lab">5y5y Başabaş</div><div class="big">2.18%</div><div class="sub neu">→ +0bp</div></div></div>
+  <div class="sec-h sm rv"><span class="mono">§ 01</span><h2><span class="ln"><span>Enflasyon &amp; Fiyatlar</span></span></h2><span class="meta mono">FRED · son veri</span></div>
+  <div class="kpis rv"><div class="kpi fade" style="--i:0"><div class="lab">Manşet TÜFE · YY</div><div><div class="big" data-scr>4.1%</div><div class="sub neu">→ from 4.1%</div></div></div><div class="kpi fade" style="--i:1"><div class="lab">Çekirdek TÜFE · YY</div><div><div class="big" data-scr>2.9%</div><div class="sub neu">→ from 2.9%</div></div></div><div class="kpi fade" style="--i:2"><div class="lab">Çekirdek PCE · YY</div><div><div class="big" data-scr>3.1%</div><div class="sub neu">→ from 3.1%</div></div></div><div class="kpi fade" style="--i:3"><div class="lab">5y5y Başabaş</div><div><div class="big" data-scr>2.18%</div><div class="sub neu">→ +0bp</div></div></div></div>
   
 
   <!-- §02 FED -->
-  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 02</span>Fed &amp; Politika</div><div class="section-meta">tahmin piyasası zımni</div></div>
-  <div class="mcr-layout2">
-    <div class="mcr-chartwrap">
+  <div class="sec-h sm rv"><span class="mono">§ 02</span><h2><span class="ln"><span>Fed &amp; Politika</span></span></h2><span class="meta mono">tahmin piyasası zımni</span></div>
+  <div class="split rv">
+    <div class="panel">
       <h4>Faiz indirim ihtimalleri — sonraki FOMC toplantıları</h4>
       <div class="cap">Polymarket · her toplantıda indirim olasılığı</div>
-      <div class="mcr-odds"><div class="row"><span class="lbl">Oct 28</span><span class="track"><span class="fill" style="width:0.9%"></span></span><span class="pct">0.9%</span></div><div class="row"><span class="lbl">Dec 9</span><span class="track"><span class="fill" style="width:2.2%"></span></span><span class="pct">2.2%</span><span class="mv">▼ from 2.6%</span></div><div class="row"><span class="lbl">Jan 27</span><span class="track"><span class="fill" style="width:7.9%"></span></span><span class="pct">7.9%</span><span class="mv">▼ from 8.5%</span></div></div>
+      <div class="odds"><div class="odd"><span class="mono">Dec 9</span><span class="bar"><i data-w="22.0" style="--w:22.0%"></i></span><span class="p">2.2%</span><span class="mv">▼ from 2.6%</span></div><div class="odd"><span class="mono">Jan 27</span><span class="bar"><i data-w="79.0" style="--w:79.0%"></i></span><span class="p">7.9%</span><span class="mv">▼ from 8.5%</span></div></div>
     </div>
-    <div class="mcr-grid mcr-g2" style="align-content:start"><div class="mcr-stat"><div class="lab">Hedef aralık</div><div class="big">3.75–4.00</div><div class="sub neu">held 4 mtgs</div></div><div class="mcr-stat"><div class="lab">Bilanço</div><div class="big">$6.8T</div><div class="sub down">▼ QT ongoing</div></div><div class="mcr-stat"><div class="lab">Ters repo</div><div class="big">$325M</div><div class="sub down">▼ draining</div></div><div class="mcr-stat"><div class="lab">Nokta grafik '26</div><div class="big">4.10%</div><div class="sub neu">2026 median</div></div></div>
+    <div class="kpis c2"><div class="kpi fade" style="--i:0"><div class="lab">Hedef aralık</div><div><div class="big" data-scr>3.75–4.00</div><div class="sub neu">held 4 mtgs</div></div></div><div class="kpi fade" style="--i:1"><div class="lab">Bilanço</div><div><div class="big" data-scr>$6.8T</div><div class="sub down">▼ QT ongoing</div></div></div><div class="kpi fade" style="--i:2"><div class="lab">Ters repo</div><div><div class="big" data-scr>$325M</div><div class="sub down">▼ draining</div></div></div><div class="kpi fade" style="--i:3"><div class="lab">Nokta grafik '26</div><div><div class="big" data-scr>4.10%</div><div class="sub neu">2026 median</div></div></div></div>
   </div>
   
 
   <!-- §03 LİKİDİTE -->
-  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 03</span>Likidite</div><div class="section-meta">her risk varlığının altındaki gelgit</div></div>
-  <div class="mcr-layout2">
-    <div class="mcr-chartwrap">
+  <div class="sec-h sm rv"><span class="mono">§ 03</span><h2><span class="ln"><span>Likidite</span></span></h2><span class="meta mono">her risk varlığının altındaki gelgit</span></div>
+  <div class="split rv">
+    <div class="panel">
       <h4>Net likidite — Fed bilançosu − TGA − RRP</h4>
       <div class="cap">haftalık · USD trilyon</div>
-      <svg viewBox="0 0 560 220" role="img" aria-label="Net liquidity"><line x1="44" y1="20" x2="44" y2="186" stroke="var(--border)"/><line x1="44" y1="186" x2="548" y2="186" stroke="var(--border)"/><g class="mono" font-size="10" fill="var(--text-mute)"><text x="8" y="24.0">6.1</text><text x="8" y="107.0">5.9</text><text x="8" y="190.0">5.7</text></g><polyline fill="none" stroke="var(--amber)" stroke-width="2.5" points="44,107.2 64,98.8 84,115.4 104,132.0 125,103.0 145,123.8 165,140.4 185,127.9 205,78.1 225,65.6 246,94.7 266,136.2 286,127.9 306,144.5 326,148.7 346,152.8 367,157.0 387,119.6 407,119.6 427,157.0 447,152.8 467,119.6 488,115.4 508,144.5 528,165.3 548,148.7"/><circle cx="548" cy="148.7" r="3.5" fill="var(--amber)"/></svg>
+      <div class="tr"><canvas data-curve="[{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.89},{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.91},{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.87},{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.83},{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.9},{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.85},{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.81},{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.84},{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.96},{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.99},{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.92},{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.82},{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.84},{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.8},{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.79},{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.78},{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.77},{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.86},{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.86},{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.77},{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.78},{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.86},{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.87},{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.8},{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.75},{&quot;l&quot;:&quot;&quot;,&quot;v&quot;:5.79}]" data-pre="$" data-suf="T" data-dec="2" data-labels="key" role="img" aria-label="Net likidite"></canvas><div class="ch"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="lq-area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(255,75,38,.28)"/><stop offset="1" stop-color="rgba(255,75,38,0)"/></linearGradient></defs><line class="grid" x1="0" x2="100" y1="0" y2="0"/><line class="grid" x1="0" x2="100" y1="50" y2="50"/><line class="grid" x1="0" x2="100" y1="100" y2="100"/><path class="area" d="M0.00 52.50 L4.00 47.50 L8.00 57.50 L12.00 67.50 L16.00 50.00 L20.00 62.50 L24.00 72.50 L28.00 65.00 L32.00 35.00 L36.00 27.50 L40.00 45.00 L44.00 70.00 L48.00 65.00 L52.00 75.00 L56.00 77.50 L60.00 80.00 L64.00 82.50 L68.00 60.00 L72.00 60.00 L76.00 82.50 L80.00 80.00 L84.00 60.00 L88.00 57.50 L92.00 75.00 L96.00 87.50 L100.00 77.50 L100 100 L0 100 Z"/><path class="line" pathLength="1" d="M0.00 52.50 L4.00 47.50 L8.00 57.50 L12.00 67.50 L16.00 50.00 L20.00 62.50 L24.00 72.50 L28.00 65.00 L32.00 35.00 L36.00 27.50 L40.00 45.00 L44.00 70.00 L48.00 65.00 L52.00 75.00 L56.00 77.50 L60.00 80.00 L64.00 82.50 L68.00 60.00 L72.00 60.00 L76.00 82.50 L80.00 80.00 L84.00 60.00 L88.00 57.50 L92.00 75.00 L96.00 87.50 L100.00 77.50"/></svg><span class="yl" style="top:0%">$6.1T</span><span class="yl" style="top:50%">$5.9T</span><span class="yl" style="top:100%">$5.7T</span><span class="pt last" style="left:100.00%;top:77.50%"></span><span class="vl" style="left:100.00%;top:77.50%">$5.79T</span></div></div>
     </div>
-    <div class="mcr-grid mcr-g2" style="align-content:start"><div class="mcr-stat"><div class="lab">M2 arzı</div><div class="big">$23.4T</div><div class="sub up">▲ +5.7% YoY</div></div><div class="mcr-stat"><div class="lab">Net likidite</div><div class="big">$5.79T</div><div class="sub down">▼ -0.2% 3m</div></div><div class="mcr-stat"><div class="lab">Stablecoin arzı</div><div class="big">$288B</div><div class="sub up">USDC $69B</div></div></div>
+    <div class="kpis c2"><div class="kpi fade" style="--i:0"><div class="lab">M2 arzı</div><div><div class="big" data-scr>$23.4T</div><div class="sub up">▲ +5.7% YoY</div></div></div><div class="kpi fade" style="--i:1"><div class="lab">Net likidite</div><div><div class="big" data-scr>$5.79T</div><div class="sub down">▼ -0.2% 3m</div></div></div><div class="kpi fade" style="--i:2"><div class="lab">Stablecoin arzı</div><div><div class="big" data-scr>$288B</div><div class="sub up">USDC $69B</div></div></div></div>
   </div>
   
 
   <!-- §04 BÜYÜME -->
-  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 04</span>Büyüme &amp; İstihdam</div><div class="section-meta">iniş yumuşak mı?</div></div>
-  <div class="mcr-grid mcr-g4"><div class="mcr-stat"><div class="lab">Empire State İmalat</div><div class="big">+25.5</div><div class="sub up">Empire State · NY Fed</div></div><div class="mcr-stat"><div class="lab">Tarım dışı istihdam</div><div class="big">+165K</div><div class="sub neu">→ MoM</div></div><div class="mcr-stat"><div class="lab">İşsizlik başvuruları</div><div class="big">200K</div><div class="sub down">▲ +9K</div></div><div class="mcr-stat"><div class="lab">GDPNow · Ç2</div><div class="big">1.9%</div><div class="sub up">Atlanta Fed</div></div></div>
+  <div class="sec-h sm rv"><span class="mono">§ 04</span><h2><span class="ln"><span>Büyüme &amp; İstihdam</span></span></h2><span class="meta mono">iniş yumuşak mı?</span></div>
+  <div class="kpis rv"><div class="kpi fade" style="--i:0"><div class="lab">Empire State İmalat</div><div><div class="big" data-scr>+25.5</div><div class="sub up">Empire State · NY Fed</div></div></div><div class="kpi fade" style="--i:1"><div class="lab">Tarım dışı istihdam</div><div><div class="big" data-scr>+165K</div><div class="sub neu">→ MoM</div></div></div><div class="kpi fade" style="--i:2"><div class="lab">İşsizlik başvuruları</div><div><div class="big" data-scr>200K</div><div class="sub down">▲ +9K</div></div></div><div class="kpi fade" style="--i:3"><div class="lab">GDPNow · Ç2</div><div><div class="big" data-scr>1.9%</div><div class="sub up">Atlanta Fed</div></div></div></div>
   
 
   <!-- §05 FAİZLER -->
-  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 05</span>Faizler &amp; Dolar</div><div class="section-meta">FRED · eğri</div></div>
-  <div class="mcr-layout2">
-    <div class="mcr-chartwrap">
+  <div class="sec-h sm rv"><span class="mono">§ 05</span><h2><span class="ln"><span>Faizler &amp; Dolar</span></span></h2><span class="meta mono">FRED · eğri</span></div>
+  <div class="split rv">
+    <div class="panel">
       <h4>ABD Hazine getiri eğrisi</h4>
       <div class="cap">vade vs. getiri · masanın imza okuması</div>
-      <svg viewBox="0 0 560 230" role="img" aria-label="US Treasury yield curve"><line x1="44" y1="24" x2="44" y2="188" stroke="var(--border)"/><line x1="44" y1="188" x2="548" y2="188" stroke="var(--border)"/><g class="mono" font-size="10" fill="var(--text-mute)"><text x="8" y="28.0">5.7</text><text x="8" y="110.0">4.8</text><text x="8" y="192.0">3.8</text></g><polyline fill="none" stroke="var(--amber)" stroke-width="2.5" points="70,162.2 134,145.1 198,136.5 304,98.7 370,91.0 440,78.1 524,49.8"/><g fill="var(--amber)"><circle cx="70" cy="162.2" r="3"/><circle cx="134" cy="145.1" r="3"/><circle cx="198" cy="136.5" r="3"/><circle cx="304" cy="98.7" r="3"/><circle cx="370" cy="91.0" r="3"/><circle cx="440" cy="78.1" r="3"/><circle cx="524" cy="49.8" r="3"/></g><g class="mono" font-size="9.5" fill="var(--text-mute)" text-anchor="middle"><text x="70" y="204">1M</text><text x="134" y="204">3M</text><text x="198" y="204">6M</text><text x="304" y="204">2Y</text><text x="370" y="204">5Y</text><text x="440" y="204">10Y</text><text x="524" y="204">30Y</text></g></svg>
+      <div class="tr"><canvas data-curve="[{&quot;l&quot;:&quot;1M&quot;,&quot;v&quot;:4.12},{&quot;l&quot;:&quot;3M&quot;,&quot;v&quot;:4.32},{&quot;l&quot;:&quot;6M&quot;,&quot;v&quot;:4.42},{&quot;l&quot;:&quot;2Y&quot;,&quot;v&quot;:4.86},{&quot;l&quot;:&quot;5Y&quot;,&quot;v&quot;:4.95},{&quot;l&quot;:&quot;10Y&quot;,&quot;v&quot;:5.1},{&quot;l&quot;:&quot;30Y&quot;,&quot;v&quot;:5.43}]" data-pre="" data-suf="%" data-dec="2" role="img" aria-label="ABD Hazine getiri eğrisi"></canvas><div class="ch"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="lq-area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(255,75,38,.28)"/><stop offset="1" stop-color="rgba(255,75,38,0)"/></linearGradient></defs><line class="grid" x1="0" x2="100" y1="0" y2="0"/><line class="grid" x1="0" x2="100" y1="50" y2="50"/><line class="grid" x1="0" x2="100" y1="100" y2="100"/><path class="area" d="M0.00 88.30 C2.78 86.35 11.11 79.53 16.67 76.61 C22.22 73.68 27.78 76.02 33.33 70.76 C38.89 65.50 44.44 50.19 50.00 45.03 C55.56 39.86 61.11 42.11 66.67 39.77 C72.22 37.43 77.78 35.67 83.33 30.99 C88.89 26.32 97.22 14.91 100.00 11.70 L100 100 L0 100 Z"/><path class="line" pathLength="1" d="M0.00 88.30 C2.78 86.35 11.11 79.53 16.67 76.61 C22.22 73.68 27.78 76.02 33.33 70.76 C38.89 65.50 44.44 50.19 50.00 45.03 C55.56 39.86 61.11 42.11 66.67 39.77 C72.22 37.43 77.78 35.67 83.33 30.99 C88.89 26.32 97.22 14.91 100.00 11.70"/></svg><span class="yl" style="top:0%">5.6%</span><span class="yl" style="top:50%">4.8%</span><span class="yl" style="top:100%">3.9%</span><span class="xl" style="left:0.00%">1M</span><span class="xl" style="left:16.67%">3M</span><span class="xl" style="left:33.33%">6M</span><span class="xl" style="left:50.00%">2Y</span><span class="xl" style="left:66.67%">5Y</span><span class="xl" style="left:83.33%">10Y</span><span class="xl" style="left:100.00%">30Y</span><span class="pt" style="left:0.00%;top:88.30%"></span><span class="vl" style="left:0.00%;top:88.30%">4.12</span><span class="pt" style="left:16.67%;top:76.61%"></span><span class="vl alt" style="left:16.67%;top:76.61%">4.32</span><span class="pt" style="left:33.33%;top:70.76%"></span><span class="vl" style="left:33.33%;top:70.76%">4.42</span><span class="pt" style="left:50.00%;top:45.03%"></span><span class="vl alt" style="left:50.00%;top:45.03%">4.86</span><span class="pt" style="left:66.67%;top:39.77%"></span><span class="vl" style="left:66.67%;top:39.77%">4.95</span><span class="pt" style="left:83.33%;top:30.99%"></span><span class="vl alt" style="left:83.33%;top:30.99%">5.10</span><span class="pt last" style="left:100.00%;top:11.70%"></span><span class="vl" style="left:100.00%;top:11.70%">5.43</span></div></div>
     </div>
-    <div class="mcr-grid mcr-g2" style="align-content:start"><div class="mcr-stat"><div class="lab">ABD 2Y</div><div class="big">4.86</div><div class="sub neu">+0.8%</div></div><div class="mcr-stat"><div class="lab">ABD 10Y</div><div class="big">5.10</div><div class="sub neu">+1.3%</div></div><div class="mcr-stat"><div class="lab">2s10s farkı</div><div class="big">+27bp</div><div class="sub up">steepening</div></div><div class="mcr-stat"><div class="lab">HY farkı</div><div class="big">320bp</div><div class="sub neu">→ calm</div></div></div>
+    <div class="kpis c2"><div class="kpi fade" style="--i:0"><div class="lab">ABD 2Y</div><div><div class="big" data-scr>4.86</div><div class="sub neu">+0.8%</div></div></div><div class="kpi fade" style="--i:1"><div class="lab">ABD 10Y</div><div><div class="big" data-scr>5.10</div><div class="sub neu">+1.3%</div></div></div><div class="kpi fade" style="--i:2"><div class="lab">2s10s farkı</div><div><div class="big" data-scr>+27bp</div><div class="sub up">steepening</div></div></div><div class="kpi fade" style="--i:3"><div class="lab">HY farkı</div><div><div class="big" data-scr>320bp</div><div class="sub neu">→ calm</div></div></div></div>
   </div>
   
 
   <!-- §06 BU HAFTA (ekonomik takvim — ForexFactory / calendar.json) -->
-  <div class="section-header" style="margin-top:44px"><div class="section-title"><span class="num">§ 06</span>Bu hafta</div><div class="section-meta"><a href="/tr/takvim.html">Tam hafta →</a> · <span class="muted">Güncellendi: 15 Kas 2026, 13:35 CET</span></div></div>
+  <div class="sec-h sm rv"><span class="mono">§ 06</span><h2><span class="ln"><span>Bu hafta</span></span></h2><span class="meta mono"><a href="/tr/takvim.html">Tam hafta →</a> · <span class="muted">Güncellendi: 15 Kas 2026, 13:35 CET</span></span></div>
   
-  <table class="dtable">
+  <div class="dt-wrap rv"><table class="dt dtable">
     <thead><tr><th>Tarih</th><th>Saat (CET)</th><th>Olay</th><th>Ülke</th><th>Önceki</th><th>Beklenti</th><th>Gerçekleşen</th></tr></thead>
     <tbody><tr class="cal-row"><td class="mono">Pzt</td><td class="mono">18:00</td><td><span class="impact high"></span><strong>Fed Chairman Warsh Speaks ⭐</strong></td><td>🇺🇸 USD</td><td class="mono">—</td><td class="mono">—</td><td class="mono">—</td></tr>
       <tr class="cal-row"><td class="mono">Sal</td><td class="mono">14:30</td><td><span class="impact high"></span><strong>Core Retail Sales m/m ⭐</strong></td><td>🇺🇸 USD</td><td class="mono">0.9%</td><td class="mono">0.4%</td><td class="mono">—</td></tr>
@@ -151,7 +163,7 @@
       <tr class="cal-row"><td class="mono">Cum</td><td class="mono">09:15</td><td><span class="impact med"></span>ECB President Lagarde Speaks</td><td>🇪🇺 EUR</td><td class="mono">—</td><td class="mono">—</td><td class="mono">—</td></tr>
       <tr class="cal-row"><td class="mono">Cum</td><td class="mono">14:25</td><td><span class="impact med"></span>FOMC Member Waller Speaks</td><td>🇺🇸 USD</td><td class="mono">—</td><td class="mono">—</td><td class="mono">—</td></tr>
       <tr class="cal-row"><td class="mono">Cum</td><td class="mono">16:00</td><td><span class="impact med"></span>Revised UoM Consumer Sentiment</td><td>🇺🇸 USD</td><td class="mono">51</td><td class="mono">52.1</td><td class="mono">—</td></tr></tbody>
-  </table>
+  </table></div>
   
 
   <!-- KAPANIŞ -->
@@ -159,57 +171,42 @@
 </div>
 
 <!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div>
-        <div class="footer-brand-title">NO<span style="color:var(--amber)">/</span>CASHFLOW</div>
-        <p class="footer-brand-desc">Bağımsız makro &amp; piyasa, her gün yayımlanır. Kaynaklı veri, uydurma yok.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Sayfalar</h4>
-        <ul>
-          <li><a href="/tr/">Ana Sayfa</a></li>
-          <li><a href="/tr/yazilar.html">Yazılar</a></li>
-          <li><a href="/tr/macro.html">Makro</a></li>
-          <li><a href="/tr/simdi/">Canlı Göstergeler</a></li>
-          <li><a href="/tr/takvim.html">Ekonomik Takvim</a></li>
-          <li><a href="/tr/dashboard.html">Panel</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>İçerik</h4>
-        <ul>
-          <li><a href="/tr/bulletin_page.html">Bülten</a></li>
-          <li><a href="/tr/arsiv.html">Arşiv</a></li>
-          <li><a href="/tr/embed.html">Widget Göm</a></li>
-          <li><a href="/tr/hakkinda.html">Hakkında</a></li>
-          <li><a href="/tr/sozluk.html">Sözlük</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Sosyal</h4>
-        <ul>
-          <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
-          <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
-          <li><a href="/feed-tr.xml">RSS</a></li>
-          <li><a href="mailto:orkun@nocashflow.net">E-posta</a></li>
-        </ul>
-      </div>
+<footer class="lq-foot">
+  <div class="lq-fgrid">
+    <div class="lq-fbrand">
+      <p>Bağımsız makro &amp; piyasa, her gün yayımlanır. Kaynaklı veri, uydurma yok.</p>
+      <div class="mood-line"><span class="mood-dot"></span>Bugün piyasa korkuyor — Fear &amp; Greed 10/100.</div>
     </div>
-    <div class="footer-bot">
-      <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona</span>
-      <span><a href="/tr/hakkinda.html">Hakkında</a> · <a href="/tr/bulletin_page.html">Abone Ol</a></span>
-    </div>
-    <div class="mood-line"><span class="mood-dot"></span>Bugün piyasa korkuyor — Fear &amp; Greed 10/100.</div>
-    <div class="disclaimer">
-      Bu site yalnızca bilgilendirme amaçlıdır ve yatırım tavsiyesi içermez.<br/>
-      <a href="/tr/privacy.html">Gizlilik</a> · <a href="/tr/legal.html">Yasal Bildirim</a> · <a href="/tr/disclaimer.html">Feragatname</a>
-    </div>
+    <div class="lq-fcol"><h4 class="mono">Sayfalar</h4><ul>
+      <li><a href="/tr/">Ana Sayfa</a></li>
+      <li><a href="/tr/yazilar.html">Yazılar</a></li>
+      <li><a href="/tr/macro.html">Makro</a></li>
+      <li><a href="/tr/simdi/">Canlı Göstergeler</a></li>
+      <li><a href="/tr/takvim.html">Ekonomik Takvim</a></li>
+      <li><a href="/tr/dashboard.html">Panel</a></li>
+    </ul></div>
+    <div class="lq-fcol"><h4 class="mono">İçerik</h4><ul>
+      <li><a href="/tr/bulletin_page.html">Bülten</a></li>
+      <li><a href="/tr/arsiv.html">Arşiv</a></li>
+      <li><a href="/tr/embed.html">Widget Göm</a></li>
+      <li><a href="/tr/hakkinda.html">Hakkında</a></li>
+      <li><a href="/tr/sozluk.html">Sözlük</a></li>
+    </ul></div>
+    <div class="lq-fcol"><h4 class="mono">Sosyal</h4><ul>
+      <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
+      <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="/feed-tr.xml">RSS</a></li>
+      <li><a href="mailto:orkun@nocashflow.net">E-posta</a></li>
+    </ul></div>
+  </div>
+  <div class="wm rv" aria-hidden="true"><span style="--i:0">N</span><span style="--i:1">O</span><span style="--i:2" class=s>/</span><span style="--i:3">C</span><span style="--i:4">A</span><span style="--i:5">S</span><span style="--i:6">H</span><span style="--i:7">F</span><span style="--i:8">L</span><span style="--i:9">O</span><span style="--i:10">W</span></div>
+  <div class="foot mono">
+    <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona · Bu site yalnızca bilgilendirme amaçlıdır ve yatırım tavsiyesi içermez.</span>
+    <span><a href="/tr/privacy.html">Gizlilik</a> · <a href="/tr/legal.html">Yasal Bildirim</a> · <a href="/tr/disclaimer.html">Feragatname</a></span>
   </div>
 </footer>
 
-<script src="/app.js?v=mx2"></script>
+<script src="/app.js?v=lq3"></script>
 <script>
   /* Macro "the regime" page is build-time rendered from data/macro2.json +
      macro-notes.json (server-side, see build.py inject_macro2). The two SVGs
@@ -219,5 +216,6 @@
   window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'], market: false });
 </script>
 <script>document.querySelectorAll('[data-set-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',a.getAttribute('data-set-lang'));}catch(e){}});});</script>
+<script src="/liquid.js?v=3"></script>
 </body>
 </html>
