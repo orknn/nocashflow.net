@@ -1,6 +1,6 @@
 # NoCashFlow — "Liquid" yeniden tasarım planı
 
-Durum (2026-11-16): **Faz 0–7 tamam** (`feat-liquid`). `embed` widget'ı dışında bütün sayfalar (EN+TR) Liquid'de. Sıradaki: **Faz 8** (yayın — yalnızca kullanıcı onayıyla). Bölüm 6'daki kararların hepsi 2026-11-15'te kullanıcı tarafından önerildiği gibi onaylandı.
+Durum (2026-11-16): **TAMAMLANDI — Faz 0–8, canlıda** (`feat-liquid`). `embed` widget'ı dışında bütün sayfalar (EN+TR) Liquid'de. Yayın: site `main` `5c1e5019` (CI veri commit'i `1ceaa285` Liquid'i doğruladı), mailer `85b3b9f`+`8d0ed9d`. Bölüm 6'daki kararların hepsi 2026-11-15'te kullanıcı tarafından önerildiği gibi onaylandı.
 
 ## 0. Eski tasarımın yedeği (Broadsheet)
 
@@ -201,7 +201,8 @@ Doğrulandı: üç demo 1440 ve 390'da yatay taşma 0, JS hatası yok; okuma say
 - Lighthouse (performans, erişilebilirlik), kontrast (`--mute` zemin üzerinde AA), JS kapalı görünüm, reduced-motion.
 - Eski CSS (`site.css`, `components.css`, `broadsheet.css`) artık yüklenmiyorsa silinir; `finance-eng.css` kalır.
 
-### Faz 8 — Yayın `[OPUS]`, kullanıcı onayıyla
+### Faz 8 — Yayın `[OPUS]`, kullanıcı onayıyla ✅
+**2026-11-16, kullanıcı onayıyla yapıldı:** 116 dosya `feat-liquid`'den `main`'e (demos/ ve bu plan hariç), `macro.css` silindi, build, push `5c1e5019`. Canlı: 6 sayfa × 2 genişlik JS hatası/taşma yok; abonelik formu POST `{"email","lang","hp"}` Worker'a gidiyor (test isteği yakalandı, gönderilmedi). `data.yml` elle tetiklendi → CI taze veriyle Liquid üretti. Mailer: `CRIMSON="#FF4B26"`, buton yazısı INK (`85b3b9f`); o commit yanlışlıkla `out/*.html` silmişti → `8d0ed9d` ile geri yüklendi, net fark yalnız 2 satır.
 - Merge değil: kaynak dosyalar `main`'e `git checkout feat-liquid -- <dosyalar>` ile alınır, fetcher'lar + `build.py` taze veriyle çalıştırılır, commit, push.
 - CI botu üretilmiş HTML'leri de commit'lediği için çakışma normal: rebase + yeniden build.
 - Canlı doğrulama: ana sayfa, bir makale, macro, dashboard, `/tr/`, abonelik formu.
