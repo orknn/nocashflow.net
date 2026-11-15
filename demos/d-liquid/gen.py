@@ -136,6 +136,15 @@ def chart(vals, lo, hi, yfmt, xlabels=None, label_all=False, vfmt="{:.2f}", smoo
             f'{yl}{xl}{dots}</div>')
 
 
+def terrain(vals, labels, fallback, pre="", suf="%", dec=2, key=False):
+    """Terrain canvas (liquid.js) with the plain line chart as the no-JS fallback."""
+    import html as _h, json as _j
+    pts = _h.escape(_j.dumps([{"l": l, "v": v} for l, v in zip(labels, vals)], separators=(",", ":")), quote=True)
+    lab = ' data-labels="key"' if key else ""
+    return (f'<div class="tr"><canvas data-curve="{pts}" data-pre="{pre}" data-suf="{suf}" data-dec="{dec}"'
+            f'{lab} aria-hidden="true"></canvas>{fallback}</div>')
+
+
 def spark(vals, up):
     lo, hi = min(vals), max(vals)
     pts = " L".join(f"{i / (len(vals) - 1) * 100:.1f} {28 - (v - lo) / ((hi - lo) or 1) * 26:.1f}" for i, v in enumerate(vals))
@@ -175,9 +184,13 @@ def data():
 
     liq = M["liquidity"]
     liq_chart = chart(liq["net_liq_series"], liq["y_min"], liq["y_max"], "${:.1f}T", vfmt="${:.2f}T")
+    ls = liq["net_liq_series"]
+    liq_chart = terrain(ls, [""] * len(ls), liq_chart, pre="$", suf="T", key=True)
     cv = M["rates"]["curve"]
     ys = [c["y"] for c in cv]
     curve_chart = chart(ys, min(ys) - .2, max(ys) + .2, "{:.1f}%", [c["tenor"] for c in cv], True, "{:.2f}", True)
+
+    curve_chart = terrain(ys, [c["tenor"] for c in cv], curve_chart)
 
     rows, prev = [], None
     for e in B.CALENDAR.get("events", [])[:B.CAL_MAX_ROWS]:

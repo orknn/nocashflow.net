@@ -162,31 +162,41 @@
     ['pointerup', 'pointercancel'].forEach(function (ev) { s.addEventListener(ev, function () { down = 0; s.classList.remove('drag'); }); });
   });
 
-  /* ── stage: real yield curve drawn as a living terrain ───────────────── */
-  $$('.stage canvas[data-curve]').forEach(function (cv) {
+  /* ── terrain: a real series drawn as a living landscape ──────────────────
+     .stage canvas[data-curve]   the home hero (yield curve, every point labelled)
+     .panel canvas[data-curve]   compact chart on data pages. Options:
+        data-pre / data-suf / data-dec   value format (default "", "%", 2)
+        data-labels="key"                label first/last/high/low only; the
+                                         pointer reads any other point          */
+  $$('.stage canvas[data-curve], .panel canvas[data-curve]').forEach(function (cv) {
     var pts;
     try { pts = JSON.parse(cv.getAttribute('data-curve')); } catch (e) { return; }
     if (!pts || pts.length < 2) return;
-    var ctx = cv.getContext('2d'), stage = cv.closest('.stage');
+    var ctx = cv.getContext('2d'), stage = cv.closest('.stage,.panel'), compact = stage.classList.contains('panel');
+    var pre = cv.getAttribute('data-pre') || '', suf = cv.hasAttribute('data-suf') ? cv.getAttribute('data-suf') : '%';
+    var dec = cv.hasAttribute('data-dec') ? +cv.getAttribute('data-dec') : 2, keyOnly = cv.getAttribute('data-labels') === 'key';
+    function fmt(v) { return pre + v.toFixed(dec) + suf; }
     var C = pts.map(function (p) { return +p.v; }), T = pts.map(function (p) { return p.l; }), n = C.length - 1;
     var lo = Math.min.apply(null, C), hi = Math.max.apply(null, C), span = (hi - lo) || 1;
     function yAt(t) { // Catmull-Rom through the real tenor points
       var f = Math.min(n - 1e-6, Math.max(0, t * n)), i = Math.floor(f), u = f - i;
       var a = C[Math.max(0, i - 1)], b = C[i], c = C[i + 1], dd = C[Math.min(n, i + 2)];
-      return 0.5 * (2 * b + (c - a) * u + (2 * a - 5 * b + 4 * c - dd) * u * u + (3 * b - a - 3 * c + dd) * u * u * u);
+      var cr = 0.5 * (2 * b + (c - a) * u + (2 * a - 5 * b + 4 * c - dd) * u * u + (3 * b - a - 3 * c + dd) * u * u * u);
+      return keyOnly ? cr * 0.4 + (b + (c - b) * u) * 0.6 : cr;   // long series: stay close to the straight segments (no invented peaks)
     }
     function N(t) { return (yAt(t) - lo) / span; }
     var mood = (getComputedStyle(stage).getPropertyValue('--mood') || '#6FB2FF').trim();
     var mc = /^#[0-9a-f]{6}$/i.test(mood) ? [1, 3, 5].map(function (i) { return parseInt(mood.slice(i, i + 2), 16); }) : [111, 178, 255];
-    var W = 0, H = 0, mx = 0.5, my = 0.5, hov = 0, hovT = 0, vis = true, frozen = RM || STATIC;
+    var W = 0, H = 0, mx = 0.5, my = 0.5, hov = 0, hovT = 0, vis = true, frozen = RM || STATIC, born = 0;
+    var iHi = C.indexOf(hi), iLo = C.indexOf(lo);
     function size() { var dpr = Math.min(2, devicePixelRatio || 1); W = cv.clientWidth; H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); if (frozen) draw(3000); }
     if ('ResizeObserver' in window) new ResizeObserver(size).observe(cv); else addEventListener('resize', size);
     if (!frozen) {
       stage.addEventListener('mousemove', function (e) { var r = cv.getBoundingClientRect(); mx = (e.clientX - r.left) / r.width; my = (e.clientY - r.top) / r.height; hovT = 1; });
       stage.addEventListener('mouseleave', function () { hovT = 0; });
     }
-    if ('IntersectionObserver' in window) new IntersectionObserver(function (e) { vis = e[0].isIntersecting; }).observe(cv);
-    var LAY = 34, STEP = 110, parts = [];
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (e) { vis = e[0].isIntersecting; }, { threshold: compact ? 0.25 : 0 }).observe(cv);
+    var LAY = compact ? 24 : 34, STEP = 110, parts = [];
     for (var q = 0; q < 26; q++) parts.push({ t: Math.random(), s: 0.0006 + Math.random() * 0.0012 });
     var monoFont = '"Geist Mono",ui-monospace,monospace';
 
@@ -194,12 +204,20 @@
       var t = frozen ? 3 : ms / 1000; hov += (hovT - hov) * 0.06;
       ctx.clearRect(0, 0, W, H);
       var small = W < 700, padX = W * (small ? 0.14 : 0.09), frontY = H * (small ? 0.74 : 0.76), depthH = H * 0.44, ampF = H * (small ? 0.2 : 0.27);
+      var px = mx;
+      if (compact) {                       // tighter box; the range rises out of the floor the first time it is seen
+        small = W < 520; padX = W * (small ? 0.13 : 0.1); frontY = H * 0.8; depthH = H * 0.4;
+        if (!born && !frozen) born = ms || 1;
+        var g0 = frozen ? 1 : Math.min(1, (ms - born) / 1600); g0 = 1 - Math.pow(1 - g0, 4);
+        ampF = H * 0.5 * g0;
+        px = Math.max(0, Math.min(1, (mx * W - padX) / (W - 2 * padX)));
+      }
       var dm = Math.max(0, Math.min(1, (frontY - my * H) / depthH));
       function geom(dd) { return { l: padX + dd * W * 0.13, r: W - padX - dd * W * 0.13, by: frontY - dd * depthH, amp: ampF * (1 - dd * 0.5) }; }
       function pt(i, s) {
         var dd = i / (LAY - 1), g = geom(dd);
         var wave = Math.sin(s * 5.2 + t * 0.7 + i * 0.33) * 0.075 * dd + Math.sin(s * 11 - t * 0.45 + i * 0.9) * 0.03 * dd;
-        var bump = Math.exp(-Math.pow(s - mx, 2) / 0.006) * Math.exp(-Math.pow(dd - dm, 2) / 0.03) * 0.2 * hov;
+        var bump = Math.exp(-Math.pow(s - px, 2) / 0.006) * Math.exp(-Math.pow(dd - dm, 2) / 0.03) * 0.2 * hov;
         return [g.l + (g.r - g.l) * s, g.by - (N(s) + wave + bump) * g.amp];
       }
       function path(i) { ctx.beginPath(); for (var k = 0; k <= STEP; k++) { var p = pt(i, k / STEP); if (k) ctx.lineTo(p[0], p[1]); else ctx.moveTo(p[0], p[1]); } }
@@ -218,12 +236,29 @@
       });
       ctx.textAlign = 'center';
       C.forEach(function (v, i) {
-        var s = i / n, w = pt(0, s), near = hov * Math.exp(-Math.pow(s - mx, 2) / 0.004);
+        var s = i / n, w = pt(0, s), near = hov * Math.exp(-Math.pow(s - px, 2) / 0.004);
+        if (keyOnly) {
+          var key = i === 0 || i === n || i === iHi || i === iLo, on = hov > 0.05 && i === Math.round(px * n);
+          if (on && !key && [0, n, iHi, iLo].some(function (k) { return Math.abs(k - i) / n * (W - 2 * padX) < 56; })) on = false;
+          if (!key && !on) return;
+          var below = i === iLo && i !== n && i !== 0;
+          var al = key ? 1 : hov, lastP = i === n;
+          ctx.globalAlpha = al;
+          if (on && !key) { ctx.strokeStyle = 'rgba(236,234,227,.22)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(w[0], w[1] + 8); ctx.lineTo(w[0], frontY + 10); ctx.stroke(); }
+          ctx.fillStyle = lastP ? '#FF4B26' : '#0B0C0F'; ctx.strokeStyle = lastP ? '#FF4B26' : '#ECEAE3'; ctx.lineWidth = 1.5;
+          ctx.beginPath(); ctx.arc(w[0], w[1], (lastP ? 4.5 : 3.5) + (on ? 2.5 : 0), 0, 7); ctx.fill(); ctx.stroke();
+          ctx.textAlign = i === 0 ? 'left' : lastP ? 'right' : 'center';
+          ctx.font = '500 ' + (on || lastP ? 13 : 11.5) + 'px ' + monoFont; ctx.fillStyle = lastP || on ? '#ECEAE3' : 'rgba(236,234,227,.62)';
+          ctx.fillText(fmt(v), w[0] + (i === 0 ? -4 : lastP ? 6 : 0), w[1] + (below ? 24 : -14));
+          if (T[i]) { ctx.font = '400 10.5px ' + monoFont; ctx.fillStyle = 'rgba(236,234,227,.5)'; ctx.fillText(T[i], w[0] + (i === 0 ? -4 : lastP ? 6 : 0), frontY + 28); }
+          ctx.globalAlpha = 1; ctx.textAlign = 'center';
+          return;
+        }
         ctx.fillStyle = '#0B0C0F'; ctx.strokeStyle = '#ECEAE3'; ctx.lineWidth = 1.5;
         ctx.beginPath(); ctx.arc(w[0], w[1], 4 + near * 4, 0, 7); ctx.fill(); ctx.stroke();
         if (small && i % 2) return;
         ctx.font = '500 ' + (small ? 11 : 13 + near * 5) + 'px ' + monoFont; ctx.fillStyle = '#ECEAE3';
-        ctx.fillText(v.toFixed(2) + '%', w[0], w[1] - 16 - near * 8);
+        ctx.fillText(compact ? fmt(v) : v.toFixed(2) + '%', w[0], w[1] - 16 - near * 8);
         ctx.font = '400 10.5px ' + monoFont; ctx.fillStyle = 'rgba(236,234,227,.5)';
         ctx.fillText(T[i], w[0], w[1] + 24);
       });

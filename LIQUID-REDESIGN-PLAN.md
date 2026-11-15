@@ -1,6 +1,6 @@
 # NoCashFlow — "Liquid" yeniden tasarım planı
 
-Durum (2026-11-15): **Faz 0–4 tamam** (`feat-liquid`). Ana sayfa (EN+TR) Liquid'de, diğer sayfalar Broadsheet; yazı ve veri sayfalarının tasarımı demo olarak hazır. Sıradaki: **Faz 5 `[OPUS]`**. Bölüm 6'daki kararlar kullanıcı cevabını bekliyor (cevap gelene kadar varsayılanlar geçerli).
+Durum (2026-11-15): **Faz 0–4 tamam** (`feat-liquid`). Ana sayfa (EN+TR) Liquid'de, diğer sayfalar Broadsheet; yazı ve veri sayfalarının tasarımı demo olarak hazır. Sıradaki: **Faz 5 `[OPUS]`**. Bölüm 6'daki kararların hepsi 2026-11-15'te kullanıcı tarafından önerildiği gibi onaylandı.
 
 ## 0. Eski tasarımın yedeği (Broadsheet)
 
@@ -135,6 +135,13 @@ Demolar (`demos/d-liquid/`, hepsi `python3 demos/d-liquid/gen.py` ile gerçek i�
 - `data.html`: macro sayfasının tamamı (`MACRO2`, `CALENDAR`, metinler `content/en/macro.html`'den) + altında dashboard bileşen sayfası (`data/markets.json`).
 
 Yeni dosyalar ve rolleri:
+**Grafik kuralı (kullanıcı isteği, 2026-11-15):** kullanıcı ana sayfadaki arazi grafiğini çok beğendi ve "grafiklerin bu şekilde olmasını" istedi. Koyu paneldeki her çizgi grafik artık arazi olarak çizilir:
+- İşaretleme: `<div class="tr"><canvas data-curve='[{"l","v"}…]' data-pre data-suf data-dec [data-labels="key"]></canvas> + .ch yedeği</div>` (`gen.py: terrain()`). `liquid.js` aynı çiziciyi `.stage` ve `.panel` için kullanır.
+- Az noktalı seri (getiri eğrisi): her nokta etiketli. Uzun seri (net likidite): `data-labels="key"` ile yalnızca ilk/son/en yüksek/en düşük etiketlenir, fare diğer noktaları okur.
+- Uzun seride eğri düz parçalara yakın tutulur (veride olmayan tepe üretilmez). İlk görünüşte sırt yerden yükselir.
+- JS kapalıyken canvas gizlenir, aynı kutudaki `.ch` SVG çizgi grafiği görünür.
+- Faz 6'da `/now/` gösterge grafikleri ve `pulse_chart` da bu bileşene geçer. Küçük kutulardaki sparkline'lar ve ısı haritası olduğu gibi kalır.
+
 | Dosya | İçerik |
 |---|---|
 | `inner.css` | İç sayfa başlığı `.p-hero/.p-meta/.p-title/.p-sub/.p-dek/.p-aside`, küçük bölüm başlığı `.sec-h.sm`, `.sec.tight`, link `.lk` |
@@ -171,6 +178,11 @@ Doğrulandı: üç demo 1440 ve 390'da yatay taşma 0, JS hatası yok; okuma say
 - TR sayfalarda rejim şeridi etiketleri ve "Extreme Fear" İngilizce kalıyor (mevcut sitede de öyle); metin değişikliği sayıldığı için dokunulmadı, kullanıcıya soruldu.
 - `embed.html` widget'ı ve bülten HTML'leri (`bulletins/`) kapsam dışı.
 
+### Faz 6b — Onaylanan küçük işler `[OPUS]`
+- Karar #4: vurgu rengi `#B3122B` → `#FF4B26` sosyal kartlarda (`scripts/make_article_card.py`), watermark'ta, makale mailinde (`send_article.py`) ve makale figürlerinde.
+- Karar #7: TR sayfalarda İngilizce kalan rejim şeridi etiketleri ve "Extreme Fear" Türkçeleştirilir.
+- Karar #1: After Hours koyu modu Liquid'e eklenir (bone ↔ ink, `--hot` aynı).
+
 ### Faz 7 — Kalite turu `[OPUS]`
 - Her sayfa tipi × 2 dil × 3 genişlik ekran görüntüsü.
 - Önce/sonra diff: URL listesi, `sitemap.xml`, `feed-*.xml`, her sayfanın `<link rel=canonical|alternate>` ve JSON-LD'si.
@@ -183,7 +195,7 @@ Doğrulandı: üç demo 1440 ve 390'da yatay taşma 0, JS hatası yok; okuma say
 - Canlı doğrulama: ana sayfa, bir makale, macro, dashboard, `/tr/`, abonelik formu.
 - Geri dönüş: `backup/pre-liquid`.
 
-## 6. Açık kararlar (kullanıcıya soruldu, cevap bekleniyor)
+## 6. Kararlar (2026-11-15: kullanıcı hepsini öneri sütunundaki gibi onayladı)
 
 | # | Karar | Varsayılan öneri |
 |---|---|---|
