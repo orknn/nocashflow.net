@@ -38,12 +38,17 @@
     el._lqs = 1;
     var fin = el.textContent, t0 = performance.now(), dur = 900 + Math.random() * 500;
     if (!/\d/.test(fin)) return;
+    var last = fin;
     (function f(t) {
+      // app.js may repaint a live price mid-scramble: if the text is no longer
+      // what we wrote, the new value wins and the effect stops.
+      if (el.textContent !== last) return;
       var p = Math.min(1, (t - t0) / dur), keep = Math.floor(p * fin.length);
-      el.textContent = fin.split('').map(function (c, i) {
+      last = p < 1 ? fin.split('').map(function (c, i) {
         return i < keep || !/\d/.test(c) ? c : Math.floor(Math.random() * 10);
-      }).join('');
-      if (p < 1) requestAnimationFrame(f); else el.textContent = fin;
+      }).join('') : fin;
+      el.textContent = last;
+      if (p < 1) requestAnimationFrame(f);
     })(t0);
   }
 
@@ -72,6 +77,19 @@
       if (el.hasAttribute('data-rv-now')) requestAnimationFrame(function () { reveal(el); });
       else io.observe(el);
     });
+  }
+
+  /* ── article reading rail: [data-lq-read] tracks .article-prose ──────── */
+  var rail = $('[data-lq-read]'), prose = $('.article-prose');
+  if (rail && prose) {
+    var pct = $('[data-read-pct]', rail);
+    var onRead = function () {
+      var r = prose.getBoundingClientRect(), span = r.height - innerHeight * 0.55;
+      var v = span > 0 ? Math.max(0, Math.min(1, (innerHeight * 0.45 - r.top) / span)) : 1;
+      rail.style.setProperty('--rp', v.toFixed(3));
+      if (pct) pct.textContent = Math.round(v * 100);
+    };
+    addEventListener('scroll', onRead, { passive: true }); addEventListener('resize', onRead); onRead();
   }
 
   /* ── clock (real UTC) ────────────────────────────────────────────────── */

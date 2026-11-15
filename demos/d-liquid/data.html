@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>document.documentElement.classList.add('js')</script>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Macro — Liquid demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../liquid.css">
+<link rel="stylesheet" href="inner.css">
+<link rel="stylesheet" href="data.css">
+</head>
+<body data-mood="fear" class="lq">
+<div class="progress" aria-hidden="true"></div>
+
+<!-- NAV -->
+<nav class="nav" aria-label="Main">
+  <a class="logo" href="/" aria-label="NoCashFlow — Home">NO<i>/</i>CASHFLOW</a>
+  <div class="nav-links">
+    <a href="/articles.html"><span>Articles</span></a>
+    <a href="/macro.html" aria-current="page"><span>Macro</span></a>
+    <a href="/calendar.html"><span>Calendar</span></a>
+    <a href="/dashboard.html"><span>Dashboard</span></a>
+    <a href="/bulletin_page.html"><span>Bulletin</span></a>
+    <a href="/finance-engineering.html"><span>Finance Engineering</span></a>
+    <a href="/about.html"><span>About</span></a>
+  </div>
+  <span class="clock mono" data-lq-clock>—</span>
+  <a class="nav-lang mono" href="/tr/macro.html" data-set-lang="tr" aria-label="Türkçe'ye geç">TR</a>
+  <a class="btn" href="/bulletin_page.html" data-magnet><span>Subscribe</span><span class="ar" aria-hidden="true">→</span></a>
+  <button class="nav-menu mono" type="button" aria-expanded="false" aria-controls="lq-menu" data-open="Menu" data-close="Close">Menu</button>
+</nav>
+<div class="lq-menu" id="lq-menu" hidden>
+  <nav aria-label="Main">
+    <ol>
+      <li><a href="/" style="--i:0"><span class="n mono">01</span><span class="t">Home</span></a></li>
+      <li><a href="/articles.html" style="--i:1"><span class="n mono">02</span><span class="t">Articles</span></a></li>
+      <li><a href="/macro.html" aria-current="page" style="--i:2"><span class="n mono">03</span><span class="t">Macro</span></a></li>
+      <li><a href="/calendar.html" style="--i:3"><span class="n mono">04</span><span class="t">Calendar</span></a></li>
+      <li><a href="/dashboard.html" style="--i:4"><span class="n mono">05</span><span class="t">Dashboard</span></a></li>
+      <li><a href="/bulletin_page.html" style="--i:5"><span class="n mono">06</span><span class="t">Bulletin</span></a></li>
+      <li><a href="/finance-engineering.html" style="--i:6"><span class="n mono">07</span><span class="t">Finance Engineering</span></a></li>
+      <li><a href="/about.html" style="--i:7"><span class="n mono">08</span><span class="t">About</span></a></li>
+    </ol>
+  </nav>
+  <div class="lq-menu-foot mono">
+    <a href="/tr/macro.html" data-set-lang="tr" aria-label="Türkçe'ye geç">Türkçe →</a>
+    <span data-lq-clock>—</span>
+  </div>
+</div>
+
+
+<div class="lq-tape mono" role="region" aria-label="Market board">
+  <span class="lq-tape-k"><b class="dot"></b>Market board</span>
+  <span class="lq-tape-i"><b>BTC</b><span data-px="btc">$65,448</span><span class="c dn" data-chg="btc">-2.53%</span></span>
+  <span class="lq-tape-i"><b>S&amp;P 500</b><span data-px="spx">7,562</span><span class="c dn" data-chg="spx">-0.40%</span></span>
+  <span class="lq-tape-i"><b>US 10Y</b><span data-px="us10y">5.15%</span><span class="c up" data-chg="us10y">+1.00%</span></span>
+  <span class="lq-tape-i"><b>DXY</b><span data-px="dxy">103.41</span><span class="c up" data-chg="dxy">+0.23%</span></span>
+  <span class="lq-tape-i"><b>Gold</b><span data-px="gold">$3886</span><span class="c up" data-chg="gold">+0.03%</span></span>
+  <span class="lq-tape-i"><b>Brent</b><span data-px="brent">$95.8</span><span class="c up" data-chg="brent">+0.02%</span></span>
+  <span class="lq-tape-i"><b>VIX</b><span data-px="vix">19.30</span><span class="c dn" data-chg="vix">+3.21%</span></span>
+  <span class="lq-tape-i"><b>ETH</b><span data-px="eth">$1,830</span><span class="c dn" data-chg="eth">-3.95%</span></span>
+</div>
+
+
+<header class="p-hero rv" data-rv-now>
+  <div class="p-meta mono fade"><span><b>Macro</b> · The Regime</span></div>
+  <h1 class="p-title"><span class="ln"><span>Where the economy</span></span><span class="ln" style="--i:1"><span><em>actually</em> stands.</span></span></h1>
+  <div class="p-sub">
+    <p class="p-dek fade" style="--i:4">Not a price board — the readings that set the regime. Inflation, the Fed, liquidity and the curve, each with the read that matters. Updated as the data prints.</p>
+    <div class="p-aside mono fade" style="--i:5">Updated<br>Sun, 15 Nov 2026 · 12:37 UTC</div>
+  </div>
+</header>
+
+<section class="sec tight nt"><div class="regime rv"><div class="rg fade" style="--i:0"><span class="k mono">Fed Funds</span><div><div class="v" data-scr>3.75–4.00</div><div class="d mono">held</div></div></div><div class="rg fade" style="--i:1"><span class="k mono">Next FOMC</span><div><div class="v" data-scr>Dec 9</div><div class="d mono">24d</div></div></div><div class="rg fade" style="--i:2"><span class="k mono">Core CPI</span><div><div class="v" data-scr>2.9%</div><div class="d mono">core</div></div></div><div class="rg fade" style="--i:3"><span class="k mono">US 10Y</span><div><div class="v" data-scr>5.10</div><div class="d mono">&nbsp;</div></div></div><div class="rg fade" style="--i:4"><span class="k mono">2s10s</span><div><div class="v" data-scr>+27</div><div class="d mono">steepening</div></div></div><div class="rg fade" style="--i:5"><span class="k mono">DXY</span><div><div class="v" data-scr>103.41</div><div class="d mono">&nbsp;</div></div></div><div class="rg fade" style="--i:6"><span class="k mono">F&amp;G</span><div><div class="v" data-scr>10</div><div class="d mono">Extreme Fear</div></div></div></div></section>
+
+<section class="sec tight">
+  <div class="sec-h sm rv"><span class="mono">§ 01</span><h2><span class="ln"><span>Inflation &amp; <em>prices</em></span></span></h2><span class="meta mono">FRED · last print</span></div>
+  <div class="kpis rv"><div class="kpi fade" style="--i:0"><div class="lab">Headline CPI · YoY</div><div><div class="big" data-scr>4.1%</div><div class="sub neu">→ from 4.1%</div></div></div><div class="kpi fade" style="--i:1"><div class="lab">Core CPI · YoY</div><div><div class="big" data-scr>2.9%</div><div class="sub neu">→ from 2.9%</div></div></div><div class="kpi fade" style="--i:2"><div class="lab">Core PCE · YoY</div><div><div class="big" data-scr>3.1%</div><div class="sub neu">→ from 3.1%</div></div></div><div class="kpi fade" style="--i:3"><div class="lab">5y5y Breakeven</div><div><div class="big" data-scr>2.18%</div><div class="sub neu">→ +0bp</div></div></div></div>
+</section>
+
+<section class="sec tight">
+  <div class="sec-h sm rv"><span class="mono">§ 02</span><h2><span class="ln"><span>Fed &amp; <em>policy</em></span></span></h2><span class="meta mono">prediction-market implied</span></div>
+  <div class="split rv">
+    <div class="panel"><h4>Rate-cut odds — next FOMC meetings</h4><div class="cap">Polymarket · probability of a cut at each meeting</div><div class="odds"><div class="odd"><span class="mono">Dec 9</span><span class="bar"><i data-w="22.0" style="--w:22.0%"></i></span><span class="p">2.2%</span><span class="mv">▼ from 2.6%</span></div><div class="odd"><span class="mono">Jan 27</span><span class="bar"><i data-w="79.0" style="--w:79.0%"></i></span><span class="p">7.9%</span><span class="mv">▼ from 8.5%</span></div></div></div>
+    <div class="kpis c2 rv"><div class="kpi fade" style="--i:0"><div class="lab">Target range</div><div><div class="big" data-scr>3.75–4.00</div><div class="sub neu">held 4 mtgs</div></div></div><div class="kpi fade" style="--i:1"><div class="lab">Balance sheet</div><div><div class="big" data-scr>$6.8T</div><div class="sub down">▼ QT ongoing</div></div></div><div class="kpi fade" style="--i:2"><div class="lab">Reverse repo</div><div><div class="big" data-scr>$325M</div><div class="sub down">▼ draining</div></div></div><div class="kpi fade" style="--i:3"><div class="lab">Dot plot '26</div><div><div class="big" data-scr>4.10%</div><div class="sub neu">2026 median</div></div></div></div>
+  </div>
+</section>
+
+<section class="sec tight">
+  <div class="sec-h sm rv"><span class="mono">§ 03</span><h2><span class="ln"><span><em>Liquidity</em></span></span></h2><span class="meta mono">the tide under every risk asset</span></div>
+  <div class="split rv">
+    <div class="panel"><h4>Net liquidity — Fed balance sheet − TGA − RRP</h4><div class="cap">weekly · USD trn</div><div class="ch"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="lq-area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(255,75,38,.28)"/><stop offset="1" stop-color="rgba(255,75,38,0)"/></linearGradient></defs><line class="grid" x1="0" x2="100" y1="0" y2="0"/><line class="grid" x1="0" x2="100" y1="50" y2="50"/><line class="grid" x1="0" x2="100" y1="100" y2="100"/><path class="area" d="M0.00 52.50 L4.00 47.50 L8.00 57.50 L12.00 67.50 L16.00 50.00 L20.00 62.50 L24.00 72.50 L28.00 65.00 L32.00 35.00 L36.00 27.50 L40.00 45.00 L44.00 70.00 L48.00 65.00 L52.00 75.00 L56.00 77.50 L60.00 80.00 L64.00 82.50 L68.00 60.00 L72.00 60.00 L76.00 82.50 L80.00 80.00 L84.00 60.00 L88.00 57.50 L92.00 75.00 L96.00 87.50 L100.00 77.50 L100 100 L0 100 Z"/><path class="line" pathLength="1" d="M0.00 52.50 L4.00 47.50 L8.00 57.50 L12.00 67.50 L16.00 50.00 L20.00 62.50 L24.00 72.50 L28.00 65.00 L32.00 35.00 L36.00 27.50 L40.00 45.00 L44.00 70.00 L48.00 65.00 L52.00 75.00 L56.00 77.50 L60.00 80.00 L64.00 82.50 L68.00 60.00 L72.00 60.00 L76.00 82.50 L80.00 80.00 L84.00 60.00 L88.00 57.50 L92.00 75.00 L96.00 87.50 L100.00 77.50"/></svg><span class="yl" style="top:0%">$6.1T</span><span class="yl" style="top:50%">$5.9T</span><span class="yl" style="top:100%">$5.7T</span><span class="pt last" style="left:100.00%;top:77.50%"></span><span class="vl" style="left:100.00%;top:77.50%">$5.79T</span></div></div>
+    <div class="kpis c2 rv"><div class="kpi fade" style="--i:0"><div class="lab">M2 supply</div><div><div class="big" data-scr>$23.4T</div><div class="sub up">▲ +5.7% YoY</div></div></div><div class="kpi fade" style="--i:1"><div class="lab">Net liquidity</div><div><div class="big" data-scr>$5.79T</div><div class="sub down">▼ -0.2% 3m</div></div></div><div class="kpi fade" style="--i:2"><div class="lab">Stablecoin supply</div><div><div class="big" data-scr>$288B</div><div class="sub up">USDC $69B</div></div></div></div>
+  </div>
+</section>
+
+<section class="sec tight">
+  <div class="sec-h sm rv"><span class="mono">§ 04</span><h2><span class="ln"><span>Growth &amp; <em>labor</em></span></span></h2><span class="meta mono">is the landing soft?</span></div>
+  <div class="kpis rv"><div class="kpi fade" style="--i:0"><div class="lab">Empire State Mfg</div><div><div class="big" data-scr>+25.5</div><div class="sub up">Empire State · NY Fed</div></div></div><div class="kpi fade" style="--i:1"><div class="lab">Nonfarm payrolls</div><div><div class="big" data-scr>+165K</div><div class="sub neu">→ MoM</div></div></div><div class="kpi fade" style="--i:2"><div class="lab">Jobless claims</div><div><div class="big" data-scr>200K</div><div class="sub down">▲ +9K</div></div></div><div class="kpi fade" style="--i:3"><div class="lab">GDPNow · Q2</div><div><div class="big" data-scr>1.9%</div><div class="sub up">Atlanta Fed</div></div></div></div>
+</section>
+
+<section class="sec tight">
+  <div class="sec-h sm rv"><span class="mono">§ 05</span><h2><span class="ln"><span>Rates &amp; <em>the dollar</em></span></span></h2><span class="meta mono">FRED · the curve</span></div>
+  <div class="split rv">
+    <div class="panel"><h4>US Treasury yield curve</h4><div class="cap">tenor vs. yield · the desk's signature read</div><div class="ch"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="lq-area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(255,75,38,.28)"/><stop offset="1" stop-color="rgba(255,75,38,0)"/></linearGradient></defs><line class="grid" x1="0" x2="100" y1="0" y2="0"/><line class="grid" x1="0" x2="100" y1="50" y2="50"/><line class="grid" x1="0" x2="100" y1="100" y2="100"/><path class="area" d="M0.00 88.30 C2.78 86.35 11.11 79.53 16.67 76.61 C22.22 73.68 27.78 76.02 33.33 70.76 C38.89 65.50 44.44 50.19 50.00 45.03 C55.56 39.86 61.11 42.11 66.67 39.77 C72.22 37.43 77.78 35.67 83.33 30.99 C88.89 26.32 97.22 14.91 100.00 11.70 L100 100 L0 100 Z"/><path class="line" pathLength="1" d="M0.00 88.30 C2.78 86.35 11.11 79.53 16.67 76.61 C22.22 73.68 27.78 76.02 33.33 70.76 C38.89 65.50 44.44 50.19 50.00 45.03 C55.56 39.86 61.11 42.11 66.67 39.77 C72.22 37.43 77.78 35.67 83.33 30.99 C88.89 26.32 97.22 14.91 100.00 11.70"/></svg><span class="yl" style="top:0%">5.6%</span><span class="yl" style="top:50%">4.8%</span><span class="yl" style="top:100%">3.9%</span><span class="xl" style="left:0.00%">1M</span><span class="xl" style="left:16.67%">3M</span><span class="xl" style="left:33.33%">6M</span><span class="xl" style="left:50.00%">2Y</span><span class="xl" style="left:66.67%">5Y</span><span class="xl" style="left:83.33%">10Y</span><span class="xl" style="left:100.00%">30Y</span><span class="pt" style="left:0.00%;top:88.30%"></span><span class="vl" style="left:0.00%;top:88.30%">4.12</span><span class="pt" style="left:16.67%;top:76.61%"></span><span class="vl alt" style="left:16.67%;top:76.61%">4.32</span><span class="pt" style="left:33.33%;top:70.76%"></span><span class="vl" style="left:33.33%;top:70.76%">4.42</span><span class="pt" style="left:50.00%;top:45.03%"></span><span class="vl alt" style="left:50.00%;top:45.03%">4.86</span><span class="pt" style="left:66.67%;top:39.77%"></span><span class="vl" style="left:66.67%;top:39.77%">4.95</span><span class="pt" style="left:83.33%;top:30.99%"></span><span class="vl alt" style="left:83.33%;top:30.99%">5.10</span><span class="pt last" style="left:100.00%;top:11.70%"></span><span class="vl" style="left:100.00%;top:11.70%">5.43</span></div></div>
+    <div class="kpis c2 rv"><div class="kpi fade" style="--i:0"><div class="lab">US 2Y</div><div><div class="big" data-scr>4.86</div><div class="sub neu">+0.8%</div></div></div><div class="kpi fade" style="--i:1"><div class="lab">US 10Y</div><div><div class="big" data-scr>5.10</div><div class="sub neu">+1.3%</div></div></div><div class="kpi fade" style="--i:2"><div class="lab">2s10s spread</div><div><div class="big" data-scr>+27bp</div><div class="sub up">steepening</div></div></div><div class="kpi fade" style="--i:3"><div class="lab">HY spread</div><div><div class="big" data-scr>320bp</div><div class="sub neu">→ calm</div></div></div></div>
+  </div>
+</section>
+
+<section class="sec tight">
+  <div class="sec-h sm rv"><span class="mono">§ 06</span><h2><span class="ln"><span>This <em>week</em></span></span></h2><span class="meta mono"><a class="lk" href="/calendar.html">Full week →</a></span></div>
+  <div class="dt-wrap rv"><table class="dt">
+    <thead><tr><th>Day</th><th>Time (CET)</th><th>Event</th><th>Country</th><th class="num">Prev.</th><th class="num">Cons.</th><th class="num">Actual</th></tr></thead>
+    <tbody><tr class=d0><td class="day">Mon</td><td>18:00</td><td class="ev hi"><span class="imp hi"></span>Fed Chairman Warsh Speaks</td><td>🇺🇸 USD</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr><tr class=d0><td class="day">Tue</td><td>14:30</td><td class="ev hi"><span class="imp hi"></span>Core Retail Sales m/m</td><td>🇺🇸 USD</td><td class="num">0.9%</td><td class="num">0.4%</td><td class="num">—</td></tr><tr><td class="day"></td><td>14:30</td><td class="ev hi"><span class="imp hi"></span>Retail Sales m/m</td><td>🇺🇸 USD</td><td class="num">0.8%</td><td class="num">0.2%</td><td class="num">—</td></tr><tr class=d0><td class="day">Wed</td><td>10:00</td><td class="ev"><span class="imp"></span>ECB Financial Stability Review</td><td>🇪🇺 EUR</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr><tr><td class="day"></td><td>15:25</td><td class="ev"><span class="imp"></span>ECB President Lagarde Speaks</td><td>🇪🇺 EUR</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr><tr><td class="day"></td><td>20:00</td><td class="ev hi"><span class="imp hi"></span>FOMC Meeting Minutes</td><td>🇺🇸 USD</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr><tr class=d0><td class="day">Thu</td><td>14:30</td><td class="ev"><span class="imp"></span>ECB President Lagarde Speaks</td><td>🇪🇺 EUR</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr><tr><td class="day"></td><td>14:30</td><td class="ev"><span class="imp"></span>Philly Fed Manufacturing Index</td><td>🇺🇸 USD</td><td class="num">20.9</td><td class="num">19.2</td><td class="num">—</td></tr><tr><td class="day"></td><td>14:30</td><td class="ev"><span class="imp"></span>Unemployment Claims</td><td>🇺🇸 USD</td><td class="num">200K</td><td class="num">199K</td><td class="num">—</td></tr><tr class=d0><td class="day">Fri</td><td>09:15</td><td class="ev"><span class="imp"></span>ECB President Lagarde Speaks</td><td>🇪🇺 EUR</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr><tr><td class="day"></td><td>14:25</td><td class="ev"><span class="imp"></span>FOMC Member Waller Speaks</td><td>🇺🇸 USD</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr><tr><td class="day"></td><td>16:00</td><td class="ev"><span class="imp"></span>Revised UoM Consumer Sentiment</td><td>🇺🇸 USD</td><td class="num">51</td><td class="num">52.1</td><td class="num">—</td></tr></tbody>
+  </table></div>
+</section>
+
+<div class="demo-div mono">Demo only ↓ dashboard component sheet — same system, real data/markets.json</div>
+
+<section class="sec tight">
+  <div class="sec-h sm rv"><span class="mono">§ A</span><h2><span class="ln"><span>Instrument <em>tiles</em></span></span></h2><span class="meta mono">price · 1D · 30-day sparkline</span></div>
+  <div class="tiles rv"><div class="tile fade" style="--i:0"><div class="top"><span class="nm">S&P 500</span><span class="sym">SPY</span></div><div class="px" data-scr>754.37</div><div class="d dn">−0.36%</div><svg viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true"><path class="dn" d="M0.0 4.4 L3.4 2.0 L6.9 3.1 L10.3 4.9 L13.8 2.3 L17.2 2.6 L20.7 2.6 L24.1 7.4 L27.6 6.1 L31.0 10.9 L34.5 9.1 L37.9 7.7 L41.4 5.4 L44.8 10.5 L48.3 12.8 L51.7 9.7 L55.2 7.3 L58.6 5.8 L62.1 7.5 L65.5 15.2 L69.0 17.2 L72.4 16.0 L75.9 8.9 L79.3 28.0 L82.8 26.7 L86.2 16.9 L89.7 18.5 L93.1 12.9 L96.6 14.4 L100.0 15.9"/></svg></div><div class="tile fade" style="--i:1"><div class="top"><span class="nm">Nasdaq 100</span><span class="sym">QQQ</span></div><div class="px" data-scr>679.89</div><div class="d dn">−1.20%</div><svg viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true"><path class="dn" d="M0.0 2.8 L3.4 2.0 L6.9 2.4 L10.3 4.8 L13.8 3.9 L17.2 5.1 L20.7 5.7 L24.1 9.1 L27.6 9.3 L31.0 13.5 L34.5 11.5 L37.9 11.7 L41.4 10.0 L44.8 14.7 L48.3 14.8 L51.7 13.0 L55.2 10.9 L58.6 9.9 L62.1 12.2 L65.5 18.0 L69.0 20.1 L72.4 19.2 L75.9 17.6 L79.3 28.0 L82.8 25.9 L86.2 20.5 L89.7 21.6 L93.1 18.0 L96.6 18.5 L100.0 20.4"/></svg></div><div class="tile fade" style="--i:2"><div class="top"><span class="nm">Dow Jones</span><span class="sym">DIA</span></div><div class="px" data-scr>523.15</div><div class="d up">+0.13%</div><svg viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true"><path class="up" d="M0.0 26.7 L3.4 23.8 L6.9 28.0 L10.3 27.3 L13.8 22.0 L17.2 19.9 L20.7 21.9 L24.1 22.6 L27.6 16.0 L31.0 18.5 L34.5 18.7 L37.9 12.3 L41.4 8.4 L44.8 8.1 L48.3 15.8 L51.7 13.9 L55.2 13.6 L58.6 11.9 L62.1 14.2 L65.5 20.8 L69.0 18.2 L72.4 20.9 L75.9 2.0 L79.3 24.2 L82.8 26.6 L86.2 13.5 L89.7 15.4 L93.1 12.2 L96.6 14.5 L100.0 13.7"/></svg></div><div class="tile fade" style="--i:3"><div class="top"><span class="nm">Russell 2000</span><span class="sym">IWM</span></div><div class="px" data-scr>277.54</div><div class="d dn">−0.32%</div><svg viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true"><path class="dn" d="M0.0 3.2 L3.4 7.1 L6.9 14.1 L10.3 14.3 L13.8 11.7 L17.2 13.7 L20.7 16.0 L24.1 26.2 L27.6 19.1 L31.0 28.0 L34.5 26.4 L37.9 17.8 L41.4 16.4 L44.8 16.1 L48.3 17.8 L51.7 15.5 L55.2 9.4 L58.6 7.2 L62.1 2.0 L65.5 11.0 L69.0 11.3 L72.4 10.1 L75.9 2.0 L79.3 27.0 L82.8 21.8 L86.2 4.9 L89.7 8.6 L93.1 3.8 L96.6 12.7 L100.0 14.4"/></svg></div><div class="tile fade" style="--i:4"><div class="top"><span class="nm">Volatility</span><span class="sym">VIX</span></div><div class="px" data-scr>17.94</div><div class="d up">+2.46%</div><svg viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true"><path class="up" d="M0.0 25.4 L3.4 27.6 L6.9 27.1 L10.3 25.6 L13.8 26.6 L17.2 27.9 L20.7 28.0 L24.1 25.4 L27.6 26.1 L31.0 19.4 L34.5 23.0 L37.9 23.8 L41.4 24.9 L44.8 19.6 L48.3 18.5 L51.7 20.3 L55.2 21.1 L58.6 23.0 L62.1 24.8 L65.5 16.0 L69.0 15.9 L72.4 17.5 L75.9 26.3 L79.3 2.0 L82.8 2.9 L86.2 17.0 L89.7 17.3 L93.1 23.4 L96.6 20.5 L100.0 18.4"/></svg></div></div>
+</section>
+<section class="sec tight">
+  <div class="sec-h sm rv"><span class="mono">§ B</span><h2><span class="ln"><span>Sector <em>heatmap</em></span></span></h2><span class="meta mono">1D · tint = size of the move</span></div>
+  <div class="heat rv"><div class="hc up" style="--a:0.71"><span class="nm">Staples</span><span class="v">+1.42%</span></div><div class="hc up" style="--a:0.52"><span class="nm">Comms</span><span class="v">+1.05%</span></div><div class="hc up" style="--a:0.49"><span class="nm">Energy</span><span class="v">+0.98%</span></div><div class="hc up" style="--a:0.40"><span class="nm">Financials</span><span class="v">+0.81%</span></div><div class="hc up" style="--a:0.27"><span class="nm">Health Care</span><span class="v">+0.54%</span></div><div class="hc up" style="--a:0.26"><span class="nm">Utilities</span><span class="v">+0.52%</span></div><div class="hc up" style="--a:0.01"><span class="nm">Real Estate</span><span class="v">+0.02%</span></div><div class="hc dn" style="--a:0.10"><span class="nm">Materials</span><span class="v">−0.21%</span></div><div class="hc dn" style="--a:0.19"><span class="nm">Industrials</span><span class="v">−0.39%</span></div><div class="hc dn" style="--a:0.20"><span class="nm">Discretionary</span><span class="v">−0.40%</span></div><div class="hc dn" style="--a:1.00"><span class="nm">Technology</span><span class="v">−2.01%</span></div></div>
+</section>
+<section class="sec tight">
+  <div class="sec-h sm rv"><span class="mono">§ C</span><h2><span class="ln"><span>Leaders <em>table</em></span></span></h2><span class="meta mono">multi-horizon</span></div>
+  <div class="dt-wrap rv"><table class="dt">
+    <thead><tr><th>Name</th><th class="num">Price</th><th class="num">Mkt cap</th><th class="num">1D</th><th class="num">7D</th><th class="num">30D</th><th class="num">180D</th><th class="num">1Y</th><th class="num">5Y</th></tr></thead>
+    <tbody><tr><td class="nm">MSFT<small>Microsoft</small></td><td class="num">523.88</td><td class="num">3.55T</td><td class="num"><span class="pc up">+0.17%</span></td><td class="num"><span class="pc dn">−1.27%</span></td><td class="num"><span class="pc dn">−2.88%</span></td><td class="num"><span class="pc up">+24.17%</span></td><td class="num"><span class="pc up">+2.49%</span></td><td class="num"><span class="pc up">+55.89%</span></td></tr><tr><td class="nm">AAPL<small>Apple</small></td><td class="num">356.27</td><td class="num">3.42T</td><td class="num"><span class="pc up">+0.39%</span></td><td class="num"><span class="pc up">+4.06%</span></td><td class="num"><span class="pc up">+4.17%</span></td><td class="num"><span class="pc up">+18.67%</span></td><td class="num"><span class="pc up">+30.28%</span></td><td class="num"><span class="pc up">+135.50%</span></td></tr><tr><td class="nm">NVDA<small>Nvidia</small></td><td class="num">162.85</td><td class="num">3.31T</td><td class="num"><span class="pc dn">−2.01%</span></td><td class="num"><span class="pc dn">−12.75%</span></td><td class="num"><span class="pc dn">−25.03%</span></td><td class="num"><span class="pc dn">−27.73%</span></td><td class="num"><span class="pc dn">−15.97%</span></td><td class="num"><span class="pc up">+447.36%</span></td></tr><tr><td class="nm">GOOGL<small>Alphabet</small></td><td class="num">295.77</td><td class="num">2.20T</td><td class="num"><span class="pc dn">−0.98%</span></td><td class="num"><span class="pc up">+3.86%</span></td><td class="num"><span class="pc dn">−15.31%</span></td><td class="num"><span class="pc dn">−25.46%</span></td><td class="num"><span class="pc up">+3.16%</span></td><td class="num"><span class="pc up">+98.70%</span></td></tr><tr><td class="nm">AMZN<small>Amazon</small></td><td class="num">266.66</td><td class="num">2.01T</td><td class="num"><span class="pc dn">−0.29%</span></td><td class="num"><span class="pc up">+2.84%</span></td><td class="num"><span class="pc up">+4.67%</span></td><td class="num"><span class="pc up">+0.95%</span></td><td class="num"><span class="pc up">+9.20%</span></td><td class="num"><span class="pc up">+51.55%</span></td></tr><tr><td class="nm">META<small>Meta</small></td><td class="num">641.69</td><td class="num">1.30T</td><td class="num"><span class="pc up">+2.90%</span></td><td class="num"><span class="pc up">+5.17%</span></td><td class="num"><span class="pc dn">−12.90%</span></td><td class="num"><span class="pc up">+4.47%</span></td><td class="num"><span class="pc up">+5.37%</span></td><td class="num"><span class="pc up">+88.11%</span></td></tr><tr><td class="nm">AVGO<small>Broadcom</small></td><td class="num">347.01</td><td class="num">0.79T</td><td class="num"><span class="pc dn">−4.76%</span></td><td class="num"><span class="pc up">+18.16%</span></td><td class="num"><span class="pc up">+0.78%</span></td><td class="num"><span class="pc dn">−18.39%</span></td><td class="num"><span class="pc dn">−2.31%</span></td><td class="num"><span class="pc up">+520.86%</span></td></tr><tr><td class="nm">TSLA<small>Tesla</small></td><td class="num">390.22</td><td class="num">0.70T</td><td class="num"><span class="pc dn">−1.82%</span></td><td class="num"><span class="pc up">+8.93%</span></td><td class="num"><span class="pc up">+7.66%</span></td><td class="num"><span class="pc dn">−7.58%</span></td><td class="num"><span class="pc dn">−9.38%</span></td><td class="num"><span class="pc dn">−4.21%</span></td></tr></tbody>
+  </table></div>
+</section>
+<section class="sec tight">
+  <div class="sec-h sm rv"><span class="mono">§ D</span><h2><span class="ln"><span>Fact <em>row</em></span></span></h2><span class="meta mono">crypto board</span></div>
+  <div class="facts rv"><div><div class="k">Total market cap</div><div class="v" data-scr>$2.21T</div><div class="s">+0.8% 24h</div></div><div><div class="k">BTC dominance</div><div class="v" data-scr>59.4%</div><div class="s">-0.1 pp</div></div><div><div class="k">Stablecoins</div><div class="v" data-scr>$288B</div><div class="s">+2.4% 30d</div></div><div><div class="k">USDC share</div><div class="v" data-scr>24.1%</div><div class="s">+0.0 pp</div></div><div><div class="k">BTC funding</div><div class="v" data-scr>+0.009%</div><div class="s">8h · Deribit</div></div></div>
+</section>
+
+
+<!-- FOOTER -->
+<footer class="lq-foot">
+  <div class="lq-fgrid">
+    <div class="lq-fbrand">
+      <p>Independent macro &amp; markets, published daily. Sourced data, no fabrication.</p>
+      <div class="mood-line"><span class="mood-dot"></span>Today the market is fearful — Fear &amp; Greed 10/100.</div>
+    </div>
+    <div class="lq-fcol"><h4 class="mono">Pages</h4><ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/articles.html">Articles</a></li>
+      <li><a href="/macro.html">Macro</a></li>
+      <li><a href="/now/">Live Indicators</a></li>
+      <li><a href="/calendar.html">Economic Calendar</a></li>
+      <li><a href="/dashboard.html">Dashboard</a></li>
+    </ul></div>
+    <div class="lq-fcol"><h4 class="mono">Content</h4><ul>
+      <li><a href="/bulletin_page.html">Bulletin</a></li>
+      <li><a href="/archive.html">Archive</a></li>
+      <li><a href="/embed.html">Embed Widget</a></li>
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/glossary.html">Glossary</a></li>
+    </ul></div>
+    <div class="lq-fcol"><h4 class="mono">Social</h4><ul>
+      <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
+      <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="/feed-en.xml">RSS</a></li>
+      <li><a href="mailto:orkun@nocashflow.net">Email</a></li>
+    </ul></div>
+  </div>
+  <div class="wm rv" aria-hidden="true"><span style="--i:0">N</span><span style="--i:1">O</span><span style="--i:2" class=s>/</span><span style="--i:3">C</span><span style="--i:4">A</span><span style="--i:5">S</span><span style="--i:6">H</span><span style="--i:7">F</span><span style="--i:8">L</span><span style="--i:9">O</span><span style="--i:10">W</span></div>
+  <div class="foot mono">
+    <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona · This site is for information only and does not provide investment advice.</span>
+    <span><a href="/privacy.html">Privacy</a> · <a href="/legal.html">Legal Notice</a> · <a href="/disclaimer.html">Disclaimer</a></span>
+  </div>
+</footer>
+
+<script src="../../liquid.js"></script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 # NoCashFlow — "Liquid" yeniden tasarım planı
 
-Durum (2026-11-15): **Faz 0–3 tamam** (`feat-liquid`). Ana sayfa (EN+TR) Liquid'de, diğer sayfalar Broadsheet. Sıradaki: **Faz 4 `[FABLE]`**.
+Durum (2026-11-15): **Faz 0–4 tamam** (`feat-liquid`). Ana sayfa (EN+TR) Liquid'de, diğer sayfalar Broadsheet; yazı ve veri sayfalarının tasarımı demo olarak hazır. Sıradaki: **Faz 5 `[OPUS]`**. Bölüm 6'daki kararlar kullanıcı cevabını bekliyor (cevap gelene kadar varsayılanlar geçerli).
 
 ## 0. Eski tasarımın yedeği (Broadsheet)
 
@@ -28,7 +28,7 @@ demoda da yoksa uydurma, "Açık kararlar"a ekle ve sor.
 | `[FABLE]` | Yeni tasarım kararı gerektiren işler (henüz demosu olmayan sayfa tipleri) | Fable |
 | `[OPUS]` | Demoyu koda taşıma, build.py, veri bağlama, çeviri yapısı, test, deploy | Opus |
 
-Fable'a kalan tek iş Faz 4'tür (iki şablon demosu). Gerisi Opus işi.
+Fable işi (Faz 4) bitti. Kalan fazların tamamı Opus işi.
 
 ## 3. Tasarım sistemi (demodan, birebir alınacak)
 
@@ -127,19 +127,48 @@ Fable'a kalan tek iş Faz 4'tür (iki şablon demosu). Gerisi Opus işi.
 - **Doğrulama:** ana sayfa dışındaki tüm çıktılar byte-byte aynı; ana sayfanın SEO etiketleri aynı; 1440/768/390'da yatay taşma 0; form sahte worker'a doğru gövdeyi yolluyor; reduced-motion ve JS-kapalı görünüm çalışıyor.
 - **Faz 7'ye not:** JS kapalıyken getiri eğrisi tuvali boş kalıyor (diğer her şey görünür). İstenirse build-time SVG fallback (`hero_frieze` benzeri) eklenebilir.
 
-### Faz 4 — Eksik şablonların tasarımı `[FABLE]`
-Tek oturum, iki demo:
-- `demos/d-liquid/article.html`: uzun okuma sayfası (drop cap, tablo, alıntı, sözlük tooltip'i, prev/next, okuma çubuğu).
-- `demos/d-liquid/data.html`: veri yoğun sayfa (macro bölümleri + dashboard tabloları/ısı haritası).
-Aynı oturumda "Açık kararlar" kapatılır.
+### Faz 4 — Eksik şablonların tasarımı `[FABLE]` ✅
+Önce Faz 0–3 denetlendi. Tek gerçek hata: `liquid.js` `scramble()` animasyon sonunda eski değeri geri yazıyordu ve `app.js`'in canlı fiyat güncellemesini ezebiliyordu; artık metin dışarıdan değiştiyse bırakıyor.
+
+Demolar (`demos/d-liquid/`, hepsi `python3 demos/d-liquid/gen.py` ile gerçek içerik ve veriden üretilir, elle yazılmış rakam yok):
+- `article.html` (`cekirdek`: tablo, data-point, alıntı), `article-2.html` (`enflasyon`: ok listesi, figür).
+- `data.html`: macro sayfasının tamamı (`MACRO2`, `CALENDAR`, metinler `content/en/macro.html`'den) + altında dashboard bileşen sayfası (`data/markets.json`).
+
+Yeni dosyalar ve rolleri:
+| Dosya | İçerik |
+|---|---|
+| `inner.css` | İç sayfa başlığı `.p-hero/.p-meta/.p-title/.p-sub/.p-dek/.p-aside`, küçük bölüm başlığı `.sec-h.sm`, `.sec.tight`, link `.lk` |
+| `article.css` | **Mevcut içerik sınıflarını** stiller (makaleler yeniden yazılmaz): `.article-prose`, `.a-table(.hit)`, `.data-point`, `blockquote`, `.arrow-list`, `.article-figure`, `.source-box`, `.gloss`, `.share-row`, `.pn-grid`. Yeni tek parça: `.a-wrap/.a-main/.a-rail` |
+| `data.css` | `.kpis/.kpi`, `.split`, `.panel`, `.ch` (çizgi grafik), `.read`, `.dt-wrap/.dt` (+`.pc`, `.imp`, `.act`, `tr.d0`), `.tiles/.tile`, `.heat/.hc`, `.facts` |
+| `gen.py` | **İşaretleme referansı.** Faz 5/6'da üretilecek HTML'in birebir örneği |
+
+`liquid.js`'e eklenen kanca: `[data-lq-read]` (`.article-prose`'u izler, `--rp` ve `[data-read-pct]` yazar).
+
+Tasarım kuralları (demoda uygulanmış, taşırken korunacak):
+- Başlıkta " — " sonrası kısım serif italik ve ayrı satır (`gen.py: split_title`). " — " yoksa düz.
+- `h2`'lerin "§ 01" numarası CSS sayacıdır, içeriğe dokunulmaz.
+- Grafik: SVG `preserveAspectRatio="none"` ile esner, çizgi `vector-effect:non-scaling-stroke`, etiketler HTML (yüzde konumlu). Çizgi `pathLength="1"` ile görünürken çizilir.
+- Isı haritası: renk yoğunluğu `--a` (0–1) = hareketin büyüklüğü.
+- Sözlük ipucu: masaüstünde terimin üstünde, 1000px altında ekranın altına sabitlenir (taşma olmasın diye).
+- `.demo-div` yalnızca demo ayracıdır, siteye taşınmaz.
+
+Doğrulandı: üç demo 1440 ve 390'da yatay taşma 0, JS hatası yok; okuma sayacı 0→100; ipucu görünür. Fare/animasyon hissi kullanıcı tarafından gerçek tarayıcıda onaylanacak.
 
 ### Faz 5 — Yazı sayfaları `[OPUS]`
-- `render_article`, `yazilar` listesi, `archive`, `sozluk`, `hakkinda`, hukuk sayfaları (privacy/legal/disclaimer) → article demosuna göre.
-- `gloss_wrap`, okuma çubuğu, prev/next, paylaşım korunur.
+- `inner.css` + `article.css` içeriği `liquid.css` sonuna **aynen** eklenir; `LIQUID_ASSET_V` artırılır.
+- `render_article` → `gen.py: article()` işaretlemesi (`DESIGN_KINDS`'teki `article` türü açılır). `gloss_wrap`, paylaşım, prev/next, JSON-LD korunur.
+- `yazilar` listesi, `archive`: ana sayfadaki `.rows/.row` + `.p-hero`. `sozluk`, `hakkinda`, hukuk sayfaları (privacy/legal/disclaimer): `.p-hero` + `.article-prose` (ray olmadan, `.a-wrap` tek sütun).
+- Elle yazılmış 4 statik sayfa (`subscribed`, `unsubscribed`, TR'leri) aynı çerçeveye elle çevrilir.
+- Makale figürleri (SVG/PNG) eski crimson'la çizili; karar #4'e bağlı, bu fazda dokunulmaz.
 
 ### Faz 6 — Veri sayfaları `[OPUS]`
-- `macro` (`inject_macro2`, `macro.css`), `dashboard` (`inject_dashboard`, `dashboard.css`), `calendar`, `/now/` gösterge sayfaları, `bulletin_page` → data demosuna göre.
-- SVG üreticiler (`_curve_svg`, `_liq_svg`, `_spark_svg`, `pulse_chart`, `hero_frieze`) yeni palete geçer.
+- `data.css` içeriği `liquid.css` sonuna aynen eklenir.
+- `macro` (`inject_macro2`) → `gen.py: data()` birebir. `macro.css` Liquid sayfada yüklenmez.
+- `dashboard` (`inject_dashboard`) → demodaki bileşenler (`.tiles`, `.dt` liderler, `.heat`, `.facts`). **Dikkat:** canlı dashboard `DASH_MODE="mock"` (`dashboard-mock.json`) ile çalışıyor; demo gerçek `markets.json` kullandı. Veri kaynağı değiştirilmez, yalnızca görünüm.
+- `calendar` → `.dt` (`tr.d0`, `.imp.hi`, `.act`). `/now/` gösterge sayfaları → `.p-hero` + `.panel/.ch` + `.kpis`. `bulletin_page` → `.p-hero` + liste.
+- `.read` (masanın yorumu) için yalnızca CSS var; `macro-notes.json` boş olduğu için demoda örnek yok. Not boşsa blok hiç basılmaz (mevcut davranış).
+- SVG üreticiler (`_curve_svg`, `_liq_svg`, `_spark_svg`, `pulse_chart`, `hero_frieze`) yeni palete geçer veya `.ch` ile değiştirilir.
+- TR sayfalarda rejim şeridi etiketleri ve "Extreme Fear" İngilizce kalıyor (mevcut sitede de öyle); metin değişikliği sayıldığı için dokunulmadı, kullanıcıya soruldu.
 - `embed.html` widget'ı ve bülten HTML'leri (`bulletins/`) kapsam dışı.
 
 ### Faz 7 — Kalite turu `[OPUS]`
@@ -154,7 +183,7 @@ Aynı oturumda "Açık kararlar" kapatılır.
 - Canlı doğrulama: ana sayfa, bir makale, macro, dashboard, `/tr/`, abonelik formu.
 - Geri dönüş: `backup/pre-liquid`.
 
-## 6. Açık kararlar (Faz 4'te kapanacak)
+## 6. Açık kararlar (kullanıcıya soruldu, cevap bekleniyor)
 
 | # | Karar | Varsayılan öneri |
 |---|---|---|
@@ -163,6 +192,8 @@ Aynı oturumda "Açık kararlar" kapatılır.
 | 3 | Üstteki koyu ticker çubuğu | Kaldırılsın; yerini ana sayfadaki büyük şerit alır, iç sayfalarda ince tek satır |
 | 4 | Vurgu rengi crimson `#B3122B` → `#FF4B26` | Sosyal kartlar (`make_article_card.py`), watermark ve makale maili (`send_article.py`) de güncellenmeli; ayrı küçük iş |
 | 5 | 404 Matrix sayfası ve easter egg'ler | Kalsın |
+| 6 | Faz 3'teki iki metin sapması: hero altı "Scroll — the real yield curve"; bülten kutusu açıklaması sitenin mevcut cümlesi | Böyle kalsın |
+| 7 | TR sayfalarda İngilizce kalan rejim etiketleri / "Extreme Fear" | Ayrı küçük iş olarak Türkçeleştirilsin |
 
 ## 7. Demodan taşırken bilinen noktalar
 
