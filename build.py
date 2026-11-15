@@ -97,6 +97,8 @@ def _apply_design(html, kind):
     html = re.sub(r'<meta name="theme-color" content="[^"]*"/>',
                   '<meta name="theme-color" content="#ECEAE3"/>', html, count=1)
     html = re.sub(r'(<body[^>]*\bclass=")bs\b', r"\1lq", html, count=1)
+    # app.js learned to stand down on body.lq — make sure Liquid pages never get a cached copy
+    html = html.replace('<script src="/app.js?v=mx2"></script>', f'<script src="/app.js?v=lq{LIQUID_ASSET_V}"></script>', 1)
     html = html.replace("</body>", f'<script src="/liquid.js?v={LIQUID_ASSET_V}"></script>\n</body>', 1)
     return html
 
@@ -1112,6 +1114,133 @@ def footer(lang):
 """
 
 
+# ── Liquid chrome (Faz 2) ─────────────────────────────────────────────────────
+# Same links, same targets as the Broadsheet chrome above — only the markup
+# changes. Each _chrome_* wrapper returns the Broadsheet string untouched
+# unless _design(kind) == "liquid", so Broadsheet output stays byte-identical.
+LQ_UI = {
+    "en": {"menu": "Menu", "close": "Close", "nav": "Main", "sw": "TR", "sw_long": "Türkçe",
+           "sw_aria": "Türkçe'ye geç", "board": "Market board", "home": "Home"},
+    "tr": {"menu": "Menü", "close": "Kapat", "nav": "Ana menü", "sw": "EN", "sw_long": "English",
+           "sw_aria": "Switch to English", "board": "Piyasa panosu", "home": "Ana Sayfa"},
+}
+# thin market line on inner pages (decision #3 default: no dark ticker bar)
+LQ_TAPE = [("btc", "BTC"), ("spx", "S&amp;P 500"), ("us10y", "US 10Y"), ("dxy", "DXY"),
+           ("gold", "Gold"), ("brent", "Brent"), ("vix", "VIX"), ("eth", "ETH")]
+
+
+def _lq_nav(active_key, lang, sw_href):
+    ui = LQ_UI[lang]
+    home_href = "/" if lang == "en" else "/tr/"
+    sw_set = "tr" if lang == "en" else "en"
+    sub_label, sub_href = SUBSCRIBE[lang]
+    links, menu = [], []
+    for i, (key, en_l, tr_l, en_h, tr_h) in enumerate(NAV):
+        label, href = (en_l, en_h) if lang == "en" else (tr_l, tr_h)
+        cur = ' aria-current="page"' if key == active_key else ""
+        if key != "home":                     # the logo is Home on the pill
+            links.append(f'    <a href="{href}"{cur}><span>{label}</span></a>')
+        menu.append(f'      <li><a href="{href}"{cur} style="--i:{i}">'
+                    f'<span class="n mono">{i + 1:02d}</span><span class="t">{label}</span></a></li>')
+    home_cur = ' aria-current="page"' if active_key == "home" else ""
+    return f"""
+<!-- NAV -->
+<nav class="nav" aria-label="{ui['nav']}">
+  <a class="logo" href="{home_href}"{home_cur} aria-label="NoCashFlow — {ui['home']}">NO<i>/</i>CASHFLOW</a>
+  <div class="nav-links">
+{chr(10).join(links)}
+  </div>
+  <span class="clock mono" data-lq-clock>—</span>
+  <a class="nav-lang mono" href="{sw_href}" data-set-lang="{sw_set}" aria-label="{ui['sw_aria']}">{ui['sw']}</a>
+  <a class="btn" href="{sub_href}" data-magnet><span>{sub_label}</span><span class="ar" aria-hidden="true">→</span></a>
+  <button class="nav-menu mono" type="button" aria-expanded="false" aria-controls="lq-menu" data-open="{ui['menu']}" data-close="{ui['close']}">{ui['menu']}</button>
+</nav>
+<div class="lq-menu" id="lq-menu" hidden>
+  <nav aria-label="{ui['nav']}">
+    <ol>
+{chr(10).join(menu)}
+    </ol>
+  </nav>
+  <div class="lq-menu-foot mono">
+    <a href="{sw_href}" data-set-lang="{sw_set}" aria-label="{ui['sw_aria']}">{ui['sw_long']} →</a>
+    <span data-lq-clock>—</span>
+  </div>
+</div>
+"""
+
+
+def _lq_tape(lang):
+    items = "\n".join(
+        f'  <span class="lq-tape-i"><b>{lbl}</b><span data-px="{k}">—</span>'
+        f'<span class="c neu" data-chg="{k}">—</span></span>' for k, lbl in LQ_TAPE)
+    return (f'\n<div class="lq-tape mono" role="region" aria-label="{LQ_UI[lang]["board"]}">\n'
+            f'  <span class="lq-tape-k"><b class="dot"></b>{LQ_UI[lang]["board"]}</span>\n'
+            f'{items}\n</div>\n')
+
+
+def _lq_footer(lang):
+    f = FOOTER[lang]
+    fl = lambda en_h, tr_h: _flink(lang, en_h, tr_h)
+    col = lambda title, rows: (f'    <div class="lq-fcol"><h4 class="mono">{title}</h4><ul>\n'
+                               + "\n".join(f'      <li><a href="{h}"{x}>{t}</a></li>' for t, h, x in rows)
+                               + '\n    </ul></div>')
+    ext = ' target="_blank" rel="noopener"'
+    wm = "".join(f'<span style="--i:{i}"{" class=s" if c == "/" else ""}>{c}</span>'
+                 for i, c in enumerate("NO/CASHFLOW"))
+    return f"""
+<!-- FOOTER -->
+<footer class="lq-foot">
+  <div class="lq-fgrid">
+    <div class="lq-fbrand">
+      <p>{f['brand_desc']}</p>
+      {_mood_line(lang)}
+    </div>
+{col(f['col_pages'], [(f['l_home'], fl('/', '/tr/'), ''), (f['l_articles'], fl('/articles.html', '/tr/yazilar.html'), ''),
+                      (f['l_macro'], fl('/macro.html', '/tr/macro.html'), ''), (f['l_indicators'], fl('/now/', '/tr/simdi/'), ''),
+                      (f['l_calendar'], fl('/calendar.html', '/tr/takvim.html'), ''), (f['l_dashboard'], fl('/dashboard.html', '/tr/dashboard.html'), '')])}
+{col(f['col_content'], [(f['l_bulletin'], fl('/bulletin_page.html', '/tr/bulletin_page.html'), ''), (f['l_archive'], fl('/archive.html', '/tr/arsiv.html'), ''),
+                        (f['l_widget'], fl('/embed.html', '/tr/embed.html'), ''), (f['l_about'], fl('/about.html', '/tr/hakkinda.html'), ''),
+                        (f['l_glossary'], fl('/glossary.html', '/tr/sozluk.html'), '')])}
+{col(f['col_social'], [('Twitter / X', 'https://twitter.com/No_CashFlow', ext), ('LinkedIn', 'https://www.linkedin.com/in/orkunbicen/', ext),
+                       (f['l_rss'], fl('/feed-en.xml', '/feed-tr.xml'), ''), (f['l_email'], 'mailto:orkun@nocashflow.net', '')])}
+  </div>
+  <div class="wm rv" aria-hidden="true">{wm}</div>
+  <div class="foot mono">
+    <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona · {f['disclaimer']}</span>
+    <span><a href="{fl('/privacy.html', '/tr/privacy.html')}">{f['l_privacy']}</a> · <a href="{fl('/legal.html', '/tr/legal.html')}">{f['l_legal']}</a> · <a href="{fl('/disclaimer.html', '/tr/disclaimer.html')}">{f['l_disclaimer']}</a></span>
+  </div>
+</footer>
+"""
+
+
+def _lq(kind):
+    return _design(kind) == "liquid"
+
+
+def _chrome_top(kind, broadsheet_html):
+    """Cursor/sweep/read-progress overlays → Liquid's single progress line."""
+    return '<div class="progress" aria-hidden="true"></div>\n' if _lq(kind) else broadsheet_html
+
+
+def _chrome_nav(kind, active_key, lang, sw_href):
+    return _lq_nav(active_key, lang, sw_href) if _lq(kind) else _nav_html(active_key, lang, sw_href)
+
+
+def _chrome_ticker(kind, lang):
+    return "" if _lq(kind) else ticker_html(lang)
+
+
+def _chrome_mast(kind, mast_page, lang):
+    """Home: the hero carries the dateline. Inner pages: thin market line."""
+    if not _lq(kind):
+        return masthead(mast_page, lang)
+    return "" if mast_page == "index" else _lq_tape(lang)
+
+
+def _chrome_foot(kind, lang):
+    return _lq_footer(lang) if _lq(kind) else footer(lang)
+
+
 def scripts(page, lang):
     p = PAGES[page]
     out = ['<script src="/app.js?v=mx2"></script>']
@@ -1719,12 +1848,12 @@ def render(page, lang):
     splash_html = splash_overlay() if (p.get("splash") and lang == "en") else ""
     html = "\n".join([
         head(page, lang),
-        splash_html + chrome_top(page),
-        nav(page, lang),
-        ticker_html(lang),
-        masthead(page, lang),
+        splash_html + _chrome_top(page, chrome_top(page)),
+        _chrome_nav(page, p["nav_key"], lang, p["paths"]["tr"] if lang == "en" else p["paths"]["en"]),
+        _chrome_ticker(page, lang),
+        _chrome_mast(page, page, lang),
         body,
-        footer(lang),
+        _chrome_foot(page, lang),
         scripts(page, lang),
         "</body>",
         "</html>",
@@ -2022,8 +2151,9 @@ def render_article(slug, lang):
         "a.getAttribute('data-set-lang'));}catch(e){}});});</script>"
     )
 
-    html = "\n".join([head_html, overlays, _nav_html("articles", lang, sw_href),
-                      ticker_html(lang), masthead("article", lang), body, footer(lang), scripts_html,
+    html = "\n".join([head_html, _chrome_top("article", overlays), _chrome_nav("article", "articles", lang, sw_href),
+                      _chrome_ticker("article", lang), _chrome_mast("article", "article", lang), body,
+                      _chrome_foot("article", lang), scripts_html,
                       "</body>", "</html>", ""])
     return inject_market(html)
 
@@ -2150,8 +2280,9 @@ def render_fe_essay(key, lang):
         "a.getAttribute('data-set-lang'));}catch(e){}});});</script>"
     )
 
-    html = "\n".join([head_html, overlays, _nav_html("finance-eng", lang, sw_href),
-                      ticker_html(lang), masthead("article", lang), body, footer(lang), scripts_html,
+    html = "\n".join([head_html, _chrome_top("fe-essay", overlays), _chrome_nav("fe-essay", "finance-eng", lang, sw_href),
+                      _chrome_ticker("fe-essay", lang), _chrome_mast("fe-essay", "article", lang), body,
+                      _chrome_foot("fe-essay", lang), scripts_html,
                       "</body>", "</html>", ""])
     return inject_market(html)
 
@@ -2443,8 +2574,9 @@ def render_indicator(slug, lang):
   <a href="{hub}" class="section-link" style="display:inline-block;margin-top:30px">{hub_lbl} →</a>
 </div>
 """
-    html = "\n".join([head_html, _ind_chrome_ticker(), _nav_html(None, lang, sw_href),
-                      ticker_html(lang), masthead("indicator", lang), body, footer(lang), _ind_scripts(),
+    html = "\n".join([head_html, _chrome_top("indicator", _ind_chrome_ticker()),
+                      _chrome_nav("indicator", None, lang, sw_href), _chrome_ticker("indicator", lang),
+                      _chrome_mast("indicator", "indicator", lang), body, _chrome_foot("indicator", lang), _ind_scripts(),
                       "</body>", "</html>", ""])
     return inject_market(html)
 
@@ -2480,8 +2612,9 @@ def render_indicator_hub(lang):
   {grid}
 </div>
 """
-    html = "\n".join([head_html, _ind_chrome_ticker(), _nav_html(None, lang, sw_href),
-                      ticker_html(lang), masthead("indicator", lang), body, footer(lang), _ind_scripts(),
+    html = "\n".join([head_html, _chrome_top("indicator", _ind_chrome_ticker()),
+                      _chrome_nav("indicator", None, lang, sw_href), _chrome_ticker("indicator", lang),
+                      _chrome_mast("indicator", "indicator", lang), body, _chrome_foot("indicator", lang), _ind_scripts(),
                       "</body>", "</html>", ""])
     return inject_market(html)
 

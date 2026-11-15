@@ -117,6 +117,23 @@
     });
   }
 
+  /* ── full-screen menu (< 1100px) ─────────────────────────────────────── */
+  var mbtn = $('.nav-menu'), menu = $('#lq-menu');
+  if (mbtn && menu) {
+    var setMenu = function (open) {
+      menu.hidden = !open;
+      mbtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      mbtn.textContent = mbtn.getAttribute(open ? 'data-close' : 'data-open');
+      root.classList.toggle('lq-menu-open', open);
+      if (nav) { nav.classList.toggle('open', open); if (open) nav.classList.remove('hide'); }
+      if (open) { var first = $('a', menu); if (first) first.focus({ preventScroll: true }); } else mbtn.focus({ preventScroll: true });
+    };
+    mbtn.addEventListener('click', function () { setMenu(menu.hidden); });
+    d.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !menu.hidden) setMenu(false); });
+    $$('a', menu).forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
+    matchMedia('(min-width: 1101px)').addEventListener('change', function (e) { if (e.matches && !menu.hidden) setMenu(false); });
+  }
+
   /* ── drag-to-scroll strips (mouse only; touch scrolls natively) ──────── */
   $$('.strip').forEach(function (s) {
     var down = 0, sx = 0, sl = 0;

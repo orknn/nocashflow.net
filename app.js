@@ -489,6 +489,9 @@
      MOUSE EFFECTS — cursor, nav pill, 3D card tilt
      ========================================================== */
   document.addEventListener('DOMContentLoaded', () => {
+    // Liquid pages bring their own cursor, hover motion and reveals (liquid.js);
+    // these Broadsheet effects would fight them (inline transforms on .stat/.lead).
+    if (document.body.classList.contains('lq')) return;
     if (!window.matchMedia('(hover: hover)').matches) return;
 
     /* ---- Custom cursor ---- */
