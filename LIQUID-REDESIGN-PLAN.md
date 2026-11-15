@@ -193,7 +193,8 @@ Doğrulandı: üç demo 1440 ve 390'da yatay taşma 0, JS hatası yok; okuma say
 - SEO diff (`origin/main`'e karşı): 363 HTML'de title/canonical/hreflang/JSON-LD/OG aynı; sitemap, feed-en/tr, robots aynı; silinen URL yok.
 - Lighthouse (mobil): performans ana sayfa 86 (eski 65, splash'lı), makale 88, macro 89, dashboard 78. Erişilebilirlik koyu 100, açık 96.
 - Düzeltilenler: koyu modda turuncu yüzeylerde açık yazı; açık temada `--mute` #6E6C66→#5F5D58, küçük yükseliş/düşüş yazısı `--up-t` #14713F / `--dn-t` #AD2B11 (koyu yüzeylerde parlak tonlar); logo/dil bağlantısı aria-label; ana sayfada başlık sırası (kart/istatistik h3, footer h2); JS'siz ana sayfa getiri eğrisi (`.ch` yedeği) + okuma göstergesi gizli; `macro.css` emekli (Broadsheet `site/components/broadsheet.css` embed için kalıyor).
-- **Açık kalan (kullanıcı kararı):** turuncu #FF4B26 açık zeminde küçük yazı olarak (eyebrow'lar, şerit başlığı) 2.77:1 — AA altı ama marka. Takvim/sözlük/bülten/hakkında içerik dosyalarında başlık seviyesi atlamaları (Broadsheet'ten miras, görsel etkisi yok).
+- **Karar (2026-11-16, kullanıcı):** turuncu #FF4B26 açık zeminde küçük yazı olarak (eyebrow'lar, şerit başlığı) 2.77:1 — AA altı ama marka; **olduğu gibi kalıyor**, tekrar önerme.
+- Açık kalan: Takvim/sözlük/bülten/hakkında içerik dosyalarında başlık seviyesi atlamaları (Broadsheet'ten miras, görsel etkisi yok).
 
 - Her sayfa tipi × 2 dil × 3 genişlik ekran görüntüsü.
 - Önce/sonra diff: URL listesi, `sitemap.xml`, `feed-*.xml`, her sayfanın `<link rel=canonical|alternate>` ve JSON-LD'si.
