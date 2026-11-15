@@ -56,9 +56,11 @@
       var v = Math.max(0, Math.min(100, +g.getAttribute('data-value') || 0));
       var n = $('.needle', g), a = $('.arc-val', g);
       if (n) n.style.transform = 'rotate(' + (-90 + v * 1.8) + 'deg)';
-      if (a) a.setAttribute('stroke-dasharray', v + ' 100');
+      if (a) a.style.strokeDasharray = v + ' 100';
     });
   }
+  // gauges ship at their real value (no-JS); with motion on, start empty and sweep in
+  if (!RM && !STATIC) $$('.gauge .arc-val').forEach(function (a) { a.style.strokeDasharray = '0 100'; });
   var rvs = $$('.rv');
   if (STATIC || !('IntersectionObserver' in window)) {
     rvs.forEach(reveal);

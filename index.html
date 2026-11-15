@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
+<script>document.documentElement.classList.add('js')</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>NoCashFlow — Macro &amp; Market Analysis</title>
 <meta name="description" content="Data-driven macro analysis every morning, with a deep dive every Sunday — oil shocks, smart money, nuclear energy, Fed policy. From Barcelona."/>
@@ -27,18 +28,16 @@
 <link rel="alternate" type="application/rss+xml" title="NoCashFlow" href="/feed-en.xml"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<meta name="theme-color" content="#ffffff"/>
+<meta name="theme-color" content="#ECEAE3"/>
 <script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('theme');if(q==='dark'||q==='light'){try{localStorage.setItem('ncf_theme',q);}catch(e){}}var t=null;try{t=localStorage.getItem('ncf_theme');}catch(e){}if(!t){var h=new Date().getHours();t=(h>=21||h<7)?'dark':'light';}if(t==='dark')d.setAttribute('data-theme','dark');}catch(e){}})();</script>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,SOFT,WONK,wght@0,9..144,0..100,0..1,300..900;1,9..144,0..100,0..1,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Libre+Caslon+Display&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="/site.css"/>
-<link rel="stylesheet" href="/components.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/liquid.css?v=1"/>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "en", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
 <link rel="stylesheet" href="/splash.css"/>
-<link rel="stylesheet" href="/broadsheet.css"/>
 <script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('lang');if(q==='tr'||q==='en'){try{localStorage.setItem('ncf_lang',q);}catch(e){}if(q==='tr'){location.replace('/tr/');return;}return;}var p=null;try{p=localStorage.getItem('ncf_lang');}catch(e){}if(p==='tr'){location.replace('/tr/');return;}if(p==='en'){return;}d.setAttribute('data-ncf-splash','on');}catch(e){d.setAttribute('data-ncf-splash','on');}})();</script>
 </head>
-<body data-mood="fear" class="bs">
-<div class="press-line"></div>
+<body data-mood="fear" class="lq">
+
 <script>(function(){var h=new Date().getHours();document.body.setAttribute('data-daypart',h<7?'night':h<11?'morning':h<18?'midday':h<21?'evening':'night');})();</script>
 <!-- LANGUAGE GATE (hidden unless the head script reveals it) -->
 <div id="ncf-splash" role="dialog" aria-label="Language / Dil">
@@ -49,281 +48,189 @@
     <button type="button" class="ncf-splash-btn" data-lang="en">English</button>
   </div>
 </div>
-<div class="cursor-ring"><span class="c-label">Read</span></div>
-<div class="cursor-dot"></div>
-
-<div id="page-sweep"></div>
+<div class="progress" aria-hidden="true"></div>
 
 
 <!-- NAV -->
-<nav class="nav">
-  <div class="nav-inner">
-    <a href="/" class="logo">NO<span class="slash">/</span>CASHFLOW<span class="tag">MACRO × MARKETS</span></a>
-    <div class="nav-links" id="nav-links">
-      <a href="/" class="active">Home</a>
-      <a href="/articles.html">Articles</a>
-      <a href="/macro.html">Macro</a>
-      <a href="/calendar.html">Calendar</a>
-      <a href="/dashboard.html">Dashboard</a>
-      <a href="/bulletin_page.html">Bulletin</a>
-      <a href="/finance-engineering.html">Finance Engineering</a>
-      <a href="/about.html">About</a>
-    </div>
-    <div class="nav-right">
-      <a class="lang-switch" href="/tr/" data-set-lang="tr" aria-label="Türkçe'ye geç">TR</a>
-      <button class="nav-btn theme-toggle" data-theme-toggle aria-label="After Hours" title="After Hours">◐</button>
-      <a href="/bulletin_page.html" class="subscribe">Subscribe</a>
-      <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><span></span></button>
-    </div>
+<nav class="nav" aria-label="Main">
+  <a class="logo" href="/" aria-current="page" aria-label="NoCashFlow — Home">NO<i>/</i>CASHFLOW</a>
+  <div class="nav-links">
+    <a href="/articles.html"><span>Articles</span></a>
+    <a href="/macro.html"><span>Macro</span></a>
+    <a href="/calendar.html"><span>Calendar</span></a>
+    <a href="/dashboard.html"><span>Dashboard</span></a>
+    <a href="/bulletin_page.html"><span>Bulletin</span></a>
+    <a href="/finance-engineering.html"><span>Finance Engineering</span></a>
+    <a href="/about.html"><span>About</span></a>
   </div>
+  <span class="clock mono" data-lq-clock>—</span>
+  <a class="nav-lang mono" href="/tr/" data-set-lang="tr" aria-label="Türkçe'ye geç">TR</a>
+  <a class="btn" href="/bulletin_page.html" data-magnet><span>Subscribe</span><span class="ar" aria-hidden="true">→</span></a>
+  <button class="nav-menu mono" type="button" aria-expanded="false" aria-controls="lq-menu" data-open="Menu" data-close="Close">Menu</button>
 </nav>
-
-<!-- TICKER -->
-<div class="ticker">
-  <div class="ticker-label"><span class="dot"></span> Market board</div>
-  <div class="ticker-track" id="ticker-track"></div>
+<div class="lq-menu" id="lq-menu" hidden>
+  <nav aria-label="Main">
+    <ol>
+      <li><a href="/" aria-current="page" style="--i:0"><span class="n mono">01</span><span class="t">Home</span></a></li>
+      <li><a href="/articles.html" style="--i:1"><span class="n mono">02</span><span class="t">Articles</span></a></li>
+      <li><a href="/macro.html" style="--i:2"><span class="n mono">03</span><span class="t">Macro</span></a></li>
+      <li><a href="/calendar.html" style="--i:3"><span class="n mono">04</span><span class="t">Calendar</span></a></li>
+      <li><a href="/dashboard.html" style="--i:4"><span class="n mono">05</span><span class="t">Dashboard</span></a></li>
+      <li><a href="/bulletin_page.html" style="--i:5"><span class="n mono">06</span><span class="t">Bulletin</span></a></li>
+      <li><a href="/finance-engineering.html" style="--i:6"><span class="n mono">07</span><span class="t">Finance Engineering</span></a></li>
+      <li><a href="/about.html" style="--i:7"><span class="n mono">08</span><span class="t">About</span></a></li>
+    </ol>
+  </nav>
+  <div class="lq-menu-foot mono">
+    <a href="/tr/" data-set-lang="tr" aria-label="Türkçe'ye geç">Türkçe →</a>
+    <span data-lq-clock>—</span>
+  </div>
 </div>
 
 
-<div class="bs-mast"><div class="bs-mast-top"><span>Morning Edition</span><span class="bs-mast-mid">Macro &amp; Markets, every morning</span><span>Barcelona · Sunday, November 15, 2026</span></div><a class="bs-wordmark" href="/">NoCashFlow</a><div class="bs-mast-tag">Make sense of the macro. Start your morning with data.</div></div>
 
-<!-- BROADSHEET FRONT PAGE — lead story + live front-page graphic (scoped via body.bs) -->
-<section class="bs-front reveal">
-  <div class="bs-front-grid">
-    <div class="bs-lead">
-      <div class="bs-kicker">Lead story</div>
-      <h1 class="bs-lead-title"><a href="/articles/core-inflation.html">The core <em>cracked</em>.</a></h1>
-      <p class="bs-lead-dek">Headline fell the most since April 2020 — but the real break was core at 0.0%, and it just took the Warsh hike off the table.</p>
-      <div class="bs-figures">
-        <div class="bs-fig"><span class="k">June core CPI (YoY)</span><span class="v accent">2.6%</span></div>
-        <div class="bs-fig"><span class="k">Core CPI (MoM)</span><span class="v">0.0%</span></div>
-        <div class="bs-fig"><span class="k">Headline CPI (YoY)</span><span class="v dn">3.5%</span></div>
-        <div class="bs-fig"><span class="k">Next-FOMC hold odds</span><span class="v">87.7%</span></div>
-      </div>
-      <div class="bs-byline">By NoCashFlow Research · Jul 14, 2026 · 4 min read</div>
+<!-- LIQUID FRONT PAGE (design source: demos/d-liquid/index.html). The LQ:NAME
+     comment slots are filled at build time by inject_liquid_home(); app.js
+     refreshes every data-px / data-chg after load. -->
+<header class="hero rv" data-rv-now>
+  <div class="hero-top mono fade">
+    <span>Snapshot · Sun, 15 Nov 2026 · 12:35 UTC</span>
+    <span class="mood"><b></b><span>Market mood · Extreme Fear · 10/100</span></span>
+  </div>
+  <h1>
+    <span class="ln" style="--i:1"><span>Make sense</span></span>
+    <span class="ln" style="--i:2"><span>of <em>the macro</em><span class="dot">.</span></span></span>
+  </h1>
+  <div class="hero-sub">
+    <p class="fade" style="--i:5">Macro, crypto and commodities, read from the primary data. <em>No noise.</em> Just markets.</p>
+    <div class="scroll-hint mono fade" style="--i:7" aria-hidden="true"><i></i>Scroll — the real yield curve</div>
+  </div>
+</header>
+
+<div class="stage-wrap">
+  <section class="stage" aria-label="US Treasury yield curve">
+    <canvas data-curve='[{"l":"1M","v":4.12},{"l":"3M","v":4.32},{"l":"6M","v":4.42},{"l":"2Y","v":4.86},{"l":"5Y","v":4.95},{"l":"10Y","v":5.1},{"l":"30Y","v":5.43}]' role="img" aria-label="US Treasury yield curve"></canvas>
+    <div class="st-row st-top mono">
+      <div>US Treasury curve · FRED<strong>12 Nov 2026</strong></div>
+      <div class="r">2s10s spread<strong>+24 bp</strong></div>
     </div>
-    <aside class="bs-graphic">
-      <div class="bs-graphic-k">Front-page graphic</div>
-      
-<!-- HERO FRIEZE — generated from data/macro.json at build time; the site redraws itself daily -->
-<div class="hero-frieze" aria-hidden="true">
-  <svg viewBox="0 0 560 240" preserveAspectRatio="xMidYMid meet">
-    <line x1="40" y1="214" x2="520" y2="214" class="hf-base"/>
-    <path d="M40.0,206.0 C53.3,201.7 93.3,186.5 120.0,180.0 C146.7,173.6 173.3,178.7 200.0,167.1 C226.7,155.4 253.3,121.4 280.0,110.0 C306.7,98.5 333.3,103.5 360.0,98.3 C386.7,93.1 413.3,89.2 440.0,78.8 C466.7,68.4 506.7,43.1 520.0,36.0 L520.0,214 L40.0,214 Z" class="hf-area"/>
-    <path d="M40.0,206.0 C53.3,201.7 93.3,186.5 120.0,180.0 C146.7,173.6 173.3,178.7 200.0,167.1 C226.7,155.4 253.3,121.4 280.0,110.0 C306.7,98.5 333.3,103.5 360.0,98.3 C386.7,93.1 413.3,89.2 440.0,78.8 C466.7,68.4 506.7,43.1 520.0,36.0" class="hf-line"/>
-    <g><circle cx="40.0" cy="206.0" r="2.6" class="hf-pt"/><text x="40.0" y="230" class="hf-lbl">1M</text><text x="40.0" y="197.0" class="hf-val">4.12</text></g><g><circle cx="120.0" cy="180.0" r="2.6" class="hf-pt"/><text x="120.0" y="230" class="hf-lbl">3M</text><text x="120.0" y="171.0" class="hf-val">4.32</text></g><g><circle cx="200.0" cy="167.1" r="2.6" class="hf-pt"/><text x="200.0" y="230" class="hf-lbl">6M</text><text x="200.0" y="158.1" class="hf-val">4.42</text></g><g><circle cx="280.0" cy="110.0" r="2.6" class="hf-pt"/><text x="280.0" y="230" class="hf-lbl">2Y</text><text x="280.0" y="101.0" class="hf-val">4.86</text></g><g><circle cx="360.0" cy="98.3" r="2.6" class="hf-pt"/><text x="360.0" y="230" class="hf-lbl">5Y</text><text x="360.0" y="89.3" class="hf-val">4.95</text></g><g><circle cx="440.0" cy="78.8" r="2.6" class="hf-pt"/><text x="440.0" y="230" class="hf-lbl">10Y</text><text x="440.0" y="69.8" class="hf-val">5.10</text></g><g><circle cx="520.0" cy="36.0" r="2.6" class="hf-pt"/><text x="520.0" y="230" class="hf-lbl">30Y</text><text x="520.0" y="27.0" class="hf-val">5.43</text></g>
-  </svg>
-  <div class="hf-cap">US Treasury yield curve · drawn 2026-11-12 · FRED</div>
+    <div class="st-row st-bot"><div class="chip"><span class="k mono" lang="en">Bitcoin</span><span class="v" data-scr data-px="btc">$65,448</span><span class="c dn" data-chg="btc">-2.53%</span></div><div class="chip"><span class="k mono" lang="en">S&amp;P 500</span><span class="v" data-scr data-px="spx">7,562</span><span class="c dn" data-chg="spx">-0.40%</span></div><div class="chip"><span class="k mono" lang="en">Gold</span><span class="v" data-scr data-px="gold">$3886</span><span class="c up" data-chg="gold">+0.03%</span></div><div class="chip"><span class="k mono" lang="en">Brent</span><span class="v" data-scr data-px="brent">$95.8</span><span class="c up" data-chg="brent">+0.02%</span></div><div class="chip"><span class="k mono" lang="en">DXY</span><span class="v" data-scr data-px="dxy">103.41</span><span class="c up" data-chg="dxy">+0.23%</span></div></div>
+  </section>
 </div>
 
-      <div class="bs-kpis">
-        <div class="bs-kpi"><span class="k">Bitcoin</span><span class="v" data-px="btc">$65,448</span><span class="c dn" data-chg="btc">-2.53%</span></div>
-        <div class="bs-kpi"><span class="k">US 10Y</span><span class="v" data-px="us10y">5.15%</span><span class="c up" data-chg="us10y">+1.00%</span></div>
-        <div class="bs-kpi"><span class="k">Fear &amp; Greed</span><span class="v" data-px="fg">10</span><span class="c dn" data-chg="fg">Extreme Fear</span></div>
-      </div>
-      <div class="mood-pill" data-m="fear"><span class="mp-dot"></span><span class="mp-k">Market mood</span><span class="mp-w">fearful</span><span class="mp-v">F&amp;G 10</span></div>
-    </aside>
+<div class="mq" aria-hidden="true"><div class="mq-track"><span class="mq-i"><span class="n">Bitcoin</span><span class="v" data-scr data-px="btc">$65,448</span><span class="c dn" data-chg="btc">-2.53%</span></span><span class="mq-i"><span class="n">Ether</span><span class="v" data-scr data-px="eth">$1,830</span><span class="c dn" data-chg="eth">-3.95%</span></span><span class="mq-i"><span class="n">S&amp;P 500</span><span class="v" data-scr data-px="spx">7,562</span><span class="c dn" data-chg="spx">-0.40%</span></span><span class="mq-i"><span class="n">Gold</span><span class="v" data-scr data-px="gold">$3886</span><span class="c up" data-chg="gold">+0.03%</span></span><span class="mq-i"><span class="n">Brent</span><span class="v" data-scr data-px="brent">$95.8</span><span class="c up" data-chg="brent">+0.02%</span></span><span class="mq-i"><span class="n">DXY</span><span class="v" data-scr data-px="dxy">103.41</span><span class="c up" data-chg="dxy">+0.23%</span></span><span class="mq-i"><span class="n">VIX</span><span class="v" data-scr data-px="vix">19.30</span><span class="c dn" data-chg="vix">+3.21%</span></span><span class="mq-i"><span class="n">EUR/USD</span><span class="v" data-scr data-px="eurusd">1.1050</span><span class="c dn" data-chg="eurusd">-0.41%</span></span><span class="mq-i"><span class="n">Bitcoin</span><span class="v" data-scr data-px="btc">$65,448</span><span class="c dn" data-chg="btc">-2.53%</span></span><span class="mq-i"><span class="n">Ether</span><span class="v" data-scr data-px="eth">$1,830</span><span class="c dn" data-chg="eth">-3.95%</span></span><span class="mq-i"><span class="n">S&amp;P 500</span><span class="v" data-scr data-px="spx">7,562</span><span class="c dn" data-chg="spx">-0.40%</span></span><span class="mq-i"><span class="n">Gold</span><span class="v" data-scr data-px="gold">$3886</span><span class="c up" data-chg="gold">+0.03%</span></span><span class="mq-i"><span class="n">Brent</span><span class="v" data-scr data-px="brent">$95.8</span><span class="c up" data-chg="brent">+0.02%</span></span><span class="mq-i"><span class="n">DXY</span><span class="v" data-scr data-px="dxy">103.41</span><span class="c up" data-chg="dxy">+0.23%</span></span><span class="mq-i"><span class="n">VIX</span><span class="v" data-scr data-px="vix">19.30</span><span class="c dn" data-chg="vix">+3.21%</span></span><span class="mq-i"><span class="n">EUR/USD</span><span class="v" data-scr data-px="eurusd">1.1050</span><span class="c dn" data-chg="eurusd">-0.41%</span></span></div></div>
+
+<section class="sec">
+  <div class="sec-h rv">
+    <span class="mono">§ 01</span>
+    <h2><span class="ln"><span>The regime,</span></span><span class="ln" style="--i:1"><span>in <em>seven numbers</em>.</span></span></h2>
+    <a class="more" href="macro.html">Full macro →</a>
   </div>
+  <div class="regime rv"><div class="rg fade" style="--i:0" lang="en"><span class="k mono">Fed Funds</span><div><div class="v" data-scr>3.75–4.00</div><div class="d mono">held</div></div></div><div class="rg fade" style="--i:1" lang="en"><span class="k mono">Next FOMC</span><div><div class="v" data-scr>Dec 9</div><div class="d mono">24d</div></div></div><div class="rg fade" style="--i:2" lang="en"><span class="k mono">Core CPI</span><div><div class="v" data-scr>2.9%</div><div class="d mono">core</div></div></div><div class="rg fade" style="--i:3" lang="en"><span class="k mono">US 10Y</span><div><div class="v" data-scr>5.10</div><div class="d mono">&nbsp;</div></div></div><div class="rg fade" style="--i:4" lang="en"><span class="k mono">2s10s</span><div><div class="v" data-scr>+27</div><div class="d mono">steepening</div></div></div><div class="rg fade" style="--i:5" lang="en"><span class="k mono">DXY</span><div><div class="v" data-scr>103.41</div><div class="d mono">&nbsp;</div></div></div><div class="rg fade" style="--i:6" lang="en"><span class="k mono">F&amp;G</span><div><div class="v" data-scr>10</div><div class="d mono">Extreme Fear</div></div></div></div>
 </section>
 
-<!-- §01 MARKET PULSE — Broadsheet data board with the live yield curve -->
-<section class="section bs-pulse reveal">
-  <div class="bs-sec-head">
-    <h2 class="bs-sec-title">Market Pulse</h2>
-    <div class="bs-sec-meta"><span class="bs-live">Live</span><a href="macro.html">Full macro</a></div>
+<section class="sec">
+  <div class="sec-h rv">
+    <span class="mono">§ 02</span>
+    <h2><span class="ln"><span>Latest <em>analysis</em></span></span></h2>
+    <a class="more" href="articles.html">All articles →</a>
   </div>
-  <div class="bs-pulse-grid">
-    <div class="bs-quotes">
-      <div class="bs-q"><span class="nm">Crypto Fear &amp; Greed</span><span class="vl" data-px="fg">10</span><span class="cg dn" data-chg="fg">Extreme Fear</span></div>
-      <div class="bs-q"><span class="nm">Bitcoin</span><span class="vl" data-px="btc">$65,448</span><span class="cg dn" data-chg="btc">-2.53%</span></div>
-      <div class="bs-q"><span class="nm">VIX · Volatility</span><span class="vl" data-px="vix">19.30</span><span class="cg dn" data-chg="vix">+3.21%</span></div>
-      <div class="bs-q"><span class="nm">Dollar Index · DXY</span><span class="vl" data-px="dxy">103.41</span><span class="cg up" data-chg="dxy">+0.23%</span></div>
-      <div class="bs-q"><span class="nm">US 10Y Yield</span><span class="vl" data-px="us10y">5.15%</span><span class="cg up" data-chg="us10y">+1.00%</span></div>
-      <div class="bs-q"><span class="nm">Brent Crude</span><span class="vl" data-px="brent">$95.8</span><span class="cg up" data-chg="brent">+0.02%</span></div>
-    </div>
-    
-<figure class="pc-fig">
-  <figcaption class="pc-head">
-    <span class="pc-title">US Treasury yield curve</span>
-    <span class="pc-src">Source: FRED · drawn 2026-11-12</span>
-  </figcaption>
-  <svg class="pc-svg" viewBox="0 0 1000 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="US Treasury yield curve">
-    <line class="pc-grid" x1="52" x2="980" y1="260.0" y2="260.0"/><text class="pc-yl" x="42" y="263.0">3.95</text><line class="pc-grid" x1="52" x2="980" y1="201.5" y2="201.5"/><text class="pc-yl" x="42" y="204.5">4.35</text><line class="pc-grid" x1="52" x2="980" y1="143.0" y2="143.0"/><text class="pc-yl" x="42" y="146.0">4.75</text><line class="pc-grid" x1="52" x2="980" y1="84.5" y2="84.5"/><text class="pc-yl" x="42" y="87.5">5.15</text><line class="pc-grid" x1="52" x2="980" y1="26.0" y2="26.0"/><text class="pc-yl" x="42" y="29.0">5.55</text>
-    <path class="pc-line" d="M52.0 235.1 L206.7 205.9 L361.3 191.3 L516.0 126.9 L670.7 113.7 L825.3 91.8 L980.0 43.6" fill="none"/>
-    <circle class="pc-pt" cx="52.0" cy="235.1" r="2.8"/><text class="pc-xl" x="52.0" y="280">1M</text><circle class="pc-pt" cx="206.7" cy="205.9" r="2.8"/><text class="pc-xl" x="206.7" y="280">3M</text><circle class="pc-pt" cx="361.3" cy="191.3" r="2.8"/><text class="pc-xl" x="361.3" y="280">6M</text><circle class="pc-pt" cx="516.0" cy="126.9" r="2.8"/><text class="pc-xl" x="516.0" y="280">2Y</text><circle class="pc-pt" cx="670.7" cy="113.7" r="2.8"/><text class="pc-xl" x="670.7" y="280">5Y</text><circle class="pc-pt" cx="825.3" cy="91.8" r="2.8"/><text class="pc-xl" x="825.3" y="280">10Y</text><circle class="pc-pt pc-pt-last" cx="980.0" cy="43.6" r="3.6"/><text class="pc-xl" x="980.0" y="280">30Y</text>
-  </svg>
-  <div class="pc-annot"><span class="pc-annot-v">+24 bps</span><span class="pc-annot-k">2s10s spread · steepening at the long end</span></div>
-</figure>
-  </div>
+  <div class="lead rv"><h3><a href="/articles/core-inflation.html"><span class="ln"><span>The core</span></span><span class="ln" style="--i:1"><span><em>cracked.</em></span></span></a></h3><div class="fade" style="--i:3"><span class="mono">Lead story · #09 · Macro · Jul 14, 2026</span><p>Headline fell the most since April 2020 — but the real break was core at 0.0%, and it just took the Warsh hike off the table.</p><a class="btn" href="/articles/core-inflation.html" data-magnet><span>Read the piece</span><span class="ar" aria-hidden="true">→</span></a></div></div>
+  <div class="rows rv"><a class="row" href="/articles/inflation.html" data-cur-label="Read"><span class="n">#08</span><h4>Warsh Raised the Bar.</h4><span class="meta mono">Macro · Jun 28, 2026</span><span class="ar" aria-hidden="true">→</span></a><a class="row" href="/articles/warsh.html" data-cur-label="Read"><span class="n">#07</span><h4>Powell Left. The Dots Went Up.</h4><span class="meta mono">Macro · Jun 22, 2026</span><span class="ar" aria-hidden="true">→</span></a><a class="row" href="/articles/hormuz.html" data-cur-label="Read"><span class="n">#06</span><h4>Closed, and Still Flowing</h4><span class="meta mono">Commodities · Jun 21, 2026</span><span class="ar" aria-hidden="true">→</span></a><a class="row" href="/articles/circle.html" data-cur-label="Read"><span class="n">#05</span><h4>Circle Keeps Half. Coinbase Takes the Rest.</h4><span class="meta mono">Crypto · Jun 18, 2026</span><span class="ar" aria-hidden="true">→</span></a></div>
 </section>
 
-<!-- §02 LATEST ANALYSIS -->
-<section class="section tight reveal">
-  <div class="section-header">
-    <div class="section-title"><span class="num">§ 02</span>Latest Analysis</div>
-    <div class="section-meta"><a href="articles.html">All Articles →</a></div>
+<section class="dark">
+  <div class="sec-h rv">
+    <span class="mono">§ 03</span>
+    <h2><span class="ln"><span>How the market</span></span><span class="ln" style="--i:1"><span><em>feels</em> today.</span></span></h2>
+    <span></span>
   </div>
-  <div class="art-list">
-    <div class="art-row">
-      <div class="n">#09</div>
-      <div class="body">
-        <div class="tag-line">Macro · Jul 14, 2026</div>
-        <h3><a href="/articles/core-inflation.html">The Core Cracked — And Almost Nobody Called It.</a></h3>
-        <p>June headline fell −0.4%, the most since April 2020 — but core came in at 0.0% against a 0.3% consensus. The sticky-core story broke, and the market took the Warsh hike off the table.</p>
-      </div>
-      <div class="arrow">→</div>
-    </div>
-    <div class="art-row">
-      <div class="n">#08</div>
-      <div class="body">
-        <div class="tag-line">Macro · Jun 28, 2026</div>
-        <h3><a href="/articles/inflation.html">Warsh Raised the Bar.</a></h3>
-        <p>May CPI hit 4.2%, a three-year high driven almost entirely by energy, while core held at 2.9%. Warsh wants it to fall — and the July prints decide whether it does.</p>
-      </div>
-      <div class="arrow">→</div>
-    </div>
-    <div class="art-row">
-      <div class="n">#07</div>
-      <div class="body">
-        <div class="tag-line">Macro · Jun 22, 2026</div>
-        <h3><a href="/articles/warsh.html">Powell Left. The Dots Went Up.</a></h3>
-        <p>The June FOMC held at 3.50–3.75%, but Warsh dropped forward guidance and the 2026 dot jumped from 3.4% to 3.8% — a hike now sits on the table.</p>
-      </div>
-      <div class="arrow">→</div>
-    </div>
-    <div class="art-row">
-      <div class="n">#06</div>
-      <div class="body">
-        <div class="tag-line">Commodities · Jun 21, 2026</div>
-        <h3><a href="/articles/hormuz.html">Closed, and Still Flowing</a></h3>
-        <p>Iran calls Hormuz closed again; CENTCOM counts 55 transits the same day. The scorecard: the US (+$50B) and Russia won the shock — the Gulf lost.</p>
-      </div>
-      <div class="arrow">→</div>
+  <div class="mood-grid rv">
+    <div class="gauge" data-value="10" role="img" aria-label="Fear &amp; Greed 10/100"><svg viewBox="0 0 400 215" aria-hidden="true"><defs><linearGradient id="lq-gg" x1="0" x2="1"><stop offset="0" stop-color="#6FB2FF"/><stop offset=".5" stop-color="#ECEAE3"/><stop offset="1" stop-color="#2FBF71"/></linearGradient></defs><path class="arc" d="M20 200 A180 180 0 0 1 380 200" stroke="rgba(236,234,227,.12)"/><path class="arc arc-val" d="M20 200 A180 180 0 0 1 380 200" stroke="url(#lq-gg)" pathLength="100" stroke-dasharray="10 100"/><g stroke="rgba(236,234,227,.3)"><line x1="12.0" y1="200.0" x2="0.0" y2="200.0"/><line x1="14.3" y1="170.6" x2="9.4" y2="169.8"/><line x1="21.2" y1="141.9" x2="16.4" y2="140.4"/><line x1="32.5" y1="114.6" x2="28.0" y2="112.4"/><line x1="47.9" y1="89.5" x2="43.9" y2="86.6"/><line x1="67.1" y1="67.1" x2="58.6" y2="58.6"/><line x1="89.5" y1="47.9" x2="86.6" y2="43.9"/><line x1="114.6" y1="32.5" x2="112.4" y2="28.0"/><line x1="141.9" y1="21.2" x2="140.4" y2="16.4"/><line x1="170.6" y1="14.3" x2="169.8" y2="9.4"/><line x1="200.0" y1="12.0" x2="200.0" y2="0.0"/><line x1="229.4" y1="14.3" x2="230.2" y2="9.4"/><line x1="258.1" y1="21.2" x2="259.6" y2="16.4"/><line x1="285.4" y1="32.5" x2="287.6" y2="28.0"/><line x1="310.5" y1="47.9" x2="313.4" y2="43.9"/><line x1="332.9" y1="67.1" x2="341.4" y2="58.6"/><line x1="352.1" y1="89.5" x2="356.1" y2="86.6"/><line x1="367.5" y1="114.6" x2="372.0" y2="112.4"/><line x1="378.8" y1="141.9" x2="383.6" y2="140.4"/><line x1="385.7" y1="170.6" x2="390.6" y2="169.8"/><line x1="388.0" y1="200.0" x2="400.0" y2="200.0"/></g><g class="needle" style="--deg:-72.0deg"><line x1="200" y1="200" x2="200" y2="34" stroke="#FF4B26" stroke-width="2"/><circle cx="200" cy="34" r="5" fill="#FF4B26"/></g></svg><div class="num"><b data-scr>10</b><em>Extreme Fear</em></div></div>
+    <div>
+      <div class="odds"><h5>Fed cut odds · Polymarket</h5><div class="odd"><span class="mono">Dec 9</span><span class="bar"><i data-w="22.0" style="--w:22.0%"></i></span><span class="p">2.2%</span></div><div class="odd"><span class="mono">Jan 27</span><span class="bar"><i data-w="79.0" style="--w:79.0%"></i></span><span class="p">7.9%</span></div></div>
+      <div class="stats"><div class="stat"><h5 lang="en">VIX</h5><b data-scr data-px="vix">19.30</b><span class="c dn" data-chg="vix">+3.21%</span></div><div class="stat"><h5 lang="en">DXY</h5><b data-scr data-px="dxy">103.41</b><span class="c up" data-chg="dxy">+0.23%</span></div><div class="stat"><h5 lang="en">Ether</h5><b data-scr data-px="eth">$1,830</b><span class="c dn" data-chg="eth">-3.95%</span></div></div>
     </div>
   </div>
 </section>
 
-<!-- §03 WHAT'S INSIDE -->
-<section class="section tight reveal">
-  <div class="section-header">
-    <div class="section-title"><span class="num">§ 03</span>Inside the Bulletin</div>
-    <div class="section-meta"><a href="bulletin_page.html">Read the Bulletin →</a></div>
+<section class="sec sec-flush">
+  <div class="sec-h rv">
+    <span class="mono">§ 04</span>
+    <h2><span class="ln"><span>Inside <em>the bulletin</em></span></span></h2>
+    <a class="more" href="bulletin_page.html">Read the Bulletin →</a>
   </div>
-  <div class="card-grid">
-    <div class="acard">
-      <div class="series">01 · Daily</div>
-      <h3>Morning Macro Snapshot</h3>
-      <p>VIX, DXY, yields, Fear &amp; Greed and the key assets. Everything you need in 60 seconds.</p>
-    </div>
-    <div class="acard">
-      <div class="series">02 · Daily</div>
-      <h3>Crypto Signal Board</h3>
-      <p>BTC dominance, funding rates, the Coinbase Premium Index and on-chain flows.</p>
-    </div>
-    <div class="acard">
-      <div class="series">03 · Daily</div>
-      <h3>Fed Watch</h3>
-      <p>Rate probabilities from CME FedWatch, dot-plot updates and Powell speech analysis.</p>
-    </div>
-    <div class="acard">
-      <div class="series">04 · Daily</div>
-      <h3>Economic Calendar</h3>
-      <p>The day's key releases with previous, consensus and a significance flag.</p>
-    </div>
-    <div class="acard">
-      <div class="series">05 · Weekly</div>
-      <h3>Sunday Deep Dive</h3>
-      <p>Long-form macro analysis, 1,500–3,000 words. Primary source, always linked.</p>
-    </div>
-    <div class="acard">
-      <div class="series">06 · Always</div>
-      <h3>No Paywall</h3>
-      <p>Every analysis is free, forever. No credit card, no upsell — just the data.</p>
-    </div>
+  <div class="strip rv" data-cur-label="Drag" aria-label="Inside the Bulletin">
+    <div class="card"><div class="mono">01 · Daily</div><div class="big">01</div><div><h4>Morning Macro Snapshot</h4><p>VIX, DXY, yields, Fear &amp; Greed and the key assets. Everything you need in 60 seconds.</p></div></div>
+    <div class="card"><div class="mono">02 · Daily</div><div class="big">02</div><div><h4>Crypto Signal Board</h4><p>BTC dominance, funding rates, the Coinbase Premium Index and on-chain flows.</p></div></div>
+    <div class="card"><div class="mono">03 · Daily</div><div class="big">03</div><div><h4>Fed Watch</h4><p>Rate probabilities from CME FedWatch, dot-plot updates and Powell speech analysis.</p></div></div>
+    <div class="card"><div class="mono">04 · Daily</div><div class="big">04</div><div><h4>Economic Calendar</h4><p>The day's key releases with previous, consensus and a significance flag.</p></div></div>
+    <div class="card"><div class="mono">05 · Weekly</div><div class="big">05</div><div><h4>Sunday Deep Dive</h4><p>Long-form macro analysis, 1,500–3,000 words. Primary source, always linked.</p></div></div>
+    <div class="card"><div class="mono">06 · Always</div><div class="big">06</div><div><h4>No Paywall</h4><p>Every analysis is free, forever. No credit card, no upsell — just the data.</p></div></div>
   </div>
 </section>
 
-<!-- NEWSLETTER -->
-<section class="newsletter reveal">
-  <div class="newsletter-inner">
-    <div class="newsletter-label">The Bulletin</div>
-    <h2 class="newsletter-title">Start your morning <em>with data.</em></h2>
-    <p class="newsletter-dek">A short brief every morning, plus a long-form deep dive every Sunday — macro, crypto and commodities. No noise, no paywall.</p>
-    <form class="newsletter-form" data-newsletter data-lang="en">
-      <input class="newsletter-input" type="email" name="email" placeholder="you@email.com" autocomplete="email" required/>
-      <fieldset class="nl-lang" aria-label="Bulletin language / Bülten dili">
-        <label class="nl-lang-opt"><input type="radio" name="lang" value="en" checked/><span>English</span></label>
-        <label class="nl-lang-opt"><input type="radio" name="lang" value="tr"/><span>Türkçe</span></label>
-      </fieldset>
-      <button class="newsletter-submit" type="submit">Subscribe</button>
-      <!-- honeypot: off-screen, hidden from humans; bots fill it and get silently dropped -->
-      <input class="nl-hp" type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true"/>
-    </form>
-    <div class="newsletter-msg" data-newsletter-msg aria-live="polite"></div>
-    <div class="newsletter-note">Free forever · No spam · Unsubscribe anytime</div>
-    <p class="newsletter-privacy">We store only your email address, to send the bulletin — nothing else. Unsubscribe anytime. <a href="/privacy.html">Privacy</a></p>
-    <div class="newsletter-stats">
-      <div class="nl-stat"><div class="v">Daily</div><div class="k">Every Morning</div></div>
-      <div class="nl-stat"><div class="v">Sunday</div><div class="k">Weekly Deep Dive</div></div>
-      <div class="nl-stat"><div class="v">€0</div><div class="k">Forever Free</div></div>
+<section class="cta rv" id="subscribe">
+  <div class="mono cta-k fade">The Bulletin</div>
+  <h2><span class="ln"><span>Start your morning</span></span><span class="ln" style="--i:1"><span><em>with data.</em></span></span></h2>
+  <p class="fade" style="--i:3">A short brief every morning, plus a long-form deep dive every Sunday — macro, crypto and commodities. No noise, no paywall.</p>
+  <form class="lq-nl fade" style="--i:4" data-newsletter data-lang="en">
+    <div class="form">
+      <input type="email" name="email" placeholder="you@email.com" autocomplete="email" required aria-label="Email"/>
+      <button class="btn" type="submit" data-magnet><span>Subscribe</span><span class="ar" aria-hidden="true">→</span></button>
     </div>
+    <fieldset class="nl-lang mono" aria-label="Bulletin language / Bülten dili">
+      <label><input type="radio" name="lang" value="en" checked/><span lang="en">English</span></label>
+      <label><input type="radio" name="lang" value="tr"/><span>Türkçe</span></label>
+    </fieldset>
+    <!-- honeypot: off-screen, hidden from humans; bots fill it and get silently dropped -->
+    <input class="nl-hp" type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true"/>
+  </form>
+  <div class="note mono" data-newsletter-msg aria-live="polite"></div>
+  <div class="cta-meta mono">
+    <span>Free forever · No spam · Unsubscribe anytime</span>
+    <span>Daily — Every Morning · Sunday — Weekly Deep Dive · €0 — Forever Free</span>
   </div>
+  <p class="cta-privacy">We store only your email address, to send the bulletin — nothing else. Unsubscribe anytime. <a href="/privacy.html">Privacy</a></p>
 </section>
 
 <!-- FOOTER -->
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div>
-        <div class="footer-brand-title">NO<span style="color:var(--amber)">/</span>CASHFLOW</div>
-        <p class="footer-brand-desc">Independent macro &amp; markets, published daily. Sourced data, no fabrication.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Pages</h4>
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/articles.html">Articles</a></li>
-          <li><a href="/macro.html">Macro</a></li>
-          <li><a href="/now/">Live Indicators</a></li>
-          <li><a href="/calendar.html">Economic Calendar</a></li>
-          <li><a href="/dashboard.html">Dashboard</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Content</h4>
-        <ul>
-          <li><a href="/bulletin_page.html">Bulletin</a></li>
-          <li><a href="/archive.html">Archive</a></li>
-          <li><a href="/embed.html">Embed Widget</a></li>
-          <li><a href="/about.html">About</a></li>
-          <li><a href="/glossary.html">Glossary</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Social</h4>
-        <ul>
-          <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
-          <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
-          <li><a href="/feed-en.xml">RSS</a></li>
-          <li><a href="mailto:orkun@nocashflow.net">Email</a></li>
-        </ul>
-      </div>
+<footer class="lq-foot">
+  <div class="lq-fgrid">
+    <div class="lq-fbrand">
+      <p>Independent macro &amp; markets, published daily. Sourced data, no fabrication.</p>
+      <div class="mood-line"><span class="mood-dot"></span>Today the market is fearful — Fear &amp; Greed 10/100.</div>
     </div>
-    <div class="footer-bot">
-      <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona</span>
-      <span><a href="/about.html">About</a> · <a href="/bulletin_page.html">Subscribe</a></span>
-    </div>
-    <div class="mood-line"><span class="mood-dot"></span>Today the market is fearful — Fear &amp; Greed 10/100.</div>
-    <div class="disclaimer">
-      This site is for information only and does not provide investment advice.<br/>
-      <a href="/privacy.html">Privacy</a> · <a href="/legal.html">Legal Notice</a> · <a href="/disclaimer.html">Disclaimer</a>
-    </div>
+    <div class="lq-fcol"><h4 class="mono">Pages</h4><ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/articles.html">Articles</a></li>
+      <li><a href="/macro.html">Macro</a></li>
+      <li><a href="/now/">Live Indicators</a></li>
+      <li><a href="/calendar.html">Economic Calendar</a></li>
+      <li><a href="/dashboard.html">Dashboard</a></li>
+    </ul></div>
+    <div class="lq-fcol"><h4 class="mono">Content</h4><ul>
+      <li><a href="/bulletin_page.html">Bulletin</a></li>
+      <li><a href="/archive.html">Archive</a></li>
+      <li><a href="/embed.html">Embed Widget</a></li>
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/glossary.html">Glossary</a></li>
+    </ul></div>
+    <div class="lq-fcol"><h4 class="mono">Social</h4><ul>
+      <li><a href="https://twitter.com/No_CashFlow" target="_blank" rel="noopener">Twitter / X</a></li>
+      <li><a href="https://www.linkedin.com/in/orkunbicen/" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="/feed-en.xml">RSS</a></li>
+      <li><a href="mailto:orkun@nocashflow.net">Email</a></li>
+    </ul></div>
+  </div>
+  <div class="wm rv" aria-hidden="true"><span style="--i:0">N</span><span style="--i:1">O</span><span style="--i:2" class=s>/</span><span style="--i:3">C</span><span style="--i:4">A</span><span style="--i:5">S</span><span style="--i:6">H</span><span style="--i:7">F</span><span style="--i:8">L</span><span style="--i:9">O</span><span style="--i:10">W</span></div>
+  <div class="foot mono">
+    <span>© <span data-year>2026</span> NoCashFlow.net · Barcelona · This site is for information only and does not provide investment advice.</span>
+    <span><a href="/privacy.html">Privacy</a> · <a href="/legal.html">Legal Notice</a> · <a href="/disclaimer.html">Disclaimer</a></span>
   </div>
 </footer>
 
-<script src="/app.js?v=mx2"></script>
+<script src="/app.js?v=lq1"></script>
 <script>
   window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx','eurusd'] });
 </script>
@@ -371,5 +278,6 @@
 </script>
 <script>document.querySelectorAll('[data-set-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',a.getAttribute('data-set-lang'));}catch(e){}});});</script>
 <script src="/splash.js"></script>
+<script src="/liquid.js?v=1"></script>
 </body>
 </html>

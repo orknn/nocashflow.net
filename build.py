@@ -455,7 +455,7 @@ def _flink(lang, en_href, tr_href):
 # still Turkish at root; the translation phase produces proper EN root + TR /tr/.
 PAGES = {
     "index": {
-        "nav_key": "home", "splash": True, "cursor": True,
+        "nav_key": "home", "splash": True, "cursor": True, "design": "liquid",
         "paths": {"en": "/", "tr": "/tr/"},
         "out":   {"en": "index.html", "tr": "tr/index.html"},
         "title": {"en": "NoCashFlow — Macro &amp; Market Analysis",
@@ -1842,9 +1842,141 @@ def inject_macro2(html, lang):
     return html
 
 
+# ── Liquid front page (Faz 3): build-time fill of content/<lang>/index.liquid.html
+LQ_HOME = {
+    "en": {"snap": "Snapshot", "mood": "Market mood", "lead": "Lead story", "read": "Read the piece",
+           "read_cur": "Read",
+           "names": {"btc": "Bitcoin", "eth": "Ether", "spx": "S&amp;P 500", "gold": "Gold", "brent": "Brent",
+                     "dxy": "DXY", "vix": "VIX", "eurusd": "EUR/USD"}},
+    "tr": {"snap": "Anlık görüntü", "mood": "Piyasa modu", "lead": "Manşet", "read": "Yazıyı oku",
+           "read_cur": "Oku",
+           "names": {"btc": "Bitcoin", "eth": "Ether", "spx": "S&amp;P 500", "gold": "Altın", "brent": "Brent",
+                     "dxy": "DXY", "vix": "VIX", "eurusd": "EUR/USD"}},
+}
+LQ_CHIPS = ["btc", "spx", "gold", "brent", "dxy"]
+LQ_MARQUEE = ["btc", "eth", "spx", "gold", "brent", "dxy", "vix", "eurusd"]
+LQ_STATS = ["vix", "dxy", "eth"]
+LQ_ROWS = 4                      # article rows under the lead (demo shows four)
+
+
+def _lq_date(iso, lang, with_time=False):
+    """'2026-11-15T12:35:44Z' → 'Sun, 15 Nov 2026 · 12:35 UTC' / 'Paz, 15 Kas 2026 · 12:35 UTC'."""
+    try:
+        dt = datetime.fromisoformat(str(iso).replace("Z", "+00:00"))
+    except Exception:
+        return "—"
+    s = f"{dt.day} {MONTHS[lang][dt.month - 1]} {dt.year}"
+    if with_time:
+        s = f"{WEEKDAYS[lang][dt.weekday()]}, {s} · {dt:%H:%M} UTC"
+    return s
+
+
+def _lq_upcoming_odds(odds, asof_iso):
+    """Drop meetings already behind the snapshot date ('Oct 28' with no year)."""
+    try:
+        ref = datetime.fromisoformat(str(asof_iso).replace("Z", "+00:00")).date()
+    except Exception:
+        return odds
+    keep = []
+    for o in odds:
+        try:
+            mon, day = o["m"].split()
+            m = MONTHS["en"].index(mon[:3]) + 1
+            yr = ref.year + (1 if m < ref.month - 6 else 0)     # Jan seen in Nov → next year
+            if datetime(yr, m, int(day)).date() < ref:
+                continue
+        except Exception:
+            pass                                                 # unparseable → keep, never hide data
+        keep.append(o)
+    return keep
+
+
+def inject_liquid_home(html, lang):
+    if "<!--LQ:" not in html:
+        return html
+    T = LQ_HOME[lang]
+    inst = MARKET.get("instruments", {})
+    px = lambda k: (f'<span class="v" data-scr data-px="{k}">—</span>'
+                    f'<span class="c neu" data-chg="{k}">—</span>')
+    fill = {}
+
+    fill["ASOF"] = f'{T["snap"]} · {_lq_date(MARKET.get("asof"), lang, True)}'
+    fg = inst.get("fg", {})
+    fill["MOOD"] = (f'{T["mood"]} · {fg.get("chg", "—")} · {fg.get("px", "—")}/100' if fg else T["mood"] + " · —")
+
+    curve = [{"l": c["l"], "v": c["v"]} for c in (MACRO.get("curve") or []) if c.get("v") is not None]
+    fill["CURVE"] = "data-curve='" + json.dumps(curve, separators=(",", ":")) + "'" if len(curve) >= 2 else ""
+    fill["CURVEDATE"] = _lq_date(MACRO.get("us10y", {}).get("date", ""), lang)
+    sp = MACRO.get("spread")
+    fill["SPREAD"] = f'{"+" if sp >= 0 else "−"}{abs(round(sp * 100))} bp' if isinstance(sp, (int, float)) else "—"
+
+    fill["CHIPS"] = "".join(f'<div class="chip"><span class="k mono" lang="en">{T["names"][k]}</span>{px(k)}</div>'
+                            for k in LQ_CHIPS if k in inst)
+    mq = "".join(f'<span class="mq-i"><span class="n">{T["names"][k]}</span>{px(k)}</span>'
+                 for k in LQ_MARQUEE if k in inst)
+    fill["MARQUEE"] = mq + mq                                   # two copies → seamless loop
+
+    fill["REGIME"] = "".join(
+        f'<div class="rg fade" style="--i:{i}" lang="en"><span class="k mono">{c["k"]}</span>'
+        f'<div><div class="v" data-scr>{c["v"]}</div><div class="d mono">{c.get("d") or "&nbsp;"}</div></div></div>'
+        for i, c in enumerate((MACRO2 or {}).get("regime_tape", [])))
+
+    order = [s for s in ARTICLE_ORDER if s in ARTICLES and (CONTENT / "articles" / s / f"{lang}.html").exists()]
+    if order:
+        a = ARTICLES[order[0]]
+        l1, l2 = (a.get("lead") or {}).get(lang) or (a["title"][lang], "")
+        title = (f'<span class="ln"><span>{l1}</span></span>'
+                 + (f'<span class="ln" style="--i:1"><span><em>{l2}</em></span></span>' if l2 else ""))
+        fill["LEAD"] = (
+            f'<div class="lead rv"><h3><a href="{article_path(order[0], lang)}">{title}</a></h3>'
+            f'<div class="fade" style="--i:3"><span class="mono">{T["lead"]} · {a["num"]} · {a["cat"][lang]} · {a["date_disp"][lang]}</span>'
+            f'<p>{a["dek"][lang]}</p><a class="btn" href="{article_path(order[0], lang)}" data-magnet>'
+            f'<span>{T["read"]}</span><span class="ar" aria-hidden="true">→</span></a></div></div>')
+        fill["ROWS"] = "".join(
+            f'<a class="row" href="{article_path(s, lang)}" data-cur-label="{T["read_cur"]}">'
+            f'<span class="n">{ARTICLES[s]["num"]}</span><h4>{ARTICLES[s]["title"][lang]}</h4>'
+            f'<span class="meta mono">{ARTICLES[s]["cat"][lang]} · {ARTICLES[s]["date_disp"][lang]}</span>'
+            f'<span class="ar" aria-hidden="true">→</span></a>'
+            for s in order[1:1 + LQ_ROWS])
+
+    v, lbl = _fg_value()
+    ticks = "".join(
+        f'<line x1="{200 + 188 * math.cos(math.pi * (1 - i / 20)):.1f}" y1="{200 - 188 * math.sin(math.pi * (1 - i / 20)):.1f}" '
+        f'x2="{200 + (200 if i % 5 == 0 else 193) * math.cos(math.pi * (1 - i / 20)):.1f}" '
+        f'y2="{200 - (200 if i % 5 == 0 else 193) * math.sin(math.pi * (1 - i / 20)):.1f}"/>'
+        for i in range(21))
+    fill["GAUGE"] = (
+        f'<div class="gauge" data-value="{v if v is not None else 0}" role="img" aria-label="Fear &amp; Greed {v if v is not None else "—"}/100">'
+        '<svg viewBox="0 0 400 215" aria-hidden="true"><defs><linearGradient id="lq-gg" x1="0" x2="1">'
+        '<stop offset="0" stop-color="#6FB2FF"/><stop offset=".5" stop-color="#ECEAE3"/><stop offset="1" stop-color="#2FBF71"/></linearGradient></defs>'
+        '<path class="arc" d="M20 200 A180 180 0 0 1 380 200" stroke="rgba(236,234,227,.12)"/>'
+        f'<path class="arc arc-val" d="M20 200 A180 180 0 0 1 380 200" stroke="url(#lq-gg)" pathLength="100" stroke-dasharray="{v if v is not None else 0} 100"/>'
+        f'<g stroke="rgba(236,234,227,.3)">{ticks}</g>'
+        f'<g class="needle" style="--deg:{-90 + (v or 0) * 1.8}deg"><line x1="200" y1="200" x2="200" y2="34" stroke="#FF4B26" stroke-width="2"/>'
+        '<circle cx="200" cy="34" r="5" fill="#FF4B26"/></g></svg>'
+        f'<div class="num"><b data-scr>{v if v is not None else "—"}</b><em>{lbl or ""}</em></div></div>')
+
+    odds = _lq_upcoming_odds((MACRO2 or {}).get("fed", {}).get("cut_odds", []), (MACRO2 or {}).get("updated", ""))
+    if odds:
+        top = max([o["p"] for o in odds] + [10])
+        fill["ODDS"] = "".join(
+            f'<div class="odd"><span class="mono">{o["m"]}</span><span class="bar"><i data-w="{o["p"] / top * 100:.1f}" '
+            f'style="--w:{o["p"] / top * 100:.1f}%"></i></span><span class="p">{o["p"]}%</span></div>' for o in odds)
+    else:   # same honest empty state as the macro page — nothing printed from memory
+        fill["ODDS"] = ('<p class="mono dim">—</p>')
+    fill["STATS"] = "".join(f'<div class="stat"><h5 lang="en">{T["names"][k]}</h5><b data-scr data-px="{k}">—</b>'
+                            f'<span class="c neu" data-chg="{k}">—</span></div>' for k in LQ_STATS if k in inst)
+
+    for k, val in fill.items():
+        html = html.replace(f"<!--LQ:{k}-->", val)
+    return html
+
+
 def render(page, lang):
     p = PAGES[page]
     body = _read(f"{lang}/{page}.html")
+    if _lq(page) and (CONTENT / lang / f"{page}.liquid.html").exists():
+        body = _read(f"{lang}/{page}.liquid.html")
     splash_html = splash_overlay() if (p.get("splash") and lang == "en") else ""
     html = "\n".join([
         head(page, lang),
@@ -1872,6 +2004,7 @@ def render(page, lang):
     html = inject_macro2(html, lang)
     html = inject_article_list(html, lang)
     html = inject_dashboard(html, lang)
+    html = inject_liquid_home(html, lang)   # before inject_market: it emits data-px/data-chg slots
     html = inject_market(html)
     return html
 
@@ -1927,6 +2060,7 @@ ARTICLES = {
         "cat": {"en": "Macro", "tr": "Makro"},
         "date_disp": {"en": "Jul 14, 2026", "tr": "14 Tem 2026"},
         "read": {"en": "4 min read", "tr": "4 dk okuma"},
+        "lead": {"en": ("The core", "cracked."), "tr": ("Çekirdek", "çöktü.")},   # Liquid front-page headline (2 lines)
         "title": {"en": "The Core Cracked — And Almost Nobody Called It.",
                   "tr": "Çekirdek Çöktü — Neredeyse Kimse Öngörmedi."},
         "dek": {"en": "Headline fell the most since April 2020 — but the real break was core at 0.0%, and it just took the Warsh hike off the table.",

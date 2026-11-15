@@ -214,7 +214,8 @@ h2{font-weight:400;font-size:clamp(2.1rem,5.5vw,5.3rem);line-height:.9;letter-sp
 .gauge{position:relative;max-width:620px;width:100%;margin:auto}
 .gauge svg{width:100%;display:block;overflow:visible}
 .gauge .arc{fill:none;stroke-width:3;stroke-linecap:round}
-.gauge .needle{transform-origin:200px 200px;transition:transform 2.2s cubic-bezier(.34,1.4,.64,1) .2s}
+.gauge .needle{transform-origin:200px 200px;transform:rotate(var(--deg,0deg));transition:transform 2.2s cubic-bezier(.34,1.4,.64,1) .2s}
+.gauge .arc-val{transition:stroke-dasharray 2.2s var(--ease) .2s}
 .js .gauge .needle{transform:rotate(-90deg)}
 .gauge .num{position:absolute;left:0;right:0;bottom:-6%;text-align:center}
 .gauge .num b{display:block;font-weight:300;font-size:clamp(4.5rem,11vw,9.4rem);line-height:.8;letter-spacing:-.07em;font-variant-numeric:tabular-nums}
@@ -222,7 +223,7 @@ h2{font-weight:400;font-size:clamp(2.1rem,5.5vw,5.3rem);line-height:.9;letter-sp
 .odds h5,.stat h5{font:400 11.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:rgba(236,234,227,.5);margin-bottom:14px}
 .odd{display:grid;grid-template-columns:76px 1fr 60px;align-items:center;gap:14px;padding:13px 0;border-top:1px solid rgba(236,234,227,.14)}
 .odd .bar{height:6px;border-radius:9px;background:rgba(236,234,227,.1);overflow:hidden}
-.odd .bar i{display:block;height:100%;border-radius:9px;background:var(--hot);transition:width 1.6s var(--ease) .3s}
+.odd .bar i{display:block;height:100%;border-radius:9px;background:var(--hot);width:var(--w,0);transition:width 1.6s var(--ease) .3s}
 .js .odd .bar i{width:0}
 .odd .p{font:500 15px var(--mono);text-align:right}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:34px}
@@ -231,6 +232,8 @@ h2{font-weight:400;font-size:clamp(2.1rem,5.5vw,5.3rem);line-height:.9;letter-sp
 .stat h5{margin-bottom:22px}
 .stat b{display:block;font-weight:400;font-size:clamp(1.3rem,2.2vw,2rem);letter-spacing:-.04em}
 .stat span{font:400 12px var(--mono)}
+.lead h3 a{display:block}
+.sec-flush{padding-inline:0}.sec-flush .sec-h{padding-inline:var(--gut)}
 
 /* ── draggable card strip ─────────────────────────────────────────────── */
 .strip{display:flex;gap:14px;overflow-x:auto;padding:4px var(--gut) 30px;scrollbar-width:none;cursor:grab;scroll-snap-type:x proximity}
@@ -252,6 +255,18 @@ h2{font-weight:400;font-size:clamp(2.1rem,5.5vw,5.3rem);line-height:.9;letter-sp
 .form:focus-within{box-shadow:0 0 0 5px rgba(255,75,38,.18)}
 .form input[type=email]{border:0;background:none;outline:0;font:400 16px var(--sans);padding:0 18px;width:min(300px,48vw);color:var(--ink)}
 .cta .note{display:block;margin-top:16px;color:var(--mute);min-height:1.4em}
+.cta-k{color:var(--hot);margin-bottom:22px}
+.lq-nl{display:flex;flex-direction:column;align-items:center;gap:14px}
+.nl-lang{display:flex;gap:6px;border:0}
+.nl-lang label{cursor:pointer}
+.nl-lang input{position:absolute;opacity:0;pointer-events:none}
+.nl-lang span{display:inline-block;padding:7px 13px;border-radius:999px;border:1px solid var(--line);color:var(--mute);transition:background .3s,color .3s,border-color .3s}
+.nl-lang input:checked+span{background:var(--ink);border-color:var(--ink);color:var(--bone)}
+.nl-lang input:focus-visible+span{outline:2px solid var(--hot);outline-offset:3px}
+.nl-hp{position:absolute!important;left:-10000px!important;width:1px;height:1px;opacity:0}
+.cta-meta{display:flex;flex-direction:column;gap:6px;margin-top:26px;color:var(--mute)}
+.cta-privacy{max-width:52ch;margin:16px auto 0;font-size:14px;line-height:1.45;color:var(--mute)}
+.cta-privacy a{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
 
 /* ── footer: link grid + wordmark + legal line ────────────────────────── */
 footer.lq-foot{padding:clamp(48px,8vh,96px) var(--gut) 26px;overflow:hidden;border-top:1px solid var(--line)}

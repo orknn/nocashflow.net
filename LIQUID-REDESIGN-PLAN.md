@@ -1,6 +1,6 @@
 # NoCashFlow — "Liquid" yeniden tasarım planı
 
-Durum (2026-11-15): **Faz 0 ve Faz 1 tamam** (`feat-liquid`). Sıradaki: Faz 2.
+Durum (2026-11-15): **Faz 0–3 tamam** (`feat-liquid`). Ana sayfa (EN+TR) Liquid'de, diğer sayfalar Broadsheet. Sıradaki: **Faz 4 `[FABLE]`**.
 
 ## 0. Eski tasarımın yedeği (Broadsheet)
 
@@ -115,6 +115,17 @@ Fable'a kalan tek iş Faz 4'tür (iki şablon demosu). Gerisi Opus işi.
 - Abonelik formu gerçek işaretlemeyle bağlanır.
 - TR sürümü: mevcut TR metinler; "Make sense of the macro." için mevcut TR manifesto metni kullanılır.
 - Kabul: EN ve TR, 390/768/1440px ekran görüntüleri demoyla eşleşir; yatay taşma yok.
+
+#### Faz 2–3 sonucu ve sonraki fazlar için notlar
+- **Çerçeve:** `_chrome_top/_chrome_nav/_chrome_ticker/_chrome_mast/_chrome_foot(kind, …)` dört birleştirme noktasının hepsinde (sayfa, makale, FE, gösterge). Broadsheet dalı eski fonksiyonları aynen çağırır.
+- **Menü:** pill'de 7 bölüm, "Home" = logo (`aria-current`). <1100px tam ekran menüde 8 bölümün hepsi. After Hours düğmesi Liquid'de yok (karar #1 bekliyor). İç sayfalarda koyu ticker yerine ince "Market board" satırı (`_lq_tape`, karar #3 varsayılanı).
+- **app.js:** `body.lq`'da Broadsheet fare efektlerini (imleç, nav pill, 3D eğme, kaydırma animasyonu) atlar; Liquid sayfalar `app.js?v=lq1` yükler. Form, veri tazeleme, dil, easter egg aynen çalışır.
+- **Ana sayfa:** `content/{en,tr}/index.liquid.html` (Broadsheet `index.html` partial'ı yedek olarak duruyor) + `inject_liquid_home()`. Manşet ve 4 satır artık `ARTICLE_ORDER`'dan otomatik; iki satırlık manşet için registry'de opsiyonel `lead: {"en": (satır1, satır2), "tr": …}`. Yeni makale eklerken `lead` verilmezse tam başlık tek satır çıkar.
+- **Geçmiş FOMC toplantıları** cut-odds listesinden elenir (`_lq_upcoming_odds`); liste boşsa "—".
+- **Türkçe büyük harf:** `text-transform:uppercase` TR sayfada İngilizce kelimeye noktalı İ basar (`BİTCOİN`). İngilizce etiketlere `lang="en"` ver.
+- **Metin istisnaları (bilinçli):** demodaki "Scroll — the curve is live" → "Scroll — the real yield curve" (eğri günlük FRED snapshot'ı, canlı değil; sitenin "Live" → "Market board" kararıyla aynı gerekçe). Abonelik metni demodaki kısaltılmış hâli değil, sitenin mevcut metni ("every morning" dahil).
+- **Doğrulama:** ana sayfa dışındaki tüm çıktılar byte-byte aynı; ana sayfanın SEO etiketleri aynı; 1440/768/390'da yatay taşma 0; form sahte worker'a doğru gövdeyi yolluyor; reduced-motion ve JS-kapalı görünüm çalışıyor.
+- **Faz 7'ye not:** JS kapalıyken getiri eğrisi tuvali boş kalıyor (diğer her şey görünür). İstenirse build-time SVG fallback (`hero_frieze` benzeri) eklenebilir.
 
 ### Faz 4 — Eksik şablonların tasarımı `[FABLE]`
 Tek oturum, iki demo:

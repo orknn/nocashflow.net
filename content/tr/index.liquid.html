@@ -1,0 +1,104 @@
+<!-- LIQUID ÖN SAYFA (tasarım kaynağı: demos/d-liquid/index.html). LQ:AD yorum
+     yuvalarını build sırasında inject_liquid_home() doldurur; app.js
+     yüklemeden sonra her data-px / data-chg'yi tazeler. -->
+<header class="hero rv" data-rv-now>
+  <div class="hero-top mono fade">
+    <span><!--LQ:ASOF--></span>
+    <span class="mood"><b></b><span><!--LQ:MOOD--></span></span>
+  </div>
+  <h1>
+    <span class="ln" style="--i:1"><span>Makroyu</span></span>
+    <span class="ln" style="--i:2"><span><em>anlamlandır</em><span class="dot">.</span></span></span>
+  </h1>
+  <div class="hero-sub">
+    <p class="fade" style="--i:5">Makro, kripto ve emtia — birincil veriden okunur. <em>Gürültü yok.</em> Sadece piyasalar.</p>
+    <div class="scroll-hint mono fade" style="--i:7" aria-hidden="true"><i></i>Kaydır — gerçek getiri eğrisi</div>
+  </div>
+</header>
+
+<div class="stage-wrap">
+  <section class="stage" aria-label="ABD Hazine getiri eğrisi">
+    <canvas <!--LQ:CURVE--> role="img" aria-label="ABD Hazine getiri eğrisi"></canvas>
+    <div class="st-row st-top mono">
+      <div>ABD Hazine getiri eğrisi · FRED<strong><!--LQ:CURVEDATE--></strong></div>
+      <div class="r">2s10s farkı<strong><!--LQ:SPREAD--></strong></div>
+    </div>
+    <div class="st-row st-bot"><!--LQ:CHIPS--></div>
+  </section>
+</div>
+
+<div class="mq" aria-hidden="true"><div class="mq-track"><!--LQ:MARQUEE--></div></div>
+
+<section class="sec">
+  <div class="sec-h rv">
+    <span class="mono">§ 01</span>
+    <h2><span class="ln"><span>Rejim,</span></span><span class="ln" style="--i:1"><span><em>yedi rakamda</em>.</span></span></h2>
+    <a class="more" href="macro.html">Tüm makro →</a>
+  </div>
+  <div class="regime rv"><!--LQ:REGIME--></div>
+</section>
+
+<section class="sec">
+  <div class="sec-h rv">
+    <span class="mono">§ 02</span>
+    <h2><span class="ln"><span>Son <em>analizler</em></span></span></h2>
+    <a class="more" href="yazilar.html">Tüm Yazılar →</a>
+  </div>
+  <!--LQ:LEAD-->
+  <div class="rows rv"><!--LQ:ROWS--></div>
+</section>
+
+<section class="dark">
+  <div class="sec-h rv">
+    <span class="mono">§ 03</span>
+    <h2><span class="ln"><span>Piyasa bugün</span></span><span class="ln" style="--i:1"><span><em>nasıl hissediyor</em>.</span></span></h2>
+    <span></span>
+  </div>
+  <div class="mood-grid rv">
+    <!--LQ:GAUGE-->
+    <div>
+      <div class="odds"><h5>Fed indirim olasılığı · Polymarket</h5><!--LQ:ODDS--></div>
+      <div class="stats"><!--LQ:STATS--></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-flush">
+  <div class="sec-h rv">
+    <span class="mono">§ 04</span>
+    <h2><span class="ln"><span>Bültenin <em>içinde</em></span></span></h2>
+    <a class="more" href="bulletin_page.html">Bülteni Oku →</a>
+  </div>
+  <div class="strip rv" data-cur-label="Sürükle" aria-label="Bültenin İçinde">
+    <div class="card"><div class="mono">01 · Günlük</div><div class="big">01</div><div><h4>Sabah Makro Özeti</h4><p>VIX, DXY, getiriler, Fear &amp; Greed ve önemli varlıklar. 60 saniyede ihtiyacın olan her şey.</p></div></div>
+    <div class="card"><div class="mono">02 · Günlük</div><div class="big">02</div><div><h4>Kripto Sinyal Panosu</h4><p>BTC dominansı, funding rate'ler, Coinbase Premium Index ve on-chain akışlar.</p></div></div>
+    <div class="card"><div class="mono">03 · Günlük</div><div class="big">03</div><div><h4>Fed Takibi</h4><p>CME FedWatch faiz olasılıkları, dot-plot güncellemeleri ve Powell konuşma analizi.</p></div></div>
+    <div class="card"><div class="mono">04 · Günlük</div><div class="big">04</div><div><h4>Ekonomik Takvim</h4><p>Günün önemli verileri; önceki, beklenti ve önem işaretiyle.</p></div></div>
+    <div class="card"><div class="mono">05 · Haftalık</div><div class="big">05</div><div><h4>Pazar Derin Analizi</h4><p>Uzun makro analiz, 1.500–3.000 kelime. Birincil kaynak, her zaman bağlantılı.</p></div></div>
+    <div class="card"><div class="mono">06 · Daima</div><div class="big">06</div><div><h4>Paywall Yok</h4><p>Her analiz sonsuza dek ücretsiz. Kredi kartı yok, ek satış yok — sadece veri.</p></div></div>
+  </div>
+</section>
+
+<section class="cta rv" id="subscribe">
+  <div class="mono cta-k fade">Bülten</div>
+  <h2><span class="ln"><span>Sabahına</span></span><span class="ln" style="--i:1"><span><em>veriyle başla.</em></span></span></h2>
+  <p class="fade" style="--i:3">Her sabah kısa bir özet, her pazar uzun bir derin analiz — makro, kripto ve emtia. Gürültü yok, paywall yok.</p>
+  <form class="lq-nl fade" style="--i:4" data-newsletter data-lang="tr">
+    <div class="form">
+      <input type="email" name="email" placeholder="you@email.com" autocomplete="email" required aria-label="E-posta"/>
+      <button class="btn" type="submit" data-magnet><span>Abone Ol</span><span class="ar" aria-hidden="true">→</span></button>
+    </div>
+    <fieldset class="nl-lang mono" aria-label="Bulletin language / Bülten dili">
+      <label><input type="radio" name="lang" value="en"/><span lang="en">English</span></label>
+      <label><input type="radio" name="lang" value="tr" checked/><span>Türkçe</span></label>
+    </fieldset>
+    <!-- honeypot: ekran dışında, insanlardan gizli; botlar doldurur ve sessizce düşer -->
+    <input class="nl-hp" type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true"/>
+  </form>
+  <div class="note mono" data-newsletter-msg aria-live="polite"></div>
+  <div class="cta-meta mono">
+    <span>Sonsuza dek ücretsiz · Spam yok · İstediğinde çık</span>
+    <span>Günlük — Her Sabah · Pazar — Haftalık Derin Analiz · €0 — Hep Ücretsiz</span>
+  </div>
+  <p class="cta-privacy">Yalnızca e-posta adresini saklarız, sadece bülteni göndermek için — başka hiçbir şey. İstediğin an çıkabilirsin. <a href="/tr/privacy.html">Gizlilik</a></p>
+</section>
