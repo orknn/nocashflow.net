@@ -38,6 +38,25 @@ body.lq.fe-matrix{
   --line:rgba(59,245,127,.18); --hot:#3BF57F; --up:#3BF57F; --dn:#FF6B57;
 }
 body.lq.fe-matrix::after{mix-blend-mode:screen;opacity:.05}
+/* ── After Hours (decision #1): bone ↔ ink, same accent. Set pre-paint by
+   THEME_SCRIPT (21:00–07:00 local, or the stored choice). Surfaces that are
+   dark by design (stage, panels, callouts …) stay dark and get a hairline. */
+html[data-theme="dark"] body.lq:not(.fe-matrix){
+  --bone:#111215; --bone-2:#1B1D22; --ink:#ECEAE3; --ink-2:#D8D5CD; --mute:#8F8C85; --line:rgba(236,234,227,.14);
+  --bg-elev-2:#24262C; --border:rgba(236,234,227,.2); --text-dim:#B9B5AD;
+}
+html[data-theme="dark"] body.lq:not(.fe-matrix) :is(.stage,.dark,.panel,.data-point,.callout,.ind-now,.mcr-closing,.gloss){
+  --ink:#08090B; --bone:#ECEAE3; --bone-2:#1B1D22; --mute:#8F8C85; --line:rgba(236,234,227,.14);
+}
+html[data-theme="dark"] body.lq:not(.fe-matrix) :is(.stage,.dark,.panel,.data-point,.callout,.ind-now,.mcr-closing){box-shadow:inset 0 0 0 1px rgba(236,234,227,.09)}
+html[data-theme="dark"] body.lq:not(.fe-matrix)::after{mix-blend-mode:screen;opacity:.05}
+html[data-theme="dark"] body.lq:not(.fe-matrix) .nav{background:rgba(17,18,21,.72)}
+html[data-theme="dark"] body.lq:not(.fe-matrix) .pc.up{color:var(--up)}
+html[data-theme="dark"] body.lq:not(.fe-matrix) .pc.dn{color:#FF7A5C}
+html[data-theme="dark"] body.lq:not(.fe-matrix) :is(.kpi,.tile,.bul-row,.rg,.facts) :is(.up,.sub.up,.d.up){color:var(--up)}
+html[data-theme="dark"] body.lq:not(.fe-matrix) .acard{border-color:rgba(236,234,227,.2)}
+html[data-theme="dark"] body.lq:not(.fe-matrix) .nav-theme i{background:linear-gradient(90deg,transparent 50%,currentColor 50%)}
+html[data-theme="dark"]{color-scheme:dark}
 /* market mood (Fear & Greed) — set by build.py on <body data-mood> */
 body[data-mood="fear"]{--mood:#6FB2FF}
 body[data-mood="neutral"]{--mood:#E8B04A}
@@ -84,6 +103,11 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:90;opa
 .nav-pill{display:none}                    /* app.js's Broadsheet pill — not used here */
 .nav-lang{padding:9px 10px;border-radius:999px;color:var(--mute);transition:color .25s}
 .nav-lang:hover{color:var(--hot)}
+/* After Hours toggle: a half-lit disc (◐) drawn in CSS */
+.nav-theme{display:grid;place-items:center;width:34px;height:34px;flex:none;border-radius:50%;border:0;background:none;color:var(--ink);cursor:pointer;transition:transform .6s var(--ease)}
+.nav-theme i{width:14px;height:14px;border-radius:50%;border:1.5px solid currentColor;background:linear-gradient(90deg,currentColor 50%,transparent 50%)}
+.nav-theme:hover{transform:rotate(180deg);color:var(--hot)}
+body.fe-matrix .nav-theme{display:none}   /* always night in the machine room */
 .nav-menu{display:none;align-items:center;gap:8px;padding:11px 16px;border:1px solid var(--line);border-radius:999px;background:none;color:var(--ink);cursor:pointer}
 .nav-menu::before{content:"";width:14px;height:6px;border-top:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transition:transform .45s var(--ease),height .45s var(--ease)}
 .nav-menu[aria-expanded="true"]::before{height:0;border-bottom:0;transform:rotate(45deg)}

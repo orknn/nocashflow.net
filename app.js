@@ -234,6 +234,9 @@
 
     /* Fear & Greed */
     const fg = await fetchFearGreed();
+    // TR pages: the live API speaks English; same words build.py uses (TR_FG)
+    const FG_TR = { 'Extreme Fear': 'Aşırı Korku', 'Fear': 'Korku', 'Neutral': 'Nötr', 'Greed': 'Açgözlülük', 'Extreme Greed': 'Aşırı Açgözlülük' };
+    if (fg && document.documentElement.lang === 'tr' && FG_TR[fg.label]) fg.label = FG_TR[fg.label];
     if (fg) {
       cache.fg = { value: fg.value, label: fg.label, t: Date.now() };
       $$('[data-px="fg"]').forEach((el) => { el.textContent = fg.value; });

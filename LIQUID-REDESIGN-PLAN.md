@@ -1,6 +1,6 @@
 # NoCashFlow — "Liquid" yeniden tasarım planı
 
-Durum (2026-11-15): **Faz 0–6 tamam** (`feat-liquid`). `embed` widget'ı dışında bütün sayfalar (EN+TR) Liquid'de. Sıradaki: **Faz 6b `[OPUS]`** (onaylanan küçük işler), sonra Faz 7 (kalite turu). Bölüm 6'daki kararların hepsi 2026-11-15'te kullanıcı tarafından önerildiği gibi onaylandı.
+Durum (2026-11-15): **Faz 0–6b tamam** (`feat-liquid`). `embed` widget'ı dışında bütün sayfalar (EN+TR) Liquid'de. Sıradaki: **Faz 7 `[OPUS]`** (kalite turu), sonra Faz 8 (yayın, onayla). Bölüm 6'daki kararların hepsi 2026-11-15'te kullanıcı tarafından önerildiği gibi onaylandı.
 
 ## 0. Eski tasarımın yedeği (Broadsheet)
 
@@ -181,10 +181,11 @@ Doğrulandı: üç demo 1440 ve 390'da yatay taşma 0, JS hatası yok; okuma say
 - `embed` Broadsheet'te kaldı (kapsam dışı). `pulse_chart`/`hero_frieze` yalnızca eski ana sayfada kullanılıyor; Liquid'de çağrılmıyor.
 - Doğrulandı: SEO etiketleri değişen her sayfada aynı; sitemap/RSS/embed değişmedi; 8 veri sayfası × 1440/390 taşma 0, JS hatası 0; macro'daki iki tuval çiziliyor; JS kapalıyken yedek grafikler ve KPI'lar görünüyor.
 
-### Faz 6b — Onaylanan küçük işler `[OPUS]`
-- Karar #4: vurgu rengi `#B3122B` → `#FF4B26` sosyal kartlarda (`scripts/make_article_card.py`), watermark'ta, makale mailinde (`send_article.py`) ve makale figürlerinde.
-- Karar #7: TR sayfalarda İngilizce kalan rejim şeridi etiketleri ve "Extreme Fear" Türkçeleştirilir.
-- Karar #1: After Hours koyu modu Liquid'e eklenir (bone ↔ ink, `--hot` aynı).
+### Faz 6b — Onaylanan küçük işler `[OPUS]` ✅
+- Vurgu `#FF4B26`: `make_article_card.py`, `tools/watermark.py`, `make_og_image.py`, `make_share_image.py` (ruh hâli renkleri aynı). `og.png`, `assets/cards/*`, `share/daily.png` yeniden üretildi; `warsh-inflation-{en,tr}.png` piksel karışımıyla yeniden renklendi. **Not:** tarayıcı/CDN eski görselleri önbellekte tutabilir.
+- TR etiketleri: `build.py` `TR_FG`, `_TR_LABEL`, `_trl()`; `app.js` canlı F&G etiketi için `FG_TR`. Yeni TR metinler kullanıcıya gösterildi ("Fed faizi", "4 toplantıdır sabit", "eriyor", "dikleşiyor", "Aşırı Korku"…).
+- After Hours: nav'da `.nav-theme` (app.js `initTheme`), `html[data-theme=dark] body.lq` token'ları; her zaman koyu yüzeyler aynı kalır; FE Matrix'te düğme gizli. LIQUID_ASSET_V=4.
+- Mailer bu fazda **değiştirilmedi** (başka repo, kirli ağaç, `main`'den koşuyor) → Faz 8'e taşındı.
 
 ### Faz 7 — Kalite turu `[OPUS]`
 - Her sayfa tipi × 2 dil × 3 genişlik ekran görüntüsü.
@@ -197,6 +198,7 @@ Doğrulandı: üç demo 1440 ve 390'da yatay taşma 0, JS hatası yok; okuma say
 - CI botu üretilmiş HTML'leri de commit'lediği için çakışma normal: rebase + yeniden build.
 - Canlı doğrulama: ana sayfa, bir makale, macro, dashboard, `/tr/`, abonelik formu.
 - Geri dönüş: `backup/pre-liquid`.
+- **Mailer (karar #4, ayrı repo `~/Sikik_Sikik_Fikirler/Crypto_Macro_Newsletter`, `main`):** `send_article.py` satır ~44 `CRIMSON = "#FF4B26"`; satır ~150 buton metni `color:{PAPER}` → `INK` (turuncu üstünde kontrast). Site yayınıyla aynı gün.
 
 ## 6. Kararlar (2026-11-15: kullanıcı hepsini öneri sütunundaki gibi onayladı)
 

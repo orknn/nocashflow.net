@@ -41,7 +41,7 @@ def _is_light(img):
     return (sum(px) / len(px)) > 128
 
 
-BRAND_RED = (176, 68, 43)  # #B0442B — same oxide-red as the chart "Headline CPI"
+BRAND_RED = (255, 75, 38)  # #FF4B26 — Liquid accent (was #B0442B oxide-red)
 
 
 def stamp(img, *, diagonal=True, corner=True, opacity=0.08, ink=None,

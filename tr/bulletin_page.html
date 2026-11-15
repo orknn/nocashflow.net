@@ -31,7 +31,7 @@
 <meta name="theme-color" content="#ECEAE3"/>
 <script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('theme');if(q==='dark'||q==='light'){try{localStorage.setItem('ncf_theme',q);}catch(e){}}var t=null;try{t=localStorage.getItem('ncf_theme');}catch(e){}if(!t){var h=new Date().getHours();t=(h>=21||h<7)?'dark':'light';}if(t==='dark')d.setAttribute('data-theme','dark');}catch(e){}})();</script>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="/liquid.css?v=3"/>
+<link rel="stylesheet" href="/liquid.css?v=4"/>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "tr", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
 <style>
 .perks { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -67,6 +67,7 @@
   </div>
   <span class="clock mono" data-lq-clock>—</span>
   <a class="nav-lang mono" href="/bulletin_page.html" data-set-lang="en" aria-label="Switch to English">EN</a>
+  <button class="nav-theme" type="button" data-theme-toggle aria-label="After Hours" title="After Hours"><i aria-hidden="true"></i></button>
   <a class="btn" href="/tr/bulletin_page.html" data-magnet><span>Abone Ol</span><span class="ar" aria-hidden="true">→</span></a>
   <button class="nav-menu mono" type="button" aria-expanded="false" aria-controls="lq-menu" data-open="Menü" data-close="Kapat">Menü</button>
 </nav>
@@ -179,10 +180,10 @@
         <div class="bul-row"><span class="lbl">Brent Petrol</span><span class="val" data-px="brent">$95.8</span><span class="d up" data-chg="brent">+0.02%</span></div>
         <div class="bul-row"><span class="lbl">DXY</span><span class="val" data-px="dxy">103.41</span><span class="d up" data-chg="dxy">+0.23%</span></div>
         <div class="bul-row"><span class="lbl">ABD 10Y Tahvil</span><span class="val" data-px="us10y">5.15%</span><span class="d up" data-chg="us10y">+1.00%</span></div>
-        <div class="bul-row"><span class="lbl">Fear &amp; Greed</span><span class="val" data-px="fg">10</span><span class="d dn" data-chg="fg">Extreme Fear</span></div>
+        <div class="bul-row"><span class="lbl">Fear &amp; Greed</span><span class="val" data-px="fg">10</span><span class="d dn" data-chg="fg">Aşırı Korku</span></div>
         <div class="callout" style="margin-top:22px">
           <div class="k">Günün notu</div>
-          <p>Canlı görüntü, 15 Kas 2026, 13:35 CET itibarıyla. Kripto Fear &amp; Greed 10/100 (Extreme Fear). Tam resim — takvim, Fed takibi ve masa notu — <a href="/bulletins/daily/latest.tr.html" target="_blank" rel="noopener">bugünkü sayıda →</a></p>
+          <p>Canlı görüntü, 15 Kas 2026, 13:35 CET itibarıyla. Kripto Fear &amp; Greed 10/100 (Aşırı Korku). Tam resim — takvim, Fed takibi ve masa notu — <a href="/bulletins/daily/latest.tr.html" target="_blank" rel="noopener">bugünkü sayıda →</a></p>
         </div>
       </div>
     </div>
@@ -266,7 +267,7 @@
   </div>
 </footer>
 
-<script src="/app.js?v=lq3"></script>
+<script src="/app.js?v=lq4"></script>
 <script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>
 <script>
   /* Stamp each card with the issue date pulled straight out of the bulletin's
@@ -300,6 +301,6 @@
   })();
 </script>
 <script>document.querySelectorAll('[data-set-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',a.getAttribute('data-set-lang'));}catch(e){}});});</script>
-<script src="/liquid.js?v=3"></script>
+<script src="/liquid.js?v=4"></script>
 </body>
 </html>

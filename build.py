@@ -59,7 +59,7 @@ LIQUID_FONTS_URL = ("https://fonts.googleapis.com/css2"
                     "?family=Bricolage+Grotesque:opsz,wght@12..96,300..700"
                     "&family=Geist+Mono:wght@400;500"
                     "&family=Instrument+Serif:ital@0;1&display=swap")
-LIQUID_ASSET_V = "3"   # bump to bust caches when liquid.css / liquid.js change
+LIQUID_ASSET_V = "4"   # bump to bust caches when liquid.css / liquid.js change
 DESIGN_KINDS = {"article": "liquid", "fe-essay": "liquid", "indicator": "liquid"}
 
 
@@ -89,6 +89,8 @@ def _apply_design(html, kind):
     if _design(kind) != "liquid":
         return html
     html = _lq_page_head(html)
+    if '<html lang="tr">' in html:
+        html = re.sub(r'(data-chg="fg"\s*>)([^<]+)<', lambda m: m[1] + _trl(m[2], "tr") + "<", html)
     # legacy data tables → the Liquid table (calendar, macro "This week")
     html = re.sub(r'<table class="dtable([^"]*)">(.*?)</table>',
                   r'<div class="dt-wrap rv"><table class="dt dtable\1">\2</table></div>', html, flags=re.S)
@@ -345,7 +347,7 @@ def inject_snapshot_note(html, lang):
                f'The full picture — calendar, Fed watch and the desk note — is in '
                f'<a href="/bulletins/daily/latest.en.html" target="_blank" rel="noopener">today\'s issue →</a>')
     else:
-        txt = (f"Canlı görüntü, {stamp} itibarıyla. Kripto Fear &amp; Greed {v}/100 ({label}). "
+        txt = (f"Canlı görüntü, {stamp} itibarıyla. Kripto Fear &amp; Greed {v}/100 ({_trl(label, lang)}). "
                f'Tam resim — takvim, Fed takibi ve masa notu — '
                f'<a href="/bulletins/daily/latest.tr.html" target="_blank" rel="noopener">bugünkü sayıda →</a>')
     return html.replace("<!--NCF:SNAP_NOTE-->", txt)
@@ -633,6 +635,38 @@ WEEKDAYS = {"en": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
             "tr": ["Pzt", "Sal", "Çar", "Per", "Cum", "Cmt", "Paz"]}
 MONTHS = {"en": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
           "tr": ["Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara"]}
+
+# ── TR wording for short data labels (Faz 6b, decision #7) ───────────────────
+# The data snapshots (macro2.json, market.json, alternative.me) carry English
+# labels; TR pages translate them at render time. Short, known phrases only —
+# anything unrecognised passes through unchanged.
+TR_FG = {"Extreme Fear": "Aşırı Korku", "Fear": "Korku", "Neutral": "Nötr",
+         "Greed": "Açgözlülük", "Extreme Greed": "Aşırı Açgözlülük"}
+_TR_LABEL = [
+    (r"^Fed Funds$", "Fed faizi"), (r"^Next FOMC$", "Sonraki FOMC"), (r"^Core CPI$", "Çekirdek TÜFE"),
+    (r"^US 10Y$", "ABD 10Y"), (r"^Cut odds\b", "İndirim olasılığı"),
+    (r"\bheld (\d+) mtgs\b", r"\1 toplantıdır sabit"), (r"\bQT ongoing\b", "QT sürüyor"),
+    (r"\bdraining\b", "eriyor"), (r"\bmedian\b", "medyanı"), (r"\bYoY\b", "yıllık"),
+    (r"\bMoM\b", "aylık"), (r"(?<=\d)m\b", " ay"), (r"\bcalm\b", "sakin"), (r"\bfrom\b", "önceki"),
+    (r"\bsteepening\b", "dikleşiyor"), (r"\bflattening\b", "yassılaşıyor"), (r"\binverted\b", "ters"),
+    (r"\bheld\b", "sabit"), (r"^core$", "çekirdek"), (r"\bimplied\b", "ima edilen"), (r"^(\d+)d$", r"\1 gün"),
+]
+
+
+def _trl(text, lang):
+    """English data label → Turkish on TR pages (F&G classes, regime tape, stat subs, months)."""
+    if lang != "tr" or not text:
+        return text
+    t = str(text)
+    if t in TR_FG:
+        return TR_FG[t]
+    for pat, rep_ in _TR_LABEL:
+        t = re.sub(pat, rep_, t)
+    # "Dec 9" → "9 Ara" (Turkish puts the day first)
+    return re.sub(r"\b(" + "|".join(MONTHS["en"]) + r") (\d{1,2})\b",
+                  lambda m: f'{m[2]} {MONTHS["tr"][MONTHS["en"].index(m[1])]}', t)
+
+
 COUNTRY = {
     "US": ("🇺🇸", "USD"), "EA": ("🇪🇺", "EUR"), "EU": ("🇪🇺", "EUR"),
     "DE": ("🇩🇪", "EUR"), "FR": ("🇫🇷", "EUR"), "IT": ("🇮🇹", "EUR"),
@@ -1167,6 +1201,7 @@ def _lq_nav(active_key, lang, sw_href):
   </div>
   <span class="clock mono" data-lq-clock>—</span>
   <a class="nav-lang mono" href="{sw_href}" data-set-lang="{sw_set}" aria-label="{ui['sw_aria']}">{ui['sw']}</a>
+  <button class="nav-theme" type="button" data-theme-toggle aria-label="After Hours" title="After Hours"><i aria-hidden="true"></i></button>
   <a class="btn" href="{sub_href}" data-magnet><span>{sub_label}</span><span class="ar" aria-hidden="true">→</span></a>
   <button class="nav-menu mono" type="button" aria-expanded="false" aria-controls="lq-menu" data-open="{ui['menu']}" data-close="{ui['close']}">{ui['menu']}</button>
 </nav>
@@ -1910,7 +1945,7 @@ def _lq_macro_stats(section, lang):
         note = notes[i] if i < len(notes) else ""
         out.append(f'<div class="kpi fade" style="--i:{i}"><div class="lab">{labels[i] if i < len(labels) else ""}</div>'
                    f'<div><div class="big" data-scr>{st.get("v", "—")}</div>'
-                   + (f'<div class="sub {st.get("dir", "neu")}">{sub}</div>' if sub else "")
+                   + (f'<div class="sub {st.get("dir", "neu")}">{_trl(sub, lang)}</div>' if sub else "")
                    + (f'<div class="note">{note}</div>' if note else "") + "</div></div>")
     return "".join(out)
 
@@ -1931,8 +1966,8 @@ def _lq_macro2(html, lang):
                  ('<div class="mcr-odds">', '<div class="odds">')):
         html = html.replace(a, b)
     html = html.replace("<!--NCF:MACRO2_TAPE-->", "".join(
-        f'<div class="rg fade" style="--i:{i}"><span class="k mono">{c["k"]}</span><div><div class="v" data-scr>{c["v"]}</div>'
-        f'<div class="d mono {c.get("dir", "neu")}">{c.get("d") or "&nbsp;"}</div></div></div>'
+        f'<div class="rg fade" style="--i:{i}"><span class="k mono">{_trl(c["k"], lang)}</span><div><div class="v" data-scr>{_trl(c["v"], lang)}</div>'
+        f'<div class="d mono {c.get("dir", "neu")}">{_trl(c.get("d"), lang) or "&nbsp;"}</div></div></div>'
         for i, c in enumerate(M.get("regime_tape", []))))
     for key, sec in (("INFLATION", "inflation"), ("FED_STATS", "fed"), ("LIQ_STATS", "liquidity"),
                      ("GROWTH", "growth"), ("RATES_STATS", "rates")):
@@ -1941,8 +1976,8 @@ def _lq_macro2(html, lang):
     if odds:
         top = max([o["p"] for o in odds] + [10])
         html = html.replace("<!--NCF:MACRO2_FED_ODDS-->", "".join(
-            f'<div class="odd"><span class="mono">{o["m"]}</span><span class="bar"><i data-w="{o["p"] / top * 100:.1f}" style="--w:{o["p"] / top * 100:.1f}%"></i></span>'
-            f'<span class="p">{o["p"]}%</span><span class="mv">{o["d"] if o.get("d") and o["d"] != "implied" else ""}</span></div>'
+            f'<div class="odd"><span class="mono">{_trl(o["m"], lang)}</span><span class="bar"><i data-w="{o["p"] / top * 100:.1f}" style="--w:{o["p"] / top * 100:.1f}%"></i></span>'
+            f'<span class="p">{o["p"]}%</span><span class="mv">{_trl(o["d"], lang) if o.get("d") and o["d"] != "implied" else ""}</span></div>'
             for o in odds))
     liq = M.get("liquidity", {})
     ls = liq.get("net_liq_series") or []
@@ -2081,7 +2116,7 @@ def inject_liquid_home(html, lang):
 
     fill["ASOF"] = f'{T["snap"]} · {_lq_date(MARKET.get("asof"), lang, True)}'
     fg = inst.get("fg", {})
-    fill["MOOD"] = (f'{T["mood"]} · {fg.get("chg", "—")} · {fg.get("px", "—")}/100' if fg else T["mood"] + " · —")
+    fill["MOOD"] = (f'{T["mood"]} · {_trl(fg.get("chg", "—"), lang)} · {fg.get("px", "—")}/100' if fg else T["mood"] + " · —")
 
     curve = [{"l": c["l"], "v": c["v"]} for c in (MACRO.get("curve") or []) if c.get("v") is not None]
     fill["CURVE"] = "data-curve='" + json.dumps(curve, separators=(",", ":")) + "'" if len(curve) >= 2 else ""
@@ -2095,9 +2130,10 @@ def inject_liquid_home(html, lang):
                  for k in LQ_MARQUEE if k in inst)
     fill["MARQUEE"] = mq + mq                                   # two copies → seamless loop
 
+    en_attr = ' lang="en"' if lang == "en" else ""
     fill["REGIME"] = "".join(
-        f'<div class="rg fade" style="--i:{i}" lang="en"><span class="k mono">{c["k"]}</span>'
-        f'<div><div class="v" data-scr>{c["v"]}</div><div class="d mono">{c.get("d") or "&nbsp;"}</div></div></div>'
+        f'<div class="rg fade" style="--i:{i}"{en_attr}><span class="k mono">{_trl(c["k"], lang)}</span>'
+        f'<div><div class="v" data-scr>{_trl(c["v"], lang)}</div><div class="d mono">{_trl(c.get("d"), lang) or "&nbsp;"}</div></div></div>'
         for i, c in enumerate((MACRO2 or {}).get("regime_tape", [])))
 
     order = [s for s in ARTICLE_ORDER if s in ARTICLES and (CONTENT / "articles" / s / f"{lang}.html").exists()]
@@ -2119,6 +2155,7 @@ def inject_liquid_home(html, lang):
             for s in order[1:1 + LQ_ROWS])
 
     v, lbl = _fg_value()
+    lbl = _trl(lbl, lang)
     ticks = "".join(
         f'<line x1="{200 + 188 * math.cos(math.pi * (1 - i / 20)):.1f}" y1="{200 - 188 * math.sin(math.pi * (1 - i / 20)):.1f}" '
         f'x2="{200 + (200 if i % 5 == 0 else 193) * math.cos(math.pi * (1 - i / 20)):.1f}" '
@@ -2139,7 +2176,7 @@ def inject_liquid_home(html, lang):
     if odds:
         top = max([o["p"] for o in odds] + [10])
         fill["ODDS"] = "".join(
-            f'<div class="odd"><span class="mono">{o["m"]}</span><span class="bar"><i data-w="{o["p"] / top * 100:.1f}" '
+            f'<div class="odd"><span class="mono">{_trl(o["m"], lang)}</span><span class="bar"><i data-w="{o["p"] / top * 100:.1f}" '
             f'style="--w:{o["p"] / top * 100:.1f}%"></i></span><span class="p">{o["p"]}%</span></div>' for o in odds)
     else:   # same honest empty state as the macro page — nothing printed from memory
         fill["ODDS"] = ('<p class="mono dim">—</p>')
@@ -2793,7 +2830,7 @@ def _ind_reading(slug, lang):
             interp = ("Strong dollar" if v >= 104 else "Neutral" if v >= 100 else "Soft dollar") if lang == "en" \
                 else ("Güçlü dolar" if v >= 104 else "Nötr" if v >= 100 else "Zayıf dolar")
         else:
-            interp = d.get("chg", "")
+            interp = _trl(d.get("chg", ""), lang)
         return val, interp, dirc, key
     if kind == "spread":
         sp = MACRO.get("spread")
