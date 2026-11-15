@@ -21,6 +21,7 @@ the visual design — page bodies are reproduced byte-for-byte.
 """
 import json
 import math
+import os
 import re
 import sys
 from datetime import datetime, timezone, timedelta
@@ -44,6 +45,61 @@ FONTS_URL = ("https://fonts.googleapis.com/css2"
              "&family=Libre+Caslon+Display"
              "&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400"
              "&family=IBM+Plex+Mono:wght@400;500;600&display=swap")
+
+# ── "Liquid" redesign (feat-liquid, LIQUID-REDESIGN-PLAN.md) ─────────────────
+# Pages opt in one at a time: PAGES[key]["design"] = "liquid", or DESIGN_KINDS
+# for the page families rendered outside PAGES (articles, FE essays, /now/).
+# Broadsheet stays the default and its output is byte-identical to the
+# pre-Liquid build; Liquid is applied as a post-pass in _apply_design().
+# Preview without touching the registry:  NCF_LIQUID=index,article python3 build.py
+#                                     or  NCF_LIQUID=all python3 build.py
+LIQUID_FONTS_URL = ("https://fonts.googleapis.com/css2"
+                    "?family=Bricolage+Grotesque:opsz,wght@12..96,300..700"
+                    "&family=Geist+Mono:wght@400;500"
+                    "&family=Instrument+Serif:ital@0;1&display=swap")
+LIQUID_ASSET_V = "1"   # bump to bust caches when liquid.css / liquid.js change
+DESIGN_KINDS = {"article": "broadsheet", "fe-essay": "broadsheet", "indicator": "broadsheet"}
+
+
+def _design(kind):
+    """'liquid' or 'broadsheet' for a PAGES key or a DESIGN_KINDS family."""
+    env = {s.strip() for s in os.environ.get("NCF_LIQUID", "").split(",") if s.strip()}
+    if "all" in env or kind in env:
+        return "liquid"
+    if kind in PAGES and PAGES[kind].get("design"):
+        return PAGES[kind]["design"]
+    return DESIGN_KINDS.get(kind, "broadsheet")
+
+
+_BROADSHEET_ONLY = re.compile(
+    r'<link rel="stylesheet" href="/(?:site|components|broadsheet)\.css"/>\n'
+    r'|<div class="press-line"></div>')
+
+
+def _apply_design(html, kind):
+    """Swap the Broadsheet asset stack for Liquid on opted-in pages.
+
+    Works on the finished document so the four head() variants (pages,
+    articles, FE essays, indicators) need no Liquid branches of their own.
+    Page-specific stylesheets (macro.css, dashboard.css, finance-eng.css …)
+    are kept; Faz 6 replaces them.
+    """
+    if _design(kind) != "liquid":
+        return html
+    html = html.replace(f'<link href="{FONTS_URL}" rel="stylesheet"/>',
+                        f'<link href="{LIQUID_FONTS_URL}" rel="stylesheet"/>\n'
+                        f'<link rel="stylesheet" href="/liquid.css?v={LIQUID_ASSET_V}"/>', 1)
+    html = _BROADSHEET_ONLY.sub("", html)
+    # JS present → let liquid.css hide entrance states (content stays visible without JS)
+    html = html.replace('<meta charset="UTF-8"/>',
+                        '<meta charset="UTF-8"/>\n'
+                        "<script>document.documentElement.classList.add('js')</script>", 1)
+    html = re.sub(r'<meta name="theme-color" content="[^"]*"/>',
+                  '<meta name="theme-color" content="#ECEAE3"/>', html, count=1)
+    html = re.sub(r'(<body[^>]*\bclass=")bs\b', r"\1lq", html, count=1)
+    html = html.replace("</body>", f'<script src="/liquid.js?v={LIQUID_ASSET_V}"></script>\n</body>', 1)
+    return html
+
 
 # After Hours theme — pre-paint decision (no flash): stored preference wins;
 # otherwise dark between 21:00–07:00 local. ?theme=dark|light overrides + persists.
@@ -2438,7 +2494,7 @@ def build():
                 continue
             out_path = ROOT / p["out"][lang]
             out_path.parent.mkdir(parents=True, exist_ok=True)
-            out_path.write_text(render(page, lang), encoding="utf-8")
+            out_path.write_text(_apply_design(render(page, lang), page), encoding="utf-8")
             written.append(p["out"][lang])
             print(f"  build {p['out'][lang]:28} [{lang}]")
     for slug in ARTICLES:
@@ -2447,7 +2503,7 @@ def build():
                 continue
             out_path = ROOT / article_out(slug, lang)
             out_path.parent.mkdir(parents=True, exist_ok=True)
-            out_path.write_text(render_article(slug, lang), encoding="utf-8")
+            out_path.write_text(_apply_design(render_article(slug, lang), "article"), encoding="utf-8")
             written.append(article_out(slug, lang))
             print(f"  build {article_out(slug, lang):28} [{lang}]")
     for key in FE_ESSAYS:                               # Finance Engineering essays
@@ -2456,18 +2512,18 @@ def build():
                 continue
             out_path = ROOT / fe_out(key, lang)
             out_path.parent.mkdir(parents=True, exist_ok=True)
-            out_path.write_text(render_fe_essay(key, lang), encoding="utf-8")
+            out_path.write_text(_apply_design(render_fe_essay(key, lang), "fe-essay"), encoding="utf-8")
             written.append(fe_out(key, lang))
             print(f"  build {fe_out(key, lang):28} [{lang}]")
     for lang in LANGS:                                  # live indicator hub + pages
         hub_out = "now/index.html" if lang == "en" else "tr/simdi/index.html"
         (ROOT / hub_out).parent.mkdir(parents=True, exist_ok=True)
-        (ROOT / hub_out).write_text(render_indicator_hub(lang), encoding="utf-8")
+        (ROOT / hub_out).write_text(_apply_design(render_indicator_hub(lang), "indicator"), encoding="utf-8")
         written.append(hub_out)
         for slug in INDICATOR_ORDER:
             op = ROOT / indicator_out(slug, lang)
             op.parent.mkdir(parents=True, exist_ok=True)
-            op.write_text(render_indicator(slug, lang), encoding="utf-8")
+            op.write_text(_apply_design(render_indicator(slug, lang), "indicator"), encoding="utf-8")
             written.append(indicator_out(slug, lang))
         print(f"  build now/ hub + {len(INDICATOR_ORDER)} indicators   [{lang}]")
     generate_sitemap()
