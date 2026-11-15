@@ -1,7 +1,7 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-11-14T12:05:34Z",
+ "updated": "2026-11-15T12:41:31Z",
  "sources": [],
- "considered": 66,
+ "considered": 84,
  "stories": []
 }
