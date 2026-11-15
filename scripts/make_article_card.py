@@ -24,7 +24,7 @@ BG    = (243, 238, 227)   # #F3EEE3 off-white board
 INK   = (25, 21, 18)
 DIM   = (87, 79, 71)
 MUTED = (138, 130, 118)
-RED   = (176, 68, 43)     # #B0442B oxide-red
+RED   = (255, 75, 38)     # #FF4B26 Liquid accent (was #B0442B oxide-red)
 AMBER = (201, 138, 43)
 LINE  = (212, 207, 196)
 

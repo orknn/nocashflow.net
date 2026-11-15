@@ -32,6 +32,7 @@ BG        = (255, 255, 255)
 BG_ELEV   = (250, 249, 246)
 INK       = (25, 21, 18)
 AMBER     = (201, 138, 43)
+HOT       = (255, 75, 38)    # Liquid brand accent #FF4B26 (band, slash, labels)
 GREEN     = (21, 128, 61)
 RED       = (216, 58, 30)
 LINE      = (232, 227, 216)
@@ -96,7 +97,7 @@ def build_card():
     d = ImageDraw.Draw(img)
 
     # warm top band for a touch of depth
-    d.rectangle([0, 0, W, 8], fill=AMBER)
+    d.rectangle([0, 0, W, 8], fill=HOT)
 
     # ── header ───────────────────────────────────────────────────────────────
     by = 54
@@ -104,7 +105,7 @@ def build_card():
     x = M
     d.text((x, by), "NO", font=wm, fill=INK)
     x += _w(d, "NO", wm)
-    d.text((x, by), "/", font=wm, fill=AMBER)
+    d.text((x, by), "/", font=wm, fill=HOT)
     x += _w(d, "/", wm)
     d.text((x, by), "CASHFLOW", font=wm, fill=INK)
 
@@ -119,7 +120,7 @@ def build_card():
     sub = mono(14)
     d.text((W - M - _w(d, datestr, lab), by + 2), datestr, font=lab, fill=INK)
     tag = "DAILY MARKET SNAPSHOT"
-    d.text((W - M - _w(d, tag, sub), by + 30), tag, font=sub, fill=AMBER)
+    d.text((W - M - _w(d, tag, sub), by + 30), tag, font=sub, fill=HOT)
 
     d.line([M, 120, W - M, 120], fill=LINE, width=2)
 
@@ -132,7 +133,7 @@ def build_card():
     d.text((M, hy), fgval, font=big, fill=_fg_color(fg.get("px")))
     hx = M + _w(d, fgval, big) + 34
     d.text((hx, hy + 36), fglabel or "—", font=fra(46, "SemiBold"), fill=INK)
-    d.text((hx, hy + 100), "CRYPTO FEAR & GREED INDEX", font=mono(17), fill=AMBER)
+    d.text((hx, hy + 100), "CRYPTO FEAR & GREED INDEX", font=mono(17), fill=HOT)
 
     # ── stat grid: 4 cols x 2 rows ────────────────────────────────────────────
     cells = [
@@ -156,7 +157,7 @@ def build_card():
         r, c = divmod(i, cols)
         cx = M + c * cw
         cy = gy0 + r * rh
-        d.text((cx, cy), label, font=klab, fill=AMBER)
+        d.text((cx, cy), label, font=klab, fill=HOT)
         val = str(dd.get("px", "—"))
         d.text((cx, cy + 26), val, font=vfont, fill=INK)
         chg = str(dd.get("chg", ""))

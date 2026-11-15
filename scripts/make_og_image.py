@@ -18,7 +18,7 @@ FONTS = ROOT / "assets" / "fonts"
 # ── design tokens (mirror the current og.png / site palette) ─────────────────
 BG      = (247, 244, 237)        # warm off-white
 INK     = (24, 21, 16)           # near-black
-AMBER   = (179, 18, 43)          # crimson accent (the "/") — matches the live site (#B3122B)
+AMBER   = (255, 75, 38)          # accent (the "/") — Liquid #FF4B26 (was crimson #B3122B)
 MUTED   = (122, 114, 104)        # eyebrow / Barcelona
 DEK     = (74, 70, 60)           # tagline
 LINE    = (215, 210, 197)        # hairlines
