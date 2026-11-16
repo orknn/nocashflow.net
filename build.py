@@ -59,7 +59,7 @@ LIQUID_FONTS_URL = ("https://fonts.googleapis.com/css2"
                     "?family=Bricolage+Grotesque:opsz,wght@12..96,300..700"
                     "&family=Geist+Mono:wght@400;500"
                     "&family=Instrument+Serif:ital@0;1&display=swap")
-LIQUID_ASSET_V = "8"   # bump to bust caches when liquid.css / liquid.js change
+LIQUID_ASSET_V = "9"   # bump to bust caches when liquid.css / liquid.js change
 DESIGN_KINDS = {"article": "liquid", "fe-essay": "liquid", "indicator": "liquid"}
 
 
@@ -996,11 +996,11 @@ def head(page, lang):
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="{OG_IMAGE}"/>
 <meta name="twitter:site" content="@No_CashFlow"/>
-<link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml"/>
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=2"/>
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png?v=2"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2"/>
-<link rel="shortcut icon" href="/favicon.ico?v=2"/>
+<link rel="icon" href="/favicon.svg?v=3" type="image/svg+xml"/>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=3"/>
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png?v=3"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3"/>
+<link rel="shortcut icon" href="/favicon.ico?v=3"/>
 <link rel="alternate" type="application/rss+xml" title="NoCashFlow" href="{feed}"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -1243,7 +1243,7 @@ def _lq_nav(active_key, lang, sw_href):
     return f"""
 <!-- NAV -->
 <nav class="nav" aria-label="{ui['nav']}">
-  <a class="logo" href="{home_href}"{home_cur} aria-label="NO/CASHFLOW — {ui['home']}">NO<i>/</i>CASHFLOW</a>
+  <a class="logo" href="{home_href}"{home_cur} aria-label="NO/CASHFLOW — {ui['home']}"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><circle cx="32" cy="32" r="21" fill="none" stroke="currentColor" stroke-width="8"/><polygon points="12,59 22,59 52,5 42,5" fill="#FF4B26"/></svg><span>NO<i>/</i>CASHFLOW</span></a>
   <div class="nav-links">
 {chr(10).join(links)}
   </div>
@@ -2470,11 +2470,11 @@ def render_article(slug, lang):
 <meta property="og:image" content="{article_card_url(slug, lang)}"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="{article_card_url(slug, lang)}"/>
-<link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml"/>
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=2"/>
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png?v=2"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2"/>
-<link rel="shortcut icon" href="/favicon.ico?v=2"/>
+<link rel="icon" href="/favicon.svg?v=3" type="image/svg+xml"/>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=3"/>
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png?v=3"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3"/>
+<link rel="shortcut icon" href="/favicon.ico?v=3"/>
 <link rel="alternate" type="application/rss+xml" title="NoCashFlow" href="{feed}"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -2664,10 +2664,10 @@ def render_fe_essay(key, lang):
 <meta property="og:image" content="{card}"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="{card}"/>
-<link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml"/>
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=2"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2"/>
-<link rel="shortcut icon" href="/favicon.ico?v=2"/>
+<link rel="icon" href="/favicon.svg?v=3" type="image/svg+xml"/>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=3"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3"/>
+<link rel="shortcut icon" href="/favicon.ico?v=3"/>
 <link rel="alternate" type="application/rss+xml" title="NoCashFlow" href="{feed}"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -2924,11 +2924,11 @@ def _ind_head(lang, title, desc, canonical, alt_en, alt_tr, schema):
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="{OG_IMAGE}"/>
 <meta name="twitter:site" content="@No_CashFlow"/>
-<link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml"/>
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=2"/>
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png?v=2"/>
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2"/>
-<link rel="shortcut icon" href="/favicon.ico?v=2"/>
+<link rel="icon" href="/favicon.svg?v=3" type="image/svg+xml"/>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=3"/>
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png?v=3"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3"/>
+<link rel="shortcut icon" href="/favicon.ico?v=3"/>
 <link rel="alternate" type="application/rss+xml" title="NoCashFlow" href="{feed}"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><style>
+@media (prefers-reduced-motion:no-preference){
+ .l{animation:d 7s ease-in-out infinite alternate}.l:nth-child(2){animation-delay:-2s}.l:nth-child(3){animation-delay:-4s}
+ @keyframes d{from{transform:translateX(-3px)}to{transform:translateX(3px)}}
+}</style><defs><clipPath id="c"><circle cx="32" cy="32" r="17.5"/></clipPath></defs><g clip-path="url(#c)" fill="none" stroke="#0B0C0F" stroke-width="1.6" stroke-linecap="round"><path class="l" opacity=".25" d="M6 30 C16 24,22 30,30 26 S44 16,58 20"/><path class="l" opacity=".45" d="M6 36 C16 30,22 36,30 32 S44 22,58 26"/><path class="l" opacity=".7" d="M6 42 C16 36,22 42,30 38 S44 28,58 32"/></g><circle cx="32" cy="32" r="21" fill="none" stroke="#0B0C0F" stroke-width="6"/><polygon points="13,58 21,58 51,6 43,6" fill="#FF4B26"/></svg>
