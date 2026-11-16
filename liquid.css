@@ -830,3 +830,15 @@ a.pn-card:hover .pn-k{color:var(--hot)}
 }
 /* ?static (screenshots): liquid.js adds .lq-static — everything settled, nothing moving */
 .lq-static *,.lq-static *::before,.lq-static *::after{transition:none!important;animation:none!important}
+
+/* embed page: code blocks + the live widget preview (QC round) */
+.lq pre.embed-code{margin:0;padding:20px 22px;border-radius:20px;background:var(--ink);color:var(--bone);overflow-x:auto;scrollbar-width:none;
+  box-shadow:inset 0 0 0 1px rgba(236,234,227,.09)}
+.lq pre.embed-code::-webkit-scrollbar{display:none}
+.lq pre.embed-code code{font:400 13px/1.7 var(--mono);letter-spacing:-.01em;background:none;padding:0;color:inherit;white-space:pre}
+.lq .prose :not(pre)>code{font:400 .86em var(--mono);padding:2px 7px;border-radius:7px;background:var(--bone-2)}
+.lq #ncf-preview{display:flex;justify-content:center}
+.lq #ncf-preview>*{max-width:100%}
+.lq .with-aside>*{min-width:0}                       /* long <pre> lines scroll inside, never widen the page */
+.lq .section-header+p.prose{margin-top:14px}
+html[data-theme="dark"] body.lq:not(.fe-matrix) pre.embed-code{--ink:#08090B;--bone:#ECEAE3}

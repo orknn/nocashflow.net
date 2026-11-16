@@ -27,6 +27,18 @@
   NCF.fmtPct = fmtPct;
   NCF.fmtNum = fmtNum;
 
+  /* Turkish pages show data numbers the Turkish way: 5,183.42 -> 5.183,42 and
+     +2.87% -> +%2,87. Mirrors build.py _trnum; input is always English-formatted. */
+  const TR_NUM = document.documentElement.lang === 'tr';
+  const NUM_TOK = /(^|[^\w.,])([+\-\u2212]?)(\$?)(\d{1,3}(?:,\d{3})+|\d+)(\.\d+)?(%?)(?!\d)/g;
+  function loc(s) {
+    if (!TR_NUM || typeof s !== 'string') return s;
+    return s.replace(NUM_TOK, (m, lead, sign, cur, intp, dec, pct) =>
+      (!dec && !pct && intp.indexOf(',') < 0) ? m
+        : lead + sign + (pct ? '%' : '') + cur + intp.replace(/,/g, '.') + (dec ? ',' + dec.slice(1) : ''));
+  }
+  NCF.loc = loc;
+
   /* ---------- last-good cache (localStorage) ---------- */
   const CACHE_KEY = 'ncf-market-cache';
   function readCache() {
@@ -101,9 +113,9 @@
   }
 
   function paintSnapshot(key, val) {
-    $$('[data-px="' + key + '"]').forEach((el) => { el.textContent = val.px; });
+    $$('[data-px="' + key + '"]').forEach((el) => { el.textContent = loc(val.px); });
     $$('[data-chg="' + key + '"]').forEach((el) => {
-      el.textContent = val.chg;
+      el.textContent = key === 'fg' ? val.chg : loc(val.chg);
       el.classList.remove('up', 'dn', 'neu');
       el.classList.add(val.dir || 'neu');
     });
@@ -174,9 +186,9 @@
     const priceStr = inst && price != null ? inst.fmt(price) : (opts.priceStr || '—');
     const dir = pct == null ? 'neu' : (opts.invert ? (pct <= 0 ? 'up' : 'dn')
                                                     : (pct >= 0 ? 'up' : 'dn'));
-    $$('[data-px="' + key + '"]').forEach((el) => { el.textContent = priceStr; });
+    $$('[data-px="' + key + '"]').forEach((el) => { el.textContent = loc(priceStr); });
     $$('[data-chg="' + key + '"]').forEach((el) => {
-      el.textContent = opts.chgStr || fmtPct(pct);
+      el.textContent = loc(opts.chgStr || fmtPct(pct));
       el.classList.remove('up', 'dn', 'neu');
       el.classList.add(dir);
     });

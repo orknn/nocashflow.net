@@ -59,7 +59,7 @@ LIQUID_FONTS_URL = ("https://fonts.googleapis.com/css2"
                     "?family=Bricolage+Grotesque:opsz,wght@12..96,300..700"
                     "&family=Geist+Mono:wght@400;500"
                     "&family=Instrument+Serif:ital@0;1&display=swap")
-LIQUID_ASSET_V = "6"   # bump to bust caches when liquid.css / liquid.js change
+LIQUID_ASSET_V = "8"   # bump to bust caches when liquid.css / liquid.js change
 DESIGN_KINDS = {"article": "liquid", "fe-essay": "liquid", "indicator": "liquid"}
 
 
@@ -91,6 +91,7 @@ def _apply_design(html, kind):
     html = _lq_page_head(html)
     if '<html lang="tr">' in html:
         html = re.sub(r'(data-chg="fg"\s*>)([^<]+)<', lambda m: m[1] + _trl(m[2], "tr") + "<", html)
+        html = _trnum_html(html)
         # English names inside uppercase labels: without lang="en" the Turkish
         # casing rule turns i into İ (ENGLİSH, BİTCOİN, LİNKEDİN)
         for dom_id in ("dsh-instruments", "dsh-wl-tabs"):
@@ -337,7 +338,8 @@ def inject_cal_brief(html, lang):
         if e.get("prev", "—") != "—" or e.get("est", "—") != "—":
             pv = "Prev" if lang == "en" else "Önceki"
             cs = "Cons" if lang == "en" else "Beklenti"
-            sub = f'<p>{pv} {e.get("prev", "—")} · {cs} {e.get("est", "—")}</p>'
+            nf = _trnum if lang == "tr" else (lambda x: x)
+            sub = f'<p>{pv} {nf(str(e.get("prev", "—")))} · {cs} {nf(str(e.get("est", "—")))}</p>'
         items.append(f'<div class="brief-item"><div class="t">{wd} {e.get("time", "")} · {imp}</div>'
                      f'<h4>{e.get("event", "")}</h4>{sub}</div>')
     return html.replace("<!--NCF:CAL_BRIEF-->", "\n          ".join(items))
@@ -509,6 +511,7 @@ PAGES = {
     },
     "embed": {
         "nav_key": None,  # utility/tools page — footer only, not under Macro
+        "design": "liquid",
         "paths": {"en": "/embed.html", "tr": "/tr/embed.html"},
         "out":   {"en": "embed.html", "tr": "tr/embed.html"},
         "title": {"en": "Free Market Data Widget — NoCashFlow | Embed Live Macro",
@@ -658,6 +661,44 @@ _TR_LABEL = [
     (r"\bsteepening\b", "dikleşiyor"), (r"\bflattening\b", "yassılaşıyor"), (r"\binverted\b", "ters"),
     (r"\bheld\b", "sabit"), (r"^core$", "çekirdek"), (r"\bimplied\b", "ima edilen"), (r"^(\d+)d$", r"\1 gün"),
 ]
+
+
+_NUM_TOK = re.compile(r"(?<![\w.,])([+\-−]?)(\$?)(\d{1,3}(?:,\d{3})+|\d+)(\.\d+)?(%?)(?![\d])")
+
+
+def _trnum(text):
+    """English-formatted data numbers → Turkish: 5,183.42 → 5.183,42 · +2.87% → +%2,87.
+    Only for data strings (never prose): a Turkish-formatted number fed back in
+    would be read as English."""
+    def f(m):
+        sign, cur, intp, dec, pct = m.groups()
+        if not (dec or pct or "," in intp):
+            return m[0]
+        return f"{sign}{'%' if pct else ''}{cur}{intp.replace(',', '.')}{',' + dec[1:] if dec else ''}"
+    return _NUM_TOK.sub(f, text)
+
+
+# data-bearing leaf elements on Liquid pages (class tokens / attributes)
+_TRNUM_CLASSES = {"yl", "vl", "v", "c", "p", "big", "sub", "mv", "val", "d", "s", "pf", "pc", "num",
+                  "ic-v", "ind-value", "cap", "px", "chg"}
+_TRNUM_LEAF = re.compile(r"<(span|div|td|b|text)\b([^>]*)>([^<]*\d[^<]*)</\1>")
+
+
+def _trnum_html(html):
+    """Apply _trnum to the data leaves of a TR page (prose, tables in articles,
+    code and scripts are left alone)."""
+    def f(m):
+        tag, attrs, txt = m.groups()
+        cls = re.search(r'class="([^"]*)"', attrs)
+        tokens = set(cls.group(1).split()) if cls else set()
+        hit = (tokens & _TRNUM_CLASSES or re.search(r"\bdata-(?:px|chg|scr|live-px|live-chg|fed|metric)\b", attrs)
+               or tag == "text" or (tag == "td" and "mono" in tokens))
+        if not hit or 'data-chg="fg"' in attrs:
+            return m[0]
+        return f"<{tag}{attrs}>{_trnum(txt)}</{tag}>"
+    head, sep, body = html.partition("<body")
+    parts = re.split(r"(<script\b.*?</script>|<pre\b.*?</pre>|<article\b.*?</article>)", body, flags=re.S)
+    return head + sep + "".join(x if i % 2 else _TRNUM_LEAF.sub(f, x) for i, x in enumerate(parts))
 
 
 def _trl(text, lang):
@@ -3082,13 +3123,13 @@ def _render_article_cards():
             for lang in ("en", "tr"):
                 mod.build_article_card(a["title"][lang], a["dek"][lang],
                                        a["cat"][lang], a["date_disp"][lang],
-                                       out / f"{slug}-{lang}.png")
+                                       out / f"{slug}-{lang}.png", lang=lang)
                 n += 1
         for key, a in FE_ESSAYS.items():
             for lang in ("en", "tr"):
                 mod.build_article_card(a["title"][lang], a["dek"][lang],
                                        "Finance Engineering", a["date_disp"][lang],
-                                       out / f"{key}-{lang}.png")
+                                       out / f"{key}-{lang}.png", lang=lang)
                 n += 1
         print(f"  + {n} article social cards (assets/cards/)")
     except Exception as e:

@@ -31,7 +31,7 @@
 <meta name="theme-color" content="#ECEAE3"/>
 <script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('theme');if(q==='dark'||q==='light'){try{localStorage.setItem('ncf_theme',q);}catch(e){}}var t=null;try{t=localStorage.getItem('ncf_theme');}catch(e){}if(!t){var h=new Date().getHours();t=(h>=21||h<7)?'dark':'light';}if(t==='dark')d.setAttribute('data-theme','dark');}catch(e){}})();</script>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="/liquid.css?v=6"/>
+<link rel="stylesheet" href="/liquid.css?v=8"/>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "en", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
 <link rel="stylesheet" href="/dashboard.css"/>
 </head>
@@ -289,7 +289,7 @@
   </div>
 </footer>
 
-<script src="/app.js?v=lq6"></script>
+<script src="/app.js?v=lq8"></script>
 <script>
   /* The shared ticker is the one live thing on this page and stays on its own
      existing data source. Every dashboard section below is prototype content
@@ -367,7 +367,8 @@
       }
       if (ch && isNum(inst.changePercent)) {
         var p = inst.changePercent;
-        ch.textContent = (p > 0 ? '+' : p < 0 ? '\u2212' : '') + Math.abs(p).toFixed(2) + '%';
+        ch.textContent = (p > 0 ? '+' : p < 0 ? '\u2212' : '') +
+          (TR ? '%' + Math.abs(p).toFixed(2).replace('.', ',') : Math.abs(p).toFixed(2) + '%');
         ch.classList.remove('up', 'down', 'neu');
         ch.classList.add(p > 0 ? 'up' : p < 0 ? 'down' : 'neu');
       }
@@ -478,7 +479,7 @@
       var main = path(pts, lo, rng), lab = [], g = [hi, (hi + lo) / 2, lo], i;
       for (i = 0; i < 3; i++) {
         lab.push('<text x="6" y="' + (Y1 - (g[i] - lo) / rng * (Y1 - Y0) + 4).toFixed(1) +
-                 '">' + Math.round(g[i]).toLocaleString('en-US') + '</text>');
+                 '">' + Math.round(g[i]).toLocaleString(document.documentElement.lang === 'tr' ? 'tr-TR' : 'en-US') + '</text>');
       }
       var area = '';
       if (S.type === 1) {
@@ -738,6 +739,6 @@
   }
 </script>
 <script>document.querySelectorAll('[data-set-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',a.getAttribute('data-set-lang'));}catch(e){}});});</script>
-<script src="/liquid.js?v=6"></script>
+<script src="/liquid.js?v=8"></script>
 </body>
 </html>

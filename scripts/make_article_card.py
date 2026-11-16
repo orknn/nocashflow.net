@@ -2,127 +2,89 @@
 """
 Branded social card (1200x630) for an article — doubles as its og:image.
 
-NoCashFlow broadsheet look: cream board, oxide-red top band, NO/CASHFLOW header,
-big Fraunces headline, dek, and the "nocashflow.net · No noise. Just markets."
-signature footer. The faint diagonal watermark is baked in (tools/watermark.py).
+Liquid look (see liquid_card.py): bone board, NO/CASHFLOW in Bricolage, the
+headline set like the site's article head — "A — B" puts B in Instrument Serif
+italic on its own line — and a dark stage strip with the terrain lines, whose
+curve is derived from the title so every article gets its own landscape.
 """
 import sys
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parent.parent
-FONTS = ROOT / "assets" / "fonts"
+for p in (str(ROOT), str(ROOT / "scripts")):
+    if p not in sys.path:
+        sys.path.insert(0, p)
 try:
-    if str(ROOT) not in sys.path:
-        sys.path.insert(0, str(ROOT))
     from tools.watermark import stamp as _wm_stamp
 except Exception:
     _wm_stamp = None
+import liquid_card as lc
 
-# tokens (broadsheet palette)
-BG    = (243, 238, 227)   # #F3EEE3 off-white board
-INK   = (25, 21, 18)
-DIM   = (87, 79, 71)
-MUTED = (138, 130, 118)
-RED   = (255, 75, 38)     # #FF4B26 Liquid accent (was #B0442B oxide-red)
-AMBER = (201, 138, 43)
-LINE  = (212, 207, 196)
-
-W, H = 1200, 630
-M = 72
+M = 64
 
 
-def fra(size, weight="SemiBold"):
-    f = ImageFont.truetype(str(FONTS / "Fraunces.ttf"), size)
-    try:
-        f.set_variation_by_name(weight)
-    except Exception:
-        pass
-    return f
-
-
-def mono(size, bold=False):
-    name = "IBMPlexMono-SemiBold.ttf" if bold else "IBMPlexMono-Regular.ttf"
-    return ImageFont.truetype(str(FONTS / name), size)
-
-
-def _w(d, t, f):
-    return d.textbbox((0, 0), t, font=f)[2]
-
-
-def _wrap(d, text, font, maxw):
-    out, cur = [], ""
-    for word in text.split():
-        t = (cur + " " + word).strip()
-        if _w(d, t, font) <= maxw:
-            cur = t
-        else:
-            if cur:
-                out.append(cur)
-            cur = word
-    if cur:
-        out.append(cur)
-    return out
-
-
-def build_article_card(title, dek, cat, date_disp, out_path):
-    img = Image.new("RGB", (W, H), BG)
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, W, 8], fill=RED)                       # brand top band
-
-    # header — NO/CASHFLOW + section
-    by = 48
-    wm = fra(34, "Black")
-    x = M
-    d.text((x, by), "NO", font=wm, fill=INK); x += _w(d, "NO", wm)
-    d.text((x, by), "/", font=wm, fill=RED);  x += _w(d, "/", wm)
-    d.text((x, by), "CASHFLOW", font=wm, fill=INK)
-    d.text((W - M - _w(d, cat.upper(), mono(16, bold=True)), by + 10),
-           cat.upper(), font=mono(16, bold=True), fill=MUTED)
-    d.line([M, 110, W - M, 110], fill=INK, width=2)
-
-    # eyebrow
-    eb = f"{cat.upper()}  ·  {date_disp.upper()}"
-    d.text((M, 132), eb, font=mono(17, bold=True), fill=RED)
-
-    # headline — shrink to fit within 3 lines
-    maxw = W - 2 * M
-    for ts in (78, 70, 62, 54, 48):
-        tf = fra(ts, "SemiBold")
-        lines = _wrap(d, title, tf, maxw)
-        if len(lines) <= 3:
+def _headline(c, title, maxw):
+    """Fit the title in at most 3 lines (4 at the smallest size).
+    Returns (size, [(text, italic), …])."""
+    a, b = (title.split(" — ", 1) + [""])[:2] if " — " in title else (title, "")
+    sizes = (86, 78, 70, 62, 54, 48)
+    for size in sizes:
+        fs, fi = lc.sans(size, 500), lc.serif_it(size * 1.06)
+        la = c.wrap_balanced(a + (" —" if b else ""), fs, maxw, -0.055)
+        lb = c.wrap_balanced(b, fi, maxw, -0.02) if b else []
+        if len(la) + len(lb) <= (3 if size > sizes[-1] else 4):
             break
-    ty = 178
-    for ln in lines:
-        d.text((M, ty), ln, font=tf, fill=INK)
-        ty += int(ts * 1.1)
+    return size, [(t, False) for t in la] + [(t, True) for t in lb]
 
-    # dek (max 3 lines)
-    ty += 18
-    df = fra(25, "Regular")
-    for ln in _wrap(d, dek, df, maxw)[:3]:
-        d.text((M, ty), ln, font=df, fill=DIM)
-        ty += 35
 
-    # footer signature
-    fy = H - 60
-    d.line([M, fy - 18, W - M, fy - 18], fill=LINE, width=2)
-    d.text((M, fy), "nocashflow.net", font=fra(25, "SemiBold"), fill=INK)
-    sig = "No noise. Just markets."
-    d.text((W - M - _w(d, sig, mono(16)), fy + 6), sig, font=mono(16), fill=MUTED)
+def build_article_card(title, dek, cat, date_disp, out_path, lang=None):
+    c = lc.Canvas(lc.BONE)
 
-    if _wm_stamp:
-        img = _wm_stamp(img, corner=False)        # diagonal only; footer is branded
-    Path(out_path).parent.mkdir(parents=True, exist_ok=True)
-    img.save(out_path, "PNG")
-    return out_path
+    # header: wordmark · category + date (the article page's meta line)
+    c.wordmark(M, 78, 27)
+    meta = lc.mono(14.5)
+    right = "  ·  " + lc.upper(date_disp, lang)
+    xr = lc.W - M
+    c.text_right(xr, 75, right, meta, lc.MUTE, 0.06)
+    c.text_right(xr - c.width(right, meta, 0.06), 75, lc.upper(cat, lang), meta, lc.HOT, 0.06)
+
+    # headline
+    maxw = lc.W - 2 * M
+    size, lines = _headline(c, title, maxw)
+    y = 112 + size * 0.86
+    for text, italic in lines:
+        if italic:
+            c.text((M - size * 0.02, y), text, lc.serif_it(size * 1.06), lc.INK, -0.02)
+        else:
+            c.text((M - size * 0.03, y), text, lc.sans(size, 500), lc.INK, -0.055)
+        y += size * 0.98
+
+    # dek — two lines at most, never into the stage
+    stage_top = lc.H - 24 - 132
+    df = lc.sans(24, 400)
+    y += 26 - size * 0.62
+    for ln in c.wrap(dek, df, 900, -0.02)[:2]:
+        if y + 8 > stage_top - 14:
+            break
+        c.text((M, y), ln, df, lc.DIM, -0.02)
+        y += 33
+
+    # stage strip: this article's landscape + signature
+    box = (24, stage_top, lc.W - 24, lc.H - 24)
+    c.stage(box)
+    c.terrain((box[0] + 216, box[1] + 10, box[2] - 262, box[3] - 14), seed=lc.seed_of(title),
+              layers=16, lift=0.4, pad=(0, 6))
+    sig = lc.mono(13.5)
+    c.text((box[0] + 26, box[3] - 24), "NOCASHFLOW.NET", sig, lc.BONE, 0.08)
+    c.text_right(box[2] - 26, box[3] - 24, "NO NOISE. JUST MARKETS.", sig, (150, 148, 142), 0.08)
+
+    return c.save(out_path, _wm_stamp)
 
 
 if __name__ == "__main__":
-    # quick prototype render
+    out = sys.argv[1] if len(sys.argv) > 1 else "card_proto.png"
     build_article_card(
         "Closed, and Still Flowing",
         "Iran calls Hormuz closed again; CENTCOM counts 55 transits the same day. The scorecard: the US and Russia won the shock — the Gulf lost.",
-        "Commodities", "Jun 21, 2026",
-        "/tmp/card_proto.png")
-    print("wrote /tmp/card_proto.png")
+        "Commodities", "Jun 21, 2026", out)
+    print("wrote", out)

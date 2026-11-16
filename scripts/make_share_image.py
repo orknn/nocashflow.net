@@ -5,42 +5,34 @@ Render the daily market snapshot to a 1200x630 share card (share/daily.png).
 Reads the same committed snapshots the site is built from (data/market.json,
 data/macro.json) — so the image never shows anything the pages don't. No
 fabricated numbers: every value is copied verbatim from the snapshot, and if a
-field is missing it renders "—". Run after fetch_data.py / build.py in the cron.
+field is missing it renders "—". The landscape in the stage is the real US
+Treasury curve from macro.json; without that data the stage stays empty.
+Run after fetch_data.py / build.py in the cron.
+
+Liquid look (see liquid_card.py): the home page in one frame — dark stage with
+the mood reading and the curve, then the eight instruments as bone tiles.
 """
 import json
 import datetime
+import sys
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
-FONTS = ROOT / "assets" / "fonts"
 OUT = ROOT / "share"
+for p in (str(ROOT), str(ROOT / "scripts")):
+    if p not in sys.path:
+        sys.path.insert(0, p)
 
-# Brand watermark (faint diagonal). The card already carries a bottom wordmark,
-# so corner=False avoids a duplicate. Never breaks the build if the tool moves.
+# Brand watermark (faint, centred). The card already carries the wordmark, so
+# corner=False avoids a duplicate. Never breaks the build if the tool moves.
 try:
-    import sys as _sys
-    if str(ROOT) not in _sys.path:
-        _sys.path.insert(0, str(ROOT))
     from tools.watermark import stamp as _wm_stamp
 except Exception:
     _wm_stamp = None
+import liquid_card as lc
 
-# ── design tokens (mirror site.css :root) ────────────────────────────────────
-BG        = (255, 255, 255)
-BG_ELEV   = (250, 249, 246)
-INK       = (25, 21, 18)
-AMBER     = (201, 138, 43)
-HOT       = (255, 75, 38)    # Liquid brand accent #FF4B26 (band, slash, labels)
-GREEN     = (21, 128, 61)
-RED       = (216, 58, 30)
-LINE      = (232, 227, 216)
-MUTED     = (122, 114, 104)
-
-W, H = 1200, 630
-M = 64                      # outer margin
-
+M = 48
 MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
           "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
 
@@ -52,90 +44,74 @@ def _load(name):
         return {}
 
 
-def fra(size, weight="SemiBold"):
-    f = ImageFont.truetype(str(FONTS / "Fraunces.ttf"), size)
-    try:
-        f.set_variation_by_name(weight)
-    except Exception:
-        pass
-    return f
-
-
-def mono(size, bold=False):
-    name = "IBMPlexMono-SemiBold.ttf" if bold else "IBMPlexMono-Regular.ttf"
-    return ImageFont.truetype(str(FONTS / name), size)
-
-
-def _w(draw, text, font):
-    return draw.textbbox((0, 0), text, font=font)[2]
-
-
 def _chg_color(chg):
     """Colour by the literal sign of the change — clearest for a standalone card."""
     s = chg.strip()
     if s.startswith("+"):
-        return GREEN
+        return lc.UP_T
     if s.startswith("-") or s.startswith("−"):
-        return RED
-    return INK
+        return lc.DN_T
+    return lc.MUTE
 
 
-def _fg_color(val):
+def _mood_color(val):
+    """Same buckets as the site's body[data-mood]: fear / neutral / greed."""
     try:
         v = int(val)
     except Exception:
-        return AMBER
-    return RED if v < 25 else AMBER if v < 55 else GREEN
+        return lc.BONE
+    return lc.MOOD if v < 35 else lc.BONE if v < 55 else lc.UP
 
 
 def build_card():
     market = _load("market.json")
     macro = _load("macro.json")
     inst = market.get("instruments", {})
-
-    img = Image.new("RGB", (W, H), BG)
-    d = ImageDraw.Draw(img)
-
-    # warm top band for a touch of depth
-    d.rectangle([0, 0, W, 8], fill=HOT)
+    c = lc.Canvas(lc.BONE)
 
     # ── header ───────────────────────────────────────────────────────────────
-    by = 54
-    wm = fra(38, "Black")
-    x = M
-    d.text((x, by), "NO", font=wm, fill=INK)
-    x += _w(d, "NO", wm)
-    d.text((x, by), "/", font=wm, fill=HOT)
-    x += _w(d, "/", wm)
-    d.text((x, by), "CASHFLOW", font=wm, fill=INK)
-
-    # date + label, right-aligned
+    c.wordmark(M, 66, 27)
     asof = market.get("asof") or macro.get("asof") or ""
     try:
         dt = datetime.datetime.fromisoformat(asof.replace("Z", "+00:00"))
         datestr = f"{dt.day:02d} {MONTHS[dt.month - 1]} {dt.year}"
     except Exception:
         datestr = ""
-    lab = mono(17, bold=True)
-    sub = mono(14)
-    d.text((W - M - _w(d, datestr, lab), by + 2), datestr, font=lab, fill=INK)
-    tag = "DAILY MARKET SNAPSHOT"
-    d.text((W - M - _w(d, tag, sub), by + 30), tag, font=sub, fill=HOT)
+    meta = lc.mono(14.5)
+    right = ("  ·  " + datestr) if datestr else ""
+    c.text_right(lc.W - M, 63, right, meta, lc.MUTE, 0.06)
+    c.text_right(lc.W - M - c.width(right, meta, 0.06), 63, "DAILY MARKET SNAPSHOT", meta, lc.HOT, 0.06)
 
-    d.line([M, 120, W - M, 120], fill=LINE, width=2)
-
-    # ── hero: Crypto Fear & Greed ─────────────────────────────────────────────
+    # ── stage: Crypto Fear & Greed + the real Treasury curve ──────────────────
     fg = inst.get("fg", {})
     fgval = str(fg.get("px", "—"))
-    fglabel = str(fg.get("chg", "")).upper()
-    big = fra(132, "Black")
-    hy = 150
-    d.text((M, hy), fgval, font=big, fill=_fg_color(fg.get("px")))
-    hx = M + _w(d, fgval, big) + 34
-    d.text((hx, hy + 36), fglabel or "—", font=fra(46, "SemiBold"), fill=INK)
-    d.text((hx, hy + 100), "CRYPTO FEAR & GREED INDEX", font=mono(17), fill=HOT)
+    fglabel = str(fg.get("chg", "")).strip()
+    mood = _mood_color(fg.get("px"))
+    box = (24, 92, lc.W - 24, 330)
+    c.stage(box, mood=mood if mood != lc.BONE else lc.MOOD)
 
-    # ── stat grid: 4 cols x 2 rows ────────────────────────────────────────────
+    curve = [p for p in (macro.get("curve") or []) if isinstance(p.get("v"), (int, float))]
+    if len(curve) >= 2:
+        tb = (box[0] + 470, box[1] + 40, box[2] - 70, box[3] - 44)
+        pts = c.terrain(tb, values=[p["v"] for p in curve], layers=20, lift=0.42, pad=(0, 4))
+        lab = lc.mono(11.5)
+        n = len(curve)
+        for j in (0, n - 1):                              # label the two ends only
+            x, y = pts[round(j / (n - 1) * (len(pts) - 1))]
+            txt = f'{curve[j]["l"]}  {curve[j]["v"]:.2f}%'
+            if j == 0:
+                c.text((x - 6, y + 24), txt, lab, (190, 188, 182), 0.04)
+            else:
+                c.text_right(x + 8, y - 16, txt, lab, lc.BONE, 0.04)
+        c.text_right(box[2] - 28, box[1] + 34, "US TREASURY CURVE", lc.mono(12.5), (150, 148, 142), 0.08)
+
+    c.text((box[0] + 30, box[1] + 34), "CRYPTO FEAR & GREED INDEX", lc.mono(12.5), (150, 148, 142), 0.08)
+    big = lc.sans(150, 300)
+    xe = c.text((box[0] + 22, box[3] - 36), fgval, big, lc.BONE, -0.07)
+    if fglabel:
+        c.text((xe + 26, box[3] - 40), fglabel, lc.serif_it(54), mood, -0.015)
+
+    # ── instruments: 4 x 2 bone tiles ─────────────────────────────────────────
     cells = [
         ("BITCOIN",   inst.get("btc", {})),
         ("ETHEREUM",  inst.get("eth", {})),
@@ -146,41 +122,30 @@ def build_card():
         ("VIX",       inst.get("vix", {})),
         ("S&P 500",   inst.get("spx", {})),
     ]
-    cols = 4
-    cw = (W - 2 * M) / cols
-    gy0 = 348
-    rh = 122
-    klab = mono(15, bold=True)
-    vfont = fra(36, "SemiBold")
-    cfont = mono(18, bold=True)
+    cols, gap = 4, 10
+    gx0, gy0 = 24, 340
+    cw = (lc.W - 2 * gx0 - gap * (cols - 1)) / cols
+    rh = 112
+    klab, vfont, cfont = lc.mono(12.5), lc.sans(38, 400), lc.mono(15, 500)
     for i, (label, dd) in enumerate(cells):
-        r, c = divmod(i, cols)
-        cx = M + c * cw
-        cy = gy0 + r * rh
-        d.text((cx, cy), label, font=klab, fill=HOT)
-        val = str(dd.get("px", "—"))
-        d.text((cx, cy + 26), val, font=vfont, fill=INK)
+        r, col = divmod(i, cols)
+        x = gx0 + col * (cw + gap)
+        y = gy0 + r * (rh + gap)
+        c.rrect((x, y, x + cw, y + rh), 18, fill=lc.BONE_2)
+        c.text((x + 20, y + 30), label, klab, lc.MUTE, 0.08)
+        c.text((x + 18, y + 86), str(dd.get("px", "—")), vfont, lc.INK, -0.055)
         chg = str(dd.get("chg", ""))
         if chg:
-            d.text((cx, cy + 78), chg, font=cfont, fill=_chg_color(chg))
-        # thin column separators
-        if c > 0:
-            d.line([cx - 18, cy - 4, cx - 18, cy + rh - 28], fill=LINE, width=1)
+            c.text_right(x + cw - 20, y + 84, chg, cfont, _chg_color(chg), 0)
 
     # ── footer ────────────────────────────────────────────────────────────────
-    fy = 588
-    d.line([M, fy - 16, W - M, fy - 16], fill=LINE, width=2)
-    d.text((M, fy), "nocashflow.net", font=fra(24, "SemiBold"), fill=INK)
-    foot = "Live macro & market data · updated daily"
-    ff = mono(15)
-    d.text((W - M - _w(d, foot, ff), fy + 6), foot, font=ff, fill=MUTED)
+    ft = lc.mono(12.5)
+    c.text((M, lc.H - 22), "NOCASHFLOW.NET", ft, lc.INK, 0.1)
+    c.text_right(lc.W - M, lc.H - 22, "LIVE MACRO & MARKET DATA · UPDATED DAILY", ft, lc.MUTE, 0.1)
 
-    if _wm_stamp:
-        img = _wm_stamp(img, corner=False)   # faint diagonal; card already branded
-    OUT.mkdir(parents=True, exist_ok=True)
     path = OUT / "daily.png"
-    img.save(path, "PNG")
-    print(f"  + {path.relative_to(ROOT)}  ({fgval} {fglabel})")
+    c.save(path, _wm_stamp)
+    print(f"  + {path.relative_to(ROOT)}  ({fgval} {fglabel.upper()})")
     return path
 
 

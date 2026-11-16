@@ -175,7 +175,11 @@
     var ctx = cv.getContext('2d'), stage = cv.closest('.stage,.panel'), compact = stage.classList.contains('panel');
     var pre = cv.getAttribute('data-pre') || '', suf = cv.hasAttribute('data-suf') ? cv.getAttribute('data-suf') : '%';
     var dec = cv.hasAttribute('data-dec') ? +cv.getAttribute('data-dec') : 2, keyOnly = cv.getAttribute('data-labels') === 'key';
-    function fmt(v) { return pre + v.toFixed(dec) + suf; }
+    var trNum = document.documentElement.lang === 'tr';      // TR pages: %4,12 · $5,79T
+    function fmt(v) {
+      var s = v.toFixed(dec);
+      return trNum ? (suf === '%' ? '%' + pre + s.replace('.', ',') : pre + s.replace('.', ',') + suf) : pre + s + suf;
+    }
     var C = pts.map(function (p) { return +p.v; }), T = pts.map(function (p) { return p.l; }), n = C.length - 1;
     var lo = Math.min.apply(null, C), hi = Math.max.apply(null, C), span = (hi - lo) || 1;
     function yAt(t) { // Catmull-Rom through the real tenor points
@@ -258,7 +262,7 @@
         ctx.beginPath(); ctx.arc(w[0], w[1], 4 + near * 4, 0, 7); ctx.fill(); ctx.stroke();
         if (small && i % 2) return;
         ctx.font = '500 ' + (small ? 11 : 13 + near * 5) + 'px ' + monoFont; ctx.fillStyle = '#ECEAE3';
-        ctx.fillText(compact ? fmt(v) : v.toFixed(2) + '%', w[0], w[1] - 16 - near * 8);
+        ctx.fillText(compact ? fmt(v) : (trNum ? '%' + v.toFixed(2).replace('.', ',') : v.toFixed(2) + '%'), w[0], w[1] - 16 - near * 8);
         ctx.font = '400 10.5px ' + monoFont; ctx.fillStyle = 'rgba(236,234,227,.5)';
         ctx.fillText(T[i], w[0], w[1] + 24);
       });
