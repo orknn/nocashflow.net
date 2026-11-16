@@ -656,8 +656,10 @@ _TR_LABEL = [
     (r"^Fed Funds$", "Fed faizi"), (r"^Next FOMC$", "Sonraki FOMC"), (r"^Core CPI$", "Çekirdek TÜFE"),
     (r"^US 10Y$", "ABD 10Y"), (r"^Cut odds\b", "İndirim olasılığı"),
     (r"\bheld (\d+) mtgs\b", r"\1 toplantıdır sabit"), (r"\bQT ongoing\b", "QT sürüyor"),
-    (r"\bdraining\b", "eriyor"), (r"\bmedian\b", "medyanı"), (r"\bYoY\b", "yıllık"),
-    (r"\bMoM\b", "aylık"), (r"(?<=\d)m\b", " ay"), (r"\bcalm\b", "sakin"), (r"\bfrom\b", "önceki"),
+    (r"\bdraining\b", "eriyor"), (r"\bmedian\b", "medyanı"),
+    # Metric abbreviations (YoY, MoM, 3m, YTD, 1W…) stay in English on TR pages
+    # too — user decision 2026-11-16: they are the standard market notation.
+    (r"\bcalm\b", "sakin"), (r"\bfrom\b", "önceki"),
     (r"\bsteepening\b", "dikleşiyor"), (r"\bflattening\b", "yassılaşıyor"), (r"\binverted\b", "ters"),
     (r"\bheld\b", "sabit"), (r"^core$", "çekirdek"), (r"\bimplied\b", "ima edilen"), (r"^(\d+)d$", r"\1 gün"),
 ]
@@ -1846,7 +1848,7 @@ def inject_dash_lists(html, lang):
 # ── macro "the regime" (data/macro2.json + human macro-notes.json) ───────────
 MACRO2_LABELS = {
     "inflation": {"en": ["Headline CPI · YoY", "Core CPI · YoY", "Core PCE · YoY", "5y5y Breakeven"],
-                  "tr": ["Manşet TÜFE · YY", "Çekirdek TÜFE · YY", "Çekirdek PCE · YY", "5y5y Başabaş"]},
+                  "tr": ["Manşet TÜFE · YoY", "Çekirdek TÜFE · YoY", "Çekirdek PCE · YoY", "5y5y Başabaş"]},
     "fed": {"en": ["Target range", "Balance sheet", "Reverse repo", "Dot plot '26"],
             "tr": ["Hedef aralık", "Bilanço", "Ters repo", "Nokta grafik '26"]},
     "liquidity": {"en": ["M2 supply", "Net liquidity", "Stablecoin supply"],
