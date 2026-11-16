@@ -31,7 +31,7 @@
 <meta name="theme-color" content="#ECEAE3"/>
 <script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('theme');if(q==='dark'||q==='light'){try{localStorage.setItem('ncf_theme',q);}catch(e){}}var t=null;try{t=localStorage.getItem('ncf_theme');}catch(e){}if(!t){var h=new Date().getHours();t=(h>=21||h<7)?'dark':'light';}if(t==='dark')d.setAttribute('data-theme','dark');}catch(e){}})();</script>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="/liquid.css?v=9"/>
+<link rel="stylesheet" href="/liquid.css?v=10"/>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "en", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
 </head>
 <body data-mood="fear" class="lq">
@@ -80,13 +80,13 @@
 
 <div class="lq-tape mono" role="region" aria-label="Market board">
   <span class="lq-tape-k"><b class="dot"></b>Market board</span>
-  <span class="lq-tape-i"><b>BTC</b><span data-px="btc">$65,260</span><span class="c up" data-chg="btc">+2.87%</span></span>
   <span class="lq-tape-i"><b>S&amp;P 500</b><span data-px="spx">7,562</span><span class="c dn" data-chg="spx">-0.40%</span></span>
+  <span class="lq-tape-i"><b>Gold</b><span data-px="gold">$3884</span><span class="c dn" data-chg="gold">-0.05%</span></span>
   <span class="lq-tape-i"><b>US 10Y</b><span data-px="us10y">5.15%</span><span class="c up" data-chg="us10y">+1.00%</span></span>
   <span class="lq-tape-i"><b>DXY</b><span data-px="dxy">103.42</span><span class="c up" data-chg="dxy">+0.01%</span></span>
-  <span class="lq-tape-i"><b>Gold</b><span data-px="gold">$3884</span><span class="c dn" data-chg="gold">-0.05%</span></span>
-  <span class="lq-tape-i"><b>Brent</b><span data-px="brent">$95.5</span><span class="c dn" data-chg="brent">-0.40%</span></span>
   <span class="lq-tape-i"><b>VIX</b><span data-px="vix">19.30</span><span class="c dn" data-chg="vix">+3.21%</span></span>
+  <span class="lq-tape-i"><b>Brent</b><span data-px="brent">$95.5</span><span class="c dn" data-chg="brent">-0.40%</span></span>
+  <span class="lq-tape-i"><b>BTC</b><span data-px="btc">$65,260</span><span class="c up" data-chg="btc">+2.87%</span></span>
   <span class="lq-tape-i"><b>ETH</b><span data-px="eth">$1,834</span><span class="c up" data-chg="eth">+5.41%</span></span>
 </div>
 
@@ -157,9 +157,9 @@
   </div>
 </footer>
 
-<script src="/app.js?v=lq9"></script>
-<script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>
+<script src="/app.js?v=lq10"></script>
+<script>window.NCF.init({ ticker: ['spx','gold','dxy','us10y','vix','brent','btc','eth'] });</script>
 <script>document.querySelectorAll('[data-set-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',a.getAttribute('data-set-lang'));}catch(e){}});});</script>
-<script src="/liquid.js?v=9"></script>
+<script src="/liquid.js?v=10"></script>
 </body>
 </html>

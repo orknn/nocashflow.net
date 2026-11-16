@@ -59,7 +59,7 @@ LIQUID_FONTS_URL = ("https://fonts.googleapis.com/css2"
                     "?family=Bricolage+Grotesque:opsz,wght@12..96,300..700"
                     "&family=Geist+Mono:wght@400;500"
                     "&family=Instrument+Serif:ital@0;1&display=swap")
-LIQUID_ASSET_V = "9"   # bump to bust caches when liquid.css / liquid.js change
+LIQUID_ASSET_V = "10"   # bump to bust caches when liquid.css / liquid.js change
 DESIGN_KINDS = {"article": "liquid", "fe-essay": "liquid", "indicator": "liquid"}
 
 
@@ -1224,8 +1224,8 @@ LQ_UI = {
            "sw_aria": "EN — Switch to English", "board": "Piyasa panosu", "home": "Ana Sayfa"},
 }
 # thin market line on inner pages (decision #3 default: no dark ticker bar)
-LQ_TAPE = [("btc", "BTC"), ("spx", "S&amp;P 500"), ("us10y", "US 10Y"), ("dxy", "DXY"),
-           ("gold", "Gold"), ("brent", "Brent"), ("vix", "VIX"), ("eth", "ETH")]
+LQ_TAPE = [("spx", "S&amp;P 500"), ("gold", "Gold"), ("us10y", "US 10Y"), ("dxy", "DXY"),
+           ("vix", "VIX"), ("brent", "Brent"), ("btc", "BTC"), ("eth", "ETH")]
 
 
 def _lq_nav(active_key, lang, sw_href):
@@ -1395,7 +1395,7 @@ def scripts(page, lang):
     if foot:
         out.append(foot)
     else:                                       # default ticker init (e.g. legal pages)
-        out.append("<script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>")
+        out.append("<script>window.NCF.init({ ticker: ['spx','gold','dxy','us10y','vix','brent','btc','eth'] });</script>")
     out.append(
         "<script>document.querySelectorAll('[data-set-lang]').forEach(function(a){"
         "a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',"
@@ -2440,6 +2440,36 @@ def article_out(slug, lang):
     return f"articles/{_en_slug(slug)}.html" if lang == "en" else f"tr/yazilar/{slug}.html"
 
 
+def article_subscribe(lang):
+    """Subscribe box at the end of every article — the reader who finished a
+    piece is the likeliest subscriber. Same contract as the home form
+    (data-newsletter, lang radios, .nl-hp honeypot; app.js initForms)."""
+    tr = lang == "tr"
+    k = "Bülten" if tr else "Newsletter"
+    h = "Bir sonrakini <em>kaçırma.</em>" if tr else "Don't miss <em>the next one.</em>"
+    p = ("Her pazar haftalık bülten, yeni yazılar çıktıkça gelen kutunda. Ücretsiz, spam yok, istediğinde çık."
+         if tr else
+         "The weekly bulletin every Sunday, new pieces as they land. Free, no spam, leave any time.")
+    btn = "Abone Ol" if tr else "Subscribe"
+    aria = "E-posta" if tr else "Email"
+    return f"""
+    <section class="a-sub">
+      <div class="a-sub-t"><span class="mono">{k}</span><h3>{h}</h3><p>{p}</p></div>
+      <form class="lq-nl" data-newsletter data-lang="{lang}">
+        <div class="form">
+          <input type="email" name="email" placeholder="you@email.com" autocomplete="email" required aria-label="{aria}"/>
+          <button class="btn" type="submit"><span>{btn}</span><span class="ar" aria-hidden="true">→</span></button>
+        </div>
+        <fieldset class="nl-lang mono" aria-label="Bulletin language / Bülten dili">
+          <label><input type="radio" name="lang" value="en"{'' if tr else ' checked'}/><span lang="en">English</span></label>
+          <label><input type="radio" name="lang" value="tr"{' checked' if tr else ''}/><span lang="tr">Türkçe</span></label>
+        </fieldset>
+        <input class="nl-hp" type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true"/>
+      </form>
+      <div class="note mono" data-newsletter-msg aria-live="polite"></div>
+    </section>"""
+
+
 def render_article(slug, lang):
     a = ARTICLES[slug]
     title, dek = a["title"][lang], a["dek"][lang]
@@ -2558,6 +2588,7 @@ def render_article(slug, lang):
 {prose}
     </div>
 {share_html}
+{article_subscribe(lang)}
     <div class="pn-grid">
       {_pn_card(newer, lbl_new, True)}
       {_pn_card(older, lbl_old, False)}
@@ -2569,7 +2600,7 @@ def render_article(slug, lang):
 
     scripts_html = (
         '<script src="/app.js?v=mx2"></script>\n'
-        "<script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>\n"
+        "<script>window.NCF.init({ ticker: ['spx','gold','dxy','us10y','vix','brent','btc','eth'] });</script>\n"
         "<script>document.querySelectorAll('[data-set-lang]').forEach(function(a){"
         "a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',"
         "a.getAttribute('data-set-lang'));}catch(e){}});});</script>"
@@ -2698,7 +2729,7 @@ def render_fe_essay(key, lang):
 
     scripts_html = (
         '<script src="/app.js?v=mx2"></script>\n'
-        "<script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>\n"
+        "<script>window.NCF.init({ ticker: ['spx','gold','dxy','us10y','vix','brent','btc','eth'] });</script>\n"
         "<script>document.querySelectorAll('[data-set-lang]').forEach(function(a){"
         "a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',"
         "a.getAttribute('data-set-lang'));}catch(e){}});});</script>"
@@ -2953,7 +2984,7 @@ def _ind_chrome_ticker():
 def _ind_scripts():
     return (
         '<script src="/app.js?v=mx2"></script>\n'
-        "<script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>\n"
+        "<script>window.NCF.init({ ticker: ['spx','gold','dxy','us10y','vix','brent','btc','eth'] });</script>\n"
         "<script>document.querySelectorAll('[data-set-lang]').forEach(function(a){"
         "a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',"
         "a.getAttribute('data-set-lang'));}catch(e){}});});</script>"
