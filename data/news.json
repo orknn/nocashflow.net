@@ -1,7 +1,72 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-11-15T23:46:45Z",
- "sources": [],
- "considered": 84,
- "stories": []
+ "updated": "2026-11-16T13:32:48Z",
+ "sources": [
+  "businesstoday.in",
+  "currencynews.co.uk",
+  "economictimes.indiatimes.com",
+  "oneindia.com"
+ ],
+ "considered": 124,
+ "stories": [
+  {
+   "headline": "BOJ Takata calls for early rate hikes to curb inflation risks",
+   "summary": "",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "economictimes.indiatimes.com",
+   "url": "https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/bojs-takata-calls-for-early-rate-hikes-to-curb-inflation-risks/articleshow/135876217.cms",
+   "published": "2026-11-16T08:15:00Z",
+   "score": 7.2
+  },
+  {
+   "headline": "Silver prices crash by Rs 7 , 000 ; dollar strength , rate hike prospects weigh",
+   "summary": "",
+   "category": "rates",
+   "importance": "medium",
+   "assets": [
+    "DXY"
+   ],
+   "source": "businesstoday.in",
+   "url": "https://www.businesstoday.in/personal-finance/news/story/silver-prices-crash-by-rs-7000-dollar-strength-rate-hike-prospects-weigh-567625-2026-11-16",
+   "published": "2026-11-16T08:15:00Z",
+   "score": 5.7
+  },
+  {
+   "headline": "WPI Inflation Rises to 12 . 29 % in October on Costlier Food , Fuel",
+   "summary": "",
+   "category": "rates",
+   "importance": "low",
+   "assets": [],
+   "source": "oneindia.com",
+   "url": "https://www.oneindia.com/india/wpi-inflation-rises-to-12-29-in-october-on-costlier-food-fuel-8260795.html",
+   "published": "2026-11-16T08:15:00Z",
+   "score": 4.2
+  },
+  {
+   "headline": "Run up to Budget 2027 28 : Nominal GDP growth likely around 11 11 . 5 %",
+   "summary": "",
+   "category": "markets",
+   "importance": "low",
+   "assets": [],
+   "source": "businesstoday.in",
+   "url": "https://www.businesstoday.in/latest/economy/story/run-up-to-budget-2027-28-nominal-gdp-growth-likely-around-11-11-5-percent-567618-2026-11-16",
+   "published": "2026-11-16T08:15:00Z",
+   "score": 4.2
+  },
+  {
+   "headline": "Pound to Dollar Weekly Forecast : Banks Target 1 . 37 - 1 . 39 Despite USD Rally",
+   "summary": "",
+   "category": "fx",
+   "importance": "low",
+   "assets": [
+    "DXY"
+   ],
+   "source": "currencynews.co.uk",
+   "url": "https://www.currencynews.co.uk/forecast/20261116-47783_pound-to-dollar-weekly-forecast-banks-target-1-37-1-39-despite-usd-rally.html",
+   "published": "2026-11-16T08:15:00Z",
+   "score": 3.7
+  }
+ ]
 }
