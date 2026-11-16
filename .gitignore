@@ -13,3 +13,6 @@ node_modules/
 # local working copies of the dashboard (self-contained bundles for offline
 # review) — not site source, and Pages would serve them publicly
 New Macro/
+
+# internal roadmap — not site source, Pages would serve it publicly
+ROADMAP.md
