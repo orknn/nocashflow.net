@@ -31,7 +31,7 @@
 <meta name="theme-color" content="#ECEAE3"/>
 <script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('theme');if(q==='dark'||q==='light'){try{localStorage.setItem('ncf_theme',q);}catch(e){}}var t=null;try{t=localStorage.getItem('ncf_theme');}catch(e){}if(!t){var h=new Date().getHours();t=(h>=21||h<7)?'dark':'light';}if(t==='dark')d.setAttribute('data-theme','dark');}catch(e){}})();</script>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="/liquid.css?v=5"/>
+<link rel="stylesheet" href="/liquid.css?v=6"/>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "tr", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
 <style>
 .perks { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -85,7 +85,7 @@
     </ol>
   </nav>
   <div class="lq-menu-foot mono">
-    <a href="/bulletin_page.html" data-set-lang="en" aria-label="EN — Switch to English">English →</a>
+    <a href="/bulletin_page.html" data-set-lang="en" aria-label="EN — Switch to English" lang="en">English →</a>
     <span data-lq-clock>—</span>
   </div>
 </div>
@@ -267,7 +267,7 @@
   </div>
 </footer>
 
-<script src="/app.js?v=lq5"></script>
+<script src="/app.js?v=lq6"></script>
 <script>window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'] });</script>
 <script>
   /* Stamp each card with the issue date pulled straight out of the bulletin's
@@ -301,6 +301,6 @@
   })();
 </script>
 <script>document.querySelectorAll('[data-set-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',a.getAttribute('data-set-lang'));}catch(e){}});});</script>
-<script src="/liquid.js?v=5"></script>
+<script src="/liquid.js?v=6"></script>
 </body>
 </html>

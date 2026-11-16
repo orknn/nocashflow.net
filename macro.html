@@ -31,7 +31,7 @@
 <meta name="theme-color" content="#ECEAE3"/>
 <script>(function(){var d=document.documentElement;try{var q=new URLSearchParams(location.search).get('theme');if(q==='dark'||q==='light'){try{localStorage.setItem('ncf_theme',q);}catch(e){}}var t=null;try{t=localStorage.getItem('ncf_theme');}catch(e){}if(!t){var h=new Date().getHours();t=(h>=21||h<7)?'dark':'light';}if(t==='dark')d.setAttribute('data-theme','dark');}catch(e){}})();</script>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="/liquid.css?v=5"/>
+<link rel="stylesheet" href="/liquid.css?v=6"/>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NoCashFlow", "url": "https://nocashflow.net", "inLanguage": "en", "publisher": {"@type": "Organization", "name": "NoCashFlow", "url": "https://nocashflow.net"}}</script>
 </head>
 <body data-mood="fear" class="lq">
@@ -71,7 +71,7 @@
     </ol>
   </nav>
   <div class="lq-menu-foot mono">
-    <a href="/tr/macro.html" data-set-lang="tr" aria-label="TR — Türkçe'ye geç">Türkçe →</a>
+    <a href="/tr/macro.html" data-set-lang="tr" aria-label="TR — Türkçe'ye geç" lang="tr">Türkçe →</a>
     <span data-lq-clock>—</span>
   </div>
 </div>
@@ -111,7 +111,7 @@
     <div class="panel">
       <h3>Rate-cut odds — next FOMC meetings</h3>
       <div class="cap">Polymarket · probability of a cut at each meeting</div>
-      <div class="odds"><div class="odd"><span class="mono">Dec 9</span><span class="bar"><i data-w="22.0" style="--w:22.0%"></i></span><span class="p">2.2%</span><span class="mv">▼ from 2.6%</span></div><div class="odd"><span class="mono">Jan 27</span><span class="bar"><i data-w="79.0" style="--w:79.0%"></i></span><span class="p">7.9%</span><span class="mv">▼ from 8.5%</span></div></div>
+      <div class="odds"><div class="odd"><span class="mono">Dec 9</span><span class="bar"><i data-w="2.2" style="--w:2.2%"></i></span><span class="p">2.2%</span><span class="mv">▼ from 2.6%</span></div><div class="odd"><span class="mono">Jan 27</span><span class="bar"><i data-w="7.9" style="--w:7.9%"></i></span><span class="p">7.9%</span><span class="mv">▼ from 8.5%</span></div></div>
     </div>
     <div class="kpis c2"><div class="kpi fade" style="--i:0"><div class="lab">Target range</div><div><div class="big" data-scr>3.75–4.00</div><div class="sub neu">held 4 mtgs</div></div></div><div class="kpi fade" style="--i:1"><div class="lab">Balance sheet</div><div><div class="big" data-scr>$6.8T</div><div class="sub down">▼ QT ongoing</div></div></div><div class="kpi fade" style="--i:2"><div class="lab">Reverse repo</div><div><div class="big" data-scr>$325M</div><div class="sub down">▼ draining</div></div></div><div class="kpi fade" style="--i:3"><div class="lab">Dot plot '26</div><div><div class="big" data-scr>4.10%</div><div class="sub neu">2026 median</div></div></div></div>
   </div>
@@ -206,7 +206,7 @@
   </div>
 </footer>
 
-<script src="/app.js?v=lq5"></script>
+<script src="/app.js?v=lq6"></script>
 <script>
   /* Macro "the regime" page is build-time rendered from data/macro2.json +
      macro-notes.json (server-side, see build.py inject_macro2). The two SVGs
@@ -216,6 +216,6 @@
   window.NCF.init({ ticker: ['btc','eth','gold','brent','dxy','us10y','vix','spx'], market: false });
 </script>
 <script>document.querySelectorAll('[data-set-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('ncf_lang',a.getAttribute('data-set-lang'));}catch(e){}});});</script>
-<script src="/liquid.js?v=5"></script>
+<script src="/liquid.js?v=6"></script>
 </body>
 </html>

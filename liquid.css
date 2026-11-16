@@ -191,6 +191,7 @@ h1 .dot{color:var(--hot)}
 .stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .stage>.ch{position:absolute;inset:clamp(110px,14vh,150px) clamp(30px,5vw,80px) clamp(110px,14vh,140px) clamp(64px,8vw,120px);margin:0}
 .js .stage>.ch{display:none}
+.lq .fe-essay .mono,.lq .fe-essay pre .mono{text-transform:none;letter-spacing:0}   /* FE inline code uses .mono for the font only */
 :root:not(.js) .a-rail{visibility:hidden}   /* the reading meter needs JS */
 :root:not(.js) .ch .line{stroke-dasharray:none}   /* the draw-in dash breaks with non-scaling strokes; only JS animates it */
 .stage::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(90% 70% at 70% 0%,color-mix(in oklab,var(--mood) 26%,transparent),transparent 70%),radial-gradient(60% 50% at 0% 100%,rgba(255,75,38,.16),transparent 70%)}
@@ -277,7 +278,7 @@ h2{font-weight:400;font-size:clamp(2.1rem,5.5vw,5.3rem);line-height:.9;letter-sp
 .odds :is(h3,h5),.stat :is(h3,h5){font:400 11.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:rgba(236,234,227,.5);margin-bottom:14px}
 .odd{display:grid;grid-template-columns:76px 1fr 60px;align-items:center;gap:14px;padding:13px 0;border-top:1px solid rgba(236,234,227,.14)}
 .odd .bar{height:6px;border-radius:9px;background:rgba(236,234,227,.1);overflow:hidden}
-.odd .bar i{display:block;height:100%;border-radius:9px;background:var(--hot);width:var(--w,0);transition:width 1.6s var(--ease) .3s}
+.odd .bar i{display:block;height:100%;border-radius:9px;background:var(--hot);width:var(--w,0);min-width:3px;transition:width 1.6s var(--ease) .3s}
 .js .odd .bar i{width:0}
 .odd .p{font:500 15px var(--mono);text-align:right}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:34px}

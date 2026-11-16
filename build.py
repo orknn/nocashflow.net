@@ -59,7 +59,7 @@ LIQUID_FONTS_URL = ("https://fonts.googleapis.com/css2"
                     "?family=Bricolage+Grotesque:opsz,wght@12..96,300..700"
                     "&family=Geist+Mono:wght@400;500"
                     "&family=Instrument+Serif:ital@0;1&display=swap")
-LIQUID_ASSET_V = "5"   # bump to bust caches when liquid.css / liquid.js change
+LIQUID_ASSET_V = "6"   # bump to bust caches when liquid.css / liquid.js change
 DESIGN_KINDS = {"article": "liquid", "fe-essay": "liquid", "indicator": "liquid"}
 
 
@@ -91,6 +91,14 @@ def _apply_design(html, kind):
     html = _lq_page_head(html)
     if '<html lang="tr">' in html:
         html = re.sub(r'(data-chg="fg"\s*>)([^<]+)<', lambda m: m[1] + _trl(m[2], "tr") + "<", html)
+        # English names inside uppercase labels: without lang="en" the Turkish
+        # casing rule turns i into İ (ENGLİSH, BİTCOİN, LİNKEDİN)
+        for dom_id in ("dsh-instruments", "dsh-wl-tabs"):
+            html = html.replace(f'id="{dom_id}"', f'id="{dom_id}" lang="en"')
+        html = html.replace('<div class="ic-k">BTC Funding Rate</div>', '<div class="ic-k" lang="en">BTC Funding Rate</div>')
+        # FE code-exhibit captions are file / function names
+        html = re.sub(r'<div class="cap">(<span>[^<]*(?:<b>[^<]*</b>)?[^<]*</span><span>exhibit</span>)',
+                      r'<div class="cap" lang="en">\1', html)
     # legacy data tables → the Liquid table (calendar, macro "This week")
     html = re.sub(r'<table class="dtable([^"]*)">(.*?)</table>',
                   r'<div class="dt-wrap rv"><table class="dt dtable\1">\2</table></div>', html, flags=re.S)
@@ -1211,7 +1219,7 @@ def _lq_nav(active_key, lang, sw_href):
     </ol>
   </nav>
   <div class="lq-menu-foot mono">
-    <a href="{sw_href}" data-set-lang="{sw_set}" aria-label="{ui['sw_aria']}">{ui['sw_long']} →</a>
+    <a href="{sw_href}" data-set-lang="{sw_set}" aria-label="{ui['sw_aria']}" lang="{sw_set}">{ui['sw_long']} →</a>
     <span data-lq-clock>—</span>
   </div>
 </div>
@@ -1973,9 +1981,8 @@ def _lq_macro2(html, lang):
         html = html.replace(f"<!--NCF:MACRO2_{key}-->", _lq_macro_stats(sec, lang))
     odds = _lq_upcoming_odds(M.get("fed", {}).get("cut_odds", []), M.get("updated", ""))
     if odds:
-        top = max([o["p"] for o in odds] + [10])
         html = html.replace("<!--NCF:MACRO2_FED_ODDS-->", "".join(
-            f'<div class="odd"><span class="mono">{_trl(o["m"], lang)}</span><span class="bar"><i data-w="{o["p"] / top * 100:.1f}" style="--w:{o["p"] / top * 100:.1f}%"></i></span>'
+            f'<div class="odd"><span class="mono">{_trl(o["m"], lang)}</span><span class="bar"><i data-w="{min(max(o["p"], 0), 100):.1f}" style="--w:{min(max(o["p"], 0), 100):.1f}%"></i></span>'
             f'<span class="p">{o["p"]}%</span><span class="mv">{_trl(o["d"], lang) if o.get("d") and o["d"] != "implied" else ""}</span></div>'
             for o in odds))
     liq = M.get("liquidity", {})
@@ -2177,10 +2184,9 @@ def inject_liquid_home(html, lang):
 
     odds = _lq_upcoming_odds((MACRO2 or {}).get("fed", {}).get("cut_odds", []), (MACRO2 or {}).get("updated", ""))
     if odds:
-        top = max([o["p"] for o in odds] + [10])
         fill["ODDS"] = "".join(
-            f'<div class="odd"><span class="mono">{_trl(o["m"], lang)}</span><span class="bar"><i data-w="{o["p"] / top * 100:.1f}" '
-            f'style="--w:{o["p"] / top * 100:.1f}%"></i></span><span class="p">{o["p"]}%</span></div>' for o in odds)
+            f'<div class="odd"><span class="mono">{_trl(o["m"], lang)}</span><span class="bar"><i data-w="{min(max(o["p"], 0), 100):.1f}" '
+            f'style="--w:{min(max(o["p"], 0), 100):.1f}%"></i></span><span class="p">{o["p"]}%</span></div>' for o in odds)
     else:   # same honest empty state as the macro page — nothing printed from memory
         fill["ODDS"] = ('<p class="mono dim">—</p>')
     fill["STATS"] = "".join(f'<div class="stat"><h3 lang="en">{T["names"][k]}</h3><b data-scr data-px="{k}">—</b>'
@@ -2471,8 +2477,8 @@ def render_article(slug, lang):
     share_html = f"""
   <div class="share-row">
     <span class="share-k">{share_lbl}</span>
-    <a href="https://twitter.com/intent/tweet?text={_uq(title)}&url={_uq(canonical)}" target="_blank" rel="noopener">X / Twitter</a>
-    <a href="https://www.linkedin.com/sharing/share-offsite/?url={_uq(canonical)}" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://twitter.com/intent/tweet?text={_uq(title)}&url={_uq(canonical)}" target="_blank" rel="noopener" lang="en">X / Twitter</a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url={_uq(canonical)}" target="_blank" rel="noopener" lang="en">LinkedIn</a>
     <button type="button" data-copy="{canonical}">{copy_lbl}</button>
   </div>"""
 
