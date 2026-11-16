@@ -98,10 +98,10 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:90;opa
 .logo{font-weight:700;letter-spacing:-.04em;font-size:17px;padding:8px 14px 8px 16px;white-space:nowrap}
 .logo i{font-style:normal;color:var(--hot);display:inline-block;transition:transform .5s var(--ease)}
 .logo{display:inline-flex;align-items:center;gap:.45em}
-.logo .mark{width:1.2em;height:1.2em;flex:none;transition:transform .6s var(--ease)}
-@media (hover:hover) and (prefers-reduced-motion:no-preference){.logo:hover .mark{transform:rotate(-12deg)}}
-@media (max-width:400px){.nav-menu{font-size:0;gap:0;padding:11px 13px}}
-@media (max-width:359px){.nav{gap:4px}.logo{font-size:15px;padding:8px 8px 8px 12px}.nav-menu{padding:11px 10px}}
+.logo .mark{width:1.9em;height:1.2em;flex:none;overflow:visible}
+@media (prefers-reduced-motion:no-preference){.logo .mark .dot{transform-box:fill-box;transform-origin:center;animation:ncfdot 2.8s ease-in-out infinite}@keyframes ncfdot{50%{transform:scale(.74)}}}
+@media (max-width:400px){.nav-menu{font-size:0;gap:0;padding:11px 13px}.logo{gap:.35em}.logo .mark{width:1.6em}}
+@media (max-width:359px){.nav{gap:4px}.logo{font-size:15px;padding:8px 8px 8px 12px;gap:.3em}.logo .mark{width:1.4em}.nav-menu{padding:11px 10px}}
 .logo:hover i{transform:rotate(18deg) scale(1.25)}
 .nav-links{display:flex}
 .nav-links a{position:relative;padding:9px 13px;font-size:14.5px;border-radius:999px;overflow:hidden;white-space:nowrap}
