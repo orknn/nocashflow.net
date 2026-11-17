@@ -1,14 +1,26 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-11-16T13:32:48Z",
+ "updated": "2026-11-17T14:19:53Z",
  "sources": [
+  "CNBC",
+  "EIA",
   "businesstoday.in",
-  "currencynews.co.uk",
   "economictimes.indiatimes.com",
   "oneindia.com"
  ],
- "considered": 124,
+ "considered": 118,
  "stories": [
+  {
+   "headline": "St. Louis Fed's Musalem says four more rate hikes may be needed in coming months",
+   "summary": "The forecast represents one of the most hawkish views among policymakers.",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/11/17/alberto-musalem-fed-interest-rates.html",
+   "published": "2026-11-17T13:40:54Z",
+   "score": 6.8
+  },
   {
    "headline": "BOJ Takata calls for early rate hikes to curb inflation risks",
    "summary": "",
@@ -18,7 +30,7 @@
    "source": "economictimes.indiatimes.com",
    "url": "https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/bojs-takata-calls-for-early-rate-hikes-to-curb-inflation-risks/articleshow/135876217.cms",
    "published": "2026-11-16T08:15:00Z",
-   "score": 7.2
+   "score": 6.0
   },
   {
    "headline": "Silver prices crash by Rs 7 , 000 ; dollar strength , rate hike prospects weigh",
@@ -31,7 +43,18 @@
    "source": "businesstoday.in",
    "url": "https://www.businesstoday.in/personal-finance/news/story/silver-prices-crash-by-rs-7000-dollar-strength-rate-hike-prospects-weigh-567625-2026-11-16",
    "published": "2026-11-16T08:15:00Z",
-   "score": 5.7
+   "score": 4.5
+  },
+  {
+   "headline": "How does EIA account for small differences between energy supply and demand data?",
+   "summary": "EIA uses over 60 surveys to collect data on the U.S. energy sector's supply and demand. In theory, supply and demand should balance. In practice, we often have small differences between our total supply and total demand figures.",
+   "category": "energy",
+   "importance": "medium",
+   "assets": [],
+   "source": "EIA",
+   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68464",
+   "published": "2026-11-17T09:00:00-05:00",
+   "score": 4.2
   },
   {
    "headline": "WPI Inflation Rises to 12 . 29 % in October on Costlier Food , Fuel",
@@ -42,31 +65,7 @@
    "source": "oneindia.com",
    "url": "https://www.oneindia.com/india/wpi-inflation-rises-to-12-29-in-october-on-costlier-food-fuel-8260795.html",
    "published": "2026-11-16T08:15:00Z",
-   "score": 4.2
-  },
-  {
-   "headline": "Run up to Budget 2027 28 : Nominal GDP growth likely around 11 11 . 5 %",
-   "summary": "",
-   "category": "markets",
-   "importance": "low",
-   "assets": [],
-   "source": "businesstoday.in",
-   "url": "https://www.businesstoday.in/latest/economy/story/run-up-to-budget-2027-28-nominal-gdp-growth-likely-around-11-11-5-percent-567618-2026-11-16",
-   "published": "2026-11-16T08:15:00Z",
-   "score": 4.2
-  },
-  {
-   "headline": "Pound to Dollar Weekly Forecast : Banks Target 1 . 37 - 1 . 39 Despite USD Rally",
-   "summary": "",
-   "category": "fx",
-   "importance": "low",
-   "assets": [
-    "DXY"
-   ],
-   "source": "currencynews.co.uk",
-   "url": "https://www.currencynews.co.uk/forecast/20261116-47783_pound-to-dollar-weekly-forecast-banks-target-1-37-1-39-despite-usd-rally.html",
-   "published": "2026-11-16T08:15:00Z",
-   "score": 3.7
+   "score": 3.0
   }
  ]
 }
