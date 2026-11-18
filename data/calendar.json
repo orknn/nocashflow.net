@@ -1,5 +1,5 @@
 {
-  "asof": "2026-11-17T14:13:51Z",
+  "asof": "2026-11-18T13:44:38Z",
   "events": [
     {
       "dt_utc": "2026-11-16 17:00:00",
@@ -94,7 +94,7 @@
       "country": "US",
       "impact": "medium",
       "prev": "20.9",
-      "est": "19.2",
+      "est": "20.6",
       "act": "—"
     },
     {
@@ -106,7 +106,7 @@
       "country": "US",
       "impact": "medium",
       "prev": "200K",
-      "est": "199K",
+      "est": "198K",
       "act": "—"
     },
     {
@@ -130,7 +130,7 @@
       "country": "US",
       "impact": "medium",
       "prev": "51",
-      "est": "52.1",
+      "est": "51.7",
       "act": "—"
     },
     {
