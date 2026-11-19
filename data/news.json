@@ -1,24 +1,12 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-11-18T13:50:30Z",
+ "updated": "2026-11-19T14:19:22Z",
  "sources": [
   "CNBC",
-  "ECB",
-  "EIA"
+  "ECB"
  ],
- "considered": 83,
+ "considered": 111,
  "stories": [
-  {
-   "headline": "St. Louis Fed's Musalem says four more rate hikes may be needed in coming months",
-   "summary": "The forecast represents one of the most hawkish views among policymakers.",
-   "category": "rates",
-   "importance": "high",
-   "assets": [],
-   "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/11/17/alberto-musalem-fed-interest-rates.html",
-   "published": "2026-11-17T13:40:54Z",
-   "score": 5.6
-  },
   {
    "headline": "Risks from AI valuations, fiscal imbalances and geoeconomic tensions weigh on financial stability outlook",
    "summary": "",
@@ -28,7 +16,7 @@
    "source": "ECB",
    "url": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.pr261118~83c5c60158.en.html",
    "published": "2026-11-18T10:00:00+01:00",
-   "score": 4.8
+   "score": 3.6
   },
   {
    "headline": "Record diesel prices drive UK inflation to 1-year high of 3.6%",
@@ -39,28 +27,6 @@
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/11/18/uk-inflation-cpi-fuel-prices.html",
    "published": "2026-11-18T07:57:37Z",
-   "score": 4.8
-  },
-  {
-   "headline": "Southeast Asia’s data center boom leaned on Chinese demand. New U.S. rules put that pipeline at risk",
-   "summary": "The rules require data centers in Southeast Asia to seek U.S. approval to buy advanced AI chips, threatening to slow a build-out fueled heavily on Chinese demand.",
-   "category": "technology",
-   "importance": "medium",
-   "assets": [],
-   "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/11/18/nvidia-us-ai-chip-export-controls-data-centers-.html",
-   "published": "2026-11-18T13:15:45Z",
-   "score": 3.8
-  },
-  {
-   "headline": "How does EIA account for small differences between energy supply and demand data?",
-   "summary": "EIA uses over 60 surveys to collect data on the U.S. energy sector's supply and demand. In theory, supply and demand should balance. In practice, we often have small differences between our total supply and total demand figures.",
-   "category": "energy",
-   "importance": "medium",
-   "assets": [],
-   "source": "EIA",
-   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68464",
-   "published": "2026-11-17T09:00:00-05:00",
    "score": 3.6
   }
  ]
