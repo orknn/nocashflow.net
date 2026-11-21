@@ -1,33 +1,35 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-11-20T14:00:30Z",
+ "updated": "2026-11-21T13:24:30Z",
  "sources": [
   "CNBC",
-  "econotimes.com"
+  "SEC"
  ],
- "considered": 91,
+ "considered": 82,
  "stories": [
   {
-   "headline": "Gold Slips Below $3 , 700 as Fed Signals More Rate Hikes",
-   "summary": "",
-   "category": "rates",
+   "headline": "SEC Charges Indianapolis-Based Backward Hat Capital and Its Co-Founders With $560 Million Dollar Offering Fraud and Obtains Emergency Relief",
+   "summary": "The Securities and Exchange Commission today announced that it has obtained a temporary restraining order, asset freeze, expedited discovery, and other relief against Indianapolis-based Backward Hat Capital, its co-founders Phillip…",
+   "category": "fx",
    "importance": "high",
-   "assets": [],
-   "source": "econotimes.com",
-   "url": "https://econotimes.com/Gold-Slips-Below-3-700-as-Fed-Signals-More-Rate-Hikes-1779983",
-   "published": "2026-11-20T02:30:00Z",
-   "score": 5.2
+   "assets": [
+    "DXY"
+   ],
+   "source": "SEC",
+   "url": "https://www.sec.gov/newsroom/press-releases/2026-116-sec-charges-indianapolis-based-backward-hat-capital-its-co-founders-560-million-dollar-offering",
+   "published": "2026-11-20T09:28:28-05:00",
+   "score": 6.3
   },
   {
    "headline": "Japan core inflation soars to highest this year as energy subsidy expiry pushes up consumer prices",
    "summary": "The core inflation figure — which strips out prices of food — was lower than the 2.3% expected by Reuters-polled economists.",
    "category": "rates",
-   "importance": "medium",
+   "importance": "low",
    "assets": [],
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/11/20/japan-inflation-cpi-october.html",
    "published": "2026-11-20T01:49:03Z",
-   "score": 4.2
+   "score": 3.6
   }
  ]
 }
