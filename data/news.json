@@ -1,59 +1,7 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-11-22T13:16:37Z",
- "sources": [
-  "SEC",
-  "ibtimes.co.in",
-  "idahopress.com",
-  "mainemirror.com"
- ],
- "considered": 101,
- "stories": [
-  {
-   "headline": "SEC Charges Indianapolis-Based Backward Hat Capital and Its Co-Founders With $560 Million Dollar Offering Fraud and Obtains Emergency Relief",
-   "summary": "The Securities and Exchange Commission today announced that it has obtained a temporary restraining order, asset freeze, expedited discovery, and other relief against Indianapolis-based Backward Hat Capital, its co-founders Phillip…",
-   "category": "fx",
-   "importance": "high",
-   "assets": [
-    "DXY"
-   ],
-   "source": "SEC",
-   "url": "https://www.sec.gov/newsroom/press-releases/2026-116-sec-charges-indianapolis-based-backward-hat-capital-its-co-founders-560-million-dollar-offering",
-   "published": "2026-11-20T09:28:28-05:00",
-   "score": 5.7
-  },
-  {
-   "headline": "Inflation , economic growth and the mood of US consumers in focus this week",
-   "summary": "",
-   "category": "rates",
-   "importance": "medium",
-   "assets": [],
-   "source": "idahopress.com",
-   "url": "http://www.idahopress.com/ap_news/us/inflation-economic-growth-and-the-mood-of-us-consumers-in-focus-this-week/article_3d93bb0f-90c1-5cf1-85cc-e186d1d6df58.html",
-   "published": "2026-11-21T16:30:00Z",
-   "score": 3.6
-  },
-  {
-   "headline": "Look at India : Trump cites India 7 % GDP growth to slam US Fed over high interest rates",
-   "summary": "",
-   "category": "rates",
-   "importance": "low",
-   "assets": [],
-   "source": "ibtimes.co.in",
-   "url": "https://www.ibtimes.co.in/look-india-trump-cites-indias-7-gdp-growth-slam-us-fed-over-high-interest-rates-908551",
-   "published": "2026-11-21T12:30:00Z",
-   "score": 3.0
-  },
-  {
-   "headline": "Economy on brink of ruin : Congres Pramod Tiwari slams Modi Govt after Trump remarks on India GDP",
-   "summary": "",
-   "category": "markets",
-   "importance": "low",
-   "assets": [],
-   "source": "mainemirror.com",
-   "url": "http://www.mainemirror.com/news/279446665/economy-on-brink-of-ruin-congress-pramod-tiwari-slams-modi-govt-after-trump-remarks-on-india-gdp",
-   "published": "2026-11-21T06:45:00Z",
-   "score": 3.0
-  }
- ]
+ "updated": "2026-11-23T15:54:08Z",
+ "sources": [],
+ "considered": 82,
+ "stories": []
 }
