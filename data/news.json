@@ -1,7 +1,47 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-11-23T15:54:08Z",
- "sources": [],
+ "updated": "2026-11-24T15:45:46Z",
+ "sources": [
+  "CNBC",
+  "EIA"
+ ],
  "considered": 82,
- "stories": []
+ "stories": [
+  {
+   "headline": "Why France is at risk of recession — and what could keep it out of one",
+   "summary": "Bank of France Governor Emmanuel Moulin told CNBC he still expects growth, pointing to resilience in sectors including defense, aerospace and electricity.",
+   "category": "markets",
+   "importance": "high",
+   "assets": [],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/11/24/france-recession-risk-pmi.html",
+   "published": "2026-11-24T11:15:30Z",
+   "score": 5.8
+  },
+  {
+   "headline": "How does EIA compare different types of energy?",
+   "summary": "To compare production and consumption across different resources, we convert to a common energy metric, British thermal units (Btu), which typically measures the heat content of the fuels such as petroleum, natural gas, and coal that are…",
+   "category": "energy",
+   "importance": "medium",
+   "assets": [],
+   "source": "EIA",
+   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68504",
+   "published": "2026-11-24T09:00:00-05:00",
+   "score": 4.2
+  },
+  {
+   "headline": "Peterson: Here’s what Bessent’s about-face on Jensen Huang reveals about Trump and China",
+   "summary": "Treasury Secretary Scott Bessent was becoming the face of an emerging harder line on Nvidia— until he reversed course",
+   "category": "technology",
+   "importance": "low",
+   "assets": [
+    "NVDA",
+    "US10Y"
+   ],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/11/23/nvidia-jensen-huang-trump-bessent-china.html",
+   "published": "2026-11-23T21:00:59Z",
+   "score": 3.2
+  }
+ ]
 }

@@ -1,5 +1,5 @@
 {
-  "asof": "2026-11-23T15:48:07Z",
+  "asof": "2026-11-24T15:39:41Z",
   "events": [
     {
       "dt_utc": "2026-11-23 08:15:00",
@@ -82,7 +82,7 @@
       "country": "US",
       "impact": "medium",
       "prev": "91.7",
-      "est": "92.1",
+      "est": "92.4",
       "act": "—"
     },
     {
@@ -119,18 +119,6 @@
       "impact": "medium",
       "prev": "2.3%",
       "est": "2.3%",
-      "act": "—"
-    },
-    {
-      "dt_utc": "2026-11-25 13:30:00",
-      "cet_date": "2026-11-25",
-      "wd": 2,
-      "time": "14:30",
-      "event": "Unemployment Claims",
-      "country": "US",
-      "impact": "medium",
-      "prev": "203K",
-      "est": "201K",
       "act": "—"
     }
   ]

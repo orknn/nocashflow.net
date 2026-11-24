@@ -1,6 +1,6 @@
 {
   "_note": "Live: FRED + DefiLlama + Atlanta Fed + Polymarket (cut odds). Manual (no free API): dot plot, ISM, global M2.",
-  "updated": "2026-11-23T15:50:16Z",
+  "updated": "2026-11-24T15:41:44Z",
   "regime_tape": [
     {
       "k": "Fed Funds",
@@ -11,7 +11,7 @@
     {
       "k": "Next FOMC",
       "v": "Dec 9",
-      "d": "16d",
+      "d": "15d",
       "dir": "neu"
     },
     {
@@ -22,7 +22,7 @@
     },
     {
       "k": "US 10Y",
-      "v": "5.04",
+      "v": "4.92",
       "d": "",
       "dir": "neu"
     },
@@ -34,7 +34,7 @@
     },
     {
       "k": "DXY",
-      "v": "104.29",
+      "v": "103.80",
       "d": "",
       "dir": "neu"
     },
@@ -62,9 +62,9 @@
       "dir": "neu"
     },
     {
-      "v": "2.12%",
-      "sub": "→ +0bp",
-      "dir": "neu"
+      "v": "2.11%",
+      "sub": "▼ -1bp",
+      "dir": "down"
     }
   ],
   "fed": {
@@ -97,7 +97,7 @@
         "dir": "down"
       },
       {
-        "v": "$401M",
+        "v": "$350M",
         "sub": "▼ draining",
         "dir": "down"
       },
@@ -183,41 +183,41 @@
     "curve": [
       {
         "tenor": "1M",
-        "y": 4.2
+        "y": 4.19
       },
       {
         "tenor": "3M",
-        "y": 4.34
+        "y": 4.32
       },
       {
         "tenor": "6M",
-        "y": 4.42
+        "y": 4.38
       },
       {
         "tenor": "2Y",
-        "y": 4.76
+        "y": 4.63
       },
       {
         "tenor": "5Y",
-        "y": 4.86
+        "y": 4.71
       },
       {
         "tenor": "10Y",
-        "y": 5.04
+        "y": 4.92
       },
       {
         "tenor": "30Y",
-        "y": 5.4
+        "y": 5.31
       }
     ],
     "stats": [
       {
-        "v": "4.76",
+        "v": "4.63",
         "sub": "+0.8%",
         "dir": "neu"
       },
       {
-        "v": "5.04",
+        "v": "4.92",
         "sub": "+1.3%",
         "dir": "neu"
       },
