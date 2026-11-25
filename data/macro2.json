@@ -1,6 +1,6 @@
 {
   "_note": "Live: FRED + DefiLlama + Atlanta Fed + Polymarket (cut odds). Manual (no free API): dot plot, ISM, global M2.",
-  "updated": "2026-11-24T15:41:44Z",
+  "updated": "2026-11-25T15:26:10Z",
   "regime_tape": [
     {
       "k": "Fed Funds",
@@ -11,7 +11,7 @@
     {
       "k": "Next FOMC",
       "v": "Dec 9",
-      "d": "15d",
+      "d": "14d",
       "dir": "neu"
     },
     {
@@ -28,19 +28,19 @@
     },
     {
       "k": "2s10s",
-      "v": "+29",
+      "v": "+28",
       "d": "steepening",
       "dir": "up"
     },
     {
       "k": "DXY",
-      "v": "103.80",
+      "v": "103.99",
       "d": "",
       "dir": "neu"
     },
     {
       "k": "F&amp;G",
-      "v": "11",
+      "v": "13",
       "d": "Extreme Fear",
       "dir": "down"
     }
@@ -57,14 +57,14 @@
       "dir": "neu"
     },
     {
-      "v": "3.1%",
-      "sub": "→ from 3.1%",
-      "dir": "neu"
+      "v": "3.3%",
+      "sub": "▲ from 3.1%",
+      "dir": "down"
     },
     {
-      "v": "2.11%",
-      "sub": "▼ -1bp",
-      "dir": "down"
+      "v": "2.13%",
+      "sub": "▲ +2bp",
+      "dir": "up"
     }
   ],
   "fed": {
@@ -97,7 +97,7 @@
         "dir": "down"
       },
       {
-        "v": "$350M",
+        "v": "$301M",
         "sub": "▼ draining",
         "dir": "down"
       },
@@ -141,8 +141,8 @@
     "y_max": 6.1,
     "stats": [
       {
-        "v": "$23.4T",
-        "sub": "▲ +5.7% YoY",
+        "v": "$23.5T",
+        "sub": "▲ +5.9% YoY",
         "dir": "up"
       },
       {
@@ -151,7 +151,7 @@
         "dir": "up"
       },
       {
-        "v": "$285B",
+        "v": "$284B",
         "sub": "USDC $69B",
         "dir": "up"
       }
@@ -169,9 +169,9 @@
       "dir": "neu"
     },
     {
-      "v": "203K",
-      "sub": "▲ +1K",
-      "dir": "down"
+      "v": "189K",
+      "sub": "▼ -13K",
+      "dir": "up"
     },
     {
       "v": "1.9%",
@@ -183,15 +183,15 @@
     "curve": [
       {
         "tenor": "1M",
-        "y": 4.19
+        "y": 4.2
       },
       {
         "tenor": "3M",
-        "y": 4.32
+        "y": 4.37
       },
       {
         "tenor": "6M",
-        "y": 4.38
+        "y": 4.45
       },
       {
         "tenor": "2Y",
@@ -199,7 +199,7 @@
       },
       {
         "tenor": "5Y",
-        "y": 4.71
+        "y": 4.74
       },
       {
         "tenor": "10Y",
@@ -207,7 +207,7 @@
       },
       {
         "tenor": "30Y",
-        "y": 5.31
+        "y": 5.29
       }
     ],
     "stats": [
@@ -222,12 +222,12 @@
         "dir": "neu"
       },
       {
-        "v": "+29bp",
+        "v": "+28bp",
         "sub": "steepening",
         "dir": "up"
       },
       {
-        "v": "376bp",
+        "v": "372bp",
         "sub": "→ calm",
         "dir": "neu"
       }

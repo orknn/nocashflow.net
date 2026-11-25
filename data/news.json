@@ -1,12 +1,35 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-11-24T15:45:46Z",
+ "updated": "2026-11-25T15:30:31Z",
  "sources": [
   "CNBC",
-  "EIA"
+  "aol.com",
+  "freemalaysiatoday.com"
  ],
- "considered": 82,
+ "considered": 108,
  "stories": [
+  {
+   "headline": "Fed’s preferred inflation gauge accelerated to 3.8% in October, raising the 2027 stakes for the central bank",
+   "summary": "The personal consumption expenditures price index was expected to show an annual inflation rate of 3.8% in October, according to the Dow Jones consensus.",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/11/25/pce-inflation-report-october-2026.html",
+   "published": "2026-11-25T14:18:45Z",
+   "score": 4.8
+  },
+  {
+   "headline": "Even the price of toys is on the rise. How Americans are scaling back holiday plans",
+   "summary": "U.S. consumers face higher food, travel and gift costs in 2026 as inflation and Iran-war energy shocks pressure holiday budgets.",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "CNBC",
+   "url": "https://www.cnbc.com/2026/11/25/holiday-inflation-thanksgiving-travel-food-gifts.html",
+   "published": "2026-11-25T14:55:10Z",
+   "score": 4.8
+  },
   {
    "headline": "Why France is at risk of recession — and what could keep it out of one",
    "summary": "Bank of France Governor Emmanuel Moulin told CNBC he still expects growth, pointing to resilience in sectors including defense, aerospace and electricity.",
@@ -16,32 +39,29 @@
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/11/24/france-recession-risk-pmi.html",
    "published": "2026-11-24T11:15:30Z",
-   "score": 5.8
+   "score": 4.6
   },
   {
-   "headline": "How does EIA compare different types of energy?",
-   "summary": "To compare production and consumption across different resources, we convert to a common energy metric, British thermal units (Btu), which typically measures the heat content of the fuels such as petroleum, natural gas, and coal that are…",
-   "category": "energy",
-   "importance": "medium",
+   "headline": "Will the Fed trigger a recession with more interest rate hikes ?",
+   "summary": "",
+   "category": "rates",
+   "importance": "high",
    "assets": [],
-   "source": "EIA",
-   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68504",
-   "published": "2026-11-24T09:00:00-05:00",
-   "score": 4.2
+   "source": "aol.com",
+   "url": "https://www.aol.com/articles/fed-trigger-recession-more-interest-223305000.html",
+   "published": "2026-11-25T02:30:00Z",
+   "score": 4.6
   },
   {
-   "headline": "Peterson: Here’s what Bessent’s about-face on Jensen Huang reveals about Trump and China",
-   "summary": "Treasury Secretary Scott Bessent was becoming the face of an emerging harder line on Nvidia— until he reversed course",
-   "category": "technology",
-   "importance": "low",
-   "assets": [
-    "NVDA",
-    "US10Y"
-   ],
-   "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/11/23/nvidia-jensen-huang-trump-bessent-china.html",
-   "published": "2026-11-23T21:00:59Z",
-   "score": 3.2
+   "headline": "Ringgit opens slightly higher on expectations of longer - term US rate cuts",
+   "summary": "",
+   "category": "rates",
+   "importance": "high",
+   "assets": [],
+   "source": "freemalaysiatoday.com",
+   "url": "https://www.freemalaysiatoday.com/category/business/2026/11/25/ringgit-opens-slightly-higher-on-expectations-of-longer-term-us-rate-cuts",
+   "published": "2026-11-25T01:15:00Z",
+   "score": 4.6
   }
  ]
 }
