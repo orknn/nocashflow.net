@@ -1,22 +1,21 @@
 {
  "_note": "Retrieved stories only. Headline, summary, source and link are copied verbatim from the publisher; this pipeline ranks, it does not write. Zero stories is a valid state — the dashboard then shows its authored empty state rather than filler.",
- "updated": "2026-11-25T15:30:31Z",
+ "updated": "2026-11-26T14:59:42Z",
  "sources": [
   "CNBC",
-  "aol.com",
-  "freemalaysiatoday.com"
+  "Federal Reserve"
  ],
- "considered": 108,
+ "considered": 83,
  "stories": [
   {
-   "headline": "Fed’s preferred inflation gauge accelerated to 3.8% in October, raising the 2027 stakes for the central bank",
-   "summary": "The personal consumption expenditures price index was expected to show an annual inflation rate of 3.8% in October, according to the Dow Jones consensus.",
-   "category": "rates",
+   "headline": "U.S. tariff-hike threats pile pressure on partners to sign trade deals",
+   "summary": "The U.S. planned a fresh tariff salvo on 14 trading partners, while offering some countries lower rates if they secure trade deals with Washington.",
+   "category": "policy",
    "importance": "high",
    "assets": [],
    "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/11/25/pce-inflation-report-october-2026.html",
-   "published": "2026-11-25T14:18:45Z",
+   "url": "https://www.cnbc.com/2026/11/26/us-tariffs-hike-trade-agreement.html",
+   "published": "2026-11-26T12:46:55Z",
    "score": 4.8
   },
   {
@@ -27,41 +26,45 @@
    "assets": [],
    "source": "CNBC",
    "url": "https://www.cnbc.com/2026/11/25/holiday-inflation-thanksgiving-travel-food-gifts.html",
-   "published": "2026-11-25T14:55:10Z",
-   "score": 4.8
+   "published": "2026-11-25T16:17:13Z",
+   "score": 4.2
   },
   {
-   "headline": "Why France is at risk of recession — and what could keep it out of one",
-   "summary": "Bank of France Governor Emmanuel Moulin told CNBC he still expects growth, pointing to resilience in sectors including defense, aerospace and electricity.",
-   "category": "markets",
+   "headline": "Agencies announce dollar thresholds for applicability of truth in lending and consumer leasing rules for consumer credit and lease transactions",
+   "summary": "Agencies announce dollar thresholds for applicability of truth in lending and consumer leasing rules for consumer credit and lease transactions",
+   "category": "fx",
    "importance": "high",
+   "assets": [
+    "DXY"
+   ],
+   "source": "Federal Reserve",
+   "url": "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20261125b.htm",
+   "published": "2026-11-25T20:00:00Z",
+   "score": 4.1
+  },
+  {
+   "headline": "Agencies announce dollar thresholds for smaller loan exemption from appraisal requirements for higher-priced mortgage loans",
+   "summary": "Agencies announce dollar thresholds for smaller loan exemption from appraisal requirements for higher-priced mortgage loans",
+   "category": "fx",
+   "importance": "high",
+   "assets": [
+    "DXY"
+   ],
+   "source": "Federal Reserve",
+   "url": "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20261125a.htm",
+   "published": "2026-11-25T20:00:00Z",
+   "score": 4.1
+  },
+  {
+   "headline": "Fed’s preferred inflation gauge accelerated to 3.8% in October, raising the 2027 stakes for the central bank",
+   "summary": "The personal consumption expenditures price index was expected to show an annual inflation rate of 3.8% in October, according to the Dow Jones consensus.",
+   "category": "rates",
+   "importance": "medium",
    "assets": [],
    "source": "CNBC",
-   "url": "https://www.cnbc.com/2026/11/24/france-recession-risk-pmi.html",
-   "published": "2026-11-24T11:15:30Z",
-   "score": 4.6
-  },
-  {
-   "headline": "Will the Fed trigger a recession with more interest rate hikes ?",
-   "summary": "",
-   "category": "rates",
-   "importance": "high",
-   "assets": [],
-   "source": "aol.com",
-   "url": "https://www.aol.com/articles/fed-trigger-recession-more-interest-223305000.html",
-   "published": "2026-11-25T02:30:00Z",
-   "score": 4.6
-  },
-  {
-   "headline": "Ringgit opens slightly higher on expectations of longer - term US rate cuts",
-   "summary": "",
-   "category": "rates",
-   "importance": "high",
-   "assets": [],
-   "source": "freemalaysiatoday.com",
-   "url": "https://www.freemalaysiatoday.com/category/business/2026/11/25/ringgit-opens-slightly-higher-on-expectations-of-longer-term-us-rate-cuts",
-   "published": "2026-11-25T01:15:00Z",
-   "score": 4.6
+   "url": "https://www.cnbc.com/2026/11/25/pce-inflation-report-october-2026.html",
+   "published": "2026-11-25T14:18:45Z",
+   "score": 3.6
   }
  ]
 }
